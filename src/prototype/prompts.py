@@ -49,8 +49,8 @@ convertTtoBP_label_prompt = """
 
 convertBPtoA_task_prompt = """
     You are an expert activity label tagger system. 
-    Your task is to accept activity labels such as 'create purchase order (April 1 - Apil 12)' as input and provide a list of tuples, where each one consists of the main action, the object it is applied on and a given start and end date. 
-    For 'create purchase order (April 1 - Apil 12)', you would return (create, purchase order, April 1, April 12) and for 'purchase order (April 1 - Apil 12)' (, purchase order, April 1, April 12). 
+    Your task is to accept activity labels such as 'create purchase order (01/04/2020 - 12/04/2020)' as input and provide a list of tuples, where each one consists of the main action, the object it is applied on and a given start and end date. 
+    For 'create purchase order (01/04/2020 - 12/04/2020)', you would return (create, purchase order, 20200401T0000, 20200412T0000) and for 'purchase order (01/04/2020 - 12/04/2020)' (, purchase order, 20200401T0000, 20200412T0000). 
     That mean that if there is no clear main action extractable, just write nothing instead and just put a comma. 
     If there is a year given, do not include that in the output!
     If actions are not provided as verbs, change them into verbs, e.g., for 'purchase order creation' you would hence return (create, purchase order) as well. 

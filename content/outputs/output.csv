@@ -1,11 +1,22 @@
-caseID,activity,object,start,end
-1,experiencing,COVID-19 symptoms,01/04/2020,01/04/2020
-1,symptoms worsened,,02/04/2020,02/04/2020
-1,contacted,primary care physician,02/04/2020,02/04/2020
-1,condition deteriorated,,07/04/2020,07/04/2020
-1,called,ambulance,07/04/2020,07/04/2020
-1,admitted,to hospital,07/04/2020,07/04/2020
-1,received,treatment in hospital,07/04/2020,15/04/2020
-1,discharged,from hospital,15/04/2020,15/04/2020
-1,continued,recovery at home,15/04/2020,present
-1,got,vaccinated
+caseID,activity,object,start,end
+
+1,experiencing,COVID-19 symptoms,20200401T0000,20200401T0000
+
+1,worsening,symptoms,20200402T0000,20200406T0000
+
+1,contacting,primary care physician,20200406T0000,20200406T0000
+
+1,condition,deteriorating,20200407T0000,20200407T0000
+
+1,calling,ambulance,20200407T0000,20200407T0000
+
+1,hospitalization,,20200407T0000,20200407T0000
+
+1,receiving,treatment,20200407T0000,20200415T0000
+
+1,discharge,,20200415T0000,20200415T0000
+
+1,continuing,recovery,20200415T0000,present
+
+1,staying,updated,20200415T0000
+

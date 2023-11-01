@@ -8,9 +8,9 @@ import prompts as p
 openai.api_key = c.oaik 
 
 def convertInpToCSV(input):
-    print("Converting Data: started.", end='\r')
+    print("Converting Data: Started.", end='\r')
     bulletPoints = convertTextToBulletpoints(input)
-    print("Converting Data: 50%     ", end='\r')
+    print("Converting Data: 50%.    ", end='\r')
     actions = convertBulletpointsToActions(bulletPoints)
     convertActionsToCSV(actions)
     print("Converting Data: Done.")

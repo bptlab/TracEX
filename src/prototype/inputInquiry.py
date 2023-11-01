@@ -21,7 +21,11 @@ def getInputPath():
         filename = input("Please enter the name of the .txt file (located in 'content/inputs/'):\n")
         if filename[-4:] != ".txt":
             filename += ".txt"
-        return filename
+        if not os.path.isfile(os.path.join(c.in_path, filename)):
+            print('File does not exist.')
+            return getInputPath()
+        else:
+            return filename
     if awnser == "n":
         return "new"
     else:

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="1" />
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="experiencing" />
+			<string key="object" value="COVID-19 symptoms" />
+			<date key="start" value="2020-04-01T00:00:00+00:00" />
+			<string key="end" value="20200401T0000" />
+			<string key="concept:name" value="experiencing" />
+			<date key="time:timestamp" value="2020-04-01T00:00:00+00:00" />
+			<int key="@@index" value="0" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="worsening" />
+			<string key="object" value="symptoms" />
+			<date key="start" value="2020-04-02T00:00:00+00:00" />
+			<string key="end" value="20200406T0000" />
+			<string key="concept:name" value="worsening" />
+			<date key="time:timestamp" value="2020-04-02T00:00:00+00:00" />
+			<int key="@@index" value="1" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="contacting" />
+			<string key="object" value="primary care physician" />
+			<date key="start" value="2020-04-06T00:00:00+00:00" />
+			<string key="end" value="20200406T0000" />
+			<string key="concept:name" value="contacting" />
+			<date key="time:timestamp" value="2020-04-06T00:00:00+00:00" />
+			<int key="@@index" value="2" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="condition" />
+			<string key="object" value="deteriorating" />
+			<date key="start" value="2020-04-07T00:00:00+00:00" />
+			<string key="end" value="20200407T0000" />
+			<string key="concept:name" value="condition" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<int key="@@index" value="3" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="calling" />
+			<string key="object" value="ambulance" />
+			<date key="start" value="2020-04-07T00:00:00+00:00" />
+			<string key="end" value="20200407T0000" />
+			<string key="concept:name" value="calling" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<int key="@@index" value="4" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="hospitalization" />
+			<float key="object" value="nan" />
+			<date key="start" value="2020-04-07T00:00:00+00:00" />
+			<string key="end" value="20200407T0000" />
+			<string key="concept:name" value="hospitalization" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<int key="@@index" value="5" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="receiving" />
+			<string key="object" value="treatment" />
+			<date key="start" value="2020-04-07T00:00:00+00:00" />
+			<string key="end" value="20200415T0000" />
+			<string key="concept:name" value="receiving" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<int key="@@index" value="6" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="discharge" />
+			<float key="object" value="nan" />
+			<date key="start" value="2020-04-15T00:00:00+00:00" />
+			<string key="end" value="20200415T0000" />
+			<string key="concept:name" value="discharge" />
+			<date key="time:timestamp" value="2020-04-15T00:00:00+00:00" />
+			<int key="@@index" value="7" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="continuing" />
+			<string key="object" value="recovery" />
+			<date key="start" value="2020-04-15T00:00:00+00:00" />
+			<string key="end" value="present" />
+			<string key="concept:name" value="continuing" />
+			<date key="time:timestamp" value="2020-04-15T00:00:00+00:00" />
+			<int key="@@index" value="8" />
+			<int key="@@case_index" value="0" />
+		</event>
+		<event>
+			<int key="caseID" value="1" />
+			<string key="activity" value="staying" />
+			<string key="object" value="updated" />
+			<date key="start" value="2020-04-15T00:00:00+00:00" />
+			<float key="end" value="nan" />
+			<string key="concept:name" value="staying" />
+			<date key="time:timestamp" value="2020-04-15T00:00:00+00:00" />
+			<int key="@@index" value="9" />
+			<int key="@@case_index" value="0" />
+		</event>
+	</trace>
+</log>
