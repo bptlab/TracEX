@@ -1,6 +1,8 @@
 import openai
 import os
 import csv
+import pandas as pd
+import pm4py
 import constants as c
 import prompts as p
 openai.api_key = c.oaik 

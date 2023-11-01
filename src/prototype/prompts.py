@@ -4,7 +4,6 @@ import constants as c
 openai.api_key=c.oaik
 
 def createPJ_task_prompt():
-    #please code: if randrange(2)==0 sex should be mal else female
     if random.randrange(2)==0:
         sex = "male"
     else: 
@@ -51,12 +50,12 @@ convertTtoBP_label_prompt = """
 convertBPtoA_task_prompt = """
     You are an expert activity label tagger system. 
     Your task is to accept activity labels such as 'create purchase order (April 1 - Apil 12)' as input and provide a list of tuples, where each one consists of the main action, the object it is applied on and a given start and end date. 
-    For 'create purchase order (April 1 - Apil 12)', you would return [(create, purchase order, April 1, April 12)] and for 'purchase order (April 1 - Apil 12)' [(, purchase order, April 1, April 12)]. 
+    For 'create purchase order (April 1 - Apil 12)', you would return (create, purchase order, April 1, April 12) and for 'purchase order (April 1 - Apil 12)' (, purchase order, April 1, April 12). 
     That mean that if there is no clear main action extractable, just write nothing instead and just put a comma. 
     If there is a year given, do not include that in the output!
     If actions are not provided as verbs, change them into verbs, e.g., for 'purchase order creation' you would hence return (create, purchase order) as well. 
     Also turn past tense actions into present tense ones, e.g., 'purchase order created' becomes (create, purchase order) too. 
-    If multiple actions are applied to the same object, split this into multiple pairs, e.g., 'create and send purchase order' becomes [(create, purchase order), (send, purchase oder)]
+    If multiple actions are applied to the same object, split this into multiple pairs, e.g., 'create and send purchase order' becomes (create, purchase order), (send, purchase oder)
     If there is additional information, e.g., about who is performing the action or about an IT system that is involved, discard that. 
     If there are any special characters, just replace them with whitespace. 
 
@@ -66,5 +65,5 @@ convertBPtoA_task_prompt = """
 """
 
 convertBPtoA_label_prompt = """
-    Here are the pointy from which you should extract activity tags: 
+    Here are the points from which you should extract activity tags: 
 """

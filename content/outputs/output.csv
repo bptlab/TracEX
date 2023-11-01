@@ -5,7 +5,7 @@ caseID,activity,object,start,end
 1,condition deteriorated,,07/04/2020,07/04/2020
 1,called,ambulance,07/04/2020,07/04/2020
 1,admitted,to hospital,07/04/2020,07/04/2020
-1,received treatment,in hospital,07/04/2020,15/04/2020
+1,received,treatment in hospital,07/04/2020,15/04/2020
 1,discharged,from hospital,15/04/2020,15/04/2020
-1,continued recovery,at home,15/04/2020,present
-1,got
+1,continued,recovery at home,15/04/2020,present
+1,got,vaccinated
