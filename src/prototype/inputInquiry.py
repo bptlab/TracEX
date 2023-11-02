@@ -16,7 +16,7 @@ def getInput():
     return input
 
 def getInputPath():
-    awnser = input("Would you like to continou with an existing patient journey as .txt? (y/n)\n").lower()
+    awnser = input("Would you like to continue with an existing patient journey as .txt? (y/n)\n").lower()
     if awnser == "y":
         filename = input("Please enter the name of the .txt file (located in 'content/inputs/'):\n")
         if filename[-4:] != ".txt":
@@ -33,12 +33,21 @@ def getInputPath():
         return getInputPath()
     
 def createPJ():
+    print("Please wait while the system is generating a patient journey. This may take a few moments.")
     messages = [
-        {"role": "system", "content": p.createPJ_task_prompt}, 
-        {"role": "user", "content": p.createPJ_label_prompt}
+        {"role": "system", "content": p.createPJ_context()}, 
+        {"role": "user", "content": p.createPJ_prompt}
     ]
-    print("Please wait while the system is generating your patient journey. This may take a few moments.")
     patient_journey = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0.5)
     patient_journey_txt = patient_journey.choices[0].message.content
+    i = 0
+    proposed_filename = "syntheticPatientJourney"+str(i)+".txt"
+    output_path = os.path.join(c.in_path, proposed_filename)
+    while os.path.isfile(output_path):
+        i += 1
+        proposed_filename = "syntheticPatientJourney"+str(i)+".txt"
+        output_path = os.path.join(c.in_path, proposed_filename)
+    with open(output_path, 'w') as f:
+        f.write(patient_journey_txt)
     print("Patient journey generated.")
     return patient_journey_txt
