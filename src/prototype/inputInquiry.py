@@ -5,8 +5,10 @@ import constants as c
 import prompts as p
 openai.api_key = c.oaik
 
+def greeting():
+    print("\n\nWelcome to the prototype of TracEX!\n-----------------------------------")
+
 def getInput():
-    print("Welcome to the prototype of TracEX!\n-----------------------------------")
     inputpath = getInputPath()
     if inputpath == "new":
         input = createPJ()
@@ -18,19 +20,22 @@ def getInput():
 def getInputPath():
     awnser = input("Would you like to continue with an existing patient journey as .txt? (y/n)\n").lower()
     if awnser == "y":
-        filename = input("Please enter the name of the .txt file (located in 'content/inputs/'):\n")
-        if filename[-4:] != ".txt":
-            filename += ".txt"
-        if not os.path.isfile(os.path.join(c.in_path, filename)):
-            print('File does not exist.')
-            return getInputPath()
-        else:
-            return filename
+        return getInputPathName()
     if awnser == "n":
         return "new"
     else:
         print("Please enter y or n.")
         return getInputPath()
+    
+def getInputPathName():
+    filename = input("Please enter the name of the .txt file (located in 'content/inputs/'):\n")
+    if filename[-4:] != ".txt":
+        filename += ".txt"
+    if not os.path.isfile(os.path.join(c.in_path, filename)):
+        print('File does not exist.')
+        return getInputPathName()
+    else:
+        return filename
     
 def createPJ():
     print("Please wait while the system is generating a patient journey. This may take a few moments.")

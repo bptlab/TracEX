@@ -7,3 +7,4 @@ in_path = Path("content/inputs/") #Path to the inputs-folder
 oaik = os.environ.get("OPENAI_API_KEY")
 maxtokens = 600
 model = "gpt-3.5-turbo"
+temperature = 0.5

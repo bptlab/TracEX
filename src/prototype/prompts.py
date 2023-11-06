@@ -14,7 +14,7 @@ def getSex():
         return "female"
 def getCountry():
     message = [{"role": "user", "content": "Please give me one european country."}]
-    country = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=50, temperature=0.5)
+    country = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=50, temperature=0.2)
     return country.choices[0].message.content
 def getDate():
     message = [{"role": "user", "content": "Please give me one date between 01/01/2020 and 01/09/2023."}]
@@ -22,7 +22,7 @@ def getDate():
     return country.choices[0].message.content
 def getLifeCircumstances(sex):
     message = [{"role": "user", "content": lifeCircumstances_prompt(sex)}]
-    lifeCircumstances = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=100, temperature=0.5)
+    lifeCircumstances = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=100, temperature=1)
     return lifeCircumstances.choices[0].message.content
 def lifeCircumstances_prompt(sex):
     return "Please give me a short description of the life circumstances of an imaginary " + sex + " person in form of continous text." + \
@@ -44,7 +44,7 @@ createPJ_prompt = """
 #Conversion of a text to bullet points focused on the course of a disease
 TtoBP_context = """
     You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
-    Every bullet point should be a short description that is not longer than 4 words.
+    Every bullet point has to be a short description that is not longer than 4 words.
     Every information that is not important for the course of the disease should be discarded.
     The bulletpoints have to be kept in present continous tense and should begin with a verb!
     You must not include any dates or information about the time and focus on the main aspects you want to convey.
@@ -71,8 +71,10 @@ TtoBP_answer = """
 BP_startDate_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date to it, with a comma between the bulletpoint and the date.
+    There has to be a comma between the bulletpoint and the date!
     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
     If a bullet point already contains any date information, delete that and associated punctuation marks.
+    Else do not modify the content of the bulletpoint.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
     Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one. 
     Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
@@ -80,7 +82,7 @@ BP_startDate_context = """
     If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time, 
     use that information to draw conclusions about the start dates.
-    If there is no information about the start date at all, please note that by stating '00000000T0000' as start date.
+    If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
     The only output should be the updated bullet points, nothing else!
 """
 BP_startDate_prompt = """
@@ -104,6 +106,7 @@ BP_startDate_answer = """
 #Adding of a end date to every bullet point
 BP_endDate_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
+    It is important, that every bullet point gets an end date, even if it is the same as the start date.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it, with a comma between the existing start date and the end date.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".

@@ -7,16 +7,18 @@ import constants as c
 import prompts as p
 openai.api_key = c.oaik 
 
-def convertInpToCSV(input):
+def convertInpToXES(input):
     print("Converting Data: Summarizing the text.", end='\r')
     bp = convertTextToBulletpoints(input)
     print("Converting Data: Extracting date inforamtion (1/2).", end='\r')
     bp_withStart = addStartDates(input, bp)
     print("Converting Data: Extracting date inforamtion (2/2).", end='\r')
     bp_withEnd = addEndDates(input, bp_withStart)
-    print("Converting Data: Creating output data.              ", end='\r')
+    print("Converting Data: Creating output CSV.              ", end='\r')
     outputfile = convertBPToCSV(bp_withEnd)
-    print("Converting Data: Done.                               ")
+    print("Converting Data: Creating output XES.              ", end='\r')
+    outputfile = convertCSVToXES(outputfile)
+    print("Dataconversion finished.")
     return outputfile
 
 def convertTextToBulletpoints(input):
@@ -25,7 +27,7 @@ def convertTextToBulletpoints(input):
         {"role": "user", "content": p.TtoBP_prompt + input},
         {"role": "assistant", "content": p.TtoBP_answer}
     ]
-    bulletpoints = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0.1)
+    bulletpoints = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
     output = bulletpoints.choices[0].message.content
     output = removeCommas(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints.txt'), 'w') as f:
@@ -38,7 +40,7 @@ def addStartDates(input, bp):
         {"role": "user", "content": p.BP_startDate_prompt + input + "\n" + bp},
         {"role": "assistant", "content": p.BP_startDate_answer}
     ]
-    bp_start = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0.5)
+    bp_start = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
     output = bp_start.choices[0].message.content
     output = removeBrackets(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withStart.txt'), 'w') as f:
@@ -51,7 +53,7 @@ def addEndDates(input, bp_withStart):
         {"role": "user", "content": p.BP_endDate_prompt + input + "\n" + bp_withStart},
         {"role": "assistant", "content": p.BP_endDate_answer}
     ]
-    bp_end = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0.5)
+    bp_end = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
     output = bp_end.choices[0].message.content
     output = removeBrackets(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withEnd.txt'), 'w') as f:
@@ -78,9 +80,13 @@ def convertBPToCSV(bp_withEnd):
 
 def convertCSVToXES(inputfile):
     dataframe = pd.read_csv(inputfile, sep=',')
-    dataframe = dataframe.rename(columns={'event': 'Activity', 'start': 'date:StartDate', 'end': 'date:EndDate'})
-    dataframe = pm4py.format_dataframe(dataframe, case_id='caseID', activity_key='Activity', timestamp_key='date:StartDate')
-    pm4py.write_xes(dataframe, os.path.join(c.out_path, "output.xes"), case_id_key='case:concept:name')
+    dataframe['start'] = pd.to_datetime(dataframe['start'])
+    dataframe['end'] = pd.to_datetime(dataframe['end'])
+    dataframe = dataframe.rename(columns={'event': 'concept:Activity', 'start': 'date:StartDate', 'end': 'date:EndDate'})
+    dataframe['caseID'] = dataframe['caseID'].astype(str)
+    outputfile = os.path.join(c.out_path, "output.xes")
+    pm4py.write_xes(dataframe, outputfile, case_id_key='caseID')
+    return outputfile
 
 
 # Datacleaning

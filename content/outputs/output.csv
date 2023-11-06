@@ -1,11 +1,20 @@
 caseID,event,start,end
-1,Experiencing first symptoms: mild cough and fatigue 20220715T0000,20220715T0000
-1,Consulting doctor: confirming Covid-19 suspicion 20220718T0000,20220718T0000
-1,Self-isolating at home: monitoring symptoms closely 20220718T0000,20220718T0000
-1,Condition deteriorating: high fever/body aches/difficulty breathing 20220721T0000,20220721T0000
-1,Seeking medical attention: undergoing tests/receiving medication 20220723T0000,20220723T0000
-1,Support from friends/family/and healthcare professionals: crucial role in recovery 20220723T0000,20220723T0000
-1,Regaining strength: symptoms gradually improving 20220902T0000,20220902T0000
-1,Receiving Covid-19 vaccine: protecting self and loved ones 20220902T0000,20220902T0000
-1,Completing vaccination regimen: second dose three weeks later 20220923T0000,20220923T0000
-1,Finding solace in moments of joy: making positive impact in clients' lives 20220923T0000,20220923T0000
+1,Experiencing first symptoms,20210715T0000,20210715T0000
+1,Isolating to protect spouse,20210715T0000,20210715T0000
+1,Symptoms worsening: persistent cough/high fever/extreme fatigue,20210715T0000,20210721T0000
+1,Consulting doctor via telemedicine,20210717T0000,20210717T0000
+1,Advised to monitor symptoms,20210717T0000,20210717T0000
+1,Scheduled Covid-19 test,20210719T0000,20210719T0000
+1,Resting and staying hydrated,20210719T0000,20210721T0000
+1,Test results confirm Covid-19,20210721T0000,20210721T0000
+1,Prescribed medication for symptom relief,20210721T0000,20210801T0000
+1,Following prescribed treatment,20210721T0000,20210801T0000
+1,Symptoms gradually improving,20210721T0000,20210801T0000
+1,Getting vaccinated against Covid-19,20210801T0000,20210801T0000
+1,Completing vaccination schedule,20210801T0000,20210826T0000
+1,Importance of love and support in recovery,20210801T0000,20210801T0000
+1,Importance of work-life balance,20210801T0000,20210801T0000
+1,Importance of following medical advice,20210801T0000,20210801T0000
+1,Importance of timely healthcare,20210801T0000,20210801T0000
+1,Importance of vaccination,20210801T0000,20210801T0000
+1,Reminder of human resilience,20210801T0000,20210801T0000
