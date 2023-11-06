@@ -115,7 +115,7 @@ BP_endDate_context = """
     The only output should be the updated bullet points, nothing else!
 """
 BP_endDate_prompt = """
-    Here is the text and the bulletpoints for which you should extract start dates:
+    Here is the text and the bulletpoints for which you should extract end dates:
 """
 BP_endDate_answer = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.' 

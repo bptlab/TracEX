@@ -49,5 +49,5 @@ def createPJ():
         output_path = os.path.join(c.in_path, proposed_filename)
     with open(output_path, 'w') as f:
         f.write(patient_journey_txt)
-    print("Patient journey generated.")
+    print("Patient journey \"" + proposed_filename + "\" generated.")
     return patient_journey_txt
