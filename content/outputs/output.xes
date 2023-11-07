@@ -7,116 +7,134 @@
 		<event>
 			<string key="caseID" value="1" />
 			<string key="concept:Activity" value="Experiencing first symptoms" />
-			<date key="date:StartDate" value="2021-07-15T00:00:00" />
-			<date key="date:EndDate" value="2021-07-15T00:00:00" />
+			<date key="date:StartDate" value="2022-06-01T00:00:00" />
+			<date key="date:EndDate" value="2022-06-01T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Isolating to protect spouse" />
-			<date key="date:StartDate" value="2021-07-15T00:00:00" />
-			<date key="date:EndDate" value="2021-07-15T00:00:00" />
+			<string key="concept:Activity" value="Developing high fever and difficulty breathing" />
+			<date key="date:StartDate" value="2022-06-04T00:00:00" />
+			<date key="date:EndDate" value="2022-06-04T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Symptoms worsening: persistent cough/high fever/extreme fatigue" />
-			<date key="date:StartDate" value="2021-07-15T00:00:00" />
-			<date key="date:EndDate" value="2021-07-21T00:00:00" />
+			<string key="concept:Activity" value="Getting tested for Covid-19" />
+			<date key="date:StartDate" value="2022-06-17T00:00:00" />
+			<date key="date:EndDate" value="2022-06-17T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Consulting doctor via telemedicine" />
-			<date key="date:StartDate" value="2021-07-17T00:00:00" />
-			<date key="date:EndDate" value="2021-07-17T00:00:00" />
+			<string key="concept:Activity" value="Isolating from family" />
+			<date key="date:StartDate" value="2022-06-17T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Advised to monitor symptoms" />
-			<date key="date:StartDate" value="2021-07-17T00:00:00" />
-			<date key="date:EndDate" value="2021-07-17T00:00:00" />
+			<string key="concept:Activity" value="Receiving confirmation of virus" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Scheduled Covid-19 test" />
-			<date key="date:StartDate" value="2021-07-19T00:00:00" />
-			<date key="date:EndDate" value="2021-07-19T00:00:00" />
+			<string key="concept:Activity" value="Contacting primary care physician" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Resting and staying hydrated" />
-			<date key="date:StartDate" value="2021-07-19T00:00:00" />
-			<date key="date:EndDate" value="2021-07-21T00:00:00" />
+			<string key="concept:Activity" value="Prescribed medication for fever" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Test results confirm Covid-19" />
-			<date key="date:StartDate" value="2021-07-21T00:00:00" />
-			<date key="date:EndDate" value="2021-07-21T00:00:00" />
+			<string key="concept:Activity" value="Resting and hydrating" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Prescribed medication for symptom relief" />
-			<date key="date:StartDate" value="2021-07-21T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Gradually improving symptoms" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Following prescribed treatment" />
-			<date key="date:StartDate" value="2021-07-21T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Experiencing lingering fatigue" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Symptoms gradually improving" />
-			<date key="date:StartDate" value="2021-07-21T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Experiencing occasional shortness of breath" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Getting vaccinated against Covid-19" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Taking it easy and gradually increasing activity levels" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Completing vaccination schedule" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-26T00:00:00" />
+			<string key="concept:Activity" value="Reevaluating work-life balance" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Importance of love and support in recovery" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Delegating cases and prioritizing health" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Importance of work-life balance" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Practicing mindfulness and meditation" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Importance of following medical advice" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Seeking support from therapist" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Importance of timely healthcare" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Getting vaccinated" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Importance of vaccination" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Feeling relief and added protection" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
 		</event>
 		<event>
 			<string key="caseID" value="1" />
-			<string key="concept:Activity" value="Reminder of human resilience" />
-			<date key="date:StartDate" value="2021-08-01T00:00:00" />
-			<date key="date:EndDate" value="2021-08-01T00:00:00" />
+			<string key="concept:Activity" value="Reassessing priorities" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Finding meaningful time with loved ones" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Emphasizing self-care" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Striking a balance between professional success and personal fulfillment" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
 		</event>
 	</trace>
 </log>

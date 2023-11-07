@@ -1,19 +1,22 @@
-- Experiencing first symptoms, 20210715T0000, 20210715T0000
-- Isolating to protect spouse, 20210715T0000, 20210715T0000
-- Symptoms worsening: persistent cough/high fever/extreme fatigue, 20210715T0000, 20210721T0000
-- Consulting doctor via telemedicine, 20210717T0000, 20210717T0000
-- Advised to monitor symptoms, 20210717T0000, 20210717T0000
-- Scheduled Covid-19 test, 20210719T0000, 20210719T0000
-- Resting and staying hydrated, 20210719T0000, 20210721T0000
-- Test results confirm Covid-19, 20210721T0000, 20210721T0000
-- Prescribed medication for symptom relief, 20210721T0000, 20210801T0000
-- Following prescribed treatment, 20210721T0000, 20210801T0000
-- Symptoms gradually improving, 20210721T0000, 20210801T0000
-- Getting vaccinated against Covid-19, 20210801T0000, 20210801T0000
-- Completing vaccination schedule, 20210801T0000, 20210826T0000
-- Importance of love and support in recovery, 20210801T0000, 20210801T0000
-- Importance of work-life balance, 20210801T0000, 20210801T0000
-- Importance of following medical advice, 20210801T0000, 20210801T0000
-- Importance of timely healthcare, 20210801T0000, 20210801T0000
-- Importance of vaccination, 20210801T0000, 20210801T0000
-- Reminder of human resilience, 20210801T0000, 20210801T0000
+- Experiencing first symptoms, 20220601T0000, 20220601T0000
+- Developing high fever and difficulty breathing, 20220604T0000, 20220604T0000
+- Getting tested for Covid-19, 20220617T0000, 20220617T0000
+- Isolating from family, 20220617T0000, 20220620T0000
+- Receiving confirmation of virus, 20220620T0000, 20220620T0000
+- Contacting primary care physician, 20220620T0000, 20220620T0000
+- Prescribed medication for fever, 20220620T0000, 20220620T0000
+- Resting and hydrating, 20220620T0000, 20220620T0000
+- Gradually improving symptoms, 20220620T0000, 20220630T0000
+- Experiencing lingering fatigue, 20220620T0000, 20220630T0000
+- Experiencing occasional shortness of breath, 20220620T0000, 20220630T0000
+- Taking it easy and gradually increasing activity levels, 20220620T0000, 20220630T0000
+- Reevaluating work-life balance, 20220620T0000, 20220630T0000
+- Delegating cases and prioritizing health, 20220620T0000, 20220630T0000
+- Practicing mindfulness and meditation, 20220620T0000, 20220630T0000
+- Seeking support from therapist, 20220620T0000, 20220630T0000
+- Getting vaccinated, 20220805T0000, 20220805T0000
+- Feeling relief and added protection, 20220805T0000, 20220805T0000
+- Reassessing priorities, 20220805T0000, 20220805T0000
+- Finding meaningful time with loved ones, 20220805T0000, 20220805T0000
+- Emphasizing self-care, 20220805T0000, 20220805T0000
+- Striking a balance between professional success and personal fulfillment, 20220805T0000, 20220805T0000

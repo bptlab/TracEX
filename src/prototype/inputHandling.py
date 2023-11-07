@@ -3,6 +3,7 @@ import os
 import csv
 import pandas as pd
 import pm4py
+import io
 import constants as c
 import prompts as p
 openai.api_key = c.oaik 
@@ -10,15 +11,15 @@ openai.api_key = c.oaik
 def convertInpToXES(input):
     print("Converting Data: Summarizing the text.", end='\r')
     bp = convertTextToBulletpoints(input)
-    print("Converting Data: Extracting date inforamtion (1/2).", end='\r')
+    print("Converting Data: Extracting date information (1/2).", end='\r')
     bp_withStart = addStartDates(input, bp)
-    print("Converting Data: Extracting date inforamtion (2/2).", end='\r')
+    print("Converting Data: Extracting date information (2/2).", end='\r')
     bp_withEnd = addEndDates(input, bp_withStart)
     print("Converting Data: Creating output CSV.              ", end='\r')
     outputfile = convertBPToCSV(bp_withEnd)
     print("Converting Data: Creating output XES.              ", end='\r')
     outputfile = convertCSVToXES(outputfile)
-    print("Dataconversion finished.")
+    print("Dataconversion finished.              ")
     return outputfile
 
 def convertTextToBulletpoints(input):
@@ -27,9 +28,10 @@ def convertTextToBulletpoints(input):
         {"role": "user", "content": p.TtoBP_prompt + input},
         {"role": "assistant", "content": p.TtoBP_answer}
     ]
-    bulletpoints = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
+    bulletpoints = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=c.temperature)
     output = bulletpoints.choices[0].message.content
     output = removeCommas(output)
+    output = addEndingCommas(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints.txt'), 'w') as f:
         f.write(output)
     return output
@@ -40,9 +42,10 @@ def addStartDates(input, bp):
         {"role": "user", "content": p.BP_startDate_prompt + input + "\n" + bp},
         {"role": "assistant", "content": p.BP_startDate_answer}
     ]
-    bp_start = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
+    bp_start = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=c.temperature)
     output = bp_start.choices[0].message.content
     output = removeBrackets(output)
+    output = addEndingCommas(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withStart.txt'), 'w') as f:
         f.write(output)
     return output
@@ -53,7 +56,7 @@ def addEndDates(input, bp_withStart):
         {"role": "user", "content": p.BP_endDate_prompt + input + "\n" + bp_withStart},
         {"role": "assistant", "content": p.BP_endDate_answer}
     ]
-    bp_end = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=c.temperature)
+    bp_end = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=c.temperature)
     output = bp_end.choices[0].message.content
     output = removeBrackets(output)
     with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withEnd.txt'), 'w') as f:
@@ -95,6 +98,11 @@ def removeCommas(bp):
     bp = bp.replace(",", "/")
     return bp
 
+def addEndingCommas(bp):
+    bp = bp.replace("\n", ",\n")
+    bp = bp+","
+    return bp
+
 def removeBrackets(bp):
     bp = bp.replace("(", "")
     bp = bp.replace(")", "")
@@ -112,6 +120,6 @@ def convertBulletpointsToActions(bulletPoints):
         {"role": "system", "content": p.convertBPtoA_task_prompt}, 
         {"role": "user", "content": p.convertBPtoA_label_prompt + bulletPoints}
     ]
-    actions = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0)
+    actions = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=0)
     return actions.choices[0].message.content
 """

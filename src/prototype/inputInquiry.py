@@ -43,16 +43,16 @@ def createPJ():
         {"role": "system", "content": p.createPJ_context()}, 
         {"role": "user", "content": p.createPJ_prompt}
     ]
-    patient_journey = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.maxtokens, temperature=0.5)
+    patient_journey = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=0.5)
     patient_journey_txt = patient_journey.choices[0].message.content
     i = 0
-    proposed_filename = "syntheticPatientJourney"+str(i)+".txt"
+    proposed_filename = "journey_synth_covid_"+str(i)+".txt"
     output_path = os.path.join(c.in_path, proposed_filename)
     while os.path.isfile(output_path):
         i += 1
-        proposed_filename = "syntheticPatientJourney"+str(i)+".txt"
+        proposed_filename = "journey_synth_covid_"+str(i)+".txt"
         output_path = os.path.join(c.in_path, proposed_filename)
     with open(output_path, 'w') as f:
         f.write(patient_journey_txt)
-    print("Patient journey \"" + proposed_filename + "\" generated.")
+    print("Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey \"" + proposed_filename + "\" generated.")
     return patient_journey_txt
