@@ -14,3 +14,7 @@ openai.api_key = c.oaik
 
 print("Hello World")
 a = 2
+
+
+def testFunction1():
+    print("something nice")
