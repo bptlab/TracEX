@@ -1,10 +1,10 @@
 """Module providing the main function."""
-import inputInquiry as ii
-import inputHandling as ih
-import outputHandling as oh
+import input_inquiry as ii
+import input_handling as ih
+import output_handling as oh
 
 ii.greeting()
 inp = ii.getInput()
 xesfile = ih.convertInpToXES(inp)
-oh.getOutput(xesfile)
+oh.get_output(xesfile)
 oh.farewell()

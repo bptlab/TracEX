@@ -1,4 +1,4 @@
-"""Module providing the needed prompts for the gpt_queries"""
+"""Module providing the needed prompts for the gpt_queries."""
 import random
 import openai
 import constants as c
@@ -6,7 +6,9 @@ import constants as c
 openai.api_key = c.oaik
 
 
-# Creation of a patient journey
+"""Creation of a patient journey."""
+
+
 def create_patient_journey_context():
     print("Generation in progress: [----------] 0%", end="\r")
     sex = get_sex()
@@ -29,11 +31,16 @@ def create_patient_journey_context():
     )
 
 
+"""Randomizing sex."""
+
+
 def get_sex():
     if random.randrange(2) == 0:
         return "male"
-    else:
-        return "female"
+    return "female"
+
+
+"""Randomizing country."""
 
 
 def get_country():
@@ -42,6 +49,9 @@ def get_country():
         model=c.MODEL, messages=message, max_tokens=50, temperature=0.2
     )
     return country.choices[0].message.content
+
+
+"""Randomizing date."""
 
 
 def get_date():
@@ -57,12 +67,18 @@ def get_date():
     return country.choices[0].message.content
 
 
+"""Randomizing life circumstances."""
+
+
 def get_life_circumstances(sex):
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
     life_circumstances = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=100, temperature=1
     )
     return life_circumstances.choices[0].message.content
+
+
+"""Prompt for the life circumstances randomization."""
 
 
 def life_circumstances_prompt(sex):
@@ -79,7 +95,7 @@ def life_circumstances_prompt(sex):
     )
 
 
-create_patient_journey_prompt = """
+CREATE_PATIENT_JOURNEY_PROMPT = """
     Please outline the course of your covid19 infection, what you did (and when you did that) because of it and which doctors you may consulted.
     Please give some information about the time, in a few cases directly as a date and in the other as something in the lines of 'in the next days', 'the week after that' or similar.
     Give your outline as a continous text.
@@ -89,7 +105,7 @@ create_patient_journey_prompt = """
 
 
 # Conversion of a text to bullet points focused on the course of a disease
-txt_to_bulletpoints_context = """
+TXT_TO_BULLETPOINTS_CONTEXT = """
     You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
     Every bullet point has to be a short description that is not longer than 4 words.
     Every information that is not important for the course of the disease should be discarded.
@@ -99,10 +115,10 @@ txt_to_bulletpoints_context = """
     Do not put commas in the bulletpoints. Try not to include enumerations. If absolutely necessary use slashes for enumeration.
     Do not put any punctuation to the end of the bullet points.
 """
-txt_to_bulletpoints_prompt = """
+TXT_TO_BULLETPOINTS_PROMPT = """
     Here is the text from which you should extract bullet points:
 """
-txt_to_bulletpoints_answer = """
+TXT_TO_BULLETPOINTS_ANSWER = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
@@ -113,13 +129,9 @@ txt_to_bulletpoints_answer = """
     'On July 15, 2022, I started experiencing the first symptoms of Covid-19. Initially, I had a mild cough and fatigue.' should be summarized as 'experiencing first symptoms'.
 """
 
-"""
-If a bullet point already contains any date information, delete that and only associated punctuation marks.
-    Never remove ending commas at the end of a bulletpoint!
-    Else d """
 
 # Adding of a start date to every bullet point
-bulletpoints_start_date_context = """
+BULLETPOINTS_START_DATE_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
@@ -134,10 +146,10 @@ bulletpoints_start_date_context = """
     If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
     The only output should be the updated bullet points, nothing else!
 """
-bulletpoints_start_date_prompt = """
+BULLETPOINTS_START_DATE_PROMPT = """
     Here is the text and the bulletpoints for which you should extract start dates:
 """
-bulletpoints_start_date_answer = """
+BULLETPOINTS_START_DATE_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
     '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return
@@ -153,7 +165,7 @@ bulletpoints_start_date_answer = """
 
 
 # Adding of a end date to every bullet point
-bulletpoints_end_date_context = """
+BULLETPOINTS_END_DATE_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
     It is important, that every bullet point gets an end date, even if it is the same as the start date.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
@@ -166,36 +178,12 @@ bulletpoints_end_date_context = """
     If there is no information about the end date at all, please state the start date also as the end date.
     The only output should be the updated bullet points, nothing else!
 """
-bulletpoints_end_date_prompt = """
+BULLETPOINTS_END_DATE_PROMPT = """
     Here is the text and the bulletpoints for which you should extract end dates:
 """
-bulletpoints_end_date_answer = """
+BULLETPOINTS_END_DATE_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
     and the bullet points '(visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000), (getting hospitalized, 20200405T0000)' you should return
     '(visiting doctor's, 20200405T0000, 20200405T0000), (testing positive for Covid19, 20200405T0000, 20200405T0000), (getting hospitalized, 20200405T0000, 20200419T0000)'.
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 20210710T0000)'.
-"""
-
-### --- OLD PROMPTS --- ###
-
-# have to be rowrked, if usecase emerges! #
-"""
-convertBPtoA_task_prompt =
-    You are an expert activity label tagger system.
-    Your task is to accept activity labels such as 'create purchase order (01/04/2020 - 12/04/2020)' as input and provide a list of tuples, where each one consists of the main action, the object it is applied on and a given start and end date.
-    For 'create purchase order (01/04/2020 - 12/04/2020)', you would return (create, purchase order, 20200401T0000, 20200412T0000) and for 'purchase order (01/04/2020 - 12/04/2020)' (, purchase order, 20200401T0000, 20200412T0000).
-    That mean that if there is no clear main action extractable, just write nothing instead and just put a comma.
-    If there is a year given, do not include that in the output!
-    If actions are not provided as verbs, change them into verbs, e.g., for 'purchase order creation' you would hence return (create, purchase order) as well.
-    Also turn past tense actions into present tense ones, e.g., 'purchase order created' becomes (create, purchase order) too.
-    If multiple actions are applied to the same object, split this into multiple pairs, e.g., 'create and send purchase order' becomes (create, purchase order), (send, purchase oder)
-    If there is additional information, e.g., about who is performing the action or about an IT system that is involved, discard that.
-    If there are any special characters, just replace them with whitespace.
-
-    Under no circumstances (!) put any other text in your answer, only a (possibly empty) list of pairs with nothing before or after.
-    In each pair the (optional) action comes first, followed by the object (if any).
-    If the activity label does not contain any actions, return an empty list , ie., []
-
-convertBPtoA_label_prompt =
-    Here are the points from which you should extract activity tags:
 """

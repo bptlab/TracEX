@@ -3,7 +3,10 @@ import os
 import pm4py
 
 
-def getOutput(xesfile):
+"""Prints the output to the console or shows the filename."""
+
+
+def get_output(xesfile):
     if not os.path.isfile(xesfile):
         print("The output can not be read.")
         return
@@ -17,7 +20,10 @@ def getOutput(xesfile):
         print("The output can be found at " + xesfile + ".")
     else:
         print("Please enter y or n.")
-        getOutput(xesfile)
+        get_output(xesfile)
+
+
+"""Prints a farewell message."""
 
 
 def farewell():
