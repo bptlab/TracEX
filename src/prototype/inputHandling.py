@@ -46,7 +46,7 @@ def addStartDates(input, bp):
     output = bp_start.choices[0].message.content
     output = removeBrackets(output)
     output = addEndingCommas(output)
-    with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withStart.txt'), 'w') as f:
+    with open(os.path.join(c.out_path, 'intermediates/bulletpoints_with_start.txt'), 'w') as f:
         f.write(output)
     return output
 
@@ -59,7 +59,7 @@ def addEndDates(input, bp_withStart):
     bp_end = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=c.temperature)
     output = bp_end.choices[0].message.content
     output = removeBrackets(output)
-    with open(os.path.join(c.out_path, 'intermediates/bulletpoints_withEnd.txt'), 'w') as f:
+    with open(os.path.join(c.out_path, 'intermediates/bulletpoints_with_start_end.txt'), 'w') as f:
         f.write(output)
     return output
 
