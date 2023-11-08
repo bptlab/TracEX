@@ -1,5 +1,5 @@
 import inputInquiry as ii
-import inputHandling as ih 
+import inputHandling as ih
 import outputHandling as oh
 
 ii.greeting()
