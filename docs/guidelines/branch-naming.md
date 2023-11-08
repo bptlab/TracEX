@@ -18,8 +18,7 @@
   * `release/` used for preparing new production release. Example: `release/v1.0.1`
   * `test/` for developing tests. Example: `test/data-input`
     * Preferably tests should be developed alongside features.
-  * `wip/` for work in progress. Example: `wip/event-log-extraction`
-  * `exploration/` used for exploring a topic or functionality. Can alternatively be labeled as work in progress. Example: `explore/mulit-agent-system-input`
+  * `exploration/` used for exploring a topic or functionality. Example: `explore/mulit-agent-system-input`
 3. Use ID of related issue. Example: `feature/123-xes-export`
 4. Avoid using numbers only.
 5. Avoid long branch names and comlicated words. Keep it concise and short for better readability.
