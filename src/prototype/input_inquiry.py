@@ -7,14 +7,16 @@ import prompts as p
 
 openai.api_key = c.oaik
 
-"""Prints a greeting message."""""
+
 def greeting():
+    """Prints a greeting message.""" ""
     print(
         "\n\nWelcome to the prototype of TracEX!\n-----------------------------------"
     )
 
-"""Gets the input from the user."""
+
 def get_input():
+    """Gets the input from the user."""
     input_path = get_input_path()
     if input_path == "new":
         inp = create_patient_journey()
@@ -23,8 +25,9 @@ def get_input():
             inp = f.read()
     return inp
 
-"""Gets the path to the input file from the user."""""
+
 def get_input_path():
+    """Gets the path to the input file from the user.""" ""
     awnser = input(
         "Would you like to continue with an existing patient journey as .txt? (y/n)\n"
     ).lower()
@@ -32,12 +35,12 @@ def get_input_path():
         return get_input_path_name()
     if awnser == "n":
         return "new"
-    else:
-        print("Please enter y or n.")
-        return get_input_path()
+    print("Please enter y or n.")
+    return get_input_path()
 
-"""Gets the name of the input file from the user."""
+
 def get_input_path_name():
+    """Gets the name of the input file from the user."""
     filename = input(
         "Please enter the name of the .txt file (located in 'content/inputs/'):\n"
     )
@@ -48,17 +51,21 @@ def get_input_path_name():
         return get_input_path_name()
     return filename
 
-"""Creates a new patient journey with the help of the GPT-3 engine."""
+
 def create_patient_journey():
+    """Creates a new patient journey with the help of the GPT-3 engine."""
     print(
         "Please wait while the system is generating a patient journey. This may take a few moments."
     )
     messages = [
         {"role": "system", "content": p.create_patient_journey_context()},
-        {"role": "user", "content": p.create_patient_journey_prompt},
+        {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
     ]
     patient_journey = openai.ChatCompletion.create(
-        model=c.MODEL, messages=messages, max_tokens=c.MAX_TOKENS, temperature=c.TEMPERATURE
+        model=c.MODEL,
+        messages=messages,
+        max_tokens=c.MAX_TOKENS,
+        temperature=c.TEMPERATURE,
     )
     patient_journey_txt = patient_journey.choices[0].message.content
     i = 0

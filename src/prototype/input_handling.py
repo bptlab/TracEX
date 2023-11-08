@@ -1,7 +1,7 @@
 """Module providing functions for converting text to XES."""
-import openai
 import os
 import csv
+import openai
 import pandas as pd
 import pm4py
 import constants as c
@@ -11,6 +11,7 @@ openai.api_key = c.oaik
 
 
 def convert_inp_to_xes(inp):
+    """Converts the input to XES with intermediate steps."""
     print("Converting Data: Summarizing the text.", end="\r")
     bulletpoints = convert_text_to_bulletpoints(inp)
     print("Converting Data: Extracting date information (1/2).", end="\r")
@@ -26,10 +27,11 @@ def convert_inp_to_xes(inp):
 
 
 def convert_text_to_bulletpoints(inp):
+    """Converts the input text to bulletpoints."""
     messages = [
-        {"role": "system", "content": p.txt_to_bulletpoints_context},
-        {"role": "user", "content": p.txt_to_bulletpoints_prompt + inp},
-        {"role": "assistant", "content": p.txt_to_bulletpoints_answer},
+        {"role": "system", "content": p.TXT_TO_BULLETPOINTS_CONTEXT},
+        {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
+        {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
     bulletpoints = openai.ChatCompletion.create(
         model=c.MODEL,
@@ -40,19 +42,24 @@ def convert_text_to_bulletpoints(inp):
     output = bulletpoints.choices[0].message.content
     output = remove_commas(output)
     output = add_ending_commas(output)
-    with open(os.path.join(c.out_path, "intermediates/bulletpoints.txt"), "w") as f:
+    with open(
+        os.path.join(c.out_path, "intermediates/bulletpoints.txt"),
+        "w",
+        encoding="utf-8",
+    ) as f:
         f.write(output)
     return output
 
 
 def add_start_dates(inp, bulletpoints):
+    """Adds start dates to the bulletpoints."""
     messages = [
-        {"role": "system", "content": p.bulletpoints_start_date_context},
+        {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
         {
             "role": "user",
-            "content": p.bulletpoints_start_date_prompt + inp + "\n" + bulletpoints,
+            "content": p.BULLETPOINTS_START_DATE_PROMPT + inp + "\n" + bulletpoints,
         },
-        {"role": "assistant", "content": p.bulletpoints_start_date_answer},
+        {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
     ]
     bulletpoints_start = openai.ChatCompletion.create(
         model=c.MODEL,
@@ -64,23 +71,24 @@ def add_start_dates(inp, bulletpoints):
     output = remove_brackets(output)
     output = add_ending_commas(output)
     with open(
-        os.path.join(c.out_path, "intermediates/bulletpoints_with_start.txt"), "w"
+        os.path.join(
+            c.out_path, "intermediates/bulletpoints_with_start.txt", encoding="utf-8"
+        ),
+        "w",
     ) as f:
         f.write(output)
     return output
 
 
 def add_end_dates(inp, bulletpoints_start):
+    """Adds end dates to the bulletpoints."""
     messages = [
-        {"role": "system", "content": p.bulletpoints_end_date_context},
+        {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
         {
             "role": "user",
-            "content": p.bulletpoints_end_date_prompt
-            + inp
-            + "\n"
-            + bulletpoints_withStart,
+            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints_start,
         },
-        {"role": "assistant", "content": p.bulletpoints_end_date_answer},
+        {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
     ]
     bulletpoints_start_end = openai.ChatCompletion.create(
         model=c.MODEL,
@@ -91,13 +99,19 @@ def add_end_dates(inp, bulletpoints_start):
     output = bulletpoints_start_end.choices[0].message.content
     output = remove_brackets(output)
     with open(
-        os.path.join(c.out_path, "intermediates/bulletpoints_with_start_end.txt"), "w"
+        os.path.join(
+            c.out_path,
+            "intermediates/bulletpoints_with_start_end.txt",
+            encoding="utf-8",
+        ),
+        "w",
     ) as f:
         f.write(output)
     return output
 
 
 def convert_bulletpoints_to_csv(bulletpoints_start_end):
+    """Converts the bulletpoints to a CSV file."""
     bulletpoints_list = bulletpoints_start_end.split("\n")
     bulletpoints_matrix = []
     for entry in bulletpoints_list:
@@ -108,7 +122,7 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
     for row in bulletpoints_matrix:
         row.insert(0, 1)
     outputfile = os.path.join(c.out_path, "output.csv")
-    with open(outputfile, "w") as f:
+    with open(outputfile, "w", encoding="utf-8") as f:
         write = csv.writer(f)
         # write.writerow(['sep=,'])
         write.writerow(fields)
@@ -117,6 +131,7 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
 
 
 def convert_csv_to_xes(inputfile):
+    """Converts the CSV file to XES."""
     dataframe = pd.read_csv(inputfile, sep=",")
     dataframe["start"] = pd.to_datetime(dataframe["start"])
     dataframe["end"] = pd.to_datetime(dataframe["end"])
@@ -135,18 +150,21 @@ def convert_csv_to_xes(inputfile):
 
 # Datacleaning
 def remove_commas(bulletpoints):
+    """Removes commas from within the bulletpoints."""
     bulletpoints = bulletpoints.replace(", ", "/")
     bulletpoints = bulletpoints.replace(",", "/")
     return bulletpoints
 
 
 def add_ending_commas(bulletpoints):
+    """Adds commas at the end of each line."""
     bulletpoints = bulletpoints.replace("\n", ",\n")
     bulletpoints = bulletpoints + ","
     return bulletpoints
 
 
 def remove_brackets(bulletpoints):
+    """Removes brackets from within the bulletpoints."""
     bulletpoints = bulletpoints.replace("(", "")
     bulletpoints = bulletpoints.replace(")", "")
     bulletpoints = bulletpoints.replace("]", "")
