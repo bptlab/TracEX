@@ -1,23 +1,13 @@
-caseID,event,start,end
-1,Experiencing first symptoms,20220601T0000,20220601T0000
-1,Developing high fever and difficulty breathing,20220604T0000,20220604T0000
-1,Getting tested for Covid-19,20220617T0000,20220617T0000
-1,Isolating from family,20220617T0000,20220620T0000
-1,Receiving confirmation of virus,20220620T0000,20220620T0000
-1,Contacting primary care physician,20220620T0000,20220620T0000
-1,Prescribed medication for fever,20220620T0000,20220620T0000
-1,Resting and hydrating,20220620T0000,20220620T0000
-1,Gradually improving symptoms,20220620T0000,20220630T0000
-1,Experiencing lingering fatigue,20220620T0000,20220630T0000
-1,Experiencing occasional shortness of breath,20220620T0000,20220630T0000
-1,Taking it easy and gradually increasing activity levels,20220620T0000,20220630T0000
-1,Reevaluating work-life balance,20220620T0000,20220630T0000
-1,Delegating cases and prioritizing health,20220620T0000,20220630T0000
-1,Practicing mindfulness and meditation,20220620T0000,20220630T0000
-1,Seeking support from therapist,20220620T0000,20220630T0000
-1,Getting vaccinated,20220805T0000,20220805T0000
-1,Feeling relief and added protection,20220805T0000,20220805T0000
-1,Reassessing priorities,20220805T0000,20220805T0000
-1,Finding meaningful time with loved ones,20220805T0000,20220805T0000
-1,Emphasizing self-care,20220805T0000,20220805T0000
-1,Striking a balance between professional success and personal fulfillment,20220805T0000,20220805T0000
+caseID,event,start,end
+1,Experiencing first Covid-19 symptoms,20210515T0000,20210515T0000
+1,Developing high fever/body aches/loss of taste and smell,20210515T0000,20210515T0000
+1,Getting tested for the virus,20210518T0000,20210518T0000
+1,Self-isolating in art studio,20210518T0000,20210531T0000
+1,Exploring new artistic techniques,20210518T0000,20210531T0000
+1,Managing symptoms at home,20210518T0000,20210531T0000
+1,Consulting with primary care physician via telemedicine,20210518T0000,20210531T0000
+1,Monitoring oxygen levels regularly,20210518T0000,20210531T0000
+1,Reflecting on importance of protecting oneself and others,20210518T0000,20210531T0000
+1,Getting vaccinated against the virus,20210701T0000,20210722T0000
+1,Finding inspiration in challenging times,20210701T0000,20210731T0000
+1,Creating vibrant paintings to bring joy to others,20210701T0000,20210731T0000
