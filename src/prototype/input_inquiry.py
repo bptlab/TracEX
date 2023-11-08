@@ -2,8 +2,11 @@
 # pylint: disable=unspecified-encoding
 """Module providing functions for the input inquiry of the prototype."""
 import os
+
 import openai
-import constants as c, prompts as p
+
+import constants as c
+import prompts as p
 
 openai.api_key = c.oaik
 
