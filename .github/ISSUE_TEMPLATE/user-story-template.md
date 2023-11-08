@@ -1,11 +1,13 @@
 ---
 name: User Story Template
 about: This template is a guideline to creating user stories.
-title: As a [persona], I [want to], [so that].
+title: Concise title
 labels: User Story
 assignees: ''
 
 ---
+
+As a [persona], I [want to], [so that].
 
 **Description:**
 

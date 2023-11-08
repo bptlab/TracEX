@@ -12,10 +12,3 @@ import outputHandling as oh
 openai.api_key = c.oaik
 
 ### JUST FOR TESTING, NO RELEVANCE FOR TRACEX! IMPLEMENTATION SHOULDN'T BE INCLUDED ON MAIN BRANCH! ###
-
-inp = open("content/outputs/intermediates/bulletpoints.txt", "r").read()
-bp = ih.addEndingCommas(inp)
-print(bp)
-
-
-#print("Hello World")
