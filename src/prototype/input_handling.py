@@ -1,10 +1,9 @@
 """Module providing functions for converting text to XES."""
 import os
 import csv
-import sys
-import openai
-import pandas as pd
-import pm4py
+import pm4py  # pylint: disable=import-error
+import openai  # pylint: disable=import-error
+import pandas as pd  # pylint: disable=import-error
 
 import constants as c
 import prompts as p

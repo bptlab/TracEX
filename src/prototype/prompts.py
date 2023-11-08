@@ -1,6 +1,6 @@
 """Module providing the needed prompts for the gpt_queries."""
 import random
-import openai
+import openai  # pylint: disable=import-error
 
 import constants as c
 

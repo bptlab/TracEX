@@ -1,7 +1,6 @@
 """Module providing functions for the input inquiry of the prototype."""
 import os
-import openai
-import sys
+import openai  # pylint: disable=import-error
 
 import constants as c
 import prompts as p

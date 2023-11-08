@@ -1,6 +1,6 @@
 """Module providing functions for printing out the XES."""
 import os
-import pm4py
+import pm4py  # pylint: disable=import-error
 
 
 def get_output(xesfile):
