@@ -1,3 +1,4 @@
+"""Module providing the main function."""
 import inputInquiry as ii
 import inputHandling as ih
 import outputHandling as oh

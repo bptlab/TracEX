@@ -1,3 +1,4 @@
+"""Module providing functions for printing out the XES."""
 import os
 import pm4py
 

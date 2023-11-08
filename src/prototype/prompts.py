@@ -1,3 +1,4 @@
+"""Module providing the needed prompts for the gpt_queries"""
 import random
 import openai
 import constants as c
@@ -6,15 +7,15 @@ openai.api_key = c.oaik
 
 
 # Creation of a patient journey
-def createPJ_context():
+def create_patient_journey_context():
     print("Generation in progress: [----------] 0%", end="\r")
-    sex = getSex()
+    sex = get_sex()
     print("Generation in progress: [▬---------] 10%", end="\r")
-    country = getCountry()
+    country = get_country()
     print("Generation in progress: [▬▬--------] 20%", end="\r")
-    date = getDate()
+    date = get_date()
     print("Generation in progress: [▬▬▬-------] 30%", end="\r")
-    lifeCircumstances = getLifeCircumstances(sex)
+    life_circumstances = get_life_circumstances(sex)
     print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
     return (
         "Imagine being a "
@@ -28,22 +29,22 @@ def createPJ_context():
     )
 
 
-def getSex():
+def get_sex():
     if random.randrange(2) == 0:
         return "male"
     else:
         return "female"
 
 
-def getCountry():
+def get_country():
     message = [{"role": "user", "content": "Please give me one european country."}]
     country = openai.ChatCompletion.create(
-        model=c.model, messages=message, max_tokens=50, temperature=0.2
+        model=c.MODEL, messages=message, max_tokens=50, temperature=0.2
     )
     return country.choices[0].message.content
 
 
-def getDate():
+def get_date():
     message = [
         {
             "role": "user",
@@ -51,20 +52,20 @@ def getDate():
         }
     ]
     country = openai.ChatCompletion.create(
-        model=c.model, messages=message, max_tokens=50, temperature=0.5
+        model=c.MODEL, messages=message, max_tokens=50, temperature=0.5
     )
     return country.choices[0].message.content
 
 
-def getLifeCircumstances(sex):
+def get_life_circumstances(sex):
     message = [{"role": "user", "content": lifeCircumstances_prompt(sex)}]
-    lifeCircumstances = openai.ChatCompletion.create(
-        model=c.model, messages=message, max_tokens=100, temperature=1
+    life_circumstances = openai.ChatCompletion.create(
+        model=c.MODEL, messages=message, max_tokens=100, temperature=1
     )
-    return lifeCircumstances.choices[0].message.content
+    return life_circumstances.choices[0].message.content
 
 
-def lifeCircumstances_prompt(sex):
+def life_circumstances_prompt(sex):
     return (
         "Please give me a short description of the life circumstances of an imaginary "
         + sex
@@ -74,11 +75,11 @@ def lifeCircumstances_prompt(sex):
         Write the text from a second-person perspective. Something like "You are a 51-year-old Teacher" and so forth.
         Inlcude the age, the job and the family status.
         Please do not include more than 50 words.
-    """
+        """
     )
 
 
-createPJ_prompt = """
+create_patient_journey_prompt = """
     Please outline the course of your covid19 infection, what you did (and when you did that) because of it and which doctors you may consulted.
     Please give some information about the time, in a few cases directly as a date and in the other as something in the lines of 'in the next days', 'the week after that' or similar.
     Give your outline as a continous text.
@@ -88,7 +89,7 @@ createPJ_prompt = """
 
 
 # Conversion of a text to bullet points focused on the course of a disease
-TtoBP_context = """
+txt_to_bulletpoints_context = """
     You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
     Every bullet point has to be a short description that is not longer than 4 words.
     Every information that is not important for the course of the disease should be discarded.
@@ -98,10 +99,10 @@ TtoBP_context = """
     Do not put commas in the bulletpoints. Try not to include enumerations. If absolutely necessary use slashes for enumeration.
     Do not put any punctuation to the end of the bullet points.
 """
-TtoBP_prompt = """
+txt_to_bulletpoints_prompt = """
     Here is the text from which you should extract bullet points:
 """
-TtoBP_answer = """
+txt_to_bulletpoints_answer = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
@@ -118,7 +119,7 @@ If a bullet point already contains any date information, delete that and only as
     Else d """
 
 # Adding of a start date to every bullet point
-BP_startDate_context = """
+bulletpoints_start_date_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
@@ -133,10 +134,10 @@ BP_startDate_context = """
     If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
     The only output should be the updated bullet points, nothing else!
 """
-BP_startDate_prompt = """
+bulletpoints_start_date_prompt = """
     Here is the text and the bulletpoints for which you should extract start dates:
 """
-BP_startDate_answer = """
+bulletpoints_start_date_answer = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
     '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return
@@ -152,7 +153,7 @@ BP_startDate_answer = """
 
 
 # Adding of a end date to every bullet point
-BP_endDate_context = """
+bulletpoints_end_date_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
     It is important, that every bullet point gets an end date, even if it is the same as the start date.
     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
@@ -165,10 +166,10 @@ BP_endDate_context = """
     If there is no information about the end date at all, please state the start date also as the end date.
     The only output should be the updated bullet points, nothing else!
 """
-BP_endDate_prompt = """
+bulletpoints_end_date_prompt = """
     Here is the text and the bulletpoints for which you should extract end dates:
 """
-BP_endDate_answer = """
+bulletpoints_end_date_answer = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
     and the bullet points '(visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000), (getting hospitalized, 20200405T0000)' you should return
     '(visiting doctor's, 20200405T0000, 20200405T0000), (testing positive for Covid19, 20200405T0000, 20200405T0000), (getting hospitalized, 20200405T0000, 20200419T0000)'.
