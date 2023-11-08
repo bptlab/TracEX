@@ -3,10 +3,8 @@ import os
 import pm4py
 
 
-"""Prints the output to the console or shows the filename."""
-
-
 def get_output(xesfile):
+    """Prints the output to the console or shows the filename."""
     if not os.path.isfile(xesfile):
         print("The output can not be read.")
         return
@@ -23,8 +21,6 @@ def get_output(xesfile):
         get_output(xesfile)
 
 
-"""Prints a farewell message."""
-
-
 def farewell():
+    """Prints a farewell message."""
     print("-----------------------------------\nThank you for using TracEX!\n\n")

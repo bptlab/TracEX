@@ -6,10 +6,8 @@ import constants as c
 openai.api_key = c.oaik
 
 
-"""Creation of a patient journey."""
-
-
 def create_patient_journey_context():
+    """Creation of a patient journey."""
     print("Generation in progress: [----------] 0%", end="\r")
     sex = get_sex()
     print("Generation in progress: [▬---------] 10%", end="\r")
@@ -31,19 +29,17 @@ def create_patient_journey_context():
     )
 
 
-"""Randomizing sex."""
-
-
 def get_sex():
+    """Randomizing sex."""
+
     if random.randrange(2) == 0:
         return "male"
     return "female"
 
 
-"""Randomizing country."""
-
-
 def get_country():
+    """Randomizing country."""
+
     message = [{"role": "user", "content": "Please give me one european country."}]
     country = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=50, temperature=0.2
@@ -51,10 +47,9 @@ def get_country():
     return country.choices[0].message.content
 
 
-"""Randomizing date."""
-
-
 def get_date():
+    """Randomizing date."""
+
     message = [
         {
             "role": "user",
@@ -67,10 +62,9 @@ def get_date():
     return country.choices[0].message.content
 
 
-"""Randomizing life circumstances."""
-
-
 def get_life_circumstances(sex):
+    """Randomizing life circumstances."""
+
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
     life_circumstances = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=100, temperature=1
@@ -78,10 +72,9 @@ def get_life_circumstances(sex):
     return life_circumstances.choices[0].message.content
 
 
-"""Prompt for the life circumstances randomization."""
-
-
 def life_circumstances_prompt(sex):
+    """Prompt for the life circumstances randomization."""
+
     return (
         "Please give me a short description of the life circumstances of an imaginary "
         + sex
