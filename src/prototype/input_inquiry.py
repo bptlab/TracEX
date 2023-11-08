@@ -1,15 +1,15 @@
+# pylint: disable=import-error
+# pylint: disable=unspecified-encoding
 """Module providing functions for the input inquiry of the prototype."""
 import os
-import openai  # pylint: disable=import-error
-
-import constants as c
-import prompts as p
+import openai
+import constants as c, prompts as p
 
 openai.api_key = c.oaik
 
 
 def greeting():
-    """Prints a greeting message.""" ""
+    """Prints a greeting message."""
     print(
         "\n\nWelcome to the prototype of TracEX!\n-----------------------------------"
     )
@@ -27,7 +27,7 @@ def get_input():
 
 
 def get_input_path():
-    """Gets the path to the input file from the user.""" ""
+    """Gets the path to the input file from the user."""
     awnser = input(
         "Would you like to continue with an existing patient journey as .txt? (y/n)\n"
     ).lower()
@@ -53,7 +53,7 @@ def get_input_path_name():
 
 
 def create_patient_journey():
-    """Creates a new patient journey with the help of the GPT-3 engine."""
+    """Creates a new patient journey with the help of the GPT engine."""
     print(
         "Please wait while the system is generating a patient journey. This may take a few moments."
     )

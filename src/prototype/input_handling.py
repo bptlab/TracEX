@@ -1,12 +1,9 @@
+# pylint: disable=import-error
+# pylint: disable=unspecified-encoding
 """Module providing functions for converting text to XES."""
-import os
-import csv
-import pm4py  # pylint: disable=import-error
-import openai  # pylint: disable=import-error
-import pandas as pd  # pylint: disable=import-error
-
-import constants as c
-import prompts as p
+import os, csv
+import pm4py, openai, pandas as pd
+import constants as c, prompts as p
 
 openai.api_key = c.oaik
 

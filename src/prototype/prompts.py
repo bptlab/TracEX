@@ -1,7 +1,7 @@
+# pylint: disable=import-error
 """Module providing the needed prompts for the gpt_queries."""
 import random
-import openai  # pylint: disable=import-error
-
+import openai
 import constants as c
 
 openai.api_key = c.oaik
