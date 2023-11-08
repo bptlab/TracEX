@@ -25,7 +25,7 @@ def create_patient_journey_context():
         + ", that was infected with Covid19. You had first symptoms on "
         + date
         + "."
-        + lifeCircumstances
+        + life_circumstances
     )
 
 
@@ -58,7 +58,7 @@ def get_date():
 
 
 def get_life_circumstances(sex):
-    message = [{"role": "user", "content": lifeCircumstances_prompt(sex)}]
+    message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
     life_circumstances = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=100, temperature=1
     )
