@@ -4,7 +4,7 @@ import input_handling as ih
 import output_handling as oh
 
 ii.greeting()
-inp = ii.getInput()
-xesfile = ih.convertInpToXES(inp)
+inp = ii.get_input()
+xesfile = ih.convert_inp_to_xes(inp)
 oh.get_output(xesfile)
 oh.farewell()

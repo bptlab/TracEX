@@ -1,6 +1,7 @@
 """Module providing functions for the input inquiry of the prototype."""
 import os
 import openai
+import sys
 
 import constants as c
 import prompts as p
@@ -21,7 +22,7 @@ def get_input():
     if input_path == "new":
         inp = create_patient_journey()
     else:
-        with open(os.path.join(c.in_path, input_path), encoding="utf-8") as f:
+        with open(os.path.join(c.in_path, input_path)) as f:
             inp = f.read()
     return inp
 

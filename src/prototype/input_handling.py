@@ -1,9 +1,11 @@
 """Module providing functions for converting text to XES."""
 import os
 import csv
+import sys
 import openai
 import pandas as pd
 import pm4py
+
 import constants as c
 import prompts as p
 
@@ -42,11 +44,7 @@ def convert_text_to_bulletpoints(inp):
     output = bulletpoints.choices[0].message.content
     output = remove_commas(output)
     output = add_ending_commas(output)
-    with open(
-        os.path.join(c.out_path, "intermediates/bulletpoints.txt"),
-        "w",
-        encoding="utf-8",
-    ) as f:
+    with open(os.path.join(c.out_path, "intermediates/bulletpoints.txt"), "w") as f:
         f.write(output)
     return output
 
@@ -71,9 +69,7 @@ def add_start_dates(inp, bulletpoints):
     output = remove_brackets(output)
     output = add_ending_commas(output)
     with open(
-        os.path.join(
-            c.out_path, "intermediates/bulletpoints_with_start.txt", encoding="utf-8"
-        ),
+        os.path.join(c.out_path, "intermediates/bulletpoints_with_start.txt"),
         "w",
     ) as f:
         f.write(output)
@@ -99,11 +95,7 @@ def add_end_dates(inp, bulletpoints_start):
     output = bulletpoints_start_end.choices[0].message.content
     output = remove_brackets(output)
     with open(
-        os.path.join(
-            c.out_path,
-            "intermediates/bulletpoints_with_start_end.txt",
-            encoding="utf-8",
-        ),
+        os.path.join(c.out_path, "intermediates/bulletpoints_with_start_end.txt"),
         "w",
     ) as f:
         f.write(output)
@@ -122,7 +114,7 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
     for row in bulletpoints_matrix:
         row.insert(0, 1)
     outputfile = os.path.join(c.out_path, "output.csv")
-    with open(outputfile, "w", encoding="utf-8") as f:
+    with open(outputfile, "w") as f:
         write = csv.writer(f)
         # write.writerow(['sep=,'])
         write.writerow(fields)
@@ -172,16 +164,3 @@ def remove_brackets(bulletpoints):
     bulletpoints = bulletpoints.replace("{", "")
     bulletpoints = bulletpoints.replace("}", "")
     return bulletpoints
-
-
-### Legacy Code ###
-
-"""
-def convertBulletpointsToActions(bulletPoints):
-    messages = [
-        {"role": "system", "content": p.convertbulletpointstoA_task_prompt},
-        {"role": "user", "content": p.convertbulletpointstoA_label_prompt + bulletPoints}
-    ]
-    actions = openai.ChatCompletion.create(model=c.model, messages=messages, max_tokens=c.max_tokens, temperature=0)
-    return actions.choices[0].message.content
-"""
