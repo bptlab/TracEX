@@ -31,7 +31,6 @@ def create_patient_journey_context():
 
 def get_sex():
     """Randomizing sex."""
-
     if random.randrange(2) == 0:
         return "male"
     return "female"
@@ -39,7 +38,6 @@ def get_sex():
 
 def get_country():
     """Randomizing country."""
-
     message = [{"role": "user", "content": "Please give me one european country."}]
     country = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=50, temperature=0.2
@@ -49,7 +47,6 @@ def get_country():
 
 def get_date():
     """Randomizing date."""
-
     message = [
         {
             "role": "user",
@@ -64,7 +61,6 @@ def get_date():
 
 def get_life_circumstances(sex):
     """Randomizing life circumstances."""
-
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
     life_circumstances = openai.ChatCompletion.create(
         model=c.MODEL, messages=message, max_tokens=100, temperature=1
@@ -74,7 +70,6 @@ def get_life_circumstances(sex):
 
 def life_circumstances_prompt(sex):
     """Prompt for the life circumstances randomization."""
-
     return (
         "Please give me a short description of the life circumstances of an imaginary "
         + sex
