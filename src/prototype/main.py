@@ -1,12 +1,9 @@
 import inputInquiry as ii
 import inputHandling as ih 
-import pandas as pd
-import constants as c
-import os
-import pm4py
+import outputHandling as oh
 
-#Put OpenAI-key as environment variable "OPENAI_API_KEY" in your system
-
+ii.greeting()
 inp = ii.getInput()
-csvfile = ih.convertInpToCSV(inp)
-ih.convertCSVToXES(csvfile)
+xesfile = ih.convertInpToXES(inp)
+oh.getOutput(xesfile)
+oh.farewell()

@@ -1,109 +1,140 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
 	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
-	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
 	<string key="origin" value="csv" />
 	<trace>
 		<string key="concept:name" value="1" />
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Experiencing first symptoms: mild cough and fatigue 20220715T0000" />
-			<date key="date:StartDate" value="2022-07-15T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Experiencing first symptoms: mild cough and fatigue 20220715T0000" />
-			<date key="time:timestamp" value="2022-07-15T00:00:00+00:00" />
-			<int key="@@index" value="0" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Experiencing first symptoms" />
+			<date key="date:StartDate" value="2022-06-01T00:00:00" />
+			<date key="date:EndDate" value="2022-06-01T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Consulting doctor: confirming Covid-19 suspicion 20220718T0000" />
-			<date key="date:StartDate" value="2022-07-18T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Consulting doctor: confirming Covid-19 suspicion 20220718T0000" />
-			<date key="time:timestamp" value="2022-07-18T00:00:00+00:00" />
-			<int key="@@index" value="1" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Developing high fever and difficulty breathing" />
+			<date key="date:StartDate" value="2022-06-04T00:00:00" />
+			<date key="date:EndDate" value="2022-06-04T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Self-isolating at home: monitoring symptoms closely 20220718T0000" />
-			<date key="date:StartDate" value="2022-07-18T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Self-isolating at home: monitoring symptoms closely 20220718T0000" />
-			<date key="time:timestamp" value="2022-07-18T00:00:00+00:00" />
-			<int key="@@index" value="2" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Getting tested for Covid-19" />
+			<date key="date:StartDate" value="2022-06-17T00:00:00" />
+			<date key="date:EndDate" value="2022-06-17T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Condition deteriorating: high fever/body aches/difficulty breathing 20220721T0000" />
-			<date key="date:StartDate" value="2022-07-21T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Condition deteriorating: high fever/body aches/difficulty breathing 20220721T0000" />
-			<date key="time:timestamp" value="2022-07-21T00:00:00+00:00" />
-			<int key="@@index" value="3" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Isolating from family" />
+			<date key="date:StartDate" value="2022-06-17T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Seeking medical attention: undergoing tests/receiving medication 20220723T0000" />
-			<date key="date:StartDate" value="2022-07-23T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Seeking medical attention: undergoing tests/receiving medication 20220723T0000" />
-			<date key="time:timestamp" value="2022-07-23T00:00:00+00:00" />
-			<int key="@@index" value="4" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Receiving confirmation of virus" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Support from friends/family/and healthcare professionals: crucial role in recovery 20220723T0000" />
-			<date key="date:StartDate" value="2022-07-23T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Support from friends/family/and healthcare professionals: crucial role in recovery 20220723T0000" />
-			<date key="time:timestamp" value="2022-07-23T00:00:00+00:00" />
-			<int key="@@index" value="5" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Contacting primary care physician" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Regaining strength: symptoms gradually improving 20220902T0000" />
-			<date key="date:StartDate" value="2022-09-02T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Regaining strength: symptoms gradually improving 20220902T0000" />
-			<date key="time:timestamp" value="2022-09-02T00:00:00+00:00" />
-			<int key="@@index" value="6" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Prescribed medication for fever" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Receiving Covid-19 vaccine: protecting self and loved ones 20220902T0000" />
-			<date key="date:StartDate" value="2022-09-02T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Receiving Covid-19 vaccine: protecting self and loved ones 20220902T0000" />
-			<date key="time:timestamp" value="2022-09-02T00:00:00+00:00" />
-			<int key="@@index" value="7" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Resting and hydrating" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-20T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Completing vaccination regimen: second dose three weeks later 20220923T0000" />
-			<date key="date:StartDate" value="2022-09-23T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Completing vaccination regimen: second dose three weeks later 20220923T0000" />
-			<date key="time:timestamp" value="2022-09-23T00:00:00+00:00" />
-			<int key="@@index" value="8" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Gradually improving symptoms" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
 		</event>
 		<event>
-			<int key="caseID" value="1" />
-			<string key="Activity" value="Finding solace in moments of joy: making positive impact in clients' lives 20220923T0000" />
-			<date key="date:StartDate" value="2022-09-23T00:00:00+00:00" />
-			<float key="date:EndDate" value="nan" />
-			<string key="concept:name" value="Finding solace in moments of joy: making positive impact in clients' lives 20220923T0000" />
-			<date key="time:timestamp" value="2022-09-23T00:00:00+00:00" />
-			<int key="@@index" value="9" />
-			<int key="@@case_index" value="0" />
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Experiencing lingering fatigue" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Experiencing occasional shortness of breath" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Taking it easy and gradually increasing activity levels" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Reevaluating work-life balance" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Delegating cases and prioritizing health" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Practicing mindfulness and meditation" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Seeking support from therapist" />
+			<date key="date:StartDate" value="2022-06-20T00:00:00" />
+			<date key="date:EndDate" value="2022-06-30T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Getting vaccinated" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Feeling relief and added protection" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Reassessing priorities" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Finding meaningful time with loved ones" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Emphasizing self-care" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="concept:Activity" value="Striking a balance between professional success and personal fulfillment" />
+			<date key="date:StartDate" value="2022-08-05T00:00:00" />
+			<date key="date:EndDate" value="2022-08-05T00:00:00" />
 		</event>
 	</trace>
 </log>

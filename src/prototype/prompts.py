@@ -5,8 +5,16 @@ openai.api_key=c.oaik
 
 #Creation of a patient journey
 def createPJ_context():
+    print("Generation in progress: [----------] 0%", end="\r")
     sex = getSex()
-    return "Imagine being a " + sex + " person from " + getCountry() + ", that was infected with Covid19. You had first symptoms on " + getDate() + "." + getLifeCircumstances(sex)
+    print("Generation in progress: [▬---------] 10%", end="\r")
+    country = getCountry()
+    print("Generation in progress: [▬▬--------] 20%", end="\r")
+    date = getDate()
+    print("Generation in progress: [▬▬▬-------] 30%", end="\r")
+    lifeCircumstances = getLifeCircumstances(sex)
+    print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
+    return "Imagine being a " + sex + " person from " + country + ", that was infected with Covid19. You had first symptoms on " + date + "." + lifeCircumstances
 def getSex():
     if random.randrange(2)==0:
         return "male"
@@ -14,7 +22,7 @@ def getSex():
         return "female"
 def getCountry():
     message = [{"role": "user", "content": "Please give me one european country."}]
-    country = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=50, temperature=0.5)
+    country = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=50, temperature=0.2)
     return country.choices[0].message.content
 def getDate():
     message = [{"role": "user", "content": "Please give me one date between 01/01/2020 and 01/09/2023."}]
@@ -22,7 +30,7 @@ def getDate():
     return country.choices[0].message.content
 def getLifeCircumstances(sex):
     message = [{"role": "user", "content": lifeCircumstances_prompt(sex)}]
-    lifeCircumstances = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=100, temperature=0.5)
+    lifeCircumstances = openai.ChatCompletion.create(model=c.model, messages=message, max_tokens=100, temperature=1)
     return lifeCircumstances.choices[0].message.content
 def lifeCircumstances_prompt(sex):
     return "Please give me a short description of the life circumstances of an imaginary " + sex + " person in form of continous text." + \
@@ -44,7 +52,7 @@ createPJ_prompt = """
 #Conversion of a text to bullet points focused on the course of a disease
 TtoBP_context = """
     You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
-    Every bullet point should be a short description that is not longer than 4 words.
+    Every bullet point has to be a short description that is not longer than 4 words.
     Every information that is not important for the course of the disease should be discarded.
     The bulletpoints have to be kept in present continous tense and should begin with a verb!
     You must not include any dates or information about the time and focus on the main aspects you want to convey.
@@ -66,13 +74,17 @@ TtoBP_answer = """
     'On July 15, 2022, I started experiencing the first symptoms of Covid-19. Initially, I had a mild cough and fatigue.' should be summarized as 'experiencing first symptoms'.
 """
 
+""" 
+If a bullet point already contains any date information, delete that and only associated punctuation marks. 
+    Never remove ending commas at the end of a bulletpoint!
+    Else d """
 
 #Adding of a start date to every bullet point
 BP_startDate_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date to it, with a comma between the bulletpoint and the date.
+    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
-    If a bullet point already contains any date information, delete that and associated punctuation marks.
+    Do not modify the content of the bulletpoint and keep ending commas.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
     Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one. 
     Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
@@ -80,7 +92,7 @@ BP_startDate_context = """
     If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time, 
     use that information to draw conclusions about the start dates.
-    If there is no information about the start date at all, please note that by stating '00000000T0000' as start date.
+    If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
     The only output should be the updated bullet points, nothing else!
 """
 BP_startDate_prompt = """
@@ -89,22 +101,23 @@ BP_startDate_prompt = """
 BP_startDate_answer = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points 
-    'experiencing mild symptoms, visiting doctor's, testing positive for Covid19' you should return 
-    '(experiencing mild symptoms, 20200401T0000), (visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000)'.
-    Accordingly for the same text and the bullet points 'experiencing first symptoms: 01/04/2020, going to doctor four days later, testing positive for Covid19' you should return
-    '(experiencing first symptoms, 20200401T0000), (going to doctor, 20200405T0000), (testing positive for Covid19, 20200405T0000)'.
+    '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return 
+    '- experiencing mild symptoms, 20200401T0000\n- visiting doctor's, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
+    Accordingly for the same text and the bullet points '- experiencing first symptoms: 01/04/2020,\n- going to doctor four days later,\n- testing positive for Covid19,' you should return
+    '- experiencing first symptoms, 20200401T0000\n- going to doctor, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
     If the text says 'A year after the vaccine was introduced, I got vaccined myself' and a bullet point says 'got vaccined', 
     you should take online information about when a vaccine was introduced in the country the author is from into account and put that as start date. 
-    When the considered vaccine was introduced on 01/01/2021, you should return '(getting vaccined, 20220101T0000)', as the author said, that he waited a year.
+    When the considered vaccine was introduced on 01/01/2021, you should return '- getting vaccined, 20220101T0000', as the author said, that he waited a year.
     If the text says something like "I got medication on the fith of july. Nevertheless my health wasn't improving in any way." and the bulletpoints are 
-    'getting medication, worsening health' you should return '(getting medication, 20200705T0000), (worsening health, 20200705T0000)'.
+    '- getting medication,\n- worsening health' you should return '- getting medication, 20200705T0000\n- worsening health, 20200705T0000'.
 """
 
 
 #Adding of a end date to every bullet point
 BP_endDate_context = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it, with a comma between the existing start date and the end date.
+    It is important, that every bullet point gets an end date, even if it is the same as the start date.
+    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
     If the duration of an event is given, use that information to draw conclusions about the end date.
@@ -115,7 +128,7 @@ BP_endDate_context = """
     The only output should be the updated bullet points, nothing else!
 """
 BP_endDate_prompt = """
-    Here is the text and the bulletpoints for which you should extract start dates:
+    Here is the text and the bulletpoints for which you should extract end dates:
 """
 BP_endDate_answer = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.' 
@@ -127,8 +140,8 @@ BP_endDate_answer = """
 ### --- OLD PROMPTS --- ###
 
 # have to be rowrked, if usecase emerges! #
-
-convertBPtoA_task_prompt = """
+"""
+convertBPtoA_task_prompt =
     You are an expert activity label tagger system. 
     Your task is to accept activity labels such as 'create purchase order (01/04/2020 - 12/04/2020)' as input and provide a list of tuples, where each one consists of the main action, the object it is applied on and a given start and end date. 
     For 'create purchase order (01/04/2020 - 12/04/2020)', you would return (create, purchase order, 20200401T0000, 20200412T0000) and for 'purchase order (01/04/2020 - 12/04/2020)' (, purchase order, 20200401T0000, 20200412T0000). 
@@ -143,8 +156,7 @@ convertBPtoA_task_prompt = """
     Under no circumstances (!) put any other text in your answer, only a (possibly empty) list of pairs with nothing before or after. 
     In each pair the (optional) action comes first, followed by the object (if any).
     If the activity label does not contain any actions, return an empty list , ie., []
-"""
 
-convertBPtoA_label_prompt = """
+convertBPtoA_label_prompt =
     Here are the points from which you should extract activity tags: 
 """

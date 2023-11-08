@@ -1,11 +1,23 @@
 caseID,event,start,end
-1,Experiencing first symptoms: mild cough and fatigue 20220715T0000,20220715T0000
-1,Consulting doctor: confirming Covid-19 suspicion 20220718T0000,20220718T0000
-1,Self-isolating at home: monitoring symptoms closely 20220718T0000,20220718T0000
-1,Condition deteriorating: high fever/body aches/difficulty breathing 20220721T0000,20220721T0000
-1,Seeking medical attention: undergoing tests/receiving medication 20220723T0000,20220723T0000
-1,Support from friends/family/and healthcare professionals: crucial role in recovery 20220723T0000,20220723T0000
-1,Regaining strength: symptoms gradually improving 20220902T0000,20220902T0000
-1,Receiving Covid-19 vaccine: protecting self and loved ones 20220902T0000,20220902T0000
-1,Completing vaccination regimen: second dose three weeks later 20220923T0000,20220923T0000
-1,Finding solace in moments of joy: making positive impact in clients' lives 20220923T0000,20220923T0000
+1,Experiencing first symptoms,20220601T0000,20220601T0000
+1,Developing high fever and difficulty breathing,20220604T0000,20220604T0000
+1,Getting tested for Covid-19,20220617T0000,20220617T0000
+1,Isolating from family,20220617T0000,20220620T0000
+1,Receiving confirmation of virus,20220620T0000,20220620T0000
+1,Contacting primary care physician,20220620T0000,20220620T0000
+1,Prescribed medication for fever,20220620T0000,20220620T0000
+1,Resting and hydrating,20220620T0000,20220620T0000
+1,Gradually improving symptoms,20220620T0000,20220630T0000
+1,Experiencing lingering fatigue,20220620T0000,20220630T0000
+1,Experiencing occasional shortness of breath,20220620T0000,20220630T0000
+1,Taking it easy and gradually increasing activity levels,20220620T0000,20220630T0000
+1,Reevaluating work-life balance,20220620T0000,20220630T0000
+1,Delegating cases and prioritizing health,20220620T0000,20220630T0000
+1,Practicing mindfulness and meditation,20220620T0000,20220630T0000
+1,Seeking support from therapist,20220620T0000,20220630T0000
+1,Getting vaccinated,20220805T0000,20220805T0000
+1,Feeling relief and added protection,20220805T0000,20220805T0000
+1,Reassessing priorities,20220805T0000,20220805T0000
+1,Finding meaningful time with loved ones,20220805T0000,20220805T0000
+1,Emphasizing self-care,20220805T0000,20220805T0000
+1,Striking a balance between professional success and personal fulfillment,20220805T0000,20220805T0000
