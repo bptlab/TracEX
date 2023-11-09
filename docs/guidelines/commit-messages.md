@@ -9,7 +9,7 @@
   ---
 
 1. **Relate every commit to a specific change**: Each commit should correspond to an issue or branch. Thus, if there are two different problems to fixed, each of them should have a commit for themselves. This way, smaller and specific changes are more easy to follow and make the progress easier to track.
-2. **Commit often**: It’s better to commit small and frequent changes, than pilling up more tasks and committing them rarely. But always remember to relate those small commits to issues and branches as well!
+2. **Commit often**: It’s better to commit small and frequent changes, than piling up more tasks and committing them rarely. But always remember to relate those small commits to issues and branches as well!
 3. **Commit only completed changes**: Commits should always contain completed tasks to track an incremental progress of the product and know wich functionality is already implemented. Commits should leave no functionality broken.
 4. **Write meaningful commit messages**:
    1. `git commit -m <title> -m <description>`
