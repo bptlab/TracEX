@@ -18,7 +18,7 @@
    4. Use the imperative of the present tense e.g. `fix change`
    5. The message should answer the following questions: “What was the reason for the change?” and “How was it implemented?”.
 5. **Check changes before committing**: Make sure to carefully test or check the implemented changes before making a commit. This avoid complications and future work.
-6. **Type of commit**: Indicate the type of commit using the following emojis at the beginning of the commit message to quickly get a overview at one glance.
+6. **Type of commit**: Indicate the type of commit using the following emojis at the beginning of the commit message to quickly get an overview at one glance.
    1. Feature implementation: ✨
    2. Bugfix: 🐛
    3. Hoffix: 🔥
