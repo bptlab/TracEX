@@ -4,7 +4,6 @@
 - Keep it short and concise, but make sure to include relevant key words.
 - Use category words to easily identify the type of the task.
 - Include ID of related issues to help tracking of progress.
-- Adding the name of the author helps to keep track of shared work.
 - Keep the same name conventions for the whole project.
 
   ----
