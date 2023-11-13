@@ -1,0 +1,22 @@
+[MESSAGES CONTROL]
+disable=too-many-arguments,
+  too-many-locals,
+  too-many-return-statements,
+  too-many-branches,
+  too-many-instance-attributes,
+  too-many-statements,
+  duplicate-code,
+  logging-not-lazy,
+  consider-using-f-string,
+  fixme
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+init-import=yes 
+
+[REFACTORING]
+max-nested-blocks=6
+
+[MASTER]
+ignore=setup.py
