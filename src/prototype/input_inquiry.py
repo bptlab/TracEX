@@ -22,11 +22,12 @@ def get_input():
     """Gets the input from the user."""
     input_path = get_input_path()
     if input_path == "new":
-        inp = create_patient_journey()
+        inp, inp_file_name = create_patient_journey()
     else:
         with open(os.path.join(c.in_path, input_path)) as f:
             inp = f.read()
-    return inp
+        inp_file_name = input_path
+    return inp, inp_file_name
 
 
 def get_input_path():
@@ -68,7 +69,7 @@ def create_patient_journey():
         model=c.MODEL,
         messages=messages,
         max_tokens=c.MAX_TOKENS,
-        temperature=c.TEMPERATURE,
+        temperature=c.TEMPERATURE_CREATION,
     )
     patient_journey_txt = patient_journey.choices[0].message.content
     i = 0
@@ -85,4 +86,4 @@ def create_patient_journey():
         + proposed_filename
         + '" generated.'
     )
-    return patient_journey_txt
+    return patient_journey_txt, proposed_filename

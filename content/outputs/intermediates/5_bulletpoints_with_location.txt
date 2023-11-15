@@ -1,0 +1,17 @@
+- Starting to experience Covid-19 symptoms, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Isolating at home, 20210715T0000, 00:00:00, Lifestyle Change, Home
+- Notifying authorities and workplace, 20210715T0000, 00:00:00, Other, No location
+- Symptoms worsening, 20210716T0000, 00:00:00, Symptom Onset, Home
+- Developing sore throat/body aches/and loss of taste and smell, 20210716T0000, 00:00:00, Symptom Onset, Home
+- Consulting with family doctor, 20210720T0000, 00:00:00, Doctor visit, Doctors
+- Continuing self-isolation, 20210720T0000, 00:00:00, Lifestyle Change, Home
+- Monitoring oxygen levels, 20210720T0000, 00:00:00, Other, No location
+- Seeking medical assistance, 20210722T0000, 00:00:00, Doctor visit, Doctors
+- Admitted to hospital, 20210722T0000, 00:00:00, Hospital admission, Hospital
+- Given supplemental oxygen, 20210722T0000, 00:00:00, Treatment, Hospital
+- Condition improving, 20210729T0000, 00:00:00, Other, No location
+- Discharged with home recovery guidelines, 20210729T0000, 00:00:00, Hospital discharge, Home
+- Getting vaccinated, 20220301T0000, 00:00:00, Treatment, Other
+- Receiving first and second dose of Covid-19 vaccine, 20220301T0000, 00:00:00, Treatment, Other
+- Feeling hopeful and reassured, 20220301T0000, 00:00:00, Feelings, No location
+- Passion for teaching and resilience of students keeping motivated, 20220301T0000, 00:00:00, Other, No location

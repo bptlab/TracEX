@@ -1,0 +1,31 @@
+caseID,event,start,duration,eventtype,locationtype
+1,Starting to experience symptoms,20200401T0000,00:00:00,Symptom Onset,Home
+1,Self-isolating in apartment,20200401T0000,00:00:00,Lifestyle Change,Home
+1,Symptoms worsening,20200403T0000,00:00:00,Symptom Onset,Home
+1,Consulting doctor via telemedicine,20200406T0000,00:00:00,Doctor visit,Doctors
+1,Getting tested for Covid-19,20200407T0000,00:00:00,Diagnosis,Hospital
+1,Waiting for test results,20200407T0000,00:00:00,Other,No location
+1,Testing positive for Covid-19,20200410T0000,00:00:00,Diagnosis,Hospital
+1,Continuing to self-isolate,20200410T0000,00:00:00,Lifestyle Change,Home
+1,Monitoring symptoms closely,20200410T0000,00:00:00,Other,Home
+1,Experiencing range of symptoms,20200410T0000,00:00:00,Symptom Onset,Home
+1,Regularly communicating with GP,20200410T0000,00:00:00,Doctor visit,Doctors
+1,Symptoms gradually improving,20200430T0000,00:00:00,Symptom Offset,Home
+1,Feeling better by end of April,20200430T0000,00:00:00,Other,Home
+2,Starting to experience Covid-19 symptoms,20210715T0000,00:00:00,Symptom Onset,Home
+2,Isolating at home,20210715T0000,00:00:00,Lifestyle Change,Home
+2,Notifying authorities and workplace,20210715T0000,00:00:00,Other,No location
+2,Symptoms worsening,20210716T0000,00:00:00,Symptom Onset,Home
+2,Developing sore throat/body aches/and loss of taste and smell,20210716T0000,00:00:00,Symptom Onset,Home
+2,Consulting with family doctor,20210720T0000,00:00:00,Doctor visit,Doctors
+2,Continuing self-isolation,20210720T0000,00:00:00,Lifestyle Change,Home
+2,Monitoring oxygen levels,20210720T0000,00:00:00,Other,No location
+2,Seeking medical assistance,20210722T0000,00:00:00,Doctor visit,Doctors
+2,Admitted to hospital,20210722T0000,00:00:00,Hospital admission,Hospital
+2,Given supplemental oxygen,20210722T0000,00:00:00,Treatment,Hospital
+2,Condition improving,20210729T0000,00:00:00,Other,No location
+2,Discharged with home recovery guidelines,20210729T0000,00:00:00,Hospital discharge,Home
+2,Getting vaccinated,20220301T0000,00:00:00,Treatment,Other
+2,Receiving first and second dose of Covid-19 vaccine,20220301T0000,00:00:00,Treatment,Other
+2,Feeling hopeful and reassured,20220301T0000,00:00:00,Feelings,No location
+2,Passion for teaching and resilience of students keeping motivated,20220301T0000,00:00:00,Other,No location

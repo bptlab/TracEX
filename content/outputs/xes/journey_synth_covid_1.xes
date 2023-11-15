@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="1" />
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Starting to experience symptoms" />
+			<date key="time:timestamp" value="2020-04-01T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Self-isolating in apartment" />
+			<date key="time:timestamp" value="2020-04-01T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Symptoms worsening" />
+			<date key="time:timestamp" value="2020-04-03T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Consulting doctor via telemedicine" />
+			<date key="time:timestamp" value="2020-04-06T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Getting tested for Covid-19" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Diagnosis" />
+			<string key="locationtype" value="Hospital" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Waiting for test results" />
+			<date key="time:timestamp" value="2020-04-07T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="No location" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Testing positive for Covid-19" />
+			<date key="time:timestamp" value="2020-04-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Diagnosis" />
+			<string key="locationtype" value="Hospital" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Continuing to self-isolate" />
+			<date key="time:timestamp" value="2020-04-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Monitoring symptoms closely" />
+			<date key="time:timestamp" value="2020-04-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Experiencing range of symptoms" />
+			<date key="time:timestamp" value="2020-04-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Regularly communicating with GP" />
+			<date key="time:timestamp" value="2020-04-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Symptoms gradually improving" />
+			<date key="time:timestamp" value="2020-04-30T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Offset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Feeling better by end of April" />
+			<date key="time:timestamp" value="2020-04-30T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="Home" />
+		</event>
+	</trace>
+</log>
