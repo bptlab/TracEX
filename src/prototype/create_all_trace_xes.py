@@ -5,19 +5,13 @@ import pm4py
 import pandas as pd
 
 import constants as c
-import os
-import pm4py
 
-activity_key = "locationtype"  # Has to be "event" / "eventtype" / "locationtype"
+KEY = "locationtype"  # Has to be "event" / "eventtype" / "locationtype"
 
 
-def cre(activity_key):
+def create_all_trace_xes(key):
     """Creates a xes with all traces from the regarding csv."""
-    if (
-        activity_key == "event"
-        or activity_key == "eventtype"
-        or activity_key == "locationtype"
-    ):
+    if key in ("event", "eventtype", "locationtype"):
         pass
     else:
         print("The activity_key has to be 'event', 'eventtype' or 'locationtype'!")
@@ -28,13 +22,13 @@ def cre(activity_key):
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
     dataframe = dataframe.rename(
         columns={
-            activity_key: "concept:name",
+            key: "concept:name",
             "caseID": "case:concept:name",
             "start": "time:timestamp",
             "duration": "time:duration",
         }
     )
-    output_name = "all_traces_" + activity_key + ".xes"
+    output_name = "all_traces_" + key + ".xes"
     pm4py.write_xes(
         dataframe,
         os.path.join(c.out_path, output_name),
@@ -44,4 +38,4 @@ def cre(activity_key):
     )
 
 
-cre(activity_key)
+create_all_trace_xes(KEY)
