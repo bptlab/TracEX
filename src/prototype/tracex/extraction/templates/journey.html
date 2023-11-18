@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TracEX</title>
+</head>
+<body>
+    <h2>Welcome</h2>
+    <p>Please upload our patient journey below.</p>
+
+    <form action="/wait/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Upload">
+    </form>
+</body>
+</html>
