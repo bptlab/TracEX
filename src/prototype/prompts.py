@@ -207,6 +207,25 @@ BULLETPOINTS_DURATION_ANSWER = """
 """
 
 
+duration_c = """You are a powerful language model capable of extracting durations from events captured as bullet points.
+Edit the bulletpoints in a way, that you just take the existing bulletpoints and add the duration to it.
+The only output should be the updated bullet points, nothing else!"""
+duration_p = """Here is a text and summarizing bullet points. Your task is to extract durations in the format HH:MM:SS for each event mentioned."""
+duration_a = (
+    """To extract durations in the format HH:MM:SS for every event captured as a bullet point, you can follow these instructions:
+
+1. Start by analyzing the given text and identifying the bullet points that represent events.
+2. For each event, check if there is any mention of duration or time. Look for keywords such as "duration," "time," "length," "months," "days," "hours," "minutes," or "seconds."
+3. If there is a mention of duration or time, extract the relevant information after the keyword. This information may be in different formats like "2 hours," "120 minutes," or "600 seconds."
+4. Convert the extracted duration to the format HH:MM:SS. For example, if the duration is given as "2 hours," convert it to "02:00:00." Similarly, if the duration is given as "120 minutes," convert it to "00:02:00."
+5. Repeat this process for every event captured as a bullet point, extracting and converting the durations as needed.
+6. Once you have extracted and converted all the durations, provide the results in the format HH:MM:SS for each event.
+
+Remember to handle variations in the format of durations and be robust enough to handle different ways of expressing time, such as "1 hour and 30 minutes" or "90 minutes."""
+    ""
+)
+
+
 # Adding of a event type to every bullet point
 BULLETPOINTS_EVENT_TYPE_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoints and to add one of given event type to every bulletpoint.

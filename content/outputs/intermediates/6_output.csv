@@ -1,35 +1,31 @@
 caseID,event,start,duration,eventtype,locationtype
 
-1,Starting to experience Covid-19 symptoms,20210715T0000,00:00:00,Symptom Onset,Home
+1,Starting to experience COVID-19 symptoms,20200401T0000,Duration: N/A,Symptom Onset,Home
 
-1,Isolating at home,20210715T0000,00:00:00,Lifestyle Change,Home
+1,Self-isolating in rented apartment,20200401T0000,Duration: N/A,Lifestyle Change,Home
 
-1,Notifying authorities and workplace,20210715T0000,00:00:00,Other,No location
+1,Symptoms worsening,20200402T0000,Duration: N/A,Symptom Onset,Home
 
-1,Symptoms worsening,20210716T0000,00:00:00,Symptom Onset,Home
+1,Contacting primary care physician,20200403T0000,Duration: N/A,Doctor visit,Doctors
 
-1,Developing sore throat/body aches/and loss of taste and smell,20210716T0000,00:00:00,Symptom Onset,Home
+1,Monitoring symptoms at home,20200403T0000,Duration: N/A,Symptom Onset,Home
 
-1,Consulting with family doctor,20210720T0000,00:00:00,Doctor visit,Doctors
+1,Seeking immediate medical attention,20200407T0000,Duration: N/A,Doctor visit,Doctors
 
-1,Continuing self-isolation,20210720T0000,00:00:00,Lifestyle Change,Home
+1,Admitted to specialized COVID-19 ward,20200407T0000,Duration: N/A,Hospital admission,Hospital
 
-1,Monitoring oxygen levels,20210720T0000,00:00:00,Other,No location
+1,Undergoing tests for confirmation,20200407T0000,Duration: N/A,Diagnosis,Hospital
 
-1,Seeking medical assistance,20210722T0000,00:00:00,Doctor visit,Doctors
+1,Testing positive for COVID-19,20200407T0000,Duration: N/A,Diagnosis,Hospital
 
-1,Admitted to hospital,20210722T0000,00:00:00,Hospital admission,Hospital
+1,Receiving supportive care in hospital,20200407T0000,Duration: 2 weeks,Treatment,Hospital
 
-1,Given supplemental oxygen,20210722T0000,00:00:00,Treatment,Hospital
+1,Oxygen therapy for breathing,20200407T0000,Duration: N/A,Treatment,Hospital
 
-1,Condition improving,20210729T0000,00:00:00,Other,No location
+1,Gradually regaining strength,20200421T0000,Duration: N/A,Other,No location
 
-1,Discharged with home recovery guidelines,20210729T0000,00:00:00,Hospital discharge,Home
+1,Continuing self-isolation at home,20200421T0000,Duration: 2 weeks,Lifestyle Change,Home
 
-1,Getting vaccinated,20220301T0000,00:00:00,Treatment,Other
+1,Following health authority guidelines,20200421T0000,Duration: N/A,Other,No location
 
-1,Receiving first and second dose of Covid-19 vaccine,20220301T0000,00:00:00,Treatment,Other
-
-1,Feeling hopeful and reassured,20220301T0000,00:00:00,Feelings,No location
-
-1,Passion for teaching and resilience of students keeping motivated,20220301T0000,00:00:00,Other,No location
+1,Getting vaccinated against COVID-19,20210101T0000,Duration: N/A,Other,No location

@@ -35,7 +35,7 @@ def convert_inp_to_xes(inp):
         + ")",
         end="\r",
     )
-    bulletpoints_duration = add_durations(inp, bulletpoints_start)
+    bulletpoints_duration = add_durations_up(inp, bulletpoints_start)
     print(
         "Converting Data: Extracting event types. (4/"
         + str(convertion_steps)
@@ -121,6 +121,32 @@ def add_durations(inp, bulletpoints_start):
             "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start,
         },
         {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
+    ]
+    bulletpoints_start_duration = openai.ChatCompletion.create(
+        model=c.MODEL,
+        messages=messages,
+        max_tokens=c.MAX_TOKENS,
+        temperature=c.TEMPERATURE_SUMMARIZING,
+    )
+    output = bulletpoints_start_duration.choices[0].message.content
+    output = add_ending_commas(output)
+    with open(
+        os.path.join(c.out_path, "intermediates/3_bulletpoints_with_duration.txt"),
+        "w",
+    ) as f:
+        f.write(output)
+    return output
+
+
+def add_durations_up(inp, bulletpoints_start):
+    """Adds durations to the bulletpoints."""
+    messages = [
+        {"role": "system", "content": p.duration_c},
+        {
+            "role": "user",
+            "content": p.duration_p + inp + "\n" + bulletpoints_start,
+        },
+        {"role": "assistant", "content": p.duration_a},
     ]
     bulletpoints_start_duration = openai.ChatCompletion.create(
         model=c.MODEL,
