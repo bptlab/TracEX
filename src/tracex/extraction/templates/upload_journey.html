@@ -9,7 +9,7 @@
     <h2>Welcome</h2>
     <p>Please upload our patient journey below.</p>
 
-    <form action="/wait/" method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form }}
         <input type="submit" value="Upload">

@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("/journey/", views.JourneyInputView, name="journey"),
-    path("/journey/result_<str:eventlog>/", views.EventLogView, name="eventlog"),
+    path("journey/", views.JourneyInputView.as_view(), name="journey"),
+    path("journey/result/", views.ResultView.as_view(), name="result"),
     # path("/journey/result_<str:eventlog>/dfg/", views.DfgView, name="dfg")
 ]
