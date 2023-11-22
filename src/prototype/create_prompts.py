@@ -2,9 +2,9 @@ import os
 
 import openai
 
-import constants as c
+import utils as u
 
-openai.api_key = c.oaik
+openai.api_key = u.oaik
 
 NEW_PROMPTS_CONTEXT = """
     You are an expert prompt engineer for gpt-3.5-turbo. You are tasked with creating the best possible prompts for given tasks.
@@ -22,14 +22,14 @@ messages = [
     {"role": "assistant", "content": NEW_PROMPTS_ANSWER},
 ]
 new_prompts = openai.ChatCompletion.create(
-    model=c.MODEL,
+    model=u.MODEL,
     messages=messages,
-    max_tokens=c.MAX_TOKENS,
-    temperature=c.TEMPERATURE_CREATION,
+    max_tokens=u.MAX_TOKENS,
+    temperature=u.TEMPERATURE_CREATION,
 )
 output = new_prompts.choices[0].message.content
 with open(
-    os.path.join(c.out_path, "new_prompts.txt"),
+    os.path.join(u.out_path, "new_prompts.txt"),
     "w",
 ) as f:
     f.write(output)

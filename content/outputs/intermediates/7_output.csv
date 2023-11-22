@@ -1,0 +1,16 @@
+caseID,event,start,end,duration,eventtype,locationtype
+1,Starting to experience COVID-19 symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
+1,Self-isolating in rented apartment,20200401T0000,20200421T0000,20:00:00,Lifestyle Change,Home
+1,Symptoms worsening,20200402T0000,20200403T0000,24:00:00,Symptom Onset,Home
+1,Contacting primary care physician,20200403T0000,20200403T0000,00:00:00,Doctor visit,Doctors
+1,Monitoring symptoms at home,20200403T0000,20200407T0000,96:00:00,Symptom Onset,Home
+1,Seeking immediate medical attention,20200407T0000,20200407T0000,00:00:00,Doctor visit,Doctors
+1,Admitted to specialized COVID-19 ward,20200407T0000,20200421T0000,336:00:00,Hospital admission,Hospital
+1,Undergoing tests for confirmation,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
+1,Testing positive for COVID-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
+1,Receiving supportive care in hospital,20200407T0000,20200421T0000,336:00:00,Treatment,Hospital
+1,Oxygen therapy for breathing,20200407T0000,20200421T0000,336:00:00,Treatment,Hospital
+1,Gradually regaining strength,20200421T0000,20200505T0000,336:00:00,Other,No location
+1,Continuing self-isolation at home,20200421T0000,20200505T0000,336:00:00,Lifestyle Change,Home
+1,Following health authority guidelines,20200421T0000,20200505T0000,336:00:00,Other,No location
+1,Getting vaccinated against COVID-19,20210101T0000,20210101T0000,00:00:00,Other,No location

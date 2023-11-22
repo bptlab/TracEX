@@ -1,15 +1,9 @@
-import random
-import math
-import matplotlib.pyplot as plt
+import input_handling as ih
+import output_handling as oh
+import utils as u
 
-u = []
-for i in range(1000):
-    u.append(random.random())
-    u[i] = 200 - 200 * math.sqrt(1 - u[i])
-    u[i] = round(u[i], 1)
-u.sort()
+inp = open("content/outputs/intermediates/6_bulletpoints_with_location.txt", "r").read()
+ih.convert_bulletpoints_to_csv(inp)
+ih.convert_csv_to_xes(u.CSV_OUTPUT)
 
-fig, ax = plt.subplots()
-
-ax.hist(u, bins=50)
-plt.show()
+oh.get_output("journey_synth_covid_0.txt")

@@ -4,9 +4,9 @@ import random
 
 import openai
 
-import constants as c
+import utils as u
 
-openai.api_key = c.oaik
+openai.api_key = u.oaik
 
 
 def create_patient_journey_context():
@@ -43,7 +43,7 @@ def get_country():
     """Randomizing country."""
     message = [{"role": "user", "content": "Please give me one european country."}]
     country = openai.ChatCompletion.create(
-        model=c.MODEL, messages=message, max_tokens=50, temperature=0.2
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.2
     )
     return country.choices[0].message.content
 
@@ -57,7 +57,7 @@ def get_date():
         }
     ]
     country = openai.ChatCompletion.create(
-        model=c.MODEL, messages=message, max_tokens=50, temperature=0.5
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.5
     )
     return country.choices[0].message.content
 
@@ -66,7 +66,7 @@ def get_life_circumstances(sex):
     """Randomizing life circumstances."""
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
     life_circumstances = openai.ChatCompletion.create(
-        model=c.MODEL, messages=message, max_tokens=100, temperature=1
+        model=u.MODEL, messages=message, max_tokens=100, temperature=1
     )
     return life_circumstances.choices[0].message.content
 
@@ -93,7 +93,6 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
     Also include if you later went for getting a vaccine and if so, how often. You don't have to include deails about who you are.
     Please include 100 to 400 words, but not more than 400.
 """
-
 
 # Conversion of a text to bullet points focused on the course of a disease
 TXT_TO_BULLETPOINTS_CONTEXT = """
@@ -193,7 +192,7 @@ BULLETPOINTS_DURATION_CONTEXT = """
     If the duration of an event is not given, use the context to draw conclusions about it.
     If the duration is given in days, weeks or months, convert it to hours.
     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
-    If there is no information about duration at all, please state that by setting the duration to 00:00:00.
+    If there is no information about duration at all, please state that by setting the duration to the timedelta between the start and the end date (or 00:00:00).
     The only output should be the updated bullet points, nothing else!
 """
 BULLETPOINTS_DURATION_PROMPT = """
@@ -251,7 +250,8 @@ BULLETPOINTS_LOCATION_CONTEXT = """
     The given locations are 'Home', 'Hospital', 'Doctors', 'Other' and 'No location'.
     It is important, that every bullet point gets an event type.
     Furthermore it is really important, that that event type is correct.
-    The only output should be the updated bullet points, nothing else!
+    The only (!) output should be the updated bullet points, nothing else!
+    Please do not add a phrase like "here are your bulletpoints" or something like that.
 """
 BULLETPOINTS_LOCATION_PROMPT = """
     Here are the bulletpoints for which you should extract the event types:

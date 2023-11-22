@@ -4,9 +4,18 @@ import os
 import pm4py
 import pandas as pd
 
-import constants as c
+import utils as u
 
-KEY = "locationtype"  # Has to be "event" / "eventtype" / "locationtype"
+
+def get_key():
+    """Gets the key from the user."""
+    key = input(
+        "Which key should be used for the activity? (event/eventtype/locationtype)\n"
+    ).lower()
+    if key in ("event", "eventtype", "locationtype"):
+        return key
+    print("Please enter 'event', 'eventtype' or 'locationtype'.")
+    return get_key()
 
 
 def create_all_trace_xes(key):
@@ -16,7 +25,7 @@ def create_all_trace_xes(key):
     else:
         print("The activity_key has to be 'event', 'eventtype' or 'locationtype'!")
         return
-    dataframe = pd.read_csv(c.CSV_ALL_TRACES, sep=",")
+    dataframe = pd.read_csv(u.CSV_ALL_TRACES, sep=",")
     dataframe["caseID"] = dataframe["caseID"].astype(str)
     dataframe["start"] = pd.to_datetime(dataframe["start"])
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
@@ -31,11 +40,12 @@ def create_all_trace_xes(key):
     output_name = "all_traces_" + key + ".xes"
     pm4py.write_xes(
         dataframe,
-        os.path.join(c.out_path, output_name),
+        os.path.join(u.out_path, output_name),
         case_id_key="case:concept:name",
         activity_key="concept:name",
         timestamp_key="time:timestamp",
     )
 
 
+KEY = get_key()
 create_all_trace_xes(KEY)
