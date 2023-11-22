@@ -20,20 +20,17 @@ def get_key():
 
 def create_all_trace_xes(key):
     """Creates a xes with all traces from the regarding csv."""
-    if key in ("event", "eventtype", "locationtype"):
-        pass
-    else:
-        print("The activity_key has to be 'event', 'eventtype' or 'locationtype'!")
-        return
     dataframe = pd.read_csv(u.CSV_ALL_TRACES, sep=",")
     dataframe["caseID"] = dataframe["caseID"].astype(str)
     dataframe["start"] = pd.to_datetime(dataframe["start"])
+    dataframe["end"] = pd.to_datetime(dataframe["end"])
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
     dataframe = dataframe.rename(
         columns={
             key: "concept:name",
             "caseID": "case:concept:name",
             "start": "time:timestamp",
+            "end": "time:endDate",
             "duration": "time:duration",
         }
     )

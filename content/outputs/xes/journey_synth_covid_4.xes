@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="1" />
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Experiencing first Covid-19 symptoms" />
+			<date key="time:timestamp" value="2021-06-02T00:00:00+00:00" />
+			<date key="end" value="2021-06-02T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Isolating to minimize infection" />
+			<date key="time:timestamp" value="2021-06-02T00:00:00+00:00" />
+			<date key="end" value="2021-06-02T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Symptoms worsening: persistent cough/fever/extreme fatigue" />
+			<date key="time:timestamp" value="2021-06-02T00:00:00+00:00" />
+			<date key="end" value="2021-06-02T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Getting tested for Covid-19" />
+			<date key="time:timestamp" value="2021-06-05T00:00:00+00:00" />
+			<date key="end" value="2021-06-05T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Diagnosis" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Continuing self-isolation and precautions" />
+			<date key="time:timestamp" value="2021-06-05T00:00:00+00:00" />
+			<date key="end" value="2021-06-05T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Husband experiencing similar symptoms" />
+			<date key="time:timestamp" value="2021-06-07T00:00:00+00:00" />
+			<date key="end" value="2021-06-07T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Husband seeking medical attention" />
+			<date key="time:timestamp" value="2021-06-10T00:00:00+00:00" />
+			<date key="end" value="2021-06-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Opting to recover at home" />
+			<date key="time:timestamp" value="2021-06-10T00:00:00+00:00" />
+			<date key="end" value="2021-06-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Treatment" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Remaining in contact with family doctor" />
+			<date key="time:timestamp" value="2021-06-10T00:00:00+00:00" />
+			<date key="end" value="2021-06-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Following doctor's instructions" />
+			<date key="time:timestamp" value="2021-06-10T00:00:00+00:00" />
+			<date key="end" value="2021-06-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Treatment" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Husband's condition deteriorating" />
+			<date key="time:timestamp" value="2021-06-10T00:00:00+00:00" />
+			<date key="end" value="2021-06-10T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Husband passing away" />
+			<date key="time:timestamp" value="2021-06-20T00:00:00+00:00" />
+			<date key="end" value="2021-06-20T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Slowly regaining health" />
+			<date key="time:timestamp" value="2021-06-20T00:00:00+00:00" />
+			<date key="end" value="2021-06-20T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Choosing to get vaccinated" />
+			<date key="time:timestamp" value="2021-06-20T00:00:00+00:00" />
+			<date key="end" value="2021-06-20T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Treatment" />
+			<string key="locationtype" value="Home" />
+		</event>
+	</trace>
+</log>

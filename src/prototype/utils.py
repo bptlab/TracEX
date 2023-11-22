@@ -10,7 +10,7 @@ oaik = os.environ.get(
     "OPENAI_API_KEY"
 )  # Get the OpenAI API key from the environment variables
 MODEL = "gpt-3.5-turbo"
-MAX_TOKENS = 1000
+MAX_TOKENS = 1100
 TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
 XES_OUTPUT = "content/outputs/intermediates/8_output.xes"

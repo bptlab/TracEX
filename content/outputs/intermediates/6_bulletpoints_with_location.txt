@@ -1,15 +1,29 @@
-- Starting to experience COVID-19 symptoms, 20200401T0000, 20200401T0000, 00:00:00, Symptom Onset, Home
-- Self-isolating in rented apartment, 20200401T0000, 20200421T0000, 20:00:00, Lifestyle Change, Home
-- Symptoms worsening, 20200402T0000, 20200403T0000, 24:00:00, Symptom Onset, Home
-- Contacting primary care physician, 20200403T0000, 20200403T0000, 00:00:00, Doctor visit, Doctors
-- Monitoring symptoms at home, 20200403T0000, 20200407T0000, 96:00:00, Symptom Onset, Home
-- Seeking immediate medical attention, 20200407T0000, 20200407T0000, 00:00:00, Doctor visit, Doctors
-- Admitted to specialized COVID-19 ward, 20200407T0000, 20200421T0000, 336:00:00, Hospital admission, Hospital
-- Undergoing tests for confirmation, 20200407T0000, 20200407T0000, 00:00:00, Diagnosis, Doctors
-- Testing positive for COVID-19, 20200407T0000, 20200407T0000, 00:00:00, Diagnosis, Doctors
-- Receiving supportive care in hospital, 20200407T0000, 20200421T0000, 336:00:00, Treatment, Hospital
-- Oxygen therapy for breathing, 20200407T0000, 20200421T0000, 336:00:00, Treatment, Hospital
-- Gradually regaining strength, 20200421T0000, 20200505T0000, 336:00:00, Other, No location
-- Continuing self-isolation at home, 20200421T0000, 20200505T0000, 336:00:00, Lifestyle Change, Home
-- Following health authority guidelines, 20200421T0000, 20200505T0000, 336:00:00, Other, No location
-- Getting vaccinated against COVID-19, 20210101T0000, 20210101T0000, 00:00:00, Other, No location
+- Waking up feeling off, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Having slight fever, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Developing persistent cough, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Self-isolating immediately, 20210715T0000, 20210715T0000, 00:00:00, Lifestyle Change, Home
+- Symptoms worsening, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
+- Developing body aches, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
+- Experiencing fatigue, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
+- Losing taste and smell, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
+- Consulting with doctor online, 20210719T0000, 20210719T0000, 00:00:00, Doctor visit, Doctors
+- Confirming Covid-19 suspicion, 20210719T0000, 20210719T0000, 00:00:00, Diagnosis, Doctors
+- Monitoring symptoms closely, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
+- Continuing self-isolation, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
+- Working remotely from home, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
+- Experiencing bouts of exhaustion, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
+- Struggling to concentrate, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
+- Staying connected with parents, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
+- Receiving emotional support, 20210719T0000, 20210719T0000, 00:00:00, Feelings, Home
+- Missing seeing parents, 20210719T0000, 20210719T0000, 00:00:00, Feelings, Home
+- Symptoms gradually improving, 20210801T0000, 20210801T0000, 00:00:00, Symptom Offset, Home
+- Venturing out for short walk, 20210801T0000, 20210801T0000, 00:00:00, Lifestyle Change, Home
+- Feeling invigorated by fresh air, 20210801T0000, 20210801T0000, 00:00:00, Feelings, Home
+- Scheduling Covid-19 vaccine appointment, 20210801T0000, 20210801T0000, 00:00:00, Treatment, Home
+- Receiving first vaccine dose, 20210910T0000, 20210910T0000, 00:00:00, Treatment, Hospital
+- Experiencing minimal side effects, 20210910T0000, 20210910T0000, 00:00:00, Symptom Onset, Home
+- Receiving second vaccine dose, 20211001T0000, 20211001T0000, 00:00:00, Treatment, Hospital
+- Realizing significance of health and safety, 20211001T0000, 20211001T0000, 00:00:00, Feelings, Home
+- Cherishing moments with loved ones, 20211001T0000, 20211001T0000, 00:00:00, Feelings, Home
+- Maintaining balanced lifestyle, 20211001T0000, 20211001T0000, 00:00:00, Lifestyle Change, Home
+- Learning resilience and adaptability, 20211001T

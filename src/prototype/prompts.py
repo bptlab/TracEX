@@ -228,7 +228,7 @@ Remember to handle variations in the format of durations and be robust enough to
 # Adding of a event type to every bullet point
 BULLETPOINTS_EVENT_TYPE_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoints and to add one of given event type to every bulletpoint.
-    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change', 'Feelings' and 'Other'.
+    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
     It is important, that every bullet point gets an event type.
     Furthermore it is really important, that that event type is correct and not 'Other'.
     The only output should be the updated bullet points, nothing else!
@@ -247,7 +247,8 @@ BULLETPOINTS_EVENT_TYPE_ANSWER = """
 # Adding of a location type to every bullet point
 BULLETPOINTS_LOCATION_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoints and to add one of given locations to every bulletpoint.
-    The given locations are 'Home', 'Hospital', 'Doctors', 'Other' and 'No location'.
+    The given locations are 'Home', 'Hospital' and 'Doctors'.
+    If it is unclear, where the person is, please use 'Home'.
     It is important, that every bullet point gets an event type.
     Furthermore it is really important, that that event type is correct.
     The only (!) output should be the updated bullet points, nothing else!

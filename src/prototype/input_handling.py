@@ -223,10 +223,12 @@ def convert_csv_to_xes(inputfile):
     """Converts the CSV file to XES."""
     dataframe = pd.read_csv(inputfile, sep=",")
     dataframe["start"] = pd.to_datetime(dataframe["start"])
+    dataframe["end"] = pd.to_datetime(dataframe["end"])
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
     dataframe = dataframe.rename(
         columns={
             "start": "time:timestamp",
+            "end": "time:endDate",
             "duration": "time:duration",
         }
     )

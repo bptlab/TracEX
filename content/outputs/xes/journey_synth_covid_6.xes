@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="1" />
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Starting to experience Covid-19 symptoms" />
+			<date key="time:timestamp" value="2021-07-15T00:00:00+00:00" />
+			<date key="end" value="2021-07-15T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Recognizing dry cough/fatigue/and fever as potential signs" />
+			<date key="time:timestamp" value="2021-07-15T00:00:00+00:00" />
+			<date key="end" value="2021-07-15T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Isolating at home and notifying authorities" />
+			<date key="time:timestamp" value="2021-07-15T00:00:00+00:00" />
+			<date key="end" value="2021-07-15T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Symptoms worsening: sore throat/body aches/loss of taste and smell" />
+			<date key="time:timestamp" value="2021-07-16T00:00:00+00:00" />
+			<date key="end" value="2021-07-16T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Consulting with family doctor through telehealth appointment" />
+			<date key="time:timestamp" value="2021-07-17T00:00:00+00:00" />
+			<date key="end" value="2021-07-17T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Continuing self-isolation and managing symptoms at home" />
+			<date key="time:timestamp" value="2021-07-17T00:00:00+00:00" />
+			<date key="end" value="2021-07-17T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Monitoring oxygen levels and seeking medical attention if necessary" />
+			<date key="time:timestamp" value="2021-07-17T00:00:00+00:00" />
+			<date key="end" value="2021-07-17T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Varying degrees of fatigue and respiratory discomfort" />
+			<date key="time:timestamp" value="2021-07-22T00:00:00+00:00" />
+			<date key="end" value="2021-07-22T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Symptom Onset" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Seeking medical assistance for shortness of breath" />
+			<date key="time:timestamp" value="2021-07-22T00:00:00+00:00" />
+			<date key="end" value="2021-07-22T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Doctor visit" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Admitted to hospital and given supplemental oxygen" />
+			<date key="time:timestamp" value="2021-07-22T00:00:00+00:00" />
+			<date key="end" value="2021-07-29T00:00:00+00:00" />
+			<string key="time:duration" value="7 days 00:00:00" />
+			<string key="eventtype" value="Hospital admission" />
+			<string key="locationtype" value="Hospital" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Condition improving and discharged with home recovery guidelines" />
+			<date key="time:timestamp" value="2021-07-29T00:00:00+00:00" />
+			<date key="end" value="2021-07-29T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Hospital discharge" />
+			<string key="locationtype" value="Hospital" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Health gradually returning to normal" />
+			<date key="time:timestamp" value="2021-07-29T00:00:00+00:00" />
+			<date key="end" value="2021-07-29T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Lifestyle Change" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Getting vaccinated against Covid-19" />
+			<date key="time:timestamp" value="2022-03-01T00:00:00+00:00" />
+			<date key="end" value="2022-03-01T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Treatment" />
+			<string key="locationtype" value="Doctors" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Renewed sense of hope and reassurance" />
+			<date key="time:timestamp" value="2022-03-01T00:00:00+00:00" />
+			<date key="end" value="2022-03-01T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Feelings" />
+			<string key="locationtype" value="Home" />
+		</event>
+		<event>
+			<string key="caseID" value="1" />
+			<string key="event" value="Passion for teaching and resilience of students keeping motivated" />
+			<date key="time:timestamp" value="2022-03-01T00:00:00+00:00" />
+			<date key="end" value="2022-03-01T00:00:00+00:00" />
+			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="eventtype" value="Other" />
+			<string key="locationtype" value="Home" />
+		</event>
+	</trace>
+</log>
