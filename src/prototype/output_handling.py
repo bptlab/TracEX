@@ -2,7 +2,6 @@
 """Module providing functions for printing out the XES."""
 import os
 
-import pandas as pd
 import pm4py
 
 import utils as u

@@ -125,32 +125,6 @@ def add_durations(inp, bulletpoints_start):
     return bulletpoints_duration
 
 
-""" def add_durations_up(inp, bulletpoints_start):
-    Adds durations to the bulletpoints.
-    messages = [
-        {"role": "system", "content": p.duration_c},
-        {
-            "role": "user",
-            "content": p.duration_p + inp + "\n" + bulletpoints_start,
-        },
-        {"role": "assistant", "content": p.duration_a},
-    ]
-    bulletpoints_start_duration = openai.ChatCompletion.create(
-        model=u.MODEL,
-        messages=messages,
-        max_tokens=u.MAX_TOKENS,
-        temperature=u.TEMPERATURE_SUMMARIZING,
-    )
-    output = bulletpoints_start_duration.choices[0].message.content
-    output = add_ending_commas(output)
-    with open(
-        os.path.join(u.out_path, "intermediates/3_bulletpoints_with_duration.txt"),
-        "w",
-    ) as f:
-        f.write(output)
-    return output """
-
-
 def add_event_types(bulletpoints_durations):
     """Adds event types to the bulletpoints."""
     messages = [

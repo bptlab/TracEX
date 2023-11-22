@@ -1,3 +1,4 @@
+"""Use GPT to create prompts."""
 import os
 
 import openai
