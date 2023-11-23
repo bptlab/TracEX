@@ -1,29 +1,10 @@
-- Waking up feeling off, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
-- Having slight fever, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
-- Developing persistent cough, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
-- Self-isolating immediately, 20210715T0000, 20210715T0000, 00:00:00, Lifestyle Change, Home
-- Symptoms worsening, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
-- Developing body aches, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
-- Experiencing fatigue, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
-- Losing taste and smell, 20210717T0000, 20210717T0000, 00:00:00, Symptom Onset, Home
-- Consulting with doctor online, 20210719T0000, 20210719T0000, 00:00:00, Doctor visit, Doctors
-- Confirming Covid-19 suspicion, 20210719T0000, 20210719T0000, 00:00:00, Diagnosis, Doctors
-- Monitoring symptoms closely, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
-- Continuing self-isolation, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
-- Working remotely from home, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
-- Experiencing bouts of exhaustion, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
-- Struggling to concentrate, 20210719T0000, 20210719T0000, 00:00:00, Symptom Onset, Home
-- Staying connected with parents, 20210719T0000, 20210719T0000, 00:00:00, Lifestyle Change, Home
-- Receiving emotional support, 20210719T0000, 20210719T0000, 00:00:00, Feelings, Home
-- Missing seeing parents, 20210719T0000, 20210719T0000, 00:00:00, Feelings, Home
-- Symptoms gradually improving, 20210801T0000, 20210801T0000, 00:00:00, Symptom Offset, Home
-- Venturing out for short walk, 20210801T0000, 20210801T0000, 00:00:00, Lifestyle Change, Home
-- Feeling invigorated by fresh air, 20210801T0000, 20210801T0000, 00:00:00, Feelings, Home
-- Scheduling Covid-19 vaccine appointment, 20210801T0000, 20210801T0000, 00:00:00, Treatment, Home
-- Receiving first vaccine dose, 20210910T0000, 20210910T0000, 00:00:00, Treatment, Hospital
-- Experiencing minimal side effects, 20210910T0000, 20210910T0000, 00:00:00, Symptom Onset, Home
-- Receiving second vaccine dose, 20211001T0000, 20211001T0000, 00:00:00, Treatment, Hospital
-- Realizing significance of health and safety, 20211001T0000, 20211001T0000, 00:00:00, Feelings, Home
-- Cherishing moments with loved ones, 20211001T0000, 20211001T0000, 00:00:00, Feelings, Home
-- Maintaining balanced lifestyle, 20211001T0000, 20211001T0000, 00:00:00, Lifestyle Change, Home
-- Learning resilience and adaptability, 20211001T
+- Experiencing initial Covid-19 symptoms, 20220715T0000, 00:00:00, Symptom Onset, Home
+- Taking necessary precautions, 20220715T0000, 00:00:00, Lifestyle Change, Home
+- Consulting trusted family physician, 20220715T0000, 00:00:00, Doctor visit, Doctors
+- Monitoring symptoms closely, 20220715T0000, 00:00:00, Symptom Onset, Home
+- Complying with recommended guidelines, 20220715T0000, 00:00:00, Lifestyle Change, Home
+- Participating in virtual consultations, 20220715T0000, 00:00:00, Doctor visit, Doctors
+- Slowly reintegrating into daily life, 20220715T0000, 00:00:00, Lifestyle Change, Home
+- Maintaining safety measures, 20220715T0000, 00:00:00, Lifestyle Change, Home
+- Getting vaccinated against Covid-19, 20230101T0000, 00:00:00, Treatment, Doctors
+- Remaining committed to profession and family, 20230101T0000, 00:00:00, Feelings, Home

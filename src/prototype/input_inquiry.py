@@ -22,12 +22,11 @@ def get_input():
     """Gets the input from the user."""
     input_path = get_input_path()
     if input_path == "new":
-        inp, inp_file_name = create_patient_journey()
+        inp = create_patient_journey()
     else:
         with open(os.path.join(u.in_path, input_path)) as f:
             inp = f.read()
-        inp_file_name = input_path
-    return inp, inp_file_name
+    return inp
 
 
 def get_input_path():
@@ -80,4 +79,4 @@ def create_patient_journey():
         + proposed_filename
         + '" generated.'
     )
-    return patient_journey_txt, proposed_filename
+    return patient_journey_txt

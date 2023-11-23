@@ -185,15 +185,16 @@ BULLETPOINTS_END_DATE_ANSWER = """
 BULLETPOINTS_DURATION_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date, to add a duration to every bulletpoint.
     It is important, that every bullet point gets a duration, even if the duration is zero, as the event happens only in a moment.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add the duration to it.
+    Edit the bulletpoints in a way, that you just add (!) the duration to the existing bulletpoints.
     The information about the duration should be extracted from the text or from the context and should be as precise as possible.
     Please use the format HH:MM:SS for the durations.
     If the duration of an event is given, use that information directly.
     If the duration of an event is not given, use the context to draw conclusions about it.
     If the duration is given in days, weeks or months, convert it to hours.
     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
-    If there is no information about duration at all, please state that by setting the duration to the timedelta between the start and the end date (or 00:00:00).
+    If there is no information about duration at all, please state that by computing the duration as the timedelta between the start and the end date (or 00:00:00).
     The only output should be the updated bullet points, nothing else!
+    Please never replace anything with the duration, just add it at the back of the bullet point.
 """
 BULLETPOINTS_DURATION_PROMPT = """
     Here is the text and the bulletpoints with their start dates for which you should extract the durations:

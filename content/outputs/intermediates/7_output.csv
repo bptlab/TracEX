@@ -1,57 +1,11 @@
 caseID,event,start,end,duration,eventtype,locationtype
-
-1,Waking up feeling off,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-
-1,Having slight fever,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-
-1,Developing persistent cough,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-
-1,Self-isolating immediately,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-
-1,Symptoms worsening,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
-
-1,Developing body aches,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
-
-1,Experiencing fatigue,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
-
-1,Losing taste and smell,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
-
-1,Consulting with doctor online,20210719T0000,20210719T0000,00:00:00,Doctor visit,Doctors
-
-1,Confirming Covid-19 suspicion,20210719T0000,20210719T0000,00:00:00,Diagnosis,Doctors
-
-1,Monitoring symptoms closely,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-
-1,Continuing self-isolation,20210719T0000,20210719T0000,00:00:00,Lifestyle Change,Home
-
-1,Working remotely from home,20210719T0000,20210719T0000,00:00:00,Lifestyle Change,Home
-
-1,Experiencing bouts of exhaustion,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-
-1,Struggling to concentrate,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-
-1,Staying connected with parents,20210719T0000,20210719T0000,00:00:00,Lifestyle Change,Home
-
-1,Receiving emotional support,20210719T0000,20210719T0000,00:00:00,Feelings,Home
-
-1,Missing seeing parents,20210719T0000,20210719T0000,00:00:00,Feelings,Home
-
-1,Symptoms gradually improving,20210801T0000,20210801T0000,00:00:00,Symptom Offset,Home
-
-1,Venturing out for short walk,20210801T0000,20210801T0000,00:00:00,Lifestyle Change,Home
-
-1,Feeling invigorated by fresh air,20210801T0000,20210801T0000,00:00:00,Feelings,Home
-
-1,Scheduling Covid-19 vaccine appointment,20210801T0000,20210801T0000,00:00:00,Treatment,Home
-
-1,Receiving first vaccine dose,20210910T0000,20210910T0000,00:00:00,Treatment,Hospital
-
-1,Experiencing minimal side effects,20210910T0000,20210910T0000,00:00:00,Symptom Onset,Home
-
-1,Receiving second vaccine dose,20211001T0000,20211001T0000,00:00:00,Treatment,Hospital
-
-1,Realizing significance of health and safety,20211001T0000,20211001T0000,00:00:00,Feelings,Home
-
-1,Cherishing moments with loved ones,20211001T0000,20211001T0000,00:00:00,Feelings,Home
-
-1,Maintaining balanced lifestyle,20211001T0000,20211001T0000,00:00:00,Lifestyle Change,Home
+1,Experiencing initial Covid-19 symptoms,20220715T0000,00:00:00,Symptom Onset,Home
+1,Taking necessary precautions,20220715T0000,00:00:00,Lifestyle Change,Home
+1,Consulting trusted family physician,20220715T0000,00:00:00,Doctor visit,Doctors
+1,Monitoring symptoms closely,20220715T0000,00:00:00,Symptom Onset,Home
+1,Complying with recommended guidelines,20220715T0000,00:00:00,Lifestyle Change,Home
+1,Participating in virtual consultations,20220715T0000,00:00:00,Doctor visit,Doctors
+1,Slowly reintegrating into daily life,20220715T0000,00:00:00,Lifestyle Change,Home
+1,Maintaining safety measures,20220715T0000,00:00:00,Lifestyle Change,Home
+1,Getting vaccinated against Covid-19,20230101T0000,00:00:00,Treatment,Doctors
+1,Remaining committed to profession and family,20230101T0000,00:00:00,Feelings,Home

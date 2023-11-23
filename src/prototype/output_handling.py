@@ -40,7 +40,6 @@ def get_output():
 
 def get_output_without_user():
     """Prints the output to the console or shows the filename."""
-    print("Loading output...", end="\r")
     dataframe = pd.read_csv(u.CSV_OUTPUT, sep=",")
     dataframe["start"] = pd.to_datetime(dataframe["start"])
     dataframe["end"] = pd.to_datetime(dataframe["end"])
