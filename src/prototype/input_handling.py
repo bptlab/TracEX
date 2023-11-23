@@ -3,6 +3,7 @@
 """Module providing functions for converting text to XES."""
 import os
 import csv
+import time
 
 import pm4py
 import openai
@@ -14,39 +15,42 @@ import prompts as p
 openai.api_key = u.oaik
 
 
-def convert_inp_to_xes(inp):
+def convert_inp_to_csv(inp):
     """Converts the input to XES with intermediate steps."""
-    steps = str(8)
+    steps = str(7)
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
     bulletpoints = convert_text_to_bulletpoints(inp)
     print(
         "Converting Data: Extracting start date information. (2/" + steps + ")",
         end="\r",
     )
+    time.sleep(5)
     bulletpoints_start = add_start_dates(inp, bulletpoints)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
+    time.sleep(5)
     bulletpoints_end = add_end_dates(inp, bulletpoints_start)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
+    time.sleep(5)
     bulletpoints_duration = add_durations(inp, bulletpoints_end)
     print(
         "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
     )
+    time.sleep(5)
     bulletpoints_event_type = add_event_types(bulletpoints_duration)
     print(
         "Converting Data: Extracting location information. (6/" + steps + ")", end="\r"
     )
+    time.sleep(5)
     bulletpoints_location = add_locations(bulletpoints_event_type)
     print(
         "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
     )
-    csv_output_file = convert_bulletpoints_to_csv(bulletpoints_location)
-    print("Converting Data: Creating output XES. (8/" + steps + ")", end="\r")
-    convert_csv_to_xes(csv_output_file)
+    convert_bulletpoints_to_csv(bulletpoints_location)
     print("Dataconversion finished.                    ")
 
 
@@ -190,31 +194,6 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
         # write.writerow(['sep=,'])
         write.writerow(fields)
         write.writerows(bulletpoints_matrix)
-    return outputfile
-
-
-def convert_csv_to_xes(inputfile):
-    """Converts the CSV file to XES."""
-    dataframe = pd.read_csv(inputfile, sep=",")
-    dataframe["start"] = pd.to_datetime(dataframe["start"])
-    dataframe["end"] = pd.to_datetime(dataframe["end"])
-    dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
-    dataframe = dataframe.rename(
-        columns={
-            "start": "time:timestamp",
-            "end": "time:endDate",
-            "duration": "time:duration",
-        }
-    )
-    dataframe["caseID"] = dataframe["caseID"].astype(str)
-    outputfile = u.XES_OUTPUT
-    pm4py.write_xes(
-        dataframe,
-        outputfile,
-        case_id_key="caseID",
-        activity_key="event",
-        timestamp_key="time:timestamp",
-    )
     return outputfile
 
 

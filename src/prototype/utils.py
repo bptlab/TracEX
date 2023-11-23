@@ -13,7 +13,6 @@ MODEL = "gpt-3.5-turbo"
 MAX_TOKENS = 1100
 TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
-XES_OUTPUT = "content/outputs/intermediates/8_output.xes"
 CSV_OUTPUT = "content/outputs/intermediates/7_output.csv"
 CSV_ALL_TRACES = "content/outputs/all_traces.csv"
 

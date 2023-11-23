@@ -2,38 +2,58 @@
 """Module providing functions for printing out the XES."""
 import os
 
+import pandas as pd
 import pm4py
 
 import utils as u
 
 
-def get_output(inp_file_name):
+def get_output():
     """Prints the output to the console or shows the filename."""
-    if not os.path.isfile(u.XES_OUTPUT):
+    if not os.path.isfile(u.CSV_OUTPUT):
         print("The output can not be read.")
         return
-    log = pm4py.read_xes(u.XES_OUTPUT)
     decision = u.get_decision("Would you like to see the output? (y/n)\n")
     if decision:
         print("Loading output...", end="\r")
-        df = pm4py.convert_to_dataframe(log)
-        print(df)
-    else:
-        print("The output can be found at " + u.XES_OUTPUT + ".")
-    output_file_name = "xes/" + inp_file_name[:-4] + ".xes"
-    output_file_name = os.path.join(u.out_path, output_file_name)
-    if os.path.isfile(output_file_name):
-        print("A trace of that journey is already saved.")
-        decision = u.get_decision("Overwrite and append either way? (y/n)\n")
-    else:
-        decision = u.get_decision(
-            "Would you like to save it and append this trace to "
-            + u.CSV_ALL_TRACES
-            + "? (y/n)\n"
+        dataframe = pd.read_csv(u.CSV_OUTPUT, sep=",")
+        dataframe["start"] = pd.to_datetime(dataframe["start"])
+        dataframe["end"] = pd.to_datetime(dataframe["end"])
+        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
+        dataframe = dataframe.rename(
+            columns={
+                "start": "time:timestamp",
+                "end": "time:endDate",
+                "duration": "time:duration",
+            }
         )
+        dataframe["caseID"] = dataframe["caseID"].astype(str)
+        print(dataframe)
+    else:
+        print("The output can be found at " + u.CSV_OUTPUT + ".")
+    decision = u.get_decision(
+        "Would you like to append this trace to " + u.CSV_ALL_TRACES + "? (y/n)\n"
+    )
     if decision:
-        pm4py.write_xes(log, output_file_name)
         append_csv()
+
+
+def get_output_without_user():
+    """Prints the output to the console or shows the filename."""
+    print("Loading output...", end="\r")
+    dataframe = pd.read_csv(u.CSV_OUTPUT, sep=",")
+    dataframe["start"] = pd.to_datetime(dataframe["start"])
+    dataframe["end"] = pd.to_datetime(dataframe["end"])
+    dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
+    dataframe = dataframe.rename(
+        columns={
+            "start": "time:timestamp",
+            "end": "time:endDate",
+            "duration": "time:duration",
+        }
+    )
+    dataframe["caseID"] = dataframe["caseID"].astype(str)
+    append_csv()
 
 
 def append_csv():
