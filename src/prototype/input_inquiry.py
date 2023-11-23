@@ -35,8 +35,8 @@ def get_prompt_mode():
     """Gets the prompt mode from the user."""
     title = "Please choose a prompt mode for the event log extraction: "
     options = ["Default", "Zero-Shot", "Few-Shot", "Chain-of-Thought"]
-    option, index = pick(options, title, indicator="=>", default_index=0)
-    return option.upper()
+    option = pick(options, title, indicator="=>", default_index=0)
+    return option[0].upper()
 
 
 def get_input_path():

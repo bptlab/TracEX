@@ -1,7 +1,9 @@
+"""Module providing a function to access and query prompts of a database."""
+
 import sqlite3
 
 
-def getPrompt(prompt, prompt_mode):
+def get_prompt(prompt, prompt_mode):
     """Opens the database."""
     # Connect to database
     conn = sqlite3.connect("tracex.db")
