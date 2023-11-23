@@ -9,19 +9,20 @@ import openai
 import pandas as pd
 
 import constants as c
-import prompts as p
+import patient_journey as p
+import db_prompt as db
 
 openai.api_key = c.oaik
 
 
-def convert_inp_to_xes(inp):
+def convert_inp_to_xes(inp, prompt_mode):
     """Converts the input to XES with intermediate steps."""
     print("Converting Data: Summarizing the text.", end="\r")
-    bulletpoints = convert_text_to_bulletpoints(inp)
+    bulletpoints = convert_text_to_bulletpoints(inp, prompt_mode)
     print("Converting Data: Extracting date information (1/2).", end="\r")
-    bulletpoints_start = add_start_dates(inp, bulletpoints)
+    bulletpoints_start = add_start_dates(inp, bulletpoints, prompt_mode)
     print("Converting Data: Extracting date information (2/2).", end="\r")
-    bulletpoints_start_end = add_end_dates(inp, bulletpoints_start)
+    bulletpoints_start_end = add_end_dates(inp, bulletpoints_start, prompt_mode)
     print("Converting Data: Creating output CSV.              ", end="\r")
     output_file = convert_bulletpoints_to_csv(bulletpoints_start_end)
     print("Converting Data: Creating output XES.              ", end="\r")
@@ -30,12 +31,22 @@ def convert_inp_to_xes(inp):
     return output_file
 
 
-def convert_text_to_bulletpoints(inp):
+def convert_text_to_bulletpoints(inp, prompt_mode):
     """Converts the input text to bulletpoints."""
+
     messages = [
-        {"role": "system", "content": p.TXT_TO_BULLETPOINTS_CONTEXT},
-        {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
-        {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
+        {
+            "role": "system",
+            "content": db.getPrompt("TXT_TO_BULLETPOINTS_CONTEXT", prompt_mode),
+        },
+        {
+            "role": "user",
+            "content": db.getPrompt("TXT_TO_BULLETPOINTS_PROMPT", prompt_mode) + inp,
+        },
+        {
+            "role": "assistant",
+            "content": db.getPrompt("TXT_TO_BULLETPOINTS_ANSWER", prompt_mode),
+        },
     ]
     bulletpoints = openai.ChatCompletion.create(
         model=c.MODEL,
@@ -51,15 +62,24 @@ def convert_text_to_bulletpoints(inp):
     return output
 
 
-def add_start_dates(inp, bulletpoints):
+def add_start_dates(inp, bulletpoints, prompt_mode):
     """Adds start dates to the bulletpoints."""
     messages = [
-        {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
+        {
+            "role": "system",
+            "content": db.getPrompt("BULLETPOINTS_START_DATE_CONTEXT", prompt_mode),
+        },
         {
             "role": "user",
-            "content": p.BULLETPOINTS_START_DATE_PROMPT + inp + "\n" + bulletpoints,
+            "content": db.getPrompt("BULLETPOINTS_START_DATE_PROMPT", prompt_mode)
+            + inp
+            + "\n"
+            + bulletpoints,
         },
-        {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
+        {
+            "role": "assistant",
+            "content": db.getPrompt("BULLETPOINTS_START_DATE_ANSWER", prompt_mode),
+        },
     ]
     bulletpoints_start = openai.ChatCompletion.create(
         model=c.MODEL,
@@ -78,15 +98,24 @@ def add_start_dates(inp, bulletpoints):
     return output
 
 
-def add_end_dates(inp, bulletpoints_start):
+def add_end_dates(inp, bulletpoints_start, prompt_mode):
     """Adds end dates to the bulletpoints."""
     messages = [
-        {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
+        {
+            "role": "system",
+            "content": db.getPrompt("BULLETPOINTS_END_DATE_CONTEXT", prompt_mode),
+        },
         {
             "role": "user",
-            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints_start,
+            "content": db.getPrompt("BULLETPOINTS_END_DATE_PROMPT", prompt_mode)
+            + inp
+            + "\n"
+            + bulletpoints_start,
         },
-        {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
+        {
+            "role": "assistant",
+            "content": db.getPrompt("BULLETPOINTS_END_DATE_ANSWER", prompt_mode),
+        },
     ]
     bulletpoints_start_end = openai.ChatCompletion.create(
         model=c.MODEL,

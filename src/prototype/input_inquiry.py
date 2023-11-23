@@ -6,7 +6,9 @@ import os
 import openai
 
 import constants as c
-import prompts as p
+import patient_journey as p
+
+from pick import pick
 
 openai.api_key = c.oaik
 
@@ -27,6 +29,14 @@ def get_input():
         with open(os.path.join(c.in_path, input_path)) as f:
             inp = f.read()
     return inp
+
+
+def get_prompt_mode():
+    """Gets the prompt mode from the user."""
+    title = "Please choose a prompt mode for the event log extraction: "
+    options = ["Default", "Zero-Shot", "Few-Shot", "Chain-of-Thought"]
+    option, index = pick(options, title, indicator="=>", default_index=0)
+    return option.upper()
 
 
 def get_input_path():
