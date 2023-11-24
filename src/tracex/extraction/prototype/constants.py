@@ -2,8 +2,8 @@
 import os
 from pathlib import Path
 
-out_path = Path("src/tracex/extraction/content/outputs/")  # Path to the outputs-folder
-in_path = Path("src/tracex/extraction/content/inputs/")  # Path to the inputs-folder
+out_path = Path("extraction/content/outputs/")  # Path to the outputs-folder
+in_path = Path("extraction/content/inputs/")  # Path to the inputs-folder
 oaik = os.environ.get(
     "OPENAI_API_KEY"
 )  # Get the OpenAI API key from the environment variables

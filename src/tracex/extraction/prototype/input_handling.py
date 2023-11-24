@@ -46,7 +46,7 @@ def convert_text_to_bulletpoints(inp):
     output = bulletpoints.choices[0].message.content
     output = remove_commas(output)
     output = add_ending_commas(output)
-    with open(os.path.join(c.out_path, "intermediates/bulletpoints.txt"), "w") as f:
+    with open(c.out_path / "intermediates/bulletpoints.txt", "w") as f:
         f.write(output)
     return output
 
