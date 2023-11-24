@@ -51,7 +51,7 @@ class ResultView(generic.TemplateView):
     template_name = "result_eventlog.html"
 
     def get_context_data(self, **kwargs):
-        eventlog = self.request.GET.get("eventlog", "")
+        eventlog = self.request.GET.get("event_log", "")
         context = super().get_context_data(**kwargs)
         context["eventlog"] = cache.get("eventlog")
         return context
