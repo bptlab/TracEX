@@ -9,25 +9,8 @@
 
     <h2>File Processing Result</h2>
 
-    {% if csv_data %}
-        <table>
-            <thead>
-                <tr>
-                    {% for header in csv_data.0.keys %}
-                        <th>{{ header }}</th>
-                    {% endfor %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for row in csv_data %}
-                    <tr>
-                        {% for value in row.values %}
-                            <td>{{ value }}</td>
-                        {% endfor %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+    {% if eventlog %}
+       <p>Hat geklappt</p>
     {% else %}
         <p>No data to display.</p>
     {% endif %}

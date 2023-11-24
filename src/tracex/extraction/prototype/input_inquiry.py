@@ -5,8 +5,8 @@ import os
 
 import openai
 
-import constants as c
-import prompts as p
+from . import constants as c
+from . import prompts as p
 
 openai.api_key = c.oaik
 

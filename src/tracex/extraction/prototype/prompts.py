@@ -4,7 +4,7 @@ import random
 
 import openai
 
-import constants as c
+from . import constants as c
 
 openai.api_key = c.oaik
 
