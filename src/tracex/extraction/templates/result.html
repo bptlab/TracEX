@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+</head>
+<body>
+    <h1>Success! The tracEX pipeline produced the following results:</h1>
+    <p><b>You have selected the following event types / locations:</b></p>
+    <p>{{ event_types }} {{ locations }}</p>
+    <p><b>This is the patient journey you provided:</b></p>
+    <p>{{ journey }}</p>
+
+    {% if xes_html %}
+        <p><b>This is the event log extracted from the journey above (as .xes)</b></p>
+        {{ xes_html|safe }}
+    {% else %}
+        <p>Something went wrong during the event log generation: No buffer content available.</p>
+    {% endif %}
+
+    <p><b>The event log from above represented as a DFG:</b></p>
+    <img src="data:image/png;base64,{{ dfg_img }}" alt="DFG Visualization">
+</body>
+</html>
