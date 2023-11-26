@@ -13,7 +13,7 @@ def run_pipeline():
     oh.get_output_without_user()
 
 
-reps = 1
-for i in range(reps):
-    print(str(i + 1) + "/" + str(reps))
+REPS = 1
+for i in range(REPS):
+    print(str(i + 1) + "/" + str(REPS))
     run_pipeline()
