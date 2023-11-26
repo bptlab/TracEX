@@ -1,11 +1,26 @@
-caseID,event,start,end,duration,eventtype,locationtype
-1,Experiencing initial Covid-19 symptoms,20220715T0000,00:00:00,Symptom Onset,Home
-1,Taking necessary precautions,20220715T0000,00:00:00,Lifestyle Change,Home
-1,Consulting trusted family physician,20220715T0000,00:00:00,Doctor visit,Doctors
-1,Monitoring symptoms closely,20220715T0000,00:00:00,Symptom Onset,Home
-1,Complying with recommended guidelines,20220715T0000,00:00:00,Lifestyle Change,Home
-1,Participating in virtual consultations,20220715T0000,00:00:00,Doctor visit,Doctors
-1,Slowly reintegrating into daily life,20220715T0000,00:00:00,Lifestyle Change,Home
-1,Maintaining safety measures,20220715T0000,00:00:00,Lifestyle Change,Home
-1,Getting vaccinated against Covid-19,20230101T0000,00:00:00,Treatment,Doctors
-1,Remaining committed to profession and family,20230101T0000,00:00:00,Feelings,Home
+caseID,event_information,start,end,duration,event_type,attribute_location
+1,Experiencing mild symptoms,20211015T0000,20211015T0000,00:00:00,Symptom Onset,Home
+1,Symptoms worsening over time,20211015T0000,20211015T0000,00:00:00,Symptom Onset,Home
+1,Contacting family doctor,20211020T0000,20211020T0000,00:00:00,Doctor visit,Doctors
+1,Isolating at home,20211020T0000,20211020T0000,00:00:00,Lifestyle Change,Home
+1,Monitoring symptoms closely,20211020T0000,20211020T0000,00:00:00,Symptom Onset,Home
+1,Taking over-the-counter medication,20211020T0000,20211020T0000,00:00:00,Medication,Home
+1,Warning to go to hospital if symptoms worsen,20211020T0000,20211020T0000,00:00:00,Symptom Onset,Home
+1,Unable to breathe properly,20211022T0000,20211022T0000,00:00:00,Symptom Onset,Home
+1,Rushed to nearest hospital,20211022T0000,20211022T0000,00:00:00,Hospital admission,Hospital
+1,Admitted to hospital,20211022T0000,20211022T0000,00:00:00,Hospital admission,Hospital
+1,Receiving oxygen therapy,20211022T0000,20211029T0000,168:00:00,Treatment,Hospital
+1,Vital signs closely monitored,20211022T0000,20211029T0000,168:00:00,Treatment,Hospital
+1,Medication provided for fever,20211022T0000,20211029T0000,168:00:00,Medication,Hospital
+1,Discharged from hospital,20211029T0000,20211029T0000,00:00:00,Hospital discharge,Home
+1,Continuing to isolate at home,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
+1,Following necessary precautions,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
+1,Seeking information about vaccines,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
+1,Consulting with family doctor,20211029T0000,20211029T0000,00:00:00,Doctor visit,Doctors
+1,Receiving first dose of vaccine,20211125T0000,20211125T0000,00:00:00,Treatment,Doctors
+1,Following prescribed schedule,20211125T0000,20211216T0000,504:00:00,Treatment,Doctors
+1,Receiving second dose of vaccine,20211216T0000,20211216T0000,00:00:00,Treatment,Doctors
+1,Learning to prioritize health,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
+1,Striking a better work-life balance,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
+1,Becoming more conscious of self-care,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
+1,Resilience of human spirit,20211216T0000,20211216T0000,00:00:00,Feelings,Home

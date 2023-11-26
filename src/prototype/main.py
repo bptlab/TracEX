@@ -5,6 +5,6 @@ import output_handling as oh
 
 ii.greeting()
 inp_txt = ii.get_input()
-ih.convert_inp_to_csv(inp_txt)
+ih.convert_text_to_csv(inp_txt)
 oh.get_output()
 oh.farewell()

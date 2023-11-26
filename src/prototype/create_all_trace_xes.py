@@ -10,11 +10,11 @@ import utils as u
 def get_key():
     """Gets the key from the user."""
     key = input(
-        "Which key should be used for the activity? (event/eventtype/locationtype)\n"
+        "Which key should be used for the activity? (event_info/event_type/location_attribute)\n"
     ).lower()
-    if key in ("event", "eventtype", "locationtype"):
+    if key in ("event_info", "event_type", "location_attribute"):
         return key
-    print("Please enter 'event', 'eventtype' or 'locationtype'.")
+    print("Please enter 'event_info', 'event_type', 'location_attribute'.")
     return get_key()
 
 

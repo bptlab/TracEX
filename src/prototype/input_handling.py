@@ -1,13 +1,9 @@
-# pylint: disable=import-error
-# pylint: disable=unspecified-encoding
-"""Module providing functions for converting text to XES."""
+"""Module providing functions for converting text to CSV."""
 import os
 import csv
 import time
 
-import pm4py
 import openai
-import pandas as pd
 
 import utils as u
 import prompts as p
@@ -15,8 +11,8 @@ import prompts as p
 openai.api_key = u.oaik
 
 
-def convert_inp_to_csv(inp):
-    """Converts the input to XES with intermediate steps."""
+def convert_text_to_csv(inp):
+    """Converts the input to CSV with intermediate steps."""
     steps = str(7)
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
     bulletpoints = convert_text_to_bulletpoints(inp)
@@ -179,12 +175,12 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
         bulletpoints_matrix.append(entry)
     fields = [
         "caseID",
-        "event",
+        "event_information",
         "start",
         "end",
         "duration",
-        "eventtype",
-        "locationtype",
+        "event_type",
+        "attribute_location",
     ]
     for row in bulletpoints_matrix:
         row.insert(0, 1)

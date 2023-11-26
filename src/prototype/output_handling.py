@@ -3,7 +3,6 @@
 import os
 
 import pandas as pd
-import pm4py
 
 import utils as u
 
@@ -52,6 +51,7 @@ def get_output_without_user():
         }
     )
     dataframe["caseID"] = dataframe["caseID"].astype(str)
+    print(dataframe)
     append_csv()
 
 

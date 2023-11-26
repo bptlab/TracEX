@@ -9,11 +9,11 @@ def run_pipeline():
     """Runs the pipeline without user interaction."""
     inp = ii.create_patient_journey()
     time.sleep(5)
-    ih.convert_inp_to_csv(inp)
+    ih.convert_text_to_csv(inp)
     oh.get_output_without_user()
 
 
-reps = 10
+reps = 1
 for i in range(reps):
     print(str(i + 1) + "/" + str(reps))
     run_pipeline()
