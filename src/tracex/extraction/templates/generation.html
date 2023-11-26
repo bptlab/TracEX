@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journey Generation</title>
+</head>
+<body>
+    <h1>Generated Journey</h1>
+    <p>{{ generated_journey }}</p>
+    <p><b>This is your generated patient journey.</b></p>
+    <p><b>If you want to proceed with this journey, select at least one event type or location, otherwise see the options below.</b></p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="See the results">
+    </form>
+
+
+    <a href="{% url 'journey_generation' %}">
+        <button>Re-generate Patient Journey</button>
+    </a>
+
+    <a href="{% url 'selection' %}">
+        <button>Return to input selection</button>
+    </a>
+</body>
+</html>
