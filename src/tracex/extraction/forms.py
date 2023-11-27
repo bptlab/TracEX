@@ -2,8 +2,8 @@ from django import forms
 from django.core.validators import FileExtensionValidator
 
 
-class JourneyForm(forms.Form):
-    ALLOWED_FILE_TYPES = ["txt"]
+class BaseEventForm(forms.Form):
+    # can easily be refactored and thus reduced e.g. by using constants and importing into both forms
     EVENT_TYPES = [
         ("symptoms", "Symptom onset/offset"),
         ("infection", "Infection start/end"),
@@ -20,6 +20,37 @@ class JourneyForm(forms.Form):
         ("outdoors", "Outdoors"),
     ]
 
+    event_types = forms.MultipleChoiceField(
+        label="Select desired event types",
+        choices=EVENT_TYPES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        initial=[event_type[0] for event_type in EVENT_TYPES],
+    )
+    locations = forms.MultipleChoiceField(
+        label="Select desired locations",
+        choices=LOCATIONS,
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        initial=[location[0] for location in LOCATIONS],
+    )
+
+    def clean(self):
+        cleaned_data = super().clean()
+        event_types = cleaned_data.get("event_types")
+        locations = cleaned_data.get("locations")
+
+        if not event_types and not locations:
+            raise forms.ValidationError(
+                "Please select at least one event type or one location.",
+                code="no_event_type",
+            )
+
+        return cleaned_data
+
+
+class JourneyForm(BaseEventForm):
+    ALLOWED_FILE_TYPES = ["txt"]
     journey = forms.FileField(
         label="Patient journey",
         required=True,
@@ -29,74 +60,8 @@ class JourneyForm(forms.Form):
             "required": "Please provide a file from which to extract the event log."
         },
     )
-    event_types = forms.MultipleChoiceField(
-        label="Select desired event types",
-        choices=EVENT_TYPES,
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-    locations = forms.MultipleChoiceField(
-        label="Select desired locations",
-        choices=LOCATIONS,
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        event_types = cleaned_data.get("event_types")
-        locations = cleaned_data.get("locations")
-
-        if not event_types and not locations:
-            raise forms.ValidationError(
-                "Please select at least one event type or one location.",
-                code="no_event_type",
-            )
-
-        return cleaned_data
+    field_order = ["journey", "event_types", "locations"]
 
 
-class GenerationForm(forms.Form):
-    # can easily be refactored and thus reduced e.g. by using constants and importing into both forms
-    ALLOWED_FILE_TYPES = ["txt"]
-    EVENT_TYPES = [
-        ("symptoms", "Symptom onset/offset"),
-        ("infection", "Infection start/end"),
-        ("diagnosis", "Diagnosis"),
-        ("doctor_visit", "Doctor visit"),
-        ("treatment", "Treatment"),
-        ("medication", "Medication"),
-        ("lifestyle change", "Lifestyle change"),
-        ("feelings", "Feelings"),
-    ]
-    LOCATIONS = [
-        ("home", "Home"),
-        ("hospital", "Hospital"),
-        ("outdoors", "Outdoors"),
-    ]
-
-    event_types = forms.MultipleChoiceField(
-        label="Select desired event types",
-        choices=EVENT_TYPES,
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-    locations = forms.MultipleChoiceField(
-        label="Select desired locations",
-        choices=LOCATIONS,
-        widget=forms.CheckboxSelectMultiple(),
-        required=False,
-    )
-
-    def clean(self):
-        cleaned_data = super().clean()
-        event_types = cleaned_data.get("event_types")
-        locations = cleaned_data.get("locations")
-
-        if not event_types and not locations:
-            raise forms.ValidationError(
-                "Please select at least one event type or one location.",
-                code="no_event_type",
-            )
-
-        return cleaned_data
+class GenerationForm(BaseEventForm):
+    pass
