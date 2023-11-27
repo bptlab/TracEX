@@ -1,5 +1,6 @@
 """Module providing constants for the project."""
 import os
+import time
 from pathlib import Path
 
 import openai
@@ -15,6 +16,11 @@ TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
 CSV_OUTPUT = "content/outputs/intermediates/7_output.csv"
 CSV_ALL_TRACES = "content/outputs/all_traces.csv"
+
+
+def pause_between_queries():
+    """Pauses between queries."""
+    time.sleep(5)
 
 
 def get_decision(question):

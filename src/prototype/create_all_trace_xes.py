@@ -18,9 +18,9 @@ def get_key():
     return get_key()
 
 
-def create_all_trace_xes(key):
+def create_all_trace_xes(csv_file, key):
     """Creates a xes with all traces from the regarding csv."""
-    dataframe = pd.read_csv(u.CSV_ALL_TRACES, sep=",")
+    dataframe = pd.read_csv(csv_file, sep=",")
     dataframe["caseID"] = dataframe["caseID"].astype(str)
     dataframe["start"] = pd.to_datetime(dataframe["start"])
     dataframe["end"] = pd.to_datetime(dataframe["end"])
@@ -44,5 +44,5 @@ def create_all_trace_xes(key):
     )
 
 
-KEY = get_key()
-create_all_trace_xes(KEY)
+ACTIVITY_KEY = get_key()
+create_all_trace_xes(u.CSV_OUTPUT, ACTIVITY_KEY)

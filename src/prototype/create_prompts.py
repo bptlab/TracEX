@@ -1,4 +1,4 @@
-"""Use GPT to create prompts."""
+"""Module providing functions to produce prompts by using GPT generations."""
 import os
 
 import openai

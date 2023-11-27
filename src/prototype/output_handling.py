@@ -1,4 +1,3 @@
-# pylint: disable=import-error
 """Module providing functions for printing out the XES."""
 import os
 
@@ -37,7 +36,7 @@ def get_output():
         append_csv()
 
 
-def get_output_without_user():
+def get_output_without_user_io():
     """Prints the output to the console or shows the filename."""
     dataframe = pd.read_csv(u.CSV_OUTPUT, sep=",")
     dataframe["start"] = pd.to_datetime(dataframe["start"])

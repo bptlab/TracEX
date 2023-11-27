@@ -3,8 +3,13 @@ import input_inquiry as ii
 import input_handling as ih
 import output_handling as oh
 
-ii.greeting()
-inp_txt = ii.get_input()
-ih.convert_text_to_csv(inp_txt)
-oh.get_output()
-oh.farewell()
+
+def main():
+    ii.greeting()
+    input_text = ii.get_input()
+    ih.convert_text_to_csv(input_text)
+    oh.get_output()
+    oh.farewell()
+
+
+main()

@@ -1,5 +1,3 @@
-# pylint: disable=import-error
-# pylint: disable=unspecified-encoding
 """Module providing functions for the input inquiry of the prototype."""
 import os
 

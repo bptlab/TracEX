@@ -1,7 +1,6 @@
 """Module providing functions for converting text to CSV."""
 import os
 import csv
-import time
 
 import openai
 
@@ -20,28 +19,28 @@ def convert_text_to_csv(inp):
         "Converting Data: Extracting start date information. (2/" + steps + ")",
         end="\r",
     )
-    time.sleep(5)
+    u.pause_between_queries()
     bulletpoints_start = add_start_dates(inp, bulletpoints)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
-    time.sleep(5)
+    u.pause_between_queries()
     bulletpoints_end = add_end_dates(inp, bulletpoints_start)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
-    time.sleep(5)
+    u.pause_between_queries()
     bulletpoints_duration = add_durations(inp, bulletpoints_end)
     print(
         "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
     )
-    time.sleep(5)
+    u.pause_between_queries()
     bulletpoints_event_type = add_event_types(bulletpoints_duration)
     print(
         "Converting Data: Extracting location information. (6/" + steps + ")", end="\r"
     )
-    time.sleep(5)
+    u.pause_between_queries()
     bulletpoints_location = add_locations(bulletpoints_event_type)
     print(
         "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
