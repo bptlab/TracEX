@@ -4,9 +4,9 @@ import random
 
 import openai
 
-import utils as u
+# import utils as u
 
-openai.api_key = u.oaik
+# openai.api_key = u.oaik
 
 
 def create_patient_journey_context():
