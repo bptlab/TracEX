@@ -84,7 +84,7 @@ def add_start_dates(inp, bulletpoints):
 
 
 def add_end_dates(inp, bulletpoints):
-    """Adds start dates to the bulletpoints."""
+    """Adds end dates to the bulletpoints."""
     messages = [
         {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
         {
