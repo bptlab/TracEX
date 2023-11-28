@@ -1,6 +1,4 @@
 """Module providing functions for creating a xes with all traces from the regarding csv."""
-import os
-
 import pm4py
 import pandas as pd
 
@@ -37,7 +35,7 @@ def create_all_trace_xes(csv_file, key):
     output_name = "all_traces_" + key + ".xes"
     pm4py.write_xes(
         dataframe,
-        os.path.join(u.out_path, output_name),
+        (u.out_path / output_name),
         case_id_key="case:concept:name",
         activity_key="concept:name",
         timestamp_key="time:timestamp",

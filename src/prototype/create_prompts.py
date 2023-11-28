@@ -1,6 +1,4 @@
 """Module providing functions to produce prompts by using GPT generations."""
-import os
-
 import openai
 
 import utils as u
@@ -30,7 +28,7 @@ new_prompts = openai.ChatCompletion.create(
 )
 output = new_prompts.choices[0].message.content
 with open(
-    os.path.join(u.out_path, "new_prompts.txt"),
+    (u.out_path / "new_prompts.txt"),
     "w",
 ) as f:
     f.write(output)
