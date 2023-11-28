@@ -3,8 +3,14 @@ import input_inquiry as ii
 import input_handling as ih
 import output_handling as oh
 
-ii.greeting()
-inp = ii.get_input()
-xesfile = ih.convert_inp_to_xes(inp)
-oh.get_output(xesfile)
-oh.farewell()
+
+def main():
+    """Main function calling every pipeline step needed to run the program."""
+    ii.greeting()
+    input_text = ii.get_input()
+    ih.convert_text_to_csv(input_text)
+    oh.get_output()
+    oh.farewell()
+
+
+main()

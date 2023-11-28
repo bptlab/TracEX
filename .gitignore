@@ -1,0 +1,8 @@
+# Content directory
+content/inputs/
+content/outputs/intermediates/
+content/outputs/new_prompts.txt
+
+# src directory
+src/prototype/__pycache__/
+src/__init__.py
