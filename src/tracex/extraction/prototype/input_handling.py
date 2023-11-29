@@ -1,33 +1,52 @@
-# pylint: disable=import-error
-# pylint: disable=unspecified-encoding
-"""Module providing functions for converting text to XES."""
+"""Module providing functions for converting text to CSV."""
 import csv
-import os
 
 import openai
-import pandas as pd
-import pm4py
 
-from . import constants as c
+from . import utils as u
 from . import prompts as p
 
-openai.api_key = c.oaik
+openai.api_key = u.oaik
 
 
-def convert_inp_to_xes(inp):
-    """Converts the input to XES with intermediate steps."""
-    print("Converting Data: Summarizing the text.", end="\r")
+def convert_text_to_csv(inp):
+    """Converts the input to CSV with intermediate steps."""
+    steps = str(7)
+    print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
     bulletpoints = convert_text_to_bulletpoints(inp)
-    print("Converting Data: Extracting date information (1/2).", end="\r")
+    print(
+        "Converting Data: Extracting start date information. (2/" + steps + ")",
+        end="\r",
+    )
+    u.pause_between_queries()
     bulletpoints_start = add_start_dates(inp, bulletpoints)
-    print("Converting Data: Extracting date information (2/2).", end="\r")
-    bulletpoints_start_end = add_end_dates(inp, bulletpoints_start)
-    print("Converting Data: Creating output CSV.              ", end="\r")
-    output_file = convert_bulletpoints_to_csv(bulletpoints_start_end)
-    print("Converting Data: Creating output XES.              ", end="\r")
-    output_file = convert_csv_to_xes(output_file)
-    print("Dataconversion finished.              ")
-    return output_file
+    print(
+        "Converting Data: Extracting end date information. (3/" + steps + ")   ",
+        end="\r",
+    )
+    u.pause_between_queries()
+    bulletpoints_end = add_end_dates(inp, bulletpoints_start)
+    print(
+        "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
+    )
+    u.pause_between_queries()
+    bulletpoints_duration = add_durations(inp, bulletpoints_end)
+    print(
+        "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
+    )
+    u.pause_between_queries()
+    bulletpoints_event_type = add_event_types(bulletpoints_duration)
+    print(
+        "Converting Data: Extracting location information. (6/" + steps + ")", end="\r"
+    )
+    u.pause_between_queries()
+    bulletpoints_location = add_locations(bulletpoints_event_type)
+    print(
+        "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
+    )
+    output_path = convert_bulletpoints_to_csv(bulletpoints_location)
+    print("Dataconversion finished.                    ")
+    return output_path
 
 
 def convert_text_to_bulletpoints(inp):
@@ -37,18 +56,12 @@ def convert_text_to_bulletpoints(inp):
         {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
-    bulletpoints = openai.ChatCompletion.create(
-        model=c.MODEL,
-        messages=messages,
-        max_tokens=c.MAX_TOKENS,
-        temperature=c.TEMPERATURE,
-    )
-    output = bulletpoints.choices[0].message.content
-    output = remove_commas(output)
-    output = add_ending_commas(output)
-    with open(c.out_path / "intermediates/bulletpoints.txt", "w") as f:
-        f.write(output)
-    return output
+    bulletpoints = u.query_gpt(messages)
+    bulletpoints = remove_commas(bulletpoints)
+    bulletpoints = add_ending_commas(bulletpoints)
+    with open((u.out_path / "intermediates/1_bulletpoints.txt"), "w") as f:
+        f.write(bulletpoints)
+    return bulletpoints
 
 
 def add_start_dates(inp, bulletpoints):
@@ -61,47 +74,94 @@ def add_start_dates(inp, bulletpoints):
         },
         {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
     ]
-    bulletpoints_start = openai.ChatCompletion.create(
-        model=c.MODEL,
-        messages=messages,
-        max_tokens=c.MAX_TOKENS,
-        temperature=c.TEMPERATURE,
-    )
-    output = bulletpoints_start.choices[0].message.content
-    output = remove_brackets(output)
-    output = add_ending_commas(output)
+    bulletpoints_start = u.query_gpt(messages)
+    bulletpoints_start = add_ending_commas(bulletpoints_start)
     with open(
-        os.path.join(c.out_path, "intermediates/bulletpoints_with_start.txt"),
+        (u.out_path / "intermediates/2_bulletpoints_with_start.txt"),
         "w",
     ) as f:
-        f.write(output)
-    return output
+        f.write(bulletpoints_start)
+    return bulletpoints_start
 
 
-def add_end_dates(inp, bulletpoints_start):
+def add_end_dates(inp, bulletpoints):
     """Adds end dates to the bulletpoints."""
     messages = [
         {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
         {
             "role": "user",
-            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints_start,
+            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints,
         },
         {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
     ]
-    bulletpoints_start_end = openai.ChatCompletion.create(
-        model=c.MODEL,
-        messages=messages,
-        max_tokens=c.MAX_TOKENS,
-        temperature=c.TEMPERATURE,
-    )
-    output = bulletpoints_start_end.choices[0].message.content
-    output = remove_brackets(output)
+    bulletpoints_start = u.query_gpt(messages)
+    bulletpoints_start = add_ending_commas(bulletpoints_start)
     with open(
-        os.path.join(c.out_path, "intermediates/bulletpoints_with_start_end.txt"),
+        (u.out_path / "intermediates/3_bulletpoints_with_end.txt"),
         "w",
     ) as f:
-        f.write(output)
-    return output
+        f.write(bulletpoints_start)
+    return bulletpoints_start
+
+
+def add_durations(inp, bulletpoints_start):
+    """Adds durations to the bulletpoints."""
+    messages = [
+        {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
+        {
+            "role": "user",
+            "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start,
+        },
+        {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
+    ]
+    bulletpoints_duration = u.query_gpt(messages)
+    bulletpoints_duration = add_ending_commas(bulletpoints_duration)
+    with open(
+        (u.out_path / "intermediates/4_bulletpoints_with_duration.txt"),
+        "w",
+    ) as f:
+        f.write(bulletpoints_duration)
+    return bulletpoints_duration
+
+
+def add_event_types(bulletpoints_durations):
+    """Adds event types to the bulletpoints."""
+    messages = [
+        {"role": "system", "content": p.BULLETPOINTS_EVENT_TYPE_CONTEXT},
+        {
+            "role": "user",
+            "content": p.BULLETPOINTS_EVENT_TYPE_PROMPT + bulletpoints_durations,
+        },
+        {"role": "assistant", "content": p.BULLETPOINTS_EVENT_TYPE_ANSWER},
+    ]
+    bulletpoints_event_type = u.query_gpt(messages)
+    bulletpoints_event_type = add_ending_commas(bulletpoints_event_type)
+    with open(
+        (u.out_path / "intermediates/5_bulletpoints_with_event_type.txt"),
+        "w",
+    ) as f:
+        f.write(bulletpoints_event_type)
+    return bulletpoints_event_type
+
+
+def add_locations(bulletpoints_event_types):
+    """Adds locations to the bulletpoints."""
+    messages = [
+        {"role": "system", "content": p.BULLETPOINTS_LOCATION_CONTEXT},
+        {
+            "role": "user",
+            "content": p.BULLETPOINTS_LOCATION_PROMPT + bulletpoints_event_types,
+        },
+        {"role": "assistant", "content": p.BULLETPOINTS_LOCATION_ANSWER},
+    ]
+    bulletpoints_location = u.query_gpt(messages)
+    bulletpoints_location = remove_brackets(bulletpoints_location)
+    with open(
+        (u.out_path / "intermediates/6_bulletpoints_with_location.txt"),
+        "w",
+    ) as f:
+        f.write(bulletpoints_location)
+    return bulletpoints_location
 
 
 def convert_bulletpoints_to_csv(bulletpoints_start_end):
@@ -112,33 +172,23 @@ def convert_bulletpoints_to_csv(bulletpoints_start_end):
         entry = entry.strip("- ")
         entry = entry.split(", ")
         bulletpoints_matrix.append(entry)
-    fields = ["caseID", "event", "start", "end"]
+    fields = [
+        "caseID",
+        "event_information",
+        "start",
+        "end",
+        "duration",
+        "event_type",
+        "attribute_location",
+    ]
     for row in bulletpoints_matrix:
         row.insert(0, 1)
-    outputfile = os.path.join(c.out_path, "output.csv")
+    outputfile = u.CSV_OUTPUT
     with open(outputfile, "w") as f:
         write = csv.writer(f)
         # write.writerow(['sep=,'])
         write.writerow(fields)
         write.writerows(bulletpoints_matrix)
-    return outputfile
-
-
-def convert_csv_to_xes(inputfile):
-    """Converts the CSV file to XES."""
-    dataframe = pd.read_csv(inputfile, sep=",")
-    dataframe["start"] = pd.to_datetime(dataframe["start"])
-    dataframe["end"] = pd.to_datetime(dataframe["end"])
-    dataframe = dataframe.rename(
-        columns={
-            "event": "concept:Activity",
-            "start": "date:StartDate",
-            "end": "date:EndDate",
-        }
-    )
-    dataframe["caseID"] = dataframe["caseID"].astype(str)
-    outputfile = os.path.join(c.out_path, "output.xes")
-    pm4py.write_xes(dataframe, outputfile, case_id_key="caseID")
     return outputfile
 
 

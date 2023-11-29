@@ -1,14 +1,12 @@
-# pylint: disable=import-error
-# pylint: disable=unspecified-encoding
 """Module providing functions for the input inquiry of the prototype."""
 import os
 
 import openai
 
-from . import constants as c
+from . import utils as u
 from . import prompts as p
 
-openai.api_key = c.oaik
+openai.api_key = u.oaik
 
 
 def greeting():
@@ -24,19 +22,19 @@ def get_input():
     if input_path == "new":
         inp = create_patient_journey()
     else:
-        with open(os.path.join(c.in_path, input_path)) as f:
+        with open((u.in_path / input_path)) as f:
             inp = f.read()
     return inp
 
 
 def get_input_path():
     """Gets the path to the input file from the user."""
-    answer = input(
+    awnser = input(
         "Would you like to continue with an existing patient journey as .txt? (y/n)\n"
     ).lower()
-    if answer == "y":
+    if awnser == "y":
         return get_input_path_name()
-    if answer == "n":
+    if awnser == "n":
         return "new"
     print("Please enter y or n.")
     return get_input_path()
@@ -49,8 +47,8 @@ def get_input_path_name():
     )
     if filename[-4:] != ".txt":
         filename += ".txt"
-    if not os.path.isfile(os.path.join(c.in_path, filename)):
-        print(f"File {os.path.join(c.in_path, filename)} does not exist.")
+    if not os.path.isfile((u.in_path / filename)):
+        print("File does not exist.")
         return get_input_path_name()
     return filename
 
@@ -64,20 +62,14 @@ def create_patient_journey():
         {"role": "system", "content": p.create_patient_journey_context()},
         {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
     ]
-    patient_journey = openai.ChatCompletion.create(
-        model=c.MODEL,
-        messages=messages,
-        max_tokens=c.MAX_TOKENS,
-        temperature=c.TEMPERATURE,
-    )
-    patient_journey_txt = patient_journey.choices[0].message.content
+    patient_journey_txt = u.query_gpt(messages, u.TEMPERATURE_CREATION)
     i = 0
     proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-    output_path = os.path.join(c.in_path, proposed_filename)
+    output_path = u.in_path / proposed_filename
     while os.path.isfile(output_path):
         i += 1
         proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-        output_path = os.path.join(c.in_path, proposed_filename)
+        output_path = u.in_path / proposed_filename
     with open(output_path, "w") as f:
         f.write(patient_journey_txt)
     print(

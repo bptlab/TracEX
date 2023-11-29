@@ -16,7 +16,7 @@ from django.shortcuts import redirect
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 from .forms import JourneyForm, GenerationForm
-from .prototype import input_handling, input_inquiry
+from .prototype import input_handling, input_inquiry, create_all_trace_xes, utils
 
 
 def redirect_to_selection(request):
@@ -73,8 +73,13 @@ class ResultView(generic.TemplateView):
         journey = cache.get("journey")
         event_types = cache.get("event_types")
         locations = cache.get("locations")
-        output_path = input_handling.convert_inp_to_xes(journey)
-        output_df = pm4py.read_xes(output_path)
+        output_path_csv = input_handling.convert_text_to_csv(journey)
+        output_path_xes = create_all_trace_xes.create_all_trace_xes(output_path_csv, key='event_type')
+        # output_path_xes = utils.out_path / "all_traces_event_type.xes"
+        output_df = pm4py.read_xes(output_path_xes)
+        output_df.sort_values(by='time:timestamp', inplace=True)
+        output_df_filtered = output_df[output_df['concept:name'].isin(['Treatment'])]
+
         context["event_types"] = event_types
         context["locations"] = locations
         context["journey"] = journey
@@ -90,7 +95,7 @@ class ResultView(generic.TemplateView):
     def create_dfg_png_from_df(self, df):
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
-            df, "concept:Activity", "date:StartDate", "caseID"
+            df, "concept:name", "time:timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
