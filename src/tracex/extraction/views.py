@@ -25,7 +25,7 @@ from .prototype import (
 )
 
 # set IS_TEST = False if you want to run the pipeline
-IS_TEST = True
+IS_TEST = False
 
 
 def redirect_to_selection(request):
@@ -41,7 +41,7 @@ class JourneyInputView(generic.FormView):
         cache.set("journey", form.cleaned_data["journey"].read().decode("utf-8"))
         cache.set("event_types", form.cleaned_data["event_types"])
         cache.set("locations", form.cleaned_data["locations"])
-        cache.set("is_extracted", True)
+        cache.set("is_extracted", False)
         return super().form_valid(form)
 
 
@@ -64,7 +64,7 @@ class JourneyGenerationView(generic.FormView):
     def form_valid(self, form):
         cache.set("event_types", form.cleaned_data["event_types"])
         cache.set("locations", form.cleaned_data["locations"])
-        cache.set("is_extracted", True)
+        cache.set("is_extracted", False)
         return super().form_valid(form)
 
 
@@ -89,7 +89,7 @@ class ResultView(generic.FormView):
         filter_dict = {"concept:name": event_types, "attribute_location": locations}
         is_extracted = cache.get(
             "is_extracted"
-        )  # true if coming from input or generation
+        )  # false if coming from input or generation
 
         # read single journey into dataframe
         single_trace_df = pm4py.read_xes(
@@ -121,7 +121,7 @@ class ResultView(generic.FormView):
             all_traces_df_filtered
         ).getvalue()
 
-        is_extracted = False
+        is_extracted = True
         cache.set("is_extracted", is_extracted)
         return context
 
