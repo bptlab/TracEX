@@ -16,7 +16,7 @@ def get_key():
     return get_key()
 
 
-def create_all_trace_xes(csv_file, key):
+def create_all_trace_xes(csv_file, key, suffix=""):
     """Creates a xes with all traces from the regarding csv."""
     dataframe = pd.read_csv(csv_file, sep=",")
     dataframe["caseID"] = dataframe["caseID"].astype(str)
@@ -32,7 +32,7 @@ def create_all_trace_xes(csv_file, key):
             "duration": "time:duration",
         }
     )
-    output_name = "all_traces_" + key + ".xes"
+    output_name = "all_traces_" + key + suffix + ".xes"
     pm4py.write_xes(
         dataframe,
         (u.out_path / output_name),

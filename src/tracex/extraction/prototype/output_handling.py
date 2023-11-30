@@ -3,7 +3,7 @@ import os
 
 import pandas as pd
 
-import utils as u
+from . import utils as u
 
 
 def get_output():

@@ -21,6 +21,16 @@
 
     <p><b>The event log from above represented as a DFG:</b></p>
     <img src="data:image/png;base64,{{ dfg_img }}" alt="DFG Visualization">
+
+    {% if all_xes_html %}
+        <p><b>This is the event log extracted from the journey above (as .xes)</b></p>
+        {{ all_xes_html|safe }}
+    {% else %}
+        <p>Something went wrong during the event log generation: No buffer content available.</p>
+    {% endif %}
+
+    <p><b>The event log from above represented as a DFG:</b></p>
+    <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
     <a href="{% url 'selection' %}">
         <button>Return to input selection</button>
     </a>

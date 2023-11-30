@@ -16,7 +16,13 @@ from django.shortcuts import redirect
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 from .forms import JourneyForm, GenerationForm
-from .prototype import input_handling, input_inquiry, create_all_trace_xes, utils
+from .prototype import (
+    input_handling,
+    input_inquiry,
+    create_all_trace_xes,
+    utils,
+    output_handling,
+)
 
 
 def redirect_to_selection(request):
@@ -75,21 +81,33 @@ class ResultView(generic.TemplateView):
         locations = cache.get("locations")
         output_path_csv = input_handling.convert_text_to_csv(journey)
         output_path_xes = create_all_trace_xes.create_all_trace_xes(
-            output_path_csv, key="event_type"
+            output_path_csv, key="event_type", suffix="_1"
         )
-        # output_path_xes = str(utils.out_path / "all_traces_event_type.xes")
+        # output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
         output_df = pm4py.read_xes(output_path_xes)
-        output_df.sort_values(by="time:timestamp", inplace=True)
-        output_df_filtered = output_df[
-            output_df["concept:name"].isin(event_types)
-            & output_df["attribute_location"].isin(locations)
-        ]
+        output_df = self.sort_trace(output_df)
+        filter_dict = {"concept:name": event_types, "attribute_location": locations}
+        output_df_filtered = self.filter_dataframe(output_df, filter_dict)
+
+        output_handling.append_csv()
+        all_traces_xes_path = create_all_trace_xes.create_all_trace_xes(
+            utils.CSV_ALL_TRACES, key="event_type"
+        )
+        all_traces_df = pm4py.read_xes(all_traces_xes_path)
+        all_traces_df = all_traces_df.groupby(
+            "concept:name", group_keys=False, sort=False
+        ).apply(self.sort_trace)
+        all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
 
         context["event_types"] = event_types
         context["locations"] = locations
         context["journey"] = journey
         context["dfg_img"] = self.create_dfg_png_from_df(output_df_filtered)
         context["xes_html"] = self.create_html_from_xes(output_df_filtered).getvalue()
+        context["all_dfg_img"] = self.create_dfg_png_from_df(all_traces_df_filtered)
+        context["all_xes_html"] = self.create_html_from_xes(
+            all_traces_df_filtered
+        ).getvalue()
         return context
 
     def create_html_from_xes(self, df):
@@ -126,3 +144,18 @@ class ResultView(generic.TemplateView):
                 flattened_list.append(item)
 
         return flattened_list
+
+    def sort_trace(self, output_df):
+        sorted_df = output_df.sort_values(by="time:timestamp", inplace=False)
+        return sorted_df
+
+    def filter_dataframe(self, df, filter_dict):
+        filter_conditions = [
+            df[column].isin(values) for column, values in filter_dict.items()
+        ]
+        combined_condition = pandas.Series(True, index=df.index)
+
+        for condition in filter_conditions:
+            combined_condition &= condition
+
+        return df[combined_condition]
