@@ -5,19 +5,19 @@ from django.core.validators import FileExtensionValidator
 class BaseEventForm(forms.Form):
     # can easily be refactored and thus reduced e.g. by using constants and importing into both forms
     EVENT_TYPES = [
-        ("symptoms", "Symptom onset/offset"),
+        ("Symptom Onset, Symptom Offset", "Symptom onset/offset"),
         ("infection", "Infection start/end"),
-        ("diagnosis", "Diagnosis"),
-        ("doctor_visit", "Doctor visit"),
-        ("treatment", "Treatment"),
-        ("medication", "Medication"),
-        ("lifestyle change", "Lifestyle change"),
-        ("feelings", "Feelings"),
+        ("Diagnosis", "Diagnosis"),
+        ("Doctor visit", "Doctor visit"),
+        ("Treatment", "Treatment"),
+        ("Medication", "Medication"),
+        ("Lifestyle change", "Lifestyle change"),
+        ("Feelings", "Feelings"),
     ]
     LOCATIONS = [
-        ("home", "Home"),
-        ("hospital", "Hospital"),
-        ("outdoors", "Outdoors"),
+        ("Home", "Home"),
+        ("Hospital", "Hospital"),
+        ("Outdoors", "Outdoors"),
     ]
 
     event_types = forms.MultipleChoiceField(

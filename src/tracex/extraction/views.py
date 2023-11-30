@@ -71,20 +71,25 @@ class ResultView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         journey = cache.get("journey")
-        event_types = cache.get("event_types")
+        event_types = self.flatten_list(cache.get("event_types"))
         locations = cache.get("locations")
         output_path_csv = input_handling.convert_text_to_csv(journey)
-        output_path_xes = create_all_trace_xes.create_all_trace_xes(output_path_csv, key='event_type')
-        # output_path_xes = utils.out_path / "all_traces_event_type.xes"
+        output_path_xes = create_all_trace_xes.create_all_trace_xes(
+            output_path_csv, key="event_type"
+        )
+        # output_path_xes = str(utils.out_path / "all_traces_event_type.xes")
         output_df = pm4py.read_xes(output_path_xes)
-        output_df.sort_values(by='time:timestamp', inplace=True)
-        output_df_filtered = output_df[output_df['concept:name'].isin(['Treatment'])]
+        output_df.sort_values(by="time:timestamp", inplace=True)
+        output_df_filtered = output_df[
+            output_df["concept:name"].isin(event_types)
+            & output_df["attribute_location"].isin(locations)
+        ]
 
         context["event_types"] = event_types
         context["locations"] = locations
         context["journey"] = journey
-        context["dfg_img"] = self.create_dfg_png_from_df(output_df)
-        context["xes_html"] = self.create_html_from_xes(output_df).getvalue()
+        context["dfg_img"] = self.create_dfg_png_from_df(output_df_filtered)
+        context["xes_html"] = self.create_html_from_xes(output_df_filtered).getvalue()
         return context
 
     def create_html_from_xes(self, df):
@@ -111,3 +116,13 @@ class ResultView(generic.TemplateView):
         os.remove(temp_file_path)
         dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
         return dfg_img_base64
+
+    def flatten_list(self, original_list):
+        flattened_list = []
+        for item in original_list:
+            if "," in item:
+                flattened_list.extend(item.split(", "))
+            else:
+                flattened_list.append(item)
+
+        return flattened_list
