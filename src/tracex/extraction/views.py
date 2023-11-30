@@ -24,6 +24,9 @@ from .prototype import (
     output_handling,
 )
 
+# set IS_TEST = False if you want to run the pipeline
+IS_TEST = False
+
 
 def redirect_to_selection(request):
     return redirect("selection")
@@ -79,23 +82,21 @@ class ResultView(generic.TemplateView):
         journey = cache.get("journey")
         event_types = self.flatten_list(cache.get("event_types"))
         locations = cache.get("locations")
-        output_path_csv = input_handling.convert_text_to_csv(journey)
-        output_path_xes = create_all_trace_xes.create_all_trace_xes(
-            output_path_csv, key="event_type", suffix="_1"
-        )
-        # output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
-        output_df = pm4py.read_xes(output_path_xes)
-        output_df = self.sort_trace(output_df)
         filter_dict = {"concept:name": event_types, "attribute_location": locations}
-        output_df_filtered = self.filter_dataframe(output_df, filter_dict)
 
-        output_handling.append_csv()
-        all_traces_xes_path = create_all_trace_xes.create_all_trace_xes(
-            utils.CSV_ALL_TRACES, key="event_type"
+        # read single journey into dataframe
+        single_trace_df = pm4py.read_xes(
+            self.get_xes_output_path(journey, isTest=IS_TEST)
         )
-        all_traces_df = pm4py.read_xes(all_traces_xes_path)
+
+        # prepare single journey xes
+        single_trace_df = self.sort_trace(single_trace_df)
+        output_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
+
+        # prepare all journey xes
+        all_traces_df = pm4py.read_xes(self.get_all_xes_output_path(isTest=IS_TEST))
         all_traces_df = all_traces_df.groupby(
-            "concept:name", group_keys=False, sort=False
+            "case:concept:name", group_keys=False, sort=False
         ).apply(self.sort_trace)
         all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
 
@@ -109,6 +110,28 @@ class ResultView(generic.TemplateView):
             all_traces_df_filtered
         ).getvalue()
         return context
+
+    def get_xes_output_path(self, journey, isTest=False):
+        if not isTest:
+            output_path_csv = input_handling.convert_text_to_csv(journey)
+            output_path_xes = create_all_trace_xes.create_all_trace_xes(
+                output_path_csv, key="event_type", suffix="_1"
+            )
+        else:
+            output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
+        return output_path_xes
+
+    def get_all_xes_output_path(self, isTest=False, key="event_type", suffix=""):
+        if not isTest:
+            output_handling.append_csv()
+            all_traces_xes_path = create_all_trace_xes.create_all_trace_xes(
+                utils.CSV_ALL_TRACES, key=key, suffix=suffix
+            )
+        else:
+            all_traces_xes_path = (
+                str(utils.out_path / "all_traces_") + key + suffix + ".xes"
+            )
+        return all_traces_xes_path
 
     def create_html_from_xes(self, df):
         xes_html_buffer = StringIO()
@@ -145,8 +168,8 @@ class ResultView(generic.TemplateView):
 
         return flattened_list
 
-    def sort_trace(self, output_df):
-        sorted_df = output_df.sort_values(by="time:timestamp", inplace=False)
+    def sort_trace(self, df):
+        sorted_df = df.sort_values(by="time:timestamp", inplace=False)
         return sorted_df
 
     def filter_dataframe(self, df, filter_dict):
