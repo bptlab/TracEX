@@ -8,7 +8,11 @@
 <body>
     <h1>Success! The tracEX pipeline produced the following results:</h1>
     <p><b>You have selected the following event types / locations:</b></p>
-    <p>{{ event_types }} {{ locations }}</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Refresh Filter">
+    </form>
     <p><b>This is the patient journey you provided:</b></p>
     <p>{{ journey }}</p>
 

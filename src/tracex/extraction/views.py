@@ -25,7 +25,7 @@ from .prototype import (
 )
 
 # set IS_TEST = False if you want to run the pipeline
-IS_TEST = False
+IS_TEST = True
 
 
 def redirect_to_selection(request):
@@ -41,6 +41,7 @@ class JourneyInputView(generic.FormView):
         cache.set("journey", form.cleaned_data["journey"].read().decode("utf-8"))
         cache.set("event_types", form.cleaned_data["event_types"])
         cache.set("locations", form.cleaned_data["locations"])
+        cache.set("is_extracted", True)
         return super().form_valid(form)
 
 
@@ -63,6 +64,7 @@ class JourneyGenerationView(generic.FormView):
     def form_valid(self, form):
         cache.set("event_types", form.cleaned_data["event_types"])
         cache.set("locations", form.cleaned_data["locations"])
+        cache.set("is_extracted", True)
         return super().form_valid(form)
 
 
@@ -74,8 +76,10 @@ class ProcessingView(generic.TemplateView):
         return redirect("result")
 
 
-class ResultView(generic.TemplateView):
+class ResultView(generic.FormView):
+    form_class = GenerationForm
     template_name = "result.html"
+    success_url = reverse_lazy("result")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,10 +87,15 @@ class ResultView(generic.TemplateView):
         event_types = self.flatten_list(cache.get("event_types"))
         locations = cache.get("locations")
         filter_dict = {"concept:name": event_types, "attribute_location": locations}
+        is_extracted = cache.get(
+            "is_extracted"
+        )  # true if coming from input or generation
 
         # read single journey into dataframe
         single_trace_df = pm4py.read_xes(
-            self.get_xes_output_path(journey, isTest=IS_TEST)
+            self.get_xes_output_path(
+                journey, is_test=IS_TEST, is_extracted=is_extracted
+            )
         )
 
         # prepare single journey xes
@@ -94,7 +103,9 @@ class ResultView(generic.TemplateView):
         output_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
 
         # prepare all journey xes
-        all_traces_df = pm4py.read_xes(self.get_all_xes_output_path(isTest=IS_TEST))
+        all_traces_df = pm4py.read_xes(
+            self.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
+        )
         all_traces_df = all_traces_df.groupby(
             "case:concept:name", group_keys=False, sort=False
         ).apply(self.sort_trace)
@@ -109,10 +120,18 @@ class ResultView(generic.TemplateView):
         context["all_xes_html"] = self.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
+
+        is_extracted = False
+        cache.set("is_extracted", is_extracted)
         return context
 
-    def get_xes_output_path(self, journey, isTest=False):
-        if not isTest:
+    def form_valid(self, form):
+        cache.set("event_types", form.cleaned_data["event_types"])
+        cache.set("locations", form.cleaned_data["locations"])
+        return super().form_valid(form)
+
+    def get_xes_output_path(self, journey, is_test=False, is_extracted=False):
+        if not (is_test | is_extracted):
             output_path_csv = input_handling.convert_text_to_csv(journey)
             output_path_xes = create_all_trace_xes.create_all_trace_xes(
                 output_path_csv, key="event_type", suffix="_1"
@@ -121,8 +140,10 @@ class ResultView(generic.TemplateView):
             output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
         return output_path_xes
 
-    def get_all_xes_output_path(self, isTest=False, key="event_type", suffix=""):
-        if not isTest:
+    def get_all_xes_output_path(
+        self, is_test=False, is_extracted=False, key="event_type", suffix=""
+    ):
+        if not (is_test | is_extracted):
             output_handling.append_csv()
             all_traces_xes_path = create_all_trace_xes.create_all_trace_xes(
                 utils.CSV_ALL_TRACES, key=key, suffix=suffix
