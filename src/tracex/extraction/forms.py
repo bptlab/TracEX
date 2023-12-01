@@ -65,3 +65,7 @@ class JourneyForm(BaseEventForm):
 
 class GenerationForm(BaseEventForm):
     pass
+
+
+class ResultForm(BaseEventForm):
+    pass

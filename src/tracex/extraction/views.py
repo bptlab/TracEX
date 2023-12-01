@@ -15,7 +15,7 @@ from django.shortcuts import redirect
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-from .forms import JourneyForm, GenerationForm
+from .forms import JourneyForm, GenerationForm, ResultForm
 from .prototype import (
     input_handling,
     input_inquiry,
@@ -56,9 +56,9 @@ class JourneyGenerationView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        patient_journey = input_inquiry.create_patient_journey()
-        cache.set("journey", patient_journey)
-        context["generated_journey"] = patient_journey
+        journey = input_inquiry.create_patient_journey()
+        cache.set("journey", journey)
+        context["generated_journey"] = journey
         return context
 
     def form_valid(self, form):
@@ -77,7 +77,7 @@ class ProcessingView(generic.TemplateView):
 
 
 class ResultView(generic.FormView):
-    form_class = GenerationForm
+    form_class = ResultForm
     template_name = "result.html"
     success_url = reverse_lazy("result")
 
@@ -111,8 +111,9 @@ class ResultView(generic.FormView):
         ).apply(self.sort_trace)
         all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
 
-        context["event_types"] = event_types
-        context["locations"] = locations
+        context["form"] = ResultForm(
+            initial={"event_types": cache.get("event_types"), "locations": locations}
+        )
         context["journey"] = journey
         context["dfg_img"] = self.create_dfg_png_from_df(output_df_filtered)
         context["xes_html"] = self.create_html_from_xes(output_df_filtered).getvalue()
