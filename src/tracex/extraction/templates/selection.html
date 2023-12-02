@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="EN">
 <head>
     <title>TracEX</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', sans-serif;
+            text-align: center; /* Center text */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height of the viewport */
+        }
+        .container {
+            width: 50%; /* Adjust as needed */
+        }
+        button {
+            width: 100%; /* Full width of the container */
+            padding: 10px; /* Add padding for better appearance */
+            margin: 10px 0; /* Add some margin around buttons */
+        }
+        .logo {
+            max-width: 800px;
+            margin-bottom: 20px;
+            margin-top: -150px;
+    </style>
 </head>
 <body>
-    <h1>Welcome to TracEX</h1>
-    <p>Placeholder: Welcome text and basic instructions.</p>
+    <div class="container">
+        <img src="https://i.imgur.com/q291CMo.png" alt="TracEX Logo" class="logo"> <!-- Adjust the path as needed -->
+        <h1>Welcome to TracEX</h1>
+        <p>Placeholder: Welcome text and basic instructions.</p>
 
-    <a href="{% url 'journey_input' %}">
-        <button>Provide journey as file</button>
-    </a>
+        <a href="{% url 'journey_input' %}">
+            <button>Provide journey as file</button>
+        </a>
 
-    <a href="{% url 'journey_generation' %}">
-        <button>Generate journey with ChatGPT</button>
-    </a>
+        <a href="{% url 'journey_generation' %}">
+            <button>Generate journey with ChatGPT</button>
+        </a>
+    </div>
 </body>
 </html>
+
