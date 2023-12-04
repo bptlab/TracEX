@@ -25,7 +25,7 @@ from .prototype import (
 )
 
 # set IS_TEST = False if you want to run the pipeline
-IS_TEST = False
+IS_TEST = True
 
 
 def redirect_to_selection(request):
@@ -56,7 +56,13 @@ class JourneyGenerationView(generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        journey = input_inquiry.create_patient_journey()
+
+        if IS_TEST:
+            with open(str(utils.in_path / "journey_synth_covid_0.txt"), "r") as file:
+                journey = file.read()
+        else:
+            journey = input_inquiry.create_patient_journey()
+
         cache.set("journey", journey)
         context["generated_journey"] = journey
         return context
