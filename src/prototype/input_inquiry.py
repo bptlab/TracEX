@@ -4,7 +4,7 @@ import os
 import openai
 
 import utils as u
-import prompts as p
+import patient_journey_creator as p
 
 openai.api_key = u.oaik
 

@@ -1,25 +1,565 @@
-- Experiencing mild symptoms, 20211015T0000,
-- Symptoms worsening over time, 20211015T0000,
-- Contacting family doctor, 20211020T0000,
-- Isolating at home, 20211020T0000,
-- Monitoring symptoms closely, 20211020T0000,
-- Taking over-the-counter medication, 20211020T0000,
-- Warning to go to hospital if symptoms worsen, 20211020T0000,
-- Unable to breathe properly, 20211022T0000,
-- Rushed to nearest hospital, 20211022T0000,
-- Admitted to hospital, 20211022T0000,
-- Receiving oxygen therapy, 20211022T0000,
-- Vital signs closely monitored, 20211022T0000,
-- Medication provided for fever, 20211022T0000,
-- Discharged from hospital, 20211029T0000,
-- Continuing to isolate at home, 20211029T0000,
-- Following necessary precautions, 20211029T0000,
-- Seeking information about vaccines, 20211029T0000,
-- Consulting with family doctor, 20211029T0000,
-- Receiving first dose of vaccine, 20211125T0000,
-- Following prescribed schedule, 20211125T0000,
-- Receiving second dose of vaccine, 20211216T0000,
-- Learning to prioritize health, 20211216T0000,
-- Striking a better work-life balance, 20211216T0000,
-- Becoming more conscious of self-care, 20211216T0000,
-- Resilience of human spirit, 20211216T0000,
+- s
+- t
+- a
+- r
+- t
+- i
+- n
+- g
+-  
+- t
+- o
+-  
+- e
+- x
+- p
+- e
+- r
+- i
+- e
+- n
+- c
+- e
+-  
+- s
+- y
+- m
+- p
+- t
+- o
+- m
+- s
+- 
+
+- s
+- e
+- l
+- f
+- -
+- i
+- s
+- o
+- l
+- a
+- t
+- i
+- n
+- g
+-  
+- i
+- n
+-  
+- a
+- p
+- a
+- r
+- t
+- m
+- e
+- n
+- t
+- 
+
+- s
+- y
+- m
+- p
+- t
+- o
+- m
+- s
+-  
+- w
+- o
+- r
+- s
+- e
+- n
+- i
+- n
+- g
+- 
+
+- d
+- e
+- v
+- e
+- l
+- o
+- p
+- i
+- n
+- g
+-  
+- d
+- i
+- f
+- f
+- i
+- c
+- u
+- l
+- t
+- y
+-  
+- b
+- r
+- e
+- a
+- t
+- h
+- i
+- n
+- g
+- 
+
+- c
+- o
+- n
+- t
+- a
+- c
+- t
+- i
+- n
+- g
+-  
+- g
+- e
+- n
+- e
+- r
+- a
+- l
+-  
+- p
+- r
+- a
+- c
+- t
+- i
+- t
+- i
+- o
+- n
+- e
+- r
+- 
+
+- s
+- c
+- h
+- e
+- d
+- u
+- l
+- i
+- n
+- g
+-  
+- t
+- e
+- l
+- e
+- m
+- e
+- d
+- i
+- c
+- i
+- n
+- e
+-  
+- c
+- o
+- n
+- s
+- u
+- l
+- t
+- a
+- t
+- i
+- o
+- n
+- 
+
+- c
+- o
+- n
+- s
+- u
+- l
+- t
+- i
+- n
+- g
+-  
+- d
+- o
+- c
+- t
+- o
+- r
+-  
+- v
+- i
+- a
+-  
+- t
+- e
+- l
+- e
+- m
+- e
+- d
+- i
+- c
+- i
+- n
+- e
+- 
+
+- g
+- e
+- t
+- t
+- i
+- n
+- g
+-  
+- t
+- e
+- s
+- t
+- e
+- d
+-  
+- f
+- o
+- r
+-  
+- C
+- o
+- v
+- i
+- d
+- -
+- 1
+- 9
+- 
+
+- v
+- i
+- s
+- i
+- t
+- i
+- n
+- g
+-  
+- t
+- e
+- s
+- t
+- i
+- n
+- g
+-  
+- c
+- e
+- n
+- t
+- e
+- r
+- 
+
+- u
+- n
+- d
+- e
+- r
+- g
+- o
+- i
+- n
+- g
+-  
+- C
+- o
+- v
+- i
+- d
+- -
+- 1
+- 9
+-  
+- t
+- e
+- s
+- t
+- 
+
+- r
+- e
+- c
+- e
+- i
+- v
+- i
+- n
+- g
+-  
+- p
+- o
+- s
+- i
+- t
+- i
+- v
+- e
+-  
+- t
+- e
+- s
+- t
+-  
+- r
+- e
+- s
+- u
+- l
+- t
+- 
+
+- c
+- o
+- n
+- t
+- i
+- n
+- u
+- i
+- n
+- g
+-  
+- s
+- e
+- l
+- f
+- -
+- i
+- s
+- o
+- l
+- a
+- t
+- i
+- o
+- n
+- 
+
+- m
+- o
+- n
+- i
+- t
+- o
+- r
+- i
+- n
+- g
+-  
+- s
+- y
+- m
+- p
+- t
+- o
+- m
+- s
+-  
+- c
+- l
+- o
+- s
+- e
+- l
+- y
+- 
+
+- r
+- e
+- c
+- e
+- i
+- v
+- i
+- n
+- g
+-  
+- g
+- u
+- i
+- d
+- a
+- n
+- c
+- e
+-  
+- o
+- n
+-  
+- m
+- a
+- n
+- a
+- g
+- i
+- n
+- g
+-  
+- s
+- y
+- m
+- p
+- t
+- o
+- m
+- s
+- 
+
+- e
+- x
+- p
+- e
+- r
+- i
+- e
+- n
+- c
+- i
+- n
+- g
+-  
+- f
+- e
+- v
+- e
+- r
+- ,
+-  
+- c
+- o
+- u
+- g
+- h
+- ,
+-  
+- s
+- o
+- r
+- e
+-  
+- t
+- h
+- r
+- o
+- a
+- t
+- ,
+-  
+- l
+- o
+- s
+- s
+-  
+- o
+- f
+-  
+- t
+- a
+- s
+- t
+- e
+-  
+- a
+- n
+- d
+-  
+- s
+- m
+- e
+- l
+- l
+- 
+
+- c
+- o
+- m
+- m
+- u
+- n
+- i
+- c
+- a
+- t
+- i
+- n
+- g
+-  
+- w
+- i
+- t
+- h
+-  
+- G
+- P
+- 
+
+- g
+- r
+- a
+- d
+- u
+- a
+- l
+- l
+- y
+-  
+- i
+- m
+- p
+- r
+- o
+- v
+- i
+- n
+- g
+-  
+- s
+- y
+- m
+- p
+- t
+- o
+- m
+- s
+- 
+
+- f
+- e
+- e
+- l
+- i
+- n
+- g
+-  
+- b
+- e
+- t
+- t
+- e
+- r
+- 
+

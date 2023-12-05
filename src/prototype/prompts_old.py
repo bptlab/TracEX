@@ -32,14 +32,34 @@ TXT_TO_BULLETPOINTS_ANSWER = """
 # Adding of a start date to every bullet point
 BULLETPOINTS_START_DATE_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
+    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
-    For example for the text 'On April 1, 2020, I started experiencing mild symptoms' it should look like this 'experiencing mild symptoms, 20200401T0000'.
+    Do not modify the content of the bulletpoint and keep ending commas.
+    Please use the format YYYYMMDD for the dates and extend every date by "T0000".
+    Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one.
+    Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
     If the text talks about getting medication and then improving and the bullet point says 'improving', you should return the date of getting the medication as start date.
-    """
+    If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
+    If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
+    use that information to draw conclusions about the start dates.
+    If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
+    The only output should be the updated bullet points, nothing else!
+"""
 BULLETPOINTS_START_DATE_PROMPT = """
     Here is the text and the bulletpoints for which you should extract start dates:
 """
 BULLETPOINTS_START_DATE_ANSWER = """
+    For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
+    Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
+    '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return
+    '- experiencing mild symptoms, 20200401T0000\n- visiting doctor's, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
+    Accordingly for the same text and the bullet points '- experiencing first symptoms: 01/04/2020,\n- going to doctor four days later,\n- testing positive for Covid19,' you should return
+    '- experiencing first symptoms, 20200401T0000\n- going to doctor, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
+    If the text says 'A year after the vaccine was introduced, I got vaccined myself' and a bullet point says 'got vaccined',
+    you should take online information about when a vaccine was introduced in the country the author is from into account and put that as start date.
+    When the considered vaccine was introduced on 01/01/2021, you should return '- getting vaccined, 20220101T0000', as the author said, that he waited a year.
+    If the text says something like "I got medication on the fith of july. Nevertheless my health wasn't improving in any way." and the bulletpoints are
+    '- getting medication,\n- worsening health' you should return '- getting medication, 20200705T0000\n- worsening health, 20200705T0000'.
 """
 
 

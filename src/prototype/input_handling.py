@@ -55,11 +55,10 @@ def convert_text_to_bulletpoints(inp):
         {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
-    bulletpoints = u.query_gpt(messages)
-    bulletpoints = remove_commas(bulletpoints)
-    bulletpoints = add_ending_commas(bulletpoints)
+    bulletpoints = u.query_gpt(messages, function_call={"name": "convert_text_to_bulletpoints"})
     with open((u.out_path / "intermediates/1_bulletpoints.txt"), "w") as f:
-        f.write(bulletpoints)
+        for bulletpoint in bulletpoints:
+            f.write("- " + bulletpoint + "\n")
     return bulletpoints
 
 
@@ -74,12 +73,10 @@ def add_start_dates(inp, bulletpoints):
         {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
     ]
     bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
-    with open(
-        (u.out_path / "intermediates/2_bulletpoints_with_start.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_start)
+
+    with open((u.out_path / "intermediates/2_bulletpoints_with_start.txt"), "w") as f:
+        for bulletpoint_start in bulletpoints:
+            f.write("- " + bulletpoint_start + "\n")
     return bulletpoints_start
 
 
@@ -93,23 +90,23 @@ def add_end_dates(inp, bulletpoints):
         },
         {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
     ]
-    bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
+    bulletpoints_start_end = u.query_gpt(messages)
+    bulletpoints_start_end = add_ending_commas(bulletpoints_start_end)
     with open(
         (u.out_path / "intermediates/3_bulletpoints_with_end.txt"),
         "w",
     ) as f:
-        f.write(bulletpoints_start)
-    return bulletpoints_start
+        f.write(bulletpoints_start_end)
+    return bulletpoints_start_end
 
 
-def add_durations(inp, bulletpoints_start):
+def add_durations(inp, bulletpoints_start_end):
     """Adds durations to the bulletpoints."""
     messages = [
         {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
         {
             "role": "user",
-            "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start,
+            "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start_end,
         },
         {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
     ]

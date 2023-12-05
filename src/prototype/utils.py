@@ -2,8 +2,10 @@
 import os
 import time
 from pathlib import Path
+import json
 
 import openai
+import functions_calls as fc
 
 out_path = Path("content/outputs/")  # Path to the outputs-folder
 in_path = Path("content/inputs/")  # Path to the inputs-folder
@@ -34,13 +36,19 @@ def get_decision(question):
     return get_decision(question)
 
 
-def query_gpt(messages, temperature=TEMPERATURE_SUMMARIZING):
+def query_gpt(messages, functions=fc.FUNCTIONS, function_call="none", temperature=TEMPERATURE_SUMMARIZING ):
     """Queries the GPT engine."""
     response = openai.ChatCompletion.create(
         model=MODEL,
         messages=messages,
         max_tokens=MAX_TOKENS,
         temperature=temperature,
+        functions=functions,
+        function_call=function_call,
     )
-    output = response.choices[0].message.content
+    if function_call == "none":
+        output = response.choices[0].message.content
+    else:
+        response = json.loads(response['choices'][0]['message']['function_call']['arguments'])
+        output = response['output']
     return output
