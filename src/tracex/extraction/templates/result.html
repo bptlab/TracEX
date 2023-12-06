@@ -4,37 +4,137 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
+    <style>
+        body {
+            font-family: 'Gill Sans', sans-serif;
+            width: 50%;
+            margin-top: 5%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            margin-bottom: 20px;
+            display: block;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+        }
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .form-column {
+            flex: 1;
+            margin-right: 5px;
+        }
+        .form-column:last-child {
+            margin-right: 0;
+        }
+        .dfg-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .dfg-container img {
+            width: 100%;
+            max-width: none;
+            height: auto;
+        }
+        input[type="submit"].button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 1%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Success! The tracEX pipeline produced the following results:</h1>
-    <p><b>You have selected the following event types / locations:</b></p>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form }}
-        <input type="submit" value="Refresh Filter">
-    </form>
+    <h1>Success! The TracEX pipeline produced the following results:</h1>
+
     <p><b>This is the patient journey you provided:</b></p>
     <p>{{ journey }}</p>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#toggleButton1").click(function() {
+                $("#contentWrapper1").toggle();
+            });
+
+            $("#toggleButton2").click(function() {
+                $("#contentWrapper2").toggle();
+            });
+        });
+    </script>
+
     {% if xes_html %}
-        <p><b>This is the event log extracted from the journey above (as .xes)</b></p>
-        {{ xes_html|safe }}
+        <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
+        <div id="contentWrapper1" style="display: none;">
+            <p><b>This is the event log extracted from the journey above (single trace)</b></p>
+            <div id="xesContent1">{{ xes_html|safe }}</div>
+        </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
     {% endif %}
 
-    <p><b>The event log from above represented as a DFG:</b></p>
-    <img src="data:image/png;base64,{{ dfg_img }}" alt="DFG Visualization">
+    <p></p>
 
     {% if all_xes_html %}
-        <p><b>This is the event log extracted from the journey above (as .xes)</b></p>
-        {{ all_xes_html|safe }}
+        <button id="toggleButton2">Show/Hide enriched Event Log</button>
+        <div id="contentWrapper2" style="display: none;">
+            <p><b>This is the event log enriched by the extracted trace</b></p>
+            <div id="xesContent2">{{ all_xes_html|safe }}</div>
+        </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
     {% endif %}
 
-    <p><b>The event log from above represented as a DFG:</b></p>
-    <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+    <div class="dfg-container">
+        <div>
+            <p><b>Extracted Trace (DFG)</b></p>
+            <img src="data:image/png;base64,{{ dfg_img }}" alt="DFG Visualization">
+        </div>
+
+        <div>
+            <p><b>Complete Event Log (DFG)</b></p>
+            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+        </div>
+    </div>
+
+    <p style="margin-bottom: 0"><b>You have selected the following event types / locations:</b></p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.journey.label_tag }} {{ form.journey }}
+                {{ form.journey.errors }}
+                <p>{{ form.journey.help_text }}</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.event_types.label_tag }} {{ form.event_types }}
+                {{ form.event_types.errors }}
+            </div>
+            <div class="form-column">
+                {{ form.locations.label_tag }} {{ form.locations }}
+                {{ form.locations.errors }}
+            </div>
+        </div>
+
+        <input type="submit" value="Refresh Filter" class="button">
+    </form>
+
+
     <a href="{% url 'selection' %}">
         <button>Return to input selection</button>
     </a>
