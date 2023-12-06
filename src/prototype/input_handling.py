@@ -15,13 +15,15 @@ def convert_text_to_csv(inp):
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
     bulletpoints = convert_text_to_bulletpoints(inp)
     print(
-        "Converting Data: Extracting start date information. (2/" + steps + ")",
+        "Converting Data: Extracting start date information. (2/" +
+        steps + ")",
         end="\r",
     )
     u.pause_between_queries()
     bulletpoints_start = add_start_dates(inp, bulletpoints)
     print(
-        "Converting Data: Extracting end date information. (3/" + steps + ")   ",
+        "Converting Data: Extracting end date information. (3/" +
+        steps + ")   ",
         end="\r",
     )
     u.pause_between_queries()
@@ -55,7 +57,8 @@ def convert_text_to_bulletpoints(inp):
         {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
-    bulletpoints = u.query_gpt(messages, function_call={"name": "convert_text_to_bulletpoints"})
+    bulletpoints = u.query_gpt(messages, function_call={
+                               "name": "convert_text_to_bulletpoints"})
     with open((u.out_path / "intermediates/1_bulletpoints.txt"), "w") as f:
         for bulletpoint in bulletpoints:
             f.write("- " + bulletpoint + "\n")

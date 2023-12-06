@@ -36,7 +36,7 @@ def get_decision(question):
     return get_decision(question)
 
 
-def query_gpt(messages, functions=fc.FUNCTIONS, function_call="none", temperature=TEMPERATURE_SUMMARIZING ):
+def query_gpt(messages, functions=fc.FUNCTIONS, function_call="none", temperature=TEMPERATURE_SUMMARIZING):
     """Queries the GPT engine."""
     response = openai.ChatCompletion.create(
         model=MODEL,
@@ -49,6 +49,7 @@ def query_gpt(messages, functions=fc.FUNCTIONS, function_call="none", temperatur
     if function_call == "none":
         output = response.choices[0].message.content
     else:
-        response = json.loads(response['choices'][0]['message']['function_call']['arguments'])
+        response = json.loads(
+            response['choices'][0]['message']['function_call']['arguments'])
         output = response['output']
     return output

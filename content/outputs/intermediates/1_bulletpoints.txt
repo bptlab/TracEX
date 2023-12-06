@@ -1,18 +1,13 @@
-starting to experience symptoms
-self-isolating in apartment
-symptoms worsening
-developing difficulty breathing
-contacting general practitioner
-scheduling telemedicine consultation
-consulting doctor via telemedicine
-getting tested for Covid-19
-visiting testing center
-undergoing Covid-19 test
-receiving positive test result
-continuing self-isolation
-monitoring symptoms closely
-receiving guidance on managing symptoms
-experiencing fever, cough, sore throat, loss of taste and smell
-communicating with GP
-gradually improving symptoms
-feeling better
+- starting to experience symptoms
+- self-isolating in apartment
+- symptoms worsening
+- consulting doctor
+- scheduling telemedicine consultation
+- getting tested for Covid-19
+- receiving positive test result
+- continuing self-isolation
+- monitoring symptoms
+- experiencing range of symptoms
+- communicating with GP
+- symptoms gradually improving
+- feeling better
