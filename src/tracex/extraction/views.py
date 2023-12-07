@@ -93,9 +93,13 @@ class ResultView(generic.FormView):
         event_types = self.flatten_list(cache.get("event_types"))
         locations = cache.get("locations")
         filter_dict = {"concept:name": event_types, "attribute_location": locations}
-        is_extracted = cache.get(
-            "is_extracted"
-        )  # false if coming from input or generation
+
+        if cache.get("is_extracted") is None:
+            is_extracted = True
+        else:
+            is_extracted = cache.get(
+                "is_extracted"
+            )  # false if coming from input or generation
 
         # read single journey into dataframe
         single_trace_df = pm4py.read_xes(

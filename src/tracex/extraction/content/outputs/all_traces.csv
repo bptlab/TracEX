@@ -505,131 +505,75 @@ caseID,event_information,start,end,duration,event_type,attribute_location
 30,Recovering from illness,20220621T0000,20220621T0000,00:00:00,Symptom Offset,Home
 30,Getting vaccinated against Covid-19,20220621T0000,20220621T0000,00:00:00,Treatment,Doctors
 30,Valuing support from healthcare professionals/friends/and colleagues,20220621T0000,20220621T0000,00:00:00,Feelings,Home
-31,Experiencing mild symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-31,Isolating at home,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-31,Informing school administration,20210715T0000,20210715T0000,00:00:00,Other,Home
-31,Symptoms worsening,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-31,Developing high fever,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-31,Difficulty breathing,20210719T0000,20210719T0000,00:00:00,Symptom Onset,Home
-31,Contacting primary care physician,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
-31,Monitoring symptoms at home,20210720T0000,20210720T0000,00:00:00,Other,Home
-31,Condition deteriorating,20210720T0000,20210720T0000,00:00:00,Other,Home
-31,Seeking medical help,20210724T0000,20210724T0000,00:00:00,Doctor visit,Doctors
-31,Visiting local hospital,20210724T0000,20210724T0000,00:00:00,Doctor visit,Hospital
-31,Undergoing tests,20210724T0000,20210724T0000,00:00:00,Other,Hospital
-31,Admitted to hospital,20210724T0000,20210731T0000,168:00:00,Hospital admission,Hospital
-31,Receiving treatments,20210724T0000,20210731T0000,168:00:00,Treatment,Hospital
-31,Showing signs of improvement,20210731T0000,20210731T0000,00:00:00,Other,Hospital
-31,Discharged from hospital,20210801T0000,20210801T0000,00:00:00,Hospital discharge,Home
-31,Continuing self-isolating at home,20210801T0000,20210801T0000,00:00:00,Lifestyle Change,Home
-31,Monitoring symptoms closely,20210801T0000,20210801T0000,00:00:00,Other,Home
-31,Receiving Covid-19 vaccine,20220215T0000,20220215T0000,00:00:00,Treatment,Doctors
-31,Taking necessary precautions,20220215T0000,20220215T0000,00:00:00,Lifestyle Change,Home
-31,Receiving second dose,20220308T0000,20220308T0000,00:00:00,Treatment,Doctors
-31,Support of family/friends/and colleagues,20220308T0000,20220308T0000,00:00:00,Other,Home
-31,Importance of health and resilience,20220308T0000,20220308T0000,00:00:00,Other,Home
-31,Appreciating moments of joy,20220308T0000,20220308T0000,00:00:00,Other,Home
-32,Experiencing mild symptoms,20211225T0000,20211225T0000,00:00:00,Symptom Onset,Home
-32,Isolating from family,20211225T0000,20211225T0000,00:00:00,Lifestyle Change,Home
-32,Getting tested,20211225T0000,20211225T0000,00:00:00,Diagnosis,Home
-32,Symptoms worsening,20211226T0000,20211226T0000,00:00:00,Symptom Onset,Home
-32,Difficulty breathing,20211226T0000,20211226T0000,00:00:00,Symptom Onset,Home
-32,Loss of taste and smell,20211226T0000,20211226T0000,00:00:00,Symptom Onset,Home
-32,Consulting primary care physician,20211227T0000,20211227T0000,00:00:00,Doctor visit,Doctors
-32,Continuing self-isolating,20211227T0000,20211227T0000,00:00:00,Lifestyle Change,Home
-32,Juggling professional responsibilities,20211228T0000,20211228T0000,00:00:00,Other,Home
-32,Architectural firm being supportive,20211228T0000,20211228T0000,00:00:00,Other,Home
-32,Husband taking over household responsibilities,20211228T0000,20211228T0000,00:00:00,Other,Home
-32,Gradually feeling better,20220108T0000,20220108T0000,00:00:00,Symptom Offset,Home
-32,Symptoms subsiding,20220108T0000,20220108T0000,00:00:00,Symptom Offset,Home
-32,Regaining energy,20220108T0000,20220108T0000,00:00:00,Symptom Offset,Home
-32,Consulting doctor again,20220108T0000,20220108T0000,00:00:00,Doctor visit,Doctors
-32,Recovering from Covid-19,20220108T0000,20220108T0000,00:00:00,Other,Home
-32,Cautioned about long-term effects,20220108T0000,20220108T0000,00:00:00,Other,Home
-32,Continuing self-care,20220108T0000,20220108T0000,00:00:00,Lifestyle Change,Home
-32,Monitoring for lingering symptoms,20220108T0000,20220108T0000,00:00:00,Other,Home
-32,Getting vaccinated,20220108T0000,20220108T0000,00:00:00,Treatment,Home
-32,Prioritizing health and well-being,20220108T0000,20220108T0000,00:00:00,Lifestyle Change,Home
-32,Appreciating work-life balance,20220108T0000,20220108T0000,00:00:00,Feelings,Home
-32,Cherishing time with family,20220108T0000,20220108T0000,00:00:00,Feelings,Home
-32,Emerging with resilience and gratitude,20220108T0000,20220108T0000,00:00:00,Feelings,Home
-33,Experiencing mild symptoms,20211015T0000,20211015T0000,00:00:00,Symptom Onset,Home
-33,Symptoms worsening over time,20211015T0000,20211015T0000,00:00:00,Symptom Onset,Home
-33,Contacting family doctor,20211020T0000,20211020T0000,00:00:00,Doctor visit,Doctors
-33,Isolating at home,20211020T0000,20211020T0000,00:00:00,Lifestyle Change,Home
-33,Monitoring symptoms closely,20211020T0000,20211020T0000,00:00:00,Symptom Onset,Home
-33,Taking over-the-counter medication,20211020T0000,20211020T0000,00:00:00,Medication,Home
-33,Warning to go to hospital if symptoms worsen,20211020T0000,20211020T0000,00:00:00,Symptom Onset,Home
-33,Unable to breathe properly,20211022T0000,20211022T0000,00:00:00,Symptom Onset,Home
-33,Rushed to nearest hospital,20211022T0000,20211022T0000,00:00:00,Hospital admission,Hospital
-33,Admitted to hospital,20211022T0000,20211022T0000,00:00:00,Hospital admission,Hospital
-33,Receiving oxygen therapy,20211022T0000,20211029T0000,168:00:00,Treatment,Hospital
-33,Vital signs closely monitored,20211022T0000,20211029T0000,168:00:00,Treatment,Hospital
-33,Medication provided for fever,20211022T0000,20211029T0000,168:00:00,Medication,Hospital
-33,Discharged from hospital,20211029T0000,20211029T0000,00:00:00,Hospital discharge,Home
-33,Continuing to isolate at home,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
-33,Following necessary precautions,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
-33,Seeking information about vaccines,20211029T0000,20211029T0000,00:00:00,Lifestyle Change,Home
-33,Consulting with family doctor,20211029T0000,20211029T0000,00:00:00,Doctor visit,Doctors
-33,Receiving first dose of vaccine,20211125T0000,20211125T0000,00:00:00,Treatment,Doctors
-33,Following prescribed schedule,20211125T0000,20211216T0000,504:00:00,Treatment,Doctors
-33,Receiving second dose of vaccine,20211216T0000,20211216T0000,00:00:00,Treatment,Doctors
-33,Learning to prioritize health,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
-33,Striking a better work-life balance,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
-33,Becoming more conscious of self-care,20211216T0000,20211216T0000,00:00:00,Lifestyle Change,Home
-33,Resilience of human spirit,20211216T0000,20211216T0000,00:00:00,Feelings,Home
+31,Experiencing mild symptoms,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
+31,Feeling headache and fatigue,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
+31,Developing fever and cough,20210717T0000,20210717T0000,00:00:00,Symptom Onset,Home
+31,Calling primary care doctor,20210718T0000,20210718T0000,00:00:00,Doctor visit,Doctors
+31,Advised to self-isolate,20210718T0000,20210718T0000,00:00:00,Lifestyle Change,Home
+31,Monitoring symptoms closely,20210718T0000,20210718T0000,00:00:00,Symptom Onset,Home
+31,Emphasizing rest and hydration,20210718T0000,20210718T0000,00:00:00,Treatment,Home
+31,Taking fever reducers,20210718T0000,20210718T0000,00:00:00,Medication,Home
+31,Symptoms persisting,20210718T0000,20210721T0000,72:00:00,Symptom Onset,Home
+31,Struggling with fluctuating fever,20210718T0000,20210721T0000,72:00:00,Symptom Onset,Home
+31,Visiting Covid-19 testing center,20210721T0000,20210721T0000,00:00:00,Doctor visit,Doctors
+31,Testing positive for virus,20210721T0000,20210721T0000,00:00:00,Diagnosis,Home
+31,Continuing self-isolation,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Taking precautions to protect family,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Staying in separate bedroom,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Wearing mask when interacting,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Sanitizing surfaces diligently,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Regular check-ins with doctor,20210721T0000,20210721T0000,00:00:00,Doctor visit,Doctors
+31,Discussing potential hospitalization,20210721T0000,20210721T0000,00:00:00,Doctor visit,Doctors
+31,Symptoms remaining manageable,20210721T0000,20210721T0000,00:00:00,Symptom Onset,Home
+31,Prescribed medication for cough,20210721T0000,20210721T0000,00:00:00,Medication,Home
+31,Prioritizing health with vaccination,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Getting vaccinated against Covid-19,20210721T0000,20210721T0000,00:00:00,Treatment,Home
+31,Battling with Covid-19,20210721T0000,20210721T0000,00:00:00,Symptom Onset,Home
+31,Reminding importance of self-care,20210721T0000,20210721T0000,00:00:00,Lifestyle Change,Home
+31,Valuing time with loved ones,20210721T0000,20210721T0000,00:00:00,Feelings,Home
+31,Advocating for clients' wellbeing,20210721T0000,20210721T0000,00:00:00,Other,Home
+32,Experiencing first symptoms,20200803T0000,20200803T0000,00:00:00,Symptom Onset,Home
+32,Recognizing fever/cough/and fatigue,20200803T0000,20200803T0000,00:00:00,Symptom Onset,Home
+32,Self-isolating at home,20200803T0000,20200819T0000,384:00:00,Lifestyle Change,Home
+32,Monitoring symptoms closely,20200803T0000,20200819T0000,384:00:00,Lifestyle Change,Home
+32,Developing shortness of breath and body aches,20200805T0000,20200819T0000,336:00:00,Symptom Onset,Home
+32,Reaching out to general practitioner,20200805T0000,20200819T0000,336:00:00,Doctor visit,Doctors
+32,Continuing self-isolation,20200805T0000,20200819T0000,336:00:00,Lifestyle Change,Home
+32,Taking over-the-counter medications,20200805T0000,20200819T0000,336:00:00,Medication,Home
+32,Staying hydrated and resting,20200805T0000,20200819T0000,336:00:00,Lifestyle Change,Home
+32,Keeping in touch with doctor,20200805T0000,20200819T0000,336:00:00,Doctor visit,Doctors
+32,Fluctuating symptoms,20200805T0000,20200819T0000,336:00:00,Symptom Onset,Home
+32,Persistent coughing and fatigue,20200805T0000,20200819T0000,336:00:00,Symptom Onset,Home
+32,Self-isolating as a family,20200805T0000,20200819T0000,336:00:00,Lifestyle Change,Home
+32,Following hygiene protocols,20200805T0000,20200819T0000,336:00:00,Lifestyle Change,Home
+32,Symptoms gradually improving,20200805T0000,20200819T0000,336:00:00,Symptom Offset,Home
+32,Staying in touch with doctor,20200805T0000,20200819T0000,336:00:00,Doctor visit,Doctors
+32,Continuing self-isolation,20200805T0000,20200819T0000,336:00:00,Lifestyle Change,Home
+32,Full recovery after 14 days,20200819T0000,20200819T0000,00:00:00,Symptom Offset,Home
+33,Experiencing first Covid-19 symptoms,20210602T0000,20210602T0000,00:00:00,Symptom Onset,Home
+33,Isolating to minimize infection,20210602T0000,20210602T0000,00:00:00,Lifestyle Change,Home
+33,Symptoms worsening: persistent cough/fever/extreme fatigue,20210605T0000,20210605T0000,00:00:00,Symptom Onset,Home
+33,Getting tested for Covid-19,20210605T0000,20210605T0000,00:00:00,Diagnosis,Hospital
+33,Continuing self-isolation and precautions,20210605T0000,20210620T0000,360:00:00,Lifestyle Change,Home
+33,Husband experiencing similar symptoms,20210607T0000,20210607T0000,00:00:00,Symptom Onset,Home
+33,Husband seeking medical attention,20210610T0000,20210610T0000,00:00:00,Doctor visit,Doctors
+33,Opting to recover at home,20210610T0000,20210710T0000,720:00:00,Treatment,Home
+33,Remaining in contact with family doctor,20210610T0000,20210710T0000,720:00:00,Doctor visit,Doctors
+33,Following medical advice and taking prescribed medications,20210610T0000,20210710T0000,720:00:00,Medication,Home
+33,Husband's condition deteriorating and passing away,20210620T0000,20210620T0000,00:00:00,Other,Hospital
+33,Slowly regaining health,20210620T0000,20210710T0000,720:00:00,Other,Home
+33,Choosing to get vaccinated,20210620T0000,20210620T0000,00:00:00,Treatment,Home
 34,Starting to experience symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
 34,Self-isolating in apartment,20200401T0000,20200430T0000,29 days,Lifestyle Change,Home
 34,Symptoms worsening,20200404T0000,20200404T0000,00:00:00,Symptom Onset,Home
-34,Consulting doctor via telemedicine,20200406T0000,20200406T0000,00:00:00,Doctor visit,Home
-34,Getting tested for Covid-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Hospital
+34,Consulting doctor via telemedicine,20200406T0000,20200406T0000,00:00:00,Doctor visit,Doctors
+34,Getting tested for Covid-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
 34,Waiting for test results,20200407T0000,20200410T0000,3 days,Other,Home
-34,Testing positive for Covid-19,20200410T0000,20200410T0000,00:00:00,Diagnosis,Hospital
+34,Testing positive for Covid-19,20200410T0000,20200410T0000,00:00:00,Diagnosis,Home
 34,Continuing self-isolation,20200410T0000,20200430T0000,19 days,Lifestyle Change,Home
 34,Monitoring symptoms closely,20200410T0000,20200430T0000,19 days,Other,Home
 34,Managing symptoms at home,20200410T0000,20200430T0000,19 days,Treatment,Home
 34,Experiencing range of symptoms,20200410T0000,20200430T0000,19 days,Symptom Onset,Home
-34,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Doctor visit,Home
+34,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Doctor visit,Doctors
 34,Symptoms gradually improving,20200430T0000,20200430T0000,00:00:00,Symptom Offset,Home
 34,Feeling better by end of April,20200430T0000,20200430T0000,00:00:00,Feelings,Home
-35,Starting to experience symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
-35,Self-isolating in apartment,20200401T0000,20200430T0000,29 days,Lifestyle Change,Home
-35,Symptoms worsening,20200404T0000,20200404T0000,00:00:00,Symptom Onset,Home
-35,Consulting doctor via telemedicine,20200406T0000,20200406T0000,00:00:00,Doctor visit,Home
-35,Getting tested for Covid-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Hospital
-35,Waiting for test results,20200407T0000,20200410T0000,3 days,Other,Home
-35,Testing positive for Covid-19,20200410T0000,20200410T0000,00:00:00,Diagnosis,Hospital
-35,Continuing self-isolation,20200410T0000,20200430T0000,19 days,Lifestyle Change,Home
-35,Monitoring symptoms closely,20200410T0000,20200430T0000,19 days,Other,Home
-35,Managing symptoms at home,20200410T0000,20200430T0000,19 days,Treatment,Home
-35,Experiencing range of symptoms,20200410T0000,20200430T0000,19 days,Symptom Onset,Home
-35,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Doctor visit,Home
-35,Symptoms gradually improving,20200430T0000,20200430T0000,00:00:00,Symptom Offset,Home
-35,Feeling better by end of April,20200430T0000,20200430T0000,00:00:00,Feelings,Home
-36,Starting to experience symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
-36,Self-isolating in apartment,20200401T0000,20200430T0000,29 days,Lifestyle Change,Home
-36,Symptoms worsening,20200404T0000,20200404T0000,00:00:00,Symptom Onset,Home
-36,Consulting doctor via telemedicine,20200406T0000,20200406T0000,00:00:00,Doctor visit,Home
-36,Getting tested for Covid-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Hospital
-36,Waiting for test results,20200407T0000,20200410T0000,3 days,Other,Home
-36,Testing positive for Covid-19,20200410T0000,20200410T0000,00:00:00,Diagnosis,Hospital
-36,Continuing self-isolation,20200410T0000,20200430T0000,19 days,Lifestyle Change,Home
-36,Monitoring symptoms closely,20200410T0000,20200430T0000,19 days,Other,Home
-36,Managing symptoms at home,20200410T0000,20200430T0000,19 days,Treatment,Home
-36,Experiencing range of symptoms,20200410T0000,20200430T0000,19 days,Symptom Onset,Home
-36,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Doctor visit,Home
-36,Symptoms gradually improving,20200430T0000,20200430T0000,00:00:00,Symptom Offset,Home
-36,Feeling better by end of April,20200430T0000,20200430T0000,00:00:00,Feelings,Home
-37,Starting to experience symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
-37,Self-isolating in apartment,20200401T0000,20200430T0000,29 days,Lifestyle Change,Home
-37,Symptoms worsening,20200404T0000,20200404T0000,00:00:00,Symptom Onset,Home
-37,Consulting doctor via telemedicine,20200406T0000,20200406T0000,00:00:00,Doctor visit,Doctors
-37,Getting tested for Covid-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
-37,Waiting for test results,20200407T0000,20200410T0000,3 days,Other,Home
-37,Testing positive for Covid-19,20200410T0000,20200410T0000,00:00:00,Diagnosis,Home
-37,Continuing to self-isolate,20200410T0000,20200430T0000,19 days,Lifestyle Change,Home
-37,Monitoring symptoms closely,20200410T0000,20200430T0000,19 days,Other,Home
-37,Experiencing range of symptoms,20200410T0000,20200430T0000,19 days,Symptom Onset,Home
-37,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Other,Home
-37,Symptoms gradually improving,20200430T0000,20200430T0000,00:00:00,Symptom Offset,Home
-37,Feeling better by end of April,20200430T0000,20200430T0000,00:00:00,Feelings,Home
