@@ -10,14 +10,15 @@ class BaseEventForm(forms.Form):
         ("Diagnosis", "Diagnosis"),
         ("Doctor visit", "Doctor visit"),
         ("Treatment", "Treatment"),
+        ("Hospital admission, Hospital discharge", "Hospital Admission/Discharge"),
         ("Medication", "Medication"),
-        ("Lifestyle change", "Lifestyle change"),
+        ("Lifestyle Change", "Lifestyle change"),
         ("Feelings", "Feelings"),
     ]
     LOCATIONS = [
         ("Home", "Home"),
         ("Hospital", "Hospital"),
-        ("Outdoors", "Outdoors"),
+        ("Doctors", "Doctors"),
     ]
 
     event_types = forms.MultipleChoiceField(

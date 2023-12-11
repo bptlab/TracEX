@@ -58,7 +58,7 @@ class JourneyGenerationView(generic.FormView):
         context = super().get_context_data(**kwargs)
 
         if IS_TEST:
-            with open(str(utils.in_path / "journey_synth_covid_0.txt"), "r") as file:
+            with open(str(utils.in_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
         else:
             journey = input_inquiry.create_patient_journey()
