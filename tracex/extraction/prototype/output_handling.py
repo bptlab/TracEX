@@ -28,9 +28,9 @@ def get_output():
         dataframe["caseID"] = dataframe["caseID"].astype(str)
         print(dataframe)
     else:
-        print("The output can be found at " + u.CSV_OUTPUT + ".")
+        print("The output can be found at output.csv.")
     decision = u.get_decision(
-        "Would you like to append this trace to " + u.CSV_ALL_TRACES + "? (y/n)\n"
+        "Would you like to append this trace to all_traces.csv? (y/n)\n"
     )
     if decision:
         append_csv()

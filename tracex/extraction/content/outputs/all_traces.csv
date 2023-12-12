@@ -603,3 +603,21 @@ caseID,event_information,start,end,duration,event_type,attribute_location
 36,Regularly communicating with GP,20200410T0000,20200430T0000,19 days,Other,Home
 36,Symptoms gradually improving,20200430T0000,20200430T0000,00:00:00,Symptom Offset,Home
 36,Feeling better by end of April,20200430T0000,20200430T0000,00:00:00,Feelings,Home
+37,Starting to experience symptoms: persistent cough/fatigue,20220715T0000,20220715T0000,00:00:00,Symptom Onset,Home
+37,Taking extended leave from work,20220716T0000,20220716T0000,00:00:00,Lifestyle Change,Home
+37,Contacting family doctor,20220719T0000,20220719T0000,00:00:00,Doctor visit,Doctors
+37,Going to doctor's clinic for examination,20220720T0000,20220720T0000,00:00:00,Doctor visit,Doctors
+37,Confirming Covid-19 diagnosis,20220720T0000,20220720T0000,00:00:00,Diagnosis,Doctors
+37,Isolating at home to prevent spreading,20220720T0000,20220720T0000,00:00:00,Lifestyle Change,Home
+37,Prescribed medications for symptom relief,20220720T0000,20220720T0000,00:00:00,Medication,Doctors
+37,Monitoring condition closely,20220720T0000,20220720T0000,00:00:00,Symptom Onset,Home
+37,Informing school about positive test result,20220720T0000,20220720T0000,00:00:00,Diagnosis,Home
+37,Receiving support from school administration,20220720T0000,20220720T0000,00:00:00,Treatment,Home
+37,Symptoms persisting over weeks,20220720T0000,20220831T0000,00:00:00,Symptom Onset,Home
+37,Receiving extra care from wife,20220720T0000,20220831T0000,00:00:00,Treatment,Home
+37,Children being supportive,20220720T0000,20220831T0000,00:00:00,Feelings,Home
+37,Receiving first dose of Covid-19 vaccine,20220825T0000,20220825T0000,00:00:00,Treatment,Doctors
+37,Completing vaccination process,20220922T0000,20220922T0000,00:00:00,Treatment,Doctors
+37,Alleviating concerns about future infections,20220922T0000,20220922T0000,00:00:00,Feelings,Home
+37,Navigating through infection,20220922T0000,20220922T0000,00:00:00,Treatment,Home
+37,Taking proactive step towards protection,20220922T0000,20220922T0000,00:00:00,Lifestyle Change,Home

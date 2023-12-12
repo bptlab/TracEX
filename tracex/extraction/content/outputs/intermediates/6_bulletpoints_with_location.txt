@@ -1,0 +1,27 @@
+- Starting to experience symptoms, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Developing persistent cough and fatigue, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Dismissing symptoms as common cold, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Symptoms worsening, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Developing high fever and difficulty breathing, 20210715T0000, 20210715T0000, 00:00:00, Symptom Onset, Home
+- Contacting primary care physician, 20210715T0000, 20210715T0000, 00:00:00, Doctor visit, Doctors
+- Advised to self-isolate, 20210715T0000, 20210715T0000, 00:00:00, Doctor visit, Doctors
+- Getting tested for Covid-19, 20210716T0000, 20210716T0000, 00:00:00, Doctor visit, Doctors
+- Test confirming virus contraction, 20210716T0000, 20210716T0000, 00:00:00, Diagnosis, Doctors
+- Symptoms intensifying, 20210716T0000, 20210716T0000, 00:00:00, Symptom Onset, Home
+- Struggling to manage responsibilities, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Husband taking over household chores, 20210716T0000, 20210716T0000, 00:00:00, Lifestyle Change, Home
+- Consulting with Dr. Müller, 20210716T0000, 20210716T0000, 00:00:00, Doctor visit, Doctors
+- Prescribed medication for symptom relief, 20210716T0000, 20210716T0000, 00:00:00, Medication, Doctors
+- Monitoring condition closely, 20210716T0000, 20210716T0000, 00:00:00, Treatment, Home
+- Symptoms gradually subsiding, 20210716T0000, 20210716T0000, 00:00:00, Symptom Offset, Home
+- Regaining strength, 20210716T0000, 20210716T0000, 00:00:00, Symptom Offset, Home
+- Witnessing devastating effects of pandemic, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Fueling determination to fight for justice, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Becoming actively involved in advocating for better healthcare resources, 20210716T0000, 20210716T0000, 00:00:00, Lifestyle Change, Home
+- Getting vaccinated to protect self and loved ones, 20210716T0000, 20210716T0000, 00:00:00, Treatment, Home
+- Receiving both doses of vaccine, 20210716T0000, 20210716T0000, 00:00:00, Treatment, Home
+- Encouraging others to get vaccinated, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Feeling relief and optimism, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Learning importance of resilience, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Valuing community support, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
+- Strengthening commitment to fighting for justice and equitable society, 20210716T0000, 20210716T0000, 00:00:00, Feelings, Home
