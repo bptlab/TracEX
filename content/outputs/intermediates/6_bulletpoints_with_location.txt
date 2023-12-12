@@ -1,0 +1,25 @@
+- Experiencing mild symptoms, 20211015T0000, 20211015T0000, 00:00:00, Symptom Onset, Home
+- Symptoms worsening over time, 20211015T0000, 20211015T0000, 00:00:00, Symptom Onset, Home
+- Contacting family doctor, 20211020T0000, 20211020T0000, 00:00:00, Doctor visit, Doctors
+- Isolating at home, 20211020T0000, 20211020T0000, 00:00:00, Lifestyle Change, Home
+- Monitoring symptoms closely, 20211020T0000, 20211020T0000, 00:00:00, Symptom Onset, Home
+- Taking over-the-counter medication, 20211020T0000, 20211020T0000, 00:00:00, Medication, Home
+- Warning to go to hospital if symptoms worsen, 20211020T0000, 20211020T0000, 00:00:00, Symptom Onset, Home
+- Unable to breathe properly, 20211022T0000, 20211022T0000, 00:00:00, Symptom Onset, Home
+- Rushed to nearest hospital, 20211022T0000, 20211022T0000, 00:00:00, Hospital admission, Hospital
+- Admitted to hospital, 20211022T0000, 20211022T0000, 00:00:00, Hospital admission, Hospital
+- Receiving oxygen therapy, 20211022T0000, 20211029T0000, 168:00:00, Treatment, Hospital
+- Vital signs closely monitored, 20211022T0000, 20211029T0000, 168:00:00, Treatment, Hospital
+- Medication provided for fever, 20211022T0000, 20211029T0000, 168:00:00, Medication, Hospital
+- Discharged from hospital, 20211029T0000, 20211029T0000, 00:00:00, Hospital discharge, Home
+- Continuing to isolate at home, 20211029T0000, 20211029T0000, 00:00:00, Lifestyle Change, Home
+- Following necessary precautions, 20211029T0000, 20211029T0000, 00:00:00, Lifestyle Change, Home
+- Seeking information about vaccines, 20211029T0000, 20211029T0000, 00:00:00, Lifestyle Change, Home
+- Consulting with family doctor, 20211029T0000, 20211029T0000, 00:00:00, Doctor visit, Doctors
+- Receiving first dose of vaccine, 20211125T0000, 20211125T0000, 00:00:00, Treatment, Doctors
+- Following prescribed schedule, 20211125T0000, 20211216T0000, 504:00:00, Treatment, Doctors
+- Receiving second dose of vaccine, 20211216T0000, 20211216T0000, 00:00:00, Treatment, Doctors
+- Learning to prioritize health, 20211216T0000, 20211216T0000, 00:00:00, Lifestyle Change, Home
+- Striking a better work-life balance, 20211216T0000, 20211216T0000, 00:00:00, Lifestyle Change, Home
+- Becoming more conscious of self-care, 20211216T0000, 20211216T0000, 00:00:00, Lifestyle Change, Home
+- Resilience of human spirit, 20211216T0000, 20211216T0000, 00:00:00, Feelings, Home
