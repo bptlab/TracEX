@@ -11,6 +11,8 @@ disable=too-many-arguments,
   fixme,
   import-error,
   unspecified-encoding,
+  too-few-public-methods,
+  import-outside-toplevel,
 
 [FORMAT]
 max-line-length=100

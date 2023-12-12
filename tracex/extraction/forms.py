@@ -1,9 +1,12 @@
+"""Implementation of forms for the extraction app."""
 from django import forms
 from django.core.validators import FileExtensionValidator
 
 
 class BaseEventForm(forms.Form):
-    # can easily be refactored and thus reduced e.g. by using constants and importing into both forms
+    """Base form for event extraction forms."""
+
+    # Easy refactoring e.g. by using constants and imports into both forms
     EVENT_TYPES = [
         ("Symptom Onset, Symptom Offset", "Symptom onset/offset"),
         ("infection", "Infection start/end"),
@@ -37,6 +40,7 @@ class BaseEventForm(forms.Form):
     )
 
     def clean(self):
+        """Validate form data."""
         cleaned_data = super().clean()
         event_types = cleaned_data.get("event_types")
         locations = cleaned_data.get("locations")
@@ -51,6 +55,8 @@ class BaseEventForm(forms.Form):
 
 
 class JourneyForm(BaseEventForm):
+    """Form for extracting events from a patient journey."""
+
     ALLOWED_FILE_TYPES = ["txt"]
     journey = forms.FileField(
         label="Patient journey",
@@ -65,8 +71,12 @@ class JourneyForm(BaseEventForm):
 
 
 class GenerationForm(BaseEventForm):
+    """Form for generating events from a patient journey."""
+
     pass
 
 
 class ResultForm(BaseEventForm):
+    """Form for displaying results of event extraction."""
+
     pass
