@@ -1,11 +1,11 @@
 """This file contains the views for the extraction app."""
 import os
-import pandas
 import tempfile
 import base64
 from io import StringIO, BytesIO
 
 import pm4py
+import pandas
 
 from django.http import HttpResponse
 from django.urls import reverse_lazy
