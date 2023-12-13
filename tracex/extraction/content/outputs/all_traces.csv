@@ -621,3 +621,101 @@ caseID,event_information,start,end,duration,event_type,attribute_location
 37,Alleviating concerns about future infections,20220922T0000,20220922T0000,00:00:00,Feelings,Home
 37,Navigating through infection,20220922T0000,20220922T0000,00:00:00,Treatment,Home
 37,Taking proactive step towards protection,20220922T0000,20220922T0000,00:00:00,Lifestyle Change,Home
+38,Starting to experience mild symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
+38,Isolating at home,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+38,Contacting primary care physician,20210715T0000,20210715T0000,00:00:00,Doctor visit,Doctors
+38,Monitoring symptoms at home,20210715T0000,20210718T0000,72:00:00,Symptom Onset,Home
+38,Symptoms worsening,20210718T0000,20210718T0000,00:00:00,Symptom Onset,Home
+38,Seeking medical attention,20210718T0000,20210718T0000,00:00:00,Doctor visit,Doctors
+38,Testing positive for Covid-19,20210718T0000,20210718T0000,00:00:00,Diagnosis,Doctors
+38,Getting admitted to hospital,20210718T0000,20210725T0000,168:00:00,Hospital admission,Hospital
+38,Receiving oxygen therapy,20210718T0000,20210725T0000,168:00:00,Treatment,Hospital
+38,Close monitoring in hospital,20210718T0000,20210725T0000,168:00:00,Treatment,Hospital
+38,Discharged from hospital,20210725T0000,20210725T0000,00:00:00,Hospital discharge,Hospital
+38,Continuing recovery at home,20210725T0000,20210725T0000,00:00:00,Lifestyle Change,Home
+38,Following prescribed medications,20210725T0000,20210725T0000,00:00:00,Medication,Home
+38,Maintaining contact with primary care physician,20210725T0000,20210725T0000,00:00:00,Doctor visit,Doctors
+38,Managing lingering symptoms,20210725T0000,20210725T0000,00:00:00,Treatment,Home
+38,Receiving Covid-19 vaccine,20210725T0000,20210725T0000,00:00:00,Treatment,Home
+38,Cherishing family bonds,20210725T0000,20210725T0000,00:00:00,Feelings,Home
+38,Maintaining work-life balance,20210725T0000,20210725T0000,00:00:00,Lifestyle Change,Home
+38,Regaining strength,20210725T0000,20210725T0000,00:00:00,Treatment,Home
+38,Returning to career with newfound appreciation,20210725T0000,20210725T0000,00:00:00,Lifestyle Change,Home
+39,Starting to experience symptoms,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
+39,Experiencing persistent cough/fever/and difficulty breathing,20200401T0000,20200401T0000,00:00:00,Symptom Onset,Home
+39,Self-isolating in rented apartment,20200401T0000,20200401T0000,00:00:00,Lifestyle Change,Home
+39,Contacting primary care physician,20200404T0000,20200404T0000,00:00:00,Doctor visit,Doctors
+39,Monitoring symptoms at home,20200404T0000,20200404T0000,00:00:00,Symptom Onset,Home
+39,Symptoms worsening,20200407T0000,20200407T0000,00:00:00,Symptom Onset,Home
+39,Seeking immediate medical attention,20200407T0000,20200407T0000,00:00:00,Doctor visit,Doctors
+39,Admitted to specialized ward for COVID-19 patients,20200407T0000,20200407T0000,00:00:00,Hospital admission,Hospital
+39,Undergoing tests for confirmation,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
+39,Testing positive for COVID-19,20200407T0000,20200407T0000,00:00:00,Diagnosis,Doctors
+39,Receiving supportive care in hospital,20200407T0000,20200421T0000,336:00:00,Treatment,Hospital
+39,Given oxygen therapy,20200407T0000,20200421T0000,336:00:00,Treatment,Hospital
+39,Closely monitored by healthcare professionals,20200407T0000,20200421T0000,336:00:00,Treatment,Hospital
+39,Discharged from hospital,20200421T0000,20200421T0000,00:00:00,Hospital discharge,Hospital
+39,Continuing self-isolation at home,20200421T0000,20200505T0000,336:00:00,Lifestyle Change,Home
+39,Gradually regaining strength,20200421T0000,20200505T0000,336:00:00,Treatment,Home
+39,Getting vaccinated against COVID-19,20210101T0000,20210101T0000,00:00:00,Treatment,Doctors
+39,Consulting with primary care physician,20210101T0000,20210101T0000,00:00:00,Doctor visit,Doctors
+39,Receiving vaccine at local vaccination center,20210101T0000,20210101T0000,00:00:00,Treatment,Doctors
+40,Starting to experience mild symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
+40,Symptoms worsening over time,20210715T0000,20210722T0000,07:00:00,Symptom Onset,Home
+40,Contacting primary care doctor,20210716T0000,20210716T0000,00:00:00,Doctor visit,Doctors
+40,Self-isolating at home,20210716T0000,20210722T0000,06:00:00,Lifestyle Change,Home
+40,Monitoring symptoms closely,20210716T0000,20210722T0000,06:00:00,Symptom Onset,Home
+40,Taking over-the-counter fever reducers,20210716T0000,20210722T0000,06:00:00,Medication,Home
+40,Going to the hospital for further evaluation,20210722T0000,20210722T0000,00:00:00,Doctor visit,Hospital
+40,Testing positive for Covid-19,20210722T0000,20210722T0000,00:00:00,Diagnosis,Home
+40,Following protocols and guidelines,20210722T0000,20210722T0000,00:00:00,Lifestyle Change,Home
+40,Family testing negative,20210722T0000,20210722T0000,00:00:00,Diagnosis,Home
+40,Receiving Covid-19 vaccine,20210901T0000,20210901T0000,00:00:00,Treatment,Home
+40,Continuing to work diligently,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Home
+40,Receiving second dose of vaccine,20210901T0000,20210901T0000,00:00:00,Treatment,Home
+40,Balancing family responsibilities,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Home
+40,Remaining dedicated to serving patients,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Home
+41,Waking up with headache and sore throat,20220715T0000,20220715T0000,00:00:00,Symptom Onset,Home
+41,Experiencing fatigue and body aches,20220715T0000,20220715T0000,00:00:00,Symptom Onset,Home
+41,Developing persistent cough,20220715T0000,20220715T0000,00:00:00,Symptom Onset,Home
+41,Difficulty in breathing,20220715T0000,20220715T0000,00:00:00,Symptom Onset,Home
+41,Isolating from family,20220715T0000,20220715T0000,00:00:00,Lifestyle Change,Home
+41,Getting tested for Covid-19,20220718T0000,20220718T0000,00:00:00,Doctor visit,Doctors
+41,Waiting for test results,20220718T0000,20220718T0000,00:00:00,Other,Home
+41,Testing positive for Covid-19,20220722T0000,20220722T0000,00:00:00,Diagnosis,Home
+41,Continuing self-isolation at home,20220722T0000,20220722T0000,00:00:00,Lifestyle Change,Home
+41,Prescribed medications for symptoms,20220722T0000,20220722T0000,00:00:00,Medication,Home
+41,Consulting with doctor through virtual appointments,20220722T0000,20220801T0000,00:00:00,Doctor visit,Doctors
+41,Gradually feeling better,20220801T0000,20220801T0000,00:00:00,Other,Home
+41,Getting vaccinated against Covid-19,20220820T0000,20220820T0000,00:00:00,Treatment,Doctors
+41,Receiving first and second vaccine doses,20220820T0000,20220910T0000,00:00:00,Treatment,Doctors
+41,Support system playing crucial role,20220820T0000,20220820T0000,00:00:00,Other,Home
+41,Husband taking on additional responsibilities,20220820T0000,20220820T0000,00:00:00,Other,Home
+41,Love and support from family,20220820T0000,20220820T0000,00:00:00,Other,Home
+41,Reinforcing importance of health and well-being,20220820T0000,20220820T0000,00:00:00,Other,Home
+42,Experiencing Covid-19 symptoms,20210515T0000,20210522T0000,00:00:00,Symptom Onset,Home
+42,Isolating at home,20210515T0000,20210522T0000,00:00:00,Lifestyle Change,Home
+42,Symptoms gradually worsening,20210515T0000,20210522T0000,00:00:00,Symptom Onset,Home
+42,Contacting primary care physician,20210518T0000,20210522T0000,00:00:00,Doctor visit,Doctors
+42,Getting tested for Covid-19,20210519T0000,20210522T0000,00:00:00,Doctor visit,Doctors
+42,Waiting for test results,20210519T0000,20210522T0000,00:00:00,Other,Home
+42,Test results coming back positive,20210522T0000,20210522T0000,00:00:00,Diagnosis,Home
+42,Informing school and daycare,20210522T0000,20210522T0000,00:00:00,Other,Home
+42,Balancing job responsibilities,20210522T0000,20210601T0000,00:00:00,Other,Home
+42,Working remotely,20210522T0000,20210601T0000,00:00:00,Other,Home
+42,Seeking guidance from doctor,20210601T0000,20210601T0000,00:00:00,Doctor visit,Doctors
+42,Waiting before returning to work,20210601T0000,20210608T0000,00:00:00,Other,Home
+42,Prioritizing overall well-being,20210601T0000,20210608T0000,00:00:00,Lifestyle Change,Home
+42,Following news and recommendations,20210601T0000,20210608T0000,00:00:00,Other,Home
+42,Getting vaccinated,20210810T0000,20210831T0000,00:00:00,Treatment,Doctors
+42,Appreciating support from family/friends/and healthcare professionals,20210810T0000,20210810T0000,00:00:00,Feelings,Home
+43,Experiencing first Covid-19 symptoms,20210615T0000,20210615T0000,00:00:00,Symptom Onset,Home
+43,Self-isolating and reaching out to primary care doctor,20210615T0000,20210615T0000,00:00:00,Lifestyle Change,Home
+43,Symptoms worsening and getting tested,20210618T0000,20210618T0000,00:00:00,Symptom Onset,Home
+43,Making arrangements for children's care,20210618T0000,20210618T0000,00:00:00,Lifestyle Change,Home
+43,Symptoms improving and working remotely,20210701T0000,20210707T0000,144:00:00,Symptom Offset,Home
+43,Scheduling telehealth check-ins,20210701T0000,20210707T0000,144:00:00,Doctor visit,Doctors
+43,Prioritizing health and well-being,20210701T0000,20210707T0000,144:00:00,Lifestyle Change,Home
+43,Getting vaccinated for added protection,20211001T0000,20211001T0000,00:00:00,Treatment,Doctors
+43,Balancing demanding career and single parenthood,20211001T0000,20211001T0000,00:00:00,Lifestyle Change,Home
+43,Emerging stronger and appreciating love/health/and family,20211001T0000,20211001T0000,00:00:00,Feelings,Home

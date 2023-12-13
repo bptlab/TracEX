@@ -7,7 +7,6 @@ from io import StringIO, BytesIO
 import pm4py
 import pandas
 
-from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.views import generic
 from django.core.cache import cache
@@ -93,7 +92,6 @@ class ProcessingView(generic.TemplateView):
 
     def get(self, request, *args, **kwargs):
         """Redirect to result page."""
-        response = super().get(request, *args, **kwargs)
         return redirect("result")
 
 

@@ -73,10 +73,6 @@ class JourneyForm(BaseEventForm):
 class GenerationForm(BaseEventForm):
     """Form for generating events from a patient journey."""
 
-    pass
-
 
 class ResultForm(BaseEventForm):
     """Form for displaying results of event extraction."""
-
-    pass

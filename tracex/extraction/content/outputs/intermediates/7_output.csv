@@ -1,28 +1,11 @@
 caseID,event_information,start,end,duration,event_type,attribute_location
-1,Starting to experience symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-1,Developing persistent cough and fatigue,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-1,Dismissing symptoms as common cold,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-1,Symptoms worsening,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-1,Developing high fever and difficulty breathing,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-1,Contacting primary care physician,20210715T0000,20210715T0000,00:00:00,Doctor visit,Doctors
-1,Advised to self-isolate,20210715T0000,20210715T0000,00:00:00,Doctor visit,Doctors
-1,Getting tested for Covid-19,20210716T0000,20210716T0000,00:00:00,Doctor visit,Doctors
-1,Test confirming virus contraction,20210716T0000,20210716T0000,00:00:00,Diagnosis,Doctors
-1,Symptoms intensifying,20210716T0000,20210716T0000,00:00:00,Symptom Onset,Home
-1,Struggling to manage responsibilities,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Husband taking over household chores,20210716T0000,20210716T0000,00:00:00,Lifestyle Change,Home
-1,Consulting with Dr. Müller,20210716T0000,20210716T0000,00:00:00,Doctor visit,Doctors
-1,Prescribed medication for symptom relief,20210716T0000,20210716T0000,00:00:00,Medication,Doctors
-1,Monitoring condition closely,20210716T0000,20210716T0000,00:00:00,Treatment,Home
-1,Symptoms gradually subsiding,20210716T0000,20210716T0000,00:00:00,Symptom Offset,Home
-1,Regaining strength,20210716T0000,20210716T0000,00:00:00,Symptom Offset,Home
-1,Witnessing devastating effects of pandemic,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Fueling determination to fight for justice,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Becoming actively involved in advocating for better healthcare resources,20210716T0000,20210716T0000,00:00:00,Lifestyle Change,Home
-1,Getting vaccinated to protect self and loved ones,20210716T0000,20210716T0000,00:00:00,Treatment,Home
-1,Receiving both doses of vaccine,20210716T0000,20210716T0000,00:00:00,Treatment,Home
-1,Encouraging others to get vaccinated,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Feeling relief and optimism,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Learning importance of resilience,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Valuing community support,20210716T0000,20210716T0000,00:00:00,Feelings,Home
-1,Strengthening commitment to fighting for justice and equitable society,20210716T0000,20210716T0000,00:00:00,Feelings,Home
+1,Experiencing first Covid-19 symptoms,20210615T0000,20210615T0000,00:00:00,Symptom Onset,Home
+1,Self-isolating and reaching out to primary care doctor,20210615T0000,20210615T0000,00:00:00,Lifestyle Change,Home
+1,Symptoms worsening and getting tested,20210618T0000,20210618T0000,00:00:00,Symptom Onset,Home
+1,Making arrangements for children's care,20210618T0000,20210618T0000,00:00:00,Lifestyle Change,Home
+1,Symptoms improving and working remotely,20210701T0000,20210707T0000,144:00:00,Symptom Offset,Home
+1,Scheduling telehealth check-ins,20210701T0000,20210707T0000,144:00:00,Doctor visit,Doctors
+1,Prioritizing health and well-being,20210701T0000,20210707T0000,144:00:00,Lifestyle Change,Home
+1,Getting vaccinated for added protection,20211001T0000,20211001T0000,00:00:00,Treatment,Doctors
+1,Balancing demanding career and single parenthood,20211001T0000,20211001T0000,00:00:00,Lifestyle Change,Home
+1,Emerging stronger and appreciating love/health/and family,20211001T0000,20211001T0000,00:00:00,Feelings,Home
