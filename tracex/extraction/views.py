@@ -1,4 +1,6 @@
-"""This file contains the views for the extraction app."""
+"""This file contains the views for the extraction app.
+Some unused imports have to be made because of architectual requirement."""
+# pylint: disable=unused-argument
 import os
 import tempfile
 import base64
