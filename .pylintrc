@@ -16,7 +16,7 @@ disable=
   import-outside-toplevel,
 
 [FORMAT]
-max-line-length=119
+max-line-length=120
 indent-string='    '
 init-import=yes
 

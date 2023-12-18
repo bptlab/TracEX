@@ -175,7 +175,9 @@ class ResultView(generic.FormView):
                 output_path_csv, name=xes_name, key=activity_key
             )
         else:
-            output_path_xes = str(utils.output_path / "all_traces_event_type_1.xes")
+            output_path_xes = (
+                str(utils.output_path / xes_name) + "_" + activity_key + ".xes"
+            )
         return output_path_xes
 
     def get_all_xes_output_path(

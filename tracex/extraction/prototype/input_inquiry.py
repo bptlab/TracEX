@@ -29,12 +29,12 @@ def get_input():
 
 def get_input_path():
     """Gets the path to the input file from the user."""
-    awnser = input(
+    answer = input(
         "Would you like to continue with an existing patient journey as .txt? (y/n)\n"
     ).lower()
-    if awnser == "y":
+    if answer == "y":
         return get_input_path_name()
-    if awnser == "n":
+    if answer == "n":
         return "new"
     print("Please enter y or n.")
     return get_input_path()
