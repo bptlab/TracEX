@@ -1,8 +1,12 @@
 # Content directory
-content/inputs/
-content/outputs/intermediates/
-content/outputs/new_prompts.txt
+tracex/extraction/content/inputs
+tracex/extraction/content/outputs/intermediates
+tracex/extraction/content/outputs/new_prompts.txt
+tracex/extraction/content/outputs/output.csv
+tracex/extraction/content/outputs/output.xes
 
 # src directory
-src/prototype/__pycache__/
 src/__init__.py
+
+# all __pycache__ directories
+__pycache__
