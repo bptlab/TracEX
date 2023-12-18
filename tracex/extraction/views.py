@@ -22,7 +22,7 @@ from .forms import JourneyForm, GenerationForm, ResultForm
 from .prototype import (
     input_handling,
     input_inquiry,
-    create_all_trace_xes,
+    create_xes,
     utils,
     output_handling,
 )
@@ -70,7 +70,7 @@ class JourneyGenerationView(generic.FormView):
         context = super().get_context_data(**kwargs)
 
         if IS_TEST:
-            with open(str(utils.in_path / "journey_synth_covid_1.txt"), "r") as file:
+            with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
         else:
             journey = input_inquiry.create_patient_journey()
@@ -160,29 +160,40 @@ class ResultView(generic.FormView):
         cache.set("locations", form.cleaned_data["locations"])
         return super().form_valid(form)
 
-    def get_xes_output_path(self, journey, is_test=False, is_extracted=False):
+    def get_xes_output_path(
+        self,
+        journey,
+        is_test=False,
+        is_extracted=False,
+        xes_name="single_trace",
+        activity_key="event_type",
+    ):
         """Create the xes file for the single journey."""
         if not is_test or is_extracted:
             output_path_csv = input_handling.convert_text_to_csv(journey)
-            output_path_xes = create_all_trace_xes.create_all_trace_xes(
-                output_path_csv, key="event_type", suffix="_1"
+            output_path_xes = create_xes.create_xes(
+                output_path_csv, name=xes_name, key=activity_key
             )
         else:
-            output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
+            output_path_xes = str(utils.output_path / "all_traces_event_type_1.xes")
         return output_path_xes
 
     def get_all_xes_output_path(
-        self, is_test=False, is_extracted=False, key="event_type", suffix=""
+        self,
+        is_test=False,
+        is_extracted=False,
+        xes_name="all_traces",
+        activity_key="event_type",
     ):
         """Create the xes file for all journeys."""
         if not is_test or is_extracted:
             output_handling.append_csv()
-            all_traces_xes_path = create_all_trace_xes.create_all_trace_xes(
-                utils.CSV_ALL_TRACES, key=key, suffix=suffix
+            all_traces_xes_path = create_xes.create_xes(
+                utils.CSV_ALL_TRACES, name=xes_name, key=activity_key
             )
         else:
             all_traces_xes_path = (
-                str(utils.out_path / "all_traces_") + key + suffix + ".xes"
+                str(utils.output_path / xes_name) + "_" + activity_key + ".xes"
             )
         return all_traces_xes_path
 

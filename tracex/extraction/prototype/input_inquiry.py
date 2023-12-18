@@ -22,7 +22,7 @@ def get_input():
     if input_path == "new":
         inp = create_patient_journey()
     else:
-        with open((u.in_path / input_path)) as f:
+        with open((u.input_path / input_path)) as f:
             inp = f.read()
     return inp
 
@@ -47,7 +47,7 @@ def get_input_path_name():
     )
     if filename[-4:] != ".txt":
         filename += ".txt"
-    if not os.path.isfile((u.in_path / filename)):
+    if not os.path.isfile((u.input_path / filename)):
         print("File does not exist.")
         return get_input_path_name()
     return filename
@@ -65,11 +65,11 @@ def create_patient_journey():
     patient_journey_txt = u.query_gpt(messages, u.TEMPERATURE_CREATION)
     i = 0
     proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-    output_path = u.in_path / proposed_filename
+    output_path = u.input_path / proposed_filename
     while os.path.isfile(output_path):
         i += 1
         proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-        output_path = u.in_path / proposed_filename
+        output_path = u.input_path / proposed_filename
     with open(output_path, "w") as f:
         f.write(patient_journey_txt)
     print(

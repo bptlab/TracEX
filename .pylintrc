@@ -1,5 +1,6 @@
 [MESSAGES CONTROL]
-disable=too-many-arguments,
+disable=
+  too-many-arguments,
   too-many-locals,
   too-many-return-statements,
   too-many-branches,
@@ -15,7 +16,7 @@ disable=too-many-arguments,
   import-outside-toplevel,
 
 [FORMAT]
-max-line-length=100
+max-line-length=119
 indent-string='    '
 init-import=yes
 

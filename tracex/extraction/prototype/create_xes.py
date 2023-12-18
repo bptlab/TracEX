@@ -5,7 +5,7 @@ import pandas as pd
 from . import utils as u
 
 
-def get_key():
+def get_activity_key():
     """Gets the key from the user."""
     key = input(
         "Which key should be used for the activity? (event_info/event_type/location_attribute)\n"
@@ -13,10 +13,10 @@ def get_key():
     if key in ("event_info", "event_type", "location_attribute"):
         return key
     print("Please enter 'event_info', 'event_type', 'location_attribute'.")
-    return get_key()
+    return get_activity_key()
 
 
-def create_all_trace_xes(csv_file, key, suffix=""):
+def create_xes(csv_file, name, key):
     """Creates a xes with all traces from the regarding csv."""
     dataframe = pd.read_csv(csv_file, sep=",")
     dataframe["caseID"] = dataframe["caseID"].astype(str)
@@ -32,15 +32,15 @@ def create_all_trace_xes(csv_file, key, suffix=""):
             "duration": "time:duration",
         }
     )
-    output_name = "all_traces_" + key + suffix + ".xes"
+    output_name = name + "_" + key + ".xes"
     pm4py.write_xes(
         dataframe,
-        (u.out_path / output_name),
+        (u.output_path / output_name),
         case_id_key="case:concept:name",
         activity_key="concept:name",
         timestamp_key="time:timestamp",
     )
-    return str(u.out_path / output_name)
+    return str(u.output_path / output_name)
 
 
 # ACTIVITY_KEY = 'event_type' # get_key()

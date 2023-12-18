@@ -28,7 +28,7 @@ new_prompts = openai.ChatCompletion.create(
 )
 output = new_prompts.choices[0].message.content
 with open(
-    (u.out_path / "new_prompts.txt"),
+    (u.output_path / "new_prompts.txt"),
     "w",
 ) as f:
     f.write(output)
