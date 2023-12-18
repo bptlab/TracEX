@@ -1,8 +1,8 @@
 # Content directory
 tracex/extraction/content/inputs
-tracex/extraction/content/outputs/intermediates/
+tracex/extraction/content/outputs/intermediates
 tracex/extraction/content/outputs/new_prompts.txt
 
 # src directory
-src/prototype/__pycache__/
+src/prototype/__pycache__
 src/__init__.py

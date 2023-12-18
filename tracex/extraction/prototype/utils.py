@@ -6,10 +6,10 @@ from django.conf import settings
 
 import openai
 
-out_path = settings.BASE_DIR / Path(
+output_path = settings.BASE_DIR / Path(
     "extraction/content/outputs/"
 )  # Path to the outputs-folder
-in_path = settings.BASE_DIR / Path(
+input_path = settings.BASE_DIR / Path(
     "extraction/content/inputs/"
 )  # Path to the inputs-folder
 oaik = os.environ.get(

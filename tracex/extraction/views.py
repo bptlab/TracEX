@@ -70,7 +70,7 @@ class JourneyGenerationView(generic.FormView):
         context = super().get_context_data(**kwargs)
 
         if IS_TEST:
-            with open(str(utils.in_path / "journey_synth_covid_1.txt"), "r") as file:
+            with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
         else:
             journey = input_inquiry.create_patient_journey()
@@ -168,7 +168,7 @@ class ResultView(generic.FormView):
                 output_path_csv, key="event_type", suffix="_1"
             )
         else:
-            output_path_xes = str(utils.out_path / "all_traces_event_type_1.xes")
+            output_path_xes = str(utils.output_path / "all_traces_event_type_1.xes")
         return output_path_xes
 
     def get_all_xes_output_path(
@@ -182,7 +182,7 @@ class ResultView(generic.FormView):
             )
         else:
             all_traces_xes_path = (
-                str(utils.out_path / "all_traces_") + key + suffix + ".xes"
+                str(utils.output_path / "all_traces_") + key + suffix + ".xes"
             )
         return all_traces_xes_path
 

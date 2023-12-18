@@ -15,7 +15,7 @@ disable=too-many-arguments,
   import-outside-toplevel,
 
 [FORMAT]
-max-line-length=100
+max-line-length=120
 indent-string='    '
 init-import=yes
 

@@ -59,7 +59,7 @@ def convert_text_to_bulletpoints(inp):
     bulletpoints = u.query_gpt(messages)
     bulletpoints = remove_commas(bulletpoints)
     bulletpoints = add_ending_commas(bulletpoints)
-    with open((u.out_path / "intermediates/1_bulletpoints.txt"), "w") as f:
+    with open((u.output_path / "intermediates/1_bulletpoints.txt"), "w") as f:
         f.write(bulletpoints)
     return bulletpoints
 
@@ -77,7 +77,7 @@ def add_start_dates(inp, bulletpoints):
     bulletpoints_start = u.query_gpt(messages)
     bulletpoints_start = add_ending_commas(bulletpoints_start)
     with open(
-        (u.out_path / "intermediates/2_bulletpoints_with_start.txt"),
+        (u.output_path / "intermediates/2_bulletpoints_with_start.txt"),
         "w",
     ) as f:
         f.write(bulletpoints_start)
@@ -97,7 +97,7 @@ def add_end_dates(inp, bulletpoints):
     bulletpoints_start = u.query_gpt(messages)
     bulletpoints_start = add_ending_commas(bulletpoints_start)
     with open(
-        (u.out_path / "intermediates/3_bulletpoints_with_end.txt"),
+        (u.output_path / "intermediates/3_bulletpoints_with_end.txt"),
         "w",
     ) as f:
         f.write(bulletpoints_start)
@@ -117,7 +117,7 @@ def add_durations(inp, bulletpoints_start):
     bulletpoints_duration = u.query_gpt(messages)
     bulletpoints_duration = add_ending_commas(bulletpoints_duration)
     with open(
-        (u.out_path / "intermediates/4_bulletpoints_with_duration.txt"),
+        (u.output_path / "intermediates/4_bulletpoints_with_duration.txt"),
         "w",
     ) as f:
         f.write(bulletpoints_duration)
@@ -137,7 +137,7 @@ def add_event_types(bulletpoints_durations):
     bulletpoints_event_type = u.query_gpt(messages)
     bulletpoints_event_type = add_ending_commas(bulletpoints_event_type)
     with open(
-        (u.out_path / "intermediates/5_bulletpoints_with_event_type.txt"),
+        (u.output_path / "intermediates/5_bulletpoints_with_event_type.txt"),
         "w",
     ) as f:
         f.write(bulletpoints_event_type)
@@ -157,7 +157,7 @@ def add_locations(bulletpoints_event_types):
     bulletpoints_location = u.query_gpt(messages)
     bulletpoints_location = remove_brackets(bulletpoints_location)
     with open(
-        (u.out_path / "intermediates/6_bulletpoints_with_location.txt"),
+        (u.output_path / "intermediates/6_bulletpoints_with_location.txt"),
         "w",
     ) as f:
         f.write(bulletpoints_location)

@@ -35,12 +35,12 @@ def create_all_trace_xes(csv_file, key, suffix=""):
     output_name = "all_traces_" + key + suffix + ".xes"
     pm4py.write_xes(
         dataframe,
-        (u.out_path / output_name),
+        (u.output_path / output_name),
         case_id_key="case:concept:name",
         activity_key="concept:name",
         timestamp_key="time:timestamp",
     )
-    return str(u.out_path / output_name)
+    return str(u.output_path / output_name)
 
 
 # ACTIVITY_KEY = 'event_type' # get_key()
