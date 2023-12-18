@@ -41,7 +41,3 @@ def create_xes(csv_file, name, key):
         timestamp_key="time:timestamp",
     )
     return str(u.output_path / output_name)
-
-
-# ACTIVITY_KEY = 'event_type' # get_key()
-# create_all_trace_xes(u.CSV_OUTPUT, ACTIVITY_KEY)
