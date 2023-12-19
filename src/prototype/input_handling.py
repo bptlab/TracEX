@@ -57,8 +57,7 @@ def convert_text_to_bulletpoints(inp):
         {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
-    bulletpoints = u.query_gpt(messages, function_call={
-                               "name": "convert_text_to_bulletpoints"})
+    bulletpoints = u.query_gpt(messages, tool_choice={ "type": "function", "function": {"name": "convert_text_to_bulletpoints"}})
     with open((u.out_path / "intermediates/1_bulletpoints.txt"), "w") as f:
         for bulletpoint in bulletpoints:
             f.write("- " + bulletpoint + "\n")
@@ -71,15 +70,21 @@ def add_start_dates(inp, bulletpoints):
         {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
         {
             "role": "user",
-            "content": p.BULLETPOINTS_START_DATE_PROMPT + inp + "\n" + bulletpoints,
-        },
+            "content": p.BULLETPOINTS_START_DATE_PROMPT_BP + bulletpoints,
+        }
+        ,
+        {
+            "role": "user",
+            "content": p.BULLETPOINTS_START_DATE_PROMPT_TEXT + inp,
+        }
+        ,
         {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
     ]
-    bulletpoints_start = u.query_gpt(messages)
+    bulletpoints_start = u.query_gpt(messages, tool_choice={ "type": "function", "function": {"name": "add_start_dates"}})
 
     with open((u.out_path / "intermediates/2_bulletpoints_with_start.txt"), "w") as f:
-        for bulletpoint_start in bulletpoints:
-            f.write("- " + bulletpoint_start + "\n")
+        for bulletpoint in bulletpoints_start:
+            f.write("- " + bulletpoint + "\n")
     return bulletpoints_start
 
 

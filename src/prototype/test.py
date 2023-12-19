@@ -4,6 +4,7 @@ import prompts_old as po
 import functions_calls as fc
 import json
 import openai
+import utils as u
 import input_handling as ih
 
 MODEL = "gpt-3.5-turbo"
@@ -34,26 +35,26 @@ FUNCTIONS = [
 ]
 
 TOOLS = [
-    # {
-    #     "type": "function",
-    #     "function": {
-    #             "name": "convert_text_to_bulletpoints",
-    #             "description": "Converts relevants parts related to the course of the disease of the input text to bulletpoints.",
-    #             "parameters": {
-    #                 "type": "object",
-    #                 "properties": {
-    #                     "output": {
-    #                         "type": "array",
-    #                         "items": {
-    #                             "type": "string",
-    #                             "description": "An extracted bullet point"
-    #                         }
-    #                     },
-    #                 },
-    #                 "required": ["output"]
-    #             },
-    #     }
-    # },
+    {
+        "type": "function",
+        "function": {
+                "name": "convert_text_to_bulletpoints",
+                "description": "Converts relevants parts related to the course of the disease of the input text to bulletpoints.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "An extracted bullet point"
+                            }
+                        },
+                    },
+                    "required": ["output"]
+                },
+        }
+    },
     {
         "type": "function",
         "function": {
@@ -112,15 +113,16 @@ messages = [
 
 ######################################### Testing with Framework #########################################
 
-# function_call_reply = u.query_gpt(messages, function_call={'name':"convert_text_to_bulletpoints"})
+# function_call_reply = u.query_gpt(messages, tool_choice={'name':"convert_text_to_bulletpoints"})
 # print(function_call_reply)
-
-
-# current_function = ih.add_start_dates(inp, bulletpoints)
-# print(current_function)
 
 # current_function = ih.convert_text_to_bulletpoints(inp)
 # print(current_function)
+
+current_function = ih.add_start_dates(inp, bulletpoints)
+print(current_function)
+
+
 
 # reply = json.loads(reply['choices'][0]['message']['function_call']['arguments'])
 # bulletpoints = reply['bulletpoints']
@@ -141,14 +143,15 @@ messages = [
 
 ######################################### Tools Calling #########################################
 
-response = openai.ChatCompletion.create(
-        model=MODEL,
-        messages=messages,
-        max_tokens=MAX_TOKENS,
-        temperature=0,
-        tools=TOOLS,
-#       tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
-        tool_choice="auto",
-    )
+# response = openai.ChatCompletion.create(
+#         model=MODEL,
+#         messages=messages,
+#         max_tokens=MAX_TOKENS,
+#         temperature=0,
+#         tools=TOOLS,
+# #       tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
+#         tool_choice="auto",
+#     )
+# data = json.loads(response['choices'][0]['message']['tool_calls'][0]['function']['arguments'])
+# print(data["output"])
 
-print(response)

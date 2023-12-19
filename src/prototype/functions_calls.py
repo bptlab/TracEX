@@ -1,38 +1,46 @@
-FUNCTIONS = [
+TOOLS = [
     {
-        "name": "convert_text_to_bulletpoints",
-        "description": "Converts relevants parts related to the courseF of the disease of the input text to bulletpoints.",
-        "parameters": {
-                "type": "object",
-                "properties": {
-                    "output": {
-                        "type": "array",
-                        "items": {
-                            "type": "string",
-                            "description": "An extracted bullet point"
+        "type": "function",
+        "function": {
+                "name": "add_start_dates",
+                "description": "add to every bulletpoint the according a start date in the input text. The updated bullet point should only look like this 'experiencing mild symptoms, 20200401T0000'.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "the updated bulletpoint with start date",
+                            }
                         },
-                        "description": "List of relvant bullet points"
-                    }
+                    },
+                    "required": ["output"]
                 },
-            "required": ["output"]
         }
     },
+    
+
+]
+
+
     # {
-    #     "name": "add_start_dates",
-    #     "description": "Append to every bulletpoint a start date based on the input text.",
-    #     "parameters": {
-    #             "type": "object",
-    #             "properties": {
-    #                 "output": {
-    #                     "type": "array",
-    #                     "items": {
-    #                         "type": "string",
-    #                         "description": "the updated bulletpoint with start date"
+    #     "type": "function",
+    #     "function": {
+    #             "name": "convert_text_to_bulletpoints",
+    #             "description": "Converts relevants parts related to the course of the disease of the input text to bulletpoints.",
+    #             "parameters": {
+    #                 "type": "object",
+    #                 "properties": {
+    #                     "output": {
+    #                         "type": "array",
+    #                         "items": {
+    #                             "type": "string",
+    #                             "description": "An extracted bullet point"
+    #                         }
     #                     },
-    #                     "description": "List updated bullet points with start date"
-    #                 }
+    #                 },
+    #                 "required": ["output"]
     #             },
-    #         "required": ["output"]
     #     }
     # },
-]
