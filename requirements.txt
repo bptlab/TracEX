@@ -1,12 +1,3 @@
 openai==0.28.1
 pm4py
 django
-os
-sys
-pathlib
-tempfile
-base64
-io
-time
-random
-csv
