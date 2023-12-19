@@ -4,15 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
     <style>
-        body {
-            background-color: white;
-            font-family: 'Gill Sans', sans-serif;
-            width: 50%;
-            margin-top: 5%;
-            margin-left: auto;
-            margin-right: auto;
-        }
+
         h1 {
             margin-bottom: 20px;
         }
@@ -56,7 +51,7 @@
         }
     </style>
 </head>
-<body>
+<body class="main_body">
     <h1>Success! The TracEX pipeline produced the following results:</h1>
 
     <p><b>This is the patient journey you provided:</b></p>

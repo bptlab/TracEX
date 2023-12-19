@@ -1,5 +1,7 @@
 <head>
     <title>Upload Journey</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
     <style>
         .form-row {
             display: flex;
@@ -12,13 +14,6 @@
         }
         .form-column:last-child {
             margin-right: 0;
-        }
-        body {
-            font-family: 'Gill Sans', sans-serif;
-            width: 50%;
-            margin-top: 5%;
-            margin-left: auto; /* Add left margin */
-            margin-right: auto; /* Add right margin */
         }
         button {
             width: 100%; /* Full width of the container */
@@ -33,7 +28,7 @@
 </head>
 
 
-<body>
+<body class="main_body">
     <h2>Welcome</h2>
     <p>Please select the patient journey you want to upload below.</p>
 

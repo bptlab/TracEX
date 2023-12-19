@@ -28,7 +28,7 @@ from .prototype import (
 )
 
 # set IS_TEST = False if you want to run the pipeline
-IS_TEST = False
+IS_TEST = True
 
 
 def redirect_to_selection(request):
@@ -169,7 +169,7 @@ class ResultView(generic.FormView):
         activity_key="event_type",
     ):
         """Create the xes file for the single journey."""
-        if not is_test or is_extracted:
+        if not (is_test or is_extracted):
             output_path_csv = input_handling.convert_text_to_csv(journey)
             output_path_xes = create_xes.create_xes(
                 output_path_csv, name=xes_name, key=activity_key
@@ -188,7 +188,7 @@ class ResultView(generic.FormView):
         activity_key="event_type",
     ):
         """Create the xes file for all journeys."""
-        if not is_test or is_extracted:
+        if not (is_test or is_extracted):
             output_handling.append_csv()
             all_traces_xes_path = create_xes.create_xes(
                 utils.CSV_ALL_TRACES, name=xes_name, key=activity_key
