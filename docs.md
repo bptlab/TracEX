@@ -32,5 +32,3 @@ In the root directory (TracEX):
 
 - main config with "DJANGO_SETTINGS_MODULE=tracex.settings"
 - run main
-
-hello
