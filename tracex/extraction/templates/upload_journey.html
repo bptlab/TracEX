@@ -1,0 +1,67 @@
+<head>
+    <title>Upload Journey</title>
+    <style>
+        .form-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .form-column {
+            flex: 1;
+            margin-right: 5px;
+        }
+        .form-column:last-child {
+            margin-right: 0;
+        }
+        body {
+            font-family: 'Gill Sans', sans-serif;
+            width: 50%;
+            margin-top: 5%;
+            margin-left: auto; /* Add left margin */
+            margin-right: auto; /* Add right margin */
+        }
+        button {
+            width: 100%; /* Full width of the container */
+            padding: 10px; /* Add padding for better appearance */
+        }
+        input[type="submit"].button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5%;
+        }
+    </style>
+</head>
+
+
+<body>
+    <h2>Welcome</h2>
+    <p>Please select the patient journey you want to upload below.</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.journey.label_tag }} {{ form.journey }}
+                {{ form.journey.errors }}
+                <p>{{ form.journey.help_text }}</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.event_types.label_tag }} {{ form.event_types }}
+                {{ form.event_types.errors }}
+            </div>
+            <div class="form-column">
+                {{ form.locations.label_tag }} {{ form.locations }}
+                {{ form.locations.errors }}
+            </div>
+        </div>
+
+        <input type="submit" value="Upload" class="button">
+    </form>
+    <a href="{% url 'selection' %}">
+        <button>Return to input selection</button>
+    </a>
+</body>

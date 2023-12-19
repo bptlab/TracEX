@@ -1,4 +1,3 @@
 openai==0.28.1
-pandas
 pm4py
 django
