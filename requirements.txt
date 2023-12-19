@@ -1,3 +1,4 @@
 openai==0.28.1
 pm4py
 django
+pre-commit
