@@ -4,7 +4,9 @@ import time
 from pathlib import Path
 from django.conf import settings
 
-import openai
+from openai import OpenAI
+
+client = OpenAI()
 
 output_path = settings.BASE_DIR / Path(
     "extraction/content/outputs/"
@@ -41,11 +43,9 @@ def get_decision(question):
 
 def query_gpt(messages, temperature=TEMPERATURE_SUMMARIZING):
     """Queries the GPT engine."""
-    response = openai.ChatCompletion.create(
-        model=MODEL,
-        messages=messages,
-        max_tokens=MAX_TOKENS,
-        temperature=temperature,
-    )
+    response = client.chat.completions.create(model=MODEL,
+    messages=messages,
+    max_tokens=MAX_TOKENS,
+    temperature=temperature)
     output = response.choices[0].message.content
     return output
