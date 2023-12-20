@@ -1,5 +1,9 @@
 """Module providing the main function."""
 
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tracex.tracex.settings")
+
 from tracex.extraction.prototype import input_inquiry as ii
 from tracex.extraction.prototype import input_handling as ih
 from tracex.extraction.prototype import output_handling as oh
