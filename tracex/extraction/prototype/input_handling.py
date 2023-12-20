@@ -1,8 +1,6 @@
 """Module providing functions for converting text to CSV."""
 import csv
 
-import openai
-
 from . import utils as u
 from . import prompts as p
 

@@ -1,9 +1,10 @@
 """Module providing functions to produce prompts by using GPT generations."""
 from openai import OpenAI
+import utils as u
 
 client = OpenAI(api_key=u.oaik)
 
-import utils as u
+
 
 
 NEW_PROMPTS_CONTEXT = """
