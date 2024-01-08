@@ -7,6 +7,12 @@
     margin-right: auto;
 }
 
+button {
+    width: 100%; /* Full width of the container */
+    padding: 10px; /* Add padding for better appearance */
+    margin: 10px 0; /* Add some margin around buttons */
+}
+
 .selection_body{
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
@@ -21,4 +27,10 @@
 
 .selection_container {
     width: 50%;
+}
+
+.selection_logo {
+            max-width: 800px;
+            margin-bottom: 20px;
+            margin-top: -150px;
 }
