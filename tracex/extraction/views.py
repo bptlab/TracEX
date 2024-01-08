@@ -28,7 +28,7 @@ from .prototype import (
 )
 
 # set IS_TEST = False if you want to run the pipeline
-IS_TEST = False
+IS_TEST = True
 
 
 def redirect_to_selection(request):
