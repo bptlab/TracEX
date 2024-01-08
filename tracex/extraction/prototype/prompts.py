@@ -2,11 +2,10 @@
 """Module providing the needed prompts for the gpt_queries."""
 import random
 
-import openai
-
+from openai import OpenAI
 from . import utils as u
 
-openai.api_key = u.oaik
+client = OpenAI(api_key=u.oaik)
 
 
 def create_patient_journey_context():
@@ -42,9 +41,7 @@ def get_sex():
 def get_country():
     """Randomizing country."""
     message = [{"role": "user", "content": "Please give me one european country."}]
-    country = openai.ChatCompletion.create(
-        model=u.MODEL, messages=message, max_tokens=50, temperature=0.2
-    )
+    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.2)
     return country.choices[0].message.content
 
 
@@ -56,18 +53,14 @@ def get_date():
             "content": "Please give me one date between 01/01/2020 and 01/09/2023.",
         }
     ]
-    country = openai.ChatCompletion.create(
-        model=u.MODEL, messages=message, max_tokens=50, temperature=0.5
-    )
+    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.5)
     return country.choices[0].message.content
 
 
 def get_life_circumstances(sex):
     """Randomizing life circumstances."""
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
-    life_circumstances = openai.ChatCompletion.create(
-        model=u.MODEL, messages=message, max_tokens=100, temperature=1
-    )
+    life_circumstances = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=100, temperature=1)
     return life_circumstances.choices[0].message.content
 
 

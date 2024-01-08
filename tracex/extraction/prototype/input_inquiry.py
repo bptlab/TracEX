@@ -1,12 +1,9 @@
 """Module providing functions for the input inquiry of the prototype."""
 import os
 
-import openai
-
 from . import utils as u
 from . import prompts as p
 
-openai.api_key = u.oaik
 
 
 def greeting():

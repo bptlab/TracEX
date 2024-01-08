@@ -1,9 +1,11 @@
 """Module providing functions to produce prompts by using GPT generations."""
-import openai
-
+from openai import OpenAI
 import utils as u
 
-openai.api_key = u.oaik
+client = OpenAI(api_key=u.oaik)
+
+
+
 
 NEW_PROMPTS_CONTEXT = """
     You are an expert prompt engineer for gpt-3.5-turbo. You are tasked with creating the best possible prompts for given tasks.
@@ -20,12 +22,10 @@ messages = [
     {"role": "user", "content": NEW_PROMPTS_PROMPT},
     {"role": "assistant", "content": NEW_PROMPTS_ANSWER},
 ]
-new_prompts = openai.ChatCompletion.create(
-    model=u.MODEL,
-    messages=messages,
-    max_tokens=u.MAX_TOKENS,
-    temperature=u.TEMPERATURE_CREATION,
-)
+new_prompts = client.chat.completions.create(model=u.MODEL,
+messages=messages,
+max_tokens=u.MAX_TOKENS,
+temperature=u.TEMPERATURE_CREATION)
 output = new_prompts.choices[0].message.content
 with open(
     (u.output_path / "new_prompts.txt"),
