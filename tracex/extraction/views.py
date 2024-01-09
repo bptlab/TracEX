@@ -49,6 +49,8 @@ class JourneyInputView(generic.FormView):
         cache.set("event_types", form.cleaned_data["event_types"])
         cache.set("locations", form.cleaned_data["locations"])
         cache.set("is_extracted", False)
+        orchestrator = getattr(self.request, "orchestrator", None)
+        print("success")
         return super().form_valid(form)
 
 

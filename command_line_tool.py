@@ -19,4 +19,5 @@ def main():
     oh.farewell()
 
 
-main()
+if __name__ == "__main__":
+    main()
