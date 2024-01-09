@@ -1,4 +1,9 @@
 """Module providing the main function."""
+# pylint: disable=wrong-import-position
+import os
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tracex.tracex.settings")
+# pylint: enable=wrong-import-position
 
 from tracex.extraction.prototype import input_inquiry as ii
 from tracex.extraction.prototype import input_handling as ih
