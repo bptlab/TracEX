@@ -1,6 +1,6 @@
 # Content directory
 tracex/extraction/content/inputs
-tracex/extraction/content/outputs/intermediates
+tracex/extraction/content/outputs/intermediates/
 tracex/extraction/content/outputs/new_prompts.txt
 tracex/extraction/content/outputs/output.csv
 tracex/extraction/content/outputs/output.xes

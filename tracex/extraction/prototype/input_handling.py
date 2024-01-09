@@ -1,9 +1,10 @@
 """Module providing functions for converting text to CSV."""
 import csv
 
+import pandas as pd
+
 from . import utils as u
 from . import prompts as p
-
 
 
 def convert_text_to_csv(inp):
@@ -54,51 +55,84 @@ def convert_text_to_bulletpoints(inp):
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
     bulletpoints = u.query_gpt(messages)
-    bulletpoints = remove_commas(bulletpoints)
-    bulletpoints = add_ending_commas(bulletpoints)
-    with open((u.output_path / "intermediates/1_bulletpoints.txt"), "w") as f:
-        f.write(bulletpoints)
-    return bulletpoints
+    df = pd.DataFrame([], columns=["event_information"])
+    bulletpoints = bulletpoints.replace("- ", "")
+    bulletpoints = bulletpoints.split("\n")
+    for i in bulletpoints:
+        new_row = pd.DataFrame([i], columns=["event_information"])
+        df = pd.concat([df, new_row], ignore_index=True)
+    with open(
+        (u.output_path / "intermediates/bulletpoints.txt"),
+        "w",
+    ) as f:
+        f.write("\n")
+    return df
 
 
-def add_start_dates(inp, bulletpoints):
+def add_start_dates(text, df):
     """Adds start dates to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_START_DATE_PROMPT + inp + "\n" + bulletpoints,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
-    ]
-    bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
-    with open(
-        (u.output_path / "intermediates/2_bulletpoints_with_start.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_start)
-    return bulletpoints_start
+    start_date_df = pd.DataFrame([], columns=["start_date"])
+    list = df.values.tolist()
+    i = 0
+    for item in list:
+        messages = [
+            {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.BULLETPOINTS_START_DATE_PROMPT
+                + "The text: "
+                + text
+                + "\nThe bulletpoint: "
+                + item[0],
+            },
+            {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+        new_row = pd.DataFrame([output], columns=["start_date"])
+        start_date_df = pd.concat([start_date_df, new_row], ignore_index=True)
+        print(i, end="\r")
+        i = i + 1
+        with open(
+            (u.output_path / "intermediates/bulletpoints.txt"),
+            "a",
+        ) as f:
+            f.write("\n" + output)
+    df = pd.concat([df, start_date_df], axis=1)
+    return df
 
 
-def add_end_dates(inp, bulletpoints):
+def add_end_dates(text, df):
     """Adds end dates to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
-    ]
-    bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
-    with open(
-        (u.output_path / "intermediates/3_bulletpoints_with_end.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_start)
-    return bulletpoints_start
+    end_date_df = pd.DataFrame([], columns=["end_date"])
+    list = df.values.tolist()
+    i = 0
+    for item in list:
+        messages = [
+            {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.BULLETPOINTS_END_DATE_PROMPT
+                + "The text: "
+                + text
+                + "\nThe bulletpoint: "
+                + item[0]
+                + "\nThe start date: "
+                + item[1],
+            },
+            {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+        new_row = pd.DataFrame([output], columns=["end_date"])
+        end_date_df = pd.concat([end_date_df, new_row], ignore_index=True)
+        print(i, end="\r")
+        i = i + 1
+        with open(
+            (u.output_path / "intermediates/bulletpoints.txt"),
+            "a",
+        ) as f:
+            f.write("\n" + output)
+    df = pd.concat([df, end_date_df], axis=1)
+    return df
 
 
 def add_durations(inp, bulletpoints_start):

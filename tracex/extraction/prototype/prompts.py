@@ -41,7 +41,9 @@ def get_sex():
 def get_country():
     """Randomizing country."""
     message = [{"role": "user", "content": "Please give me one european country."}]
-    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.2)
+    country = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.2
+    )
     return country.choices[0].message.content
 
 
@@ -53,14 +55,18 @@ def get_date():
             "content": "Please give me one date between 01/01/2020 and 01/09/2023.",
         }
     ]
-    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.5)
+    country = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.5
+    )
     return country.choices[0].message.content
 
 
 def get_life_circumstances(sex):
     """Randomizing life circumstances."""
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
-    life_circumstances = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=100, temperature=1)
+    life_circumstances = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=100, temperature=1
+    )
     return life_circumstances.choices[0].message.content
 
 
@@ -117,60 +123,49 @@ TXT_TO_BULLETPOINTS_ANSWER = """
 
 # Adding of a start date to every bullet point
 BULLETPOINTS_START_DATE_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
-    The information about the start date should be extracted from the text or from the context and should be as precise as possible.
-    Do not modify the content of the bulletpoint and keep ending commas.
+    You are an expert in text understanding and your job is to take a given text and a given bulletpoint and to extract a start date to this bulletpoint.
+    Just output the extracted start date.
+    The date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
-    Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one.
-    Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
     If the text talks about getting medication and then improving and the bullet point says 'improving', you should return the date of getting the medication as start date.
     If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
     use that information to draw conclusions about the start dates.
-    If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
-    The only output should be the updated bullet points, nothing else!
+    Only return the date! Nothing else!
 """
 BULLETPOINTS_START_DATE_PROMPT = """
-    Here is the text and the bulletpoints for which you should extract start dates:
+    Here is the text and the bulletpoint for which you should extract the start date:
 """
 BULLETPOINTS_START_DATE_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
-    '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return
-    '- experiencing mild symptoms, 20200401T0000\n- visiting doctor's, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
-    Accordingly for the same text and the bullet points '- experiencing first symptoms: 01/04/2020,\n- going to doctor four days later,\n- testing positive for Covid19,' you should return
-    '- experiencing first symptoms, 20200401T0000\n- going to doctor, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
-    If the text says 'A year after the vaccine was introduced, I got vaccined myself' and a bullet point says 'got vaccined',
-    you should take online information about when a vaccine was introduced in the country the author is from into account and put that as start date.
-    When the considered vaccine was introduced on 01/01/2021, you should return '- getting vaccined, 20220101T0000', as the author said, that he waited a year.
-    If the text says something like "I got medication on the fith of july. Nevertheless my health wasn't improving in any way." and the bulletpoints are
-    '- getting medication,\n- worsening health' you should return '- getting medication, 20200705T0000\n- worsening health, 20200705T0000'.
+    'experiencing mild symptoms' you should return '20200401T0000'.
+    If the bullet point is 'testing positive for Covid19' you should return '20200405T0000'.
 """
 
 
 # Adding of a end date to every bullet point
 BULLETPOINTS_END_DATE_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
-    It is important, that every bullet point gets an end date, even if it is the same as the start date.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
+    You are an expert in text understanding and your job is to take a given text and a given bulletpoint with a start date and to extract a end date to this bulletpoint.
+    It is important, that an end date is extracted, even if it is the same as the start date.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
     If the duration of an event is given, use that information to draw conclusions about the end date.
     If the duration of an event is not given, use the context to draw conclusions about the end date.
-    If two bulletpoints are related, it is possible, that the end dates should match.
     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
     If there is no information about the end date at all, please state the start date also as the end date.
-    The only output should be the updated bullet points, nothing else!
+    Only return the date! Nothing else!
 """
 BULLETPOINTS_END_DATE_PROMPT = """
-    Here is the text and the bulletpoints for which you should extract end dates:
+    Here is the text and the bulletpoint with the start date for which you should extract end date:
 """
 BULLETPOINTS_END_DATE_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
-    and the bullet points '(visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000), (getting hospitalized, 20200405T0000)' you should return
-    '(visiting doctor's, 20200405T0000, 20200405T0000), (testing positive for Covid19, 20200405T0000, 20200405T0000), (getting hospitalized, 20200405T0000, 20200419T0000)'.
-    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 20210710T0000)'.
+    and the bullet point 'visiting doctor's' with the start date '20200405T0000' you should only return '20200405T0000'.
+    For the bullet point 'testing positive for Covid19' with the start date '20200405T0000' you should only return '20200405T0000'.
+    For the bullet point 'getting hospitalized' with the start date '20200405T0000' you should only return '20200419T0000'.
+
+    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
 
 
