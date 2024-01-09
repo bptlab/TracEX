@@ -18,7 +18,7 @@ More information about the project will be released soon.
 
 ### Installation
 
-- Run "install-dependencies-unix.sh" or "install-dependencies-windows.ps1" based on your operating system _(Using e.g. Terminal)_
+- In the root directory of TracEX, run "install-dependencies-unix.sh" or "install-dependencies-windows.ps1" based on your operating system _(Using e.g. Terminal)_
 
 ### Execution
 
