@@ -2,9 +2,8 @@ from .modules.module_patient_journey_generator import PatientJourneyGenerator
 
 
 class Orchestrator:
-    def __init__(self, config):
+    def __init__(self):
         print("test")
-        self.config = config
         self.modules = {
             "patient_journey_generation": PatientJourneyGenerator(
                 name="Patient Journey Generator",
@@ -29,3 +28,6 @@ class Orchestrator:
         3. Module initialisieren
         """
         pass
+
+    def testing(self):
+        print("Test successful")

@@ -7,3 +7,8 @@ class ExtractionConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "extraction"
+
+    def ready(self):
+        from extraction.logic import orchestrator
+        orchestrator = orchestrator.Orchestrator()
+        print("Orchestrator ready")
