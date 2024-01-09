@@ -167,7 +167,21 @@ BULLETPOINTS_END_DATE_ANSWER = """
 
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
+END_DATE_CONTEXT = """
+You are an expert in extracting information. You easily detect the end dates and extract the as they are without changing any format.
+"""
 
+END_DATE_FUNCTION_CALL = """
+Please extract the following end date of the text without changing the given date format:
+"""
+
+START_DATE_CONTEXT = """
+You are an expert in extracting information. You easily detect the end dates and extract the as they are without changing any format.
+"""
+
+START_DATE_FUNCTION_CALL = """
+Please extract the following end date of the text without changing the given date format:
+"""
 
 # Adding of a duration to every bullet point
 BULLETPOINTS_DURATION_CONTEXT = """

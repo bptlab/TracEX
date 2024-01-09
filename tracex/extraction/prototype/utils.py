@@ -1,8 +1,10 @@
 """Module providing constants for the project."""
 import os
 import time
+import json
 from pathlib import Path
 from django.conf import settings
+from . import function_calls as fc
 
 from openai import OpenAI
 
@@ -41,11 +43,28 @@ def get_decision(question):
     return get_decision(question)
 
 
-def query_gpt(messages, temperature=TEMPERATURE_SUMMARIZING):
+# def query_gpt(messages, temperature=TEMPERATURE_SUMMARIZING):
+#     """Queries the GPT engine."""
+#     response = client.chat.completions.create(model=MODEL,
+#     messages=messages,
+#     max_tokens=MAX_TOKENS,
+#     temperature=temperature)
+#     output = response.choices[0].message.content
+#     return output
+
+def query_gpt(messages, tools=fc.TOOLS, tool_choice="none", temperature=TEMPERATURE_SUMMARIZING):
     """Queries the GPT engine."""
-    response = client.chat.completions.create(model=MODEL,
-    messages=messages,
-    max_tokens=MAX_TOKENS,
-    temperature=temperature)
-    output = response.choices[0].message.content
+    response = client.chat.completions.create(
+        model=MODEL,
+        messages=messages,
+        max_tokens=MAX_TOKENS,
+        temperature=temperature,
+        tools=tools,
+        tool_choice=tool_choice,
+    )
+    if tool_choice == "none":
+        output = response.choices[0].message.content
+    else:
+        api_response = response.choices[0].message.tool_calls[0].function.arguments
+        output = json.loads(api_response)['output'][0]
     return output

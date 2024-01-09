@@ -88,7 +88,18 @@ def add_start_dates(text, df):
             {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
         ]
         output = u.query_gpt(messages)
-        new_row = pd.DataFrame([output], columns=["start_date"])
+        
+        fc_message = [
+            {"role": "system", "content": p.START_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.START_DATE_FUNCTION_CALL
+                + "The text: "
+                + output
+            },
+        ]
+        start_date = u.query_gpt(fc_message, tool_choice={ "type": "function", "function": {"name": "add_start_dates"}})
+        new_row = pd.DataFrame([start_date], columns=["start_date"])
         start_date_df = pd.concat([start_date_df, new_row], ignore_index=True)
         print(i, end="\r")
         i = i + 1
@@ -96,7 +107,7 @@ def add_start_dates(text, df):
             (u.output_path / "intermediates/bulletpoints.txt"),
             "a",
         ) as f:
-            f.write("\n" + output)
+            f.write("\n\n" + output)
     df = pd.concat([df, start_date_df], axis=1)
     return df
 
@@ -122,7 +133,18 @@ def add_end_dates(text, df):
             {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
         ]
         output = u.query_gpt(messages)
-        new_row = pd.DataFrame([output], columns=["end_date"])
+
+        fc_message = [
+            {"role": "system", "content": p.END_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.END_DATE_FUNCTION_CALL
+                + "The text: "
+                + output
+            },
+        ]
+        end_date = u.query_gpt(fc_message, tool_choice={ "type": "function", "function": {"name": "add_end_dates"}})
+        new_row = pd.DataFrame([end_date], columns=["end_date"])
         end_date_df = pd.concat([end_date_df, new_row], ignore_index=True)
         print(i, end="\r")
         i = i + 1
@@ -130,7 +152,7 @@ def add_end_dates(text, df):
             (u.output_path / "intermediates/bulletpoints.txt"),
             "a",
         ) as f:
-            f.write("\n" + output)
+            f.write("\n\n" + output)
     df = pd.concat([df, end_date_df], axis=1)
     return df
 
