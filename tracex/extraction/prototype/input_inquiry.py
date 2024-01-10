@@ -5,7 +5,6 @@ from . import utils as u
 from . import prompts as p
 
 
-
 def greeting():
     """Prints a greeting message."""
     print(

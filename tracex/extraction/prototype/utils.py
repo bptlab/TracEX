@@ -52,7 +52,10 @@ def get_decision(question):
 #     output = response.choices[0].message.content
 #     return output
 
-def query_gpt(messages, tools=fc.TOOLS, tool_choice="none", temperature=TEMPERATURE_SUMMARIZING):
+
+def query_gpt(
+    messages, tools=fc.TOOLS, tool_choice="none", temperature=TEMPERATURE_SUMMARIZING
+):
     """Queries the GPT engine."""
     response = client.chat.completions.create(
         model=MODEL,
@@ -66,5 +69,5 @@ def query_gpt(messages, tools=fc.TOOLS, tool_choice="none", temperature=TEMPERAT
         output = response.choices[0].message.content
     else:
         api_response = response.choices[0].message.tool_calls[0].function.arguments
-        output = json.loads(api_response)['output'][0]
+        output = json.loads(api_response)["output"][0]
     return output
