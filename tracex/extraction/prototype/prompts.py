@@ -131,23 +131,23 @@ BULLETPOINTS_START_DATE_CONTEXT = """
     If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
     use that information to draw conclusions about the start dates.
-    Only return the date! Nothing else!
+    If there is only a month specified, use the first of this month as start date.
 """
 BULLETPOINTS_START_DATE_PROMPT = """
-    Here is the text and the bulletpoint for which you should extract the start date:
+    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000:
 """
 BULLETPOINTS_START_DATE_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
+    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again.' and the bullet points
     'experiencing mild symptoms' you should return '20200401T0000'.
-    If the bullet point is 'testing positive for Covid19' you should return '20200405T0000'.
+    If the bulletpoint is 'testing positive for Covid19' you should return '20200405T0000'.
+    The bulletpoint 'getting infected again' should be returned as '20200601T0000'.
 """
 FC_START_DATE_CONTEXT = """
-You are an expert in extracting information. You easily detect the start dates and extract them as they are without changing any format.
+   You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
-
 FC_START_DATE_PROMPT = """
-Please extract the following start date of the text without changing the given date format:
+    Please extract the following start date of the text without changing the given date format:
 """
 
 # Adding of a end date to every bullet point
@@ -174,11 +174,10 @@ BULLETPOINTS_END_DATE_ANSWER = """
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
 FC_END_DATE_CONTEXT = """
-You are an expert in extracting information. You easily detect the end dates and extract them as they are without changing any format.
+    You are an expert in extracting information. You easily detect the end dates and extract them as they are without changing any format.
 """
-
 FC_END_DATE_PROMPT = """
-Please extract the following end date of the text without changing the given date format:
+    Please extract the following end date of the text without changing the given date format:
 """
 
 # Adding of a duration to every bullet point
@@ -206,11 +205,10 @@ BULLETPOINTS_DURATION_ANSWER = """
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 720:00:00)'.
 """
 FC_DURATION_CONTEXT = """
-You are an expert in extracting information. You easily detect durations and extract them as they are without changing any format.
+    You are an expert in extracting information. You easily detect durations and extract them as they are without changing any format.
 """
-
 FC_DURATION_PROMPT = """
-Please extract the following duration of the text without changing the given date format:
+    Please extract the following duration of the text without changing the given date format:
 """
 
 

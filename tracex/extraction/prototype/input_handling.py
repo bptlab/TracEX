@@ -80,7 +80,7 @@ def add_start_dates(text, df):
             {
                 "role": "user",
                 "content": p.BULLETPOINTS_START_DATE_PROMPT
-                + "The text: "
+                + "\nThe text: "
                 + text
                 + "\nThe bulletpoint: "
                 + item[0],
@@ -88,17 +88,15 @@ def add_start_dates(text, df):
             {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
         ]
         output = u.query_gpt(messages)
-        
+
         fc_message = [
             {"role": "system", "content": p.FC_START_DATE_CONTEXT},
-            {
-                "role": "user",
-                "content": p.FC_START_DATE_PROMPT
-                + "The text: "
-                + output
-            },
+            {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
         ]
-        start_date = u.query_gpt(fc_message, tool_choice={ "type": "function", "function": {"name": "add_start_dates"}})
+        start_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
+        )
         new_row = pd.DataFrame([start_date], columns=["start_date"])
         start_date_df = pd.concat([start_date_df, new_row], ignore_index=True)
         print(i, end="\r")
@@ -123,7 +121,7 @@ def add_end_dates(text, df):
             {
                 "role": "user",
                 "content": p.BULLETPOINTS_END_DATE_PROMPT
-                + "The text: "
+                + "\nThe text: "
                 + text
                 + "\nThe bulletpoint: "
                 + item[0]
@@ -136,14 +134,12 @@ def add_end_dates(text, df):
 
         fc_message = [
             {"role": "system", "content": p.FC_END_DATE_CONTEXT},
-            {
-                "role": "user",
-                "content": p.FC_END_DATE_PROMPT
-                + "The text: "
-                + output
-            },
+            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
         ]
-        end_date = u.query_gpt(fc_message, tool_choice={ "type": "function", "function": {"name": "add_end_dates"}})
+        end_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
+        )
         new_row = pd.DataFrame([end_date], columns=["end_date"])
         end_date_df = pd.concat([end_date_df, new_row], ignore_index=True)
         print(i, end="\r")
@@ -159,11 +155,54 @@ def add_end_dates(text, df):
 
 def add_durations(text, bulletpoints_start):
     """Adds durations to the bulletpoints."""
+    duration_df = pd.DataFrame([], columns=["duration"])
+    list = df.values.tolist()
+    i = 0
+    for item in list:
+        messages = [
+            {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.BULLETPOINTS_END_DATE_PROMPT
+                + "\nThe text: "
+                + text
+                + "\nThe bulletpoint: "
+                + item[0]
+                + "\nThe start date: "
+                + item[1],
+            },
+            {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+
+        fc_message = [
+            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
+            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
+        ]
+        end_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
+        )
+        new_row = pd.DataFrame([end_date], columns=["end_date"])
+        end_date_df = pd.concat([end_date_df, new_row], ignore_index=True)
+        print(i, end="\r")
+        i = i + 1
+        with open(
+            (u.output_path / "intermediates/bulletpoints.txt"),
+            "a",
+        ) as f:
+            f.write("\n\n" + output)
+    df = pd.concat([df, end_date_df], axis=1)
+    return df
+
     messages = [
         {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
         {
             "role": "user",
-            "content": p.BULLETPOINTS_DURATION_PROMPT + text + "\n" + bulletpoints_start,
+            "content": p.BULLETPOINTS_DURATION_PROMPT
+            + text
+            + "\n"
+            + bulletpoints_start,
         },
         {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
     ]

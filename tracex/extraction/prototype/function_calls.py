@@ -2,101 +2,101 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-                "name": "add_start_dates",
-                "description": "this function extract the start date",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "a start date",
-                            }
+            "name": "add_start_dates",
+            "description": "this function extract the start date",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "a start date in the format YYYYMMDDT0000",
                         },
                     },
-                    "required": ["output"]
                 },
-        }
+                "required": ["output"],
+            },
+        },
     },
     {
         "type": "function",
         "function": {
-                "name": "add_end_dates",
-                "description": "this function extract the end date",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "a end date",
-                            }
+            "name": "add_end_dates",
+            "description": "this function extract the end date",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "a end date in the format YYYYMMDDT0000",
                         },
                     },
-                    "required": ["output"]
                 },
-        }
+                "required": ["output"],
+            },
+        },
     },
     {
         "type": "function",
         "function": {
-                "name": "add_duration",
-                "description": "this function extract the duration",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "a duration",
-                            }
+            "name": "add_duration",
+            "description": "this function extract the duration",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "a duration",
                         },
                     },
-                    "required": ["output"]
                 },
-        }
+                "required": ["output"],
+            },
+        },
     },
     {
         "type": "function",
         "function": {
-                "name": "add_event_type",
-                "description": "this function extract the event type",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "an event type",
-                            }
+            "name": "add_event_type",
+            "description": "this function extract the event type",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "an event type",
                         },
                     },
-                    "required": ["output"]
                 },
-        }
+                "required": ["output"],
+            },
+        },
     },
     {
         "type": "function",
         "function": {
-                "name": "add_location",
-                "description": "this function extract the location",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        "output": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "description": "a location",
-                            }
+            "name": "add_location",
+            "description": "this function extract the location",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "output": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "description": "a location",
                         },
                     },
-                    "required": ["output"]
                 },
-        }
+                "required": ["output"],
+            },
+        },
     },
 ]
