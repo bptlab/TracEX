@@ -1,6 +1,4 @@
 """Module providing functions for converting text to CSV."""
-import csv
-
 import pandas as pd
 
 from . import utils as u
@@ -73,9 +71,9 @@ def add_start_dates(text, df):
     """Adds start dates to the bulletpoints."""
     name = "start_date"
     new_df = pd.DataFrame([], columns=[name])
-    list = df.values.tolist()
+    values_list = df.values.tolist()
     i = 0
-    for item in list:
+    for item in values_list:
         messages = [
             {"role": "system", "content": p.START_DATE_CONTEXT},
             {
@@ -115,9 +113,9 @@ def add_end_dates(text, df):
     """Adds end dates to the bulletpoints."""
     name = "end_date"
     new_df = pd.DataFrame([], columns=[name])
-    list = df.values.tolist()
+    values_list = df.values.tolist()
     i = 0
-    for item in list:
+    for item in values_list:
         messages = [
             {"role": "system", "content": p.END_DATE_CONTEXT},
             {
@@ -159,9 +157,9 @@ def add_durations(text, df):
     """Adds durations to the bulletpoints."""
     name = "duration"
     new_df = pd.DataFrame([], columns=[name])
-    list = df.values.tolist()
+    values_list = df.values.tolist()
     i = 0
-    for item in list:
+    for item in values_list:
         messages = [
             {"role": "system", "content": p.DURATION_CONTEXT},
             {
@@ -205,9 +203,9 @@ def add_event_types(df):
     """Adds event types to the bulletpoints."""
     name = "event_type"
     new_df = pd.DataFrame([], columns=[name])
-    list = df.values.tolist()
+    values_list = df.values.tolist()
     i = 0
-    for item in list:
+    for item in values_list:
         messages = [
             {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
             {
@@ -243,10 +241,10 @@ def add_locations(df):
     """Adds locations to the bulletpoints."""
     name = "attribute_location"
     new_df = pd.DataFrame([], columns=[name])
-    list = df.values.tolist()
+    values_list = df.values.tolist()
     event_type_key = df.columns.get_loc("event_type")
     i = 0
-    for item in list:
+    for item in values_list:
         print(item[0], end="\r")
         messages = [
             {"role": "system", "content": p.LOCATION_CONTEXT},
@@ -283,6 +281,7 @@ def add_locations(df):
 
 
 def convert_dataframe_to_csv(df):
+    """Converts the dataframe to CSV and save it on disk."""
     output_path = u.output_path / "single_trace.csv"
     df.insert(loc=0, column="case_id", value="0")
     df.to_csv(

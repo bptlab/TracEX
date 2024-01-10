@@ -1,12 +1,12 @@
+# pylint: disable=W0102
 """Module providing constants for the project."""
 import os
 import time
 import json
 from pathlib import Path
 from django.conf import settings
-from . import function_calls as fc
-
 from openai import OpenAI
+from . import function_calls as fc
 
 client = OpenAI()
 

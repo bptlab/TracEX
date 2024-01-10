@@ -1,3 +1,5 @@
+# pylint: disable=line-too-long
+"""Module providing a functions for using OpenAI function calling."""
 TOOLS = [
     {
         "type": "function",
