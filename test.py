@@ -10,11 +10,14 @@ from tracex.extraction.prototype import utils as u
 from tracex.extraction.prototype import function_calls as fc
 from tracex.extraction.prototype import prompts as p
 
-text = open(u.input_path / "journey_synth_covid_1.txt").read()
+text = open(u.input_path / "journey_synth_covid_2.txt").read()
 df = ih.convert_text_to_bulletpoints(text)
 print(df)
 df = ih.add_start_dates(text, df)
 df = ih.add_end_dates(text, df)
+# df = ih.add_durations(text, df)
+df = ih.add_event_types(df)
+df = ih.add_locations(df)
 
 print(df)
 

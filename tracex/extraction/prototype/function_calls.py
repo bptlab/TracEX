@@ -51,7 +51,7 @@ TOOLS = [
                         "type": "array",
                         "items": {
                             "type": "string",
-                            "description": "a duration",
+                            "description": "a duration in the format HHH:MM:SS or HH:MM:SS",
                         },
                     },
                 },
@@ -71,7 +71,7 @@ TOOLS = [
                         "type": "array",
                         "items": {
                             "type": "string",
-                            "description": "an event type",
+                            "description": "an event type (one of 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings')",
                         },
                     },
                 },
@@ -91,7 +91,7 @@ TOOLS = [
                         "type": "array",
                         "items": {
                             "type": "string",
-                            "description": "a location",
+                            "description": "a location (one of  'Home', 'Hospital', 'Doctors' and 'Other')",
                         },
                     },
                 },

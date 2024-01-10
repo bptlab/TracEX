@@ -25,7 +25,7 @@ def get_output():
                 "duration": "time:duration",
             }
         )
-        dataframe["caseID"] = dataframe["caseID"].astype(str)
+        dataframe["case_id"] = dataframe["case_id"].astype(str)
         print(dataframe)
     else:
         print("The output can be found at output.csv.")
@@ -49,7 +49,7 @@ def get_output_without_user_io():
             "duration": "time:duration",
         }
     )
-    dataframe["caseID"] = dataframe["caseID"].astype(str)
+    dataframe["case_id"] = dataframe["case_id"].astype(str)
     print(dataframe)
     append_csv()
 
