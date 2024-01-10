@@ -42,7 +42,7 @@ def convert_text_to_csv(text):
     print(
         "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
     )
-    output_path = convert_to_csv(location)
+    output_path = convert_dataframe_to_csv(location)
     print("Dataconversion finished.                    ")
     return output_path
 
