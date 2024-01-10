@@ -142,7 +142,13 @@ BULLETPOINTS_START_DATE_ANSWER = """
     'experiencing mild symptoms' you should return '20200401T0000'.
     If the bullet point is 'testing positive for Covid19' you should return '20200405T0000'.
 """
+FC_START_DATE_CONTEXT = """
+You are an expert in extracting information. You easily detect the start dates and extract them as they are without changing any format.
+"""
 
+FC_START_DATE_PROMPT = """
+Please extract the following start date of the text without changing the given date format:
+"""
 
 # Adding of a end date to every bullet point
 BULLETPOINTS_END_DATE_CONTEXT = """
@@ -167,19 +173,11 @@ BULLETPOINTS_END_DATE_ANSWER = """
 
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
-END_DATE_CONTEXT = """
-You are an expert in extracting information. You easily detect the end dates and extract the as they are without changing any format.
+FC_END_DATE_CONTEXT = """
+You are an expert in extracting information. You easily detect the end dates and extract them as they are without changing any format.
 """
 
-END_DATE_FUNCTION_CALL = """
-Please extract the following end date of the text without changing the given date format:
-"""
-
-START_DATE_CONTEXT = """
-You are an expert in extracting information. You easily detect the end dates and extract the as they are without changing any format.
-"""
-
-START_DATE_FUNCTION_CALL = """
+FC_END_DATE_PROMPT = """
 Please extract the following end date of the text without changing the given date format:
 """
 
@@ -207,6 +205,13 @@ BULLETPOINTS_DURATION_ANSWER = """
     '(visiting doctor's, 20200405T0000, 02:00:00), (testing positive for Covid19, 20200405T0000, 00:00:00), (getting hospitalized, 20200405T0000, 03:00:00)'.
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 720:00:00)'.
 """
+FC_DURATION_CONTEXT = """
+You are an expert in extracting information. You easily detect durations and extract them as they are without changing any format.
+"""
+
+FC_DURATION_PROMPT = """
+Please extract the following duration of the text without changing the given date format:
+"""
 
 
 # Adding of a event type to every bullet point
@@ -227,6 +232,13 @@ BULLETPOINTS_EVENT_TYPE_ANSWER = """
     (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission)'.
 """
 
+FC_EVENT_TYPE_CONTEXT = """
+You are an expert in extracting information. You easily detect event type and extract them as they are without changing any format.
+"""
+
+FC_EVENT_TYPE_PROMPT = """
+Please extract the following event type of the text without changing the given date format:
+"""
 
 # Adding of a location type to every bullet point
 BULLETPOINTS_LOCATION_CONTEXT = """
@@ -246,4 +258,11 @@ BULLETPOINTS_LOCATION_ANSWER = """
     (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission)' you should return
     '(visiting doctor's, 20200405T0000, 02:00:00, Doctors Visit, Doctors), (testing positive for Covid19, 20200405T0000, 00:00:00, Diagnosis, Doctors),
     (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission, Hospital)'.
+"""
+FC_LOCATION_CONTEXT = """
+You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
+"""
+
+FC_LOCATION_PROMPT = """
+Please extract the following location of the text without changing the given date format:
 """

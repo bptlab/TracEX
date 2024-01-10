@@ -1,5 +1,5 @@
 TOOLS = [
-        {
+    {
         "type": "function",
         "function": {
                 "name": "add_start_dates",
@@ -11,7 +11,7 @@ TOOLS = [
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "description": "an start date",
+                                "description": "a start date",
                             }
                         },
                     },
@@ -31,7 +31,67 @@ TOOLS = [
                             "type": "array",
                             "items": {
                                 "type": "string",
-                                "description": "an end date",
+                                "description": "a end date",
+                            }
+                        },
+                    },
+                    "required": ["output"]
+                },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+                "name": "add_duration",
+                "description": "this function extract the duration",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "a duration",
+                            }
+                        },
+                    },
+                    "required": ["output"]
+                },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+                "name": "add_event_type",
+                "description": "this function extract the event type",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "an event type",
+                            }
+                        },
+                    },
+                    "required": ["output"]
+                },
+        }
+    },
+    {
+        "type": "function",
+        "function": {
+                "name": "add_location",
+                "description": "this function extract the location",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "output": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "description": "a location",
                             }
                         },
                     },

@@ -7,28 +7,28 @@ from . import utils as u
 from . import prompts as p
 
 
-def convert_text_to_csv(inp):
+def convert_text_to_csv(text):
     """Converts the input to CSV with intermediate steps."""
     steps = str(7)
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
-    bulletpoints = convert_text_to_bulletpoints(inp)
+    bulletpoints = convert_text_to_bulletpoints(text)
     print(
         "Converting Data: Extracting start date information. (2/" + steps + ")",
         end="\r",
     )
     u.pause_between_queries()
-    bulletpoints_start = add_start_dates(inp, bulletpoints)
+    bulletpoints_start = add_start_dates(text, bulletpoints)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
     u.pause_between_queries()
-    bulletpoints_end = add_end_dates(inp, bulletpoints_start)
+    bulletpoints_end = add_end_dates(text, bulletpoints_start)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
     u.pause_between_queries()
-    bulletpoints_duration = add_durations(inp, bulletpoints_end)
+    bulletpoints_duration = add_durations(text, bulletpoints_end)
     print(
         "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
     )
@@ -47,11 +47,11 @@ def convert_text_to_csv(inp):
     return output_path
 
 
-def convert_text_to_bulletpoints(inp):
+def convert_text_to_bulletpoints(text):
     """Converts the input text to bulletpoints."""
     messages = [
         {"role": "system", "content": p.TXT_TO_BULLETPOINTS_CONTEXT},
-        {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
+        {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + text},
         {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
     ]
     bulletpoints = u.query_gpt(messages)
@@ -90,10 +90,10 @@ def add_start_dates(text, df):
         output = u.query_gpt(messages)
         
         fc_message = [
-            {"role": "system", "content": p.START_DATE_CONTEXT},
+            {"role": "system", "content": p.FC_START_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": p.START_DATE_FUNCTION_CALL
+                "content": p.FC_START_DATE_PROMPT
                 + "The text: "
                 + output
             },
@@ -135,10 +135,10 @@ def add_end_dates(text, df):
         output = u.query_gpt(messages)
 
         fc_message = [
-            {"role": "system", "content": p.END_DATE_CONTEXT},
+            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": p.END_DATE_FUNCTION_CALL
+                "content": p.FC_END_DATE_PROMPT
                 + "The text: "
                 + output
             },
@@ -157,13 +157,13 @@ def add_end_dates(text, df):
     return df
 
 
-def add_durations(inp, bulletpoints_start):
+def add_durations(text, bulletpoints_start):
     """Adds durations to the bulletpoints."""
     messages = [
         {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
         {
             "role": "user",
-            "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start,
+            "content": p.BULLETPOINTS_DURATION_PROMPT + text + "\n" + bulletpoints_start,
         },
         {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
     ]
