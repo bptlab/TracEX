@@ -26,6 +26,7 @@ from .prototype import (
     utils,
     output_handling,
 )
+from .logic.orchestrator import Orchestrator
 
 # set IS_TEST = False if you want to run the pipeline
 IS_TEST = False
@@ -107,6 +108,8 @@ class ResultView(generic.FormView):
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
+        orchestrator_instance = Orchestrator.get_instance()
+        print(orchestrator_instance.modules.keys())
         journey = cache.get("journey")
         event_types = self.flatten_list(cache.get("event_types"))
         locations = cache.get("locations")

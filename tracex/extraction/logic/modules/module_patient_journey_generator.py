@@ -1,19 +1,22 @@
 import os
+
 from ..module import Module
 from .. import utils as u
 from .. import constants as c
 from .. import prompts as p
 
+from pandas import DataFrame
+
 
 class PatientJourneyGenerator(Module):
+    # Remove this, only for test purposes
     def __init__(self, name, description):
         super().__init__(name, description)
-        print("test2")
+        print("PatientJourneyGenerator module is ready")
 
-    def execute(self):
-        text = self.create_patient_journey()
-        # convert to dataframe
-        return text
+    def execute(self, _input, patient_journey=None):
+        # TODO: convert to dataframe
+        self.result = self.create_patient_journey()
 
     @staticmethod
     def create_patient_journey():
