@@ -20,11 +20,11 @@ def get_decision(question):
     return get_decision(question)
 
 
-def query_gpt(messages, temperature=TEMPERATURE_SUMMARIZING):
+def query_gpt(messages, max_tokens=MAX_TOKENS, temperature=TEMPERATURE_SUMMARIZING):
     """Queries the GPT engine."""
-    client = OpenAI()
+    client = OpenAI(api_key=oaik)
     response = client.chat.completions.create(
-        model=MODEL, messages=messages, max_tokens=MAX_TOKENS, temperature=temperature
+        model=MODEL, messages=messages, max_tokens=max_tokens, temperature=temperature
     )
     output = response.choices[0].message.content
     return output

@@ -6,6 +6,9 @@ from pandas import DataFrame
 
 
 class ActivityLabeler(Module):
+    """
+    This is the module that extracts the activity labels from the patient journey.
+    """
     # Remove this, only for test purposes
     def __init__(self, name, description):
         super().__init__(name, description)

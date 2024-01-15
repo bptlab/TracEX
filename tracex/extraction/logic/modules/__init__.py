@@ -2,3 +2,4 @@ from .module_patient_journey_generator import PatientJourneyGenerator
 from .module_activity_labeler import ActivityLabeler
 from .module_time_extractor import TimeExtractor
 from .module_location_extractor import LocationExtractor
+from .module_event_type_classifier import EventTypeClassifier

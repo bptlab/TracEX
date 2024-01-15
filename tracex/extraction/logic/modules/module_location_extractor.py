@@ -6,6 +6,10 @@ from pandas import DataFrame
 
 
 class LocationExtractor(Module):
+    """
+    This is the module that extracts the location information from the patient journey to each activity.
+    This means all activities are classified to the given locations "Home", "Hospital", "Doctors".
+    """
     def execute(self, _input, patient_journey=None):
         self.result = self.add_locations(_input)
 

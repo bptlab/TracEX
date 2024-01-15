@@ -4,6 +4,7 @@ from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
+from .modules.module_event_type_classifier import EventTypeClassifier
 
 
 @dataclass
@@ -49,7 +50,10 @@ class Orchestrator:
                 name="Location Extractor",
                 description="Extracts the locations for the corresponding activity labels from a patient journey.",
             ),
-            # "event_type_classification": modules.EventTypeClassifier(),
+            "event_type_classification": EventTypeClassifier(
+                name="Event Type Classifier",
+                description="Classifies the activity labels into event types.",
+            ),
             # "visualization": modules.Visualizer(),
         }
         self.data = None

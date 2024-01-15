@@ -6,6 +6,10 @@ from pandas import DataFrame
 
 
 class TimeExtractor(Module):
+    """
+    This is the module that extracts the time information from the patient journey. This includes start dates,
+    end dates and durations.
+    """
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
         intermediate = self.add_start_dates(self.patient_journey, _input)

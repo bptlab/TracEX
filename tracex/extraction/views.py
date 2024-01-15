@@ -14,10 +14,6 @@ from django.views import generic
 from django.core.cache import cache
 from django.shortcuts import redirect
 
-# necessary due to Windows error. see information for your os here:
-# https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
-os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
-
 from .forms import JourneyForm, GenerationForm, ResultForm
 from .prototype import (
     input_handling,
@@ -27,6 +23,10 @@ from .prototype import (
     output_handling,
 )
 from .logic.orchestrator import Orchestrator
+
+# necessary due to Windows error. see information for your os here:
+# https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
+os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 # set IS_TEST = False if you want to run the pipeline
 IS_TEST = False
