@@ -165,7 +165,9 @@ END_DATE_CONTEXT = """
     Only return the date! Nothing else!
 """
 END_DATE_PROMPT = """
-    Here is the text and the bulletpoint with the start date for which you should extract end date in the format YYYYMMDD with the postfix T0000!
+    Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000! 
+    In case that you are not able to find a end date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
+    Explain step by step your conclusions if the end date YYYYMMDDTHHMM is available, if not calculate the average time of the activity and add this on the start date resulting as the end date.
 """
 END_DATE_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
