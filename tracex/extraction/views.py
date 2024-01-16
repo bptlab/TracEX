@@ -23,6 +23,7 @@ from .prototype import (
     output_handling,
 )
 from .logic.orchestrator import Orchestrator
+from .logic import utils as u
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -46,10 +47,15 @@ class JourneyInputView(generic.FormView):
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
-        cache.set("journey", form.cleaned_data["journey"].read().decode("utf-8"))
-        cache.set("event_types", form.cleaned_data["event_types"])
-        cache.set("locations", form.cleaned_data["locations"])
         cache.set("is_extracted", False)
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.build_configuration(
+            u.ExtractionConfiguration(
+                patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
+                event_types=form.cleaned_data["event_types"],
+                locations=form.cleaned_data["locations"],
+            )
+        )
         return super().form_valid(form)
 
 
@@ -70,20 +76,27 @@ class JourneyGenerationView(generic.FormView):
         """Generate a patient journey and save it in the cache."""
         context = super().get_context_data(**kwargs)
 
+        orchestrator = Orchestrator.get_instance()
+
         if IS_TEST:
             with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
         else:
             journey = input_inquiry.create_patient_journey()
 
-        cache.set("journey", journey)
+        orchestrator.configuration.update = {"patient_journey": journey}
         context["generated_journey"] = journey
         return context
 
     def form_valid(self, form):
         """Save the generated journey in the cache."""
-        cache.set("event_types", form.cleaned_data["event_types"])
-        cache.set("locations", form.cleaned_data["locations"])
+
+        orchestrator = Orchestrator.get_instance()
+        configuration = {
+            "event_types": form.cleaned_data["event_types"],
+            "locations": form.cleaned_data["locations"],
+        }
+        orchestrator.configuration.update(**configuration)
         cache.set("is_extracted", False)
         return super().form_valid(form)
 
@@ -108,11 +121,12 @@ class ResultView(generic.FormView):
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
-        orchestrator_instance = Orchestrator.get_instance()
-        print(orchestrator_instance.modules.keys())
-        journey = cache.get("journey")
-        event_types = self.flatten_list(cache.get("event_types"))
-        locations = cache.get("locations")
+
+        orchestrator = Orchestrator.get_instance()
+        journey = orchestrator.configuration.patient_journey
+        event_types = self.flatten_list(orchestrator.configuration.event_types)
+        locations = orchestrator.configuration.locations
+
         filter_dict = {"concept:name": event_types, "attribute_location": locations}
 
         if cache.get("is_extracted") is None:
@@ -143,7 +157,10 @@ class ResultView(generic.FormView):
         all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
 
         context["form"] = ResultForm(
-            initial={"event_types": cache.get("event_types"), "locations": locations}
+            initial={
+                "event_types": orchestrator.configuration.event_types,
+                "locations": locations,
+            }
         )
         context["journey"] = journey
         context["dfg_img"] = self.create_dfg_png_from_df(output_df_filtered)
@@ -155,12 +172,17 @@ class ResultView(generic.FormView):
 
         is_extracted = True
         cache.set("is_extracted", is_extracted)
+        print(orchestrator.configuration)
         return context
 
     def form_valid(self, form):
         """Save the filter settings in the cache."""
-        cache.set("event_types", form.cleaned_data["event_types"])
-        cache.set("locations", form.cleaned_data["locations"])
+        orchestrator = Orchestrator.get_instance()
+        configuration = {
+            "event_types": form.cleaned_data["event_types"],
+            "locations": form.cleaned_data["locations"],
+        }
+        orchestrator.configuration.update(**configuration)
         return super().form_valid(form)
 
     def get_xes_output_path(

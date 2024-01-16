@@ -1,5 +1,8 @@
 """Module providing constants for the project."""
 import time
+from dataclasses import dataclass
+from typing import Optional
+
 from .constants import *
 from openai import OpenAI
 
@@ -28,3 +31,16 @@ def query_gpt(messages, max_tokens=MAX_TOKENS, temperature=TEMPERATURE_SUMMARIZI
     )
     output = response.choices[0].message.content
     return output
+
+
+@dataclass
+class ExtractionConfiguration:
+    patient_journey: str
+    event_types: list
+    locations: list
+    activity_key: Optional[str] = "event_type"
+
+    def update(self, **kwargs):
+        """Update the configuration with a dictionary."""
+        for key, value in kwargs.items():
+            setattr(self, key, value)

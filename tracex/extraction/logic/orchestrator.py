@@ -6,17 +6,7 @@ from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
-
-@dataclass
-class Configuration:
-    path_patient_journey: str
-    activity_key: str
-    event_types: list
-    locations: list
-
-    def update(self, **kwargs):
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+from ..logic.utils import ExtractionConfiguration
 
 
 class Orchestrator:
@@ -37,7 +27,6 @@ class Orchestrator:
                 name="Patient Journey Generator",
                 description="Generates a patient journey with the help of the GPT engine.",
             ),
-            # "pre_processing": modules.PreProcessor(),
             "activity_labeling": ActivityLabeler(
                 name="Activity Labeler",
                 description="Extracts the activity labels from a patient journey.",
@@ -55,6 +44,7 @@ class Orchestrator:
                 description="Classifies the activity labels into event types.",
             ),
             # "visualization": modules.Visualizer(),
+            # "pre_processing": modules.PreProcessor(),
         }
         self.data = None
 
@@ -66,7 +56,14 @@ class Orchestrator:
     def initilize_modules(self):
         pass
 
-    def build_configuration(self, configuration: Configuration):
+    def run(self):
+        """Run the modules."""
+        self.modules["activity_labeling"].execute(
+            self.data, self.configuration.patient_journey
+        )
+        self.data = self.modules["activity_labeling"].result
+
+    def build_configuration(self, configuration: ExtractionConfiguration):
         self.configuration = configuration
         """ "
         1. Anforderungen in die richtige Reihenfolge bringen
