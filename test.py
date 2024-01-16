@@ -10,19 +10,21 @@ from tracex.extraction.prototype import output_handling as oh
 from tracex.extraction.prototype import utils as u
 from tracex.extraction.prototype import function_calls as fc
 from tracex.extraction.prototype import prompts as p
+from tracex.extraction.prototype import preprocessing as pre
 
-text = open(u.input_path / "journey_synth_covid_2.txt").read()
-df = ih.convert_text_to_bulletpoints(text)
-print(df)
-df = ih.add_start_dates(text, df)
-df = ih.add_end_dates(text, df)
-# df = ih.add_durations(text, df)
-df = ih.add_event_types(df)
-df = ih.add_locations(df)
+text = open(u.input_path / "journey_test_preprocessing_2.txt").read()
+preprocessed_text = pre.refactor_input_journey_time(text)
+# df = ih.convert_text_to_bulletpoints(text)
+# print(df)
+# df = ih.add_start_dates(text, df)
+# df = ih.add_end_dates(text, df)
+# # df = ih.add_durations(text, df)
+# df = ih.add_event_types(df)
+# df = ih.add_locations(df)
 
-print(df)
+print(preprocessed_text)
 
-df.to_csv(u.output_path / "intermediates/dataframe.csv")
+# df.to_csv(u.output_path / "intermediates/dataframe.csv")
 
 # output = 'The end date for the bulletpoint "Experiencing mild cough and fatigue" and the start date 20220108T0000 is 20230911T0000.'
 

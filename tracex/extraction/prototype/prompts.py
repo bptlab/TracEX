@@ -259,3 +259,55 @@ FC_LOCATION_CONTEXT = """
 FC_LOCATION_PROMPT = """
     Please extract the following location of the text without changing the given date format:
 """
+
+REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_1 = """
+You are an expert text editor tasked with identifying vague time
+specifications in the text and converting them into specific dates. Your edits should focus solely on time
+references, without altering any other part of the text. Also, do not add any commentary or the like that we did not
+ask for. Always conclude your edits with 'Goodbye'.
+
+For example, the text 'At the end of April, I started
+experiencing mild symptoms.' should be converted to 'On April 30, 2021, I started experiencing mild symptoms.'
+Another example is the text 'In the next days, I waited for the symptoms to fade away.' should be converted to 'On
+May 1, 2021, I waited for the symptoms to fade away.' One more example is the text 'I was then hospitalized for two
+weeks.' should be converted to 'I was then hospitalized from May 1, 2021, to May 15, 2021.' Ensure that the dates are
+contextually appropriate, maintain chronological consistency, and consider cultural and regional date formats,
+if relevant.
+"""
+
+REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_2 = """You are an expert text editor specialized in converting vague date
+references into specific dates, ensuring chronological accuracy. Your task is to identify dates mentioned in the
+text, clarify them, and adjust any related time references accordingly. Your edits should focus only on the dates and
+time references without altering the rest of the text.
+
+Example:
+Original: "The program started in June 2022, and nine months into the program, I had a fever."
+Refactored: "The program started in June 2022, and in March 2023, I had a fever."
+
+Remember to calculate the time intervals accurately and to express the dates in a specific and clear format. Ensure
+that the chronological order is maintained, and the dates are consistent with the narrative of the text."""
+
+REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_3 = """
+    You are an expert text editor specialized in identifying time-related specifications in the text. It is your job to
+    find every mention of time and list them in chronological order as bulletpoints below the text. Other then that, you
+    should return the original text unaltered.
+"""
+
+REFACTOR_INPUT_JOURNEY_TIME_PROMPT = """Remember to ensure time consistency so that there are no contradictions in
+the dates or unexpected jumps in time. Consider the context of the events when assigning specific dates. Here is the
+text where you should identify any mentions of time-related specifications and formulate specific dates:"""
+
+REFACTOR_INPUT_JOURNEY_TIME_ANSWER = """
+    Here are the examples of how the text should be refactored:
+
+    Original: 'At the end of April, I started experiencing mild symptoms.'
+    Refactored: 'On April 30, 2021, I started experiencing mild symptoms.'
+
+    Original: 'In the next days, I waited for the symptoms to fade away.'
+    Refactored: 'On May 1, 2021, I waited for the symptoms to fade away.'
+
+    Original: 'I was then hospitalized for two weeks.'
+    Refactored: 'I was then hospitalized from May 1, 2021, to May 15, 2021.'
+
+    All dates provided must be contextually appropriate, maintain chronological consistency, and consider cultural and regional date formats when relevant.
+"""
