@@ -49,7 +49,7 @@ class JourneyInputView(generic.FormView):
         """Save the uploaded journey in the cache."""
         cache.set("is_extracted", False)
         orchestrator = Orchestrator.get_instance()
-        orchestrator.build_configuration(
+        orchestrator.set_configuration(
             u.ExtractionConfiguration(
                 patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
                 event_types=form.cleaned_data["event_types"],
@@ -139,7 +139,10 @@ class ResultView(generic.FormView):
         # read single journey into dataframe
         single_trace_df = pm4py.read_xes(
             self.get_xes_output_path(
-                journey, is_test=IS_TEST, is_extracted=is_extracted
+                journey,
+                is_test=IS_TEST,
+                is_extracted=is_extracted,
+                activity_key=orchestrator.configuration.activity_key,
             )
         )
 
@@ -194,9 +197,10 @@ class ResultView(generic.FormView):
         activity_key="event_type",
     ):
         """Create the xes file for the single journey."""
+        orchestrator = Orchestrator.get_instance()
         if not (is_test or is_extracted):
-            output_path_csv = input_handling.convert_text_to_csv(journey)
-            output_path_xes = create_xes.create_xes(
+            output_path_csv = orchestrator.run()
+            output_path_xes = u.create_xes(
                 output_path_csv, name=xes_name, key=activity_key
             )
         else:

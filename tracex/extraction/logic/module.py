@@ -6,7 +6,7 @@ class Module(ABC):
     This abstract base class defines a common interface for all concrete modules.
     """
 
-    def __init__(self, name, description):
+    def __init__(self):
         """
         Initializes a module with the following parameters.
             name: The name of the module.
@@ -14,8 +14,8 @@ class Module(ABC):
             patient_journey: The patient journey most modules operate on.
             result: The result that the module provides.
         """
-        self.name = name
-        self.description = description
+        self.name = None
+        self.description = None
         self.patient_journey = None
         self.result = None
 

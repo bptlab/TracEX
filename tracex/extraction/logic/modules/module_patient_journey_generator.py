@@ -14,17 +14,22 @@ class PatientJourneyGenerator(Module):
     This is the module that generates a patient journey. This is primarily used for testing purposes.
     The generated patient journeys are called "synthetic patient journeys".
     """
+
     # Remove this, only for test purposes
-    def __init__(self, name, description):
-        super().__init__(name, description)
+    def __init__(self):
+        super().__init__()
+        self.name = "Patient Journey Generator"
+        self.description = (
+            "Generates a patient journey with the help of the GPT engine."
+        )
         print("PatientJourneyGenerator module is ready")
 
     def execute(self, _input, patient_journey=None):
         # TODO: convert to dataframe
-        self.result = self.create_patient_journey()
+        self.result = self.__create_patient_journey()
 
     @staticmethod
-    def create_patient_journey():
+    def __create_patient_journey():
         """Creates a new patient journey with the help of the GPT engine."""
         print(
             "Please wait while the system is generating a patient journey. This may take a few moments."
@@ -50,44 +55,44 @@ class PatientJourneyGenerator(Module):
         )
         return patient_journey_txt
 
-    def create_patient_journey_context(self):
+    def __create_patient_journey_context(self):
         """Creation of a patient journey."""
         print("Generation in progress: [----------] 0%", end="\r")
-        sex = self.get_sex()
+        sex = self.__get_sex()
         print("Generation in progress: [▬---------] 10%", end="\r")
-        country = self.get_country()
+        country = self.__get_country()
         print("Generation in progress: [▬▬--------] 20%", end="\r")
-        date = self.get_date()
+        date = self.__get_date()
         print("Generation in progress: [▬▬▬-------] 30%", end="\r")
-        life_circumstances = self.get_life_circumstances(sex)
+        life_circumstances = self.__get_life_circumstances(sex)
         print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
         return (
-                "Imagine being a "
-                + sex
-                + " person from "
-                + country
-                + ", that was infected with Covid19. You had first symptoms on "
-                + date
-                + "."
-                + life_circumstances
+            "Imagine being a "
+            + sex
+            + " person from "
+            + country
+            + ", that was infected with Covid19. You had first symptoms on "
+            + date
+            + "."
+            + life_circumstances
         )
 
     @staticmethod
-    def get_sex():
+    def __get_sex():
         """Randomizing sex."""
         if random.randrange(2) == 0:
             return "male"
         return "female"
 
     @staticmethod
-    def get_country():
+    def __get_country():
         """Randomizing country."""
         message = [{"role": "user", "content": "Please give me one european country."}]
         country = u.query_gpt(messages=message, max_tokens=50, temperature=0.2)
         return country
 
     @staticmethod
-    def get_date():
+    def __get_date():
         """Randomizing date."""
         message = [
             {
@@ -98,20 +103,22 @@ class PatientJourneyGenerator(Module):
         country = u.query_gpt(messages=message, max_tokens=50, temperature=0.5)
         return country
 
-    def get_life_circumstances(self, sex):
+    def __get_life_circumstances(self, sex):
         """Randomizing life circumstances."""
-        message = [{"role": "user", "content": self.life_circumstances_prompt(sex)}]
-        life_circumstances = u.query_gpt(messages=message, max_tokens=100, temperature=1)
+        message = [{"role": "user", "content": self.__life_circumstances_prompt(sex)}]
+        life_circumstances = u.query_gpt(
+            messages=message, max_tokens=100, temperature=1
+        )
         return life_circumstances
 
     @staticmethod
-    def life_circumstances_prompt(sex):
+    def __life_circumstances_prompt(sex):
         """Prompt for the life circumstances randomization."""
         return (
-                "Please give me a short description of the life circumstances of an imaginary "
-                + sex
-                + " person in form of continuous text."
-                + """
+            "Please give me a short description of the life circumstances of an imaginary "
+            + sex
+            + " person in form of continuous text."
+            + """
             Please give me a short description of the life circumstances of an imaginary person in form of continuous
             text. Write the text from a second-person perspective.
             Something like "You are a 51-year-old Teacher" and so forth. Include the age, the job and the family status.

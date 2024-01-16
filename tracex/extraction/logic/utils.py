@@ -3,6 +3,9 @@ import time
 from dataclasses import dataclass
 from typing import Optional
 
+import pandas as pd
+import pm4py
+
 from .constants import *
 from openai import OpenAI
 
@@ -31,6 +34,33 @@ def query_gpt(messages, max_tokens=MAX_TOKENS, temperature=TEMPERATURE_SUMMARIZI
     )
     output = response.choices[0].message.content
     return output
+
+
+def create_xes(csv_file, name, key):
+    """Creates a xes with all traces from the regarding csv."""
+    dataframe = pd.read_csv(csv_file, sep=",")
+    dataframe["caseID"] = dataframe["caseID"].astype(str)
+    dataframe["start"] = pd.to_datetime(dataframe["start"])
+    dataframe["end"] = pd.to_datetime(dataframe["end"])
+    dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
+    dataframe = dataframe.rename(
+        columns={
+            key: "concept:name",
+            "caseID": "case:concept:name",
+            "start": "time:timestamp",
+            "end": "time:endDate",
+            "duration": "time:duration",
+        }
+    )
+    output_name = name + "_" + key + ".xes"
+    pm4py.write_xes(
+        dataframe,
+        (output_path / output_name),
+        case_id_key="case:concept:name",
+        activity_key="concept:name",
+        timestamp_key="time:timestamp",
+    )
+    return str(output_path / output_name)
 
 
 @dataclass
