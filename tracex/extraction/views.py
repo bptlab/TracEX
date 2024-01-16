@@ -7,7 +7,7 @@ import base64
 from io import StringIO, BytesIO
 
 import pm4py
-import pandas
+import pandas as pd
 
 from django.urls import reverse_lazy
 from django.views import generic
@@ -15,13 +15,7 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (
-    input_handling,
-    input_inquiry,
-    create_xes,
-    utils,
-    output_handling,
-)
+from .prototype import (input_handling,input_inquiry,create_xes,utils,output_handling,)
 from .logic.orchestrator import Orchestrator
 from .logic import utils as u
 
@@ -29,8 +23,7 @@ from .logic import utils as u
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-# set IS_TEST = False if you want to run the pipeline
-IS_TEST = False
+IS_TEST = False # set to False if you want to run the pipeline
 
 
 def redirect_to_selection(request):
@@ -139,7 +132,6 @@ class ResultView(generic.FormView):
         # read single journey into dataframe
         single_trace_df = pm4py.read_xes(
             self.get_xes_output_path(
-                journey,
                 is_test=IS_TEST,
                 is_extracted=is_extracted,
                 activity_key=orchestrator.configuration.activity_key,
@@ -152,7 +144,7 @@ class ResultView(generic.FormView):
 
         # prepare all journey xes
         all_traces_df = pm4py.read_xes(
-            self.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
+            u.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
         )
         all_traces_df = all_traces_df.groupby(
             "case:concept:name", group_keys=False, sort=False
@@ -175,7 +167,6 @@ class ResultView(generic.FormView):
 
         is_extracted = True
         cache.set("is_extracted", is_extracted)
-        print(orchestrator.configuration)
         return context
 
     def form_valid(self, form):
@@ -190,7 +181,6 @@ class ResultView(generic.FormView):
 
     def get_xes_output_path(
         self,
-        journey,
         is_test=False,
         is_extracted=False,
         xes_name="single_trace",
@@ -209,6 +199,7 @@ class ResultView(generic.FormView):
             )
         return output_path_xes
 
+    # Not used anymore, moved to utils
     def get_all_xes_output_path(
         self,
         is_test=False,
@@ -218,7 +209,7 @@ class ResultView(generic.FormView):
     ):
         """Create the xes file for all journeys."""
         if not (is_test or is_extracted):
-            output_handling.append_csv()
+            u.append_csv()
             all_traces_xes_path = create_xes.create_xes(
                 utils.CSV_ALL_TRACES, name=xes_name, key=activity_key
             )
@@ -231,7 +222,7 @@ class ResultView(generic.FormView):
     def create_html_from_xes(self, df):
         """Create html table from xes file."""
         xes_html_buffer = StringIO()
-        pandas.DataFrame.to_html(df, buf=xes_html_buffer)
+        pd.DataFrame.to_html(df, buf=xes_html_buffer)
         return xes_html_buffer
 
     def create_dfg_png_from_df(self, df):
@@ -276,7 +267,7 @@ class ResultView(generic.FormView):
         filter_conditions = [
             df[column].isin(values) for column, values in filter_dict.items()
         ]
-        combined_condition = pandas.Series(True, index=df.index)
+        combined_condition = pd.Series(True, index=df.index)
 
         for condition in filter_conditions:
             combined_condition &= condition

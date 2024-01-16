@@ -35,7 +35,7 @@ def get_output():
     if decision:
         append_csv()
 
-
+# This will not be called anymore
 def get_output_without_user_io():
     """Prints the output to the console or shows the filename."""
     dataframe = pd.read_csv(u.CSV_OUTPUT, sep=",")
@@ -53,7 +53,7 @@ def get_output_without_user_io():
     print(dataframe)
     append_csv()
 
-
+# Not used anymore, moved to utils
 def append_csv():
     """Appends the current trace to the CSV containing all traces."""
     trace_count = 0

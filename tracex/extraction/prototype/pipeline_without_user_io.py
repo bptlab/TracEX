@@ -5,6 +5,7 @@ import output_handling as oh
 import utils as u
 
 
+# This will not be called anymore
 def run_pipeline():
     """Runs the pipeline without user interaction."""
     input_text = ii.create_patient_journey()
