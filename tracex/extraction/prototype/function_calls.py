@@ -13,7 +13,7 @@ TOOLS = [
                         "type": "array",
                         "items": {
                             "type": "string",
-                            "description": "a start date in the format YYYYMMDDT0000",
+                            "description": "a date in the format YYYYMMDDT0000 and if not available N/A",
                         },
                     },
                 },

@@ -86,6 +86,7 @@ def add_start_dates(text, df):
             },
             {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]
+        
         output = u.query_gpt(messages)
 
         fc_message = [
@@ -98,6 +99,13 @@ def add_start_dates(text, df):
         )
         new_row = pd.DataFrame([start_date], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
+        row_count = new_df.shape[0]
+
+        if start_date == "N/A" and row_count > 1:
+            last_index = new_df.index[-1]
+            previous_index = last_index -1
+            new_df.at[last_index, 'start_date'] = new_df.at[previous_index, 'start_date']
+
         print(name + ": " + str(i) + "      ", end="\r")
         i = i + 1
         with open(

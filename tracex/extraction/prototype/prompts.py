@@ -130,23 +130,26 @@ START_DATE_CONTEXT = """
     If there is a conclusion at the end of the text and an outlook set the start date of the last bulletpoint to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
     use that information to draw conclusions about the start dates.
-    If there is only a month specified, use the first of this month as start date.
+    If there is only a month specified, use the first of this month as start date. If there is no date specified in the text conclude 'N/A'.
 """
 START_DATE_PROMPT = """
-    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000! Please always use this format!
+    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000! 
+    In case that you are not able to find a start date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
+    Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
 START_DATE_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again.' and the bulletpoints
+    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.' and the bulletpoints
     'experiencing mild symptoms' you should return '20200401T0000'.
     If the bulletpoint is 'testing positive for Covid19' you should return '20200405T0000'.
-    The bulletpoint 'getting infected again' should be returned as '20200601T0000'.
+    The bulletpoint 'getting infected again' has only specified the month therefore the day is always the first of month and should be returned as '20200601T0000'.
+    Futhermore the bulletpoint 'having back pain' hasn't specified a date in the text and context, therefore the date ist 'N/A'.
 """
 FC_START_DATE_CONTEXT = """
    You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
 FC_START_DATE_PROMPT = """
-    Please extract the following start date of the text without changing the given date format:
+    What is the start date of given bulletpoint in the format YYYYMMDDT000 (e.g. 20200101T000). If no start date is available extract N/A.
 """
 
 # Adding of a end date to every bulletpoint
