@@ -10,39 +10,40 @@ def convert_text_to_csv(text):
     """Converts the input to CSV with intermediate steps."""
     steps = str(7)
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
-    bulletpoints = convert_text_to_bulletpoints(text)
+    dataframe = convert_text_to_bulletpoints(text)
     print(
         "Converting Data: Extracting start date information. (2/" + steps + ")",
         end="\r",
     )
     u.pause_between_queries()
-    start = add_start_dates(text, bulletpoints)
+    dataframe = add_start_dates(text, dataframe)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
     u.pause_between_queries()
-    end = add_end_dates(text, start)
+    dataframe = add_end_dates(text, dataframe)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
     u.pause_between_queries()
-    duration = add_durations(text, end)
+    dataframe = add_durations(dataframe)
     print(
         "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
     )
     u.pause_between_queries()
-    event_type = add_event_types(duration)
+    dataframe = add_event_types(dataframe)
     print(
         "Converting Data: Extracting location information. (6/" + steps + ")", end="\r"
     )
     u.pause_between_queries()
-    location = add_locations(event_type)
+    dataframe = add_locations(dataframe)
     print(
         "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
     )
-    output_path = convert_dataframe_to_csv(location)
+    output_path = convert_dataframe_to_csv(dataframe)
     print("Dataconversion finished.                    ")
+    output(dataframe)
     return output_path
 
 
@@ -318,3 +319,42 @@ def convert_dataframe_to_csv(df):
         path_or_buf=output_path, sep=",", encoding="utf-8", header=True, index=False
     )
     return output_path
+
+
+def output(df):
+    decision = u.get_decision("Would you like to see the output? (y/n)\n")
+    if decision:
+        print(df)
+    else:
+        print("The output can be found at: " + u.output_path / "single_trace.csv.")
+    decision = u.get_decision(
+        "Would you like to append this trace to all_traces.csv? (y/n)\n"
+    )
+    if decision:
+        append_csv()
+    farewell()
+
+
+def append_csv():
+    """Appends the current trace to the CSV containing all traces."""
+    trace_count = 0
+    with open(u.CSV_ALL_TRACES, "r") as f:
+        rows = f.readlines()[1:]
+        if len(rows) >= 2:
+            trace_count = max(int(row.split(",")[0]) for row in rows if row)
+    with open(u.CSV_OUTPUT, "r") as f:
+        previous_content = f.readlines()
+        content = []
+        for row in previous_content:
+            if row != "\n":
+                content.append(row)
+        content = content[1:]
+    with open(u.CSV_ALL_TRACES, "a") as f:
+        for row in content:
+            row = row.replace(row[0], str(int(row[0]) + trace_count + 1), 1)
+            f.writelines(row)
+
+
+def farewell():
+    """Prints a farewell message."""
+    print("-----------------------------------\nThank you for using TracEX!\n\n")

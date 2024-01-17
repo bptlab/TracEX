@@ -16,7 +16,7 @@ def get_activity_key():
     return get_activity_key()
 
 
-def create_xes(csv_file, name, key):
+def create_xes(csv_file, name="all_traces", key="event_type"):
     """Creates a xes with all traces from the regarding csv."""
     dataframe = pd.read_csv(csv_file, sep=",")
     dataframe["case_id"] = dataframe["case_id"].astype(str)
