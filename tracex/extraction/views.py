@@ -2,9 +2,6 @@
 Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
 import os
-import tempfile
-import base64
-from io import StringIO, BytesIO
 
 import pm4py
 import pandas as pd
@@ -15,15 +12,15 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (input_handling,input_inquiry,create_xes,utils,output_handling,)
+from .prototype import (input_handling, input_inquiry, create_xes, output_handling,)
 from .logic.orchestrator import Orchestrator
-from .logic import utils as u
+from .logic import utils
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-IS_TEST = False # set to False if you want to run the pipeline
+IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 def redirect_to_selection(request):
@@ -43,7 +40,7 @@ class JourneyInputView(generic.FormView):
         cache.set("is_extracted", False)
         orchestrator = Orchestrator.get_instance()
         orchestrator.set_configuration(
-            u.ExtractionConfiguration(
+            utils.ExtractionConfiguration(
                 patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
                 event_types=form.cleaned_data["event_types"],
                 locations=form.cleaned_data["locations"],
@@ -114,59 +111,52 @@ class ResultView(generic.FormView):
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
-
         orchestrator = Orchestrator.get_instance()
-        journey = orchestrator.configuration.patient_journey
         event_types = self.flatten_list(orchestrator.configuration.event_types)
-        locations = orchestrator.configuration.locations
+        filter_dict = {"concept:name": event_types, "attribute_location": orchestrator.configuration.locations}
+        is_extracted = True if cache.get("is_extracted") is None else cache.get("is_extracted")
 
-        filter_dict = {"concept:name": event_types, "attribute_location": locations}
-
-        if cache.get("is_extracted") is None:
-            is_extracted = True
-        else:
-            is_extracted = cache.get(
-                "is_extracted"
-            )  # false if coming from input or generation
-
-        # read single journey into dataframe
-        single_trace_df = pm4py.read_xes(
-            self.get_xes_output_path(
-                is_test=IS_TEST,
-                is_extracted=is_extracted,
-                activity_key=orchestrator.configuration.activity_key,
+        # 1. Run the pipeline to create the single journey dataframe from csv
+        if not (IS_TEST or is_extracted):
+            output_path_csv = orchestrator.run()
+            output_path_xes = utils.Conversion.create_xes(
+                output_path_csv, name="single_trace", key=orchestrator.configuration.activity_key
             )
-        )
+        else:
+            output_path_xes = (
+                    str(utils.output_path / "single_trace") + "_" + orchestrator.configuration.activity_key + ".xes"
+            )
+        single_trace_df = pm4py.read_xes(output_path_xes)
 
-        # prepare single journey xes
-        single_trace_df = self.sort_trace(single_trace_df)
+        # 2. Sort and filter the single journey dataframe
+        single_trace_df = self.sort_dataframe(single_trace_df)
         output_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
 
-        # prepare all journey xes
+        # 3. Append the single journey dataframe to the all traces dataframe
         all_traces_df = pm4py.read_xes(
-            u.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
+            utils.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
         )
         all_traces_df = all_traces_df.groupby(
             "case:concept:name", group_keys=False, sort=False
-        ).apply(self.sort_trace)
+        ).apply(self.sort_dataframe)
         all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
 
+        # 4. Save all information in context to display on website
         context["form"] = ResultForm(
             initial={
                 "event_types": orchestrator.configuration.event_types,
-                "locations": locations,
+                "locations": orchestrator.configuration.locations,
             }
         )
-        context["journey"] = journey
-        context["dfg_img"] = self.create_dfg_png_from_df(output_df_filtered)
-        context["xes_html"] = self.create_html_from_xes(output_df_filtered).getvalue()
-        context["all_dfg_img"] = self.create_dfg_png_from_df(all_traces_df_filtered)
-        context["all_xes_html"] = self.create_html_from_xes(
+        context["journey"] = orchestrator.configuration.patient_journey
+        context["dfg_img"] = utils.Conversion.create_dfg_png_from_df(output_df_filtered)
+        context["xes_html"] = utils.Conversion.create_html_from_xes(output_df_filtered).getvalue()
+        context["all_dfg_img"] = utils.Conversion.create_dfg_png_from_df(all_traces_df_filtered)
+        context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
+        cache.set("is_extracted", True)
 
-        is_extracted = True
-        cache.set("is_extracted", is_extracted)
         return context
 
     def form_valid(self, form):
@@ -179,74 +169,8 @@ class ResultView(generic.FormView):
         orchestrator.configuration.update(**configuration)
         return super().form_valid(form)
 
-    def get_xes_output_path(
-        self,
-        is_test=False,
-        is_extracted=False,
-        xes_name="single_trace",
-        activity_key="event_type",
-    ):
-        """Create the xes file for the single journey."""
-        orchestrator = Orchestrator.get_instance()
-        if not (is_test or is_extracted):
-            output_path_csv = orchestrator.run()
-            output_path_xes = u.create_xes(
-                output_path_csv, name=xes_name, key=activity_key
-            )
-        else:
-            output_path_xes = (
-                str(utils.output_path / xes_name) + "_" + activity_key + ".xes"
-            )
-        return output_path_xes
-
-    # Not used anymore, moved to utils
-    def get_all_xes_output_path(
-        self,
-        is_test=False,
-        is_extracted=False,
-        xes_name="all_traces",
-        activity_key="event_type",
-    ):
-        """Create the xes file for all journeys."""
-        if not (is_test or is_extracted):
-            u.append_csv()
-            all_traces_xes_path = create_xes.create_xes(
-                utils.CSV_ALL_TRACES, name=xes_name, key=activity_key
-            )
-        else:
-            all_traces_xes_path = (
-                str(utils.output_path / xes_name) + "_" + activity_key + ".xes"
-            )
-        return all_traces_xes_path
-
-    def create_html_from_xes(self, df):
-        """Create html table from xes file."""
-        xes_html_buffer = StringIO()
-        pd.DataFrame.to_html(df, buf=xes_html_buffer)
-        return xes_html_buffer
-
-    def create_dfg_png_from_df(self, df):
-        """Create png image from xes file."""
-        dfg_img_buffer = BytesIO()
-        output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "time:timestamp", "case:concept:name"
-        )
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
-            temp_file_path = temp_file.name
-            pm4py.save_vis_dfg(
-                output_dfg_file[0],
-                output_dfg_file[1],
-                output_dfg_file[2],
-                temp_file_path,
-                rankdir="TB",
-            )
-        with open(temp_file_path, "rb") as temp_file:
-            dfg_img_buffer.write(temp_file.read())
-        os.remove(temp_file_path)
-        dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
-        return dfg_img_base64
-
-    def flatten_list(self, original_list):
+    @staticmethod
+    def flatten_list(original_list):
         """Flatten a list of lists."""
         flattened_list = []
         for item in original_list:
@@ -254,15 +178,16 @@ class ResultView(generic.FormView):
                 flattened_list.extend(item.split(", "))
             else:
                 flattened_list.append(item)
-
         return flattened_list
 
-    def sort_trace(self, df):
-        """Sort a trace by timestamp."""
+    @staticmethod
+    def sort_dataframe(df):
+        """Sort a dataframe containing a trace by timestamp."""
         sorted_df = df.sort_values(by="time:timestamp", inplace=False)
         return sorted_df
 
-    def filter_dataframe(self, df, filter_dict):
+    @staticmethod
+    def filter_dataframe(df, filter_dict):
         """Filter a dataframe."""
         filter_conditions = [
             df[column].isin(values) for column, values in filter_dict.items()

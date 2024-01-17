@@ -1,8 +1,4 @@
 import csv
-from dataclasses import dataclass
-
-import pandas as pd
-import pm4py
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
@@ -69,6 +65,7 @@ class Orchestrator:
         # replace with self.data = self.__convert_bulletpoints_to_csv(self.data) when dataframes are implemented
         return self.__convert_bulletpoints_to_csv(self.data)
 
+    # Will be deleted when dataframes are implemented
     @staticmethod
     def __convert_bulletpoints_to_csv(bulletpoints_start_end):
         """Converts the bulletpoints to a CSV file."""

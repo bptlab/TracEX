@@ -19,13 +19,11 @@ class PatientJourneyGenerator(Module):
     def __init__(self):
         super().__init__()
         self.name = "Patient Journey Generator"
-        self.description = (
-            "Generates a patient journey with the help of the GPT engine."
-        )
-        print("PatientJourneyGenerator module is ready")
+        self.description = "Generates a patient journey with the help of the GPT engine."
 
     def execute(self, _input, patient_journey=None):
         # TODO: convert to dataframe
+        super().execute(_input, patient_journey)
         self.result = self.__create_patient_journey()
 
     @staticmethod

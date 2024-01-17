@@ -19,6 +19,7 @@ class EventTypeClassifier(Module):
         self.description = "Classifies the event types for the corresponding activity labels from a patient journey."
 
     def execute(self, _input, patient_journey=None):
+        super().execute(_input, patient_journey)
         self.result = self.__add_event_types(_input)
 
     def __add_event_types(self, activity_labels):

@@ -15,7 +15,6 @@ class ActivityLabeler(Module):
         super().__init__()
         self.name = "Activity Labeler"
         self.description = "Extracts the activity labels from a patient journey."
-        print("ActivityLabeler module is ready")
 
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
