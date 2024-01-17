@@ -133,7 +133,7 @@ START_DATE_CONTEXT = """
     If there is only a month specified, use the first of this month as start date. If there is no date specified in the text conclude 'N/A'.
 """
 START_DATE_PROMPT = """
-    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000! 
+    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a start date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
@@ -165,7 +165,7 @@ END_DATE_CONTEXT = """
     Only return the date! Nothing else!
 """
 END_DATE_PROMPT = """
-    Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000! 
+    Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a end date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the end date YYYYMMDDTHHMM is available, if not calculate the average time of the activity and add this on the start date resulting as the end date.
 """
@@ -225,7 +225,8 @@ EVENT_TYPE_CONTEXT = """
     The only output should be the event type!
 """
 EVENT_TYPE_PROMPT = """
-    Here is the bulletpoint for which you should extract the event type:
+    Here is the bulletpoint for which you should extract the event type.
+    Explain step by step your conclusions your choice of location: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
 """
 EVENT_TYPE_ANSWER = """
     For example for the bulletpoint 'visiting doctor's' you should return 'Doctors Visit'.
@@ -250,7 +251,8 @@ LOCATION_CONTEXT = """
     The only output should be the location.
 """
 LOCATION_PROMPT = """
-    Here is the bulletpoint for which you should extract the location:
+    Here is the bulletpoint for which you should extract the location.
+    Explain step by step your conclusions your choice of location: 'Home' or 'Hospital' or 'Doctors' or 'Other'.
 """
 LOCATION_ANSWER = """
     For example for the bulletpoints 'visiting doctor's', you should return 'Doctors'.
