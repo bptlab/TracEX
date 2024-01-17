@@ -1,5 +1,6 @@
 """Module providing functions for converting text to CSV."""
 import pandas as pd
+from datetime import datetime
 
 from . import utils as u
 from . import prompts as p
@@ -86,7 +87,7 @@ def add_start_dates(text, df):
             },
             {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]
-        
+
         output = u.query_gpt(messages)
 
         fc_message = [
@@ -103,8 +104,10 @@ def add_start_dates(text, df):
 
         if start_date == "N/A" and row_count > 1:
             last_index = new_df.index[-1]
-            previous_index = last_index -1
-            new_df.at[last_index, 'start_date'] = new_df.at[previous_index, 'start_date']
+            previous_index = last_index - 1
+            new_df.at[last_index, "start_date"] = new_df.at[
+                previous_index, "start_date"
+            ]
 
         print(name + ": " + str(i) + "      ", end="\r")
         i = i + 1
@@ -161,49 +164,68 @@ def add_end_dates(text, df):
     return df
 
 
-def add_durations(text, df):
-    """Adds durations to the bulletpoints."""
-    name = "duration"
-    new_df = pd.DataFrame([], columns=[name])
-    values_list = df.values.tolist()
-    i = 0
-    for item in values_list:
-        messages = [
-            {"role": "system", "content": p.DURATION_CONTEXT},
-            {
-                "role": "user",
-                "content": p.DURATION_PROMPT
-                + "\nThe text: "
-                + text
-                + "\nThe bulletpoint: "
-                + item[0]
-                + "\nThe start date: "
-                + item[1]
-                + "\nThe end date: "
-                + item[2],
-            },
-            {"role": "assistant", "content": p.DURATION_ANSWER},
-        ]
-        output = u.query_gpt(messages)
+# def add_durations(text, df):
+#     """Adds durations to the bulletpoints."""
+#     name = "duration"
+#     new_df = pd.DataFrame([], columns=[name])
+#     values_list = df.values.tolist()
+#     i = 0
+#     for item in values_list:
+#         messages = [
+#             {"role": "system", "content": p.DURATION_CONTEXT},
+#             {
+#                 "role": "user",
+#                 "content": p.DURATION_PROMPT
+#                 + "\nThe text: "
+#                 + text
+#                 + "\nThe bulletpoint: "
+#                 + item[0]
+#                 + "\nThe start date: "
+#                 + item[1]
+#                 + "\nThe end date: "
+#                 + item[2],
+#             },
+#             {"role": "assistant", "content": p.DURATION_ANSWER},
+#         ]
+#         output = u.query_gpt(messages)
 
-        fc_message = [
-            {"role": "system", "content": p.FC_DURATION_CONTEXT},
-            {"role": "user", "content": p.FC_DURATION_PROMPT + "The text: " + output},
-        ]
-        duration = u.query_gpt(
-            fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_duration"}},
-        )
-        new_row = pd.DataFrame([duration], columns=[name])
-        new_df = pd.concat([new_df, new_row], ignore_index=True)
-        print(name + ": " + str(i) + "      ", end="\r")
-        i = i + 1
-        with open(
-            (u.output_path / "intermediates/bulletpoints.txt"),
-            "a",
-        ) as f:
-            f.write("\n" + output)
-    df = pd.concat([df, new_df], axis=1)
+#         fc_message = [
+#             {"role": "system", "content": p.FC_DURATION_CONTEXT},
+#             {"role": "user", "content": p.FC_DURATION_PROMPT + "The text: " + output},
+#         ]
+#         duration = u.query_gpt(
+#             fc_message,
+#             tool_choice={"type": "function", "function": {"name": "add_duration"}},
+#         )
+#         new_row = pd.DataFrame([duration], columns=[name])
+#         new_df = pd.concat([new_df, new_row], ignore_index=True)
+#         print(name + ": " + str(i) + "      ", end="\r")
+#         i = i + 1
+#         with open(
+#             (u.output_path / "intermediates/bulletpoints.txt"),
+#             "a",
+#         ) as f:
+#             f.write("\n" + output)
+#     df = pd.concat([df, new_df], axis=1)
+#     return df
+
+
+def add_durations(df):
+    # Funktion zur Berechnung der Dauer im gewünschten Format
+    def calculate_row_duration(row):
+        if row["start_date"] == "N/A" or row["end_date"] == "N/A":
+            return "N/A"
+
+        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
+        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
+        duration = end_date - start_date
+        hours, remainder = divmod(duration.total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
+
+    # Neue Spalte 'duration' erstellen und für jede Zeile die Dauer berechnen
+    df["duration"] = df.apply(calculate_row_duration, axis=1)
+
     return df
 
 
