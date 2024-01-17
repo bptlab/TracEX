@@ -62,6 +62,11 @@ class Orchestrator:
         for module in modules:
             module.execute(self.data, self.configuration.patient_journey)
             self.data = module.result
+            # if self.data is not None:
+            #     self.data.merge(module.result, how="inner", on="event_information", validate="one_to_one")
+            # else:
+            #     self.data = module.result
+        # replace with self.data = self.__convert_bulletpoints_to_csv(self.data) when dataframes are implemented
         return self.__convert_bulletpoints_to_csv(self.data)
 
     @staticmethod

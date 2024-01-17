@@ -26,20 +26,5 @@ class Module(ABC):
         Every module receives the patient journey as parameter which is set to the instance variable of each module.
         This method should always save a dataframe in the "result" instance variable for internal processing.
         """
+        print(f"starting module {self.name}")
         self.patient_journey = patient_journey
-
-
-class PreProcessor(Module):
-    pass
-
-
-class LocationExtractor(Module):
-    pass
-
-
-class EventTypeClassifier(Module):
-    pass
-
-
-class Visualizer(Module):
-    pass
