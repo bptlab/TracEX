@@ -43,7 +43,7 @@ def convert_text_to_csv(text):
     )
     output_path = convert_dataframe_to_csv(dataframe)
     print("Dataconversion finished.                    ")
-    output(dataframe)
+    output_csv(dataframe)
     return output_path
 
 
@@ -212,7 +212,8 @@ def add_end_dates(text, df):
 
 
 def add_durations(df):
-    # Funktion zur Berechnung der Dauer im gewünschten Format
+    """Funktion zur Berechnung der Dauer im gewünschten Format"""
+
     def calculate_row_duration(row):
         if row["start_date"] == "N/A" or row["end_date"] == "N/A":
             return "N/A"
@@ -321,7 +322,8 @@ def convert_dataframe_to_csv(df):
     return output_path
 
 
-def output(df):
+def output_csv(df):
+    """Outputs the dataframe to the user."""
     decision = u.get_decision("Would you like to see the output? (y/n)\n")
     if decision:
         print(df)

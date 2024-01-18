@@ -13,7 +13,7 @@ def main():
     """Main function calling every pipeline step needed to run the program."""
     ii.greeting()
     input_text = ii.get_input()
-    outputpath = ih.convert_text_to_csv(input_text)
+    ih.convert_text_to_csv(input_text)
 
 
 main()

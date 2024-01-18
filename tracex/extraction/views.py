@@ -19,13 +19,7 @@ from django.shortcuts import redirect
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (
-    input_handling,
-    input_inquiry,
-    create_xes,
-    utils,
-    output_handling,
-)
+from .prototype import input_handling, input_inquiry, create_xes, utils
 
 # set IS_TEST = False if you want to run the pipeline
 IS_TEST = False
@@ -189,7 +183,7 @@ class ResultView(generic.FormView):
     ):
         """Create the xes file for all journeys."""
         if not (is_test or is_extracted):
-            output_handling.append_csv()
+            input_handling.append_csv()
             all_traces_xes_path = create_xes.create_xes(
                 utils.CSV_ALL_TRACES, name=xes_name, key=activity_key
             )
