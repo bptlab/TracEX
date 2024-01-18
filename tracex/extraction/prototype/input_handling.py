@@ -1,6 +1,7 @@
 """Module providing functions for converting text to CSV."""
-import pandas as pd
 from datetime import datetime
+
+import pandas as pd
 
 from . import utils as u
 from . import prompts as p
