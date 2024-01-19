@@ -30,3 +30,11 @@ caseID,event_information,start_date,end_date,duration,event_type,attribute_locat
 2,undergoing PCR test,20220617T0000,20220617T0000,00:00:00,Diagnosis,Home
 2,receiving negative test results,20220617T0000,20220619T0000,48:00:00,Diagnosis,Doctors
 2,getting infected and testing positive,20220617T0000,20220617T0000,00:00:00,Symptom Onset,Home
+3,experiencing first Covid-19 symptoms,20220715T0000,20220729T0000,336:00:00,Symptom Onset,Home
+3,isolating myself to prevent spread,20220715T0000,20220729T0000,336:00:00,Lifestyle Change,Home
+3,"symptoms worsening: persistent cough, fever, fatigue",20220715T0000,20220718T0000,72:00:00,Seeking Medical Advice,Home
+3,contacting primary care physician for advice,20220718T0000,20220718T0000,00:00:00,Doctor visit,Doctors
+3,monitoring symptoms closely,20220715T0000,20220725T0000,240:00:00,Symptom Onset,Home
+3,getting tested for Covid-19,20220718T0000,20220719T0000,24:00:00,Diagnosis,Hospital
+3,continuing to isolate at home,20220715T0000,20220729T0000,336:00:00,Other,Home
+3,taking over-the-counter medications for symptoms,20220715T0000,20220722T0000,168:00:00,Treatment,Home

@@ -5,7 +5,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "add_start_dates",
-            "description": "this function extract the start date",
+            "description": "this function extracts the start date",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -25,7 +25,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "add_end_dates",
-            "description": "this function extract the end date",
+            "description": "this function extracts the end date",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -45,7 +45,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "add_duration",
-            "description": "this function extract the duration",
+            "description": "this function extracts the duration",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -65,7 +65,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "add_event_type",
-            "description": "this function extract the event type",
+            "description": "this function extracts the event type",
             "parameters": {
                 "type": "object",
                 "properties": {
@@ -85,7 +85,7 @@ TOOLS = [
         "type": "function",
         "function": {
             "name": "add_location",
-            "description": "this function extract the location",
+            "description": "this function extracts the location",
             "parameters": {
                 "type": "object",
                 "properties": {
