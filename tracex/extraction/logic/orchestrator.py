@@ -1,4 +1,6 @@
 import csv
+from dataclasses import dataclass
+from typing import Optional
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
@@ -7,6 +9,37 @@ from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
 from ..logic import utils
+
+
+@dataclass
+class ExtractionConfiguration:
+    """
+    Dataclass for the configuration of the orchestrator. This specifies all modules that can be executed, what event
+    types are used to classify the activity labels, what locations are used to classify the activity labels and what the
+    patient journey is, on which the pipeline is executed.
+    """
+    event_types: list
+    locations: list
+    modules = {
+        "patient_journey_generation": PatientJourneyGenerator,
+        "activity_labeling": ActivityLabeler,
+        "time_extraction": TimeExtractor,
+        "location_extraction": LocationExtractor,
+        "event_type_classification": EventTypeClassifier,
+    }
+    patient_journey: str
+    activity_key: Optional[str] = "event_type"
+
+    def __init__(self):
+        self.event_types = []
+        self.locations = []
+        self.patient_journey = "This is a default value."
+        self.activity_key = self.activity_key
+
+    def update(self, **kwargs):
+        """Update the configuration with a dictionary."""
+        for key, value in kwargs.items():
+            setattr(self, key, value)
 
 
 class Orchestrator:
@@ -22,13 +55,6 @@ class Orchestrator:
 
     def __init__(self):
         self.configuration = None
-        self.modules = {
-            "patient_journey_generation": PatientJourneyGenerator,
-            "activity_labeling": ActivityLabeler,
-            "time_extraction": TimeExtractor,
-            "location_extraction": LocationExtractor,
-            "event_type_classification": EventTypeClassifier,
-        }
         self.data = None
 
     @classmethod
@@ -36,20 +62,20 @@ class Orchestrator:
         """Return the singleton instance of the orchestrator."""
         return cls._instance
 
-    def set_configuration(self, configuration: utils.ExtractionConfiguration):
+    def set_configuration(self, configuration: ExtractionConfiguration):
         self.configuration = configuration
 
     def initialize_modules(self):
         """Bring the modules into the right order and initialize them."""
-        # Make changes here, if selection and reordering of modules should be more sofisticated
+        # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
-            self.modules["activity_labeling"](),
-            self.modules["time_extraction"](),
-            self.modules["event_type_classification"](),
-            self.modules["location_extraction"](),
+            self.configuration.modules["activity_labeling"](),
+            self.configuration.modules["time_extraction"](),
+            self.configuration.modules["event_type_classification"](),
+            self.configuration.modules["location_extraction"](),
         ]
-
+        print("Initialization of modules successful.")
         return modules
 
     def run(self):
@@ -64,6 +90,16 @@ class Orchestrator:
             #     self.data = module.result
         # replace with self.data = self.__convert_bulletpoints_to_csv(self.data) when dataframes are implemented
         return self.__convert_bulletpoints_to_csv(self.data)
+
+    # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
+    # a configuration was given or not, the patient journey generation may be executed.
+    def generate_patient_journey(self):
+        """Generate a patient journey with the help of the GPT engine."""
+        print("Orchestrator is generating a patient journey.")
+        module = self.configuration.modules["patient_journey_generation"]()
+        module.execute(self.data, self.configuration.patient_journey)
+        self.configuration.update(patient_journey=module.result)
+        return module.result
 
     # Will be deleted when dataframes are implemented
     @staticmethod

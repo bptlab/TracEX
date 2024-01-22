@@ -30,11 +30,6 @@ def deprecated(func):
     return new_func
 
 
-def pause_between_queries():
-    """Pauses between queries."""
-    time.sleep(5)
-
-
 def get_decision(question):
     """Gets a decision from the user."""
     decision = input(question).lower()
@@ -47,7 +42,7 @@ def get_decision(question):
 
 
 def query_gpt(messages, max_tokens=MAX_TOKENS, temperature=TEMPERATURE_SUMMARIZING):
-    """Queries the GPT engine."""
+    """Queries the GPT API and returns a string of the output to the specified question/instruction."""
     client = OpenAI(api_key=oaik)
     response = client.chat.completions.create(
         model=MODEL, messages=messages, max_tokens=max_tokens, temperature=temperature
@@ -95,6 +90,7 @@ def append_csv():
             f.writelines(row)
 
 
+@deprecated
 @dataclass
 class ExtractionConfiguration:
     patient_journey: str
@@ -116,7 +112,9 @@ class Conversion:
         dataframe["caseID"] = dataframe["caseID"].astype(str)
         dataframe["start"] = pd.to_datetime(dataframe["start"])
         dataframe["end"] = pd.to_datetime(dataframe["end"])
-        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
+        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])  # Bug: When filters are applied from the JourneyGenerationView, there seems to be some type of "offset"
+        # Hence I got the error "Could not convert 'Symptom Onset' to NumPy timedelta" when deselecting "Home" from
+        # This error does not appear when configuring filters in the ResultView
         dataframe = dataframe.rename(
             columns={
                 key: "concept:name",

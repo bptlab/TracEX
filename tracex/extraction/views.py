@@ -12,8 +12,8 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (input_handling, input_inquiry, create_xes, output_handling,)
-from .logic.orchestrator import Orchestrator
+from .prototype import (input_handling, input_inquiry, create_xes, output_handling, )
+from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .logic import utils
 
 # necessary due to Windows error. see information for your os here:
@@ -39,12 +39,10 @@ class JourneyInputView(generic.FormView):
         """Save the uploaded journey in the cache."""
         cache.set("is_extracted", False)
         orchestrator = Orchestrator.get_instance()
-        orchestrator.set_configuration(
-            utils.ExtractionConfiguration(
-                patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
-                event_types=form.cleaned_data["event_types"],
-                locations=form.cleaned_data["locations"],
-            )
+        orchestrator.configuration.update(
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+            patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
         )
         return super().form_valid(form)
 
@@ -72,22 +70,21 @@ class JourneyGenerationView(generic.FormView):
             with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
         else:
-            journey = input_inquiry.create_patient_journey()
+            orchestrator.generate_patient_journey()
+            journey = orchestrator.configuration.patient_journey
 
-        orchestrator.configuration.update = {"patient_journey": journey}
-        context["generated_journey"] = journey
+        orchestrator.configuration.update(patient_journey=journey)  # In case of test mode off, this is already executed from generate_patient_journey()
+        context["generated_journey"] = orchestrator.configuration.patient_journey
         return context
 
     def form_valid(self, form):
         """Save the generated journey in the cache."""
-
-        orchestrator = Orchestrator.get_instance()
-        configuration = {
-            "event_types": form.cleaned_data["event_types"],
-            "locations": form.cleaned_data["locations"],
-        }
-        orchestrator.configuration.update(**configuration)
         cache.set("is_extracted", False)
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.configuration.update(
+                event_types=form.cleaned_data["event_types"],
+                locations=form.cleaned_data["locations"],
+        )
         return super().form_valid(form)
 
 

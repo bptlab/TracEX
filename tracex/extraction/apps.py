@@ -1,6 +1,6 @@
 """App configuration for extraction app."""
 from django.apps import AppConfig
-from extraction.logic import orchestrator
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
 
 class ExtractionConfig(AppConfig):
@@ -10,6 +10,7 @@ class ExtractionConfig(AppConfig):
     name = "extraction"
 
     def ready(self):
-        orchestrator_instance = orchestrator.Orchestrator()
-        orchestrator.Orchestrator._instance = orchestrator_instance
+        orchestrator_instance = Orchestrator()
+        Orchestrator._instance = orchestrator_instance
+        orchestrator_instance.set_configuration(ExtractionConfiguration())
         print("Orchestrator ready")
