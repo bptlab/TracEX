@@ -28,6 +28,12 @@ def redirect_to_selection(request):
     return redirect("selection")
 
 
+class SelectionView(generic.TemplateView):
+    """View for selecting a patient journey."""
+
+    template_name = "selection.html"
+
+
 class JourneyInputView(generic.FormView):
     """View for uploading a patient journey."""
 
@@ -47,12 +53,6 @@ class JourneyInputView(generic.FormView):
         return super().form_valid(form)
 
 
-class SelectionView(generic.TemplateView):
-    """View for selecting a patient journey."""
-
-    template_name = "selection.html"
-
-
 class JourneyGenerationView(generic.FormView):
     """View for generating a patient journey."""
 
@@ -69,11 +69,11 @@ class JourneyGenerationView(generic.FormView):
         if IS_TEST:
             with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
                 journey = file.read()
+                orchestrator.configuration.update(patient_journey=journey)
         else:
+            # This automatically updates the configuration with the generated patient journey
             orchestrator.generate_patient_journey()
-            journey = orchestrator.configuration.patient_journey
 
-        orchestrator.configuration.update(patient_journey=journey)  # In case of test mode off, this is already executed from generate_patient_journey()
         context["generated_journey"] = orchestrator.configuration.patient_journey
         return context
 
@@ -82,6 +82,7 @@ class JourneyGenerationView(generic.FormView):
         cache.set("is_extracted", False)
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
+                patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
                 event_types=form.cleaned_data["event_types"],
                 locations=form.cleaned_data["locations"],
         )
@@ -159,11 +160,11 @@ class ResultView(generic.FormView):
     def form_valid(self, form):
         """Save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
-        configuration = {
-            "event_types": form.cleaned_data["event_types"],
-            "locations": form.cleaned_data["locations"],
-        }
-        orchestrator.configuration.update(**configuration)
+        orchestrator.configuration.update(
+            patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+        )
         return super().form_valid(form)
 
     @staticmethod

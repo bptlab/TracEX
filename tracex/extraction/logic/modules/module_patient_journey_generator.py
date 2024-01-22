@@ -82,8 +82,9 @@ class PatientJourneyGenerator(Module):
                 "content": "Please give me one date between 01/01/2020 and 01/09/2023.",
             }
         ]
-        country = u.query_gpt(messages=message, max_tokens=50, temperature=0.5)
-        return country
+        date = u.query_gpt(messages=message, max_tokens=50, temperature=0.5)
+        print(date)
+        return date
 
     @staticmethod
     def __get_life_circumstances(sex):

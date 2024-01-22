@@ -61,7 +61,7 @@ def get_all_xes_output_path(
     if not (is_test or is_extracted):
         append_csv()
         all_traces_xes_path = Conversion.create_xes(
-            CSV_ALL_TRACES, name=xes_name, key=activity_key
+            csv_file=CSV_ALL_TRACES, name=xes_name, key=activity_key
         )
     else:
         all_traces_xes_path = (
@@ -112,9 +112,10 @@ class Conversion:
         dataframe["caseID"] = dataframe["caseID"].astype(str)
         dataframe["start"] = pd.to_datetime(dataframe["start"])
         dataframe["end"] = pd.to_datetime(dataframe["end"])
-        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])  # Bug: When filters are applied from the JourneyGenerationView, there seems to be some type of "offset"
+        # Bug on 118: When filters are applied from the JourneyGenerationView, there seems to be some type of "offset"
         # Hence I got the error "Could not convert 'Symptom Onset' to NumPy timedelta" when deselecting "Home" from
         # This error does not appear when configuring filters in the ResultView
+        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
         dataframe = dataframe.rename(
             columns={
                 key: "concept:name",

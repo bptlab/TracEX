@@ -99,7 +99,6 @@ class Orchestrator:
         module = self.configuration.modules["patient_journey_generation"]()
         module.execute(self.data, self.configuration.patient_journey)
         self.configuration.update(patient_journey=module.result)
-        return module.result
 
     # Will be deleted when dataframes are implemented
     @staticmethod
