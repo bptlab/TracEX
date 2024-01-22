@@ -13,7 +13,9 @@ from tracex.extraction.prototype import prompts as p
 from tracex.extraction.prototype import preprocessing as pre
 
 text = open(u.input_path / "journey_test_preprocessing_2.txt").read()
-preprocessed_text = pre.refactor_input_journey_time(text)
+preprocessed_text = pre.preprocessing_spellcheck(text)
+preprocessed_text = pre.preprocessing_condense(preprocessed_text)
+preprocessed_text = pre.preprocessing_identify_time_specification(preprocessed_text)
 # df = ih.convert_text_to_bulletpoints(text)
 # print(df)
 # df = ih.add_start_dates(text, df)

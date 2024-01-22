@@ -260,54 +260,52 @@ FC_LOCATION_PROMPT = """
     Please extract the following location of the text without changing the given date format:
 """
 
-REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_1 = """
-You are an expert text editor tasked with identifying vague time
-specifications in the text and converting them into specific dates. Your edits should focus solely on time
-references, without altering any other part of the text. Also, do not add any commentary or the like that we did not
-ask for. Always conclude your edits with 'Goodbye'.
-
-For example, the text 'At the end of April, I started
-experiencing mild symptoms.' should be converted to 'On April 30, 2021, I started experiencing mild symptoms.'
-Another example is the text 'In the next days, I waited for the symptoms to fade away.' should be converted to 'On
-May 1, 2021, I waited for the symptoms to fade away.' One more example is the text 'I was then hospitalized for two
-weeks.' should be converted to 'I was then hospitalized from May 1, 2021, to May 15, 2021.' Ensure that the dates are
-contextually appropriate, maintain chronological consistency, and consider cultural and regional date formats,
-if relevant.
+SYSTEM_ROLE_PROMPT_IDENTIFY = """
+    You are an AI system that assists in preprocessing text data. Your task is to identify time specifications and durations in the text. Your focus should be solely on highlighting time references, without altering any other part of the
+    text. Highlight time specifications and durations you find with $$$time specification$$$, where "time specification" would be something like "...on June 2nd I found out that..." or "...12 weeks..." or "nine months".
+    You must consider all parts of the text, where there is a quantifier like a number (either written out or in digits) or less specific e.g "many" accompanied by a time unit (e.g. days, weeks, months, years, hours, minutes, seconds and so on).
+    Always conclude your edits with 'Goodbye'.
 """
 
-REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_2 = """You are an expert text editor specialized in converting vague date
-references into specific dates, ensuring chronological accuracy. Your task is to identify dates mentioned in the
-text, clarify them, and adjust any related time references accordingly. Your edits should focus only on the dates and
-time references without altering the rest of the text.
-
-Example:
-Original: "The program started in June 2022, and nine months into the program, I had a fever."
-Refactored: "The program started in June 2022, and in March 2023, I had a fever."
-
-Remember to calculate the time intervals accurately and to express the dates in a specific and clear format. Ensure
-that the chronological order is maintained, and the dates are consistent with the narrative of the text."""
-
-REFACTOR_INPUT_JOURNEY_TIME_CONTEXT_3 = """
-    You are an expert text editor specialized in identifying time-related specifications in the text. It is your job to
-    find every mention of time and list them in chronological order as bulletpoints below the text. Other then that, you
-    should return the original text unaltered.
+USER_ROLE_PROMPT_IDENTIFY = """
+    As a user, I provide the raw text data that needs preprocessing. The text contains various time
+    specifications that need to be highlighted by framing them with $$$ $$$. I expect
+    the AI system to handle this task efficiently and accurately, without altering any other part of the text. This is
+    the text: \n\n
 """
 
-REFACTOR_INPUT_JOURNEY_TIME_PROMPT = """Remember to ensure time consistency so that there are no contradictions in
-the dates or unexpected jumps in time. Consider the context of the events when assigning specific dates. Here is the
-text where you should identify any mentions of time-related specifications and formulate specific dates:"""
+ASSISTANT_ROLE_PROMPT_IDENTIFY = """
+    As an AI assistant, I take the raw text data provided by the user and preprocess it
+    according to the task defined by the system. I identify all time specifications in the text and highlight them.
+    Once the task is completed, I signal the end of my edits with 'Goodbye'.
+"""
 
-REFACTOR_INPUT_JOURNEY_TIME_ANSWER = """
-    Here are the examples of how the text should be refactored:
+SYSTEM_ROLE_PROMPT_SPELLCHECK = """
+    You are an AI system that assists in preprocessing text data. Your task is to spellcheck the text and correct any grammatical errors.
+    Take any necessary steps to ensure that the text is grammatically correct and spelled correctly. You must not alter the meaning of the text.
+"""
 
-    Original: 'At the end of April, I started experiencing mild symptoms.'
-    Refactored: 'On April 30, 2021, I started experiencing mild symptoms.'
+USER_ROLE_PROMPT_SPELLCHECK = """
+    As a user, I provide the raw text data that needs preprocessing. The text contains various grammatical errors and spelling errors that need to be corrected. I expect
+    the AI system to handle this task efficiently and accurately, without altering the meaning of the text. This is the text: \n\n
+"""
 
-    Original: 'In the next days, I waited for the symptoms to fade away.'
-    Refactored: 'On May 1, 2021, I waited for the symptoms to fade away.'
+ASSISTANT_ROLE_PROMPT_SPELLCHECK = """
+    As an AI assistant, I take the raw text data provided by the user and preprocess it.
+"""
 
-    Original: 'I was then hospitalized for two weeks.'
-    Refactored: 'I was then hospitalized from May 1, 2021, to May 15, 2021.'
+SYSTEM_ROLE_PROMPT_CONDENSE = """
+    You are an AI system that assists in preprocessing text data. Your task is to condense the text and shorten it.
+    Take any necessary steps to ensure that the text is condensed and shortened. You must not alter the meaning of the text or lose any important information.
+    Especially important information would be information about the disease, the course of the disease, the symptoms, the treatment, the hospitalization and the recovery.
+"""
 
-    All dates provided must be contextually appropriate, maintain chronological consistency, and consider cultural and regional date formats when relevant.
+USER_ROLE_PROMPT_CONDENSE = """
+    As a user, I provide the raw text data that needs preprocessing. The text contains various parts that need to be condensed and shortened. I expect
+    every part of the output to have relevant information about the disease, the course of the disease, the symptoms, the treatment, the hospitalization and the recovery.
+    This is the text: \n\n
+"""
+
+ASSISTANT_ROLE_PROMPT_CONDENSE = """
+    As an AI assistant, I take the raw text data provided by the user and preprocess it.
 """
