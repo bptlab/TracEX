@@ -1,7 +1,8 @@
 import csv
 from dataclasses import dataclass
-from typing import Optional
+from typing import Optional, List
 
+from . import Module
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor import TimeExtractor
@@ -18,8 +19,10 @@ class ExtractionConfiguration:
     types are used to classify the activity labels, what locations are used to classify the activity labels and what the
     patient journey is, on which the pipeline is executed.
     """
-    event_types: list
-    locations: list
+
+    patient_journey: Optional[str] = None
+    event_types: Optional[List[str]] = None
+    locations: Optional[List[str]] = None
     modules = {
         "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
@@ -27,19 +30,16 @@ class ExtractionConfiguration:
         "location_extraction": LocationExtractor,
         "event_type_classification": EventTypeClassifier,
     }
-    patient_journey: str
     activity_key: Optional[str] = "event_type"
-
-    def __init__(self):
-        self.event_types = []
-        self.locations = []
-        self.patient_journey = "This is a default value."
-        self.activity_key = self.activity_key
 
     def update(self, **kwargs):
         """Update the configuration with a dictionary."""
+        valid_keys = set(self.__annotations__.keys())
         for key, value in kwargs.items():
-            setattr(self, key, value)
+            if key in valid_keys:
+                setattr(self, key, value)
+            else:
+                print(f"Ignoring unknown key: {key}")
 
 
 class Orchestrator:

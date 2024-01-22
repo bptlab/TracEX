@@ -12,7 +12,12 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (input_handling, input_inquiry, create_xes, output_handling, )
+from .prototype import (
+    input_handling,
+    input_inquiry,
+    create_xes,
+    output_handling,
+)
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .logic import utils
 
@@ -78,13 +83,13 @@ class JourneyGenerationView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        """Save the generated journey in the cache."""
+        """Save the generated journey in the orchestrator's configuration."""
         cache.set("is_extracted", False)
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
-                patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
-                event_types=form.cleaned_data["event_types"],
-                locations=form.cleaned_data["locations"],
+            patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
         )
         return super().form_valid(form)
 
@@ -111,18 +116,28 @@ class ResultView(generic.FormView):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         event_types = self.flatten_list(orchestrator.configuration.event_types)
-        filter_dict = {"concept:name": event_types, "attribute_location": orchestrator.configuration.locations}
-        is_extracted = True if cache.get("is_extracted") is None else cache.get("is_extracted")
+        filter_dict = {
+            "concept:name": event_types,
+            "attribute_location": orchestrator.configuration.locations,
+        }
+        is_extracted = (
+            True if cache.get("is_extracted") is None else cache.get("is_extracted")
+        )
 
         # 1. Run the pipeline to create the single journey dataframe from csv
         if not (IS_TEST or is_extracted):
             output_path_csv = orchestrator.run()
             output_path_xes = utils.Conversion.create_xes(
-                output_path_csv, name="single_trace", key=orchestrator.configuration.activity_key
+                output_path_csv,
+                name="single_trace",
+                key=orchestrator.configuration.activity_key,
             )
         else:
             output_path_xes = (
-                    str(utils.output_path / "single_trace") + "_" + orchestrator.configuration.activity_key + ".xes"
+                str(utils.output_path / "single_trace")
+                + "_"
+                + orchestrator.configuration.activity_key
+                + ".xes"
             )
         single_trace_df = pm4py.read_xes(output_path_xes)
 
@@ -148,8 +163,12 @@ class ResultView(generic.FormView):
         )
         context["journey"] = orchestrator.configuration.patient_journey
         context["dfg_img"] = utils.Conversion.create_dfg_png_from_df(output_df_filtered)
-        context["xes_html"] = utils.Conversion.create_html_from_xes(output_df_filtered).getvalue()
-        context["all_dfg_img"] = utils.Conversion.create_dfg_png_from_df(all_traces_df_filtered)
+        context["xes_html"] = utils.Conversion.create_html_from_xes(
+            output_df_filtered
+        ).getvalue()
+        context["all_dfg_img"] = utils.Conversion.create_dfg_png_from_df(
+            all_traces_df_filtered
+        )
         context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
