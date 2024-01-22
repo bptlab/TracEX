@@ -1,5 +1,6 @@
 import os
 import random
+from datetime import datetime, timedelta
 
 from ..module import Module
 from .. import utils as u
@@ -18,7 +19,9 @@ class PatientJourneyGenerator(Module):
     def __init__(self):
         super().__init__()
         self.name = "Patient Journey Generator"
-        self.description = "Generates a patient journey with the help of the GPT engine."
+        self.description = (
+            "Generates a patient journey with the help of the GPT engine."
+        )
 
     def execute(self, _input, patient_journey=None):
         # TODO: convert to dataframe
@@ -62,40 +65,99 @@ class PatientJourneyGenerator(Module):
         print("Generation in progress: [▬▬▬-------] 30%", end="\r")
         life_circumstances = self.__get_life_circumstances(sex)
         print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
-        patient_journey_context = (f"Imagine being a {sex} person from {country}, that was infected with Covid19."
-                                   f" You had first symptoms on {date}. {life_circumstances}")
+        patient_journey_context = (
+            f"Imagine being a {sex} person from {country}, that was infected with Covid19."
+            f" You had first symptoms on {date}. {life_circumstances}"
+        )
         return patient_journey_context
 
     @staticmethod
     def __get_country():
         """Randomizing country."""
-        message = [{"role": "user", "content": "Please give me one european country."}]
-        country = u.query_gpt(messages=message, max_tokens=50, temperature=0.2)
-        return country
+        european_countries = [
+            "Albania",
+            "Andorra",
+            "Armenia",
+            "Austria",
+            "Azerbaijan",
+            "Belarus",
+            "Belgium",
+            "Bosnia and Herzegovina",
+            "Bulgaria",
+            "Croatia",
+            "Cyprus",
+            "Czechia",
+            "Denmark",
+            "Estonia",
+            "Faroe Islands",
+            "Finland",
+            "France",
+            "Georgia",
+            "Germany",
+            "Greece",
+            "Hungary",
+            "Iceland",
+            "Ireland",
+            "Italy",
+            "Kazakhstan",
+            "Kosovo",
+            "Latvia",
+            "Liechtenstein",
+            "Lithuania",
+            "Luxembourg",
+            "Malta",
+            "Moldova",
+            "Monaco",
+            "Montenegro",
+            "Netherlands",
+            "North Macedonia",
+            "Norway",
+            "Poland",
+            "Portugal",
+            "Romania",
+            "Russia",
+            "San Marino",
+            "Serbia",
+            "Slovakia",
+            "Slovenia",
+            "Spain",
+            "Sweden",
+            "Switzerland",
+            "Turkey",
+            "Ukraine",
+            "United Kingdom (UK)",
+            "Vatican City (Holy See)",
+        ]
+
+        return random.choice(european_countries)
 
     @staticmethod
-    def __get_date():
+    def __get_date(start_date="01/01/2020", end_date="01/09/2023"):
         """Randomizing date."""
-        message = [
-            {
-                "role": "user",
-                "content": "Please give me one date between 01/01/2020 and 01/09/2023.",
-            }
-        ]
-        date = u.query_gpt(messages=message, max_tokens=50, temperature=0.5)
-        print(date)
+        start = datetime.strptime(start_date, "%d/%m/%Y")
+        end = datetime.strptime(end_date, "%d/%m/%Y")
+        delta = end - start
+        random_days = random.randrange(delta.days)
+        date = start + timedelta(days=random_days)
+        date = date.strftime("%d/%m/%Y")
+
         return date
 
     @staticmethod
     def __get_life_circumstances(sex):
         """Randomizing life circumstances."""
-        message = [{"role": "user",
-                    "content": f"Please give me a short description of the life circumstances of an imaginary {sex} "
-                    + "person in form of continuous text."
-                    + """Please give me a short description of the life circumstances of an imaginary person in form 
-                    of continuous text. Write the text from a second-person perspective. Something like "You are a 
-                    51-year-old Teacher" and so forth. Include the age, the job and the family status. Please do not 
-                    include more than 50 words."""
-                    }]
-        life_circumstances = u.query_gpt(messages=message, max_tokens=100, temperature=1)
+        message = [
+            {
+                "role": "user",
+                "content": f"Please give me a short description of the life circumstances of an imaginary {sex} "
+                + "person in form of continuous text."
+                + """Please give me a short description of the life circumstances of an imaginary person in form
+                    of continuous text. Write the text from a second-person perspective. Something like "You are a
+                    51-year-old Teacher" and so forth. Include the age, the job and the family status. Please do not
+                    include more than 50 words.""",
+            }
+        ]
+        life_circumstances = u.query_gpt(
+            messages=message, max_tokens=100, temperature=1
+        )
         return life_circumstances
