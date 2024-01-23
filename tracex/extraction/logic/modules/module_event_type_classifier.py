@@ -1,6 +1,9 @@
+import pandas as pd
+
 from ..module import Module
 from .. import utils as u
 from .. import prompts as p
+
 
 from pandas import DataFrame
 
@@ -18,35 +21,42 @@ class EventTypeClassifier(Module):
         self.name = "Event Type Classifier"
         self.description = "Classifies the event types for the corresponding activity labels from a patient journey."
 
-    def execute(self, _input, patient_journey=None):
-        super().execute(_input, patient_journey)
-        self.result = self.__add_event_types(_input)
+    def execute(self, df, patient_journey=None):
+        super().execute(df, patient_journey)
+        self.result = self.__add_event_types(df)
 
-    def __add_event_types(self, activity_labels):
-        """Adds event types to the bulletpoints."""
+    def __add_event_types(self, df):
+        """Adds event types to the activity labels."""
+        name = "event_type"
+        df[name] = df["event_information"].apply(self.__classify_event_type)
+        # document_intermediates(output)
+
+        return df
+
+    @staticmethod
+    def __classify_event_type(activity_label):
         messages = [
-            {"role": "system", "content": p.BULLETPOINTS_EVENT_TYPE_CONTEXT},
+            {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
             {
                 "role": "user",
-                "content": p.BULLETPOINTS_EVENT_TYPE_PROMPT + activity_labels,
+                "content": f"{p.EVENT_TYPE_PROMPT}\n The bulletpoint: {activity_label}",
             },
-            {"role": "assistant", "content": p.BULLETPOINTS_EVENT_TYPE_ANSWER},
+            {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
         ]
-        activity_labels_with_event_types = u.query_gpt(messages)
-        activity_labels_with_event_types = self.__add_ending_commas(
-            activity_labels_with_event_types
+        output = u.query_gpt(messages)
+        fc_message = [
+            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
+            {
+                "role": "user",
+                "content": f"{p.FC_EVENT_TYPE_PROMPT} The text: {output}",
+            },
+        ]
+        event_type = u.query_gpt(
+            messages=fc_message,
+            tool_choice={
+                "type": "function",
+                "function": {"name": "add_event_type"},
+            },
         )
-        with open(
-            (u.output_path / "intermediates/5_bulletpoints_with_event_type.txt"),
-            "w",
-        ) as f:
-            f.write(activity_labels_with_event_types)
-        return activity_labels_with_event_types
 
-    # TODO: Remove when dataframes are used
-    @staticmethod
-    def __add_ending_commas(activity_labels):
-        """Adds commas at the end of each line."""
-        activity_labels = activity_labels.replace("\n", ",\n")
-        activity_labels = activity_labels + ","
-        return activity_labels
+        return event_type

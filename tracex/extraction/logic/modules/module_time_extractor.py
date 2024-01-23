@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from ..module import Module
 from .. import utils as u
 from .. import prompts as p
@@ -16,86 +18,64 @@ class TimeExtractor(Module):
         self.name = "Time Extractor"
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
-    def execute(self, _input, patient_journey=None):
-        super().execute(_input, patient_journey)
-        intermediate = self.__add_start_dates(self.patient_journey, _input)
-        intermediate = self.__add_end_dates(self.patient_journey, intermediate)
-        intermediate = self.__add_durations(self.patient_journey, intermediate)
-        self.result = intermediate
+    def execute(self, df, patient_journey=None):
+        super().execute(df, patient_journey)
+        df["start_date"] = df["event_information"].apply(self.__extract_start_date)
+        df["end_date"] = df.apply(self.__extract_end_date, axis=1)
+        df["duration"] = df.apply(self.__calculate_row_duration, axis=1)
+        self.result = df
 
-    def __add_start_dates(self, patient_journey, activity_labels):
-        """Adds start dates to the activity labels."""
+    def __extract_start_date(self, activity_label):
         messages = [
-            {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
+            {"role": "system", "content": p.START_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": p.BULLETPOINTS_START_DATE_PROMPT
-                + patient_journey
-                + "\n"
-                + activity_labels,
+                "content": f"{p.START_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: {activity_label}",
             },
-            {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
+            {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]
-        activity_labels_start_dates = u.query_gpt(messages)
-        activity_labels_start_dates = self.__add_ending_commas(
-            activity_labels_start_dates
+        output = u.query_gpt(messages)
+        fc_message = [
+            {"role": "system", "content": p.FC_START_DATE_CONTEXT},
+            {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
+        ]
+        start_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
         )
-        with open(
-            (u.output_path / "intermediates/2_bulletpoints_with_start.txt"),
-            "w",
-        ) as f:
-            f.write(activity_labels_start_dates)
-        return activity_labels_start_dates
 
-    def __add_end_dates(self, patient_journey, activity_labels):
-        """Adds end dates to the bulletpoints."""
+        return start_date
+
+    def __extract_end_date(self, row):
         messages = [
-            {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
+            {"role": "system", "content": p.END_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": p.BULLETPOINTS_END_DATE_PROMPT
-                + patient_journey
-                + "\n"
-                + activity_labels,
+                "content": f"{p.END_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: "
+                f"{row['event_information']} \nThe start date: {row['start_date']}",
             },
-            {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
+            {"role": "assistant", "content": p.END_DATE_ANSWER},
         ]
-        activity_labels_start_end_dates = u.query_gpt(messages)
-        activity_labels_start_end_dates = self.__add_ending_commas(
-            activity_labels_start_end_dates
+        output = u.query_gpt(messages)
+        fc_message = [
+            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
+            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
+        ]
+        end_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
         )
-        with open(
-            (u.output_path / "intermediates/3_bulletpoints_with_end.txt"),
-            "w",
-        ) as f:
-            f.write(activity_labels_start_end_dates)
-        return activity_labels_start_end_dates
 
-    def __add_durations(self, patient_journey, activity_labels):
-        """Adds durations to the bulletpoints."""
-        messages = [
-            {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
-            {
-                "role": "user",
-                "content": p.BULLETPOINTS_DURATION_PROMPT
-                + patient_journey
-                + "\n"
-                + activity_labels,
-            },
-            {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
-        ]
-        activity_labels = u.query_gpt(messages)
-        activity_labels = self.__add_ending_commas(activity_labels)
-        with open(
-            (u.output_path / "intermediates/4_bulletpoints_with_duration.txt"),
-            "w",
-        ) as f:
-            f.write(activity_labels)
-        return activity_labels
+        return end_date
 
     @staticmethod
-    def __add_ending_commas(activity_labels):
-        """Adds commas at the end of each line."""
-        activity_labels = activity_labels.replace("\n", ",\n")
-        activity_labels = activity_labels + ","
-        return activity_labels
+    def __calculate_row_duration(row):
+        if row["start_date"] == "N/A" or row["end_date"] == "N/A":
+            return "N/A"
+        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
+        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
+        duration = end_date - start_date
+        hours, remainder = divmod(duration.total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+
+        return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"

@@ -26,9 +26,9 @@ class ExtractionConfiguration:
     modules = {
         "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
+        "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
-        "event_type_classification": EventTypeClassifier,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -84,12 +84,8 @@ class Orchestrator:
         for module in modules:
             module.execute(self.data, self.configuration.patient_journey)
             self.data = module.result
-            # if self.data is not None:
-            #     self.data.merge(module.result, how="inner", on="event_information", validate="one_to_one")
-            # else:
-            #     self.data = module.result
         # replace with self.data = self.__convert_bulletpoints_to_csv(self.data) when dataframes are implemented
-        return self.__convert_bulletpoints_to_csv(self.data)
+        return self.data.to_csv(utils.CSV_OUTPUT, index=False)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.

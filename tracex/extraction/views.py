@@ -12,12 +12,6 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .prototype import (
-    input_handling,
-    input_inquiry,
-    create_xes,
-    output_handling,
-)
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .logic import utils
 
@@ -124,7 +118,7 @@ class ResultView(generic.FormView):
             True if cache.get("is_extracted") is None else cache.get("is_extracted")
         )
 
-        # 1. Run the pipeline to create the single journey dataframe from csv
+        # 1. Run the pipeline to create the single trace
         if not (IS_TEST or is_extracted):
             output_path_csv = orchestrator.run()
             output_path_xes = utils.Conversion.create_xes(

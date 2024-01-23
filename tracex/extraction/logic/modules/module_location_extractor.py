@@ -1,3 +1,5 @@
+import pandas as pd
+
 from ..module import Module
 from .. import utils as u
 from .. import prompts as p
@@ -16,33 +18,37 @@ class LocationExtractor(Module):
         self.name = "Location Extractor"
         self.description = "Extracts the locations for the corresponding activity labels from a patient journey."
 
-    def execute(self, _input, patient_journey=None):
-        super().execute(_input, patient_journey)
-        self.result = self.__add_locations(_input)
+    def execute(self, df, patient_journey=None):
+        super().execute(df, patient_journey)
+        self.result = self.__add_locations(df)
 
-    def __add_locations(self, activity_labels):
+    def __add_locations(self, df):
         """Adds locations to the activity labels."""
-        messages = [
-            {"role": "system", "content": p.BULLETPOINTS_LOCATION_CONTEXT},
-            {
-                "role": "user",
-                "content": p.BULLETPOINTS_LOCATION_PROMPT + activity_labels,
-            },
-            {"role": "assistant", "content": p.BULLETPOINTS_LOCATION_ANSWER},
-        ]
-        activity_labels_location = u.query_gpt(messages)
-        activity_labels_location = self.__remove_brackets(activity_labels_location)
-        with open(
-            (u.output_path / "intermediates/6_bulletpoints_with_location.txt"),
-            "w",
-        ) as f:
-            f.write(activity_labels_location)
-        return activity_labels_location
+        name = "attribute_location"
+        df[name] = df["event_information"].apply(self.__classify_location)
+        # document_intermediates(output)
+
+        return df
 
     @staticmethod
-    def __remove_brackets(activity_labels):
-        """Removes brackets from within the activity_labels."""
-        characters_to_remove = "()[]{}"
-        for char in characters_to_remove:
-            activity_labels = activity_labels.replace(char, "")
-        return activity_labels
+    def __classify_location(activity_label):
+        messages = [
+            {"role": "system", "content": p.LOCATION_CONTEXT},
+            {"role": "user", "content": f"{p.LOCATION_PROMPT} {activity_label}"},
+            {"role": "assistant", "content": p.LOCATION_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+
+        fc_message = [
+            {"role": "system", "content": p.FC_LOCATION_CONTEXT},
+            {
+                "role": "user",
+                "content": f"{p.FC_LOCATION_PROMPT} The text: {output}",
+            },
+        ]
+        location = u.query_gpt(
+            messages=fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_location"}},
+        )
+
+        return location

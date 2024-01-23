@@ -1,19 +1,19 @@
 """Module providing constants for the project."""
 import base64
+import json
 import tempfile
 import time
+import functools
+import warnings
+import pandas as pd
+import pm4py
 from dataclasses import dataclass
 from io import StringIO, BytesIO
 from typing import Optional
-
-import pandas as pd
-import pm4py
-
-from .constants import *
 from openai import OpenAI
 
-import functools
-import warnings
+from .constants import *
+from . import function_calls
 
 
 def deprecated(func):
@@ -22,9 +22,11 @@ def deprecated(func):
 
     @functools.wraps(func)
     def new_func(*args, **kwargs):
-        warnings.warn(f"Call to deprecated function {func.__name__}.",
-                      category=DeprecationWarning,
-                      stacklevel=2)
+        warnings.warn(
+            f"Call to deprecated function {func.__name__}.",
+            category=DeprecationWarning,
+            stacklevel=2,
+        )
         return func(*args, **kwargs)
 
     return new_func
@@ -41,21 +43,35 @@ def get_decision(question):
     return get_decision(question)
 
 
-def query_gpt(messages, max_tokens=MAX_TOKENS, temperature=TEMPERATURE_SUMMARIZING):
-    """Queries the GPT API and returns a string of the output to the specified question/instruction."""
+def query_gpt(
+    messages,
+    tools=function_calls.TOOLS,
+    tool_choice="none",
+    temperature=TEMPERATURE_SUMMARIZING,
+):
     client = OpenAI(api_key=oaik)
+    """Queries the GPT engine."""
     response = client.chat.completions.create(
-        model=MODEL, messages=messages, max_tokens=max_tokens, temperature=temperature
+        model=MODEL,
+        messages=messages,
+        max_tokens=MAX_TOKENS,
+        temperature=temperature,
+        tools=tools,
+        tool_choice=tool_choice,
     )
-    output = response.choices[0].message.content
+    if tool_choice == "none":
+        output = response.choices[0].message.content
+    else:
+        api_response = response.choices[0].message.tool_calls[0].function.arguments
+        output = json.loads(api_response)["output"][0]
     return output
 
 
 def get_all_xes_output_path(
-        is_test=False,
-        is_extracted=False,
-        xes_name="all_traces",
-        activity_key="event_type",
+    is_test=False,
+    is_extracted=False,
+    xes_name="all_traces",
+    activity_key="event_type",
 ):
     """Create the xes file for all journeys."""
     if not (is_test or is_extracted):
@@ -64,9 +80,7 @@ def get_all_xes_output_path(
             csv_file=CSV_ALL_TRACES, name=xes_name, key=activity_key
         )
     else:
-        all_traces_xes_path = (
-                str(output_path / xes_name) + "_" + activity_key + ".xes"
-        )
+        all_traces_xes_path = str(output_path / xes_name) + "_" + activity_key + ".xes"
     return all_traces_xes_path
 
 
