@@ -86,15 +86,16 @@ def calculate_tokens_sum(log_file_path):
         header=None,
         names=["timestamp", "message"],
     )
-
     df["message"] = df["message"].apply(ast.literal_eval)
 
-    df["calling_function_name"] = df["message"].apply(lambda x: x.get("function_name"))
-    df["parent_calling_file"] = df["message"].apply(lambda x: x.get("calling_file"))
+    df["calling_function_name"] = df["message"].apply(
+        lambda x: x.get("calling_function_name")
+    )
+    df["calling_file"] = df["message"].apply(lambda x: x.get("calling_file"))
     df["tokens_used"] = df["message"].apply(lambda x: x.get("tokens_used", 0))
 
     result_df = (
-        df.groupby(["calling_function_name", "parent_calling_file"])["tokens_used"]
+        df.groupby(["calling_function_name", "calling_file"])["tokens_used"]
         .sum()
         .reset_index()
     )
