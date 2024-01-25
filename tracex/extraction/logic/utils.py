@@ -47,7 +47,7 @@ def query_gpt(
     tool_choice="none",
     temperature=TEMPERATURE_SUMMARIZING,
 ):
-    @log_tokens_used(Path("extraction/tokens_used.log"))
+    @log_tokens_used(Path("extraction/logs/tokens_used.log"))
     def make_api_call():
         client = OpenAI(api_key=oaik)
         """Queries the GPT engine."""

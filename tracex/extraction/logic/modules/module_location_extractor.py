@@ -1,10 +1,10 @@
-import pandas as pd
+from pathlib import Path
 
+from ..logging import log_execution_time
 from ..module import Module
 from .. import utils as u
 from .. import prompts as p
 
-from pandas import DataFrame
 
 
 class LocationExtractor(Module):
@@ -18,6 +18,7 @@ class LocationExtractor(Module):
         self.name = "Location Extractor"
         self.description = "Extracts the locations for the corresponding activity labels from a patient journey."
 
+    @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
         self.result = self.__add_locations(df)

@@ -16,16 +16,17 @@ def log_execution_time(log_file_path):
     def decorator(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
-            start_time = time.time()
+            start_time = time.perf_counter()
+
             result = func(*args, **kwargs)
-            end_time = time.time()
+
+            end_time = time.perf_counter()
             execution_time = end_time - start_time
 
-            calling_frame = inspect.stack()[1]
+            file = inspect.getsourcefile(func)
             log_entry = {
                 "function_name": func.__name__,
-                "calling_file": calling_frame[1],
-                "calling_line": calling_frame[2],
+                "calling_file": file,
                 "execution_time": f"{execution_time:.5f} seconds",
             }
             logger.info(log_entry)
@@ -72,7 +73,8 @@ def setup_logger(logger_name, log_file_path, log_format):
     formatter = logging.Formatter(log_format)
     file_handler.setFormatter(formatter)
 
-    logger.addHandler(file_handler)
+    if not logger.handlers:
+        logger.addHandler(file_handler)
 
     return logger
 

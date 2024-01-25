@@ -12,7 +12,7 @@ from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .logic.orchestrator import Orchestrator, ExtractionConfiguration
+from .logic.orchestrator import Orchestrator
 from .logic import utils
 
 # necessary due to Windows error. see information for your os here:

@@ -1,10 +1,10 @@
 from datetime import datetime
+from pathlib import Path
 
+from ..logging import log_execution_time
 from ..module import Module
-from .. import utils as u
 from .. import prompts as p
-
-from pandas import DataFrame
+from .. import utils as u
 
 
 class TimeExtractor(Module):
@@ -18,6 +18,7 @@ class TimeExtractor(Module):
         self.name = "Time Extractor"
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
+    @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
         df["start"] = df["event_information"].apply(self.__extract_start_date)
@@ -52,7 +53,7 @@ class TimeExtractor(Module):
             {
                 "role": "user",
                 "content": f"{p.END_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: "
-                f"{row['event_information']} \nThe start date: {row['start']}",
+                           f"{row['event_information']} \nThe start date: {row['start']}",
             },
             {"role": "assistant", "content": p.END_DATE_ANSWER},
         ]

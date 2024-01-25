@@ -1,13 +1,13 @@
-import os
-import random
 from datetime import datetime, timedelta
+import os
+from pathlib import Path
+import random
 
+from ..logging import log_execution_time
 from ..module import Module
 from .. import utils as u
 from .. import constants as c
 from .. import prompts as p
-
-from pandas import DataFrame
 
 
 class PatientJourneyGenerator(Module):
@@ -23,8 +23,8 @@ class PatientJourneyGenerator(Module):
             "Generates a patient journey with the help of the GPT engine."
         )
 
+    @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
-        # TODO: convert to dataframe
         super().execute(_input, patient_journey)
         self.result = self.__create_patient_journey()
 

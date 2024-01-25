@@ -1,7 +1,4 @@
 from abc import ABC, abstractmethod
-from pathlib import Path
-
-from .logging import log_execution_time
 
 
 class Module(ABC):
@@ -22,7 +19,6 @@ class Module(ABC):
         self.patient_journey = None
         self.result = None
 
-    @log_execution_time(Path("extraction/execution_time.log"))
     @abstractmethod
     def execute(self, _input, patient_journey=None):
         """
