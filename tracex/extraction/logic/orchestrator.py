@@ -1,8 +1,9 @@
 import csv
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Optional, List
 
-from . import Module
+from . import Module, logging
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor import TimeExtractor
@@ -84,8 +85,8 @@ class Orchestrator:
         for module in modules:
             module.execute(self.data, self.configuration.patient_journey)
             self.data = module.result
-        # replace with self.data = self.__convert_bulletpoints_to_csv(self.data) when dataframes are implemented
-        return self.data.to_csv(utils.CSV_OUTPUT, index=False)
+        self.data.insert(0, "caseID", 1)
+        self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.

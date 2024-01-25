@@ -2,18 +2,16 @@
 import base64
 import json
 import tempfile
-import time
 import functools
 import warnings
 import pandas as pd
 import pm4py
-from dataclasses import dataclass
 from io import StringIO, BytesIO
-from typing import Optional
 from openai import OpenAI
 
 from .constants import *
 from . import function_calls
+from .logging import log_tokens_used
 
 
 def deprecated(func):
@@ -49,16 +47,22 @@ def query_gpt(
     tool_choice="none",
     temperature=TEMPERATURE_SUMMARIZING,
 ):
-    client = OpenAI(api_key=oaik)
-    """Queries the GPT engine."""
-    response = client.chat.completions.create(
-        model=MODEL,
-        messages=messages,
-        max_tokens=MAX_TOKENS,
-        temperature=temperature,
-        tools=tools,
-        tool_choice=tool_choice,
-    )
+    @log_tokens_used(Path("extraction/tokens_used.log"))
+    def make_api_call():
+        client = OpenAI(api_key=oaik)
+        """Queries the GPT engine."""
+        _response = client.chat.completions.create(
+            model=MODEL,
+            messages=messages,
+            max_tokens=MAX_TOKENS,
+            temperature=temperature,
+            tools=tools,
+            tool_choice=tool_choice,
+        )
+
+        return _response
+
+    response = make_api_call()
     if tool_choice == "none":
         output = response.choices[0].message.content
     else:
@@ -104,20 +108,6 @@ def append_csv():
             f.writelines(row)
 
 
-@deprecated
-@dataclass
-class ExtractionConfiguration:
-    patient_journey: str
-    event_types: list
-    locations: list
-    activity_key: Optional[str] = "event_type"
-
-    def update(self, **kwargs):
-        """Update the configuration with a dictionary."""
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-
-
 class Conversion:
     @staticmethod
     def create_xes(csv_file, name, key):
@@ -157,7 +147,7 @@ class Conversion:
         return xes_html_buffer
 
     @staticmethod
-    def create_dfg_png_from_df(df):
+    def create_dfg_from_df(df):
         """Create png image from xes file."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(

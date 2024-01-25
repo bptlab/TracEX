@@ -42,7 +42,7 @@ class JourneyInputView(generic.FormView):
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
-        cache.set("is_extracted", False)
+        self.request.session["is_extracted"] = False
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
             event_types=form.cleaned_data["event_types"],
@@ -78,7 +78,7 @@ class JourneyGenerationView(generic.FormView):
 
     def form_valid(self, form):
         """Save the generated journey in the orchestrator's configuration."""
-        cache.set("is_extracted", False)
+        self.request.session["is_extracted"] = False
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
             patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
@@ -115,25 +115,37 @@ class ResultView(generic.FormView):
             "attribute_location": orchestrator.configuration.locations,
         }
         is_extracted = (
-            True if cache.get("is_extracted") is None else cache.get("is_extracted")
+            True
+            if self.request.session.get("is_extracted") is None
+            else self.request.session.get("is_extracted")
         )
 
         # 1. Run the pipeline to create the single trace
         if not (IS_TEST or is_extracted):
-            output_path_csv = orchestrator.run()
+            orchestrator.run()
+            single_trace_df = orchestrator.data
+            single_trace_df["caseID"] = single_trace_df["caseID"].astype(str)
+            single_trace_df["start"] = pd.to_datetime(single_trace_df["start"])
+            single_trace_df["end"] = pd.to_datetime(single_trace_df["end"])
+            single_trace_df = single_trace_df.rename(
+                columns={
+                    orchestrator.configuration.activity_key: "concept:name",
+                    "caseID": "case:concept:name",
+                    "start": "time:timestamp",
+                    "end": "time:endDate",
+                    "duration": "time:duration",
+                }
+            )
             output_path_xes = utils.Conversion.create_xes(
-                output_path_csv,
+                utils.CSV_OUTPUT,
                 name="single_trace",
                 key=orchestrator.configuration.activity_key,
             )
         else:
             output_path_xes = (
-                str(utils.output_path / "single_trace")
-                + "_"
-                + orchestrator.configuration.activity_key
-                + ".xes"
+                f"{str(utils.output_path / 'single_trace')}_event_type.xes"
             )
-        single_trace_df = pm4py.read_xes(output_path_xes)
+            single_trace_df = pm4py.read_xes(output_path_xes)
 
         # 2. Sort and filter the single journey dataframe
         single_trace_df = self.sort_dataframe(single_trace_df)
@@ -156,17 +168,17 @@ class ResultView(generic.FormView):
             }
         )
         context["journey"] = orchestrator.configuration.patient_journey
-        context["dfg_img"] = utils.Conversion.create_dfg_png_from_df(output_df_filtered)
+        context["dfg_img"] = utils.Conversion.create_dfg_from_df(output_df_filtered)
         context["xes_html"] = utils.Conversion.create_html_from_xes(
             output_df_filtered
         ).getvalue()
-        context["all_dfg_img"] = utils.Conversion.create_dfg_png_from_df(
+        context["all_dfg_img"] = utils.Conversion.create_dfg_from_df(
             all_traces_df_filtered
         )
         context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
-        cache.set("is_extracted", True)
+        self.request.session["is_extracted"] = False
 
         return context
 
