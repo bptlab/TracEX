@@ -218,51 +218,57 @@ FC_DURATION_PROMPT = """
 
 # Adding of a event type to every bulletpoint
 EVENT_TYPE_CONTEXT = """
-    You are an expert in text categorization and your job is to take a given bulletpoint and to add one of given event type to it.
-    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
-    It is important, that every bulletpoint gets an event type.
+    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given event type to every bulletpoint.
+    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
+    It is important, that every bullet point gets an event type.
     Furthermore it is really important, that that event type is correct and not 'Other'.
-    The only output should be the event type!
+    The only output should be the updated bullet points, nothing else!
 """
 EVENT_TYPE_PROMPT = """
-    Here is the bulletpoint for which you should extract the event type.
-    Explain step by step your conclusions your choice of location: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
+    You will be given a bulletpoint of a patient journey.
+    Classify the bulletpoint into one of the following event types: Symptom Onset, Symptom Offset, Diagnosis, Doctor visit, Treatment, Hospital stay, Medication, Lifestyle Change and Feelings.
+    Return only the name of the event type, and nothing else.
+    MAKE SURE your output is one of the nine event types stated. ONLY return the name of the event type, and nothing else!
+
 """
 EVENT_TYPE_ANSWER = """
     For example for the bulletpoint 'visiting doctor's' you should return 'Doctors Visit'.
     For 'testing positive for Covid19' you should return 'Diagnosis' and for 'getting hospitalized' you should return 'Hospital stay'.
 """
-FC_EVENT_TYPE_CONTEXT = """
-    You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
-    'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
-"""
-FC_EVENT_TYPE_PROMPT = """
-    Please extract the following event type of the text without changing the given format:
-"""
+# FC_EVENT_TYPE_CONTEXT = """
+#     You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
+#     'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
+# """
+# FC_EVENT_TYPE_PROMPT = """
+#     Please extract the following event type of the text without changing the given format:
+# """
 
 # Adding of a location type to every bulletpoint
 LOCATION_CONTEXT = """
-    You are an expert in text categorization and your job is to take a given bulletpoint and a category and to add one of given locations to it.
+    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given locations to every bulletpoint.
     The given locations are 'Home', 'Hospital' and 'Doctors'.
-    Take the category but also the content of the bulletpoint into account.
     If it is unclear, where the person is, please use 'Home'.
-    It is important, that every bulletpoint gets a location.
-    Furthermore it is really important, that that location is correct.
-    The only output should be the location.
+    It is important, that every bullet point gets an event type.
+    Furthermore it is really important, that that event type is correct.
+    The only (!) output should be the updated bullet points, nothing else!
+    Please do not add a phrase like "here are your bulletpoints" or something like that..
 """
 LOCATION_PROMPT = """
-    Here is the bulletpoint for which you should extract the location.
-    Explain step by step your conclusions your choice of location: 'Home' or 'Hospital' or 'Doctors' or 'Other'.
+    You will be given a bulletpoint and the according event type of a patient journey.
+    Classify the bulletpoint into one of the following locations: Home, Hospital and Doctors.
+    Return only the name of the location, and nothing else.
+    MAKE SURE your output is one of the three locations stated. ONLY return the name of the location, and nothing else!
+    Here is the bulletpoint and the event type for which you should extract the location:
 """
 LOCATION_ANSWER = """
     For example for the bulletpoints 'visiting doctor's', you should return 'Doctors'.
     For the point 'testing positive for Covid19', you also should return 'Doctors'.
     For 'getting hospitalized' the output is 'Hospital'.
 """
-FC_LOCATION_CONTEXT = """
-    You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
-    The only possible locations are 'Home', 'Hospital', 'Doctors' and 'Other'.
-"""
-FC_LOCATION_PROMPT = """
-    Please extract the following location of the text without changing the given date format:
-"""
+# FC_LOCATION_CONTEXT = """
+#     You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
+#     The only possible locations are 'Home', 'Hospital', 'Doctors' and 'Other'.
+# """
+# FC_LOCATION_PROMPT = """
+#     Please extract the following location of the text without changing the given date format:
+# """

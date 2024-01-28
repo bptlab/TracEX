@@ -175,19 +175,19 @@ def add_event_types(df):
             },
             {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
         ]
-        output = u.query_gpt(messages)
+        event_type = u.query_gpt(messages)
 
-        fc_message = [
-            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
-            {"role": "user", "content": p.FC_EVENT_TYPE_PROMPT + "The text: " + output},
-        ]
-        event_type = u.query_gpt(
-            fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_event_type"}},
-        )
+        # fc_message = [
+        #     {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
+        #     {"role": "user", "content": p.FC_EVENT_TYPE_PROMPT + "The text: " + output},
+        # ]
+        # event_type = u.query_gpt(
+        #     fc_message,
+        #     tool_choice={"type": "function", "function": {"name": "add_event_type"}},
+        # )
         new_row = pd.DataFrame([event_type], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
-        document_intermediates(output)
+        document_intermediates(event_type)
     df = pd.concat([df, new_df], axis=1)
     return df
 
@@ -211,16 +211,16 @@ def add_locations(df):
             },
             {"role": "assistant", "content": p.LOCATION_ANSWER},
         ]
-        output = u.query_gpt(messages)
+        location = u.query_gpt(messages)
 
-        fc_message = [
-            {"role": "system", "content": p.FC_LOCATION_CONTEXT},
-            {"role": "user", "content": p.FC_LOCATION_PROMPT + "The text: " + output},
-        ]
-        location = u.query_gpt(
-            fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_location"}},
-        )
+        # fc_message = [
+        #     {"role": "system", "content": p.FC_LOCATION_CONTEXT},
+        #     {"role": "user", "content": p.FC_LOCATION_PROMPT + "The text: " + output},
+        # ]
+        # location = u.query_gpt(
+        #     fc_message,
+        #     tool_choice={"type": "function", "function": {"name": "add_location"}},
+        # )
         new_row = pd.DataFrame([location], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
         document_intermediates(output)

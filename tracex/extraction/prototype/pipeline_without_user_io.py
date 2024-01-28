@@ -1,7 +1,6 @@
 """Module to run the pipeline without user interaction."""
 import input_inquiry as ii
 import input_handling as ih
-import output_handling as oh
 import utils as u
 
 
@@ -10,7 +9,6 @@ def run_pipeline():
     input_text = ii.create_patient_journey()
     u.pause_between_queries()
     ih.convert_text_to_csv(input_text)
-    oh.get_output_without_user_io()
 
 
 REPS = 1

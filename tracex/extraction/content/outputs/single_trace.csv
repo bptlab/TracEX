@@ -1,9 +1,9 @@
-case_id,event_information,start_date,end_date,duration,event_type,attribute_location
-0,"experiencing first Covid-19 symptoms: mild cough, fatigue",20220601T0000,20220608T0000,168:00:00,Symptom Onset,Home
-0,brushing off symptoms as common cold,20220601T0000,20220608T0000,168:00:00,Other,Home
-0,developing high fever and difficulty breathing,20220601T0000,20220611T0000,240:00:00,Symptom Onset,Hospital
-0,deciding to get tested for Covid-19,20220601T0000,20220617T0000,384:00:00,Diagnosis,Doctors
-0,going to local testing center,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
-0,undergoing PCR test,20220617T0000,20220617T0000,00:00:00,Diagnosis,Home
-0,receiving negative test results,20220617T0000,20220619T0000,48:00:00,Diagnosis,Doctors
-0,getting infected and testing positive,20220617T0000,20220617T0000,00:00:00,Symptom Onset,Home
+case_id,event_information,event_type,location,"(token1, lin_prob1)","(token2, lin_prob2)"
+0,experiencing first Covid-19 symptoms in June 2022,Symptom Onset,Doctors,"('Doctors', 47.42)","('Home', 45.07)"
+0,brushing off symptoms as common cold,Lifestyle Change,Home,"('Home', 86.14)","('Doctors', 12.56)"
+0,developing high fever and difficulty breathing,Symptom Onset,Doctors,"('Doctors', 68.56)","('Hospital', 13.31)"
+0,getting tested for Covid-19,Diagnosis,Doctors,"('Doctors', 91.6)","('Hospital', 3.18)"
+0,visiting local testing center,Doctor visit,Doctors,"('Doctors', 99.36)","('Doctor', 0.27)"
+0,undergoing PCR test,Diagnosis,Doctors,"('Doctors', 82.7)","('Di', 7.96)"
+0,receiving negative test results,"The bulletpoint ""receiving negative test results"" can be classified as ""Symptom Offset"".",Doctors,"('Doctors', 55.6)","('Home', 39.8)"
+0,getting infected and testing positive,Diagnosis,Doctors,"('Doctors', 90.93)","('Hospital', 3.57)"
