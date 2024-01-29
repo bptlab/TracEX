@@ -43,9 +43,10 @@ def get_decision(question):
 
 def query_gpt(
     messages,
+    max_tokens=MAX_TOKENS,
+    temperature=TEMPERATURE_SUMMARIZING,
     tools=function_calls.TOOLS,
     tool_choice="none",
-    temperature=TEMPERATURE_SUMMARIZING,
 ):
     @log_tokens_used(Path("extraction/logs/tokens_used.log"))
     def make_api_call():
@@ -54,7 +55,7 @@ def query_gpt(
         _response = client.chat.completions.create(
             model=MODEL,
             messages=messages,
-            max_tokens=MAX_TOKENS,
+            max_tokens=max_tokens,
             temperature=temperature,
             tools=tools,
             tool_choice=tool_choice,

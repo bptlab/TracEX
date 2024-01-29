@@ -6,7 +6,7 @@ from typing import Optional, List
 from . import Module, logging
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
-from .modules.module_time_extractor import TimeExtractor
+from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
@@ -28,7 +28,7 @@ class ExtractionConfiguration:
         "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
         "event_type_classification": EventTypeClassifier,
-        "time_extraction": TimeExtractor,
+        "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
     }
     activity_key: Optional[str] = "event_type"

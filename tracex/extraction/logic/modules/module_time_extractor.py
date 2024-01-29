@@ -36,6 +36,7 @@ class TimeExtractor(Module):
             {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]
         output = u.query_gpt(messages)
+        print(output + "\n")
         fc_message = [
             {"role": "system", "content": p.FC_START_DATE_CONTEXT},
             {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},

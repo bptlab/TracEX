@@ -115,7 +115,7 @@ class ResultView(generic.FormView):
             "attribute_location": orchestrator.configuration.locations,
         }
         is_extracted = (
-            True
+            False
             if self.request.session.get("is_extracted") is None
             else self.request.session.get("is_extracted")
         )
@@ -124,6 +124,7 @@ class ResultView(generic.FormView):
         if not (IS_TEST or is_extracted):
             orchestrator.run()
             single_trace_df = orchestrator.data
+            print(single_trace_df)
             single_trace_df["caseID"] = single_trace_df["caseID"].astype(str)
             single_trace_df["start"] = pd.to_datetime(single_trace_df["start"])
             single_trace_df["end"] = pd.to_datetime(single_trace_df["end"])
@@ -141,6 +142,7 @@ class ResultView(generic.FormView):
                 name="single_trace",
                 key=orchestrator.configuration.activity_key,
             )
+            self.request.session["is_extracted"] = True
         else:
             output_path_xes = (
                 f"{str(utils.output_path / 'single_trace')}_event_type.xes"
@@ -178,7 +180,6 @@ class ResultView(generic.FormView):
         context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
-        self.request.session["is_extracted"] = False
 
         return context
 
