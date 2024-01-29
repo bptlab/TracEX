@@ -36,7 +36,6 @@ class TimeExtractor(Module):
             {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]
         output = u.query_gpt(messages)
-        print(output + "\n")
         fc_message = [
             {"role": "system", "content": p.FC_START_DATE_CONTEXT},
             {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
@@ -54,7 +53,7 @@ class TimeExtractor(Module):
             {
                 "role": "user",
                 "content": f"{p.END_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: "
-                           f"{row['event_information']} \nThe start date: {row['start']}",
+                f"{row['event_information']} \nThe start date: {row['start']}",
             },
             {"role": "assistant", "content": p.END_DATE_ANSWER},
         ]

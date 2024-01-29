@@ -124,7 +124,6 @@ class ResultView(generic.FormView):
         if not (IS_TEST or is_extracted):
             orchestrator.run()
             single_trace_df = orchestrator.data
-            print(single_trace_df)
             single_trace_df["caseID"] = single_trace_df["caseID"].astype(str)
             single_trace_df["start"] = pd.to_datetime(single_trace_df["start"])
             single_trace_df["end"] = pd.to_datetime(single_trace_df["end"])

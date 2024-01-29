@@ -36,7 +36,9 @@ class TimeExtractorBackup(Module):
         ]
         start_date = u.query_gpt(messages)
         print(start_date + "\n")
-        assert self.is_valid_date_format(start_date, "%Y%m%dT%H%M") is True, f"Date {start_date} has no valid format."
+        assert (
+            self.is_valid_date_format(start_date, "%Y%m%dT%H%M") is True
+        ), f"Date {start_date} has no valid format."
 
         return start_date
 
@@ -45,13 +47,15 @@ class TimeExtractorBackup(Module):
             {"role": "system", "content": END_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": f"\nThe text: {self.patient_journey} \nThe bulletpoint: "
-                           f"{row['event_information']} \nThe start date: {row['start']}",
+                "content": f"\nThe text: {self.patient_journey} \nThe activity label: "
+                f"{row['event_information']} \nThe start date: {row['start']}",
             },
         ]
         end_date = u.query_gpt(messages)
         print(end_date + "\n")
-        assert self.is_valid_date_format(end_date, "%Y%m%dT%H%M") is True, f"Date {end_date} has no valid format."
+        assert (
+            self.is_valid_date_format(end_date, "%Y%m%dT%H%M") is True
+        ), f"Date {end_date} has no valid format."
 
         return end_date
 
@@ -75,6 +79,7 @@ class TimeExtractorBackup(Module):
         except ValueError:
             return False
 
+
 # START_DATE_CONTEXT = """
 #     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
 #     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
@@ -92,15 +97,16 @@ class TimeExtractorBackup(Module):
 # """
 
 START_DATE_CONTEXT = """
-    You are provided with a natural language text containing various events. Your task is to identify the start date of 
-    a specific activity mentioned in the text. The activity label will be provided, and it is your job to extract only 
-    the start date associated with this activity from the text. 
+    You are provided with a natural language text containing various events. Your task is to identify the start date of
+    a specific activity mentioned in the text. The activity label will be provided, and it is your job to extract only
+    the start date associated with this activity from the text.
     Under no circumstances put anything else in the ouptut apart from the extracted start date.
     Please follow the following rules:
     1. The format of the date should always be YYYYMMDDT0000. For example, 20200101T0000.
-    2. If only a month in mentioned then the date should always be the first day of the month. For example for March it should be 20200301T0000.
+    2. If only a month is mentioned then the date should always be the first day of the month. For example for March it should be 20200301T0000.
     3. If the date is mentioned in a different format, please convert it to the format mentioned above.
-    4. Also consider context information from previous activities and their start dates.
+    4. Translate formulations like "the next day" or "over the following weeks" to the corresponding date.
+    5. Also consider context information from previous activities and their start dates.
 """
 
 # END_DATE_CONTEXT = """
@@ -118,16 +124,15 @@ START_DATE_CONTEXT = """
 # """
 
 END_DATE_CONTEXT = """
-    You are provided with a natural language text containing various events. Your task is to identify the end date of 
-    a specific activity mentioned in the text. The activity label and the corresponding start date will be provided, 
-    and it is your job to extract only the end date associated with this activity from the text. 
+    You are provided with a natural language text containing various events. Your task is to identify the end date of
+    a specific activity mentioned in the text. The activity label and the corresponding start date will be provided,
+    and it is your job to extract only the end date associated with this activity from the text.
     Under no circumstances put anything else in the ouptut apart from the extracted end date.
     Please follow the following rules:
     1. The format of the date should always be YYYYMMDDT0000. For example, 20200101T0000.
     2. If only a month in mentioned then the date should always be the first day of the month. For example for March it should be 20200301T0000.
     3. If the date is mentioned in a different format, please convert it to the format mentioned above.
-    4. Also consider context information from previous activities and their start dates and end dates. The end dates should
-    follow logically from the start dates.
-    5. End dates can not be earlier than the start dates.
+    4. Translate formulations like "the next day" or "over the following weeks" to the corresponding date.
+    5. Also consider context information from previous activities and their start dates and end dates.
+    6. End dates can not be earlier than the start dates.
 """
-
