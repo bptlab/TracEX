@@ -41,7 +41,9 @@ def get_sex():
 def get_country():
     """Randomizing country."""
     message = [{"role": "user", "content": "Please give me one european country."}]
-    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.2)
+    country = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.2
+    )
     return country.choices[0].message.content
 
 
@@ -53,14 +55,18 @@ def get_date():
             "content": "Please give me one date between 01/01/2020 and 01/09/2023.",
         }
     ]
-    country = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=50, temperature=0.5)
+    country = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=50, temperature=0.5
+    )
     return country.choices[0].message.content
 
 
 def get_life_circumstances(sex):
     """Randomizing life circumstances."""
     message = [{"role": "user", "content": life_circumstances_prompt(sex)}]
-    life_circumstances = client.chat.completions.create(model=u.MODEL, messages=message, max_tokens=100, temperature=1)
+    life_circumstances = client.chat.completions.create(
+        model=u.MODEL, messages=message, max_tokens=100, temperature=1
+    )
     return life_circumstances.choices[0].message.content
 
 
@@ -87,21 +93,20 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
     Please include 100 to 400 words, but not more than 400.
 """
 
-# Conversion of a text to bullet points focused on the course of a disease
-TXT_TO_BULLETPOINTS_CONTEXT = """
-    You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
-    Every bullet point has to be a short description that must not longer than 4 words.
+# Conversion of a text to bulletpoints focused on the course of a disease
+TEXT_TO_EVENTINFORMATION_CONTEXT = """
+    You are a summarizing expert for diseases and your job is to summarize a given text into event information regarding all important points about the course of the disease.
+    Every event information has to be a short description that must not longer than 6 words.
     Every information that is not important for the course of the disease should be discarded!
-    The bulletpoints have to be kept in present continous tense and should begin with a verb!
+    The event info has to be kept in present continous tense and should begin with a verb!
     You must not include any dates or information about the time and focus on the main aspects you want to convey.
-    You should not take two actions in one bullet point, but rather split them into two.
-    Do not put commas in the bulletpoints. Try not to include enumerations. If absolutely necessary use slashes for enumeration.
-    Do not put any punctuation to the end of the bullet points.
+    You should not take two actions in one event information, but rather split them into two.
+    Try not to include enumerations.
 """
-TXT_TO_BULLETPOINTS_PROMPT = """
-    Here is the text from which you should extract bullet points:
+TEXT_TO_EVENTINFORMATION_PROMPT = """
+    Here is the text from which you should extract event information:
 """
-TXT_TO_BULLETPOINTS_ANSWER = """
+TEXT_TO_EVENTINFORMATION_ANSWER = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
@@ -115,70 +120,74 @@ TXT_TO_BULLETPOINTS_ANSWER = """
 """
 
 
-# Adding of a start date to every bullet point
-BULLETPOINTS_START_DATE_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
-    The information about the start date should be extracted from the text or from the context and should be as precise as possible.
-    Do not modify the content of the bulletpoint and keep ending commas.
+# Adding of a start date to every bulletpoint
+START_DATE_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text and a given bulletpoint and to extract a start date to this bulletpoint.
+    Just output the extracted start date.
+    The date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
-    Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one.
-    Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
-    If the text talks about getting medication and then improving and the bullet point says 'improving', you should return the date of getting the medication as start date.
-    If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
+    If the text talks about getting medication and then improving and the bulletpoint says 'improving', you should return the date of getting the medication as start date.
+    If there is a conclusion at the end of the text and an outlook set the start date of the last bulletpoint to the start date of the corresponding bulletpoint.
     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
     use that information to draw conclusions about the start dates.
-    If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
-    The only output should be the updated bullet points, nothing else!
+    If there is only a month specified, use the first of this month as start date. If there is no date specified in the text conclude 'N/A'.
 """
-BULLETPOINTS_START_DATE_PROMPT = """
-    Here is the text and the bulletpoints for which you should extract start dates:
+START_DATE_PROMPT = """
+    Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000!
+    In case that you are not able to find a start date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
+    Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
-BULLETPOINTS_START_DATE_ANSWER = """
+START_DATE_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19.' and the bullet points
-    '- experiencing mild symptoms,\n- visiting doctor's,\n- testing positive for Covid19,' you should return
-    '- experiencing mild symptoms, 20200401T0000\n- visiting doctor's, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
-    Accordingly for the same text and the bullet points '- experiencing first symptoms: 01/04/2020,\n- going to doctor four days later,\n- testing positive for Covid19,' you should return
-    '- experiencing first symptoms, 20200401T0000\n- going to doctor, 20200405T0000\n- testing positive for Covid19, 20200405T0000'.
-    If the text says 'A year after the vaccine was introduced, I got vaccined myself' and a bullet point says 'got vaccined',
-    you should take online information about when a vaccine was introduced in the country the author is from into account and put that as start date.
-    When the considered vaccine was introduced on 01/01/2021, you should return '- getting vaccined, 20220101T0000', as the author said, that he waited a year.
-    If the text says something like "I got medication on the fith of july. Nevertheless my health wasn't improving in any way." and the bulletpoints are
-    '- getting medication,\n- worsening health' you should return '- getting medication, 20200705T0000\n- worsening health, 20200705T0000'.
+    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.' and the bulletpoints
+    'experiencing mild symptoms' you should return '20200401T0000'.
+    If the bulletpoint is 'testing positive for Covid19' you should return '20200405T0000'.
+    The bulletpoint 'getting infected again' has only specified the month therefore the day is always the first of month and should be returned as '20200601T0000'.
+    Futhermore the bulletpoint 'having back pain' hasn't specified a date in the text and context, therefore the date ist 'N/A'.
+"""
+FC_START_DATE_CONTEXT = """
+   You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
+"""
+FC_START_DATE_PROMPT = """
+    What is the start date of given bulletpoint in the format YYYYMMDDT000 (e.g. 20200101T000). If no start date is available extract N/A.
 """
 
-
-# Adding of a end date to every bullet point
-BULLETPOINTS_END_DATE_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
-    It is important, that every bullet point gets an end date, even if it is the same as the start date.
-    Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
+# Adding of a end date to every bulletpoint
+END_DATE_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text and a given bulletpoint with a start date and to extract a end date to this bulletpoint.
+    It is important, that an end date is extracted, even if it is the same as the start date.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
     If the duration of an event is given, use that information to draw conclusions about the end date.
     If the duration of an event is not given, use the context to draw conclusions about the end date.
-    If two bulletpoints are related, it is possible, that the end dates should match.
     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
     If there is no information about the end date at all, please state the start date also as the end date.
-    The only output should be the updated bullet points, nothing else!
+    Only return the date! Nothing else!
 """
-BULLETPOINTS_END_DATE_PROMPT = """
-    Here is the text and the bulletpoints for which you should extract end dates:
+END_DATE_PROMPT = """
+    Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000!
+    In case that you are not able to find a end date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
+    Explain step by step your conclusions if the end date YYYYMMDDTHHMM is available, if not calculate the average time of the activity and add this on the start date resulting as the end date.
 """
-BULLETPOINTS_END_DATE_ANSWER = """
+END_DATE_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
-    and the bullet points '(visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000), (getting hospitalized, 20200405T0000)' you should return
-    '(visiting doctor's, 20200405T0000, 20200405T0000), (testing positive for Covid19, 20200405T0000, 20200405T0000), (getting hospitalized, 20200405T0000, 20200419T0000)'.
-    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 20210710T0000)'.
+    and the bulletpoint 'visiting doctor's' with the start date '20200405T0000' you should only return '20200405T0000'.
+    For the bulletpoint 'testing positive for Covid19' with the start date '20200405T0000' you should only return '20200405T0000'.
+    For the bulletpoint 'getting hospitalized' with the start date '20200405T0000' you should only return '20200419T0000'.
+
+    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
+"""
+FC_END_DATE_CONTEXT = """
+    You are an expert in extracting information. You easily detect the end dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
+"""
+FC_END_DATE_PROMPT = """
+    Please extract the following end date of the text without changing the given date format:
 """
 
-
-# Adding of a duration to every bullet point
-BULLETPOINTS_DURATION_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date, to add a duration to every bulletpoint.
-    It is important, that every bullet point gets a duration, even if the duration is zero, as the event happens only in a moment.
-    Edit the bulletpoints in a way, that you just add (!) the duration to the existing bulletpoints.
+# Adding of a duration to every bulletpoint
+DURATION_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoint with a start and end date and to add a duration to this bulletpoint.
+    It is important, that the bulletpoint gets a duration, even if the duration is zero, as the event happens only in a moment.
     The information about the duration should be extracted from the text or from the context and should be as precise as possible.
     Please use the format HH:MM:SS for the durations.
     If the duration of an event is given, use that information directly.
@@ -186,55 +195,74 @@ BULLETPOINTS_DURATION_CONTEXT = """
     If the duration is given in days, weeks or months, convert it to hours.
     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
     If there is no information about duration at all, please state that by computing the duration as the timedelta between the start and the end date (or 00:00:00).
-    The only output should be the updated bullet points, nothing else!
-    Please never replace anything with the duration, just add it at the back of the bullet point.
+    The only output should be the duration, nothing else!
 """
-BULLETPOINTS_DURATION_PROMPT = """
-    Here is the text and the bulletpoints with their start dates for which you should extract the durations:
+DURATION_PROMPT = """
+    Here is the text and the bulletpoints with their start dates for which you should extract the durations in the format HHH:MM:SS. Be sure to use this format and to convert days or weeks in hours!
 """
-BULLETPOINTS_DURATION_ANSWER = """
-    For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
-    and the bullet points '(visiting doctor's, 20200405T0000), (testing positive for Covid19, 20200405T0000), (getting hospitalized, 20200405T0000)' you could return
-    '(visiting doctor's, 20200405T0000, 02:00:00), (testing positive for Covid19, 20200405T0000, 00:00:00), (getting hospitalized, 20200405T0000, 03:00:00)'.
-    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint '(improving mental wellbeing, 20210610T0000)' could be updated to '(improving mental wellbeing, 20210610T0000, 720:00:00)'.
+DURATION_ANSWER = """
+    For example for the text
+    'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
+    and the bulletpoint 'visiting doctor's' with the start date '20200405T0000' and the end date '20200405T0000' you should return '02:00:00' as this is a reasonable duration for a doctor's visit.
+    For the bulletpoint 'testing positive for Covid19' with the start date '20200405T0000' and the end date '20200405T0000' you should return '00:30:00' as this is a reasonable duration for a Covid19 testing.
+    For 'getting hospitalized', start date: '20200405T0000', end date: '20200419T0000' you return '336:00:00' as this is the convertion of 14 days into hours.
+    The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with start on '20210610T0000' and end on '20210624T0000' should return '336:00:00'.
+"""
+FC_DURATION_CONTEXT = """
+    You are an expert in extracting information. You easily detect durations in the format HHH:MM:SS and extract them as they are without changing any format.
+"""
+FC_DURATION_PROMPT = """
+    Please extract the following duration of the text without changing the given date format:
 """
 
 
-# Adding of a event type to every bullet point
-BULLETPOINTS_EVENT_TYPE_CONTEXT = """
-    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given event type to every bulletpoint.
-    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
-    It is important, that every bullet point gets an event type.
+# Adding of a event type to every bulletpoint
+EVENT_TYPE_CONTEXT = """
+    You are an expert in text categorization and your job is to take a given bulletpoint and to add one of given event type to it.
+    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
+    It is important, that every bulletpoint gets an event type.
     Furthermore it is really important, that that event type is correct and not 'Other'.
-    The only output should be the updated bullet points, nothing else!
+    The only output should be the event type!
 """
-BULLETPOINTS_EVENT_TYPE_PROMPT = """
-    Here are the bulletpoints for which you should extract the event types:
+EVENT_TYPE_PROMPT = """
+    Here is the bulletpoint for which you should extract the event type.
+    Explain step by step your conclusions your choice of location: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
 """
-BULLETPOINTS_EVENT_TYPE_ANSWER = """
-    For example for the bulletpoints '(visiting doctor's, 20200405T0000, 02:00:00), (testing positive for Covid19, 20200405T0000, 00:00:00),
-    (getting hospitalized, 20200405T0000, 03:00:00)' you should return
-    '(visiting doctor's, 20200405T0000, 02:00:00, Doctors Visit), (testing positive for Covid19, 20200405T0000, 00:00:00, Diagnosis),
-    (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission)'.
+EVENT_TYPE_ANSWER = """
+    For example for the bulletpoint 'visiting doctor's' you should return 'Doctors Visit'.
+    For 'testing positive for Covid19' you should return 'Diagnosis' and for 'getting hospitalized' you should return 'Hospital stay'.
+"""
+FC_EVENT_TYPE_CONTEXT = """
+    You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
+    'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
+"""
+FC_EVENT_TYPE_PROMPT = """
+    Please extract the following event type of the text without changing the given format:
 """
 
-
-# Adding of a location type to every bullet point
-BULLETPOINTS_LOCATION_CONTEXT = """
-    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given locations to every bulletpoint.
+# Adding of a location type to every bulletpoint
+LOCATION_CONTEXT = """
+    You are an expert in text categorization and your job is to take a given bulletpoint and a category and to add one of given locations to it.
     The given locations are 'Home', 'Hospital' and 'Doctors'.
+    Take the category but also the content of the bulletpoint into account.
     If it is unclear, where the person is, please use 'Home'.
-    It is important, that every bullet point gets an event type.
-    Furthermore it is really important, that that event type is correct.
-    The only (!) output should be the updated bullet points, nothing else!
-    Please do not add a phrase like "here are your bulletpoints" or something like that.
+    It is important, that every bulletpoint gets a location.
+    Furthermore it is really important, that that location is correct.
+    The only output should be the location.
 """
-BULLETPOINTS_LOCATION_PROMPT = """
-    Here are the bulletpoints for which you should extract the event types:
+LOCATION_PROMPT = """
+    Here is the bulletpoint for which you should extract the location.
+    Explain step by step your conclusions your choice of location: 'Home' or 'Hospital' or 'Doctors' or 'Other'.
 """
-BULLETPOINTS_LOCATION_ANSWER = """
-    For example for the bulletpoints '(visiting doctor's, 20200405T0000, 02:00:00, Doctors Visit), (testing positive for Covid19, 20200405T0000, 00:00:00, Diagnosis),
-    (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission)' you should return
-    '(visiting doctor's, 20200405T0000, 02:00:00, Doctors Visit, Doctors), (testing positive for Covid19, 20200405T0000, 00:00:00, Diagnosis, Doctors),
-    (getting hospitalized, 20200405T0000, 03:00:00, Hospital admission, Hospital)'.
+LOCATION_ANSWER = """
+    For example for the bulletpoints 'visiting doctor's', you should return 'Doctors'.
+    For the point 'testing positive for Covid19', you also should return 'Doctors'.
+    For 'getting hospitalized' the output is 'Hospital'.
+"""
+FC_LOCATION_CONTEXT = """
+    You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
+    The only possible locations are 'Home', 'Hospital', 'Doctors' and 'Other'.
+"""
+FC_LOCATION_PROMPT = """
+    Please extract the following location of the text without changing the given date format:
 """
