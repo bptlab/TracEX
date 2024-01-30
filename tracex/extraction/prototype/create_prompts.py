@@ -5,8 +5,6 @@ import utils as u
 client = OpenAI(api_key=u.oaik)
 
 
-
-
 NEW_PROMPTS_CONTEXT = """
     You are an expert prompt engineer for gpt-3.5-turbo. You are tasked with creating the best possible prompts for given tasks.
     Your prompts should consist of three parts, one for the system, one for user and one for assistant.
@@ -22,10 +20,12 @@ messages = [
     {"role": "user", "content": NEW_PROMPTS_PROMPT},
     {"role": "assistant", "content": NEW_PROMPTS_ANSWER},
 ]
-new_prompts = client.chat.completions.create(model=u.MODEL,
-messages=messages,
-max_tokens=u.MAX_TOKENS,
-temperature=u.TEMPERATURE_CREATION)
+new_prompts = client.chat.completions.create(
+    model=u.MODEL,
+    messages=messages,
+    max_tokens=u.MAX_TOKENS,
+    temperature=u.TEMPERATURE_CREATION,
+)
 output = new_prompts.choices[0].message.content
 with open(
     (u.output_path / "new_prompts.txt"),

@@ -16,19 +16,19 @@ def get_activity_key():
     return get_activity_key()
 
 
-def create_xes(csv_file, name, key):
+def create_xes(csv_file, name="all_traces", key="event_type"):
     """Creates a xes with all traces from the regarding csv."""
     dataframe = pd.read_csv(csv_file, sep=",")
-    dataframe["caseID"] = dataframe["caseID"].astype(str)
-    dataframe["start"] = pd.to_datetime(dataframe["start"])
-    dataframe["end"] = pd.to_datetime(dataframe["end"])
+    dataframe["case_id"] = dataframe["case_id"].astype(str)
+    dataframe["start_date"] = pd.to_datetime(dataframe["start_date"])
+    dataframe["end_date"] = pd.to_datetime(dataframe["end_date"])
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
     dataframe = dataframe.rename(
         columns={
             key: "concept:name",
-            "caseID": "case:concept:name",
-            "start": "time:timestamp",
-            "end": "time:endDate",
+            "case_id": "case:concept:name",
+            "start_date": "time:timestamp",
+            "end_date": "time:end_date",
             "duration": "time:duration",
         }
     )

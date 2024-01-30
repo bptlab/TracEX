@@ -5,7 +5,6 @@ from . import utils as u
 from . import prompts as p
 
 
-
 def greeting():
     """Prints a greeting message."""
     print(
@@ -59,7 +58,7 @@ def create_patient_journey():
         {"role": "system", "content": p.create_patient_journey_context()},
         {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
     ]
-    patient_journey_txt = u.query_gpt(messages, u.TEMPERATURE_CREATION)
+    patient_journey_txt = u.query_gpt(messages=messages, temperature=u.TEMPERATURE_CREATION)
     i = 0
     proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
     output_path = u.input_path / proposed_filename

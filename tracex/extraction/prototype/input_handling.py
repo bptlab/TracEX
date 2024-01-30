@@ -1,215 +1,299 @@
 """Module providing functions for converting text to CSV."""
-import csv
+from datetime import datetime
+
+import pandas as pd
 
 from . import utils as u
 from . import prompts as p
 
 
-
-def convert_text_to_csv(inp):
+def convert_text_to_csv(text):
     """Converts the input to CSV with intermediate steps."""
     steps = str(7)
     print("Converting Data: Summarizing the text. (1/" + steps + ")", end="\r")
-    bulletpoints = convert_text_to_bulletpoints(inp)
+    dataframe = convert_text_to_bulletpoints(text)
     print(
         "Converting Data: Extracting start date information. (2/" + steps + ")",
         end="\r",
     )
     u.pause_between_queries()
-    bulletpoints_start = add_start_dates(inp, bulletpoints)
+    dataframe = add_start_dates(text, dataframe)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
     u.pause_between_queries()
-    bulletpoints_end = add_end_dates(inp, bulletpoints_start)
+    dataframe = add_end_dates(text, dataframe)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
     u.pause_between_queries()
-    bulletpoints_duration = add_durations(inp, bulletpoints_end)
+    dataframe = add_durations(dataframe)
     print(
         "Converting Data: Extracting event types. (5/" + steps + ")          ", end="\r"
     )
     u.pause_between_queries()
-    bulletpoints_event_type = add_event_types(bulletpoints_duration)
+    dataframe = add_event_types(dataframe)
     print(
         "Converting Data: Extracting location information. (6/" + steps + ")", end="\r"
     )
     u.pause_between_queries()
-    bulletpoints_location = add_locations(bulletpoints_event_type)
+    dataframe = add_locations(dataframe)
     print(
         "Converting Data: Creating output CSV. (7/" + steps + ")             ", end="\r"
     )
-    output_path = convert_bulletpoints_to_csv(bulletpoints_location)
+    output_path = convert_dataframe_to_csv(dataframe)
     print("Dataconversion finished.                    ")
+    output_csv(dataframe)
     return output_path
 
 
-def convert_text_to_bulletpoints(inp):
+def convert_text_to_bulletpoints(text):
     """Converts the input text to bulletpoints."""
     messages = [
-        {"role": "system", "content": p.TXT_TO_BULLETPOINTS_CONTEXT},
-        {"role": "user", "content": p.TXT_TO_BULLETPOINTS_PROMPT + inp},
-        {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
+        {"role": "system", "content": p.TEXT_TO_EVENTINFORMATION_CONTEXT},
+        {"role": "user", "content": p.TEXT_TO_EVENTINFORMATION_PROMPT + text},
+        {"role": "assistant", "content": p.TEXT_TO_EVENTINFORMATION_ANSWER},
     ]
     bulletpoints = u.query_gpt(messages)
-    bulletpoints = remove_commas(bulletpoints)
-    bulletpoints = add_ending_commas(bulletpoints)
-    with open((u.output_path / "intermediates/1_bulletpoints.txt"), "w") as f:
-        f.write(bulletpoints)
-    return bulletpoints
+    df = pd.DataFrame([], columns=["event_information"])
+    bulletpoints = bulletpoints.replace("- ", "")
+    bulletpoints = bulletpoints.split("\n")
+    for row in bulletpoints:
+        new_row = pd.DataFrame([row], columns=["event_information"])
+        df = pd.concat([df, new_row], ignore_index=True)
+    document_intermediates("\n", True)
+    return df
 
 
-def add_start_dates(inp, bulletpoints):
+def add_start_dates(text, df):
     """Adds start dates to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_START_DATE_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_START_DATE_PROMPT + inp + "\n" + bulletpoints,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_START_DATE_ANSWER},
-    ]
-    bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
-    with open(
-        (u.output_path / "intermediates/2_bulletpoints_with_start.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_start)
-    return bulletpoints_start
+    name = "start_date"
+    new_df = pd.DataFrame([], columns=[name])
+    values_list = df.values.tolist()
+    for item in values_list:
+        messages = [
+            {"role": "system", "content": p.START_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.START_DATE_PROMPT
+                + "\nThe text: "
+                + text
+                + "\nThe bulletpoint: "
+                + item[0],
+            },
+            {"role": "assistant", "content": p.START_DATE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+        fc_message = [
+            {"role": "system", "content": p.FC_START_DATE_CONTEXT},
+            {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
+        ]
+        start_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
+        )
+        new_row = pd.DataFrame([start_date], columns=[name])
+        new_df = pd.concat([new_df, new_row], ignore_index=True)
+        row_count = new_df.shape[0]
+        if start_date == "N/A" and row_count > 1:
+            last_index = new_df.index[-1]
+            previous_index = last_index - 1
+            new_df.at[last_index, "start_date"] = new_df.at[
+                previous_index, "start_date"
+            ]
+        document_intermediates(output)
+    df = pd.concat([df, new_df], axis=1)
+    return df
 
 
-def add_end_dates(inp, bulletpoints):
+def add_end_dates(text, df):
     """Adds end dates to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_END_DATE_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_END_DATE_PROMPT + inp + "\n" + bulletpoints,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_END_DATE_ANSWER},
-    ]
-    bulletpoints_start = u.query_gpt(messages)
-    bulletpoints_start = add_ending_commas(bulletpoints_start)
-    with open(
-        (u.output_path / "intermediates/3_bulletpoints_with_end.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_start)
-    return bulletpoints_start
+    name = "end_date"
+    new_df = pd.DataFrame([], columns=[name])
+    values_list = df.values.tolist()
+    for item in values_list:
+        messages = [
+            {"role": "system", "content": p.END_DATE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.END_DATE_PROMPT
+                + "\nThe text: "
+                + text
+                + "\nThe bulletpoint: "
+                + item[0]
+                + "\nThe start date: "
+                + item[1],
+            },
+            {"role": "assistant", "content": p.END_DATE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+        fc_message = [
+            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
+            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
+        ]
+        end_date = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
+        )
+        new_row = pd.DataFrame([end_date], columns=[name])
+        new_df = pd.concat([new_df, new_row], ignore_index=True)
+        document_intermediates(output)
+    df = pd.concat([df, new_df], axis=1)
+    return df
 
 
-def add_durations(inp, bulletpoints_start):
-    """Adds durations to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_DURATION_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_DURATION_PROMPT + inp + "\n" + bulletpoints_start,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_DURATION_ANSWER},
-    ]
-    bulletpoints_duration = u.query_gpt(messages)
-    bulletpoints_duration = add_ending_commas(bulletpoints_duration)
-    with open(
-        (u.output_path / "intermediates/4_bulletpoints_with_duration.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_duration)
-    return bulletpoints_duration
+def add_durations(df):
+    """Calculates and adds the duration for every event information."""
+
+    def calculate_row_duration(row):
+        if row["start_date"] == "N/A" or row["end_date"] == "N/A":
+            return "N/A"
+        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
+        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
+        duration = end_date - start_date
+        hours, remainder = divmod(duration.total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
+
+    # create new column 'duration' and calculate the duration for every row
+    df["duration"] = df.apply(calculate_row_duration, axis=1)
+    return df
 
 
-def add_event_types(bulletpoints_durations):
+def add_event_types(df):
     """Adds event types to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_EVENT_TYPE_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_EVENT_TYPE_PROMPT + bulletpoints_durations,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_EVENT_TYPE_ANSWER},
-    ]
-    bulletpoints_event_type = u.query_gpt(messages)
-    bulletpoints_event_type = add_ending_commas(bulletpoints_event_type)
-    with open(
-        (u.output_path / "intermediates/5_bulletpoints_with_event_type.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_event_type)
-    return bulletpoints_event_type
+    name = "event_type"
+    new_df = pd.DataFrame([], columns=[name])
+    values_list = df.values.tolist()
+    for item in values_list:
+        messages = [
+            {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.EVENT_TYPE_PROMPT + "\nThe bulletpoint: " + item[0],
+            },
+            {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+
+        fc_message = [
+            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
+            {"role": "user", "content": p.FC_EVENT_TYPE_PROMPT + "The text: " + output},
+        ]
+        event_type = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_event_type"}},
+        )
+        new_row = pd.DataFrame([event_type], columns=[name])
+        new_df = pd.concat([new_df, new_row], ignore_index=True)
+        document_intermediates(output)
+    df = pd.concat([df, new_df], axis=1)
+    return df
 
 
-def add_locations(bulletpoints_event_types):
+def add_locations(df):
     """Adds locations to the bulletpoints."""
-    messages = [
-        {"role": "system", "content": p.BULLETPOINTS_LOCATION_CONTEXT},
-        {
-            "role": "user",
-            "content": p.BULLETPOINTS_LOCATION_PROMPT + bulletpoints_event_types,
-        },
-        {"role": "assistant", "content": p.BULLETPOINTS_LOCATION_ANSWER},
-    ]
-    bulletpoints_location = u.query_gpt(messages)
-    bulletpoints_location = remove_brackets(bulletpoints_location)
-    with open(
-        (u.output_path / "intermediates/6_bulletpoints_with_location.txt"),
-        "w",
-    ) as f:
-        f.write(bulletpoints_location)
-    return bulletpoints_location
+    name = "attribute_location"
+    new_df = pd.DataFrame([], columns=[name])
+    values_list = df.values.tolist()
+    event_type_key = df.columns.get_loc("event_type")
+    for item in values_list:
+        print(item[0], end="\r")
+        messages = [
+            {"role": "system", "content": p.LOCATION_CONTEXT},
+            {
+                "role": "user",
+                "content": p.LOCATION_PROMPT
+                + item[0]
+                + "\nThe category: "
+                + item[event_type_key],
+            },
+            {"role": "assistant", "content": p.LOCATION_ANSWER},
+        ]
+        output = u.query_gpt(messages)
+
+        fc_message = [
+            {"role": "system", "content": p.FC_LOCATION_CONTEXT},
+            {"role": "user", "content": p.FC_LOCATION_PROMPT + "The text: " + output},
+        ]
+        location = u.query_gpt(
+            fc_message,
+            tool_choice={"type": "function", "function": {"name": "add_location"}},
+        )
+        new_row = pd.DataFrame([location], columns=[name])
+        new_df = pd.concat([new_df, new_row], ignore_index=True)
+        document_intermediates(output)
+    df = pd.concat([df, new_df], axis=1)
+    return df
 
 
-def convert_bulletpoints_to_csv(bulletpoints_start_end):
-    """Converts the bulletpoints to a CSV file."""
-    bulletpoints_list = bulletpoints_start_end.split("\n")
-    bulletpoints_matrix = []
-    for entry in bulletpoints_list:
-        entry = entry.strip("- ")
-        entry = entry.split(", ")
-        bulletpoints_matrix.append(entry)
-    fields = [
-        "caseID",
-        "event_information",
-        "start",
-        "end",
-        "duration",
-        "event_type",
-        "attribute_location",
-    ]
-    for row in bulletpoints_matrix:
-        row.insert(0, 1)
-    outputfile = u.CSV_OUTPUT
-    with open(outputfile, "w") as f:
-        write = csv.writer(f)
-        # write.writerow(['sep=,'])
-        write.writerow(fields)
-        write.writerows(bulletpoints_matrix)
-    return outputfile
+def convert_dataframe_to_csv(df):
+    """Converts the dataframe to CSV and saves it on disk."""
+    output_path = u.output_path / "single_trace.csv"
+    df.insert(loc=0, column="case_id", value="0")
+    df.to_csv(
+        path_or_buf=output_path, sep=",", encoding="utf-8", header=True, index=False
+    )
+    document_intermediates(df, is_dataframe=True)
+    return output_path
 
 
-# Datacleaning
-def remove_commas(bulletpoints):
-    """Removes commas from within the bulletpoints."""
-    bulletpoints = bulletpoints.replace(", ", "/")
-    bulletpoints = bulletpoints.replace(",", "/")
-    return bulletpoints
+def output_csv(df):
+    """Outputs the dataframe to the user."""
+    decision = u.get_decision("Would you like to see the output? (y/n)\n")
+    if decision:
+        print(df)
+    else:
+        print("The output can be found at: " + u.output_path / "single_trace.csv.")
+    decision = u.get_decision(
+        "Would you like to append this trace to all_traces.csv? (y/n)\n"
+    )
+    if decision:
+        append_csv()
+    farewell()
 
 
-def add_ending_commas(bulletpoints):
-    """Adds commas at the end of each line."""
-    bulletpoints = bulletpoints.replace("\n", ",\n")
-    bulletpoints = bulletpoints + ","
-    return bulletpoints
+def append_csv():
+    """Appends the current trace to the CSV containing all traces."""
+    trace_count = 0
+    with open(u.CSV_ALL_TRACES, "r") as f:
+        rows = f.readlines()[1:]
+        if len(rows) >= 2:
+            trace_count = max(int(row.split(",")[0]) for row in rows if row)
+    with open(u.CSV_OUTPUT, "r") as f:
+        previous_content = f.readlines()
+        content = []
+        for row in previous_content:
+            if row != "\n":
+                content.append(row)
+        content = content[1:]
+    with open(u.CSV_ALL_TRACES, "a") as f:
+        for row in content:
+            row = row.replace(row[0], str(int(row[0]) + trace_count + 1), 1)
+            f.writelines(row)
 
 
-def remove_brackets(bulletpoints):
-    """Removes brackets from within the bulletpoints."""
-    bulletpoints = bulletpoints.replace("(", "")
-    bulletpoints = bulletpoints.replace(")", "")
-    bulletpoints = bulletpoints.replace("]", "")
-    bulletpoints = bulletpoints.replace("[", "")
-    bulletpoints = bulletpoints.replace("{", "")
-    bulletpoints = bulletpoints.replace("}", "")
-    return bulletpoints
+def farewell():
+    """Prints a farewell message."""
+    print("-----------------------------------\nThank you for using TracEX!\n\n")
+
+
+def document_intermediates(text, is_first=False, is_dataframe=False):
+    """Writes the text to a file."""
+    if is_dataframe:
+        with open((u.output_path / "intermediates/bulletpoints.txt"), "a") as f:
+            text = text.to_string(header=False, index=False)
+            f.write("\n\n\n\nThe resulting Dataframe:\n\n" + text)
+    if is_first:
+        with open(
+            (u.output_path / "intermediates/bulletpoints.txt"),
+            "w",
+        ) as f:
+            f.write(text)
+    else:
+        with open(
+            (u.output_path / "intermediates/bulletpoints.txt"),
+            "a",
+        ) as f:
+            f.write("\n" + text)
