@@ -223,7 +223,7 @@ def add_locations(df):
         # )
         new_row = pd.DataFrame([location], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
-        document_intermediates(output)
+        document_intermediates(location)
     df = pd.concat([df, new_df], axis=1)
     return df
 
