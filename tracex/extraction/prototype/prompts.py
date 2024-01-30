@@ -264,7 +264,6 @@ SYSTEM_ROLE_PROMPT_IDENTIFY = """
     You are an AI system that assists in preprocessing text data. Your task is to identify time specifications and durations in the text. Your focus should be solely on highlighting time references, without altering any other part of the
     text. Highlight time specifications and durations you find with $$$time specification$$$, where "time specification" would be something like "...on June 2nd I found out that..." or "...12 weeks..." or "nine months".
     You must consider all parts of the text, where there is a quantifier like a number (either written out or in digits) or less specific e.g "many" accompanied by a time unit (e.g. days, weeks, months, years, hours, minutes, seconds and so on).
-    Always conclude your edits with 'Goodbye'.
 """
 
 USER_ROLE_PROMPT_IDENTIFY = """
@@ -277,7 +276,6 @@ USER_ROLE_PROMPT_IDENTIFY = """
 ASSISTANT_ROLE_PROMPT_IDENTIFY = """
     As an AI assistant, I take the raw text data provided by the user and preprocess it
     according to the task defined by the system. I identify all time specifications in the text and highlight them.
-    Once the task is completed, I signal the end of my edits with 'Goodbye'.
 """
 
 SYSTEM_ROLE_PROMPT_SPELLCHECK = """
@@ -308,4 +306,83 @@ USER_ROLE_PROMPT_CONDENSE = """
 
 ASSISTANT_ROLE_PROMPT_CONDENSE = """
     As an AI assistant, I take the raw text data provided by the user and preprocess it.
+"""
+
+SYSTEM_ROLE_PROMPT_TIMELINE = """
+    You are an expert in constructing timelines. Your task is to take a given text and to add a consistent timeline to it.
+    All relevant time specifications are already highlighted with $$$ $$$. Separate the text into different segments, where each segment is a time period and for every time specification (highlighted with $$$ $$$) in the text there is exactly one segment.
+    The segments should be ordered chronologically. It is mandatory that above every segment there is a concrete date and not a duration.
+    The date must have the format YYYY/MM/DD. To guarantee the completeness of the date you must make assumptions about the year, month and day based on the context.
+    If the time specification is a duration, based on context, you must make assumptions about the start date of the duration
+    If there is no information about the year, month or day, you are allowed to assume the current year, month or day.
+"""
+
+USER_ROLE_PROMPT_TIMELINE = """
+    As a user, I provide the raw text data that needs preprocessing. The text contains various time specifications that need to be ordered chronologically and separated into different segments.
+    This is the text: \n\n
+"""
+
+ASSISTANT_ROLE_PROMPT_TIMELINE = """
+"""
+
+SYSTEM_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT = """
+    You are an expert in constructing timelines. Your task is to take a given text and to add a consistent timeline to it.
+    All relevant time specifications are already highlighted with $$$ $$$. Separate the text into different segments, where each segment is a time period and for every time specification (highlighted with $$$ $$$) in the text there is exactly one segment.
+    The segments should be ordered chronologically. It is mandatory that above every segment there is a concrete date and not a duration.
+    The date must have the format YYYY/MM/DD. To guarantee the completeness of the date you must make assumptions about the year, month and day based on the context.
+    If the time specification is a duration, based on context, you must make assumptions about the start date of the duration
+    If there is no information about the year, month or day, you are allowed to assume the current year, month or day.
+"""
+
+USER_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT_EXAMPLE = """
+    As a user, I provide the raw text data that needs preprocessing. The text contains various time specifications that need to be ordered chronologically and separated into different segments.
+    This is the text: \n\n
+
+    Juliet, the youngest of eight children, has a history of type 2 diabetes in her large family which put her at
+    higher risk of developing the condition herself. Juliet's father was diagnosed in his mid-50's and Juliet
+    describes struggling to maintain a healthy weight for most of her adult life. Having lived with pre-diabetes for
+    many years, Juliet was eventually diagnosed with type 2 diabetes. Juliet said: I was also diagnosed with high
+    cholesterol around the same time as type 2 diabetes, so it felt a bit like a barrage of medications coming at me
+    and, I thought, I don't want this. My GP explained about the NHS Type 2 Diabetes Path to Remission Programme and
+    the possibility of putting my type 2 diabetes into remission. Rather helpfully, I was also able to speak to one
+    of the programme's health coaches who was lovely and explained the programme in great detail. Juliet was
+    subsequently referred and joined the NHS Type 2 Diabetes Path to Remission Programme in June 2022. Juliet
+    continued: During the total diet replacement phase, I expected to feel hungry but I didn't and the products
+    actually kept me going. I enjoyed most of them too – although my particular favourites were the red Thai soup and
+    shepherd's pie. Juliet's starting weight was 120.5 kg (19 stone) and she lost two and a half stones – or 13% of
+    her starting body weight – in just 12 weeks of total diet replacement. Nearly nine months into the programme,
+    Juliet has recently attended her 17th group meeting and is maintaining her weight at 104.4kg through changing
+    behaviours and adopting both healthy eating and regular exercise habits. Juliet attributes her success to being
+    well-prepared and keeping my long-term goal in sight. I have also taken full advantage of being part of a group
+    by gaining inspiration and encouragement from others during group meetings and between meetings using WhatsApp
+    group chats. The coach and the group are so encouraging. I set out to improve my health and quality of life and
+    I'm thrilled to be achieving my goals. My HbA1c reading has reduced from 45-46 to 41 mmol/mol and my blood
+    pressure is steadily coming down. I hope to come off all medication as I continue to become fitter and healthier.
+    My diabetes nurse reminds me of the years I have added to my life – being a nanny, that excites me and my second
+    grandchild is due in September 2023. I also feel much more positive about things generally. I have a new lease of
+    life!
+"""
+
+ASSISTANT_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT = """
+    2022/06/01:\n
+    Joining the NHS Type 2 Diabetes Path to Remission Programme\n
+    Juliet was referred to and joined the program in June 2022.\n\n
+
+    2022/08/23:\n
+    - Completion of the Total Diet Replacement Phase (12 Weeks After Joining)\n
+    By this date, Juliet had been in the total diet replacement phase for 12 weeks, having started in June 2022. She lost 13% of her starting body weight.\n\n
+
+    2023/03/01:\n
+    - Nearly Nine Months in the Program\n
+    After nearly nine months in the program (counting from June 2022), Juliet had attended 17 group meetings and maintained her weight at 104.4 kg.\n\n
+
+    2023/09/01:\n
+    - Looking Forward to Welcoming Second Grandchild\n
+    Juliet is excited about welcoming her second grandchild in September 2023.
+"""
+
+USER_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT = """
+    As a user, I provide the raw text data that needs
+    preprocessing. The text contains various time specifications that need to be ordered chronologically and separated
+    into different segments. This is the text: \n\n
 """

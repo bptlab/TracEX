@@ -39,3 +39,31 @@ def preprocessing_condense(text):
     preprocessed_text = u.query_gpt(messages)
 
     return preprocessed_text
+
+
+def preprocessing_timeline(text):
+    """Adds a timeline to the input."""
+    messages = [
+        {"role": "system", "content": p.SYSTEM_ROLE_PROMPT_TIMELINE},
+        {"role": "user", "content": p.USER_ROLE_PROMPT_TIMELINE + text},
+        {"role": "assistant", "content": p.ASSISTANT_ROLE_PROMPT_TIMELINE},
+    ]
+    preprocessed_text = u.query_gpt(messages)
+
+    return preprocessed_text
+
+
+def preprocessing_timeline_chainofthought(text):
+    """Adds a timeline to the input."""
+    messages = [
+        {"role": "system", "content": p.SYSTEM_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT},
+        {"role": "user", "content": p.USER_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT_EXAMPLE},
+        {
+            "role": "assistant",
+            "content": p.ASSISTANT_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT,
+        },
+        {"role": "user", "content": p.USER_ROLE_PROMPT_TIMELINE_CHAINOFTHOUGHT + text},
+    ]
+    preprocessed_text = u.query_gpt(messages)
+
+    return preprocessed_text
