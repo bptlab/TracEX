@@ -35,6 +35,7 @@ class EventTypeClassifier(Module):
 
     @staticmethod
     def __classify_event_type(activity_label):
+        """Classify the event type for a given activity."""
         messages = [
             {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
             {

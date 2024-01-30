@@ -124,19 +124,10 @@ class ResultView(generic.FormView):
         if not (IS_TEST or is_extracted):
             orchestrator.run()
             single_trace_df = orchestrator.data
-            single_trace_df["caseID"] = single_trace_df["caseID"].astype(str)
-            single_trace_df["start"] = pd.to_datetime(single_trace_df["start"])
-            single_trace_df["end"] = pd.to_datetime(single_trace_df["end"])
-            single_trace_df = single_trace_df.rename(
-                columns={
-                    orchestrator.configuration.activity_key: "concept:name",
-                    "caseID": "case:concept:name",
-                    "start": "time:timestamp",
-                    "end": "time:endDate",
-                    "duration": "time:duration",
-                }
+            single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
+                single_trace_df, orchestrator.configuration.activity_key
             )
-            output_path_xes = utils.Conversion.create_xes(
+            utils.Conversion.create_xes(
                 utils.CSV_OUTPUT,
                 name="single_trace",
                 key=orchestrator.configuration.activity_key,

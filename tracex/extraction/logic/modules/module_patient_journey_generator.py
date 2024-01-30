@@ -160,4 +160,5 @@ class PatientJourneyGenerator(Module):
         life_circumstances = u.query_gpt(
             messages=message, max_tokens=100, temperature=1
         )
+
         return life_circumstances

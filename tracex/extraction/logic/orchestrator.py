@@ -96,31 +96,3 @@ class Orchestrator:
         module = self.configuration.modules["patient_journey_generation"]()
         module.execute(self.data, self.configuration.patient_journey)
         self.configuration.update(patient_journey=module.result)
-
-    # Will be deleted when dataframes are implemented
-    @staticmethod
-    def __convert_bulletpoints_to_csv(bulletpoints_start_end):
-        """Converts the bulletpoints to a CSV file."""
-        bulletpoints_list = bulletpoints_start_end.split("\n")
-        bulletpoints_matrix = []
-        for entry in bulletpoints_list:
-            entry = entry.strip("- ")
-            entry = entry.split(", ")
-            bulletpoints_matrix.append(entry)
-        fields = [
-            "caseID",
-            "event_information",
-            "start",
-            "end",
-            "duration",
-            "event_type",
-            "attribute_location",
-        ]
-        for row in bulletpoints_matrix:
-            row.insert(0, 1)
-        outputfile = utils.CSV_OUTPUT
-        with open(outputfile, "w") as f:
-            write = csv.writer(f)
-            write.writerow(fields)
-            write.writerows(bulletpoints_matrix)
-        return outputfile

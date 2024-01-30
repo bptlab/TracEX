@@ -1,6 +1,9 @@
 from datetime import datetime
 from pathlib import Path
 
+import pandas as pd
+from pandas import NaT
+
 from ..logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
@@ -23,10 +26,12 @@ class TimeExtractorBackup(Module):
         super().execute(df, patient_journey)
         df["start"] = df["event_information"].apply(self.__extract_start_date)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
-        df["duration"] = df.apply(self.__calculate_row_duration, axis=1)
+        df = self.__post_processing(df)
+        df["duration"] = df.apply(self.__calculate_duration, axis=1)
         self.result = df
 
     def __extract_start_date(self, activity_label):
+        """Extract the start date for a given activity."""
         messages = [
             {"role": "system", "content": START_DATE_CONTEXT},
             {
@@ -35,14 +40,11 @@ class TimeExtractorBackup(Module):
             },
         ]
         start_date = u.query_gpt(messages)
-        print(start_date + "\n")
-        assert (
-            self.is_valid_date_format(start_date, "%Y%m%dT%H%M") is True
-        ), f"Date {start_date} has no valid format."
 
         return start_date
 
     def __extract_end_date(self, row):
+        """Extract the end date for a given activity."""
         messages = [
             {"role": "system", "content": END_DATE_CONTEXT},
             {
@@ -52,49 +54,55 @@ class TimeExtractorBackup(Module):
             },
         ]
         end_date = u.query_gpt(messages)
-        print(end_date + "\n")
-        assert (
-            self.is_valid_date_format(end_date, "%Y%m%dT%H%M") is True
-        ), f"Date {end_date} has no valid format."
 
         return end_date
 
     @staticmethod
-    def __calculate_row_duration(row):
-        if row["start"] == "N/A" or row["end"] == "N/A":
-            return "N/A"
+    def __calculate_duration(row):
+        """Calculate the duration of an activity."""
         start_date = datetime.strptime(row["start"], "%Y%m%dT%H%M")
         end_date = datetime.strptime(row["end"], "%Y%m%dT%H%M")
-        duration = end_date - start_date
+        duration = start_date - end_date
         hours, remainder = divmod(duration.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
 
         return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
 
     @staticmethod
+    def __post_processing(df):
+        """Fill missing values for dates with default values."""
+
+        def fix_end_dates(row):
+            row["end"] = row["end"] if row["end"] is not pd.NaT else row["start"]
+
+            return row
+
+        try:
+            pd.to_datetime(df["start"], format="%Y%m%dT%H%M", errors="raise")
+        except ValueError:
+            df["start"] = pd.NaT
+        df["start"].ffill()
+
+        try:
+            pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="raise")
+        except ValueError:
+            df["end"] = pd.NaT
+        df["end"].ffill()
+
+        df = df.apply(fix_end_dates, axis=1)
+
+        return df
+
+    @staticmethod
     def is_valid_date_format(date_string, date_format):
+        """Determine if a string matches the given date format."""
         try:
             datetime.strptime(date_string, date_format)
+
             return True
         except ValueError:
             return False
 
-
-# START_DATE_CONTEXT = """
-#     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints and to add a start date to every bulletpoint.
-#     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a start date at the end of it.
-#     The information about the start date should be extracted from the text or from the context and should be as precise as possible.
-#     Do not modify the content of the bulletpoint and keep ending commas.
-#     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
-#     Keep in mind, that the start date of a bullet point is not necessarily later than the start of the previous one.
-#     Also, the start date doesn't have to be the next date information in the text, but can be related to the previous.
-#     If the text talks about getting medication and then improving and the bullet point says 'improving', you should return the date of getting the medication as start date.
-#     If there is a conclusion at the end of the text and an outlook set the start date of the last bullet point to the start date of the corresponding bulletpoint.
-#     If there is really no information about the start date to be extracted from the text but there is information about events happening at the same time,
-#     use that information to draw conclusions about the start dates.
-#     If there is no information about the start date at all and there is no way of finding some, delete that bulletpoint.
-#     The only output should be the updated bullet points, nothing else!
-# """
 
 START_DATE_CONTEXT = """
     You are provided with a natural language text containing various events. Your task is to identify the start date of
@@ -107,21 +115,8 @@ START_DATE_CONTEXT = """
     3. If the date is mentioned in a different format, please convert it to the format mentioned above.
     4. Translate formulations like "the next day" or "over the following weeks" to the corresponding date.
     5. Also consider context information from previous activities and their start dates.
+    6. If the start date is not mentioned output "N/A" instead.
 """
-
-# END_DATE_CONTEXT = """
-#     You are an expert in text understanding and your job is to take a given text and given summarizing bulletpoints with a start date and to add a end date to every bulletpoint.
-#     It is important, that every bullet point gets an end date, even if it is the same as the start date.
-#     Edit the bulletpoints in a way, that you just take the existing bulletpoints and add a end date to it.
-#     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
-#     Please use the format YYYYMMDD for the dates and extend every date by "T0000".
-#     If the duration of an event is given, use that information to draw conclusions about the end date.
-#     If the duration of an event is not given, use the context to draw conclusions about the end date.
-#     If two bulletpoints are related, it is possible, that the end dates should match.
-#     Think about how long humans tend to stay in hospitals, how long it takes to recover from a disease, how long they practice new habits and so on.
-#     If there is no information about the end date at all, please state the start date also as the end date.
-#     The only output should be the updated bullet points, nothing else!
-# """
 
 END_DATE_CONTEXT = """
     You are provided with a natural language text containing various events. Your task is to identify the end date of
@@ -135,4 +130,5 @@ END_DATE_CONTEXT = """
     4. Translate formulations like "the next day" or "over the following weeks" to the corresponding date.
     5. Also consider context information from previous activities and their start dates and end dates.
     6. End dates can not be earlier than the start dates.
+    7. If the end date is not mentioned output "N/A" instead.
 """

@@ -27,6 +27,7 @@ class TimeExtractor(Module):
         self.result = df
 
     def __extract_start_date(self, activity_label):
+        """Extract the start date for a given activity."""
         messages = [
             {"role": "system", "content": p.START_DATE_CONTEXT},
             {
@@ -48,6 +49,7 @@ class TimeExtractor(Module):
         return start_date
 
     def __extract_end_date(self, row):
+        """Extract the end date for a given activity."""
         messages = [
             {"role": "system", "content": p.END_DATE_CONTEXT},
             {
@@ -71,6 +73,7 @@ class TimeExtractor(Module):
 
     @staticmethod
     def __calculate_row_duration(row):
+        """Calculate the duration for a given activity."""
         if row["start"] == "N/A" or row["end"] == "N/A":
             return "N/A"
         start_date = datetime.strptime(row["start"], "%Y%m%dT%H%M")

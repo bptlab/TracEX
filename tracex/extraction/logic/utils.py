@@ -110,26 +110,30 @@ def append_csv():
 
 
 class Conversion:
+    """Class for all kinds of conversions"""
+
     @staticmethod
-    def create_xes(csv_file, name, key):
-        """Creates a xes with all traces from the regarding csv."""
-        dataframe = pd.read_csv(csv_file, sep=",")
-        dataframe["caseID"] = dataframe["caseID"].astype(str)
-        dataframe["start"] = pd.to_datetime(dataframe["start"])
-        dataframe["end"] = pd.to_datetime(dataframe["end"])
-        # Bug on 118: When filters are applied from the JourneyGenerationView, there seems to be some type of "offset"
-        # Hence I got the error "Could not convert 'Symptom Onset' to NumPy timedelta" when deselecting "Home" from
-        # This error does not appear when configuring filters in the ResultView
-        dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
-        dataframe = dataframe.rename(
+    def prepare_df_for_xes_conversion(df, activity_key):
+        df["caseID"] = df["caseID"].astype(str)
+        df["start"] = pd.to_datetime(df["start"])
+        df["end"] = pd.to_datetime(df["end"])
+        df = df.rename(
             columns={
-                key: "concept:name",
+                activity_key: "concept:name",
                 "caseID": "case:concept:name",
                 "start": "time:timestamp",
                 "end": "time:endDate",
                 "duration": "time:duration",
             }
         )
+        return df
+
+    @staticmethod
+    def create_xes(csv_file, name, key):
+        """Creates a xes with all traces from the regarding csv."""
+        dataframe = pd.read_csv(csv_file, sep=",")
+        dataframe = Conversion.prepare_df_for_xes_conversion(dataframe, key)
+
         output_name = name + "_" + key + ".xes"
         pm4py.write_xes(
             dataframe,

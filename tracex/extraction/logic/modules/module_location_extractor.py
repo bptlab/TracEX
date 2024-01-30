@@ -6,7 +6,6 @@ from .. import utils as u
 from .. import prompts as p
 
 
-
 class LocationExtractor(Module):
     """
     This is the module that extracts the location information from the patient journey to each activity.
@@ -33,6 +32,7 @@ class LocationExtractor(Module):
 
     @staticmethod
     def __classify_location(activity_label):
+        """Classify the location for a given activity."""
         messages = [
             {"role": "system", "content": p.LOCATION_CONTEXT},
             {"role": "user", "content": f"{p.LOCATION_PROMPT} {activity_label}"},
