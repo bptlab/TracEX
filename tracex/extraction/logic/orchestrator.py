@@ -33,7 +33,7 @@ class ExtractionConfiguration:
 
     def update(self, **kwargs):
         """Update the configuration with a dictionary."""
-        valid_keys = set(ExtractionConfiguration.__annotations__.keys())
+        valid_keys = set(vars(self).keys())
         for key, value in kwargs.items():
             if key in valid_keys:
                 setattr(self, key, value)
