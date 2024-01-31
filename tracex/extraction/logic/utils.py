@@ -2,6 +2,8 @@
 import os
 from io import StringIO, BytesIO
 from pathlib import Path
+
+from openai import OpenAI
 import base64
 import json
 import tempfile
@@ -9,8 +11,6 @@ import functools
 import warnings
 import pandas as pd
 import pm4py
-
-from openai import OpenAI
 
 from . import function_calls
 from .constants import (
