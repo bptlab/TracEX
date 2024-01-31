@@ -6,9 +6,31 @@ from . import prompts as p
 from . import input_handling as ih
 
 
+def measure_event_information(text):
+    df = ih.convert_text_to_bulletpoints(text)
+    event_information_list = df.values.tolist()
+
+    messages = [
+        {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
+        {
+            "role": "user",
+            "content": p.METRIC_EVENT_INFORMATION_CONTEXT
+            + "\nThe event information list: "
+            + str(event_information_list)
+            + "\nThe patient journey: "
+            + text,
+        },
+    ]
+    rating = u.query_gpt(messages)
+
+    return rating
+
+
 def measure_event_types(text):
     df = ih.convert_text_to_bulletpoints(text)
-    new_df = pd.DataFrame([], columns=["event_type", "(token1, lin_prob1)", "(token2, lin_prob2)"])
+    new_df = pd.DataFrame(
+        [], columns=["event_type", "(token1, lin_prob1)", "(token2, lin_prob2)"]
+    )
     values_list = df.values.tolist()
     for item in values_list:
         messages = [
@@ -26,17 +48,23 @@ def measure_event_types(text):
             token = logprob.token
             lin_prop = calculate_linear_probability(logprob.logprob)
             metrics.append((token, lin_prop))
-        
-        new_row = pd.DataFrame([metrics], columns=["event_type", "(token1, lin_prob1)", "(token2, lin_prob2)"])
+
+        new_row = pd.DataFrame(
+            [metrics],
+            columns=["event_type", "(token1, lin_prob1)", "(token2, lin_prob2)"],
+        )
         new_df = pd.concat([new_df, new_row], ignore_index=True)
         ih.document_intermediates(new_row.to_string())
         print(new_row.to_string())
     df = pd.concat([df, new_df], axis=1)
     return df
 
+
 def measure_location(text):
     df = ih.add_event_types(ih.convert_text_to_bulletpoints(text))
-    new_df = pd.DataFrame([], columns=["location", "(token1, lin_prob1)", "(token2, lin_prob2)"])
+    new_df = pd.DataFrame(
+        [], columns=["location", "(token1, lin_prob1)", "(token2, lin_prob2)"]
+    )
     values_list = df.values.tolist()
     event_type_key = df.columns.get_loc("event_type")
     for item in values_list:
@@ -59,13 +87,14 @@ def measure_location(text):
             lin_prop = calculate_linear_probability(logprob.logprob)
             metrics.append((token, lin_prop))
 
-        new_row = pd.DataFrame([metrics], columns=["location", "(token1, lin_prob1)", "(token2, lin_prob2)"])
+        new_row = pd.DataFrame(
+            [metrics],
+            columns=["location", "(token1, lin_prob1)", "(token2, lin_prob2)"],
+        )
         new_df = pd.concat([new_df, new_row], ignore_index=True)
         ih.document_intermediates(new_row.to_string())
     df = pd.concat([df, new_df], axis=1)
     return df
-
-
 
 
 def calculate_linear_probability(logprob):

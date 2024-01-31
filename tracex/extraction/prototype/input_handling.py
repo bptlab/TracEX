@@ -51,9 +51,9 @@ def convert_text_to_csv(text):
 def convert_text_to_bulletpoints(text):
     """Converts the input text to bulletpoints."""
     messages = [
-        {"role": "system", "content": p.TEXT_TO_EVENTINFORMATION_CONTEXT},
-        {"role": "user", "content": p.TEXT_TO_EVENTINFORMATION_PROMPT + text},
-        {"role": "assistant", "content": p.TEXT_TO_EVENTINFORMATION_ANSWER},
+        {"role": "system", "content": p.TEXT_TO_EVENT_INFORMATION_CONTEXT},
+        {"role": "user", "content": p.TEXT_TO_EVENT_INFORMATION_PROMPT + text},
+        {"role": "assistant", "content": p.TEXT_TO_EVENT_INFORMATION_ANSWER},
     ]
     bulletpoints = u.query_gpt(messages)
     df = pd.DataFrame([], columns=["event_information"])
