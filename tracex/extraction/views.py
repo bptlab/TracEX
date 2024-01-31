@@ -2,13 +2,11 @@
 Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
 import os
-
 import pm4py
 import pandas as pd
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm

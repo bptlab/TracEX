@@ -1,3 +1,4 @@
+"""Module providing constants for the project."""
 import os
 from pathlib import Path
 from django.conf import settings

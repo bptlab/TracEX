@@ -1,5 +1,5 @@
+"""This module classifies the event types of the activities."""
 from pathlib import Path
-
 
 from ..logging import log_execution_time
 from ..module import Module

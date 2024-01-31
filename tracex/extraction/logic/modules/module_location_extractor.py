@@ -1,3 +1,4 @@
+"""This module that extracts the location information for each activity."""
 from pathlib import Path
 
 from ..logging import log_execution_time

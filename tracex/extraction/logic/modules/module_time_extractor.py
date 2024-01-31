@@ -1,3 +1,4 @@
+"""This is the module that extracts the time information from the patient journey."""
 from datetime import datetime
 from pathlib import Path
 
@@ -32,7 +33,8 @@ class TimeExtractor(Module):
             {"role": "system", "content": p.START_DATE_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.START_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: {activity_label}",
+                "content": f"{p.START_DATE_PROMPT} \nThe text: {self.patient_journey} \n"
+                f"The bulletpoint: {activity_label}",
             },
             {"role": "assistant", "content": p.START_DATE_ANSWER},
         ]

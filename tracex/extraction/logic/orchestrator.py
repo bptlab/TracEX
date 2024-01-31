@@ -1,9 +1,7 @@
-import csv
+"""Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass
-from pathlib import Path
 from typing import Optional, List
 
-from . import Module, logging
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor_backup import TimeExtractorBackup
@@ -35,7 +33,7 @@ class ExtractionConfiguration:
 
     def update(self, **kwargs):
         """Update the configuration with a dictionary."""
-        valid_keys = set(self.__annotations__.keys())
+        valid_keys = set(ExtractionConfiguration.__annotations__.keys())
         for key, value in kwargs.items():
             if key in valid_keys:
                 setattr(self, key, value)
@@ -64,6 +62,7 @@ class Orchestrator:
         return cls._instance
 
     def set_configuration(self, configuration: ExtractionConfiguration):
+        """Set the configuration for the orchestrator instance."""
         self.configuration = configuration
 
     def initialize_modules(self):

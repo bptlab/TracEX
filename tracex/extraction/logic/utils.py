@@ -1,4 +1,9 @@
-"""Module providing constants for the project."""
+"""Module providing various utility functions for the project."""
+import os
+from io import StringIO, BytesIO
+from pathlib import Path
+
+from openai import OpenAI
 import base64
 import json
 import tempfile
@@ -6,11 +11,17 @@ import functools
 import warnings
 import pandas as pd
 import pm4py
-from io import StringIO, BytesIO
-from openai import OpenAI
 
-from .constants import *
 from . import function_calls
+from .constants import (
+    MAX_TOKENS,
+    TEMPERATURE_SUMMARIZING,
+    MODEL,
+    oaik,
+    output_path,
+    CSV_OUTPUT,
+    CSV_ALL_TRACES,
+)
 from .logging import log_tokens_used
 
 
@@ -48,10 +59,12 @@ def query_gpt(
     tools=function_calls.TOOLS,
     tool_choice="none",
 ):
+    """Sends a request to the OpenAI API and returns the response."""
+
     @log_tokens_used(Path("extraction/logs/tokens_used.log"))
     def make_api_call():
-        client = OpenAI(api_key=oaik)
         """Queries the GPT engine."""
+        client = OpenAI(api_key=oaik)
         _response = client.chat.completions.create(
             model=MODEL,
             messages=messages,
@@ -114,6 +127,7 @@ class Conversion:
 
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
+        """Ensures that all requirements for the xes conversion are met."""
         df["caseID"] = df["caseID"].astype(str)
         df["start"] = pd.to_datetime(df["start"])
         df["end"] = pd.to_datetime(df["end"])
