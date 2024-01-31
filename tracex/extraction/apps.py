@@ -10,7 +10,7 @@ class ExtractionConfig(AppConfig):
     name = "extraction"
 
     def ready(self):
+        """Initialize the orchestrator before entering the first view"""
         orchestrator_instance = Orchestrator()
-        Orchestrator._instance = orchestrator_instance
         orchestrator_instance.set_configuration(ExtractionConfiguration())
         print("Orchestrator ready")

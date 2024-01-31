@@ -1,3 +1,4 @@
+"""Module providing logging decorators for analytic purposes."""
 import ast
 import time
 import functools

@@ -1,12 +1,11 @@
+"""This module extracts the time information from the patient journey."""
 from datetime import datetime
 from pathlib import Path
 
 import pandas as pd
-from pandas import NaT
 
 from ..logging import log_execution_time
 from ..module import Module
-from .. import prompts as p
 from .. import utils as u
 
 

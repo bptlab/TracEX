@@ -2,13 +2,11 @@
 Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
 import os
-
 import pm4py
 import pandas as pd
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.core.cache import cache
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
@@ -81,7 +79,8 @@ class JourneyGenerationView(generic.FormView):
         self.request.session["is_extracted"] = False
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
-            patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
+            # This should not be necessary, unspecefied values should be unchanged
+            patient_journey=orchestrator.configuration.patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )
@@ -177,7 +176,8 @@ class ResultView(generic.FormView):
         """Save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
-            patient_journey=orchestrator.configuration.patient_journey,  # This should not be necessary, unspecefied values should be unchanged
+            # This should not be necessary, unspecefied values should be unchanged
+            patient_journey=orchestrator.configuration.patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )

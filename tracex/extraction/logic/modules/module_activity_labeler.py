@@ -1,5 +1,6 @@
-import pandas as pd
+"""This is the module that extracts the activity labels from the patient journey."""
 from pathlib import Path
+import pandas as pd
 
 from ..logging import log_execution_time
 from ..module import Module
