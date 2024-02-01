@@ -74,23 +74,10 @@ class TimeExtractorBackup(Module):
         """Fill missing values for dates with default values."""
 
         def fix_end_dates(row):
-            row["end"] = row["end"] if row["end"] is not pd.NaT else row["start"]
+            if row["end"] is pd.NaT and row["start"] is not pd.NaT:
+                row["end"] = row["start"]
 
             return row
-
-        # try:
-        #     pd.to_datetime(df["start"], format="%Y%m%dT%H%M", errors="raise")
-        # except ValueError:
-        #     df["start"] = pd.NaT
-        # df["start"].ffill()
-        #
-        # try:
-        #     pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="raise")
-        # except ValueError:
-        #     df["end"] = pd.NaT
-        # df["end"].ffill()
-        #
-        # df = df.apply(fix_end_dates, axis=1)
 
         converted_start = pd.to_datetime(
             df["start"], format="%Y%m%dT%H%M", errors="coerce"

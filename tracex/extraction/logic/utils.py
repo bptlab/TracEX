@@ -56,10 +56,12 @@ def query_gpt(
     messages,
     max_tokens=MAX_TOKENS,
     temperature=TEMPERATURE_SUMMARIZING,
-    tools=function_calls.TOOLS,
+    tools=None,
     tool_choice="none",
 ):
     """Sends a request to the OpenAI API and returns the response."""
+
+    tools = function_calls.TOOLS if tools is None else tools
 
     @log_tokens_used(Path("extraction/logs/tokens_used.log"))
     def make_api_call():
