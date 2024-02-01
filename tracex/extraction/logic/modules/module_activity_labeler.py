@@ -28,12 +28,12 @@ class ActivityLabeler(Module):
         """Converts the input text to activity_labels."""
         name = "event_information"
         messages = [
-            {"role": "system", "content": p.TXT_TO_BULLETPOINTS_CONTEXT},
+            {"role": "system", "content": p.TXT_TO_EVENT_INFORMATION_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.TXT_TO_BULLETPOINTS_PROMPT} {self.patient_journey}",
+                "content": f"{p.TXT_TO_EVENT_INFORMATION_PROMPT} {self.patient_journey}",
             },
-            {"role": "assistant", "content": p.TXT_TO_BULLETPOINTS_ANSWER},
+            {"role": "assistant", "content": p.TXT_TO_EVENT_INFORMATION_ANSWER},
         ]
         activity_labels = u.query_gpt(messages)
         # TODO: adjust prompt to remove "-" instead of replace()
