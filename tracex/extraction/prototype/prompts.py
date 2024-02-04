@@ -218,11 +218,11 @@ FC_DURATION_PROMPT = """
 
 # Adding of a event type to every bulletpoint
 EVENT_TYPE_CONTEXT = """
-    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given event type to every bulletpoint.
+    You are an expert in text categorization and your job is to take given event information and to add one of given event type to every event information.
     The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
-    It is important, that every bullet point gets an event type.
+    It is important, that every event information gets an event type.
     Furthermore it is really important, that that event type is correct and not 'Other'.
-    The only output should be the updated bullet points, nothing else!
+    The only output should be the event type!
 """
 EVENT_TYPE_PROMPT = """
     You will be given a bulletpoint of a patient journey.
@@ -232,8 +232,8 @@ EVENT_TYPE_PROMPT = """
 
 """
 EVENT_TYPE_ANSWER = """
-    For example for the bulletpoint 'visiting doctor's' you should return 'Doctors Visit'.
-    For 'testing positive for Covid19' you should return 'Diagnosis' and for 'getting hospitalized' you should return 'Hospital stay'.
+    For example for the event information 'visiting doctor's' you should output 'Doctors Visit'.
+    For 'testing positive for Covid19' you should output 'Diagnosis' and for 'getting hospitalized' you should output 'Hospital stay'.
 """
 # FC_EVENT_TYPE_CONTEXT = """
 #     You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
@@ -256,9 +256,7 @@ LOCATION_CONTEXT = """
 LOCATION_PROMPT = """
     You will be given a bulletpoint and the according event type of a patient journey.
     Classify the bulletpoint into one of the following locations: Home, Hospital and Doctors.
-    Return only the name of the location, and nothing else.
-    MAKE SURE your output is one of the three locations stated. ONLY return the name of the location, and nothing else!
-    Here is the bulletpoint and the event type for which you should extract the location:
+    Return only the name of the location, and nothing else. Make sure only to return the name of the location, and nothing else!
 """
 LOCATION_ANSWER = """
     For example for the bulletpoints 'visiting doctor's', you should return 'Doctors'.
