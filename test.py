@@ -15,9 +15,9 @@ text = open(u.input_path / "journey_synth_covid_0.txt").read()
 # df = ih.convert_text_to_bulletpoints(text)
 # print(df)
 
-print(m.measure_event_information(text))
+# print(m.measure_event_information(text))
 # print(m.measure_event_types(text))
-# print(m.measure_location(text))
+print(m.measure_location(text))
 
 
 # df = m.measure_event_types(text)
