@@ -6,18 +6,18 @@ from . import prompts as p
 from . import input_handling as ih
 
 
-def measure_event_information(text):
+def measure_event_information_relevance(text):
     df = ih.convert_text_to_bulletpoints(text)
     df[["weighted_relevance", "relevance", "lin_prop"]] = df["event_information"].apply(
         lambda event_information: pd.Series(
-            rate_event_information(event_information, text)
+            rate_event_information_relevance(event_information, text)
         )
     )
 
     return df
 
 
-def rate_event_information(event_information, text):
+def rate_event_information_relevance(event_information, text):
     category_mapping = {
         "Not Relevant": 1,
         "Low Relevance": 2,
@@ -38,7 +38,7 @@ def rate_event_information(event_information, text):
         },
     ]
 
-    category, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=2)
+    category, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=1)
     relevance = category_mapping.get(category, "Category not found")
     lin_prop = calculate_linear_probability(top_logprops[0].logprob)
     weighted_relevance = relevance * lin_prop
@@ -46,17 +46,66 @@ def rate_event_information(event_information, text):
     return (weighted_relevance, category, lin_prop)
 
 
-def measure_event_types(text):
+def measure_timestamps_correctness(text):
     df = ih.convert_text_to_bulletpoints(text)
+    print(df)
+    df = ih.add_start_dates(text, df)
+    print(df)
+    df = ih.add_end_dates(text, df)
+    print(df)
 
-    df[["event_type", "(token_1, lin_prob_1)", "(token_2, lin_prob_2)"]] = df[
-        "event_information"
-    ].apply(lambda event_information: pd.Series(rate_event_type(event_information)))
+    df[["timestamp_correctness", "correctness_confidence"]] = df.apply(
+        lambda row: pd.Series(
+            rate_timestamps_correctness(
+                row["event_information"], row["start_date"], row["end_date"], text
+            )
+        ),
+        axis=1,
+    )
 
     return df
 
 
-def rate_event_type(event_information):
+def rate_timestamps_correctness(event_information, start_date, end_date, text):
+    messages = [
+        {"role": "system", "content": p.METRIC_TIMESTAMPS_CONTEXT},
+        {
+            "role": "user",
+            "content": p.METRIC_TIMESTAMPS_PROMPT
+            + "\nThe bulletpoint: "
+            + event_information
+            + "\nThe start date related to the bulletpoint: "
+            + start_date
+            + "\nThe end date to the bulletpoint: "
+            + end_date
+            + "\nThe patient journey you should check the timestamps for the bulletpoint: "
+            + text,
+        },
+    ]
+
+    timestamp_correctness, top_logprops = u.query_gpt(
+        messages, logprobs=True, top_logprobs=1
+    )
+    lin_prop = calculate_linear_probability(top_logprops[0].logprob)
+
+    return (timestamp_correctness, lin_prop)
+
+
+def measure_event_types_confidence(text):
+    df = ih.convert_text_to_bulletpoints(text)
+
+    df[["event_type", "(token_1, lin_prob_1)", "(token_2, lin_prob_2)"]] = df[
+        "event_information"
+    ].apply(
+        lambda event_information: pd.Series(
+            rate_event_type_confidence(event_information)
+        )
+    )
+
+    return df
+
+
+def rate_event_type_confidence(event_information):
     messages = [
         {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
         {
@@ -75,11 +124,11 @@ def rate_event_type(event_information):
     return (event_type, (token1, lin_prob1), (token_2, lin_prob2))
 
 
-def measure_location(text):
+def measure_location_confidence(text):
     df = ih.add_event_types(ih.convert_text_to_bulletpoints(text))
     df[["location", "(token_1, lin_prob_1)", "(token_2, lin_prob_2)"]] = df.apply(
         lambda row: pd.Series(
-            rate_location(row["event_information"], row["event_type"])
+            rate_location_confidence(row["event_information"], row["event_type"])
         ),
         axis=1,
     )
@@ -87,7 +136,7 @@ def measure_location(text):
     return df
 
 
-def rate_location(event_information, event_type):
+def rate_location_confidence(event_information, event_type):
     messages = [
         {"role": "system", "content": p.LOCATION_CONTEXT},
         {

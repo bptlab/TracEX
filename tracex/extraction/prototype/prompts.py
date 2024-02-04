@@ -235,13 +235,6 @@ EVENT_TYPE_ANSWER = """
     For example for the event information 'visiting doctor's' you should output 'Doctors Visit'.
     For 'testing positive for Covid19' you should output 'Diagnosis' and for 'getting hospitalized' you should output 'Hospital stay'.
 """
-# FC_EVENT_TYPE_CONTEXT = """
-#     You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
-#     'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
-# """
-# FC_EVENT_TYPE_PROMPT = """
-#     Please extract the following event type of the text without changing the given format:
-# """
 
 # Adding of a location type to every bulletpoint
 LOCATION_CONTEXT = """
@@ -263,18 +256,8 @@ LOCATION_ANSWER = """
     For the point 'testing positive for Covid19', you also should return 'Doctors'.
     For 'getting hospitalized' the output is 'Hospital'.
 """
-# FC_LOCATION_CONTEXT = """
-#     You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
-#     The only possible locations are 'Home', 'Hospital', 'Doctors' and 'Other'.
-# """
-# FC_LOCATION_PROMPT = """
-#     Please extract the following location of the text without changing the given date format:
-# """
-
 
 ############################################## METRICS ##############################################
-
-# Event Information
 
 
 METRIC_EVENT_INFORMATION_CONTEXT = """
@@ -297,4 +280,22 @@ METRIC_EVENT_INFORMATION_PROMPT = """
     Please classify to given bulletpoint one of the following categories: Not Relevant, Low Relevance, Moderate Relevance, High Relevance and Critical Relevance.
     Only output the name of the category, and nothing else. You MUST NOT include any other information.
     For example, if the bulletpoint is 'visiting doctor's', you should output 'High Relevance'.
+"""
+
+METRIC_TIMESTAMPS_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text and to check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
+    Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
+    If the start date and end date appearing in the context of the bulletpoint, you should output True.
+    If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
+    If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
+    the estimation is reasonable and output True if it is and False if it is not.
+    The only output should be the True or False, and nothing else.
+"""
+
+
+METRIC_TIMESTAMPS_PROMPT = """
+    Please check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
+
+    Is the following start and end date correct in the context of the bulletpoint based on the given patient journey?
+    Only output the True or False, and nothing else. You MUST NOT include any other information.
 """
