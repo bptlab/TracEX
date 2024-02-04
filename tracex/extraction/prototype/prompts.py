@@ -278,31 +278,23 @@ LOCATION_ANSWER = """
 
 
 METRIC_EVENT_INFORMATION_CONTEXT = """
-    You are an expert in text understanding and identifying relevant information that is important for the course of a disease.
-    Your task is to evalaute the given a given list of event information on the relevance for the course of the disease. Only return a score between 1 and 5, nothing else!
+    You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
+    The categories are as follows: Not Relevant, Low Relevance, Moderate Relevance, High Relevance and Critical Relevance.
+    It is important, that every bulletpoint gets a relevance category.
+    Furthermore it is really important, that that relevance category is correct.
+    The only output should be the relevance category!
+    Please do not add a phrase like "here are your bulletpoints" or something like that..
+
+    The relevance categories are defined as follows:
+    Not Relevant: The event has minimal or no impact on understanding the course of the disease.
+    Low Relevance: The event has limited importance in grasping the disease's progression.
+    Moderate Relevance: The event provides some insight into the course of the disease but is not crucial.
+    High Relevance: The event significantly contributes to understanding the disease's progression.
+    Critical Relevance: The event is crucial for comprehending the disease's course and has a major impact on its understanding and management.
+
 """
 METRIC_EVENT_INFORMATION_PROMPT = """
-    You will be given a list of event information which are relevant for the course of the disease of a patient journey.
-    Your task is to rate the list of event information on one metric.
-    Please make sure you read and understand these instructions carefully. Please keep this document open while reviewing,and refer to it as needed
-
-    The metric:
-    Relevance (1-5) - the collective relevance of all event information.
-    This metric check if the given list of event information is relevant for the course of the disease. If an event information of the list is not relevant for the course of the disease, the list should get a lower score.
-
-    Evaluation Instructions:
-    1. Read the patient journey carefully and
-    identify the main information which are relevant for the course of the disease.
-    2. Read the list of event information and compare it to
-    the patient journey. Check if the list of event information
-    covers the identified main information of the patient journey.
-    The delta between the main information of the patient journey and the list of event information could be that the list of event information is missing main information
-    or that the list of event information contains irrelevant information.
-    3. Assign an overall score for the whole list based on the relevance on a scale of 1 to 5, where 1 is the lowest and 5 is the highest based on the Evaluation Criteria.
-
-    Return only an overall score for relevance of the event information list, nothing else!
-"""
-
-METRIC_EVENT_INFORMATION_ANSWER = """
-
+    Please classify to given bulletpoint one of the following categories: Not Relevant, Low Relevance, Moderate Relevance, High Relevance and Critical Relevance.
+    Only output the name of the category, and nothing else. You MUST NOT include any other information.
+    For example, if the bulletpoint is 'visiting doctor's', you should output 'High Relevance'.
 """

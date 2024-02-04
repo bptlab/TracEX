@@ -8,22 +8,13 @@ from . import input_handling as ih
 
 def measure_event_information(text):
     df = ih.convert_text_to_bulletpoints(text)
-    event_information_list = df.values.tolist()
+    df[["weighted_relevance", "relevance", "lin_prop"]] = df["event_information"].apply(
+        lambda event_information: pd.Series(
+            rate_event_information(event_information, text)
+        )
+    )
 
-    messages = [
-        {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
-        {
-            "role": "user",
-            "content": p.METRIC_EVENT_INFORMATION_CONTEXT
-            + "\nThe event information list: "
-            + str(event_information_list)
-            + "\nThe patient journey: "
-            + text,
-        },
-    ]
-    rating = u.query_gpt(messages)
-
-    return rating
+    return df
 
 
 def measure_event_types(text):
@@ -97,6 +88,35 @@ def measure_location(text):
     return df
 
 
+def rate_event_information(event_information, text):
+    category_mapping = {
+        "Not Relevant": 1,
+        "Low Relevance": 2,
+        "Moderate Relevance": 3,
+        "High Relevance": 4,
+        "Critical Relevance": 5,
+    }
+
+    messages = [
+        {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
+        {
+            "role": "user",
+            "content": p.METRIC_EVENT_INFORMATION_CONTEXT
+            + "\nThe bulletpoint: "
+            + event_information
+            + "\nThe patient journey: "
+            + text,
+        },
+    ]
+
+    category, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=2)
+    relevance = category_mapping.get(category, "Category not found")
+    lin_prop = calculate_linear_probability(top_logprops[0].logprob)
+    weighted_relevance = relevance * lin_prop
+
+    return (weighted_relevance, category, lin_prop)
+
+
 def calculate_linear_probability(logprob):
-    linear_prob = np.round(np.exp(logprob) * 100, 2)
+    linear_prob = np.round(np.exp(logprob), 2)
     return linear_prob
