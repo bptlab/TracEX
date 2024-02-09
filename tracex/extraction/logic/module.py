@@ -18,7 +18,6 @@ class Module(ABC):
         self.name = None
         self.description = None
         self.patient_journey = None
-        self.result = None
 
     @abstractmethod
     def execute(self, _input, patient_journey=None):

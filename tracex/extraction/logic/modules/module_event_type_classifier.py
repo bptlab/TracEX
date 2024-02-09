@@ -23,7 +23,8 @@ class EventTypeClassifier(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        self.result = self.__add_event_types(df)
+
+        return self.__add_event_types(df)
 
     def __add_event_types(self, df):
         """Adds event types to the activity labels."""

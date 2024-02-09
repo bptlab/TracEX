@@ -27,7 +27,7 @@ class PatientJourneyGenerator(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
-        self.result = self.__create_patient_journey()
+        return self.__create_patient_journey()
 
     def __create_patient_journey(self):
         """Creates a new patient journey with the help of the GPT engine."""

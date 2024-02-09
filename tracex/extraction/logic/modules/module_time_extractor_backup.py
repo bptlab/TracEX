@@ -25,11 +25,9 @@ class TimeExtractorBackup(Module):
         super().execute(df, patient_journey)
         df["start"] = df["event_information"].apply(self.__extract_start_date)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
-        print(df, "\n\n")
         df = self.__post_processing(df)
-        print(df)
         df["duration"] = df.apply(self.__calculate_duration, axis=1)
-        self.result = df
+        return df
 
     def __extract_start_date(self, activity_label):
         """Extract the start date for a given activity."""

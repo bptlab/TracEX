@@ -25,7 +25,7 @@ class TimeExtractor(Module):
         df["start"] = df["event_information"].apply(self.__extract_start_date)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df["duration"] = df.apply(self.__calculate_row_duration, axis=1)
-        self.result = df
+        return df
 
     def __extract_start_date(self, activity_label):
         """Extract the start date for a given activity."""

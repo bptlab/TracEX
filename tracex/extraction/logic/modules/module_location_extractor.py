@@ -21,7 +21,7 @@ class LocationExtractor(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        self.result = self.__add_locations(df)
+        return self.__add_locations(df)
 
     def __add_locations(self, df):
         """Adds locations to the activity labels."""

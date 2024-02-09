@@ -22,7 +22,8 @@ class ActivityLabeler(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
-        self.result = self.__extract_activities()
+
+        return self.__extract_activities()
 
     def __extract_activities(self):
         """Converts the input text to activity_labels."""

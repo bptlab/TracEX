@@ -46,20 +46,26 @@ class Orchestrator:
 
     _instance = None
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, configuration: ExtractionConfiguration = None):
         if not cls._instance:
             cls._instance = super().__new__(cls)
-            cls._instance.__init__()
+
         return cls._instance
 
-    def __init__(self):
-        self.configuration = None
+    def __init__(self, configuration=None):
+        if configuration is not None:
+            self.configuration = configuration
         self.data = None
 
     @classmethod
     def get_instance(cls):
         """Return the singleton instance of the orchestrator."""
         return cls._instance
+
+    @classmethod
+    def reset_instance(cls):
+        """Reset the singleton instance of the orchestrator."""
+        cls._instance = None
 
     def set_configuration(self, configuration: ExtractionConfiguration):
         """Set the configuration for the orchestrator instance."""
@@ -82,8 +88,7 @@ class Orchestrator:
         """Run the modules."""
         modules = self.initialize_modules()
         for module in modules:
-            module.execute(self.data, self.configuration.patient_journey)
-            self.data = module.result
+            self.data = module.execute(self.data, self.configuration.patient_journey)
         self.data.insert(0, "caseID", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
@@ -93,5 +98,5 @@ class Orchestrator:
         """Generate a patient journey with the help of the GPT engine."""
         print("Orchestrator is generating a patient journey.")
         module = self.configuration.modules["patient_journey_generation"]()
-        module.execute(self.data, self.configuration.patient_journey)
-        self.configuration.update(patient_journey=module.result)
+        patient_journey = module.execute(self.data, self.configuration.patient_journey)
+        self.configuration = ExtractionConfiguration(patient_journey=patient_journey)
