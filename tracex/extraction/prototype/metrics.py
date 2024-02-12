@@ -8,7 +8,7 @@ from . import input_handling as ih
 
 def measure_event_information_relevance(text):
     df = ih.convert_text_to_bulletpoints(text)
-    df[["weighted_relevance", "relevance", "lin_prop"]] = df["event_information"].apply(
+    df["relevance"] = df["event_information"].apply(
         lambda event_information: pd.Series(
             rate_event_information_relevance(event_information, text)
         )
@@ -19,11 +19,10 @@ def measure_event_information_relevance(text):
 
 def rate_event_information_relevance(event_information, text):
     category_mapping = {
-        "Not Relevant": 1,
-        "Low Relevance": 2,
-        "Moderate Relevance": 3,
-        "High Relevance": 4,
-        "Critical Relevance": 5,
+        "No Relevance": 0,
+        "Low Relevance": 1,
+        "Moderate Relevance": 2,
+        "High Relevance": 3,
     }
 
     messages = [
@@ -38,12 +37,20 @@ def rate_event_information_relevance(event_information, text):
         },
     ]
 
-    category, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=1)
-    relevance = category_mapping.get(category, "Category not found")
-    lin_prop = calculate_linear_probability(top_logprops[0].logprob)
-    weighted_relevance = relevance * lin_prop
+    answer = u.query_gpt(messages)
+    print(answer)
 
-    return (weighted_relevance, category, lin_prop)
+    for key in category_mapping.keys():
+        if key in answer:
+            category = key
+            break
+
+    relevance = category_mapping.get(category, 0)
+    print(event_information)
+    print(category)
+    print(relevance)
+
+    return category
 
 
 def measure_timestamps_correctness(text):

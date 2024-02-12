@@ -262,24 +262,28 @@ LOCATION_ANSWER = """
 
 METRIC_EVENT_INFORMATION_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
-    The categories are as follows: Not Relevant, Low Relevance, Moderate Relevance, High Relevance and Critical Relevance.
+    The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
     It is important, that every bulletpoint gets a relevance category.
     Furthermore it is really important, that that relevance category is correct.
-    The only output should be the relevance category!
-    Please do not add a phrase like "here are your bulletpoints" or something like that..
+    The only output should be the relevance category and the reason why the bulletpoint is part of the category.
+    Please do not add a phrase like "here are your bulletpoints" or something like that.
 
     The relevance categories are defined as follows:
-    Not Relevant: The event has minimal or no impact on understanding the course of the disease.
-    Low Relevance: The event has limited importance in grasping the disease's progression.
-    Moderate Relevance: The event provides some insight into the course of the disease but is not crucial.
-    High Relevance: The event significantly contributes to understanding the disease's progression.
-    Critical Relevance: The event is crucial for comprehending the disease's course and has a major impact on its understanding and management.
-
+    No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
+    Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
+    Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
+    High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
 """
 METRIC_EVENT_INFORMATION_PROMPT = """
-    Please classify to given bulletpoint one of the following categories: Not Relevant, Low Relevance, Moderate Relevance, High Relevance and Critical Relevance.
-    Only output the name of the category, and nothing else. You MUST NOT include any other information.
-    For example, if the bulletpoint is 'visiting doctor's', you should output 'High Relevance'.
+    Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
+    Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
+    Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.
+
+    Take this as an example:
+    Bulletpoint: 'receiving support from my children' -> Answer: 'Low Relvance: Receiving support from the childern is good for mental stability but have a low relevance for the course of disease.'
+    Bulletpoint: 'taking medicine' -> Answer: 'High Relvance: Taking medicine is highly relevant for the course of the event. The medicine could help the patient to improve their health.'
+    Bullepoint:  'eating chips' -> Answer: 'No Relevance: The action of eating chips has no direct or indirect impact on the course of the disease.'
+
 """
 
 METRIC_TIMESTAMPS_CONTEXT = """

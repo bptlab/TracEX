@@ -12,14 +12,17 @@ from tracex.extraction.prototype import metrics as m
 from tracex.extraction.prototype import create_xes as x
 
 text = open(u.input_path / "journey_synth_covid_0.txt").read()
+# text = open(u.input_path / "journey_test_1.txt").read()
+# text = open(u.input_path / "journey_test_2.txt").read()
+# text = open(u.input_path / "journey_test_3.txt").read()
 # df = ih.convert_text_to_bulletpoints(text)
 # print(df)
 
-# print(m.measure_event_information(text))
+print(m.measure_event_information_relevance(text))
 # print(m.measure_event_types(text))
 # print(m.measure_location(text))
 
-print(m.measure_timestamps_correctness(text))
+# print(m.measure_timestamps_correctness(text))
 
 # df = m.measure_event_types(text)
 # print(df)
