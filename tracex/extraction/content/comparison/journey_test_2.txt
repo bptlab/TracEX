@@ -1,0 +1,21 @@
+I started experiencing symptoms of Covid-19 on June 15, 2021. As a doctor, I immediately recognized the signs and knew I needed to take action. I self-isolated in a separate room of my house to protect my family and prevent any potential spread of the virus. The next day, I contacted my primary care physician and informed them about my symptoms.
+
+Over the course of the next few days, my symptoms progressed, and I started experiencing high fever, cough, and fatigue. I diligently followed the guidelines provided by healthcare authorities, taking over-the-counter medication to manage my symptoms and staying hydrated. I continued to stay isolated at home, avoiding close contact with others.
+
+Concerned about the severity of my symptoms, I reached out to a colleague who specialized in infectious diseases for a telemedicine consultation. They provided valuable advice on managing my symptoms and recommended regularly monitoring my oxygen levels using a pulse oximeter.
+
+As the week progressed, my symptoms gradually improved. However, I remained cautious and continued to self-isolate to ensure the virus had fully run its course. After two weeks of isolation, I finally started feeling better and was able to resume my normal activities.
+
+In terms of vaccination, after recovering from Covid-19, I decided to get vaccinated to provide additional protection against future infections. I received the first dose of the vaccine a few months later in September 2021, following the recommended schedule. I experienced mild side effects, including soreness at the injection site and fatigue, but they subsided within a few days.
+
+I received the second dose of the vaccine in October 2021, completing the vaccination process. I followed up with my primary care physician to ensure I had developed a strong immune response to the virus. They reassured me that the vaccine would significantly reduce the likelihood of reinfection and the severity of any future infections.
+
+Overall, my experience with Covid-19 highlighted the importance of following public health guidelines, seeking medical advice, and taking necessary precautions to protect both myself and my loved ones.
+
+
+
+
+
+'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
+
+'Home', 'Hospital' and 'Doctors'

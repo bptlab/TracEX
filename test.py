@@ -1,6 +1,7 @@
 # pylint: skip-file
 # pylint: enable=wrong-import-position
 import os
+import pandas as pd
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tracex.tracex.settings")
 
@@ -11,14 +12,29 @@ from tracex.extraction.prototype import function_calls as fc
 from tracex.extraction.prototype import metrics as m
 from tracex.extraction.prototype import create_xes as x
 
-text = open(u.input_path / "journey_synth_covid_0.txt").read()
+# print("Test 1: \n\n")
+# input = open(u.input_path / "journey_test_1.txt").read()
+# manual = pd.read_csv(u.input_path / "test_1_comparison_basis.csv")
+# #print(manual)
+# dataframe = ih.convert_text_to_bulletpoints(input)
+# #print(dataframe)
+# m.compare_to_test_1(dataframe)
+
+print("Test 2: \n\n")
+input = open(u.comparison_path / "journey_test_2.txt").read()
+dataframe = ih.convert_text_to_bulletpoints(input)
+# print(dataframe)
+m.compare_to_test_2(dataframe)
+
+
+# text = open(u.input_path / "journey_synth_covid_0.txt").read()
 # text = open(u.input_path / "journey_test_1.txt").read()
 # text = open(u.input_path / "journey_test_2.txt").read()
 # text = open(u.input_path / "journey_test_3.txt").read()
 # df = ih.convert_text_to_bulletpoints(text)
 # print(df)
 
-print(m.measure_event_information_relevance(text))
+# print(m.measure_event_information_relevance(text))
 # print(m.measure_event_types(text))
 # print(m.measure_location(text))
 

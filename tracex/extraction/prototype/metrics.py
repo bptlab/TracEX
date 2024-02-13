@@ -167,3 +167,75 @@ def rate_location_confidence(event_information, event_type):
 def calculate_linear_probability(logprob):
     linear_prob = np.round(np.exp(logprob), 2)
     return linear_prob
+
+
+def compare_given_to_manual(given_dataframe, manual_dataframe):
+    with open(u.output_path / "compare.txt", "w") as f:
+        f.write(" ")
+    value = 0
+    for event_information in given_dataframe["event_information"]:
+        value += find_event_information(event_information, manual_dataframe)
+    return value / given_dataframe.shape[0]
+
+
+def compare_manual_to_given(manual_dataframe, given_dataframe):
+    with open(u.output_path / "compare.txt", "w") as f:
+        f.write(" ")
+    value = 0
+    for event_information in manual_dataframe["event_information"]:
+        value += find_event_information(event_information, given_dataframe)
+    return value / manual_dataframe.shape[0]
+
+
+def find_event_information(given_event_information, comparative_dataframe):
+    for row in comparative_dataframe["event_information"]:
+        message = [
+            {"role": "system", "content": p.COMPARE_CONTEXT},
+            {
+                "role": "user",
+                "content": p.COMPARE_PROMPT + given_event_information + "\n" + row,
+            },
+        ]
+        response = u.query_gpt(messages=message)
+        with open(u.output_path / "compare.txt", "a") as f:
+            f.write(
+                given_event_information
+                + " verglichen mit: "
+                + row
+                + ":\n\n"
+                + response
+                + "\n\n\n"
+            )
+        if "True" in response:
+            return 1
+    return 0
+
+
+def compare_to_test_1(dataframe):
+    manual = pd.read_csv(u.comparison_path / "test_1_comparison_basis.csv")
+    given_to_manual = compare_given_to_manual(dataframe, manual)
+    print(
+        "Prozent an gefundenen Stichpunkten, die in den Soll-Punkten enthalten sind: "
+        + str(given_to_manual)
+    )
+    manual_to_given = compare_manual_to_given(manual, dataframe)
+    print(
+        "Prozent an Soll-Punkten, die in den gefundenen Stichpunkten enthalten sind: "
+        + str(manual_to_given)
+    )
+    return 0
+
+
+def compare_to_test_2(dataframe):
+    manual = pd.read_csv(u.comparison_path / "test_2_comparison_basis.csv")
+    given_to_manual = compare_given_to_manual(dataframe, manual)
+    print(
+        "Prozent an gefundenen Stichpunkten, die in den Soll-Punkten enthalten sind: "
+        + str(given_to_manual)
+    )
+    manual_to_given = compare_manual_to_given(manual, dataframe)
+    print(
+        "Prozent an Soll-Punkten, die in den gefundenen Stichpunkten enthalten sind: "
+        + str(manual_to_given)
+    )
+    return 0

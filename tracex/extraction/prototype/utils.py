@@ -16,6 +16,9 @@ output_path = settings.BASE_DIR / Path(
 input_path = settings.BASE_DIR / Path(
     "extraction/content/inputs/"
 )  # Path to the inputs-folder
+comparison_path = settings.BASE_DIR / Path(
+    "extraction/content/comparisons/"
+)  # Path to the comparisons-folder
 oaik = os.environ.get(
     "OPENAI_API_KEY"
 )  # Get the OpenAI API key from the environment variables
@@ -44,7 +47,13 @@ def get_decision(question):
 
 
 def query_gpt(
-    messages, tools=fc.TOOLS, tool_choice="none", temperature=TEMPERATURE_SUMMARIZING, logprobs=False, top_logprobs=None):
+    messages,
+    tools=fc.TOOLS,
+    tool_choice="none",
+    temperature=TEMPERATURE_SUMMARIZING,
+    logprobs=False,
+    top_logprobs=None,
+):
     """Queries the GPT engine."""
     response = client.chat.completions.create(
         model=MODEL,

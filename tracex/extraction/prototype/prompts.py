@@ -303,3 +303,37 @@ METRIC_TIMESTAMPS_PROMPT = """
     Is the following start and end date correct in the context of the bulletpoint based on the given patient journey?
     Only output the True or False, and nothing else. You MUST NOT include any other information.
 """
+
+COMPARE_CONTEXT = """
+    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and thn to compare them.
+    So you take two bulletpoints and check if they are semantically similar.
+    Semantically similar phrases mostly share some words.
+    For example the two Points 'visiting doctor's' and 'going to the doctor' are semantically similar.
+    Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar.
+    In contrary "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar.
+    Also, "putting loved ones over financial worries" and "consulting a doctor" aren't similar.
+"""
+
+COMPARE_PROMPT = """
+    Please check for the following bulletpoints if they are semantically similar.
+    Please return 'True' if you think they are similar and 'False' if you don't.
+    Here are the two bulletpoints:
+"""
+# You will be given one bulletpoint and a list of bulletpoints. Your task is to evaluate if the given bulletpoint is semantically similar to one of the list of bulletpoints.
+# Please make sure you read and understand these instructions carefully. Please keep this document open while reviewing, and refer to it as needed.
+
+# Evlauation Criteria:
+# Rate the given bulletpoint if it is semantically similar to one of the list of bulletpoints.
+# If the given bulletpoint is semantically similar to one of the list of bulletpoints, return 'True'. If it is not, return 'False'.
+
+# Evaluation Steps:
+# 1. Read the list of bulletpoints carefully.
+# 2. Read the given bulletpoint carefully and check if there is a semantically similar bulletpoint in the list of bulletpoints.
+# 3. Answer with 'True' if you find a similar bulletpoint and 'False' if you don't.
+
+# Please make sure to decide if it is 'True' or 'False' based on the given bulletpoint and the list of bulletpoints.
+
+
+# Please check for the following bulletpoint if you can find a semantically similar bulletpoint in the list of bulletpoints.
+# Please return 'True' if you find a similar bulletpoint and 'False' if you don't.
+# Think step by step.
