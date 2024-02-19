@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+<title>Generation</title>
 <head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
     <style>
         .form-row {
             display: flex;
@@ -14,18 +17,6 @@
         .form-column:last-child {
             margin-right: 0;
         }
-        body {
-            background-color: white;
-            font-family: 'Gill Sans', sans-serif;
-            width: 50%;
-            margin-top: 5%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-        }
         input[type="submit"].button {
             width: 100%;
             padding: 10px;
@@ -33,7 +24,7 @@
         }
     </style>
 </head>
-<body>
+<body class="main_body">
     <h1>Generated Journey</h1>
     <p>{{ generated_journey }}</p>
 

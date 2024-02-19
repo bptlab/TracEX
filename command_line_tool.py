@@ -16,4 +16,5 @@ def main():
     ih.convert_text_to_csv(input_text)
 
 
-main()
+if __name__ == "__main__":
+    main()
