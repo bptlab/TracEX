@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path("extraction/", include("extraction.urls")),
+    path("", include("extraction.urls")),
     path("admin/", admin.site.urls),
 ]
 
