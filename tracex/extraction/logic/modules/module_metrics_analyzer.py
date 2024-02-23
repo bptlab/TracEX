@@ -24,8 +24,10 @@ class MetricsAnalyzer(Module):
             "Measures the output of the pipeline based on specified metrics."
         )
 
+    @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
+
         return self.__measure_metrics(df)
 
     def __measure_metrics(self, df):
@@ -43,10 +45,9 @@ class MetricsAnalyzer(Module):
             ),
             axis=1,
         )
-
         return df
 
-    def __rate_event_information_relevance(event_information, self):
+    def __rate_event_information_relevance(self, event_information):
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -58,11 +59,7 @@ class MetricsAnalyzer(Module):
             {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
             {
                 "role": "user",
-                "content": p.METRIC_EVENT_INFORMATION_CONTEXT
-                + "\nThe bulletpoint: "
-                + event_information
-                + "\nThe patient journey: "
-                + {self.patient_journey},
+                "content": f"{p.METRIC_EVENT_INFORMATION_PROMPT} \nThe bulletpoint: {event_information}\nThe patient journey: {self.patient_journey}",
             },
         ]
 
@@ -74,29 +71,22 @@ class MetricsAnalyzer(Module):
 
         return category
 
-    def __rate_timestamps_correctness(event_information, start_date, end_date, self):
+    def __rate_timestamps_correctness(self, event_information, start_date, end_date):
         messages = [
             {"role": "system", "content": p.METRIC_TIMESTAMPS_CONTEXT},
             {
                 "role": "user",
-                "content": p.METRIC_TIMESTAMPS_PROMPT
-                + "\nThe bulletpoint: "
-                + event_information
-                + "\nThe start date related to the bulletpoint: "
-                + start_date
-                + "\nThe end date to the bulletpoint: "
-                + end_date
-                + "\nThe patient journey you should check the timestamps for the bulletpoint: "
-                + {self.patient_journey},
+                "content": f"{p.METRIC_TIMESTAMPS_PROMPT}\nThe bulletpoint: {event_information}\nThe start date related to the bulletpoint: {start_date}\nThe end date to the bulletpoint: {end_date}\nThe patient journey you should check the timestamps for the bulletpoint: {self.patient_journey}",
             },
         ]
 
         timestamp_correctness, top_logprops = u.query_gpt(
             messages, logprobs=True, top_logprobs=1
         )
-        lin_prop = self.__calculate_linear_probability(top_logprops[0].logprob)
-        return (timestamp_correctness, lin_prop)
+        linear_prop = self.__calculate_linear_probability(top_logprops[0].logprob)
+        return (timestamp_correctness, linear_prop)
 
+    @staticmethod
     def __calculate_linear_probability(logprob):
         linear_prob = np.round(np.exp(logprob), 2)
         return linear_prob

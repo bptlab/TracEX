@@ -58,6 +58,8 @@ def query_gpt(
     temperature=TEMPERATURE_SUMMARIZING,
     tools=None,
     tool_choice="none",
+    logprobs=False,
+    top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
 
@@ -74,16 +76,23 @@ def query_gpt(
             temperature=temperature,
             tools=tools,
             tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
         )
 
         return _response
 
     response = make_api_call()
-    if tool_choice == "none":
-        output = response.choices[0].message.content
-    else:
+    if tool_choice != "none":
         api_response = response.choices[0].message.tool_calls[0].function.arguments
         output = json.loads(api_response)["output"][0]
+
+    elif logprobs:
+        top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
+        content = response.choices[0].message.content
+        return content, top_logprobs
+    else:
+        output = response.choices[0].message.content
     return output
 
 
