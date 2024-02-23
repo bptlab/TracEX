@@ -23,8 +23,8 @@ class TimeExtractorBackup(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        df["start"] = df["event_information"].apply(self.__extract_start_date)
-        df["end"] = df.apply(self.__extract_end_date, axis=1)
+        df["start_date"] = df["event_information"].apply(self.__extract_start_date)
+        df["end_date"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
         df["duration"] = df.apply(self.__calculate_duration, axis=1)
         return df
@@ -49,7 +49,7 @@ class TimeExtractorBackup(Module):
             {
                 "role": "user",
                 "content": f"\nThe text: {self.patient_journey} \nThe activity label: "
-                f"{row['event_information']} \nThe start date: {row['start']}",
+                f"{row['event_information']} \nThe start date: {row['start_date']}",
             },
         ]
         end_date = u.query_gpt(messages)
@@ -59,8 +59,8 @@ class TimeExtractorBackup(Module):
     @staticmethod
     def __calculate_duration(row):
         """Calculate the duration of an activity."""
-        start_date = datetime.strptime(row["start"], "%Y%m%dT%H%M")
-        end_date = datetime.strptime(row["end"], "%Y%m%dT%H%M")
+        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
+        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
         duration = end_date - start_date
         hours, remainder = divmod(duration.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
@@ -72,22 +72,24 @@ class TimeExtractorBackup(Module):
         """Fill missing values for dates with default values."""
 
         def fix_end_dates(row):
-            if row["end"] is pd.NaT and row["start"] is not pd.NaT:
-                row["end"] = row["start"]
+            if row["end_date"] is pd.NaT and row["start_date"] is not pd.NaT:
+                row["end_date"] = row["start_date"]
 
             return row
 
         converted_start = pd.to_datetime(
-            df["start"], format="%Y%m%dT%H%M", errors="coerce"
+            df["start_date"], format="%Y%m%dT%H%M", errors="coerce"
         )
         mask = converted_start.isna()
-        df.loc[mask, "start"] = converted_start
-        df["start"].ffill()
+        df.loc[mask, "start_date"] = converted_start
+        df["start_date"].ffill()
 
-        converted_end = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
+        converted_end = pd.to_datetime(
+            df["end_date"], format="%Y%m%dT%H%M", errors="coerce"
+        )
         mask = converted_end.isna()
-        df.loc[mask, "end"] = converted_end
-        df["end"].ffill()
+        df.loc[mask, "end_date"] = converted_end
+        df["end_date"].ffill()
 
         df = df.apply(fix_end_dates, axis=1)
 

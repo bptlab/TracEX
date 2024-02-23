@@ -131,14 +131,14 @@ class Conversion:
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
         df["caseID"] = df["caseID"].astype(str)
-        df["start"] = pd.to_datetime(df["start"])
-        df["end"] = pd.to_datetime(df["end"])
+        df["start_date"] = pd.to_datetime(df["start_date"])
+        df["end_date"] = pd.to_datetime(df["end_date"])
         df = df.rename(
             columns={
                 activity_key: "concept:name",
                 "caseID": "case:concept:name",
-                "start": "time:timestamp",
-                "end": "time:endDate",
+                "start_date": "time:timestamp",
+                "end_date": "time:endDate",
                 "duration": "time:duration",
             }
         )
@@ -181,7 +181,6 @@ class Conversion:
                 output_dfg_file[1],
                 output_dfg_file[2],
                 temp_file_path,
-                rankdir="TB",
             )
         with open(temp_file_path, "rb") as temp_file:
             dfg_img_buffer.write(temp_file.read())
