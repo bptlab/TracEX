@@ -236,3 +236,19 @@ METRIC_TIMESTAMPS_PROMPT = """
     Is the following start and end date correct in the context of the bulletpoint based on the given patient journey?
     Only output the True or False, and nothing else. You MUST NOT include any other information.
 """
+
+COMPARE_CONTEXT = """
+    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and thn to compare them.
+    So you take two bulletpoints and check if they are semantically similar.
+    Semantically similar phrases mostly share some words.
+    For example the two Points 'visiting doctor's' and 'going to the doctor' are semantically similar.
+    Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar.
+    In contrary "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar.
+    Also, "putting loved ones over financial worries" and "consulting a doctor" aren't similar.
+"""
+
+COMPARE_PROMPT = """
+    Please check for the following bulletpoints if they are semantically similar.
+    Please return 'True' if you think they are similar and 'False' if you don't.
+    Here are the two bulletpoints:
+"""

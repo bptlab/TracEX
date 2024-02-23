@@ -8,6 +8,7 @@ from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 from .modules.module_metrics_analyzer import MetricsAnalyzer
+from .modules.module_event_log_comparator import EventLogComparator
 
 from ..logic import utils
 
@@ -20,6 +21,7 @@ class ExtractionConfiguration:
     patient journey is, on which the pipeline is executed.
     """
 
+    patient_journey_name: Optional[str] = None
     patient_journey: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
@@ -30,7 +32,9 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        "metrics_analyzer": MetricsAnalyzer,
+        # "metrics_analyzer": MetricsAnalyzer,
+        # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
+        # "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -83,9 +87,11 @@ class Orchestrator:
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
-            #    This module should be activated only if the user wants to analyze the metrics
-            #    Implementation of correct conversion to csv and xes is not yet implemented
-            self.configuration.modules["metrics_analyzer"](),
+            # This module should be activated only if the user wants to analyze the metrics
+            # Implementation of correct conversion to csv and xes is not yet implemented
+            # self.configuration.modules["metrics_analyzer"](),
+            # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
+            # self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -95,8 +101,6 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-            with open(utils.output_path / "test_df.txt", "w") as f:
-                f.write(self.data.to_string())
         self.data.insert(0, "caseID", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
