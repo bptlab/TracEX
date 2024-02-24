@@ -10,7 +10,7 @@ input_path = settings.BASE_DIR / Path(
     "extraction/content/inputs/"
 )  # Path to the inputs-folder
 comparison_path = settings.BASE_DIR / Path(
-    "extraction/content/comparisons/"
+    "extraction/content/comparison/"
 )  # Path to the comparisons-folder
 oaik = os.environ.get(
     "OPENAI_API_KEY"

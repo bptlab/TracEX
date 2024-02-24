@@ -21,7 +21,6 @@ class ExtractionConfiguration:
     patient journey is, on which the pipeline is executed.
     """
 
-    patient_journey_name: Optional[str] = None
     patient_journey: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None

@@ -28,17 +28,13 @@ class EventLogComparator(Module):
 
     def __compare_event_logs(self, df):
         """Comparing the event logs."""
+        ground_truth_df = pd.read_csv(
+            c.comparison_path / "journey_test_1_comparison_basis.csv"
+        )
 
-        patient_journey_name = self.patient_journey.name
+        return self.__start_comparison(df, ground_truth_df)
 
-        # check if patient journey is in comparision
-        # if yes add path and read event log
-        # if not throw error
-
-        return df
-
-    def __compare_to_test_1(self, pipeline_df):
-        ground_truth_df = pd.read_csv(c.comparison_path / "test_1_comparison_basis.csv")
+    def __start_comparison(self, pipeline_df, ground_truth_df):
         matching_perc_pipeline_to_ground_truth = self.__compare_given_to_manual(
             pipeline_df, ground_truth_df
         )
@@ -53,44 +49,31 @@ class EventLogComparator(Module):
             "Percentage of event information in the ground truth that are contained event log by the pipeline: "
             + str(matching_perc_ground_truth_to_pipeline)
         )
-        return 0
-
-    def __compare_to_test_2(self, pipeline_df):
-        ground_truth_df = pd.read_csv(c.comparison_path / "test_2_comparison_basis.csv")
-        matching_perc_pipeline_to_ground_truth = self.__compare_given_to_manual(
-            pipeline_df, ground_truth_df
-        )
-        print(
-            "Percentage of event information found by the pipeline that are contained in ground truth: "
-            + str(matching_perc_pipeline_to_ground_truth)
-        )
-        matching_perc_ground_truth_to_pipeline = self.__compare_manual_to_given(
-            ground_truth_df, pipeline_df
-        )
-        print(
-            "Percentage of event information in the ground truth that are contained event log by the pipeline: "
-            + str(matching_perc_ground_truth_to_pipeline)
-        )
-        return 0
+        return None
 
     def __compare_given_to_manual(self, pipeline_df, ground_truth_df):
         total_matching_event_information = 0
         for event_information in pipeline_df["event_information"]:
-            total_matching_event_information += self.find_event_information(
+            total_matching_event_information += self.__find_event_information(
                 event_information, ground_truth_df
             )
-        matching_percentage = total_matching_event_information / pipeline_df.shape[0]
+        matching_percentage = round(
+            total_matching_event_information / pipeline_df.shape[0], 2
+        )
         return matching_percentage
 
     def __compare_manual_to_given(self, ground_truth_df, pipeline_df):
         total_matching_event_information = 0
         for event_information in ground_truth_df["event_information"]:
-            total_matching_event_information += self.find_event_information(
+            total_matching_event_information += self.__find_event_information(
                 event_information, pipeline_df
             )
-        matching_percentage = total_matching_event_information / pipeline_df.shape[0]
+        matching_percentage = round(
+            total_matching_event_information / pipeline_df.shape[0], 2
+        )
         return matching_percentage
 
+    @staticmethod
     def __find_event_information(event_information, ground_truth_df):
         for row in ground_truth_df["event_information"]:
             message = [
