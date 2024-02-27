@@ -1,4 +1,6 @@
 # pylint: disable=import-error
+# pylint: disable=import-error
+# pylint: disable=line-too-long
 """Module providing the needed prompts for the gpt_queries."""
 import random
 

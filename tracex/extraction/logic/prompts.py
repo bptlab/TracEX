@@ -255,7 +255,6 @@ COMPARE_CONTEXT = """
     "consulting a doctor" aren't similar.
 """
 
-
 COMPARE_PROMPT = """
     Please check for the following bulletpoints if they are semantically similar.
     Please return 'True' if you think they are similar and 'False' if you don't.
