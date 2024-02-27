@@ -40,7 +40,9 @@ class MetricsAnalyzer(Module):
             self.__rate_activity_relevance
         )
 
-        metrics_df[["timestamp_correctness", "correctness_confidence"]] = metrics_df.apply(
+        metrics_df[
+            ["timestamp_correctness", "correctness_confidence"]
+        ] = metrics_df.apply(
             lambda row: pd.Series(
                 self.__rate_timestamps_correctness(
                     row["activity"], row["start"], row["end"]
@@ -67,12 +69,15 @@ class MetricsAnalyzer(Module):
             {"role": "system", "content": p.METRIC_ACTIVITY_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.METRIC_ACTIVITY_PROMPT} \nThe bulletpoint: {activity}\nThe patient journey: {self.patient_journey}",
+                "content": (
+                    f"{p.METRIC_ACTIVITY_PROMPT}\nThe bulletpoint: {activity}\n"
+                    f"The patient journey: {self.patient_journey}"
+                ),
             },
         ]
 
         answer = u.query_gpt(messages)
-        for key in category_mapping.keys():
+        for key in category_mapping:
             if key in answer:
                 category = key
                 break
@@ -84,7 +89,12 @@ class MetricsAnalyzer(Module):
             {"role": "system", "content": p.METRIC_TIMESTAMPS_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.METRIC_TIMESTAMPS_PROMPT}\nThe bulletpoint: {activity}\nThe start date related to the bulletpoint: {start}\nThe end date to the bulletpoint: {end}\nThe patient journey you should check the timestamps for the bulletpoint: {self.patient_journey}",
+                "content": (
+                    f"{p.METRIC_TIMESTAMPS_PROMPT}\nThe bulletpoint: {activity}\n"
+                    f"The start date related to the bulletpoint: {start}\n"
+                    f"The end date to the bulletpoint: {end}\n"
+                    f"The patient journey you should check the timestamps for the bulletpoint: {self.patient_journey}"
+                ),
             },
         ]
 

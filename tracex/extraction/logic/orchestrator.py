@@ -7,8 +7,9 @@ from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
-from .modules.module_metrics_analyzer import MetricsAnalyzer
-from .modules.module_event_log_comparator import EventLogComparator
+
+# from .modules.module_metrics_analyzer import MetricsAnalyzer
+# from .modules.module_event_log_comparator import EventLogComparator
 
 from ..logic import utils
 
@@ -32,7 +33,7 @@ class ExtractionConfiguration:
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
         # "metrics_analyzer": MetricsAnalyzer,
-        # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
+        # Only activate this module with a test comparision patient journey as ground truth
         # "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
@@ -86,10 +87,9 @@ class Orchestrator:
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
-
             # This module should be activated only if the user wants to analyze the metrics
             # self.configuration.modules["metrics_analyzer"](),
-            # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
+            # Only activate this module with a test comparision patient journey as ground truth
             # self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")

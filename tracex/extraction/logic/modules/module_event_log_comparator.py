@@ -11,8 +11,10 @@ from .. import constants as c
 
 class EventLogComparator(Module):
     """
-    This is the module that compares the event log created by the pipeline against a manual created ground truth.
-    We provide three different event logs with the according patient journey as a ground truth in tracex/extraction/content/comparison.
+    This is the module that compares the event log created by the pipeline
+    against a manual created ground truth. We provide three different event
+    logs with the according patient journey as a ground truth in
+    tracex/extraction/content/comparison.
     """
 
     def __init__(self):
@@ -28,6 +30,7 @@ class EventLogComparator(Module):
 
     def __compare_event_logs(self, df):
         """Comparing the event logs."""
+        # Check if the comparison patient journey is the same as the one used in the pipeline not yet implemented
         ground_truth_df = pd.read_csv(
             c.comparison_path / "journey_test_1_comparison_basis.csv"
         )
@@ -49,28 +52,19 @@ class EventLogComparator(Module):
             "Percentage of event information in the ground truth that are contained event log by the pipeline: "
             + str(matching_perc_ground_truth_to_pipeline)
         )
-        return None
 
     def __compare_given_to_manual(self, pipeline_df, ground_truth_df):
         total_matching_activities = 0
         for activity in pipeline_df["activity"]:
-            total_matching_activities += self.__find_activity(
-                activity, ground_truth_df
-            )
-        matching_percentage = round(
-            total_matching_activities / pipeline_df.shape[0], 2
-        )
+            total_matching_activities += self.__find_activity(activity, ground_truth_df)
+        matching_percentage = round(total_matching_activities / pipeline_df.shape[0], 2)
         return matching_percentage
 
     def __compare_manual_to_given(self, ground_truth_df, pipeline_df):
         total_matching_activities = 0
         for activity in ground_truth_df["activity"]:
-            total_matching_activities += self.__find_activity(
-                activity, pipeline_df
-            )
-        matching_percentage = round(
-            total_matching_activities / pipeline_df.shape[0], 2
-        )
+            total_matching_activities += self.__find_activity(activity, pipeline_df)
+        matching_percentage = round(total_matching_activities / pipeline_df.shape[0], 2)
         return matching_percentage
 
     @staticmethod
@@ -86,12 +80,7 @@ class EventLogComparator(Module):
             response = u.query_gpt(messages=message)
             with open(u.output_path / "compare.txt", "a") as f:
                 f.write(
-                    activity
-                    + " comparing with: "
-                    + row
-                    + ":\n\n"
-                    + response
-                    + "\n\n\n"
+                    activity + " comparing with: " + row + ":\n\n" + response + "\n\n\n"
                 )
             if "True" in response:
                 return 1
