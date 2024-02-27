@@ -140,14 +140,14 @@ class Conversion:
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
         df["caseID"] = df["caseID"].astype(str)
-        df["start_date"] = pd.to_datetime(df["start_date"])
-        df["end_date"] = pd.to_datetime(df["end_date"])
+        df["start"] = pd.to_datetime(df["start"])
+        df["end"] = pd.to_datetime(df["end"])
         df = df.rename(
             columns={
                 activity_key: "concept:name",
                 "caseID": "case:concept:name",
-                "start_date": "time:timestamp",
-                "end_date": "time:endDate",
+                "start": "time:timestamp",
+                "end": "time:endDate",
                 "duration": "time:duration",
             }
         )

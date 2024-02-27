@@ -94,7 +94,7 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
 """
 
 # Conversion of a text to bulletpoints focused on the course of a disease
-TEXT_TO_EVENT_INFORMATION_CONTEXT = """
+TEXT_TO_ACTIVITY_CONTEXT = """
     You are a summarizing expert for diseases and your job is to summarize a given text into event information regarding all important points about the course of the disease.
     Every event information has to be a short description that must not longer than 6 words.
     Every information that is not important for the course of the disease should be discarded!
@@ -103,10 +103,10 @@ TEXT_TO_EVENT_INFORMATION_CONTEXT = """
     You should not take two actions in one event information, but rather split them into two.
     Try not to include enumerations.
 """
-TEXT_TO_EVENT_INFORMATION_PROMPT = """
+TEXT_TO_ACTIVITY_PROMPT = """
     Here is the text from which you should extract event information:
 """
-TEXT_TO_EVENT_INFORMATION_ANSWER = """
+TEXT_TO_ACTIVITY_ANSWER = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
@@ -121,7 +121,7 @@ TEXT_TO_EVENT_INFORMATION_ANSWER = """
 
 
 # Adding of a start date to every bulletpoint
-START_DATE_CONTEXT = """
+START_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given bulletpoint and to extract a start date to this bulletpoint.
     Just output the extracted start date.
     The date should be extracted from the text or from the context and should be as precise as possible.
@@ -132,12 +132,12 @@ START_DATE_CONTEXT = """
     use that information to draw conclusions about the start dates.
     If there is only a month specified, use the first of this month as start date. If there is no date specified in the text conclude 'N/A'.
 """
-START_DATE_PROMPT = """
+START_PROMPT = """
     Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a start date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
-START_DATE_ANSWER = """
+START_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.' and the bulletpoints
     'experiencing mild symptoms' you should return '20200401T0000'.
@@ -145,15 +145,15 @@ START_DATE_ANSWER = """
     The bulletpoint 'getting infected again' has only specified the month therefore the day is always the first of month and should be returned as '20200601T0000'.
     Futhermore the bulletpoint 'having back pain' hasn't specified a date in the text and context, therefore the date ist 'N/A'.
 """
-FC_START_DATE_CONTEXT = """
+FC_START_CONTEXT = """
    You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
-FC_START_DATE_PROMPT = """
+FC_START_PROMPT = """
     What is the start date of given bulletpoint in the format YYYYMMDDT000 (e.g. 20200101T000). If no start date is available extract N/A.
 """
 
 # Adding of a end date to every bulletpoint
-END_DATE_CONTEXT = """
+END_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given bulletpoint with a start date and to extract a end date to this bulletpoint.
     It is important, that an end date is extracted, even if it is the same as the start date.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
@@ -164,12 +164,12 @@ END_DATE_CONTEXT = """
     If there is no information about the end date at all, please state the start date also as the end date.
     Only return the date! Nothing else!
 """
-END_DATE_PROMPT = """
+END_PROMPT = """
     Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a end date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the end date YYYYMMDDTHHMM is available, if not calculate the average time of the activity and add this on the start date resulting as the end date.
 """
-END_DATE_ANSWER = """
+END_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
     and the bulletpoint 'visiting doctor's' with the start date '20200405T0000' you should only return '20200405T0000'.
     For the bulletpoint 'testing positive for Covid19' with the start date '20200405T0000' you should only return '20200405T0000'.
@@ -177,10 +177,10 @@ END_DATE_ANSWER = """
 
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
-FC_END_DATE_CONTEXT = """
+FC_END_CONTEXT = """
     You are an expert in extracting information. You easily detect the end dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
-FC_END_DATE_PROMPT = """
+FC_END_PROMPT = """
     Please extract the following end date of the text without changing the given date format:
 """
 
@@ -260,7 +260,7 @@ LOCATION_ANSWER = """
 ############################################## METRICS ##############################################
 
 
-METRIC_EVENT_INFORMATION_CONTEXT = """
+METRIC_ACTIVITY_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
     The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
     It is important, that every bulletpoint gets a relevance category.
@@ -274,7 +274,7 @@ METRIC_EVENT_INFORMATION_CONTEXT = """
     Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
     High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
 """
-METRIC_EVENT_INFORMATION_PROMPT = """
+METRIC_ACTIVITY_PROMPT = """
     Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
     Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
     Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.

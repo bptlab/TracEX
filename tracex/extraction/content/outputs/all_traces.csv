@@ -1,4 +1,4 @@
-caseID,event_information,start_date,end_date,duration,event_type,attribute_location
+caseID,activity,start,end,duration,event_type,attribute_location
 1,Experiencing mild symptoms,20220601T0000,20220602T0000,00:00:00,Symptom Onset,No location
 1,Developing high fever and difficulty breathing,20220603T0000,20220610T0000,07:00:00,Symptom Onset,No location
 1,Getting tested for Covid-19,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
@@ -38,3 +38,21 @@ caseID,event_information,start_date,end_date,duration,event_type,attribute_locat
 3,getting tested for Covid-19,20220718T0000,20220719T0000,24:00:00,Diagnosis,Hospital
 3,continuing to isolate at home,20220715T0000,20220729T0000,336:00:00,Other,Home
 3,taking over-the-counter medications for symptoms,20220715T0000,20220722T0000,168:00:00,Treatment,Home
+4,,20220915T0000,20220920T0000,120:00:00,Symptom Onset,given activity label
+4,    starting to experience mild symptoms,20220915T0000,20220918T0000,72:00:00,Symptom Onset,Home
+4,    contacting general practitioner,20220918T0000,20220920T0000,48:00:00,Doctor visit,general practitioner
+4,    getting tested for Covid-19,20220918T0000,20220920T0000,48:00:00,Diagnosis,Hospital
+4,    receiving positive test results,20220920T0000,20220920T0000,00:00:00,Diagnosis,Doctors
+4,    self-isolating at home,20220918T0000,20200920T0000,-17472:00:00,Lifestyle Change,Home
+4,    receiving guidance from health authorities,20220920T0000,20220920T0000,00:00:00,Doctor visit,Home
+4,    monitoring symptoms closely,20220920T0000,20221004T0000,336:00:00,Symptom Onset,Home
+4,    consulting pulmonologist for evaluation,20211001T0000,20211001T0000,00:00:00,Doctor visit,consulting pulmonologist for evaluation
+4,    undergoing lung function tests,20211005T0000,20211005T0000,00:00:00,Diagnosis,Hospital
+4,    receiving medication for recovery,20211004T0000,20211004T0000,00:00:00,Treatment,Home
+4,    getting vaccinated against Covid-19,20230201T0000,20230301T0000,672:00:00,Treatment,Hospital
+4,    prioritizing well-being and precautions,20231001T0000,20231001T0000,00:00:00,Lifestyle Change,Home
+5,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, receiving guidance on managing illness, self-isolating at home, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, receiving medication, getting vaccinated against Covid-19, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Symptom Onset,Home
+6,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, receiving guidance on managing illness, self-isolating at home, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, receiving medication, getting vaccinated against Covid-19, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Symptom Onset,Home
+7,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, receiving guidance on managing illness, self-isolating at home, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, receiving medication, getting vaccinated against Covid-19, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Symptom Onset,Home
+8,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, self-isolating at home, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, taking prescribed medication, getting vaccinated against Covid-19, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Symptom Onset,Home
+9,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, advising self-isolation, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, prescribing medication, getting vaccinated against Covid-19, receiving mRNA vaccine doses, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Diagnosis,Doctors

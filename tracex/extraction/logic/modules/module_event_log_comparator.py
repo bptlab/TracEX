@@ -52,41 +52,41 @@ class EventLogComparator(Module):
         return None
 
     def __compare_given_to_manual(self, pipeline_df, ground_truth_df):
-        total_matching_event_information = 0
-        for event_information in pipeline_df["event_information"]:
-            total_matching_event_information += self.__find_event_information(
-                event_information, ground_truth_df
+        total_matching_activities = 0
+        for activity in pipeline_df["activity"]:
+            total_matching_activities += self.__find_activity(
+                activity, ground_truth_df
             )
         matching_percentage = round(
-            total_matching_event_information / pipeline_df.shape[0], 2
+            total_matching_activities / pipeline_df.shape[0], 2
         )
         return matching_percentage
 
     def __compare_manual_to_given(self, ground_truth_df, pipeline_df):
-        total_matching_event_information = 0
-        for event_information in ground_truth_df["event_information"]:
-            total_matching_event_information += self.__find_event_information(
-                event_information, pipeline_df
+        total_matching_activities = 0
+        for activity in ground_truth_df["activity"]:
+            total_matching_activities += self.__find_activity(
+                activity, pipeline_df
             )
         matching_percentage = round(
-            total_matching_event_information / pipeline_df.shape[0], 2
+            total_matching_activities / pipeline_df.shape[0], 2
         )
         return matching_percentage
 
     @staticmethod
-    def __find_event_information(event_information, ground_truth_df):
-        for row in ground_truth_df["event_information"]:
+    def __find_activity(activity, ground_truth_df):
+        for row in ground_truth_df["activity"]:
             message = [
                 {"role": "system", "content": p.COMPARE_CONTEXT},
                 {
                     "role": "user",
-                    "content": f"{p.COMPARE_PROMPT} + given_event_information\n {row}",
+                    "content": f"{p.COMPARE_PROMPT} + given_activity\n {row}",
                 },
             ]
             response = u.query_gpt(messages=message)
             with open(u.output_path / "compare.txt", "a") as f:
                 f.write(
-                    event_information
+                    activity
                     + " comparing with: "
                     + row
                     + ":\n\n"

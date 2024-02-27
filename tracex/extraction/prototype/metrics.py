@@ -6,18 +6,18 @@ from . import prompts as p
 from . import input_handling as ih
 
 
-def measure_event_information_relevance(text):
+def measure_activity_relevance(text):
     df = ih.convert_text_to_bulletpoints(text)
-    df["relevance"] = df["event_information"].apply(
-        lambda event_information: pd.Series(
-            rate_event_information_relevance(event_information, text)
+    df["relevance"] = df["activity"].apply(
+        lambda activity: pd.Series(
+            measure_activity_relevance(activity, text)
         )
     )
 
     return df
 
 
-def rate_event_information_relevance(event_information, text):
+def rate_activity_relevance(activity, text):
     category_mapping = {
         "No Relevance": 0,
         "Low Relevance": 1,
@@ -26,12 +26,12 @@ def rate_event_information_relevance(event_information, text):
     }
 
     messages = [
-        {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
+        {"role": "system", "content": p.METRIC_ACTIVITY_CONTEXT},
         {
             "role": "user",
-            "content": p.METRIC_EVENT_INFORMATION_CONTEXT
+            "content": p.METRIC_ACTIVITY_CONTEXT
             + "\nThe bulletpoint: "
-            + event_information
+            + activity
             + "\nThe patient journey: "
             + text,
         },
@@ -46,7 +46,7 @@ def rate_event_information_relevance(event_information, text):
             break
 
     relevance = category_mapping.get(category, 0)
-    print(event_information)
+    print(activity)
     print(category)
     print(relevance)
 
@@ -56,15 +56,15 @@ def rate_event_information_relevance(event_information, text):
 def measure_timestamps_correctness(text):
     df = ih.convert_text_to_bulletpoints(text)
     print(df)
-    df = ih.add_start_dates(text, df)
+    df = ih.add_start(text, df)
     print(df)
-    df = ih.add_end_dates(text, df)
+    df = ih.add_end(text, df)
     print(df)
 
     df[["timestamp_correctness", "correctness_confidence"]] = df.apply(
         lambda row: pd.Series(
             rate_timestamps_correctness(
-                row["event_information"], row["start_date"], row["end_date"], text
+                row["activity"], row["start"], row["end"], text
             )
         ),
         axis=1,
@@ -73,18 +73,18 @@ def measure_timestamps_correctness(text):
     return df
 
 
-def rate_timestamps_correctness(event_information, start_date, end_date, text):
+def rate_timestamps_correctness(activity, start, end, text):
     messages = [
         {"role": "system", "content": p.METRIC_TIMESTAMPS_CONTEXT},
         {
             "role": "user",
             "content": p.METRIC_TIMESTAMPS_PROMPT
             + "\nThe bulletpoint: "
-            + event_information
+            + activity
             + "\nThe start date related to the bulletpoint: "
-            + start_date
+            + start
             + "\nThe end date to the bulletpoint: "
-            + end_date
+            + end
             + "\nThe patient journey you should check the timestamps for the bulletpoint: "
             + text,
         },
@@ -102,22 +102,22 @@ def measure_event_types_confidence(text):
     df = ih.convert_text_to_bulletpoints(text)
 
     df[["event_type", "(token_1, lin_prob_1)", "(token_2, lin_prob_2)"]] = df[
-        "event_information"
+        "activity"
     ].apply(
-        lambda event_information: pd.Series(
-            rate_event_type_confidence(event_information)
+        lambda activity: pd.Series(
+            rate_event_type_confidence(activity)
         )
     )
 
     return df
 
 
-def rate_event_type_confidence(event_information):
+def rate_event_type_confidence(activity):
     messages = [
         {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
         {
             "role": "user",
-            "content": p.EVENT_TYPE_PROMPT + "\nThe bulletpoint: " + event_information,
+            "content": p.EVENT_TYPE_PROMPT + "\nThe bulletpoint: " + activity,
         },
         {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
     ]
@@ -135,7 +135,7 @@ def measure_location_confidence(text):
     df = ih.add_event_types(ih.convert_text_to_bulletpoints(text))
     df[["location", "(token_1, lin_prob_1)", "(token_2, lin_prob_2)"]] = df.apply(
         lambda row: pd.Series(
-            rate_location_confidence(row["event_information"], row["event_type"])
+            rate_location_confidence(row["activity"], row["event_type"])
         ),
         axis=1,
     )
@@ -143,13 +143,13 @@ def measure_location_confidence(text):
     return df
 
 
-def rate_location_confidence(event_information, event_type):
+def rate_location_confidence(activity, event_type):
     messages = [
         {"role": "system", "content": p.LOCATION_CONTEXT},
         {
             "role": "user",
             "content": p.LOCATION_PROMPT
-            + event_information
+            + activity
             + "\nThe category: "
             + event_type,
         },
@@ -173,8 +173,8 @@ def compare_given_to_manual(given_dataframe, manual_dataframe):
     with open(u.output_path / "compare.txt", "w") as f:
         f.write(" ")
     value = 0
-    for event_information in given_dataframe["event_information"]:
-        value += find_event_information(event_information, manual_dataframe)
+    for activity in given_dataframe["activity"]:
+        value += find_activity(activity, manual_dataframe)
     return value / given_dataframe.shape[0]
 
 
@@ -182,24 +182,24 @@ def compare_manual_to_given(manual_dataframe, given_dataframe):
     with open(u.output_path / "compare.txt", "w") as f:
         f.write(" ")
     value = 0
-    for event_information in manual_dataframe["event_information"]:
-        value += find_event_information(event_information, given_dataframe)
+    for activity in manual_dataframe["activity"]:
+        value += find_activity(activity, given_dataframe)
     return value / manual_dataframe.shape[0]
 
 
-def find_event_information(given_event_information, comparative_dataframe):
-    for row in comparative_dataframe["event_information"]:
+def find_activity(given_activity, comparative_dataframe):
+    for row in comparative_dataframe["activity"]:
         message = [
             {"role": "system", "content": p.COMPARE_CONTEXT},
             {
                 "role": "user",
-                "content": p.COMPARE_PROMPT + given_event_information + "\n" + row,
+                "content": p.COMPARE_PROMPT + given_activity + "\n" + row,
             },
         ]
         response = u.query_gpt(messages=message)
         with open(u.output_path / "compare.txt", "a") as f:
             f.write(
-                given_event_information
+                given_activity
                 + " verglichen mit: "
                 + row
                 + ":\n\n"

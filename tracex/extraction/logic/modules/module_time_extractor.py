@@ -22,65 +22,65 @@ class TimeExtractor(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        df["start_date"] = df["event_information"].apply(self.__extract_start_date)
-        df["end_date"] = df.apply(self.__extract_end_date, axis=1)
+        df["start"] = df["activity"].apply(self.__extract_start)
+        df["end"] = df.apply(self.__extract_end, axis=1)
         df["duration"] = df.apply(self.__calculate_row_duration, axis=1)
         return df
 
-    def __extract_start_date(self, activity_label):
+    def __extract_start(self, activity_label):
         """Extract the start date for a given activity."""
         messages = [
-            {"role": "system", "content": p.START_DATE_CONTEXT},
+            {"role": "system", "content": p.START_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.START_DATE_PROMPT} \nThe text: {self.patient_journey} \n"
+                "content": f"{p.START_PROMPT} \nThe text: {self.patient_journey} \n"
                 f"The bulletpoint: {activity_label}",
             },
-            {"role": "assistant", "content": p.START_DATE_ANSWER},
+            {"role": "assistant", "content": p.START_ANSWER},
         ]
         output = u.query_gpt(messages)
         fc_message = [
-            {"role": "system", "content": p.FC_START_DATE_CONTEXT},
-            {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
+            {"role": "system", "content": p.FC_START_CONTEXT},
+            {"role": "user", "content": p.FC_START_PROMPT + "The text: " + output},
         ]
-        start_date = u.query_gpt(
+        start = u.query_gpt(
             fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
+            tool_choice={"type": "function", "function": {"name": "add_start"}},
         )
 
-        return start_date
+        return start
 
-    def __extract_end_date(self, row):
+    def __extract_end(self, row):
         """Extract the end date for a given activity."""
         messages = [
-            {"role": "system", "content": p.END_DATE_CONTEXT},
+            {"role": "system", "content": p.END_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.END_DATE_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: "
-                f"{row['event_information']} \nThe start date: {row['start_date']}",
+                "content": f"{p.END_PROMPT} \nThe text: {self.patient_journey} \nThe bulletpoint: "
+                f"{row['activity']} \nThe start date: {row['start']}",
             },
-            {"role": "assistant", "content": p.END_DATE_ANSWER},
+            {"role": "assistant", "content": p.END_ANSWER},
         ]
         output = u.query_gpt(messages)
         fc_message = [
-            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
-            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
+            {"role": "system", "content": p.FC_END_CONTEXT},
+            {"role": "user", "content": p.FC_END_PROMPT + "The text: " + output},
         ]
-        end_date = u.query_gpt(
+        end = u.query_gpt(
             fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
+            tool_choice={"type": "function", "function": {"name": "add_end"}},
         )
 
-        return end_date
+        return end
 
     @staticmethod
     def __calculate_row_duration(row):
         """Calculate the duration for a given activity."""
-        if row["start_date"] == "N/A" or row["end_date"] == "N/A":
+        if row["start"] == "N/A" or row["end"] == "N/A":
             return "N/A"
-        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
-        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
-        duration = end_date - start_date
+        start = datetime.strptime(row["start"], "%Y%m%dT%H%M")
+        end = datetime.strptime(row["end"], "%Y%m%dT%H%M")
+        duration = end - start
         hours, remainder = divmod(duration.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
 

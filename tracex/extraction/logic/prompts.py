@@ -10,7 +10,7 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
 """
 
 
-TXT_TO_EVENT_INFORMATION_CONTEXT = """
+TXT_TO_ACTIVITY_CONTEXT = """
     You are a summarizing expert for diseases and your job is to summarize a given text into activity labels regarding
     all important points about the course of the disease. Every activity label has to be a short description that must
     be not longer than 4 words. Every information that is not important for the course of the disease should be
@@ -21,11 +21,11 @@ TXT_TO_EVENT_INFORMATION_CONTEXT = """
     any punctuation to the end of the activity label.
 """
 
-TXT_TO_EVENT_INFORMATION_PROMPT = """
+TXT_TO_ACTIVITY_PROMPT = """
     Here is the text from which you should extract the activity labels:
 """
 
-TXT_TO_EVENT_INFORMATION_ANSWER = """
+TXT_TO_ACTIVITY_ANSWER = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
     and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.' should be
     summarized to the following activity labels:
@@ -44,7 +44,7 @@ TXT_TO_EVENT_INFORMATION_ANSWER = """
 """
 
 
-START_DATE_CONTEXT = """
+START_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given activity label and to
     extract a start date to this activity label. Only output the extracted start date!
     The date should be extracted from the text or from the context and should be as precise as possible.
@@ -59,7 +59,7 @@ START_DATE_CONTEXT = """
     be 20200601T0000. If there is no date specified in the text conclude 'N/A'.
 """
 
-START_DATE_PROMPT = """
+START_PROMPT = """
     Here is the text and the activity label for which you should extract the start date in the format YYYYMMDD with the
     postfix T0000!
     In case that you are not able to find a start date return the term "N/A".
@@ -67,7 +67,7 @@ START_DATE_PROMPT = """
     Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
 
-START_DATE_ANSWER = """
+START_ANSWER = """
     For example for the text
     'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again.
@@ -78,18 +78,18 @@ START_DATE_ANSWER = """
     a date in the text and context, therefore the date ist 'N/A'.
 """
 
-FC_START_DATE_CONTEXT = """
+FC_START_CONTEXT = """
    You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the
    postfix 'T0000' and extract them as they are without changing any format.
 """
 
-FC_START_DATE_PROMPT = """
+FC_START_PROMPT = """
     What is the start date of given activity label in the format YYYYMMDDT000 (e.g. 20200101T000).
     If no start date is available extract N/A.
 """
 
 
-END_DATE_CONTEXT = """
+END_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given activity label with a
     start date and to extract a end date to this activity label. It is important, that an end date is extracted,
     even if it is the same as the start date. The information about the end date should be extracted from the text or
@@ -103,7 +103,7 @@ END_DATE_CONTEXT = """
     Only return the date! Nothing else!
 """
 
-END_DATE_PROMPT = """
+END_PROMPT = """
     Here is the text and the activity label with the start date for which you should extract the end date in the format
     YYYYMMDD with the postfix T0000! In case that you are not able to find a end date return the term "N/A".
     Only use the format YYYYMMDDTHHMM e.g. 20200401T0000! Explain step by step your conclusions if the end date
@@ -111,7 +111,7 @@ END_DATE_PROMPT = """
     resulting as the end date.
 """
 
-END_DATE_ANSWER = """
+END_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for
     Covid19. I was then hospitalized for two weeks.' and the activity label 'visiting doctor's' with the
     start date '20200405T0000' you should only return '20200405T0000'. For the activity label
@@ -122,12 +122,12 @@ END_DATE_ANSWER = """
     'improving mental well being' with the start date '20210610T0000', you should output '20210710T0000'.
 """
 
-FC_END_DATE_CONTEXT = """
+FC_END_CONTEXT = """
     You are an expert in extracting information. You easily detect the end dates in the format YYYYMMDD with the
     postfix 'T0000' and extract them as they are without changing any format.
 """
 
-FC_END_DATE_PROMPT = """
+FC_END_PROMPT = """
     Please extract the following end date of the text without changing the given date format:
 """
 
@@ -193,7 +193,7 @@ FC_LOCATION_PROMPT = """
     Please extract the following location of the text without changing the given format:
 """
 
-METRIC_EVENT_INFORMATION_CONTEXT = """
+METRIC_ACTIVITY_CONTEXT = """
     You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
     The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
     It is important, that every bulletpoint gets a relevance category.
@@ -207,7 +207,7 @@ METRIC_EVENT_INFORMATION_CONTEXT = """
     Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
     High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
 """
-METRIC_EVENT_INFORMATION_PROMPT = """
+METRIC_ACTIVITY_PROMPT = """
     Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
     Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
     Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.

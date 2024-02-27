@@ -1,9 +1,2 @@
-case_id,event_information,event_type,location,"(token1, lin_prob1)","(token2, lin_prob2)"
-0,experiencing first Covid-19 symptoms in June 2022,Symptom Onset,Doctors,"('Doctors', 47.42)","('Home', 45.07)"
-0,brushing off symptoms as common cold,Lifestyle Change,Home,"('Home', 86.14)","('Doctors', 12.56)"
-0,developing high fever and difficulty breathing,Symptom Onset,Doctors,"('Doctors', 68.56)","('Hospital', 13.31)"
-0,getting tested for Covid-19,Diagnosis,Doctors,"('Doctors', 91.6)","('Hospital', 3.18)"
-0,visiting local testing center,Doctor visit,Doctors,"('Doctors', 99.36)","('Doctor', 0.27)"
-0,undergoing PCR test,Diagnosis,Doctors,"('Doctors', 82.7)","('Di', 7.96)"
-0,receiving negative test results,"The bulletpoint ""receiving negative test results"" can be classified as ""Symptom Offset"".",Doctors,"('Doctors', 55.6)","('Home', 39.8)"
-0,getting infected and testing positive,Diagnosis,Doctors,"('Doctors', 90.93)","('Hospital', 3.57)"
+caseID,activity,start,end,duration,event_type,attribute_location
+1,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, advising self-isolation, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, prescribing medication, getting vaccinated against Covid-19, receiving mRNA vaccine doses, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Diagnosis,Doctors

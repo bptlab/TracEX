@@ -33,21 +33,21 @@ class MetricsAnalyzer(Module):
     def __measure_metrics(self, df):
         """Executing the measurement of metrics."""
 
-        df["event_information_relevance"] = df["event_information"].apply(
-            self.__rate_event_information_relevance
+        df["activity"] = df["activity"].apply(
+            self.__rate_activity_relevance
         )
 
         df[["timestamp_correctness", "correctness_confidence"]] = df.apply(
             lambda row: pd.Series(
                 self.__rate_timestamps_correctness(
-                    row["event_information"], row["start_date"], row["end_date"]
+                    row["activity"], row["start"], row["end"]
                 )
             ),
             axis=1,
         )
         return df
 
-    def __rate_event_information_relevance(self, event_information):
+    def __rate_activity_relevance(self, activity):
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -56,10 +56,10 @@ class MetricsAnalyzer(Module):
         }
 
         messages = [
-            {"role": "system", "content": p.METRIC_EVENT_INFORMATION_CONTEXT},
+            {"role": "system", "content": p.METRIC_ACTIVITY_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.METRIC_EVENT_INFORMATION_PROMPT} \nThe bulletpoint: {event_information}\nThe patient journey: {self.patient_journey}",
+                "content": f"{p.METRIC_ACTIVITY_PROMPT} \nThe bulletpoint: {activity}\nThe patient journey: {self.patient_journey}",
             },
         ]
 
@@ -71,12 +71,12 @@ class MetricsAnalyzer(Module):
 
         return category
 
-    def __rate_timestamps_correctness(self, event_information, start_date, end_date):
+    def __rate_timestamps_correctness(self, activity, start, end):
         messages = [
             {"role": "system", "content": p.METRIC_TIMESTAMPS_CONTEXT},
             {
                 "role": "user",
-                "content": f"{p.METRIC_TIMESTAMPS_PROMPT}\nThe bulletpoint: {event_information}\nThe start date related to the bulletpoint: {start_date}\nThe end date to the bulletpoint: {end_date}\nThe patient journey you should check the timestamps for the bulletpoint: {self.patient_journey}",
+                "content": f"{p.METRIC_TIMESTAMPS_PROMPT}\nThe bulletpoint: {activity}\nThe start date related to the bulletpoint: {start}\nThe end date to the bulletpoint: {end}\nThe patient journey you should check the timestamps for the bulletpoint: {self.patient_journey}",
             },
         ]
 

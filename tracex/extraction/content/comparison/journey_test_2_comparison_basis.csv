@@ -1,4 +1,4 @@
-case_id,event_information,start_date,end_date,duration,event_type,attribute_location
+case_id,activity,start,end,duration,event_type,attribute_location
 0,experiencing first covid 19 symptoms,20210615T0000,20210615T0000,12:00:00,Symptom Onset,Home
 0,self-isolating to protect family,20210615T0000,20210629T0000,336:00:00,Lifestyle Cahnge,Home
 0,experiencing progressing symptoms,20210615T0000,20210618T0000,72:00:00,Symptom Onset,Home

@@ -1,4 +1,4 @@
-case_id,event_information,start_date,end_date,duration,event_type,attribute_location
+case_id,activity,start,end,duration,event_type,attribute_location
 0,experiencing first covid 19 symptoms,20210715T0000,20210717T0000,48:00:00,Symptom Onset,Home
 0,isolating myself,20210715T0000,20210802T0000,504:00:00,Lifestyle Change,Home
 0,informing family,20210715T0000,20210715T0000,01:00:00,Lifestyle Change,Home
