@@ -1,2 +1,9 @@
 caseID,activity,start,end,duration,event_type,attribute_location
-1,"starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, advising self-isolation, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, prescribing medication, getting vaccinated against Covid-19, receiving mRNA vaccine doses, prioritizing well-being.",20220915T0000,20220920T0000,120:00:00,Diagnosis,Doctors
+0,"experiencing first Covid-19 symptoms: mild cough, fatigue",20220601T0000,20220608T0000,168:00:00,Symptom Onset,Home
+0,brushing off symptoms as common cold,20220601T0000,20220608T0000,168:00:00,Other,Home
+0,developing high fever and difficulty breathing,20220601T0000,20220611T0000,240:00:00,Symptom Onset,Hospital
+0,deciding to get tested for Covid-19,20220601T0000,20220617T0000,384:00:00,Diagnosis,Doctors
+0,going to local testing center,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
+0,undergoing PCR test,20220617T0000,20220617T0000,00:00:00,Diagnosis,Home
+0,receiving negative test results,20220617T0000,20220619T0000,48:00:00,Diagnosis,Doctors
+0,getting infected and testing positive,20220617T0000,20220617T0000,00:00:00,Symptom Onset,Home
