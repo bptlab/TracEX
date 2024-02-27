@@ -190,6 +190,7 @@ class Conversion:
                 output_dfg_file[1],
                 output_dfg_file[2],
                 temp_file_path,
+                rankdir="TB"
             )
         with open(temp_file_path, "rb") as temp_file:
             dfg_img_buffer.write(temp_file.read())
