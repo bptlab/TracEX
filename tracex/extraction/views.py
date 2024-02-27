@@ -197,7 +197,7 @@ class ResultView(generic.FormView):
     @staticmethod
     def sort_dataframe(df):
         """Sort a dataframe containing a trace by timestamp."""
-        sorted_df = df.sort_values(by="time:timestamp", inplace=False)
+        sorted_df = df.sort_values(by="start_timestamp", inplace=False)
         return sorted_df
 
     @staticmethod

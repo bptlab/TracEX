@@ -31,7 +31,7 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        "metrics_analyzer": MetricsAnalyzer,
+        # "metrics_analyzer": MetricsAnalyzer,
         # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
         # "event_log_comparator": EventLogComparator,
     }
@@ -88,7 +88,7 @@ class Orchestrator:
             self.configuration.modules["location_extraction"](),
 
             # This module should be activated only if the user wants to analyze the metrics
-            self.configuration.modules["metrics_analyzer"](),
+            # self.configuration.modules["metrics_analyzer"](),
             # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
             # self.configuration.modules["event_log_comparator"](),
         ]

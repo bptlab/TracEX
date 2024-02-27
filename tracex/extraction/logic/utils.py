@@ -146,8 +146,8 @@ class Conversion:
             columns={
                 activity_key: "concept:name",
                 "case_id": "case:concept:name",
-                "start": "time:timestamp",
-                "end": "time:end_date",
+                "start": "start_timestamp",
+                "end": "time:end_timestamp",
                 "duration": "time:duration",
             }
         )
@@ -165,6 +165,7 @@ class Conversion:
             (output_path / output_name),
             case_id_key="case:concept:name",
             activity_key="concept:name",
+            start_timestamp_key="start_timestamp",
             timestamp_key="time:timestamp",
         )
         return str(output_path / output_name)
@@ -181,7 +182,7 @@ class Conversion:
         """Create png image from xes file."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "time:timestamp", "case:concept:name"
+            df, "concept:name", "start_timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
