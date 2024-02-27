@@ -31,7 +31,7 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        # "metrics_analyzer": MetricsAnalyzer,
+        "metrics_analyzer": MetricsAnalyzer,
         # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
         # "event_log_comparator": EventLogComparator,
     }
@@ -86,9 +86,9 @@ class Orchestrator:
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
+
             # This module should be activated only if the user wants to analyze the metrics
-            # Implementation of correct conversion to csv and xes is not yet implemented
-            # self.configuration.modules["metrics_analyzer"](),
+            self.configuration.modules["metrics_analyzer"](),
             # This module should be activated only if the user wants to compare the result of a test patient journey with a ground truth event log
             # self.configuration.modules["event_log_comparator"](),
         ]
@@ -100,7 +100,7 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "caseID", 1)
+        self.data.insert(0, "case_id", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if

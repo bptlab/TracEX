@@ -7,6 +7,7 @@ from ..logging import log_execution_time
 from ..module import Module
 from .. import utils as u
 from .. import prompts as p
+from .. import constants as c
 
 
 class MetricsAnalyzer(Module):
@@ -31,13 +32,15 @@ class MetricsAnalyzer(Module):
         return self.__measure_metrics(df)
 
     def __measure_metrics(self, df):
-        """Executing the measurement of metrics."""
+        """Executing the measurement of metrics. The metrics output will write on disk as a csv file.
+        The dataframe without the metrics is returned for visualization."""
 
-        df["activity"] = df["activity"].apply(
+        metrics_df = df.copy()
+        metrics_df["activity_relevance"] = metrics_df["activity"].apply(
             self.__rate_activity_relevance
         )
 
-        df[["timestamp_correctness", "correctness_confidence"]] = df.apply(
+        metrics_df[["timestamp_correctness", "correctness_confidence"]] = metrics_df.apply(
             lambda row: pd.Series(
                 self.__rate_timestamps_correctness(
                     row["activity"], row["start"], row["end"]
@@ -45,6 +48,11 @@ class MetricsAnalyzer(Module):
             ),
             axis=1,
         )
+
+        metrics_df.to_csv(
+            Path(c.output_path.joinpath("metrics.csv")), index=False, sep=","
+        )
+
         return df
 
     def __rate_activity_relevance(self, activity):

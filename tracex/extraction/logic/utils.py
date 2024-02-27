@@ -139,15 +139,15 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["caseID"] = df["caseID"].astype(str)
+        df["case_id"] = df["case_id"].astype(str)
         df["start"] = pd.to_datetime(df["start"])
         df["end"] = pd.to_datetime(df["end"])
         df = df.rename(
             columns={
                 activity_key: "concept:name",
-                "caseID": "case:concept:name",
+                "case_id": "case:concept:name",
                 "start": "time:timestamp",
-                "end": "time:endDate",
+                "end": "time:end_date",
                 "duration": "time:duration",
             }
         )
