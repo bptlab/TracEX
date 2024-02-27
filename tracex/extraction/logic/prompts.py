@@ -194,41 +194,47 @@ FC_LOCATION_PROMPT = """
 """
 
 METRIC_ACTIVITY_CONTEXT = """
-    You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
-    The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
-    It is important, that every bulletpoint gets a relevance category.
-    Furthermore it is really important, that that relevance category is correct.
-    The only output should be the relevance category and the reason why the bulletpoint is part of the category.
-    Please do not add a phrase like "here are your bulletpoints" or something like that.
+    You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance
+    categories to every bulletpoint. The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High
+    Relevance. It is important, that every bulletpoint gets a relevance category. Furthermore it is really important, that that
+    relevance category is correct. The only output should be the relevance category and the reason why the bulletpoint is part
+    of the category. Please do not add a phrase like "here are your bulletpoints" or something like that.
 
     The relevance categories are defined as follows:
-    No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
-    Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
-    Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
-    High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
+    No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any
+    way.
+    Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and
+    hold minimal significance in its course.
+    Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient
+    but may not be critical to its outcome.
+    High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are
+    crucial in understanding its trajectory.
 """
+
 METRIC_ACTIVITY_PROMPT = """
-    Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
-    Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
-    Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.
+    Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance,
+    High Relevance. Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is
+    assigned to a category in following template. Don't forget to include the reason why the bulletpoint is part of the
+    category and don't repeat the bulletpoint in the answer.
 
     Take this as an example:
-    Bulletpoint: 'receiving support from my children' -> Answer: 'Low Relvance: Receiving support from the childern is good for mental stability but have a low relevance for the course of disease.'
-    Bulletpoint: 'taking medicine' -> Answer: 'High Relvance: Taking medicine is highly relevant for the course of the event. The medicine could help the patient to improve their health.'
-    Bullepoint:  'eating chips' -> Answer: 'No Relevance: The action of eating chips has no direct or indirect impact on the course of the disease.'
-
+    Bulletpoint: 'receiving support from my children' -> Answer: 'Low Relvance: Receiving support from the childern is good
+    for mental stability but have a low relevance for the course of disease.'
+    Bulletpoint: 'taking medicine' -> Answer: 'High Relvance: Taking medicine is highly relevant for the course of the
+    event. The medicine could help the patient to improve their health.'
+    Bullepoint:  'eating chips' -> Answer: 'No Relevance: The action of eating chips has no direct or indirect impact on
+    the course of the disease.'
 """
 
 METRIC_TIMESTAMPS_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and to check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
-    Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
-    If the start date and end date appearing in the context of the bulletpoint, you should output True.
-    If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
-    If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
-    the estimation is reasonable and output True if it is and False if it is not.
-    The only output should be the True or False, and nothing else.
+    You are an expert in text understanding and your job is to take a given text and to check if the given start date and end
+    date of an given bulletpoint are correct based on the given patient journey. Correct is a start and end date in the
+    format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint. If the start date and end
+    date appearing in the context of the bulletpoint, you should output True. If there is another start or end date in the
+    patient journey, the given timestamps are wrong and you should output False. If the start or end date is not appearing
+    in the patient journey, it could be that the timestamp is estimated. In this case check if the estimation is reasonable
+    and output True if it is and False if it is not. The only output should be the True or False, and nothing else.
 """
-
 
 METRIC_TIMESTAMPS_PROMPT = """
     Please check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
@@ -238,14 +244,14 @@ METRIC_TIMESTAMPS_PROMPT = """
 """
 
 COMPARE_CONTEXT = """
-    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and thn to compare them.
-    So you take two bulletpoints and check if they are semantically similar.
-    Semantically similar phrases mostly share some words.
-    For example the two Points 'visiting doctor's' and 'going to the doctor' are semantically similar.
-    Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar.
-    In contrary "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar.
-    Also, "putting loved ones over financial worries" and "consulting a doctor" aren't similar.
+    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and then to
+    compare them. So you take two bulletpoints and check if they are semantically similar. Semantically similar phrases
+    mostly share some words. For example, the two Points 'visiting doctor's' and 'going to the doctor' are semantically
+    similar. Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar. In contrary,
+    "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar. Also, "putting
+    loved ones over financial worries" and "consulting a doctor" aren't similar.
 """
+
 
 COMPARE_PROMPT = """
     Please check for the following bulletpoints if they are semantically similar.
