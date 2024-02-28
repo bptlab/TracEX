@@ -1,4 +1,4 @@
-caseID,activity,start,end,duration,event_type,attribute_location
+case_id,activity,start,end,duration,event_type,attribute_location
 1,Experiencing mild symptoms,20220601T0000,20220602T0000,00:00:00,Symptom Onset,No location
 1,Developing high fever and difficulty breathing,20220603T0000,20220610T0000,07:00:00,Symptom Onset,No location
 1,Getting tested for Covid-19,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
@@ -51,3 +51,53 @@ caseID,activity,start,end,duration,event_type,attribute_location
 4,    receiving medication for recovery,20211004T0000,20211004T0000,00:00:00,Treatment,Home
 4,    getting vaccinated against Covid-19,20230201T0000,20230301T0000,672:00:00,Treatment,Hospital
 4,    prioritizing well-being and precautions,20231001T0000,20231001T0000,00:00:00,Lifestyle Change,Home
+5,,20210715T0000,20210901T0000,1152:00:00,Doctor Visit,Home
+5,    experiencing Covid-19 symptoms,20210715T0000,20210722T0000,168:00:00,Symptom Onset,Home
+5,    isolating at home,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+5,    informing family members,20210715T0000,20210715T0000,00:00:00,Feelings,Other
+5,    worsening symptoms,20210720T0000,20210727T0000,168:00:00,Symptom Onset,N/A
+5,    consulting a doctor,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+5,    getting tested for Covid-19,20210720T0000,20210720T0000,00:00:00,Diagnosis,Hospital
+5,    confirming infection,20210720T0000,20210720T0000,00:00:00,Diagnosis,context
+5,    recommending home quarantine,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Home
+5,    focusing on resting,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Other
+5,    following doctor's advice,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+5,    receiving care from family,20210715T0000,20210715T0000,00:00:00,Treatment,Home
+5,    supporting emotionally,20210715T0000,20210715T0000,00:00:00,Feelings,N/A
+5,    slowly recovering,20210901T0000,20210930T0000,696:00:00,Treatment,Home
+5,    returning to work,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,N/A
+5,    taking precautions,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,taking precautions
+5,    deciding to get vaccinated,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
+5,    consulting with doctor,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+5,    receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+5,    experiencing side effects,20210901T0000,20210901T0000,00:00:00,Medication,Home
+5,    remaining optimistic,20210901T0000,20210901T0000,00:00:00,Feelings,Other
+5,    receiving second vaccine dose,20210901T0000,20210915T0000,336:00:00,Treatment,Home
+5,    completing vaccination process,20210901T0000,20210930T0000,696:00:00,Treatment,Other
+5,    feeling relief and hope,20210901T0000,20210901T0000,00:00:00,Feelings,Other
+5,    expressing gratitude,20210901T0000,20210901T0000,00:00:00,Feelings,Other
+6,,20210715T0000,20210901T0000,1152:00:00,Symptom Onset,Home
+6,    experiencing Covid-19 symptoms,20210715T0000,20210722T0000,168:00:00,Symptom Onset,Home
+6,    isolating at home,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+6,    informing family members,20210715T0000,20210715T0000,00:00:00,Diagnosis,Other
+6,    worsening symptoms,20210720T0000,20210727T0000,168:00:00,Symptom Onset,Other
+6,    consulting a doctor,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+6,    getting tested for Covid-19,20210720T0000,20210720T0000,00:00:00,Diagnosis,Hospital
+6,    receiving test results,20210720T0000,20210720T0000,00:00:00,Diagnosis,Other
+6,    recommending home quarantine,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Home
+6,    focusing on resting,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Other
+6,    following doctor's advice,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+6,    receiving care from family,20210715T0000,20210715T0000,00:00:00,Treatment,Home
+6,    supporting emotionally,20210715T0000,20210715T0000,00:00:00,Feelings,Other
+6,    recovering slowly,20210901T0000,20210930T0000,696:00:00,Treatment,Other
+6,    returning to work,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,N/A
+6,    taking precautions,20210901T0000,20210930T0000,696:00:00,Lifestyle Change,Other
+6,    initiating vaccination campaign,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+6,    consulting doctor about vaccine,20210901T0000,20210901T0000,00:00:00,Doctor visit,Doctors
+6,    receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+6,    experiencing side effects,20210901T0000,20210901T0000,00:00:00,Medication,Home
+6,    remaining optimistic,20210901T0000,20210901T0000,00:00:00,Feelings,Other
+6,    receiving second vaccine dose,20210901T0000,20210929T0000,672:00:00,Treatment,Hospital
+6,    completing vaccination process,20210901T0000,20210930T0000,696:00:00,Treatment,Hospital
+6,    feeling relief and hope,20210901T0000,20210901T0000,00:00:00,Feelings,Home
+6,    expressing gratitude,20210901T0000,20210901T0000,00:00:00,Feelings,Other

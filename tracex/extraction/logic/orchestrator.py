@@ -33,7 +33,7 @@ class ExtractionConfiguration:
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
         # "metrics_analyzer": MetricsAnalyzer,
-        # Only activate this module with a test comparision patient journey as ground truth
+        # Only activate this module with a test comparison patient journey as ground truth
         # "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
@@ -89,7 +89,7 @@ class Orchestrator:
             self.configuration.modules["location_extraction"](),
             # This module should be activated only if the user wants to analyze the metrics
             # self.configuration.modules["metrics_analyzer"](),
-            # Only activate this module with a test comparision patient journey as ground truth
+            # Only activate this module with a test comparison patient journey as ground truth
             # self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")

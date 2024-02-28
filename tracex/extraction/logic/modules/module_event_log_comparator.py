@@ -38,49 +38,56 @@ class EventLogComparator(Module):
         return self.__start_comparison(df, ground_truth_df)
 
     def __start_comparison(self, pipeline_df, ground_truth_df):
-        matching_perc_pipeline_to_ground_truth = self.__compare_given_to_manual(
+        matching_perc_pipeline_to_ground_truth = self.__compare_activities(
             pipeline_df, ground_truth_df
         )
-        print(
-            "Percentage of event information found by the pipeline that are contained in ground truth: "
-            + str(matching_perc_pipeline_to_ground_truth)
-        )
-        matching_perc_ground_truth_to_pipeline = self.__compare_manual_to_given(
+
+        matching_perc_ground_truth_to_pipeline = self.__compare_activities(
             ground_truth_df, pipeline_df
         )
-        print(
-            "Percentage of event information in the ground truth that are contained event log by the pipeline: "
-            + str(matching_perc_ground_truth_to_pipeline)
-        )
 
-    def __compare_given_to_manual(self, pipeline_df, ground_truth_df):
-        total_matching_activities = 0
-        for activity in pipeline_df["activity"]:
-            total_matching_activities += self.__find_activity(activity, ground_truth_df)
-        matching_percentage = round(total_matching_activities / pipeline_df.shape[0], 2)
-        return matching_percentage
+        with open(c.output_path.joinpath("event_log_comparison.txt"), "w") as f:
+            f.write(
+                "Percentage of event information found by the pipeline that are contained in ground truth: "
+                + str(matching_perc_pipeline_to_ground_truth)
+                + "\n"
+            )
+            f.write(
+                "Percentage of event information in the ground truth that are contained event log by the pipeline: "
+                + str(matching_perc_ground_truth_to_pipeline)
+                + "\n"
+            )
 
-    def __compare_manual_to_given(self, ground_truth_df, pipeline_df):
+        return pipeline_df
+
+    def __compare_activities(self, input_df, comparison_basis_df):
         total_matching_activities = 0
-        for activity in ground_truth_df["activity"]:
-            total_matching_activities += self.__find_activity(activity, pipeline_df)
-        matching_percentage = round(total_matching_activities / pipeline_df.shape[0], 2)
+        for activity in input_df["activity"]:
+            total_matching_activities += self.__find_activity(
+                activity, comparison_basis_df
+            )
+        matching_percentage = round(total_matching_activities / input_df.shape[0], 2)
         return matching_percentage
 
     @staticmethod
-    def __find_activity(activity, ground_truth_df):
-        for row in ground_truth_df["activity"]:
-            message = [
+    def __find_activity(activity, comparison_basis_df):
+        for comparison_activity in comparison_basis_df["activity"]:
+            messages = [
                 {"role": "system", "content": p.COMPARE_CONTEXT},
                 {
                     "role": "user",
-                    "content": f"{p.COMPARE_PROMPT} + given_activity\n {row}",
+                    "content": f"{p.COMPARE_PROMPT} + {activity}\n {comparison_activity}",
                 },
             ]
-            response = u.query_gpt(messages=message)
-            with open(u.output_path / "compare.txt", "a") as f:
+            response = u.query_gpt(messages)
+            with open(c.output_path.joinpath("compare.txt"), "a") as f:
                 f.write(
-                    activity + " comparing with: " + row + ":\n\n" + response + "\n\n\n"
+                    activity
+                    + " comparing with: "
+                    + comparison_activity
+                    + ":\n\n"
+                    + response
+                    + "\n\n\n"
                 )
             if "True" in response:
                 return 1

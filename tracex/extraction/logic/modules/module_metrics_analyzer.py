@@ -32,7 +32,7 @@ class MetricsAnalyzer(Module):
         return self.__measure_metrics(df)
 
     def __measure_metrics(self, df):
-        """Executing the measurement of metrics. The metrics output will write on disk as a csv file.
+        """Executing the measurement of metrics. The metrics output will be written on disk as a csv file.
         The dataframe without the metrics is returned for visualization."""
 
         metrics_df = df.copy()
