@@ -2,8 +2,6 @@
 import os
 
 from django import forms
-from django.core.validators import FileExtensionValidator
-from django.core.exceptions import ValidationError
 
 from .models import PatientJourney
 from .logic.constants import EVENT_TYPES, LOCATIONS
@@ -27,6 +25,18 @@ class BaseEventForm(forms.Form):
         initial=[location[0] for location in LOCATIONS],
     )
 
+    def clean_event_types(self):
+        """Validate event types."""
+        event_types = self.cleaned_data["event_types"]
+        dependent_choices = [
+            ("Symptom Onset", "Symptom Offset"),
+            ("Hospital Admission", "Hospital Discharge"),
+        ]
+        for group in dependent_choices:
+            self.validate_dependant_choices("event_types", group[0], group[1])
+
+        return event_types
+
     def clean(self):
         """Validate form data."""
         cleaned_data = super().clean()
@@ -38,37 +48,15 @@ class BaseEventForm(forms.Form):
                 "Please select at least one event type or one location.",
                 code="no_event_type",
             )
-        # TODO: Move this to clean_event_types
-        dependent_choices_groups = [
-            ("Symptom Onset", "Symptom Offset"),
-            ("Hospital Admission", "Hospital Discharge"),
-        ]
-        for group in dependent_choices_groups:
-            self.validate_dependant_choices("event_types", group[0], group[1])
 
         return cleaned_data
-
-    def validate_dependent_fields(self, field):
-        """Validate that two fields is selected together or not at all."""
-        dependent_choices_groups = [
-            ("Symptom Onset", "Symptom Offset"),
-            ("Hospital Admission", "Hospital Discharge"),
-        ]
-        selected_fields = self.cleaned_data[field]
-        for group in dependent_choices_groups:
-            if all(selected_fields) or not any(selected_fields):
-                continue
-
-            raise forms.ValidationError(
-                f"The fields {', '.join(group)} depend on each other. Please select all or none.",
-                code="dependent_fields",
-            )
 
     def validate_dependant_choices(self, field, choice_1, choice_2):
         """Validate two choices in a form field are either both selected or none of them."""
         choices = self.cleaned_data.get(field)
 
-        if (choice_1 in choices) ^ (choice_2 in choices):
+        if choices is not None and ((choice_1 in choices) ^ (choice_2 in choices)):
+            print("error should be raised")
             raise forms.ValidationError(
                 f"{choice_1} and {choice_2} depend on each other. Please select both or none.",
                 code="dependant_fields",
@@ -81,23 +69,27 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
     class Meta:
         model = PatientJourney
         fields = ["patient_journey", "name"]
+        ALLOWED_FILE_TYPES = ["txt"]
+        labels = {
+            "patient_journey": "Patient journey",
+        }
+        error_messages = {
+            "patient_journey": {
+                "required": "Please provide a file from which to extract the event log."
+            }
+        }
+        help_texts = {
+            "name": PatientJourney.name.field.help_text,
+            "patient_journey": f"Allowed file types: {', '.join(ALLOWED_FILE_TYPES)}",
+        }
+        widgets = {
+            "patient_journey": forms.FileInput(attrs={"accept": ".txt"}),
+            "name": forms.TextInput(
+                attrs={"placeholder": "Name for your patient journey"}
+            ),
+        }
 
-    ALLOWED_FILE_TYPES = ["txt"]
     journey_is_new = True
-    patient_journey = forms.FileField(
-        label="Patient journey",
-        required=True,
-        help_text=f"Allowed file types: {', '.join(ALLOWED_FILE_TYPES)}",
-        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_FILE_TYPES)],
-        error_messages={
-            "required": "Please provide a file from which to extract the event log."
-        },
-    )
-    name = forms.CharField(
-        label="Name for your patient journey",
-        required=False,
-        help_text=PatientJourney.name.field.help_text,
-    )
     field_order = ["patient_journey", "name", "event_types", "locations"]
 
     def clean_name(self):
@@ -111,18 +103,18 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
         return name
 
     def clean_patient_journey(self):
-        print("clean_patient_journey")
-        patient_journey = self.cleaned_data["patient_journey"]
-        try:
-            instance = PatientJourney.objects.get(patient_journey=patient_journey)
-            self.journey_is_new = False
+        uploaded_file = self.cleaned_data["patient_journey"]
+        patient_journey_content = uploaded_file.read().decode("utf-8")
 
-            return (
-                instance.patient_journey
-            )  # Return existing instance from the database
-        except PatientJourney.DoesNotExist:
-            print("is New")
-            return patient_journey  # Continue with default validation
+        return patient_journey_content
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.patient_journey = self.cleaned_data["patient_journey"]
+        if commit and not PatientJourney.manager.filter(name=instance.name).exists():
+            instance.save()
+
+        return instance
 
 
 class GenerationForm(BaseEventForm):

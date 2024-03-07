@@ -1,6 +1,7 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass
 from typing import Optional, List
+from django.utils.dateparse import parse_duration
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
@@ -9,6 +10,7 @@ from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
 from ..logic import utils
+from ..models import Trace, PatientJourney, Event
 
 
 @dataclass
@@ -20,6 +22,7 @@ class ExtractionConfiguration:
     """
 
     patient_journey: Optional[str] = None
+    patient_journey_name: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
     modules = {
@@ -91,6 +94,7 @@ class Orchestrator:
             self.data = module.execute(self.data, self.configuration.patient_journey)
         self.data.insert(0, "caseID", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
+        self.save_results_to_db()
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
@@ -100,3 +104,26 @@ class Orchestrator:
         module = self.configuration.modules["patient_journey_generation"]()
         patient_journey = module.execute(self.data, self.configuration.patient_journey)
         self.configuration = ExtractionConfiguration(patient_journey=patient_journey)
+
+    def save_results_to_db(self):
+        """Save the trace to the database."""
+        patient_journey: PatientJourney = PatientJourney.manager.get(
+            name=self.configuration.patient_journey_name
+        )
+        trace: Trace = Trace.manager.create(patient_journey=patient_journey)
+        events: List[Event] = Event.manager.bulk_create(
+            [
+                Event(
+                    trace=trace,
+                    event_information=row["event_information"],
+                    event_type=row["event_type"],
+                    start=row["start"],
+                    end=row["end"],
+                    duration=parse_duration(row["duration"]),
+                    location=row["attribute_location"],
+                )
+                for _, row in self.data.iterrows()
+            ]
+        )
+        trace.events.set(events)
+        patient_journey.trace.add(trace)

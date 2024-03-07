@@ -10,18 +10,31 @@ class PatientJourney(models.Model):
     name = models.CharField(
         max_length=100,
         help_text="If no name is provided, the name of the uploaded file will be used.",
-        verbose_name="Name for your patient journey",
-        unique=False,
+        unique=True,
     )
-    patient_journey = models.TextField(unique=True)
+    patient_journey = models.FileField()
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"{self.name} (id: {self.id})"
 
 
 class Trace(models.Model):
-    """Model for a single trace, extracted from a patient journey."""
+    """Model for a single trace, belonging to a patient journey."""
 
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
     )
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Trace of {self.patient_journey.name} (id: {self.id})"
+
+
+class Event(models.Model):
+    """Model for a single event, only relevant in context with other events belonging to the same trace."""
+
+    trace = models.ForeignKey(Trace, on_delete=models.CASCADE, related_name="events")
     event_information = models.TextField()
     event_type = models.CharField(max_length=25, choices=EVENT_TYPES)
     start = models.DateTimeField()
@@ -29,6 +42,10 @@ class Trace(models.Model):
     duration = models.DurationField()
     location = models.CharField(max_length=25, choices=LOCATIONS)
     last_modified = models.DateTimeField(auto_now=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Event of {self.trace.__str__().split('(')[0]} (id: {self.id})"
 
 
 class EventLog(models.Model):
