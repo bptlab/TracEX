@@ -8,6 +8,9 @@ from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
+# from .modules.module_metrics_analyzer import MetricsAnalyzer
+# from .modules.module_event_log_comparator import EventLogComparator
+
 from ..logic import utils
 
 
@@ -28,6 +31,10 @@ class ExtractionConfiguration:
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
+        # This module should be activated only if the user wants to analyze the metrics
+        # "metrics_analyzer": MetricsAnalyzer,
+        # Only activate this module with a test comparison patient journey as ground truth
+        # "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -80,6 +87,10 @@ class Orchestrator:
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
+            # This module should be activated only if the user wants to analyze the metrics
+            # self.configuration.modules["metrics_analyzer"](),
+            # Only activate this module with a test comparison patient journey as ground truth
+            # self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -89,7 +100,7 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "caseID", 1)
+        self.data.insert(0, "case_id", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if

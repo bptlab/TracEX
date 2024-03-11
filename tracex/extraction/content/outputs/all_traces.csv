@@ -1,4 +1,4 @@
-caseID,event_information,start_date,end_date,duration,event_type,attribute_location
+case_id,activity,start,end,duration,event_type,attribute_location
 1,Experiencing mild symptoms,20220601T0000,20220602T0000,00:00:00,Symptom Onset,No location
 1,Developing high fever and difficulty breathing,20220603T0000,20220610T0000,07:00:00,Symptom Onset,No location
 1,Getting tested for Covid-19,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital

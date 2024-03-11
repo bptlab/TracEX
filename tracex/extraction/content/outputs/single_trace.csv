@@ -1,4 +1,4 @@
-case_id,event_information,start_date,end_date,duration,event_type,attribute_location
+caseID,activity,start,end,duration,event_type,attribute_location
 0,"experiencing first Covid-19 symptoms: mild cough, fatigue",20220601T0000,20220608T0000,168:00:00,Symptom Onset,Home
 0,brushing off symptoms as common cold,20220601T0000,20220608T0000,168:00:00,Other,Home
 0,developing high fever and difficulty breathing,20220601T0000,20220611T0000,240:00:00,Symptom Onset,Hospital

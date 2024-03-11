@@ -20,15 +20,15 @@ def create_xes(csv_file, name="all_traces", key="event_type"):
     """Creates a xes with all traces from the regarding csv."""
     dataframe = pd.read_csv(csv_file, sep=",")
     dataframe["case_id"] = dataframe["case_id"].astype(str)
-    dataframe["start_date"] = pd.to_datetime(dataframe["start_date"])
-    dataframe["end_date"] = pd.to_datetime(dataframe["end_date"])
+    dataframe["start"] = pd.to_datetime(dataframe["start"])
+    dataframe["end"] = pd.to_datetime(dataframe["end"])
     dataframe["duration"] = pd.to_timedelta(dataframe["duration"])
     dataframe = dataframe.rename(
         columns={
             key: "concept:name",
             "case_id": "case:concept:name",
-            "start_date": "time:timestamp",
-            "end_date": "time:end_date",
+            "start": "time:timestamp",
+            "end": "time:end",
             "duration": "time:duration",
         }
     )
