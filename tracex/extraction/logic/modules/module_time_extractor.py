@@ -2,6 +2,8 @@
 from datetime import datetime
 from pathlib import Path
 
+from django.conf import settings
+
 from ..logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
@@ -19,7 +21,7 @@ class TimeExtractor(Module):
         self.name = "Time Extractor"
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
         df["start"] = df["activity"].apply(self.__extract_start)

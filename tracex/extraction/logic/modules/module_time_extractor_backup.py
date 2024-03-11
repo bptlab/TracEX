@@ -1,8 +1,9 @@
 """This module extracts the time information from the patient journey."""
 from datetime import datetime
 from pathlib import Path
-
 import pandas as pd
+
+from django.conf import settings
 
 from ..logging import log_execution_time
 from ..module import Module
@@ -20,7 +21,7 @@ class TimeExtractorBackup(Module):
         self.name = "Time Extractor Backup"
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
         df["start"] = df["activity"].apply(self.__extract_start)

@@ -52,6 +52,7 @@ class Orchestrator:
     """Singleton class for managing the modules."""
 
     _instance = None
+    _is_initialized = False
 
     def __new__(cls, configuration: ExtractionConfiguration = None):
         if not cls._instance:
@@ -59,15 +60,20 @@ class Orchestrator:
 
         return cls._instance
 
-    def __init__(self, configuration=None):
-        if configuration is not None:
-            self.configuration = configuration
-        self.data = None
+    def __init__(self, configuration: ExtractionConfiguration = None):
+        if not self._is_initialized:
+            if configuration is not None:
+                self.configuration = configuration
+            self.data = None
+            self.__class__._is_initialized = True
 
     @classmethod
     def get_instance(cls):
         """Return the singleton instance of the orchestrator."""
+        if cls._instance is None:
+            raise Exception("Orchestrator instance has not been created yet. Please instantiate Orchestrator first.")
         return cls._instance
+
 
     @classmethod
     def reset_instance(cls):
