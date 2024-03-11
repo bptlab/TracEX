@@ -253,3 +253,15 @@ COMPARE_PROMPT = """
     Start with your reasoning and then give the answer "True" or "False".
     Here are the two bulletpoints:
 """
+
+ILLNESS_COHORT_TAG_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text about an illnes and to extract the illness it is about.
+"""
+
+ILLNESS_COHORT_TAG_PROMPT = """
+    What is the illness this text is about?
+"""
+
+ILLNESS_COHORT_TAG_ANSWER = """
+    For example for the text 'In July I got infected with Covid-19 which resulted in similar symptoms like a heavy flu.' you should return 'Covid-19'.
+"""

@@ -1,6 +1,7 @@
 """This is the module that extracts the activity labels from the patient journey."""
 from pathlib import Path
 import pandas as pd
+from django.conf import settings
 
 from ..logging import log_execution_time
 from ..module import Module
@@ -13,13 +14,12 @@ class ActivityLabeler(Module):
     This is the module that extracts the activity labels from the patient journey.
     """
 
-    # Remove this, only for test purposes
     def __init__(self):
         super().__init__()
         self.name = "Activity Labeler"
         self.description = "Extracts the activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
 
