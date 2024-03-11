@@ -187,6 +187,7 @@ class Conversion:
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
+            # pylint: disable=unexpected-keyword-arg
             pm4py.save_vis_dfg(
                 output_dfg_file[0],
                 output_dfg_file[1],

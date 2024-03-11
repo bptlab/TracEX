@@ -62,16 +62,20 @@ class Orchestrator:
 
     def __init__(self, configuration: ExtractionConfiguration = None):
         if not self._is_initialized:
-            if configuration is not None:
-                self.configuration = configuration
+            self.configuration = configuration
             self.data = None
             self.__class__._is_initialized = True
 
     @classmethod
     def get_instance(cls):
         """Return the singleton instance of the orchestrator."""
+
+        class OrchestratorNotInitializedError(Exception):
+            """Exception raised when the Orchestrator instance is accessed before being initialized."""
+
         if cls._instance is None:
-            raise Exception("Orchestrator instance has not been created yet. Please instantiate Orchestrator first.")
+            raise OrchestratorNotInitializedError("Orchestrator instance has not been created yet."
+                                                  "Please instantiate Orchestrator first.")
         return cls._instance
 
 
@@ -79,6 +83,7 @@ class Orchestrator:
     def reset_instance(cls):
         """Reset the singleton instance of the orchestrator."""
         cls._instance = None
+        cls._is_initialized = False
 
     def set_configuration(self, configuration: ExtractionConfiguration):
         """Set the configuration for the orchestrator instance."""
