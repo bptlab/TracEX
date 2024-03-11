@@ -76,9 +76,9 @@ class MetricsAnalyzer(Module):
             },
         ]
 
-        answer = u.query_gpt(messages)
+        response = u.query_gpt(messages)
         for key in category_mapping:
-            if key in answer:
+            if key in response:
                 category = key
                 break
 

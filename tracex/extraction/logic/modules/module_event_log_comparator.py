@@ -1,4 +1,4 @@
-"""This module compares an event log created by the pipeline against a manual created ground truth."""
+"""This module compares an event log created by the pipeline against a manually created ground truth."""
 from pathlib import Path
 import pandas as pd
 
@@ -12,7 +12,7 @@ from .. import constants as c
 class EventLogComparator(Module):
     """
     This is the module that compares the event log created by the pipeline
-    against a manual created ground truth. We provide three different event
+    against a manually created ground truth. We provide three different event
     logs with the according patient journey as a ground truth in
     tracex/extraction/content/comparison.
     """
