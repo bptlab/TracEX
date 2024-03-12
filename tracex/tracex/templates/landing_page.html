@@ -16,7 +16,7 @@
         <img src="{% static '/tracex/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="landing_page_logo">
         <div class="landing_page_menu">
             <div class="item patient_journey_generator">
-                <a href="{% url 'journey_generator' %}">
+                <a href="{% url 'journey_generator_overview' %}">
                 <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
                 <span class="item_text">Patient Journey Generator</span>
             </div>
@@ -35,10 +35,6 @@
             </div>
 
         </div>
-
-        <!-- <a href="{% url 'journey_generation' %}">
-            <button>Generate journey with ChatGPT</button>
-        </a> -->
     </div>
 </body>
 </html>

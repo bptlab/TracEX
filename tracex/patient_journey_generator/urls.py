@@ -7,7 +7,7 @@ urlpatterns = [
     path(
         "patient_journey_generator/",
         views.JourneyGeneratorOverviewView.as_view(),
-        name="journey_generator",
+        name="journey_generator_overview",
     ),
     path(
         "patient_journey_generator/generation/",
