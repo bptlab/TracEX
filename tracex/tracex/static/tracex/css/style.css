@@ -29,9 +29,9 @@ button {
 }
 
 .landing_page_logo {
-    max-width: 600px;
-    margin-bottom: 20px;
-    margin-top: 0px;
+    max-width: 700px;
+    margin-bottom: 10px;
+    margin-top: 200px;
 }
 
 .item {
@@ -50,7 +50,7 @@ button {
     flex-wrap: wrap;
     margin-top: 10px;
     padding: 10px;
-    background-color: #f9f9f9;
+    background-color: #ffffff;
 }
 
 .landing_page_menu .item img {
