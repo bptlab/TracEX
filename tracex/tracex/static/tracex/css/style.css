@@ -32,6 +32,8 @@ button {
     max-width: 700px;
     margin-bottom: 10px;
     margin-top: 200px;
+    display: block;
+    margin: 0 auto;
 }
 
 .item {
