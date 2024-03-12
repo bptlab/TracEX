@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect
 
-from .forms import JourneyForm, GenerationForm, ResultForm
+from .forms import JourneyForm, ResultForm
 from .logic.orchestrator import Orchestrator
 from .logic import utils
 
@@ -18,17 +18,6 @@ from .logic import utils
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
-
-
-def redirect_to_selection(request):
-    """Redirect to selection page."""
-    return redirect("selection")
-
-
-class SelectionView(generic.TemplateView):
-    """View for selecting a patient journey."""
-
-    template_name = "selection.html"
 
 
 class JourneyInputView(generic.FormView):
@@ -48,31 +37,6 @@ class JourneyInputView(generic.FormView):
             patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
         )
         return super().form_valid(form)
-
-
-class JourneyGenerationView(generic.FormView):
-    """View for generating a patient journey."""
-
-    form_class = GenerationForm
-    template_name = "generation.html"
-    success_url = reverse_lazy("processing")
-
-    def get_context_data(self, **kwargs):
-        """Generate a patient journey and save it in the cache."""
-        context = super().get_context_data(**kwargs)
-
-        orchestrator = Orchestrator.get_instance()
-
-        if IS_TEST:
-            with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
-                journey = file.read()
-                orchestrator.configuration.update(patient_journey=journey)
-        else:
-            # This automatically updates the configuration with the generated patient journey
-            orchestrator.generate_patient_journey()
-
-        context["generated_journey"] = orchestrator.configuration.patient_journey
-        return context
 
     def form_valid(self, form):
         """Save the generated journey in the orchestrator's configuration."""
