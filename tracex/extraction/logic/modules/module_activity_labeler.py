@@ -40,5 +40,4 @@ class ActivityLabeler(Module):
         # TODO: adjust prompt to remove "-" instead of replace()
         activity_labels = activity_labels.replace("- ", "").split("\n")
         df = pd.DataFrame(activity_labels, columns=[name])
-        # document_intermediates("\n", True)
         return df

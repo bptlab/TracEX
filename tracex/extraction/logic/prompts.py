@@ -11,36 +11,31 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
 
 
 TXT_TO_ACTIVITY_CONTEXT = """
-    You are a summarizing expert for diseases and your job is to summarize a given text into activity labels regarding
-    all important points about the course of the disease. Every activity label has to be a short description that must
-    be not longer than 4 words. Every information that is not important for the course of the disease should be
-    discarded! The activity labels have to be kept in present continuous tense and should begin with a verb!
+    You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
+    Every bullet point has to be a short description that must not longer than 4 words.
+    Every information that is not important for the course of the disease should be discarded!
+    The bulletpoints have to be kept in present continuous tense and should begin with a verb!
     You must not include any dates or information about the time and focus on the main aspects you want to convey.
-    You should not take two actions in one activity label, but rather split them into two. Do not put commas in the
-    activity labels. Try not to include enumerations. If absolutely necessary use slashes for enumeration. Do not put
-    any punctuation to the end of the activity label.
+    You should not take two actions in one bullet point, but rather split them into two.
+    Do not put commas in the bulletpoints. Try not to include enumerations. If absolutely necessary use slashes for enumeration.
+    Do not put any punctuation to the end of the bullet points.
 """
 
 TXT_TO_ACTIVITY_PROMPT = """
-    Here is the text from which you should extract the activity labels:
+    Here is the text from which you should extract bullet points:
 """
 
 TXT_TO_ACTIVITY_ANSWER = """
-    For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
-    and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.' should be
-    summarized to the following activity labels:
+    For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
+    Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
-    When there is information about symptoms and a timespan in which these symptoms occurred, you should summarize
-    that as 'starting to experience symptoms, ending to experience symptoms'. Similarly, when there is information about
-    a hospitalization and a timespan of it, you should summarize that as
-    'Being admitted to hospital, getting discharged from hospital'.
-    The text 'Concerned about my condition, I contacted my primary care physician via phone. He advised me to monitor my
-    symptoms and stay at home unless they became severe.' should be summarized as
-    'contacting primary care physician, monitoring symptoms at home'.
-    Anything like 'the following days I waited for the symptoms to fade away' should be summarized as something like
-    'offsetting symptoms'. 'First symptoms on 01/04/2020' should be summarized as 'starting to experience symptoms'.
-    'On July 15, 2022, I started experiencing the first symptoms of Covid-19. Initially, I had a mild cough and fatigue'
-     should be summarized as 'starting to experience symptoms'.
+    When there is information about symptoms and a timespan in which these symptoms occured, you should summarize that as 'starting to experience symptoms, ending to experience symptoms'.
+    Similarly, when there is information about a hospitalization and a timespan of it, you should summarize that as 'getting admissioned to hospital, getting discharged from hospital'.
+    The text 'Concerned about my condition, I contacted my primary care physician via phone. He advised me to monitor my symptoms and stay at home unless they became severe.'
+    should be summarized as 'contacting primary care physician, monitoring symptoms at home'.
+    Anything like 'the following days I waited for the symptoms to fade away' should be summarized as something like 'offsetting symptoms'.
+    'First symptoms on 01/04/2020' should be summarized as 'starting to experience symptoms'.
+    'On July 15, 2022, I started experiencing the first symptoms of Covid-19. Initially, I had a mild cough and fatigue.' should be summarized as 'starting to experience symptoms'.
 """
 
 
