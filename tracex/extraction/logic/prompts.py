@@ -14,7 +14,7 @@ TXT_TO_ACTIVITY_CONTEXT = """
     You are a summarizing expert for diseases and your job is to summarize a given text into bullet points regarding all important points about the course of the disease.
     Every bullet point has to be a short description that must not longer than 4 words.
     Every information that is not important for the course of the disease should be discarded!
-    The bulletpoints have to be kept in present continous tense and should begin with a verb!
+    The bulletpoints have to be kept in present continuous tense and should begin with a verb!
     You must not include any dates or information about the time and focus on the main aspects you want to convey.
     You should not take two actions in one bullet point, but rather split them into two.
     Do not put commas in the bulletpoints. Try not to include enumerations. If absolutely necessary use slashes for enumeration.
