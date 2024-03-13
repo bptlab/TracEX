@@ -1,8 +1,8 @@
 """Module providing various utility functions for the project."""
+# pylint: disable=unused-import
 import os
 from io import StringIO, BytesIO
 from pathlib import Path
-from django.conf import settings
 
 import base64
 import json
@@ -12,6 +12,7 @@ import warnings
 import pandas as pd
 import pm4py
 
+from django.conf import settings
 from openai import OpenAI
 from . import function_calls
 from .constants import (

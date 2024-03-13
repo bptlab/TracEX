@@ -1,6 +1,5 @@
 """This is the module that cohort tags from the patient journey."""
 from pathlib import Path
-import pandas as pd
 from django.conf import settings
 
 from ..logging import log_execution_time
@@ -39,7 +38,7 @@ class CohortTagger(Module):
 
     def __write_cohort_tag(self, tag, append=True):
         """Writes the cohort tag to an intermediate file."""
-        if not (append):
+        if not append:
             with open(u.output_path / "cohort_tag.txt", "w") as f:
                 f.write(tag + "\n")
         else:
