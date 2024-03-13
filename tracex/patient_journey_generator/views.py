@@ -1,7 +1,3 @@
-from django.shortcuts import render
-
-from django.conf import settings
-from pathlib import Path
 from django.urls import reverse_lazy
 from django.views import generic
 from extraction.forms import GenerationForm
@@ -20,9 +16,8 @@ class JourneyGenerationView(generic.FormView):
     """View for generating a patient journey."""
 
     form_class = GenerationForm
-    template_name = "generation.html"
+    template_name = "journey_generation.html"
     success_url = reverse_lazy("processing")
-    input_path = settings.BASE_DIR / Path("patient_journey_generator/content/")
 
     def get_context_data(self, **kwargs):
         """Generate a patient journey and save it in the cache."""
@@ -40,3 +35,15 @@ class JourneyGenerationView(generic.FormView):
 
         context["generated_journey"] = orchestrator.configuration.patient_journey
         return context
+
+    def form_valid(self, form):
+        """Save the generated journey in the orchestrator's configuration."""
+        self.request.session["is_extracted"] = False
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.configuration.update(
+            # This should not be necessary, unspecefied values should be unchanged
+            patient_journey=orchestrator.configuration.patient_journey,
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+        )
+        return super().form_valid(form)
