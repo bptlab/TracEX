@@ -17,7 +17,10 @@ def main():
     input_text = get_input(orchestrator_instance)
     config.update(patient_journey=input_text)
     orchestrator_instance.run()
-    print(orchestrator_instance.data)
+    print("The pipeline has been executed successfully.\n")
+    output_decision = u.get_decision("Would you like to see the output? (y/n)\n")
+    if output_decision:
+        print(orchestrator_instance.data)
 
 
 def greeting():

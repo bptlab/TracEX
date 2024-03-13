@@ -29,9 +29,7 @@ class ExtractionConfiguration:
     modules = {
         "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
-        ###
         "cohort_tagging": CohortTagger,
-        ###
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
@@ -88,9 +86,7 @@ class Orchestrator:
         # (i.e. depending on config given by user)
         modules = [
             self.configuration.modules["activity_labeling"](),
-            ###
             self.configuration.modules["cohort_tagging"](),
-            ###
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
