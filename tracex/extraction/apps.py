@@ -1,8 +1,6 @@
 """App configuration for extraction app."""
 from django.apps import AppConfig
 
-# from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-
 
 class ExtractionConfig(AppConfig):
     """App configuration class for django UI."""
