@@ -21,7 +21,6 @@ class CohortTagger(Module):
     @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-
         return self.__extract_cohort_tags(df)
 
     def __extract_cohort_tags(self, df):

@@ -85,8 +85,8 @@ class Orchestrator:
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
-            self.configuration.modules["activity_labeling"](),
             self.configuration.modules["cohort_tagging"](),
+            self.configuration.modules["activity_labeling"](),
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),

@@ -361,7 +361,7 @@ COHORT_TAG_MESSAGES = [
             "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got \
                 Covid-19 last year I was really worried about my job and my girlfriend.",
         },
-        {"role": "assistant", "content": "USA"},
+        {"role": "assistant", "content": "United States of America"},
         {
             "role": "user",
             "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me. \
@@ -380,7 +380,8 @@ COHORT_TAG_MESSAGES = [
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
-                and to extract previous dieseases of the author.",
+                and to extract previous dieseases of the author. These diseases have to be EXPLICITLY MENTIONED. \
+                    And they have to have occured BEFORE the illness the text is about!",
         },
         {
             "role": "user",
