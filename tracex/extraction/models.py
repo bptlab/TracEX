@@ -9,7 +9,7 @@ class PatientJourney(models.Model):
 
     name = models.CharField(
         max_length=100,
-        help_text="If no name is provided, the name of the uploaded file will be used.",
+        help_text="This is a unique title describing the content of the patient journey.",
         unique=True,
     )
     patient_journey = models.FileField()
@@ -48,13 +48,21 @@ class Event(models.Model):
         return f"Event of {self.trace.__str__().split('(')[0]} (id: {self.id})"
 
 
-class EventLog(models.Model):
-    """Model for the event log, containing traces."""
+class Cohort(models.Model):
+    """Model for the Cohort of a patient journey."""
 
-    traces = models.ManyToManyField(Trace, related_name="event_log")
-    dfg = models.ImageField(null=True)
-    xes = models.FileField(null=True)
-    last_modified = models.DateTimeField(auto_now=True)
+    trace = models.OneToOneField(
+        Trace, primary_key=True, on_delete=models.CASCADE, related_name="cohort"
+    )
+    age = models.IntegerField()
+    sex = models.CharField(max_length=25)
+    origin = models.CharField(max_length=50)
+    condition = models.CharField(max_length=50)
+    preexisting_condition = models.CharField(max_length=100)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Cohort of {self.trace.__str__().split('(')[0]} (id: {self.id})"
 
 
 class Prompt(models.Model):

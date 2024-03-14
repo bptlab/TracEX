@@ -10,7 +10,7 @@ from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 
 from ..logic import utils
-from ..models import Trace, PatientJourney, Event
+from ..models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -22,7 +22,7 @@ class ExtractionConfiguration:
     """
 
     patient_journey: Optional[str] = None
-    patient_journey_name: Optional[str] = None
+    # patient_journey_name: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
     modules = {
@@ -59,6 +59,7 @@ class Orchestrator:
         if configuration is not None:
             self.configuration = configuration
         self.data = None
+        self.db_objects = {}
 
     @classmethod
     def get_instance(cls):
@@ -92,9 +93,8 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "caseID", 1)
+        self.data.insert(0, "caseID", (Trace.manager.latest("id").id + 1))
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
-        self.save_results_to_db()
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
@@ -108,7 +108,7 @@ class Orchestrator:
     def save_results_to_db(self):
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(
-            name=self.configuration.patient_journey_name
+            pk=self.db_objects["patient_journey"]
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
         events: List[Event] = Event.manager.bulk_create(
@@ -126,4 +126,8 @@ class Orchestrator:
             ]
         )
         trace.events.set(events)
+        # TODO: remove comment, when cohort is implemented
+        # trace.cohort = Cohort.manager.get(pk=self.db_objects["cohort"].id)
+        trace.save()
         patient_journey.trace.add(trace)
+        patient_journey.save()

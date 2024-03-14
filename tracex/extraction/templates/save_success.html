@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
+    <style>
+
+        h1 {
+            margin-bottom: 20px;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        img {
+            max-width: 100%;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .dfg-container img {
+            width: 100%;
+            max-width: none;
+            height: auto;
+        }
+        input[type="submit"].button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 1%;
+        }
+    </style>
+</head>
+<body class="main_body">
+    <h1>Success! results have been saved to the database.</h1>
+    <a href="{% url 'selection' %}">
+        <button>Return to input selection</button>
+    </a>
+</body>
+</html>

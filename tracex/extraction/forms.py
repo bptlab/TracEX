@@ -92,15 +92,20 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
     journey_is_new = True
     field_order = ["patient_journey", "name", "event_types", "locations"]
 
-    def clean_name(self):
-        name = self.cleaned_data.get("name")
-        uploaded_file = self.cleaned_data.get("patient_journey")
+    # def __init__(self, *args, **kwargs):
+    #     uploaded_file_name = kwargs.pop("uploaded_file_name", None)
+    #     super().__init__(*args, **kwargs)
+    #     self.fields["uploaded_file_name"] = forms.CharField(
+    #         initial=uploaded_file_name, widget=forms.HiddenInput
+    #     )
+    #     self.fields["name"].required = False
 
-        if not name:
-            uploaded_file_name = uploaded_file.name
-            name = os.path.splitext(uploaded_file_name)[0]
-
-        return name
+    # def clean_name(self):
+    #     name = self.cleaned_data.get("name")
+    #     if not name:
+    #         name = self.cleaned_data["uploaded_file_name"]
+    #
+    #     return name
 
     def clean_patient_journey(self):
         uploaded_file = self.cleaned_data["patient_journey"]
@@ -119,6 +124,8 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
 
 class GenerationForm(BaseEventForm):
     """Form for generating events from a patient journey."""
+
+    # TODO: change to ModelForm, add name field
 
 
 class ResultForm(BaseEventForm):

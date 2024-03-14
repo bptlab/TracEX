@@ -4,166 +4,118 @@
 	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
 	<string key="origin" value="csv" />
 	<trace>
-		<string key="concept:name" value="1" />
+		<string key="concept:name" value="16" />
 		<event>
-			<string key="event_information" value="Starting to experience symptoms: persistent cough/fatigue" />
-			<date key="time:timestamp" value="2022-07-15T00:00:00" />
-			<date key="time:endDate" value="2022-07-15T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="starting to experience Covid-19 symptoms" />
+			<date key="time:timestamp" value="2021-09-15T00:00:00" />
+			<date key="time:endDate" value="2021-09-20T00:00:00" />
+			<string key="time:duration" value="120:00:00" />
 			<string key="concept:name" value="Symptom Onset" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Taking extended leave from work" />
-			<date key="time:timestamp" value="2022-07-16T00:00:00" />
-			<date key="time:endDate" value="2022-07-16T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="self-isolating at home" />
+			<date key="time:timestamp" value="2021-09-15T00:00:00" />
+			<date key="time:endDate" value="2021-09-29T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
 			<string key="concept:name" value="Lifestyle Change" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Contacting family doctor" />
-			<date key="time:timestamp" value="2022-07-19T00:00:00" />
-			<date key="time:endDate" value="2022-07-19T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="reaching out to general practitioner" />
+			<date key="time:timestamp" value="2021-09-20T00:00:00" />
+			<date key="time:endDate" value="2021-09-21T00:00:00" />
+			<string key="time:duration" value="24:00:00" />
 			<string key="concept:name" value="Doctor visit" />
 			<string key="attribute_location" value="Doctors" />
 		</event>
 		<event>
-			<string key="event_information" value="Going to doctor's clinic for examination" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Doctor visit" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Confirming Covid-19 diagnosis" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="getting tested for Covid-19" />
+			<date key="time:timestamp" value="2021-09-20T00:00:00" />
+			<date key="time:endDate" value="2021-09-21T00:00:00" />
+			<string key="time:duration" value="24:00:00" />
 			<string key="concept:name" value="Diagnosis" />
-			<string key="attribute_location" value="Doctors" />
+			<string key="attribute_location" value="getting tested for Covid-19" />
 		</event>
 		<event>
-			<string key="event_information" value="Isolating at home to prevent spreading" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Lifestyle Change" />
+			<string key="event_information" value="receiving positive test result" />
+			<date key="time:timestamp" value="2021-09-20T00:00:00" />
+			<date key="time:endDate" value="2021-09-21T00:00:00" />
+			<string key="time:duration" value="24:00:00" />
+			<string key="concept:name" value="Diagnosis" />
+			<string key="attribute_location" value="Other" />
+		</event>
+		<event>
+			<string key="event_information" value="informing workplace about positive result" />
+			<date key="time:timestamp" value="2021-09-21T00:00:00" />
+			<date key="time:endDate" value="2021-09-21T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Diagnosis" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Prescribed medications for symptom relief" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Medication" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Monitoring condition closely" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Home" />
-		</event>
-		<event>
-			<string key="event_information" value="Informing school about positive test result" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Doctor visit" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Receiving support from school administration" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Home" />
-		</event>
-		<event>
-			<string key="event_information" value="Symptoms persisting" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="experiencing fatigue and body aches" />
+			<date key="time:timestamp" value="2021-09-25T00:00:00" />
+			<date key="time:endDate" value="2021-10-09T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
 			<string key="concept:name" value="Symptom Onset" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Difficulty participating in family activities" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Lifestyle Change" />
+			<string key="event_information" value="facing difficulty breathing" />
+			<date key="time:timestamp" value="2021-09-18T00:00:00" />
+			<date key="time:endDate" value="2021-09-28T00:00:00" />
+			<string key="time:duration" value="240:00:00" />
+			<string key="concept:name" value="Symptom Onset" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Receiving extra care from wife" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="balancing work and family responsibilities" />
+			<date key="time:timestamp" value="2021-09-15T00:00:00" />
+			<date key="time:endDate" value="2021-09-29T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
+			<string key="concept:name" value="Symptom Onset" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="event_information" value="seeking guidance from general practitioner" />
+			<date key="time:timestamp" value="2021-09-15T00:00:00" />
+			<date key="time:endDate" value="2021-09-20T00:00:00" />
+			<string key="time:duration" value="120:00:00" />
+			<string key="concept:name" value="Doctor visit" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="event_information" value="managing symptoms with medications" />
+			<date key="time:timestamp" value="2021-09-25T00:00:00" />
+			<date key="time:endDate" value="2021-10-09T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
+			<string key="concept:name" value="Medication" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="event_information" value="monitoring condition closely" />
+			<date key="time:timestamp" value="2021-09-15T00:00:00" />
+			<date key="time:endDate" value="2021-09-29T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
 			<string key="concept:name" value="Treatment" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Children being supportive" />
-			<date key="time:timestamp" value="2022-07-20T00:00:00" />
-			<date key="time:endDate" value="2022-07-20T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="resuming normal activities after recovery" />
+			<date key="time:timestamp" value="2022-09-29T00:00:00" />
+			<date key="time:endDate" value="2022-10-13T00:00:00" />
+			<string key="time:duration" value="336:00:00" />
 			<string key="concept:name" value="Feelings" />
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="event_information" value="Receiving first dose of Covid-19 vaccine" />
-			<date key="time:timestamp" value="2022-08-25T00:00:00" />
-			<date key="time:endDate" value="2022-08-25T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
+			<string key="event_information" value="getting vaccinated against Covid-19" />
+			<date key="time:timestamp" value="2022-01-01T00:00:00" />
+			<date key="time:endDate" value="2022-02-04T00:00:00" />
+			<string key="time:duration" value="816:00:00" />
 			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Receiving second dose of Covid-19 vaccine" />
-			<date key="time:timestamp" value="2022-09-22T00:00:00" />
-			<date key="time:endDate" value="2022-09-22T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Completing vaccination process" />
-			<date key="time:timestamp" value="2022-09-22T00:00:00" />
-			<date key="time:endDate" value="2022-09-22T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Alleviating concerns about future infections" />
-			<date key="time:timestamp" value="2022-09-22T00:00:00" />
-			<date key="time:endDate" value="2022-09-22T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Doctors" />
-		</event>
-		<event>
-			<string key="event_information" value="Navigating through infection" />
-			<date key="time:timestamp" value="2022-09-22T00:00:00" />
-			<date key="time:endDate" value="2022-09-22T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Treatment" />
-			<string key="attribute_location" value="Home" />
-		</event>
-		<event>
-			<string key="event_information" value="Taking proactive step towards protection" />
-			<date key="time:timestamp" value="2022-09-22T00:00:00" />
-			<date key="time:endDate" value="2022-09-22T00:00:00" />
-			<string key="time:duration" value="0 days 00:00:00" />
-			<string key="concept:name" value="Lifestyle Change" />
-			<string key="attribute_location" value="Home" />
+			<string key="attribute_location" value="Hospital" />
 		</event>
 	</trace>
 </log>

@@ -1,9 +1,15 @@
-case_id,event_information,start_date,end_date,duration,event_type,attribute_location
-0,"experiencing first Covid-19 symptoms: mild cough, fatigue",20220601T0000,20220608T0000,168:00:00,Symptom Onset,Home
-0,brushing off symptoms as common cold,20220601T0000,20220608T0000,168:00:00,Other,Home
-0,developing high fever and difficulty breathing,20220601T0000,20220611T0000,240:00:00,Symptom Onset,Hospital
-0,deciding to get tested for Covid-19,20220601T0000,20220617T0000,384:00:00,Diagnosis,Doctors
-0,going to local testing center,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
-0,undergoing PCR test,20220617T0000,20220617T0000,00:00:00,Diagnosis,Home
-0,receiving negative test results,20220617T0000,20220619T0000,48:00:00,Diagnosis,Doctors
-0,getting infected and testing positive,20220617T0000,20220617T0000,00:00:00,Symptom Onset,Home
+caseID,event_information,start,end,duration,event_type,attribute_location
+16,starting to experience Covid-19 symptoms,20210915T0000,20210920T0000,120:00:00,Symptom Onset,Home
+16,self-isolating at home,20210915T0000,20210929T0000,336:00:00,Lifestyle Change,Home
+16,reaching out to general practitioner,20210920T0000,20210921T0000,24:00:00,Doctor visit,Doctors
+16,getting tested for Covid-19,20210920T0000,20210921T0000,24:00:00,Diagnosis,getting tested for Covid-19
+16,receiving positive test result,20210920T0000,20210921T0000,24:00:00,Diagnosis,Other
+16,informing workplace about positive result,20210921T0000,20210921T0000,00:00:00,Diagnosis,Home
+16,experiencing fatigue and body aches,20210925T0000,20211009T0000,336:00:00,Symptom Onset,Home
+16,facing difficulty breathing,20210918T0000,20210928T0000,240:00:00,Symptom Onset,Home
+16,balancing work and family responsibilities,20210915T0000,20210929T0000,336:00:00,Symptom Onset,Home
+16,seeking guidance from general practitioner,20210915T0000,20210920T0000,120:00:00,Doctor visit,Doctors
+16,managing symptoms with medications,20210925T0000,20211009T0000,336:00:00,Medication,Home
+16,monitoring condition closely,20210915T0000,20210929T0000,336:00:00,Treatment,Home
+16,resuming normal activities after recovery,20220929T0000,20221013T0000,336:00:00,Feelings,Home
+16,getting vaccinated against Covid-19,20220101T0000,20220204T0000,816:00:00,Treatment,Hospital

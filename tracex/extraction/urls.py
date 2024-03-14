@@ -14,6 +14,7 @@ urlpatterns = [
     path("journey/", views.JourneyInputView.as_view(), name="journey_input"),
     path("journey/result/", views.ResultView.as_view(), name="result"),
     path("journey/processing/", views.ProcessingView.as_view(), name="processing"),
+    path("journey/saved/", views.SaveSuccessView.as_view(), name="save_success"),
 ]
 
 # urlpatterns += [
