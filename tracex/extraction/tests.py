@@ -2,11 +2,12 @@
 import pandas as pd
 from unittest.mock import MagicMock
 from django.test import TestCase
-from pandas.core.dtypes.common import is_datetime64_any_dtype
 
 from tracex.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.extraction.logic.modules.module_activity_labeler import ActivityLabeler
 from tracex.extraction.logic.modules.module_time_extractor import TimeExtractor
+from tracex.extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
+from tracex.extraction.logic.modules.module_location_extractor import LocationExtractor
 
 
 class OrchestratorTests(TestCase):
@@ -126,9 +127,42 @@ class TimeExtractorTests(TestCase):
         self.assertIn("end", result.columns)
         self.assertIn("duration", result.columns)
 
+
 class EventTypeClassifierTests(TestCase):
-    pass
+    """Test cases for the EventTypeClassifier."""
+
+    def test_execute_return_value(self):
+        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        test_data = {
+            "activity": "fell ill",
+            "start": "20220601T0000",
+            "end": "20220605T0000",
+            "duration": "04:00:00",
+        }
+        input_dataframe = pd.DataFrame([test_data])
+        event_type_classifier = EventTypeClassifier()
+        result = event_type_classifier.execute(input_dataframe)
+        self.assertIsInstance(result, pd.DataFrame)
+        self.assertIn("event_type", result.columns)
+
+    def test_event_types(self):
+        pass
 
 
 class LocationExtractorTests(TestCase):
-    pass
+    """Test cases for the LocationExtractor."""
+
+    def test_execute_return_value(self):
+        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        test_data = {
+            "activity": "fell ill",
+            "start": "20220601T0000",
+            "end": "20220605T0000",
+            "duration": "04:00:00",
+            "event_type": "Symptom Onset",
+        }
+        input_dataframe = pd.DataFrame([test_data])
+        location_extractor = LocationExtractor()
+        result = location_extractor.execute(input_dataframe)
+        self.assertIsInstance(result, pd.DataFrame)
+        self.assertIn("attribute_location", result.columns)
