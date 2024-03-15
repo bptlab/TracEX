@@ -11,8 +11,9 @@ from django.views import generic
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, GenerationForm, ResultForm
-from .logic.orchestrator import Orchestrator
-from .logic import utils
+from .logic.orchestrator import Orchestrator, ExtractionConfiguration
+from .logic import utils, constants
+from .models import Trace
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -42,13 +43,20 @@ class JourneyInputView(generic.CreateView):
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         self.request.session["is_extracted"] = False
-        orchestrator = Orchestrator.get_instance()
-        orchestrator.configuration.update(
+        uploaded_file = self.request.FILES.get("file")
+        content = uploaded_file.read().decode("utf-8")
+        form.instance.patient_journey = content
+
+        configuration = ExtractionConfiguration(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
-            patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
+            patient_journey=content,
         )
-        return super().form_valid(form)
+        orchestrator = Orchestrator(configuration)
+        response = super().form_valid(form)
+        orchestrator.db_objects["patient_journey"] = self.object.id
+
+        return response
 
 
 class JourneyGenerationView(generic.CreateView):
@@ -61,13 +69,15 @@ class JourneyGenerationView(generic.CreateView):
     def get_context_data(self, **kwargs):
         """Generate a patient journey and save it in the cache."""
         context = super().get_context_data(**kwargs)
-
-        orchestrator = Orchestrator.get_instance()
+        orchestrator = Orchestrator()
 
         if IS_TEST:
-            with open(str(utils.input_path / "journey_synth_covid_1.txt"), "r") as file:
+            with open(
+                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
+            ) as file:
                 journey = file.read()
-                orchestrator.configuration.update(patient_journey=journey)
+                configuration = ExtractionConfiguration(patient_journey=journey)
+                orchestrator.set_configuration(configuration)
         else:
             # This automatically updates the configuration with the generated patient journey
             orchestrator.generate_patient_journey()
