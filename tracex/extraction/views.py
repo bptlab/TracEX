@@ -51,7 +51,7 @@ class JourneyInputView(generic.CreateView):
         return super().form_valid(form)
 
 
-class JourneyGenerationView(generic.FormView):
+class JourneyGenerationView(generic.CreateView):
     """View for generating a patient journey."""
 
     form_class = GenerationForm
@@ -73,6 +73,7 @@ class JourneyGenerationView(generic.FormView):
             orchestrator.generate_patient_journey()
 
         context["generated_journey"] = orchestrator.configuration.patient_journey
+
         return context
 
     def form_valid(self, form):
@@ -85,7 +86,11 @@ class JourneyGenerationView(generic.FormView):
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )
-        return super().form_valid(form)
+        form.instance.patient_journey = orchestrator.configuration.patient_journey
+        response = super().form_valid(form)
+        orchestrator.db_objects["patient_journey"] = self.object.id
+
+        return response
 
 
 class ProcessingView(generic.TemplateView):
@@ -142,30 +147,27 @@ class ResultView(generic.FormView):
         # 2. Sort and filter the single journey dataframe
         single_trace_df = self.sort_dataframe(single_trace_df)
         single_trace_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
-
         # 3. Append the single journey dataframe to the all traces dataframe
 
-        # TODO: query all traces that match the current trace's cohort.condition
+        # TODO: remove comment once cohort is implemented
         # condition = Cohort.manager.get(pk=orchestrator.db_objects["cohort"]).condition
         # query = Q(cohort__condition=condition)
         all_traces_df = self.get_events_df()
-        all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-            all_traces_df, orchestrator.configuration.activity_key
-        )
-        all_traces_df = pd.concat(
-            [all_traces_df, single_trace_df_filtered], ignore_index=True, axis="rows"
-        )
-        all_traces_df.groupby("case:concept:name", group_keys=False, sort=False).apply(
-            self.sort_dataframe
-        )
-        # all_traces_df = pm4py.read_xes(
-        #     utils.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
-        # )
-        # all_traces_df = all_traces_df.groupby(
-        #     "case:concept:name", group_keys=False, sort=False
-        # ).apply(self.sort_dataframe)
-
-        all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
+        if not all_traces_df.empty:
+            all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
+                all_traces_df, orchestrator.configuration.activity_key
+            )
+            all_traces_df = pd.concat(
+                [all_traces_df, single_trace_df_filtered],
+                ignore_index=True,
+                axis="rows",
+            )
+            all_traces_df.groupby(
+                "case:concept:name", group_keys=False, sort=False
+            ).apply(self.sort_dataframe)
+            all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
+        else:
+            all_traces_df_filtered = single_trace_df_filtered
 
         # 4. Save all information in context to display on website
         context["form"] = ResultForm(

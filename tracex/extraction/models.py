@@ -12,7 +12,7 @@ class PatientJourney(models.Model):
         help_text="This is a unique title describing the content of the patient journey.",
         unique=True,
     )
-    patient_journey = models.FileField()
+    patient_journey = models.TextField()
     manager = models.Manager()
 
     def __str__(self):
@@ -25,6 +25,7 @@ class Trace(models.Model):
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
     )
+    last_modified = models.DateTimeField(auto_now=True)
     manager = models.Manager()
 
     def __str__(self):

@@ -2,6 +2,7 @@
 from dataclasses import dataclass
 from typing import Optional, List
 from django.utils.dateparse import parse_duration
+from django.core.exceptions import ObjectDoesNotExist
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
@@ -93,7 +94,11 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "caseID", (Trace.manager.latest("id").id + 1))
+        try:
+            latest_id = Trace.manager.latest("last_modified").id
+        except ObjectDoesNotExist:
+            latest_id = 0
+        self.data.insert(0, "caseID", latest_id + 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
@@ -101,9 +106,10 @@ class Orchestrator:
     def generate_patient_journey(self):
         """Generate a patient journey with the help of the GPT engine."""
         print("Orchestrator is generating a patient journey.")
+        self.set_configuration(ExtractionConfiguration())
         module = self.configuration.modules["patient_journey_generation"]()
         patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration = ExtractionConfiguration(patient_journey=patient_journey)
+        self.configuration.update(patient_journey=patient_journey)
 
     def save_results_to_db(self):
         """Save the trace to the database."""

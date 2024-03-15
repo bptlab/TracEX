@@ -68,64 +68,42 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
 
     class Meta:
         model = PatientJourney
-        fields = ["patient_journey", "name"]
-        ALLOWED_FILE_TYPES = ["txt"]
-        labels = {
-            "patient_journey": "Patient journey",
-        }
-        error_messages = {
-            "patient_journey": {
-                "required": "Please provide a file from which to extract the event log."
-            }
-        }
+        fields = ["name"]
         help_texts = {
             "name": PatientJourney.name.field.help_text,
-            "patient_journey": f"Allowed file types: {', '.join(ALLOWED_FILE_TYPES)}",
         }
         widgets = {
-            "patient_journey": forms.FileInput(attrs={"accept": ".txt"}),
             "name": forms.TextInput(
                 attrs={"placeholder": "Name for your patient journey"}
             ),
         }
 
-    journey_is_new = True
-    field_order = ["patient_journey", "name", "event_types", "locations"]
-
-    # def __init__(self, *args, **kwargs):
-    #     uploaded_file_name = kwargs.pop("uploaded_file_name", None)
-    #     super().__init__(*args, **kwargs)
-    #     self.fields["uploaded_file_name"] = forms.CharField(
-    #         initial=uploaded_file_name, widget=forms.HiddenInput
-    #     )
-    #     self.fields["name"].required = False
-
-    # def clean_name(self):
-    #     name = self.cleaned_data.get("name")
-    #     if not name:
-    #         name = self.cleaned_data["uploaded_file_name"]
-    #
-    #     return name
-
-    def clean_patient_journey(self):
-        uploaded_file = self.cleaned_data["patient_journey"]
-        patient_journey_content = uploaded_file.read().decode("utf-8")
-
-        return patient_journey_content
-
-    def save(self, commit=True):
-        instance = super().save(commit=False)
-        instance.patient_journey = self.cleaned_data["patient_journey"]
-        if commit and not PatientJourney.manager.filter(name=instance.name).exists():
-            instance.save()
-
-        return instance
+    ALLOWED_FILE_TYPES = ["txt"]
+    file = forms.FileField(
+        label="Upload your patient journey",
+        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES} containing your patient journey.",
+        required=True,
+    )
+    field_order = ["file", "name", "event_types", "locations"]
 
 
-class GenerationForm(BaseEventForm):
+class GenerationForm(BaseEventForm, forms.ModelForm):
     """Form for generating events from a patient journey."""
 
     # TODO: change to ModelForm, add name field
+    class Meta:
+        model = PatientJourney
+        fields = ["name"]
+        help_texts = {
+            "name": PatientJourney.name.field.help_text,
+        }
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"placeholder": "Name for your patient journey"}
+            ),
+        }
+
+    field_order = ["name", "event_types", "locations"]
 
 
 class ResultForm(BaseEventForm):

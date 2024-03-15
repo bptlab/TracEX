@@ -16,9 +16,3 @@ urlpatterns = [
     path("journey/processing/", views.ProcessingView.as_view(), name="processing"),
     path("journey/saved/", views.SaveSuccessView.as_view(), name="save_success"),
 ]
-
-# urlpatterns += [
-#     re_path(
-#         r"^.*/$", views.redirect_to_selection
-#     ),  # Redirect any other paths to "journey"
-# ]
