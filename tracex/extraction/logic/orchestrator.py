@@ -103,8 +103,9 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "case_id", 1)
-        self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
+        if self.data is not None:
+            self.data.insert(0, "case_id", 1)
+            self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
