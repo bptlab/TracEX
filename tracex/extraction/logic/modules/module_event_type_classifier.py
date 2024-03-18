@@ -1,5 +1,6 @@
 """This module classifies the event types of the activities."""
 from pathlib import Path
+from django.conf import settings
 
 from ..logging import log_execution_time
 from ..module import Module
@@ -20,7 +21,7 @@ class EventTypeClassifier(Module):
         self.name = "Event Type Classifier"
         self.description = "Classifies the event types for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 
