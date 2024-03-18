@@ -19,7 +19,7 @@ from .models import Trace
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
+IS_TEST = True  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 def redirect_to_selection(request):

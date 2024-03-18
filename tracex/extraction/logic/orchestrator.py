@@ -135,5 +135,9 @@ class Orchestrator:
         # TODO: remove comment, when cohort is implemented
         # trace.cohort = Cohort.manager.get(pk=self.db_objects["cohort"].id)
         trace.save()
+        # alternative:
+        # cohort: Cohort = Cohort.manager.get(pk=self.db_objects["cohort"].id)
+        # cohort.trace = trace
+        # cohort.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
