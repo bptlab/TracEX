@@ -1,10 +1,10 @@
 """This module classifies the event types of the activities."""
 from pathlib import Path
 
-from ..logging import log_execution_time
+from tracex.logic.logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
-from .. import utils as u
+from tracex.logic import utils as u
 
 
 class EventTypeClassifier(Module):
@@ -20,7 +20,7 @@ class EventTypeClassifier(Module):
         self.name = "Event Type Classifier"
         self.description = "Classifies the event types for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path("tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 

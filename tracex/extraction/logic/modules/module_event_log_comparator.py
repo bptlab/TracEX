@@ -2,11 +2,11 @@
 from pathlib import Path
 import pandas as pd
 
-from ..logging import log_execution_time
+from tracex.logic.logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
-from .. import utils as u
-from .. import constants as c
+from tracex.logic import utils as u
+from tracex.logic import constants as c
 
 
 class EventLogComparator(Module):
@@ -22,7 +22,7 @@ class EventLogComparator(Module):
         self.name = "Event Log Comparator"
         self.description = "Compares the output of the pipeline against a ground truth."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path("tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 

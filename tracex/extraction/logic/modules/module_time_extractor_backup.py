@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from ..logging import log_execution_time
+from tracex.logic.logging import log_execution_time
 from ..module import Module
-from .. import utils as u
+from tracex.logic import utils as u
 
 
 class TimeExtractorBackup(Module):
@@ -20,7 +20,7 @@ class TimeExtractorBackup(Module):
         self.name = "Time Extractor Backup"
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path("tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
         df["start"] = df["activity"].apply(self.__extract_start)

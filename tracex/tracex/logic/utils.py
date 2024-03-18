@@ -65,7 +65,7 @@ def query_gpt(
 
     tools = function_calls.TOOLS if tools is None else tools
 
-    @log_tokens_used(Path("extraction/logs/tokens_used.log"))
+    @log_tokens_used(Path("tracex/logs/tokens_used.log"))
     def make_api_call():
         """Queries the GPT engine."""
         client = OpenAI(api_key=oaik)

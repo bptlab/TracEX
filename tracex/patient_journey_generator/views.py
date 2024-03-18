@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from extraction.forms import GenerationForm
 from extraction.logic.orchestrator import *
+from . import patient_journey_generator
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
@@ -31,7 +32,7 @@ class JourneyGenerationView(generic.FormView):
                 orchestrator.configuration.update(patient_journey=journey)
         else:
             # This automatically updates the configuration with the generated patient journey
-            orchestrator.generate_patient_journey()
+            orchestrator.configuration = ExtractionConfiguration(patient_journey=patient_journey_generator.generate())
 
         context["generated_journey"] = orchestrator.configuration.patient_journey
         return context

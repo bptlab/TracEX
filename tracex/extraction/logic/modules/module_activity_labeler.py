@@ -2,10 +2,10 @@
 from pathlib import Path
 import pandas as pd
 
-from ..logging import log_execution_time
+from tracex.logic.logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
-from .. import utils as u
+from tracex.logic import utils as u
 
 
 class ActivityLabeler(Module):
@@ -19,7 +19,7 @@ class ActivityLabeler(Module):
         self.name = "Activity Labeler"
         self.description = "Extracts the activity labels from a patient journey."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path("tracex/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
 

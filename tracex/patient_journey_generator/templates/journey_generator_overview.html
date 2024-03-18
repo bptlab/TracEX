@@ -8,14 +8,24 @@
         button {
             margin: 10px 0; /* Add some margin around buttons */
         }
+        p {
+            text-align: left;
+        }
+        h2 {
+            text-align: left;
+        }
+        .patient_journey_generator_logo {
+        width: 280px; /* Adjust as needed */
+        height: auto; /* Maintain aspect ratio */
+        }
     </style>
 </head>
 
 <body class="selection_body">
     <div class="selection_container">
-        <img src="{% static '/extraction/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="selection_logo">
-        <h1>Welcome to TracEX</h1>
-        <p>In this prototype of our pipeline you may either provide a patient journey yourself, or generate it with ChatGPT.</p>
+        <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
+        <h2>Welcome to the Patient Journey Generator of TracEX</h1>
+        <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
 
         <a href="{% url 'journey_generation' %}">
             <button>Generate Patient Journey</button>

@@ -2,7 +2,6 @@
 from dataclasses import dataclass
 from typing import Optional, List
 
-from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
@@ -11,7 +10,7 @@ from .modules.module_event_type_classifier import EventTypeClassifier
 # from .modules.module_metrics_analyzer import MetricsAnalyzer
 # from .modules.module_event_log_comparator import EventLogComparator
 
-from ..logic import utils
+from tracex.logic import utils
 
 
 @dataclass
@@ -26,7 +25,6 @@ class ExtractionConfiguration:
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
     modules = {
-        "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractorBackup,
@@ -102,12 +100,3 @@ class Orchestrator:
             self.data = module.execute(self.data, self.configuration.patient_journey)
         self.data.insert(0, "case_id", 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
-
-    # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
-    # a configuration was given or not, the patient journey generation may be executed.
-    def generate_patient_journey(self):
-        """Generate a patient journey with the help of the GPT engine."""
-        print("Orchestrator is generating a patient journey.")
-        module = self.configuration.modules["patient_journey_generation"]()
-        patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration = ExtractionConfiguration(patient_journey=patient_journey)
