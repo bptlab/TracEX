@@ -45,6 +45,10 @@
             padding: 10px;
             margin-top: 1%;
         }
+        .landing_page_button {
+            margin: 20px 0; /* Add some margin around buttons */
+        }
+        
     </style>
 </head>
 <body class="main_body">
@@ -127,8 +131,12 @@
     </form>
 
 
-    <a href="{% url 'selection' %}">
+    <a href="{% url 'journey_input' %}">
         <button>Return to input selection</button>
+    </a>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="landing_page_button">Return to TracEX Menu</button>
     </a>
 </body>
 </html>
