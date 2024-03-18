@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     "tracex",
     "patient_journey_generator",
     "extraction",
-    "extraction.apps.ExtractionConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
