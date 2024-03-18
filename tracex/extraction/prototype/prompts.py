@@ -1,4 +1,6 @@
 # pylint: disable=import-error
+# pylint: disable=import-error
+# pylint: disable=line-too-long
 """Module providing the needed prompts for the gpt_queries."""
 import random
 
@@ -94,7 +96,7 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
 """
 
 # Conversion of a text to bulletpoints focused on the course of a disease
-TEXT_TO_EVENTINFORMATION_CONTEXT = """
+TEXT_TO_ACTIVITY_CONTEXT = """
     You are a summarizing expert for diseases and your job is to summarize a given text into event information regarding all important points about the course of the disease.
     Every event information has to be a short description that must not longer than 6 words.
     Every information that is not important for the course of the disease should be discarded!
@@ -103,10 +105,10 @@ TEXT_TO_EVENTINFORMATION_CONTEXT = """
     You should not take two actions in one event information, but rather split them into two.
     Try not to include enumerations.
 """
-TEXT_TO_EVENTINFORMATION_PROMPT = """
+TEXT_TO_ACTIVITY_PROMPT = """
     Here is the text from which you should extract event information:
 """
-TEXT_TO_EVENTINFORMATION_ANSWER = """
+TEXT_TO_ACTIVITY_ANSWER = """
     For example the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19.' should be summarized as
     'experiencing mild symptoms, visiting doctor's, testing positive for Covid19'.
@@ -121,7 +123,7 @@ TEXT_TO_EVENTINFORMATION_ANSWER = """
 
 
 # Adding of a start date to every bulletpoint
-START_DATE_CONTEXT = """
+START_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given bulletpoint and to extract a start date to this bulletpoint.
     Just output the extracted start date.
     The date should be extracted from the text or from the context and should be as precise as possible.
@@ -132,12 +134,12 @@ START_DATE_CONTEXT = """
     use that information to draw conclusions about the start dates.
     If there is only a month specified, use the first of this month as start date. If there is no date specified in the text conclude 'N/A'.
 """
-START_DATE_PROMPT = """
+START_PROMPT = """
     Here is the text and the bulletpoint for which you should extract the start date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a start date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the date YYYYMMDDTHHMM is available or N/A.
 """
-START_DATE_ANSWER = """
+START_ANSWER = """
     For example for the text 'On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
     Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.' and the bulletpoints
     'experiencing mild symptoms' you should return '20200401T0000'.
@@ -145,15 +147,15 @@ START_DATE_ANSWER = """
     The bulletpoint 'getting infected again' has only specified the month therefore the day is always the first of month and should be returned as '20200601T0000'.
     Futhermore the bulletpoint 'having back pain' hasn't specified a date in the text and context, therefore the date ist 'N/A'.
 """
-FC_START_DATE_CONTEXT = """
+FC_START_CONTEXT = """
    You are an expert in extracting information. You easily detect the start dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
-FC_START_DATE_PROMPT = """
+FC_START_PROMPT = """
     What is the start date of given bulletpoint in the format YYYYMMDDT000 (e.g. 20200101T000). If no start date is available extract N/A.
 """
 
 # Adding of a end date to every bulletpoint
-END_DATE_CONTEXT = """
+END_CONTEXT = """
     You are an expert in text understanding and your job is to take a given text and a given bulletpoint with a start date and to extract a end date to this bulletpoint.
     It is important, that an end date is extracted, even if it is the same as the start date.
     The information about the end date should be extracted from the text or from the context and should be as precise as possible.
@@ -164,12 +166,12 @@ END_DATE_CONTEXT = """
     If there is no information about the end date at all, please state the start date also as the end date.
     Only return the date! Nothing else!
 """
-END_DATE_PROMPT = """
+END_PROMPT = """
     Here is the text and the bulletpoint with the start date for which you should extract the end date in the format YYYYMMDD with the postfix T0000!
     In case that you are not able to find a end date return the term "N/A". Only use the format YYYYMMDDTHHMM e.g. 20200401T0000!
     Explain step by step your conclusions if the end date YYYYMMDDTHHMM is available, if not calculate the average time of the activity and add this on the start date resulting as the end date.
 """
-END_DATE_ANSWER = """
+END_ANSWER = """
     For example for the text 'Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.'
     and the bulletpoint 'visiting doctor's' with the start date '20200405T0000' you should only return '20200405T0000'.
     For the bulletpoint 'testing positive for Covid19' with the start date '20200405T0000' you should only return '20200405T0000'.
@@ -177,10 +179,10 @@ END_DATE_ANSWER = """
 
     The text 'In the next time I made sure to improve my mental wellbeing.' and the bulletpoint 'improving mental wellbeing' with the start date '20210610T0000', you should output '20210710T0000'.
 """
-FC_END_DATE_CONTEXT = """
+FC_END_CONTEXT = """
     You are an expert in extracting information. You easily detect the end dates in the format YYYYMMDD with the postfix 'T0000' and extract them as they are without changing any format.
 """
-FC_END_DATE_PROMPT = """
+FC_END_PROMPT = """
     Please extract the following end date of the text without changing the given date format:
 """
 
@@ -218,51 +220,122 @@ FC_DURATION_PROMPT = """
 
 # Adding of a event type to every bulletpoint
 EVENT_TYPE_CONTEXT = """
-    You are an expert in text categorization and your job is to take a given bulletpoint and to add one of given event type to it.
-    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
-    It is important, that every bulletpoint gets an event type.
+    You are an expert in text categorization and your job is to take given event information and to add one of given event type to every event information.
+    The given event types are 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital admission', 'Hospital discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
+    It is important, that every event information gets an event type.
     Furthermore it is really important, that that event type is correct and not 'Other'.
     The only output should be the event type!
 """
 EVENT_TYPE_PROMPT = """
-    Here is the bulletpoint for which you should extract the event type.
-    Explain step by step your conclusions your choice of location: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
+    You will be given a bulletpoint of a patient journey.
+    Classify the bulletpoint into one of the following event types: Symptom Onset, Symptom Offset, Diagnosis, Doctor visit, Treatment, Hospital stay, Medication, Lifestyle Change and Feelings.
+    Return only the name of the event type, and nothing else.
+    MAKE SURE your output is one of the nine event types stated. ONLY return the name of the event type, and nothing else!
+
 """
 EVENT_TYPE_ANSWER = """
-    For example for the bulletpoint 'visiting doctor's' you should return 'Doctors Visit'.
-    For 'testing positive for Covid19' you should return 'Diagnosis' and for 'getting hospitalized' you should return 'Hospital stay'.
-"""
-FC_EVENT_TYPE_CONTEXT = """
-    You are an expert in extracting information. You easily detect event types and extract them as they are without changing any format. The only possible event types are
-    'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'.
-"""
-FC_EVENT_TYPE_PROMPT = """
-    Please extract the following event type of the text without changing the given format:
+    For example for the event information 'visiting doctor's' you should output 'Doctors Visit'.
+    For 'testing positive for Covid19' you should output 'Diagnosis' and for 'getting hospitalized' you should output 'Hospital stay'.
 """
 
 # Adding of a location type to every bulletpoint
 LOCATION_CONTEXT = """
-    You are an expert in text categorization and your job is to take a given bulletpoint and a category and to add one of given locations to it.
+    You are an expert in text categorization and your job is to take given bulletpoints and to add one of given locations to every bulletpoint.
     The given locations are 'Home', 'Hospital' and 'Doctors'.
-    Take the category but also the content of the bulletpoint into account.
     If it is unclear, where the person is, please use 'Home'.
-    It is important, that every bulletpoint gets a location.
-    Furthermore it is really important, that that location is correct.
-    The only output should be the location.
+    It is important, that every bullet point gets an event type.
+    Furthermore it is really important, that that event type is correct.
+    The only (!) output should be the updated bullet points, nothing else!
+    Please do not add a phrase like "here are your bulletpoints" or something like that..
 """
 LOCATION_PROMPT = """
-    Here is the bulletpoint for which you should extract the location.
-    Explain step by step your conclusions your choice of location: 'Home' or 'Hospital' or 'Doctors' or 'Other'.
+    You will be given a bulletpoint and the according event type of a patient journey.
+    Classify the bulletpoint into one of the following locations: Home, Hospital and Doctors.
+    Return only the name of the location, and nothing else. Make sure only to return the name of the location, and nothing else!
 """
 LOCATION_ANSWER = """
     For example for the bulletpoints 'visiting doctor's', you should return 'Doctors'.
     For the point 'testing positive for Covid19', you also should return 'Doctors'.
     For 'getting hospitalized' the output is 'Hospital'.
 """
-FC_LOCATION_CONTEXT = """
-    You are an expert in extracting information. You easily detect locations and extract them as they are without changing any format.
-    The only possible locations are 'Home', 'Hospital', 'Doctors' and 'Other'.
+
+############################################## METRICS ##############################################
+
+
+METRIC_ACTIVITY_CONTEXT = """
+    You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
+    The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
+    It is important, that every bulletpoint gets a relevance category.
+    Furthermore it is really important, that that relevance category is correct.
+    The only output should be the relevance category and the reason why the bulletpoint is part of the category.
+    Please do not add a phrase like "here are your bulletpoints" or something like that.
+
+    The relevance categories are defined as follows:
+    No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
+    Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
+    Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
+    High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
 """
-FC_LOCATION_PROMPT = """
-    Please extract the following location of the text without changing the given date format:
+METRIC_ACTIVITY_PROMPT = """
+    Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
+    Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
+    Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.
+
+    Take this as an example:
+    Bulletpoint: 'receiving support from my children' -> Answer: 'Low Relvance: Receiving support from the childern is good for mental stability but have a low relevance for the course of disease.'
+    Bulletpoint: 'taking medicine' -> Answer: 'High Relvance: Taking medicine is highly relevant for the course of the event. The medicine could help the patient to improve their health.'
+    Bullepoint:  'eating chips' -> Answer: 'No Relevance: The action of eating chips has no direct or indirect impact on the course of the disease.'
+
 """
+
+METRIC_TIMESTAMPS_CONTEXT = """
+    You are an expert in text understanding and your job is to take a given text and to check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
+    Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
+    If the start date and end date appearing in the context of the bulletpoint, you should output True.
+    If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
+    If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
+    the estimation is reasonable and output True if it is and False if it is not.
+    The only output should be the True or False, and nothing else.
+"""
+
+
+METRIC_TIMESTAMPS_PROMPT = """
+    Please check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
+
+    Is the following start and end date correct in the context of the bulletpoint based on the given patient journey?
+    Only output the True or False, and nothing else. You MUST NOT include any other information.
+"""
+
+COMPARE_CONTEXT = """
+    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and thn to compare them.
+    So you take two bulletpoints and check if they are semantically similar.
+    Semantically similar phrases mostly share some words.
+    For example the two Points 'visiting doctor's' and 'going to the doctor' are semantically similar.
+    Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar.
+    In contrary "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar.
+    Also, "putting loved ones over financial worries" and "consulting a doctor" aren't similar.
+"""
+
+COMPARE_PROMPT = """
+    Please check for the following bulletpoints if they are semantically similar.
+    Please return 'True' if you think they are similar and 'False' if you don't.
+    Here are the two bulletpoints:
+"""
+# You will be given one bulletpoint and a list of bulletpoints. Your task is to evaluate if the given bulletpoint is semantically similar to one of the list of bulletpoints.
+# Please make sure you read and understand these instructions carefully. Please keep this document open while reviewing, and refer to it as needed.
+
+# Evlauation Criteria:
+# Rate the given bulletpoint if it is semantically similar to one of the list of bulletpoints.
+# If the given bulletpoint is semantically similar to one of the list of bulletpoints, return 'True'. If it is not, return 'False'.
+
+# Evaluation Steps:
+# 1. Read the list of bulletpoints carefully.
+# 2. Read the given bulletpoint carefully and check if there is a semantically similar bulletpoint in the list of bulletpoints.
+# 3. Answer with 'True' if you find a similar bulletpoint and 'False' if you don't.
+
+# Please make sure to decide if it is 'True' or 'False' based on the given bulletpoint and the list of bulletpoints.
+
+
+# Please check for the following bulletpoint if you can find a semantically similar bulletpoint in the list of bulletpoints.
+# Please return 'True' if you find a similar bulletpoint and 'False' if you don't.
+# Think step by step.

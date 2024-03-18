@@ -133,10 +133,10 @@ class PatientJourneyGenerator(Module):
         return random.choice(european_countries)
 
     @staticmethod
-    def __get_date(start_date="01/01/2020", end_date="01/09/2023"):
+    def __get_date(start="01/01/2020", end="01/09/2023"):
         """Randomizing date."""
-        start = datetime.strptime(start_date, "%d/%m/%Y")
-        end = datetime.strptime(end_date, "%d/%m/%Y")
+        start = datetime.strptime(start, "%d/%m/%Y")
+        end = datetime.strptime(end, "%d/%m/%Y")
         delta = end - start
         random_days = random.randrange(delta.days)
         date = start + timedelta(days=random_days)

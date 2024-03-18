@@ -26,7 +26,7 @@ class LocationExtractor(Module):
     def __add_locations(self, df):
         """Adds locations to the activity labels."""
         name = "attribute_location"
-        df[name] = df["event_information"].apply(self.__classify_location)
+        df[name] = df["activity"].apply(self.__classify_location)
         # document_intermediates(output)
 
         return df

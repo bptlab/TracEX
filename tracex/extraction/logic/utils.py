@@ -58,6 +58,8 @@ def query_gpt(
     temperature=TEMPERATURE_SUMMARIZING,
     tools=None,
     tool_choice="none",
+    logprobs=False,
+    top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
 
@@ -74,16 +76,23 @@ def query_gpt(
             temperature=temperature,
             tools=tools,
             tool_choice=tool_choice,
+            logprobs=logprobs,
+            top_logprobs=top_logprobs,
         )
 
         return _response
 
     response = make_api_call()
-    if tool_choice == "none":
-        output = response.choices[0].message.content
-    else:
+    if tool_choice != "none":
         api_response = response.choices[0].message.tool_calls[0].function.arguments
         output = json.loads(api_response)["output"][0]
+
+    elif logprobs:
+        top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
+        content = response.choices[0].message.content
+        return content, top_logprobs
+    else:
+        output = response.choices[0].message.content
     return output
 
 
@@ -130,15 +139,15 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["caseID"] = df["caseID"].astype(str)
+        df["case_id"] = df["case_id"].astype(str)
         df["start"] = pd.to_datetime(df["start"])
         df["end"] = pd.to_datetime(df["end"])
         df = df.rename(
             columns={
                 activity_key: "concept:name",
-                "caseID": "case:concept:name",
-                "start": "time:timestamp",
-                "end": "time:endDate",
+                "case_id": "case:concept:name",
+                "start": "start_timestamp",
+                "end": "time:end_timestamp",
                 "duration": "time:duration",
             }
         )
@@ -156,6 +165,7 @@ class Conversion:
             (output_path / output_name),
             case_id_key="case:concept:name",
             activity_key="concept:name",
+            start_timestamp_key="start_timestamp",
             timestamp_key="time:timestamp",
         )
         return str(output_path / output_name)
@@ -172,7 +182,7 @@ class Conversion:
         """Create png image from xes file."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "time:timestamp", "case:concept:name"
+            df, "concept:name", "start_timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
@@ -181,7 +191,7 @@ class Conversion:
                 output_dfg_file[1],
                 output_dfg_file[2],
                 temp_file_path,
-                rankdir="TB",
+                rankdir="TB"
             )
         with open(temp_file_path, "rb") as temp_file:
             dfg_img_buffer.write(temp_file.read())

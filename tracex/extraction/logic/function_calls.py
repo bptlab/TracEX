@@ -4,7 +4,7 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "add_start_dates",
+            "name": "add_start",
             "description": "this function extracts the start date",
             "parameters": {
                 "type": "object",
@@ -24,7 +24,7 @@ TOOLS = [
     {
         "type": "function",
         "function": {
-            "name": "add_end_dates",
+            "name": "add_end",
             "description": "this function extracts the end date",
             "parameters": {
                 "type": "object",

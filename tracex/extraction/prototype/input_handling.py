@@ -17,13 +17,13 @@ def convert_text_to_csv(text):
         end="\r",
     )
     u.pause_between_queries()
-    dataframe = add_start_dates(text, dataframe)
+    dataframe = add_start(text, dataframe)
     print(
         "Converting Data: Extracting end date information. (3/" + steps + ")   ",
         end="\r",
     )
     u.pause_between_queries()
-    dataframe = add_end_dates(text, dataframe)
+    dataframe = add_end(text, dataframe)
     print(
         "Converting Data: Extracting duration information. (4/" + steps + ") ", end="\r"
     )
@@ -51,73 +51,73 @@ def convert_text_to_csv(text):
 def convert_text_to_bulletpoints(text):
     """Converts the input text to bulletpoints."""
     messages = [
-        {"role": "system", "content": p.TEXT_TO_EVENTINFORMATION_CONTEXT},
-        {"role": "user", "content": p.TEXT_TO_EVENTINFORMATION_PROMPT + text},
-        {"role": "assistant", "content": p.TEXT_TO_EVENTINFORMATION_ANSWER},
+        {"role": "system", "content": p.TEXT_TO_ACTIVITY_CONTEXT},
+        {"role": "user", "content": p.TEXT_TO_ACTIVITY_PROMPT + text},
+        {"role": "assistant", "content": p.TEXT_TO_ACTIVITY_ANSWER},
     ]
     bulletpoints = u.query_gpt(messages)
-    df = pd.DataFrame([], columns=["event_information"])
+    df = pd.DataFrame([], columns=["activity"])
     bulletpoints = bulletpoints.replace("- ", "")
     bulletpoints = bulletpoints.split("\n")
     for row in bulletpoints:
-        new_row = pd.DataFrame([row], columns=["event_information"])
+        new_row = pd.DataFrame([row], columns=["activity"])
         df = pd.concat([df, new_row], ignore_index=True)
     document_intermediates("\n", True)
     return df
 
 
-def add_start_dates(text, df):
+def add_start(text, df):
     """Adds start dates to the bulletpoints."""
-    name = "start_date"
+    name = "start"
     new_df = pd.DataFrame([], columns=[name])
     values_list = df.values.tolist()
     for item in values_list:
         messages = [
-            {"role": "system", "content": p.START_DATE_CONTEXT},
+            {"role": "system", "content": p.START_CONTEXT},
             {
                 "role": "user",
-                "content": p.START_DATE_PROMPT
+                "content": p.START_PROMPT
                 + "\nThe text: "
                 + text
                 + "\nThe bulletpoint: "
                 + item[0],
             },
-            {"role": "assistant", "content": p.START_DATE_ANSWER},
+            {"role": "assistant", "content": p.START_ANSWER},
         ]
         output = u.query_gpt(messages)
         fc_message = [
-            {"role": "system", "content": p.FC_START_DATE_CONTEXT},
-            {"role": "user", "content": p.FC_START_DATE_PROMPT + "The text: " + output},
+            {"role": "system", "content": p.FC_START_CONTEXT},
+            {"role": "user", "content": p.FC_START_PROMPT + "The text: " + output},
         ]
-        start_date = u.query_gpt(
+        start = u.query_gpt(
             fc_message,
             tool_choice={"type": "function", "function": {"name": "add_start_dates"}},
         )
-        new_row = pd.DataFrame([start_date], columns=[name])
+        new_row = pd.DataFrame([start], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
         row_count = new_df.shape[0]
-        if start_date == "N/A" and row_count > 1:
+        if start == "N/A" and row_count > 1:
             last_index = new_df.index[-1]
             previous_index = last_index - 1
-            new_df.at[last_index, "start_date"] = new_df.at[
-                previous_index, "start_date"
+            new_df.at[last_index, "start"] = new_df.at[
+                previous_index, "start"
             ]
         document_intermediates(output)
     df = pd.concat([df, new_df], axis=1)
     return df
 
 
-def add_end_dates(text, df):
+def add_end(text, df):
     """Adds end dates to the bulletpoints."""
-    name = "end_date"
+    name = "end"
     new_df = pd.DataFrame([], columns=[name])
     values_list = df.values.tolist()
     for item in values_list:
         messages = [
-            {"role": "system", "content": p.END_DATE_CONTEXT},
+            {"role": "system", "content": p.END_CONTEXT},
             {
                 "role": "user",
-                "content": p.END_DATE_PROMPT
+                "content": p.END_PROMPT
                 + "\nThe text: "
                 + text
                 + "\nThe bulletpoint: "
@@ -125,18 +125,18 @@ def add_end_dates(text, df):
                 + "\nThe start date: "
                 + item[1],
             },
-            {"role": "assistant", "content": p.END_DATE_ANSWER},
+            {"role": "assistant", "content": p.END_ANSWER},
         ]
         output = u.query_gpt(messages)
         fc_message = [
-            {"role": "system", "content": p.FC_END_DATE_CONTEXT},
-            {"role": "user", "content": p.FC_END_DATE_PROMPT + "The text: " + output},
+            {"role": "system", "content": p.FC_END_CONTEXT},
+            {"role": "user", "content": p.FC_END_PROMPT + "The text: " + output},
         ]
-        end_date = u.query_gpt(
+        end = u.query_gpt(
             fc_message,
             tool_choice={"type": "function", "function": {"name": "add_end_dates"}},
         )
-        new_row = pd.DataFrame([end_date], columns=[name])
+        new_row = pd.DataFrame([end], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
         document_intermediates(output)
     df = pd.concat([df, new_df], axis=1)
@@ -147,11 +147,11 @@ def add_durations(df):
     """Calculates and adds the duration for every event information."""
 
     def calculate_row_duration(row):
-        if row["start_date"] == "N/A" or row["end_date"] == "N/A":
+        if row["start"] == "N/A" or row["end"] == "N/A":
             return "N/A"
-        start_date = datetime.strptime(row["start_date"], "%Y%m%dT%H%M")
-        end_date = datetime.strptime(row["end_date"], "%Y%m%dT%H%M")
-        duration = end_date - start_date
+        start = datetime.strptime(row["start"], "%Y%m%dT%H%M")
+        end = datetime.strptime(row["end"], "%Y%m%dT%H%M")
+        duration = end - start
         hours, remainder = divmod(duration.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
         return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
@@ -175,19 +175,19 @@ def add_event_types(df):
             },
             {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
         ]
-        output = u.query_gpt(messages)
+        event_type = u.query_gpt(messages)
 
-        fc_message = [
-            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
-            {"role": "user", "content": p.FC_EVENT_TYPE_PROMPT + "The text: " + output},
-        ]
-        event_type = u.query_gpt(
-            fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_event_type"}},
-        )
+        # fc_message = [
+        #     {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
+        #     {"role": "user", "content": p.FC_EVENT_TYPE_PROMPT + "The text: " + output},
+        # ]
+        # event_type = u.query_gpt(
+        #     fc_message,
+        #     tool_choice={"type": "function", "function": {"name": "add_event_type"}},
+        # )
         new_row = pd.DataFrame([event_type], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
-        document_intermediates(output)
+        document_intermediates(event_type)
     df = pd.concat([df, new_df], axis=1)
     return df
 
@@ -211,19 +211,19 @@ def add_locations(df):
             },
             {"role": "assistant", "content": p.LOCATION_ANSWER},
         ]
-        output = u.query_gpt(messages)
+        location = u.query_gpt(messages)
 
-        fc_message = [
-            {"role": "system", "content": p.FC_LOCATION_CONTEXT},
-            {"role": "user", "content": p.FC_LOCATION_PROMPT + "The text: " + output},
-        ]
-        location = u.query_gpt(
-            fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_location"}},
-        )
+        # fc_message = [
+        #     {"role": "system", "content": p.FC_LOCATION_CONTEXT},
+        #     {"role": "user", "content": p.FC_LOCATION_PROMPT + "The text: " + output},
+        # ]
+        # location = u.query_gpt(
+        #     fc_message,
+        #     tool_choice={"type": "function", "function": {"name": "add_location"}},
+        # )
         new_row = pd.DataFrame([location], columns=[name])
         new_df = pd.concat([new_df, new_row], ignore_index=True)
-        document_intermediates(output)
+        document_intermediates(location)
     df = pd.concat([df, new_df], axis=1)
     return df
 

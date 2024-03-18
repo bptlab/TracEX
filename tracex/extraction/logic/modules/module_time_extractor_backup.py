@@ -23,45 +23,45 @@ class TimeExtractorBackup(Module):
     @log_execution_time(Path("extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        df["start"] = df["event_information"].apply(self.__extract_start_date)
+        df["start"] = df["activity"].apply(self.__extract_start)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
         df["duration"] = df.apply(self.__calculate_duration, axis=1)
         return df
 
-    def __extract_start_date(self, activity_label):
+    def __extract_start(self, activity_label):
         """Extract the start date for a given activity."""
         messages = [
-            {"role": "system", "content": START_DATE_CONTEXT},
+            {"role": "system", "content": START_CONTEXT},
             {
                 "role": "user",
                 "content": f"The text: {self.patient_journey} \nThe activity label: {activity_label}",
             },
         ]
-        start_date = u.query_gpt(messages)
+        start = u.query_gpt(messages)
 
-        return start_date
+        return start
 
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
         messages = [
-            {"role": "system", "content": END_DATE_CONTEXT},
+            {"role": "system", "content": END_CONTEXT},
             {
                 "role": "user",
                 "content": f"\nThe text: {self.patient_journey} \nThe activity label: "
-                f"{row['event_information']} \nThe start date: {row['start']}",
+                f"{row['activity']} \nThe start date: {row['start']}",
             },
         ]
-        end_date = u.query_gpt(messages)
+        end = u.query_gpt(messages)
 
-        return end_date
+        return end
 
     @staticmethod
     def __calculate_duration(row):
         """Calculate the duration of an activity."""
-        start_date = datetime.strptime(row["start"], "%Y%m%dT%H%M")
-        end_date = datetime.strptime(row["end"], "%Y%m%dT%H%M")
-        duration = end_date - start_date
+        start = datetime.strptime(row["start"], "%Y%m%dT%H%M")
+        end = datetime.strptime(row["end"], "%Y%m%dT%H%M")
+        duration = end - start
         hours, remainder = divmod(duration.total_seconds(), 3600)
         minutes, seconds = divmod(remainder, 60)
 
@@ -84,7 +84,9 @@ class TimeExtractorBackup(Module):
         df.loc[mask, "start"] = converted_start
         df["start"].ffill()
 
-        converted_end = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
+        converted_end = pd.to_datetime(
+            df["end"], format="%Y%m%dT%H%M", errors="coerce"
+        )
         mask = converted_end.isna()
         df.loc[mask, "end"] = converted_end
         df["end"].ffill()
@@ -104,7 +106,7 @@ class TimeExtractorBackup(Module):
             return False
 
 
-START_DATE_CONTEXT = """Extract the start date in the format YYYYMMDDT0000 for the corresponding activity label from
+START_CONTEXT = """Extract the start date in the format YYYYMMDDT0000 for the corresponding activity label from
 the patient journey. It is MANDATORY that you do the following: You may not return anything but a date in the format
 YYYYMMDDT0000. For example, 20200101T0000. Do not return anything else. You are forbidden to return any other
 information or sentence. If you have any doubt return "20200101T0000", but without the "" symbols."""
@@ -120,7 +122,7 @@ information or sentence. If you have any doubt return "20200101T0000", but witho
 # day" or "over the following weeks" to the corresponding date. 5. Also consider context information from previous
 # activities and their start dates. 6. If the start date is not mentioned output "N/A" instead. """
 
-END_DATE_CONTEXT = """Extract the end date in the format YYYYMMDDT0000 for the corresponding activity label from the
+END_CONTEXT = """Extract the end date in the format YYYYMMDDT0000 for the corresponding activity label from the
 patient journey. It is MANDATORY that you do the following: You may not return anything but a date in the format
 YYYYMMDDT0000. For example, 20200101T0000. Do not return anything else. You are forbidden to return any other
 information or sentence. If you have any doubt return "20200101T0000", but without the "" symbols."""
