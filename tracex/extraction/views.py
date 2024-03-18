@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 
 from .forms import JourneyForm, ResultForm
 from .logic.orchestrator import Orchestrator
-from .logic import utils
+from tracex.logic import utils
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -35,18 +35,6 @@ class JourneyInputView(generic.FormView):
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
             patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
-        )
-        return super().form_valid(form)
-
-    def form_valid(self, form):
-        """Save the generated journey in the orchestrator's configuration."""
-        self.request.session["is_extracted"] = False
-        orchestrator = Orchestrator.get_instance()
-        orchestrator.configuration.update(
-            # This should not be necessary, unspecefied values should be unchanged
-            patient_journey=orchestrator.configuration.patient_journey,
-            event_types=form.cleaned_data["event_types"],
-            locations=form.cleaned_data["locations"],
         )
         return super().form_valid(form)
 
