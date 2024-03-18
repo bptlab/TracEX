@@ -259,7 +259,7 @@ COHORT_TAG_MESSAGES = [
         "Illness",
         {
             "role": "system",
-            "content": "You are an expert in text understanding and your job is to take a given text about an illnes \
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
             and to extract the illness it is about.",
         },
         {
