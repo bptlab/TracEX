@@ -35,8 +35,6 @@ class TraceAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
     """Admin page for the Event model."""
 
-    pass
-
 
 admin.site.register(Prompt)
 admin.site.register(Cohort)
