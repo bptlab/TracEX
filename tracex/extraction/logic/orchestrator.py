@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Optional, List
 
 from .modules.module_activity_labeler import ActivityLabeler
+from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
@@ -26,6 +27,7 @@ class ExtractionConfiguration:
     locations: Optional[List[str]] = None
     modules = {
         "activity_labeling": ActivityLabeler,
+        "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
@@ -81,6 +83,7 @@ class Orchestrator:
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
+            self.configuration.modules["cohort_tagging"](),
             self.configuration.modules["activity_labeling"](),
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
@@ -98,5 +101,6 @@ class Orchestrator:
         modules = self.initialize_modules()
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        self.data.insert(0, "case_id", 1)
-        self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
+        if self.data is not None:
+            self.data.insert(0, "case_id", 1)
+            self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
