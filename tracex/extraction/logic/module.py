@@ -21,7 +21,6 @@ class Module(ABC):
         self.description = None
         self.patient_journey = None
 
-    @abstractmethod
     def execute(self, _input, patient_journey=None) -> pd.DataFrame:
         """
         Executes the logic of the module. Override this to define your own module.
@@ -33,7 +32,6 @@ class Module(ABC):
 
         return pd.DataFrame()
 
-    @abstractmethod
     def execute_and_save(self, _input, patient_journey=None) -> int:
         """
         Executes the logic of the module and saves the result to the database. Override this to define your own module.

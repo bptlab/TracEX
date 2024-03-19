@@ -108,7 +108,7 @@ class Orchestrator:
             latest_id = Trace.manager.latest("last_modified").id
         except ObjectDoesNotExist:
             latest_id = 0
-        self.data.insert(0, "caseID", latest_id + 1)
+        self.data.insert(0, "case_id", latest_id + 1)
         self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
@@ -131,7 +131,7 @@ class Orchestrator:
             [
                 Event(
                     trace=trace,
-                    event_information=row["event_information"],
+                    activity=row["activity"],
                     event_type=row["event_type"],
                     start=row["start"],
                     end=row["end"],

@@ -19,7 +19,7 @@ from .models import Trace
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-IS_TEST = True  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
+IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 def redirect_to_selection(request):
@@ -223,8 +223,8 @@ class ResultView(generic.FormView):
             for event in events:
                 event_data.append(
                     {
-                        "caseID": trace.id,
-                        "event_information": event.event_information,
+                        "case_id": trace.id,
+                        "activity": event.activity,
                         "event_type": event.event_type,
                         "start": event.start,
                         "end": event.end,
@@ -250,6 +250,7 @@ class ResultView(generic.FormView):
     @staticmethod
     def sort_dataframe(df):
         """Sort a dataframe containing a trace by timestamp."""
+        print(df.head())
         sorted_df = df.sort_values(by="start_timestamp", inplace=False)
         return sorted_df
 

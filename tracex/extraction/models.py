@@ -36,7 +36,7 @@ class Event(models.Model):
     """Model for a single event, only relevant in context with other events belonging to the same trace."""
 
     trace = models.ForeignKey(Trace, on_delete=models.CASCADE, related_name="events")
-    event_information = models.TextField()
+    activity = models.TextField()
     event_type = models.CharField(max_length=25, choices=EVENT_TYPES)
     start = models.DateTimeField()
     end = models.DateTimeField()
