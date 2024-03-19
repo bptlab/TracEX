@@ -1,6 +1,6 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -68,7 +68,7 @@ class Orchestrator:
         if configuration is not None:
             self.configuration = configuration
         self.data = None
-        self.db_objects = {}
+        self.db_objects: Dict[str, int] = {}
 
     @classmethod
     def get_instance(cls):
@@ -89,7 +89,6 @@ class Orchestrator:
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
-            self.configuration.modules["cohort_tagging"](),
             self.configuration.modules["activity_labeling"](),
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
@@ -105,14 +104,18 @@ class Orchestrator:
     def run(self):
         """Run the modules."""
         modules = self.initialize_modules()
+        self.db_objects["cohort"] = self.configuration.modules[
+            "cohort_tagging"
+        ]().execute_and_save(self.data, self.configuration.patient_journey)
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
-        try:
-            latest_id = Trace.manager.latest("last_modified").id
-        except ObjectDoesNotExist:
-            latest_id = 0
-        self.data.insert(0, "case_id", latest_id + 1)
-        self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
+        if self.data is not None:
+            try:
+                latest_id = Trace.manager.latest("last_modified").id
+            except ObjectDoesNotExist:
+                latest_id = 0
+            self.data.insert(0, "case_id", latest_id + 1)
+            self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
@@ -145,12 +148,8 @@ class Orchestrator:
             ]
         )
         trace.events.set(events)
-        # TODO: remove comment, when cohort is implemented
-        # trace.cohort = Cohort.manager.get(pk=self.db_objects["cohort"].id)
+        if self.db_objects["cohort"] and self.db_objects["cohort"] != 0:
+            trace.cohort = Cohort.manager.get(pk=self.db_objects["cohort"])
         trace.save()
-        # alternative:
-        # cohort: Cohort = Cohort.manager.get(pk=self.db_objects["cohort"].id)
-        # cohort.trace = trace
-        # cohort.save()
         patient_journey.trace.add(trace)
         patient_journey.save()

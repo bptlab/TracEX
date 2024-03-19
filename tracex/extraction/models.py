@@ -19,11 +19,28 @@ class PatientJourney(models.Model):
         return f"{self.name} (id: {self.id})"
 
 
+class Cohort(models.Model):
+    """Model for the Cohort of a patient journey."""
+
+    age = models.IntegerField(null=True)
+    gender = models.CharField(max_length=25, null=True)
+    origin = models.CharField(max_length=50, null=True)
+    condition = models.CharField(max_length=50, null=True)
+    preexisting_condition = models.CharField(max_length=100, null=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Cohort of {self.trace.__str__()} (id: {self.id})"
+
+
 class Trace(models.Model):
     """Model for a single trace, belonging to a patient journey."""
 
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
+    )
+    cohort = models.ForeignKey(
+        Cohort, on_delete=models.CASCADE, related_name="trace", null=True, blank=True
     )
     last_modified = models.DateTimeField(auto_now=True)
     manager = models.Manager()
@@ -47,23 +64,6 @@ class Event(models.Model):
 
     def __str__(self):
         return f"Event of {self.trace.__str__().split('(')[0]} (id: {self.id})"
-
-
-class Cohort(models.Model):
-    """Model for the Cohort of a patient journey."""
-
-    trace = models.OneToOneField(
-        Trace, primary_key=True, on_delete=models.CASCADE, related_name="cohort"
-    )
-    age = models.IntegerField()
-    sex = models.CharField(max_length=25)
-    origin = models.CharField(max_length=50)
-    condition = models.CharField(max_length=50)
-    preexisting_condition = models.CharField(max_length=100)
-    manager = models.Manager()
-
-    def __str__(self):
-        return f"Cohort of {self.trace.__str__().split('(')[0]} (id: {self.id})"
 
 
 class Prompt(models.Model):

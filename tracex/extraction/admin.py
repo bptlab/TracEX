@@ -13,11 +13,6 @@ class EventInline(admin.TabularInline):  # or admin.StackedInline
     extra = 0  # Controls the number of empty forms displayed for adding related objects
 
 
-class CohortInLine(admin.TabularInline):
-    model = Cohort
-    extra = 0
-
-
 @admin.register(PatientJourney)
 class PatientJourneyAdmin(admin.ModelAdmin):
     inlines = [TraceInline]
@@ -25,7 +20,7 @@ class PatientJourneyAdmin(admin.ModelAdmin):
 
 @admin.register(Trace)
 class TraceAdmin(admin.ModelAdmin):
-    inlines = [EventInline, CohortInLine]
+    inlines = [EventInline]
 
 
 @admin.register(Event)
