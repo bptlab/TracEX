@@ -24,4 +24,4 @@ init-import=yes
 max-nested-blocks=6
 
 [MASTER]
-ignore=setup.py
+ignore=setup.py, tracex/extraction/migrations

@@ -215,6 +215,7 @@ class ResultView(generic.FormView):
 
     @staticmethod
     def get_events_df(query: Q = None):
+        """Get all events from the database, or filter them by a query and return them as a dataframe."""
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
         event_data = []
 

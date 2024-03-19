@@ -1,5 +1,5 @@
 """Module providing the abstract base class for all modules."""
-from abc import ABC, abstractmethod
+from abc import ABC
 
 import pandas as pd
 

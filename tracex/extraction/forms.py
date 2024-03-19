@@ -1,6 +1,4 @@
 """Implementation of forms for the extraction app."""
-import os
-
 from django import forms
 
 from .models import PatientJourney
@@ -67,6 +65,8 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
     """Form for extracting events from a patient journey."""
 
     class Meta:
+        """Metaclass for JourneyForm, provides additional parameters for the form."""
+
         model = PatientJourney
         fields = ["name"]
         help_texts = {
@@ -90,8 +90,9 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
 class GenerationForm(BaseEventForm, forms.ModelForm):
     """Form for generating events from a patient journey."""
 
-    # TODO: change to ModelForm, add name field
     class Meta:
+        """Metaclass for GenerationForm, provides additional parameters for the form."""
+
         model = PatientJourney
         fields = ["name"]
         help_texts = {
