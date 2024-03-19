@@ -1,6 +1,7 @@
 """This module compares an event log created by the pipeline against a manually created ground truth."""
 from pathlib import Path
 import pandas as pd
+from django.conf import settings
 
 from ..logging import log_execution_time
 from ..module import Module
@@ -22,7 +23,7 @@ class EventLogComparator(Module):
         self.name = "Event Log Comparator"
         self.description = "Compares the output of the pipeline against a ground truth."
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 

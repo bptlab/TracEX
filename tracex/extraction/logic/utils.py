@@ -1,4 +1,5 @@
 """Module providing various utility functions for the project."""
+# pylint: disable=unused-import
 import os
 from io import StringIO, BytesIO
 from pathlib import Path
@@ -11,6 +12,7 @@ import warnings
 import pandas as pd
 import pm4py
 
+from django.conf import settings
 from openai import OpenAI
 from . import function_calls
 from .constants import (
@@ -19,6 +21,7 @@ from .constants import (
     MODEL,
     oaik,
     output_path,
+    input_path,
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
@@ -65,7 +68,7 @@ def query_gpt(
 
     tools = function_calls.TOOLS if tools is None else tools
 
-    @log_tokens_used(Path("extraction/logs/tokens_used.log"))
+    @log_tokens_used(Path(settings.BASE_DIR / "extraction/logs/tokens_used.log"))
     def make_api_call():
         """Queries the GPT engine."""
         client = OpenAI(api_key=oaik)
@@ -191,7 +194,7 @@ class Conversion:
                 output_dfg_file[1],
                 output_dfg_file[2],
                 temp_file_path,
-                rankdir="TB"
+                rankdir="TB",
             )
         with open(temp_file_path, "rb") as temp_file:
             dfg_img_buffer.write(temp_file.read())

@@ -248,3 +248,156 @@ COMPARE_PROMPT = """
     Start with your reasoning and then give the answer "True" or "False".
     Here are the two bulletpoints:
 """
+
+COHORT_TAG_MESSAGES = [
+    [
+        "Illness",
+        {
+            "role": "system",
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
+            and to extract the illness it is about.",
+        },
+        {
+            "role": "user",
+            "content": "In July I got infected with Covid-19 which resulted in similar symptoms like a heavy flu.",
+        },
+        {"role": "assistant", "content": "Covid-19"},
+        {"role": "user", "content": "I had a heavy flu in July."},
+        {"role": "assistant", "content": "Flu"},
+        {
+            "role": "user",
+            "content": "Last year I was feeling really well, when all of a sudden I had severe breathtaking problems \
+            and high fever. I thought it was a flu, but it turned out to be Covid-19.",
+        },
+        {"role": "assistant", "content": "Covid-19"},
+    ],
+    [
+        "Gender",
+        {
+            "role": "system",
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
+            and to extract the gender of the author. If the gender isn't clear, you should take the context into \
+            account. Only if the context doesn't help, you should return 'N/A'.",
+        },
+        {
+            "role": "user",
+            "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got \
+            Covid-19 last year I was really worried about my job and my girlfriend.",
+        },
+        {"role": "assistant", "content": "male"},
+        {
+            "role": "user",
+            "content": "I am a nurse living in Berlin with my boyfriend. When I got Covid-19 last year I was really \
+            worried about my job and my boyfriend.",
+        },
+        {"role": "assistant", "content": "female"},
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't \
+            even that hard but it stressed me out, that I wasn't allowed to go to my job!",
+        },
+        {"role": "assistant", "content": "N/A"},
+        {
+            "role": "user",
+            "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got \
+            Covid-19 that struck me as a mother of two really heavily.",
+        },
+        {"role": "assistant", "content": "female"},
+        {
+            "role": "user",
+            "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me. \
+            As a divorced father I only see my boy once every month and now I couldn't even do that.",
+        },
+        {"role": "assistant", "content": "male"},
+    ],
+    [
+        "Age",
+        {
+            "role": "system",
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
+                and to extract the age of the author. If the gender isn't clear, you should take the context into \
+                    account. Young means 25, middle aged 50 and old 75. Only if the context doesn't help, you should \
+                        return 'N/A'.",
+        },
+        {
+            "role": "user",
+            "content": "I am a 22 year old software engineer living in California with my girlfriend. When I got \
+                Covid-19 last year I was really worried about my job and my girlfriend.",
+        },
+        {"role": "assistant", "content": "22"},
+        {
+            "role": "user",
+            "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me. \
+                Luckily as a young person I recovered quickly.",
+        },
+        {"role": "assistant", "content": "25"},
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't \
+                even that hard but it stressed me out, that I wasn't allowed to go to my job!",
+        },
+        {"role": "assistant", "content": "N/A"},
+        {
+            "role": "user",
+            "content": "I am an old man, so Covid-19 wasn't all easy on me.",
+        },
+        {"role": "assistant", "content": "75"},
+    ],
+    [
+        "Origin",
+        {
+            "role": "system",
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
+                  and to extract the origin country of the author. If the origin isn't clear, you should take the \
+                    context into account. Only if the context doesn't help, you should return 'N/A'.",
+        },
+        {
+            "role": "user",
+            "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got \
+                Covid-19 last year I was really worried about my job and my girlfriend.",
+        },
+        {"role": "assistant", "content": "United States of America"},
+        {
+            "role": "user",
+            "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me. \
+                Luckily as a young person I recovered quickly.",
+        },
+        {"role": "assistant", "content": "Germany"},
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't \
+                even that hard but it stressed me out, that I wasn't allowed to go to my job!",
+        },
+        {"role": "assistant", "content": "N/A"},
+    ],
+    [
+        "Previous Diseases",
+        {
+            "role": "system",
+            "content": "You are an expert in text understanding and your job is to take a given text about an illness \
+                and to extract previous dieseases of the author. These diseases have to be EXPLICITLY MENTIONED. \
+                    And they have to have occured BEFORE the illness the text is about!",
+        },
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year, which was hard since I since ever had to fight Asthma.",
+        },
+        {"role": "assistant", "content": "Asthma"},
+        {
+            "role": "user",
+            "content": "I infected me with Covid-19 right after I recovered from a heavy cold.",
+        },
+        {"role": "assistant", "content": "Cold"},
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't \
+                even that hard but it stressed me out, that I wasn't allowed to go to my job!",
+        },
+        {"role": "assistant", "content": "N/A"},
+        {
+            "role": "user",
+            "content": "I got Covid-19 last year after I already got it right at the start in 2020.",
+        },
+        {"role": "assistant", "content": "Covid-19"},
+    ],
+]

@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import os
 from pathlib import Path
 import random
+from django.conf import settings
 
 from ..logging import log_execution_time
 from ..module import Module
@@ -24,7 +25,7 @@ class PatientJourneyGenerator(Module):
             "Generates a patient journey with the help of the GPT engine."
         )
 
-    @log_execution_time(Path("extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, _input, patient_journey=None):
         super().execute(_input, patient_journey)
         return self.__create_patient_journey()

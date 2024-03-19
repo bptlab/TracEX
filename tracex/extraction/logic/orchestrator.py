@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
+from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
@@ -31,6 +32,7 @@ class ExtractionConfiguration:
     modules = {
         "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
+        "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractorBackup,
         "location_extraction": LocationExtractor,
@@ -87,6 +89,7 @@ class Orchestrator:
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
+            self.configuration.modules["cohort_tagging"](),
             self.configuration.modules["activity_labeling"](),
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
