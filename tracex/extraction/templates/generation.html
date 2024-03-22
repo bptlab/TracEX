@@ -41,7 +41,13 @@
                 <p>{{ form.journey.help_text }}</p>
             </div>
         </div>
-
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.name.label_tag }} {{ form.name }}
+                {{ form.name.errors }}
+                <p>{{ form.name.help_text }}</p>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-column">
                 {{ form.event_types.label_tag }} {{ form.event_types }}

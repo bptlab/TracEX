@@ -1,6 +1,8 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass
-from typing import Optional, List
+from typing import Optional, List, Dict
+from django.utils.dateparse import parse_duration
+from django.core.exceptions import ObjectDoesNotExist
 
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
@@ -13,6 +15,7 @@ from .modules.module_event_type_classifier import EventTypeClassifier
 # from .modules.module_event_log_comparator import EventLogComparator
 
 from ..logic import utils
+from ..models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -65,6 +68,7 @@ class Orchestrator:
         if configuration is not None:
             self.configuration = configuration
         self.data = None
+        self.db_objects: Dict[str, int] = {}
 
     @classmethod
     def get_instance(cls):
@@ -85,7 +89,6 @@ class Orchestrator:
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
         modules = [
-            self.configuration.modules["cohort_tagging"](),
             self.configuration.modules["activity_labeling"](),
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
@@ -101,10 +104,17 @@ class Orchestrator:
     def run(self):
         """Run the modules."""
         modules = self.initialize_modules()
+        self.db_objects["cohort"] = self.configuration.modules[
+            "cohort_tagging"
+        ]().execute_and_save(self.data, self.configuration.patient_journey)
         for module in modules:
             self.data = module.execute(self.data, self.configuration.patient_journey)
         if self.data is not None:
-            self.data.insert(0, "case_id", 1)
+            try:
+                latest_id = Trace.manager.latest("last_modified").id
+            except ObjectDoesNotExist:
+                latest_id = 0
+            self.data.insert(0, "case_id", latest_id + 1)
             self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
@@ -112,6 +122,34 @@ class Orchestrator:
     def generate_patient_journey(self):
         """Generate a patient journey with the help of the GPT engine."""
         print("Orchestrator is generating a patient journey.")
+        self.set_configuration(ExtractionConfiguration())
         module = self.configuration.modules["patient_journey_generation"]()
         patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration = ExtractionConfiguration(patient_journey=patient_journey)
+        self.configuration.update(patient_journey=patient_journey)
+
+    def save_results_to_db(self):
+        """Save the trace to the database."""
+        patient_journey: PatientJourney = PatientJourney.manager.get(
+            pk=self.db_objects["patient_journey"]
+        )
+        trace: Trace = Trace.manager.create(patient_journey=patient_journey)
+        events: List[Event] = Event.manager.bulk_create(
+            [
+                Event(
+                    trace=trace,
+                    activity=row["activity"],
+                    event_type=row["event_type"],
+                    start=row["start"],
+                    end=row["end"],
+                    duration=parse_duration(row["duration"]),
+                    location=row["attribute_location"],
+                )
+                for _, row in self.data.iterrows()
+            ]
+        )
+        trace.events.set(events)
+        if self.db_objects["cohort"] and self.db_objects["cohort"] != 0:
+            trace.cohort = Cohort.manager.get(pk=self.db_objects["cohort"])
+        trace.save()
+        patient_journey.trace.add(trace)
+        patient_journey.save()

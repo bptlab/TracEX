@@ -121,6 +121,7 @@
                 {{ form.locations.label_tag }} {{ form.locations }}
                 {{ form.locations.errors }}
             </div>
+            {{ form.errors }}
         </div>
 
         <input type="submit" value="Refresh Filter" class="button">
@@ -129,6 +130,9 @@
 
     <a href="{% url 'selection' %}">
         <button>Return to input selection</button>
+    </a>
+    <a href="{% url 'save_success' %}">
+        <button style="margin-top: 1%">Save results to the database</button>
     </a>
 </body>
 </html>
