@@ -401,3 +401,201 @@ COHORT_TAG_MESSAGES = [
         {"role": "assistant", "content": "Covid-19"},
     ],
 ]
+
+PREPROCESSING_SPELLCHECK = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis with a focus on spelling accuracy. \
+            Your task is to identify any spelling errors in the provided text and correct them. \
+            Ensure the corrected text is accurate and readable. \
+            Please make sure to give out the full text without shorten it."
+        },
+        {
+            "role": "user",
+            "content": "I remeber the day I first learnt about the importnce of spellchek. \
+            It was an eye-opener for me."
+        },
+        {
+            "role": "assistant",
+            "content": "I remember the day I first learned about the importance of spellcheck. \
+            It was an eye-opener for me."
+        }
+]
+
+PREPROCESSING_PUNCTUATION = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis with a focus on grammatical accuracy, \
+            specifically punctuation and comma usage. \
+            Your task is to identify any punctuation or comma errors in the provided text and correct them. \
+            Ensure the corrected text is accurate, readable, and follows standard punctuation rules. \
+            Please make sure to give out the full text without shortening it."
+        },
+        {
+            "role": "user",
+            "content": "Despite the rainy weather many people attended the outdoor concert, \
+            which, was surprising. The band played hit after hit, and the crowd's enthusiasm, \
+            was infectious even the most reserved attendees found themselves dancing."
+
+        },
+        {
+            "role": "assistant",
+            "content": "Despite the rainy weather, many people attended the outdoor concert, \
+            which was surprising. The band played hit after hit, and the crowd's enthusiasm was infectious;\
+            even the most reserved attendees found themselves dancing."
+        }
+]
+
+PREPROCESSING_IDENTIFY_TIMESTAMPS = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis. \
+            Your task is to identify and extract any timestamps (specific dates, months, years, recognized holidays, \
+            timeframes like '12 weeks later', or periods between specific dates) mentioned in the context of an \
+            individual experiencing symptoms or being diagnosed with an illness. Highlight these timestamps within \
+            the text by surrounding them with $$$ symbols. Ensure the full text is presented without any omissions, \
+            and only the timestamps are highlighted in this manner."
+        },
+        {
+            "role": "user",
+            "content": "I started feeling unwell around the middle of March 2021. \
+            The symptoms were quite severe by the 20th of March, which is when I decided to get tested. \
+            The test results came back positive for Covid-19 on March 22nd, 2021."
+
+        },
+        {
+            "role": "assistant",
+            "content": "I started feeling unwell around the middle of $$$March 2021$$$. \
+            The symptoms were quite severe by the $$$20th of March$$$, which is when I decided to get tested. \
+            The test results came back positive for Covid-19 on $$$March 22nd, 2021$$$."
+        },
+        {
+            "role": "user",
+            "content": "I started feeling unusually fatigued right before Thanksgiving 2020. \
+            The fatigue worsened over the holiday, and by the following Monday, I had developed a fever. \
+            I was tested for Covid-19 $$$two days later$$$ and received a positive result on November 30th, 2020."
+        },
+        {
+            "role": "assistant",
+            "content": "I started feeling unusually fatigued right before $$$Thanksgiving 2020$$$. \
+            The fatigue worsened over the holiday, and by the following Monday, I had developed a fever. \
+            I was tested for Covid-19 $$$two days later$$$ and received a positive result on $$$November 30th, 2020$$$."
+        }
+]
+
+PREPROCESSING_TRANSFORM_TIMESTAMPS = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis and date formatting. \
+            Your task is to identify any timestamps related to when an individual experienced symptoms \
+            or was diagnosed with an illness. \
+            Convert and present these timestamps in the specific format of YYYY/MM/DD. \
+            All relevant time specifications are already highlighted with $$$ $$$. \
+            To guarantee the completeness of the date you must make assumptions about the year, month and day \
+            based on the context. If the time specification is a duration, based on context, \
+            you must make assumptions about the start date of the duration. \
+            If there is no information about the year, month or day, \
+            you are allowed to assume the current year, month or day. \
+            Ensure the full text is presented without any omissions, \
+            and try to transform every timestamps as concrete as possible. \
+            Please make sure to give out the full text without shortening it."
+        },
+        {
+            "role": "user",
+            "content": "I noticed the first symptoms shortly after my birthday in $$$April$$$, \
+            and exactly $$$12 weeks later$$$, my condition had deteriorated significantly. \
+            I was officially diagnosed with Lyme disease on $$$August 7th$$$."
+
+        },
+        {
+            "role": "assistant",
+            "content": "I noticed the first symptoms shortly after my birthday on 2024/04/01, \
+            and exactly 12 weeks later, on 2024/06/24, my condition had deteriorated significantly. \
+            I was officially diagnosed with Lyme disease on 2024/08/07."
+        },
+        {
+            "role": "user",
+            "content": "During the period between $$$the 01.02 and the 03.02$$$, I felt unusually tired, \
+            but I thought it was just stress. However, after attending a large event $$$two weeks later$$$, \
+            I developed a fever and was tested positive for the flu."
+
+        },
+        {
+            "role": "assistant",
+            "content": "During the period between 2024/02/01 and 2024/02/03, I felt unusually tired, \
+            but I thought it was just stress. However, after attending a large event two weeks later, on 2024/02/17, \
+            I developed a fever and was tested positive for the flu."
+        }
+]
+
+PREPROCESSING_TIME_CALCULATION = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis and date calculations. \
+            Your task is to identify timestamps related to health events or diagnoses and \
+            convert these into concrete dates in the format of YYYY/MM/DD. \
+            For relative timestamps (like 'a few weeks after' or 'months before'), \
+            calculate the exact dates based on provided or assumed known dates. \
+            Ensure the text is complete without omission, with all relevant timestamps \
+            accurately transformed to the specified format. \
+            Please make sure to give out the full text without shortening it."
+        },
+        {
+            "role": "user",
+            "content": "After experiencing severe headaches starting in mid-$$$March 2022$$$, \
+            I went to see a neurologist. \
+            The MRI scan scheduled $$$three weeks later$$$ confirmed that I had a benign brain tumor. \
+            Post-surgery, I began my recovery phase, which lasted until $$$four months later$$$. \
+            During a follow-up visit $$$two months after my recovery$$$, \
+            my doctor confirmed that my condition had improved significantly."
+        },
+        {
+            "role": "assistant",
+            "content": "After experiencing severe headaches starting on 2022/03/15, \
+            I went to see a neurologist. The MRI scan scheduled on 2022/04/05 confirmed that I had a benign brain tumor.\
+            Post-surgery, I began my recovery phase, which lasted until 2022/08/05. \
+            During a follow-up visit on 2022/10/05, \
+            my doctor confirmed that my condition had improved significantly."
+        },
+        {
+            "role": "user",
+            "content": "Early July 2020, I started experiencing severe coughing and a high fever. \
+            It turned out I had contracted Covid-19. And in $$$early August$$$ I had lost my sense of taste."
+
+        },
+        {
+            "role": "assistant",
+            "content": "On the 2020/06/01, I started experiencing severe coughing and a high fever. \
+            It turned out I had contracted Covid-19. And on 2020/08/01 I had lost my sense of taste."
+        }
+]
+
+PREPROCESSING_TIME_INTERPRETATION = [
+        {
+            "role": "system",
+            "content": "You are an expert in text analysis with a specialization in date formatting \
+            and interpretation. Your task is to transform general time references related to health events \
+            or any other context into specific dates in the format of YYYY/MM/DD. Specifically, \
+            convert 'early [month]' to the 1st of the month, 'mid [month]' to the 15th of the month, \
+            and 'end of [month]' to the last day of the month (use 30 for April, June, September, \
+            and November; 31 for January, March, May, July, August, October, and December; \
+            and 28 or 29 for February, depending on leap years). \
+            If the year is not mentioned, assume the current year. \
+            Provide the full text without omission, ensuring all general time references are accurately \
+            transformed into the specified format. \
+            Example transformations: 'early January 2020' becomes 2020/01/01, \
+            'mid January 2020' becomes 2020/01/15, and 'end of January 2020' becomes 2020/01/31."
+        },
+        {
+            "role": "user",
+            "content": "In early January, I noticed a persistent cough. By mid January, the cough had worsened, \
+            leading me to seek medical advice. A specialist finally saw me at the end of January, \
+            diagnosing me with a chronic condition."
+        },
+        {
+            "role": "assistant",
+            "content": "In 2020/01/01, I noticed a persistent cough. By 2020/01/15, the cough had worsened,\
+             leading me to seek medical advice. A specialist finally saw me at 2020/01/31, \
+             diagnosing me with a chronic condition."
+        }
+]
