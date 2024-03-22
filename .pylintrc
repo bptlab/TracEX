@@ -27,4 +27,4 @@ max-nested-blocks=6
 ignore=setup.py
 ignore-paths=^tracex/extraction/migrations/.*$,
 load-plugins=pylint_django,
-django-settings-module=tracex.settings
+django-settings-module=tracex.tracex.settings
