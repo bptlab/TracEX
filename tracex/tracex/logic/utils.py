@@ -198,3 +198,14 @@ class Conversion:
         os.remove(temp_file_path)
         dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
         return dfg_img_base64
+
+    @staticmethod
+    def align_df_datatypes(source_df, target_df):
+        """Aligns the datatypes of two dataframes."""
+        for column in source_df.columns:
+            if column in target_df.columns and "datetime" not in str(source_df[column].dtype):
+                source_df[column] = source_df[column].astype(target_df[column].dtype)
+            elif "datetime" in str(source_df[column].dtype):
+                source_df[column] = source_df[column].dt.tz_localize(None)
+        return source_df
+    

@@ -35,6 +35,6 @@ EVENT_TYPES = [
 ]
 LOCATIONS = [
     ("Home", "Home"),
-    ("Hos", "Hospital"),
-    ("Doc", "Doctors"),
+    ("Hospital", "Hospital"),
+    ("Doctors", "Doctors"),
 ]
