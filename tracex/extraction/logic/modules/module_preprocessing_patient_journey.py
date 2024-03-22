@@ -6,7 +6,6 @@ from ..logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
 from .. import utils as u
-from ...models import Cohort
 
 
 class Preprocessor(Module):
