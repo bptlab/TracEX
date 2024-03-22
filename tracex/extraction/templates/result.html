@@ -45,8 +45,8 @@
             padding: 10px;
             margin-top: 1%;
         }
-        .landing_page_button {
-            margin: 20px 0; /* Add some margin around buttons */
+        .landing_page_button, .input_selection,.save_sucess {
+            margin-bottom: 20px;
         }
         
     </style>
@@ -132,11 +132,11 @@
     </form>
 
     <a href="{% url 'save_success' %}">
-        <button>Save results to the database</button>
+        <button class="save_sucess">Save results to the database</button>
     </a>
     
     <a href="{% url 'journey_input' %}">
-        <button style="margin-top: 1%">Return to input selection</button>
+        <button class="input_selection">Return to input selection</button>
     </a>
 
     <a href="{% url 'landing_page' %}">
