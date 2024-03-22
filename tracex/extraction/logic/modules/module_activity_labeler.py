@@ -4,9 +4,9 @@ import pandas as pd
 from django.conf import settings
 
 from tracex.logic.logging import log_execution_time
+from tracex.logic import utils as u
 from ..module import Module
 from .. import prompts as p
-from tracex.logic import utils as u
 
 
 class ActivityLabeler(Module):

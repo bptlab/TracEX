@@ -6,7 +6,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tracex.tracex.settings")
 # pylint: enable=wrong-import-position
 
 from tracex.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from tracex.extraction.logic import utils as u
+from tracex.tracex.logic import utils as u
 
 
 def main():
