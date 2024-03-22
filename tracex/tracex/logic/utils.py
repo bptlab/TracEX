@@ -18,6 +18,7 @@ from .constants import (
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
+    input_path,
     output_path,
     CSV_OUTPUT,
     CSV_ALL_TRACES,

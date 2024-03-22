@@ -10,9 +10,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect
 
+from tracex.logic import utils
 from .forms import JourneyForm, ResultForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
-from tracex.logic import utils
 from .models import Trace
 
 # necessary due to Windows error. see information for your os here:

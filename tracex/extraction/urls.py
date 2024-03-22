@@ -9,4 +9,3 @@ urlpatterns = [
     path("extraction/processing/", views.ProcessingView.as_view(), name="processing"),
     path("extraction/saved/", views.SaveSuccessView.as_view(), name="save_success"),
 ]
-

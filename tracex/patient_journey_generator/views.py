@@ -1,7 +1,8 @@
+"""This file contains the views for the patient journey generator app."""
 from django.urls import reverse_lazy
 from django.views import generic
 from extraction.forms import GenerationForm
-from extraction.logic.orchestrator import *
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
 from . import patient_journey_generator
 
@@ -56,3 +57,4 @@ class JourneyGenerationView(generic.CreateView):
         orchestrator.db_objects["patient_journey"] = self.object.id
 
         return response
+    

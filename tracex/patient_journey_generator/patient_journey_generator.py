@@ -9,30 +9,30 @@ from . import prompts as p
 
 
 def generate():
-        """Creates a new patient journey with the help of the GPT engine."""
-        print(
-            "Please wait while the system is generating a patient journey. This may take a few moments."
-        )
-        messages = [
-            {"role": "system", "content": create_patient_journey_context()},
-            {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
-        ]
-        patient_journey = u.query_gpt(messages=messages, temperature=1)
-        i = 0
+    """Creates a new patient journey with the help of the GPT engine."""
+    print(
+        "Please wait while the system is generating a patient journey. This may take a few moments."
+    )
+    messages = [
+        {"role": "system", "content": create_patient_journey_context()},
+        {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
+    ]
+    patient_journey = u.query_gpt(messages=messages, temperature=1)
+    i = 0
+    proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
+    output_path = c.input_path / proposed_filename
+    while os.path.isfile(output_path):
+        i += 1
         proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
         output_path = c.input_path / proposed_filename
-        while os.path.isfile(output_path):
-            i += 1
-            proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-            output_path = c.input_path / proposed_filename
-        with open(output_path, "w") as f:
-            f.write(patient_journey)
-        print(
-            'Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey "'
-            + proposed_filename
-            + '" generated.'
-        )
-        return patient_journey
+    with open(output_path, "w") as f:
+        f.write(patient_journey)
+    print(
+        'Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey "'
+        + proposed_filename
+        + '" generated.'
+    )
+    return patient_journey
 
 def create_patient_journey_context():
     """Creation of a patient journey."""
