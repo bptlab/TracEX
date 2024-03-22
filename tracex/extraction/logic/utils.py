@@ -206,15 +206,9 @@ class Conversion:
     def align_df_datatypes(source_df, target_df):
         """Aligns the datatypes of two dataframes."""
         for column in source_df.columns:
-            print(column)
-            print(source_df[column].dtype)
-            print(target_df[column].dtype)
             if column in target_df.columns and "datetime" not in str(source_df[column].dtype):
                 source_df[column] = source_df[column].astype(target_df[column].dtype)
             elif "datetime" in str(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(None)
-                print(source_df[column].dt.tz_localize(None))
-                print("newdatetime")
-                print(source_df[column].dtype)
         return source_df
     
