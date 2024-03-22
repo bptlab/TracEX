@@ -1,6 +1,5 @@
 """App configuration for extraction app."""
 from django.apps import AppConfig
-from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
 
 class ExtractionConfig(AppConfig):
@@ -8,9 +7,3 @@ class ExtractionConfig(AppConfig):
 
     default_auto_field = "django.db.models.BigAutoField"
     name = "extraction"
-
-    def ready(self):
-        """Initialize the orchestrator before entering the first view"""
-        orchestrator_instance = Orchestrator()
-        orchestrator_instance.set_configuration(ExtractionConfiguration())
-        print("Orchestrator ready")

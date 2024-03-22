@@ -1,28 +1,12 @@
 """Implementation of forms for the extraction app."""
 from django import forms
-from django.core.validators import FileExtensionValidator
+
+from .models import PatientJourney
+from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 
 
 class BaseEventForm(forms.Form):
     """Base form for event extraction forms."""
-
-    # Easy refactoring e.g. by using constants and imports into both forms
-    EVENT_TYPES = [
-        ("Symptom Onset, Symptom Offset", "Symptom onset/offset"),
-        ("infection", "Infection start/end"),
-        ("Diagnosis", "Diagnosis"),
-        ("Doctor visit", "Doctor visit"),
-        ("Treatment", "Treatment"),
-        ("Hospital admission, Hospital discharge", "Hospital Admission/Discharge"),
-        ("Medication", "Medication"),
-        ("Lifestyle Change", "Lifestyle change"),
-        ("Feelings", "Feelings"),
-    ]
-    LOCATIONS = [
-        ("Home", "Home"),
-        ("Hospital", "Hospital"),
-        ("Doctors", "Doctors"),
-    ]
 
     event_types = forms.MultipleChoiceField(
         label="Select desired event types",
@@ -39,6 +23,18 @@ class BaseEventForm(forms.Form):
         initial=[location[0] for location in LOCATIONS],
     )
 
+    def clean_event_types(self):
+        """Validate event types."""
+        event_types = self.cleaned_data["event_types"]
+        dependent_choices = [
+            ("Symptom Onset", "Symptom Offset"),
+            ("Hospital Admission", "Hospital Discharge"),
+        ]
+        for group in dependent_choices:
+            self.validate_dependant_choices("event_types", group[0], group[1])
+
+        return event_types
+
     def clean(self):
         """Validate form data."""
         cleaned_data = super().clean()
@@ -53,25 +49,62 @@ class BaseEventForm(forms.Form):
 
         return cleaned_data
 
+    def validate_dependant_choices(self, field, choice_1, choice_2):
+        """Validate two choices in a form field are either both selected or none of them."""
+        choices = self.cleaned_data.get(field)
 
-class JourneyForm(BaseEventForm):
+        if choices is not None and ((choice_1 in choices) ^ (choice_2 in choices)):
+            print("error should be raised")
+            raise forms.ValidationError(
+                f"{choice_1} and {choice_2} depend on each other. Please select both or none.",
+                code="dependant_fields",
+            )
+
+
+class JourneyForm(BaseEventForm, forms.ModelForm):
     """Form for extracting events from a patient journey."""
 
+    class Meta:
+        """Metaclass for JourneyForm, provides additional parameters for the form."""
+
+        model = PatientJourney
+        fields = ["name"]
+        help_texts = {
+            "name": PatientJourney.name.field.help_text,
+        }
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"placeholder": "Name for your patient journey"}
+            ),
+        }
+
     ALLOWED_FILE_TYPES = ["txt"]
-    journey = forms.FileField(
-        label="Patient journey",
+    file = forms.FileField(
+        label="Upload your patient journey",
+        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES} containing your patient journey.",
         required=True,
-        help_text=f"Allowed file types: {', '.join(ALLOWED_FILE_TYPES)}",
-        validators=[FileExtensionValidator(allowed_extensions=ALLOWED_FILE_TYPES)],
-        error_messages={
-            "required": "Please provide a file from which to extract the event log."
-        },
     )
-    field_order = ["journey", "event_types", "locations"]
+    field_order = ["file", "name", "event_types", "locations"]
 
 
-class GenerationForm(BaseEventForm):
+class GenerationForm(BaseEventForm, forms.ModelForm):
     """Form for generating events from a patient journey."""
+
+    class Meta:
+        """Metaclass for GenerationForm, provides additional parameters for the form."""
+
+        model = PatientJourney
+        fields = ["name"]
+        help_texts = {
+            "name": PatientJourney.name.field.help_text,
+        }
+        widgets = {
+            "name": forms.TextInput(
+                attrs={"placeholder": "Name for your patient journey"}
+            ),
+        }
+
+    field_order = ["name", "event_types", "locations"]
 
 
 class ResultForm(BaseEventForm):

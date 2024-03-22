@@ -241,7 +241,7 @@ COMPARE_PROMPT = """
 
 COHORT_TAG_MESSAGES = [
     [
-        "Illness",
+        "condition",
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
@@ -262,7 +262,7 @@ COHORT_TAG_MESSAGES = [
         {"role": "assistant", "content": "Covid-19"},
     ],
     [
-        "Gender",
+        "gender",
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
@@ -301,7 +301,7 @@ COHORT_TAG_MESSAGES = [
         {"role": "assistant", "content": "male"},
     ],
     [
-        "Age",
+        "age",
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
@@ -334,7 +334,7 @@ COHORT_TAG_MESSAGES = [
         {"role": "assistant", "content": "75"},
     ],
     [
-        "Origin",
+        "origin",
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
@@ -361,11 +361,11 @@ COHORT_TAG_MESSAGES = [
         {"role": "assistant", "content": "N/A"},
     ],
     [
-        "Previous Diseases",
+        "preexisting_condition",
         {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness \
-                and to extract previous dieseases of the author. These diseases have to be EXPLICITLY MENTIONED. \
+                and to extract previous diseases of the author. These diseases have to be EXPLICITLY MENTIONED. \
                     And they have to have occured BEFORE the illness the text is about!",
         },
         {

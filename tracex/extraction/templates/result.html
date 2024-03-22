@@ -125,18 +125,22 @@
                 {{ form.locations.label_tag }} {{ form.locations }}
                 {{ form.locations.errors }}
             </div>
+            {{ form.errors }}
         </div>
 
         <input type="submit" value="Refresh Filter" class="button">
     </form>
 
-
+    <a href="{% url 'save_success' %}">
+        <button>Save results to the database</button>
+    </a>
+    
     <a href="{% url 'journey_input' %}">
-        <button>Return to input selection</button>
+        <button style="margin-top: 1%">Return to input selection</button>
     </a>
 
     <a href="{% url 'landing_page' %}">
         <button class="landing_page_button">Return to TracEX Menu</button>
-    </a>
+
 </body>
 </html>

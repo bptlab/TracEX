@@ -4,14 +4,16 @@ Some unused imports have to be made because of architectural requirement."""
 import os
 import pm4py
 import pandas as pd
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect
 
 from .forms import JourneyForm, ResultForm
-from .logic.orchestrator import Orchestrator
+from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import utils
+from .models import Trace
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -20,7 +22,7 @@ os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
-class JourneyInputView(generic.FormView):
+class JourneyInputView(generic.CreateView):
     """View for uploading a patient journey."""
 
     form_class = JourneyForm
@@ -30,14 +32,20 @@ class JourneyInputView(generic.FormView):
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         self.request.session["is_extracted"] = False
-        orchestrator = Orchestrator.get_instance()
-        orchestrator.configuration.update(
+        uploaded_file = self.request.FILES.get("file")
+        content = uploaded_file.read().decode("utf-8")
+        form.instance.patient_journey = content
+
+        configuration = ExtractionConfiguration(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
-            patient_journey=form.cleaned_data["journey"].read().decode("utf-8"),
+            patient_journey=content,
         )
-        return super().form_valid(form)
+        orchestrator = Orchestrator(configuration)
+        response = super().form_valid(form)
+        orchestrator.db_objects["patient_journey"] = self.object.id
 
+        return response
 
 class ProcessingView(generic.TemplateView):
     """View for processing the patient journey."""
@@ -70,7 +78,6 @@ class ResultView(generic.FormView):
             if self.request.session.get("is_extracted") is None
             else self.request.session.get("is_extracted")
         )
-
         # 1. Run the pipeline to create the single trace
         if not (IS_TEST or is_extracted):
             orchestrator.run()
@@ -78,6 +85,7 @@ class ResultView(generic.FormView):
             single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
                 single_trace_df, orchestrator.configuration.activity_key
             )
+            # TODO: only do this if an export button in the UI is pressed
             utils.Conversion.create_xes(
                 utils.CSV_OUTPUT,
                 name="single_trace",
@@ -92,16 +100,28 @@ class ResultView(generic.FormView):
 
         # 2. Sort and filter the single journey dataframe
         single_trace_df = self.sort_dataframe(single_trace_df)
-        output_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
-
+        single_trace_df_filtered = self.filter_dataframe(single_trace_df, filter_dict)
         # 3. Append the single journey dataframe to the all traces dataframe
-        all_traces_df = pm4py.read_xes(
-            utils.get_all_xes_output_path(is_test=IS_TEST, is_extracted=is_extracted)
-        )
-        all_traces_df = all_traces_df.groupby(
-            "case:concept:name", group_keys=False, sort=False
-        ).apply(self.sort_dataframe)
-        all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
+
+        # TODO: remove comment once cohort is implemented
+        # condition = Cohort.manager.get(pk=orchestrator.db_objects["cohort"]).condition
+        # query = Q(cohort__condition=condition)
+        all_traces_df = self.get_events_df()
+        if not all_traces_df.empty:
+            all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
+                all_traces_df, orchestrator.configuration.activity_key
+            )
+            all_traces_df = pd.concat(
+                [all_traces_df, single_trace_df_filtered],
+                ignore_index=True,
+                axis="rows",
+            )
+            all_traces_df.groupby(
+                "case:concept:name", group_keys=False, sort=False
+            ).apply(self.sort_dataframe)
+            all_traces_df_filtered = self.filter_dataframe(all_traces_df, filter_dict)
+        else:
+            all_traces_df_filtered = single_trace_df_filtered
 
         # 4. Save all information in context to display on website
         context["form"] = ResultForm(
@@ -111,9 +131,11 @@ class ResultView(generic.FormView):
             }
         )
         context["journey"] = orchestrator.configuration.patient_journey
-        context["dfg_img"] = utils.Conversion.create_dfg_from_df(output_df_filtered)
+        context["dfg_img"] = utils.Conversion.create_dfg_from_df(
+            single_trace_df_filtered
+        )
         context["xes_html"] = utils.Conversion.create_html_from_xes(
-            output_df_filtered
+            single_trace_df_filtered
         ).getvalue()
         context["all_dfg_img"] = utils.Conversion.create_dfg_from_df(
             all_traces_df_filtered
@@ -128,12 +150,36 @@ class ResultView(generic.FormView):
         """Save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
-            # This should not be necessary, unspecefied values should be unchanged
+            # This should not be necessary, unspecified values should be unchanged
             patient_journey=orchestrator.configuration.patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )
         return super().form_valid(form)
+
+    @staticmethod
+    def get_events_df(query: Q = None):
+        """Get all events from the database, or filter them by a query and return them as a dataframe."""
+        traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
+        event_data = []
+
+        for trace in traces:
+            events = trace.events.all()
+            for event in events:
+                event_data.append(
+                    {
+                        "case_id": trace.id,
+                        "activity": event.activity,
+                        "event_type": event.event_type,
+                        "start": event.start,
+                        "end": event.end,
+                        "duration": event.duration,
+                        "attribute_location": event.location,
+                    }
+                )
+        events_df = pd.DataFrame(event_data)
+
+        return events_df
 
     @staticmethod
     def flatten_list(original_list):
@@ -164,3 +210,17 @@ class ResultView(generic.FormView):
             combined_condition &= condition
 
         return df[combined_condition]
+
+
+class SaveSuccessView(generic.TemplateView):
+    """View for displaying the save success page."""
+
+    template_name = "save_success.html"
+
+    def get_context_data(self, **kwargs):
+        """Prepare the data for the save success page."""
+        context = super().get_context_data(**kwargs)
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.save_results_to_db()
+
+        return context

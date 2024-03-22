@@ -6,6 +6,7 @@ from tracex.logic.logging import log_execution_time
 from ..module import Module
 from .. import prompts as p
 from tracex.logic import utils as u
+from ...models import Cohort
 
 
 class CohortTagger(Module):
@@ -19,27 +20,31 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None):
+    def execute_and_save(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        return self.__extract_cohort_tags(df)
 
-    def __extract_cohort_tags(self, df):
+        return self.__extract_cohort_tags()
+
+    def __extract_cohort_tags(self):
         """Converts the input text to activity_labels."""
-        self.__write_cohort_tag("Name of Journey", False)
+        cohort_data = {}
         for message_list in p.COHORT_TAG_MESSAGES:
             messages = message_list[1:]
             messages.append(
                 {"role": "user", "content": self.patient_journey},
             )
             tag = u.query_gpt(messages)
-            self.__write_cohort_tag(message_list[0] + ": " + tag)
-        return df
+            cohort_data[message_list[0]] = tag
 
-    def __write_cohort_tag(self, tag, append=True):
-        """Writes the cohort tag to an intermediate file."""
-        if not append:
-            with open(u.output_path / "cohort_tag.txt", "w") as f:
-                f.write(tag + "\n")
-        else:
-            with open(u.output_path / "cohort_tag.txt", "a") as f:
-                f.write(tag + "\n")
+        valid_cohort_data = {
+            key: value for key, value in cohort_data.items() if value != "N/A"
+        }
+
+        # if all values are "N/A" ther is no use in saving the results
+        # return 0 indicates to the calling function, that there is no Cohort
+        # it expects a database id and 0 is not a valid id
+        if not any(value != "NA" for value in valid_cohort_data.values()):
+            return 0
+        new_cohort = Cohort.manager.create(**valid_cohort_data)
+
+        return new_cohort.pk

@@ -1,5 +1,7 @@
 """Module providing the abstract base class for all modules."""
-from abc import ABC, abstractmethod
+from abc import ABC
+
+import pandas as pd
 
 
 class Module(ABC):
@@ -19,12 +21,23 @@ class Module(ABC):
         self.description = None
         self.patient_journey = None
 
-    @abstractmethod
-    def execute(self, _input, patient_journey=None):
+    def execute(self, _input, patient_journey=None) -> pd.DataFrame:
         """
         Executes the logic of the module. Override this to define your own module.
         Every module receives the patient journey as parameter which is set to the instance variable of each module.
-        This method should always save a dataframe in the "result" instance variable for internal processing.
+        This method should always return a dataframe, so other modules can use the result.
         """
         print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
+
+        return pd.DataFrame()
+
+    def execute_and_save(self, _input, patient_journey=None) -> int:
+        """
+        Executes the logic of the module and saves the result to the database. Override this to define your own module.
+        Every module receives the patient journey as parameter which is set to the instance variable of each module.
+        This method should always save the result to the database, and return the id.
+        """
+        print(f"Starting Module {self.name}.")
+        self.patient_journey = patient_journey
+        return 0

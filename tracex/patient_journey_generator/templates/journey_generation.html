@@ -41,7 +41,13 @@
                 <p>{{ form.journey.help_text }}</p>
             </div>
         </div>
-
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.name.label_tag }} {{ form.name }}
+                {{ form.name.errors }}
+                <p>{{ form.name.help_text }}</p>
+            </div>
+        </div>
         <div class="form-row">
             <div class="form-column">
                 {{ form.event_types.label_tag }} {{ form.event_types }}
@@ -53,7 +59,7 @@
             </div>
         </div>
 
-        <input type="submit" value="Execute extraction pipeline with this Patient Journey and Configuration" class="button">
+        <input type="submit" value="Execute Extraction Pipeline with this Patient Journey and Configuration" class="button">
     </form>
 
     <p></p>
