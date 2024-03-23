@@ -13,17 +13,16 @@ import pm4py
 
 from openai import OpenAI
 from . import function_calls
-from .constants import (
+from tracex.tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
-    input_path,
     output_path,
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
-from .logging import log_tokens_used
+from tracex.tracex.logic.logging import log_tokens_used
 
 
 def deprecated(func):
