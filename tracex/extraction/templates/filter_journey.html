@@ -15,10 +15,13 @@
         .form-column:last-child {
             margin-right: 0;
         }
-        input[type="submit"].button {
+        .input_button {
             width: 100%;
             padding: 10px;
-            margin-top: 5%;
+            margin-top: 10%;
+        }
+        .previous_button{
+            margin-bottom: 15px;
         }
         .extraction_logo {
             width: 350px;
@@ -32,30 +35,29 @@
 
 <body class="main_body">
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-    <h2>Welcome to the Extraction Pipeline of TracEX</h2>
-    <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
-    <p>Please select the patient journey you want to upload below.</p>
+    <h2>Filter Selection for Extraction Results</h2>
+    <p> You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
+    <p>Please select the filter below.</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="form-row">
             <div class="form-column">
-                {{ form.file.label_tag }} {{ form.file }}
-                {{ form.file.errors }}
-                <p>{{ form.file.help_text }}</p>
+                {{ form.event_types.label_tag }} {{ form.event_types }}
+                {{ form.event_types.errors }}
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-column">
-                {{ form.name.label_tag }} {{ form.name }}
-                {{ form.name.errors }}
-                <p>{{ form.name.help_text }}</p>
+                {{ form.locations.label_tag }} {{ form.locations }}
+                {{ form.locations.errors }}
             </div>
         </div>
-
-        <input type="submit" value="Upload" class="button">
+        <input type="submit" value="Execute Extraction Pipeline" class="input_button">
     </form>
+
+    <a href="{% url 'journey_input' %}">
+        <button class="previous_button">Previous</button>
+    </a>
     <a href="{% url 'landing_page' %}">
         <button>Return to TracEX menu</button>
     </a>

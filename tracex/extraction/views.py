@@ -11,7 +11,7 @@ from django.views import generic
 from django.shortcuts import redirect
 
 from tracex.logic import utils
-from .forms import JourneyForm, ResultForm
+from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace
 
@@ -27,7 +27,7 @@ class JourneyInputView(generic.CreateView):
 
     form_class = JourneyForm
     template_name = "upload_journey.html"
-    success_url = reverse_lazy("processing")
+    success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
@@ -37,8 +37,6 @@ class JourneyInputView(generic.CreateView):
         form.instance.patient_journey = content
 
         configuration = ExtractionConfiguration(
-            event_types=form.cleaned_data["event_types"],
-            locations=form.cleaned_data["locations"],
             patient_journey=content,
         )
         orchestrator = Orchestrator(configuration)
@@ -47,14 +45,22 @@ class JourneyInputView(generic.CreateView):
 
         return response
 
-class ProcessingView(generic.TemplateView):
-    """View for processing the patient journey."""
+class JourneyFilterView(generic.FormView):
+    """View for selecting extraction results filter"""
+    
+    form_class = FilterForm
+    template_name = "filter_journey.html"
+    success_url = reverse_lazy("result")
 
-    template_name = "processing.html"
-
-    def get(self, request, *args, **kwargs):
-        """Redirect to result page."""
-        return redirect("result")
+    def form_valid(self, form):
+        """Save the uploaded journey in the cache."""
+        self.request.session["is_extracted"] = False
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.configuration.update(
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+        )
+        return super().form_valid(form)
 
 
 class ResultView(generic.FormView):

@@ -62,7 +62,7 @@ class BaseEventForm(forms.Form):
             )
 
 
-class JourneyForm(BaseEventForm, forms.ModelForm):
+class JourneyForm(forms.Form, forms.ModelForm):
     """Form for extracting events from a patient journey."""
 
     class Meta:
@@ -87,6 +87,8 @@ class JourneyForm(BaseEventForm, forms.ModelForm):
     )
     field_order = ["file", "name", "event_types", "locations"]
 
+class FilterForm(BaseEventForm):
+    """Form for selecting filter for extraction result"""
 
 class GenerationForm(BaseEventForm, forms.ModelForm):
     """Form for generating events from a patient journey."""
