@@ -33,7 +33,7 @@ class Preprocessor(Module):
 
     def spellcheck(self, text):
         """Checks and corrects spelling and grammar in the input."""
-        messages = p.PREPROCESSING_SPELLCHECK.copy()
+        messages = p.PREPROCESSING_SPELLCHECK
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
@@ -41,7 +41,7 @@ class Preprocessor(Module):
 
     def punctuationcheck(self, text):
         """Checks and corrects punctuations and commas in the input."""
-        messages = p.PREPROCESSING_PUNCTUATION.copy()
+        messages = p.PREPROCESSING_PUNCTUATION
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
@@ -49,7 +49,7 @@ class Preprocessor(Module):
 
     def identify_timestamps(self, text):
         """Identifies and formats time specifications in the input."""
-        messages = p.PREPROCESSING_IDENTIFY_TIMESTAMPS.copy()
+        messages = p.PREPROCESSING_IDENTIFY_TIMESTAMPS
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
@@ -57,7 +57,7 @@ class Preprocessor(Module):
 
     def transform_timestamps(self, text):
         """Adds a timeline to the input for better understanding of events."""
-        messages = p.PREPROCESSING_TRANSFORM_TIMESTAMPS.copy()
+        messages = p.PREPROCESSING_TRANSFORM_TIMESTAMPS
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
@@ -65,7 +65,7 @@ class Preprocessor(Module):
 
     def calculate_timestamps(self, text):
         """Calculate a Timestamp to the input for better understanding of events."""
-        messages = p.PREPROCESSING_TIME_CALCULATION.copy()
+        messages = p.PREPROCESSING_TIME_CALCULATION
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
@@ -73,7 +73,7 @@ class Preprocessor(Module):
 
     def interprete_timestamps(self, text):
         """Interprete a Timestamp to the input for better understanding of events."""
-        messages = p.PREPROCESSING_TIME_INTERPRETATION.copy()
+        messages = p.PREPROCESSING_TIME_INTERPRETATION
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)
