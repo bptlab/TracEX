@@ -2,10 +2,10 @@
 from pathlib import Path
 from django.conf import settings
 
-from ..logging import log_execution_time
+from tracex.logic.logger import log_execution_time
+from tracex.logic import utils as u
 from ..module import Module
 from .. import prompts as p
-from .. import utils as u
 
 
 class Preprocessor(Module):
