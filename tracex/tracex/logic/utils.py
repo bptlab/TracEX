@@ -12,8 +12,8 @@ import pandas as pd
 import pm4py
 
 from openai import OpenAI
-from tracex.tracex.logic.logger import log_tokens_used
-from tracex.tracex.logic.constants import (
+from tracex.logic.logger import log_tokens_used
+from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
