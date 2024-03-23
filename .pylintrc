@@ -28,5 +28,3 @@ max-nested-blocks=6
 ignore=setup.py
 ignore-paths=^tracex/extraction/migrations/.*$,
 
-[TYPECHECK]
-ignored-classes=logging

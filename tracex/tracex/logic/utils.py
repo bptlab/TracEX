@@ -12,7 +12,7 @@ import pandas as pd
 import pm4py
 
 from openai import OpenAI
-from . import function_calls
+from tracex.tracex.logic.logger import log_tokens_used
 from tracex.tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
@@ -22,7 +22,9 @@ from tracex.tracex.logic.constants import (
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
-from tracex.tracex.logic.logging import log_tokens_used
+
+from . import function_calls
+
 
 
 def deprecated(func):

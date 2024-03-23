@@ -7,6 +7,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "tracex.tracex.settings")
 
 from tracex.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.tracex.logic import utils as u
+from tracex.tracex.logic import constants as c
 
 
 def main():
@@ -36,7 +37,7 @@ def get_input(orchestrator_instance):
     if input_path == "new":
         inp = orchestrator_instance.generate_patient_journey()
     else:
-        with open((u.input_path / input_path)) as f:
+        with open((c.input_path / input_path)) as f:
             inp = f.read()
     return inp
 
@@ -61,7 +62,7 @@ def get_input_path_name():
     )
     if filename[-4:] != ".txt":
         filename += ".txt"
-    if not os.path.isfile((u.input_path / filename)):
+    if not os.path.isfile((c.input_path / filename)):
         print("File does not exist.")
         return get_input_path_name()
     return filename

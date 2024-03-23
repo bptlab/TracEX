@@ -5,7 +5,7 @@ from django.conf import settings
 
 import pandas as pd
 
-from tracex.logic.logging import log_execution_time
+from tracex.tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 from ..module import Module
 
