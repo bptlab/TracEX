@@ -12,6 +12,7 @@ import pandas as pd
 import pm4py
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
+from django.conf import settings
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
@@ -68,7 +69,7 @@ def query_gpt(
 
     tools = function_calls.TOOLS if tools is None else tools
 
-    @log_tokens_used(Path("tracex/logs/tokens_used.log"))
+    @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
         """Queries the GPT engine."""
         client = OpenAI(api_key=oaik)
