@@ -11,6 +11,7 @@ import warnings
 import pandas as pd
 import pm4py
 
+from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
@@ -205,9 +206,10 @@ class Conversion:
     def align_df_datatypes(source_df, target_df):
         """Aligns the datatypes of two dataframes."""
         for column in source_df.columns:
-            if column in target_df.columns and "datetime" not in str(source_df[column].dtype):
+            if column in target_df.columns and not is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].astype(target_df[column].dtype)
-            elif "datetime" in str(source_df[column].dtype):
-                source_df[column] = source_df[column].dt.tz_localize(None)
+            elif is_datetime(source_df[column].dtype):
+                source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
+
     
