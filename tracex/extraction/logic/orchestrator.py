@@ -11,6 +11,7 @@ from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
+from .modules.module_preprocessing_patient_journey import Preprocessor
 
 # from .modules.module_metrics_analyzer import MetricsAnalyzer
 # from .modules.module_event_log_comparator import EventLogComparator
@@ -30,6 +31,7 @@ class ExtractionConfiguration:
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
     modules = {
+        "preprocessing": Preprocessor,
         "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
@@ -103,11 +105,18 @@ class Orchestrator:
     def run(self):
         """Run the modules."""
         modules = self.initialize_modules()
+
+        patient_journey = self.configuration.patient_journey
+        if "preprocessing" in self.configuration.modules:
+            preprocessor = self.configuration.modules.get("preprocessing")()
+            patient_journey = preprocessor.execute(patient_journey=self.configuration.patient_journey)
+
+
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
-        ]().execute_and_save(self.data, self.configuration.patient_journey)
+        ]().execute_and_save(self.data, patient_journey)
         for module in modules:
-            self.data = module.execute(self.data, self.configuration.patient_journey)
+            self.data = module.execute(self.data, patient_journey)
         if self.data is not None:
             try:
                 latest_id = Trace.manager.latest("last_modified").id
