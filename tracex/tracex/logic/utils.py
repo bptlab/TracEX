@@ -212,5 +212,4 @@ class Conversion:
             elif is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
-
     
