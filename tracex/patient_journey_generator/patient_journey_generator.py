@@ -142,7 +142,3 @@ def get_life_circumstances(sex):
     )
 
     return life_circumstances
-
-
-
-
