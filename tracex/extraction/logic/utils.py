@@ -12,6 +12,7 @@ import warnings
 import pandas as pd
 import pm4py
 
+from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from openai import OpenAI
 from . import function_calls
@@ -201,3 +202,14 @@ class Conversion:
         os.remove(temp_file_path)
         dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
         return dfg_img_base64
+
+    @staticmethod
+    def align_df_datatypes(source_df, target_df):
+        """Aligns the datatypes of two dataframes."""
+        for column in source_df.columns:
+            if column in target_df.columns and not is_datetime(source_df[column].dtype):
+                source_df[column] = source_df[column].astype(target_df[column].dtype)
+            elif is_datetime(source_df[column].dtype):
+                source_df[column] = source_df[column].dt.tz_localize(tz=None)
+        return source_df
+    

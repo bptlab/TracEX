@@ -167,6 +167,7 @@ class ResultView(generic.FormView):
             all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
                 all_traces_df, orchestrator.configuration.activity_key
             )
+            utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
             all_traces_df = pd.concat(
                 [all_traces_df, single_trace_df_filtered],
                 ignore_index=True,
