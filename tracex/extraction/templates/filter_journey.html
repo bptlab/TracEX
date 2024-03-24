@@ -2,6 +2,10 @@
     <title>Upload Journey</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/progress-bar.css' %}">
+    <script src="{% static '/extraction/js/progress-bar.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% csrf_token %}
     <style>
         .form-row {
             display: flex;
@@ -16,9 +20,9 @@
             margin-right: 0;
         }
         .input_button {
+            display: inline-block;
             width: 100%;
             padding: 10px;
-            margin-top: 10%;
         }
         .previous_button{
             margin-bottom: 15px;
@@ -29,6 +33,10 @@
             display: block;
             margin: 0 auto; 
         }
+        .not_visible {
+             display: none;
+        }
+
     </style>
 </head>
 
@@ -52,9 +60,20 @@
                 {{ form.locations.errors }}
             </div>
         </div>
-        <input type="submit" value="Execute Extraction Pipeline" class="input_button">
-    </form>
 
+        <div id="progress_box" class="not_visible">
+            <div class="progress-container">
+                <!-- Progress bar and message will be added here -->
+            </div>
+        </div>
+
+        <input type="submit" value="Execute Extraction Pipeline" id="execute_button" class="input_button">
+    </form>
+    
+
+    <a href="{% url 'result' %}">
+        <button id="result_button" class="not_visible">See Results</button>
+    </a>
     <a href="{% url 'journey_input' %}">
         <button class="previous_button">Previous</button>
     </a>

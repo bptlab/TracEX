@@ -44,7 +44,6 @@ class JourneyGenerationView(generic.CreateView):
 
     def form_valid(self, form):
         """Save the generated journey in the orchestrator's configuration."""
-        self.request.session["is_extracted"] = False
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
             # This should not be necessary, unspecefied values should be unchanged

@@ -102,21 +102,30 @@ class Orchestrator:
         print("Initialization of modules successful.")
         return modules
 
-    def run(self):
+    def run(self, view):
         """Run the modules."""
         modules = self.initialize_modules()
+        modules_number = len(modules) + 3
+        current_step = 0
 
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
+            self.update_progress(view, current_step, modules_number, "Preprocessing" )
             patient_journey = preprocessor.execute(patient_journey=self.configuration.patient_journey)
+            current_step += 1
 
 
+        self.update_progress(view, current_step, modules_number, "Cohort Tagger" )
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
         ]().execute_and_save(self.data, patient_journey)
+        current_step += 1
         for module in modules:
+            self.update_progress(view, current_step, modules_number, module.name)
             self.data = module.execute(self.data, patient_journey)
+            current_step += 1
+
         if self.data is not None:
             try:
                 latest_id = Trace.manager.latest("last_modified").id
@@ -127,14 +136,6 @@ class Orchestrator:
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
-    def generate_patient_journey(self):
-        """Generate a patient journey with the help of the GPT engine."""
-        print("Orchestrator is generating a patient journey.")
-        self.set_configuration(ExtractionConfiguration())
-        module = self.configuration.modules["patient_journey_generation"]()
-        patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration.update(patient_journey=patient_journey)
-
     def save_results_to_db(self):
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(
@@ -161,3 +162,11 @@ class Orchestrator:
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
+    
+    def update_progress(self, view, current_step, modules_number, module_name):
+        """Update the progress of the extraction."""
+        percentage = round(((current_step / modules_number) * 100),2)
+        view.request.session["extraction_progress"] = percentage
+        view.request.session["current_module"] = module_name
+        view.request.session.save()
+
