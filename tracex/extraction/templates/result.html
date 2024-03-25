@@ -5,51 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
-    <style>
-
-        h1 {
-            margin-bottom: 20px;
-        }
-        form {
-            margin-bottom: 20px;
-        }
-        img {
-            max-width: 100%;
-            margin-bottom: 20px;
-            display: block;
-        }
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .form-column {
-            flex: 1;
-            margin-right: 5px;
-        }
-        .form-column:last-child {
-            margin-right: 0;
-        }
-        .dfg-container {
-            display: flex;
-            justify-content: space-between;
-        }
-        .dfg-container img {
-            width: 100%;
-            max-width: none;
-            height: auto;
-        }
-        input[type="submit"].button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 1%;
-        }
-        .landing_page_button, .input_selection,.save_sucess {
-            margin-bottom: 20px;
-        }
-        
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 <body class="main_body">
     <h1>Success! The TracEX pipeline produced the following results:</h1>
@@ -132,15 +88,15 @@
     </form>
 
     <a href="{% url 'save_success' %}">
-        <button class="save_sucess">Save results to the database</button>
+        <button class="menu_button">Save results to the database</button>
     </a>
     
     <a href="{% url 'journey_input' %}">
-        <button class="input_selection">Return to input selection</button>
+        <button class="menu_button">Return to input selection</button>
     </a>
 
     <a href="{% url 'landing_page' %}">
-        <button class="landing_page_button">Return to TracEX Menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
 
 </body>
 </html>

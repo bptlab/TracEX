@@ -1,32 +1,7 @@
 <head>
     <title>Upload Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
-    <style>
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .form-column {
-            flex: 1;
-            margin-right: 5px;
-        }
-        .form-column:last-child {
-            margin-right: 0;
-        }
-        input[type="submit"].button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5%;
-        }
-        .extraction_logo {
-            width: 350px;
-            height: auto;
-            display: block;
-            margin: 0 auto; 
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 
 
@@ -67,6 +42,6 @@
         <input type="submit" value="Upload" class="button">
     </form>
     <a href="{% url 'landing_page' %}">
-        <button>Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>

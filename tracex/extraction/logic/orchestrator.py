@@ -125,9 +125,6 @@ class Orchestrator:
             self.data.insert(0, "case_id", latest_id + 1)
             self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
-    # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
-    # a configuration was given or not, the patient journey generation may be executed.
-
     def save_results_to_db(self):
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(

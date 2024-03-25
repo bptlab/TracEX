@@ -3,22 +3,7 @@
 <head>
     <title>TracEX</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
-    <style>
-        button {
-            margin: 10px 0; /* Add some margin around buttons */
-        }
-        p {
-            text-align: left;
-        }
-        h2 {
-            text-align: left;
-        }
-        .patient_journey_generator_logo {
-        width: 280px; /* Adjust as needed */
-        height: auto; /* Maintain aspect ratio */
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 
 <body class="selection_body">
@@ -28,11 +13,11 @@
         <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
 
         <a href="{% url 'journey_generation' %}">
-            <button>Generate Patient Journey</button>
+            <button class="menu_button">Generate Patient Journey</button>
         </a>
 
         <a href="{% url 'landing_page' %}">
-            <button>Return to TracEX menu</button>
+            <button class="menu_button">Return to TracEX menu</button>
         </a>
     </div>
 </body>
