@@ -127,13 +127,6 @@ class Orchestrator:
 
     # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
     # a configuration was given or not, the patient journey generation may be executed.
-    def generate_patient_journey(self):
-        """Generate a patient journey with the help of the GPT engine."""
-        print("Orchestrator is generating a patient journey.")
-        self.set_configuration(ExtractionConfiguration())
-        module = self.configuration.modules["patient_journey_generation"]()
-        patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration.update(patient_journey=patient_journey)
 
     def save_results_to_db(self):
         """Save the trace to the database."""
