@@ -1,3 +1,6 @@
+
+/* GENERAL */
+
 .main_body {
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
@@ -7,33 +10,13 @@
     margin-right: auto;
 }
 
-button {
+button, input[type="submit"].button  {
     width: 100%; /* Full width of the container */
     padding: 10px; /* Add padding for better appearance */
 }
 
-.landing_page_body{
-    background-color: white;
-    font-family: 'Gill Sans', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.landing_page_container {
-    width: 50%;
-}
-
-.landing_page_logo {
-    max-width: 700px;
-    margin-bottom: 10px;
-    margin-top: 200px;
-    display: block;
-    margin: 0 auto;
+.menu_button, input[type="submit"].button{
+    margin-top: 20px;
 }
 
 .item {
@@ -44,6 +27,38 @@ button {
     width: calc(50% - 10px);
     margin-bottom: 10px;
 }
+
+.h1 {
+    margin-bottom: 20px;
+}
+
+p {
+    text-align: left;
+}
+
+h2 {
+    text-align: left;
+}
+
+.form {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.form-column {
+    flex: 1;
+    margin-right: 5px;
+}
+.form-column:last-child {
+    margin-right: 0;
+}
+
+
+/* LANDING PAGE */
 
 .landing_page_menu {
     display: flex;
@@ -91,4 +106,88 @@ button {
 .landing_page_menu .item a {
     text-decoration: none;
     color: inherit;
+}
+
+.landing_page_body{
+    background-color: white;
+    font-family: 'Gill Sans', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.landing_page_container {
+    width: 50%;
+}
+
+
+/* EXTRACTION */ 
+
+.dfg-container img {
+    width: 100%;
+    max-width: none;
+    height: auto;
+}
+
+
+.dfg-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* PATIENT JOURNEY GENERATOR */
+
+.selection_body{
+    background-color: white;
+    font-family: 'Gill Sans', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.selection_container {
+    width: 50%;
+}
+
+/* LOGOS */
+
+.img {
+    max-width: 100%;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.landing_page_logo {
+    max-width: 700px;
+    margin-bottom: 10px;
+    margin-top: 200px;
+    display: block;
+    margin: 0 auto;
+}
+
+.selection_logo {
+    max-width: 800px;
+    margin-bottom: 20px;
+    margin-top: -150px;
+}
+
+.patient_journey_generator_logo {
+    width: 280px; 
+    height: auto; 
+    }
+
+.extraction_logo {
+    width: 350px;
+    height: auto;
+    display: block;
+    margin: 0 auto; 
 }
