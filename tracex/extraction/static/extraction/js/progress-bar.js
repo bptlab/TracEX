@@ -10,12 +10,12 @@ function updateProgressBar() {
         success: function(data) {
             // Update the progress bar element with the received progress data
             const percentage = data.progress + "%";
-            const current_module = data.current_module;
+            const current_module = data.status;
             progress_box.innerHTML = `
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated ${getProgressBarColor(data.progress)}" role="progressbar" style="width: ${percentage};" aria-valuenow="${data.progress}" aria-valuemin="0" aria-valuemax="100">${percentage}</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated ${getProgressBarColor(data.progress)}" role="progressbar" style="width: ${percentage};" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">${percentage}</div>
             </div>
-            ${data.current_module ? `<div class="progress-container"><p>${data.current_module} is currently running</p></div>` : '<div class="progress-container"><p>Execute Extraction Pipeline</p></div>'}
+            ${current_module ? `<div class="progress-container"><p>${current_module} is currently running</p></div>` : '<div class="progress-container"><p>Execute Extraction Pipeline</p></div>'}
         `;
 
             // If the task is not complete, continue checking for progress // hier muss data.progress rein

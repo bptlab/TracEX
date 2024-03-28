@@ -33,16 +33,14 @@ class JourneyInputView(generic.CreateView):
     def get_context_data(self, **kwargs):
         """Clear session variables"""
         self.request.session["is_extracted"] = False
-        self.request.session["extraction_progress"] = 0
-        self.request.session["current_module"] = None
+        self.request.session["progress"] = 0
+        self.request.session["status"] = None
         self.request.session.save()
 
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
-        self.request.session["is_extracted"] = False
-        self.request.session.save()
         uploaded_file = self.request.FILES.get("file")
         content = uploaded_file.read().decode("utf-8")
         form.instance.patient_journey = content
@@ -81,7 +79,6 @@ class JourneyFilterView(generic.FormView):
             key=orchestrator.configuration.activity_key,
         )
         self.request.session["is_extracted"] = True
-        self.request.session["extraction_progress"] = 100
         self.request.session.save()
 
         return super().form_valid(form)
@@ -92,8 +89,8 @@ class JourneyFilterView(generic.FormView):
         if is_ajax:
             if request.method == 'GET':
                 progress_information = {
-                "progress": self.request.session.get("extraction_progress"),
-                "current_module": self.request.session.get("current_module"),
+                "progress": self.request.session.get("progress"),
+                "status": self.request.session.get("status"),
                     }
                 return JsonResponse(progress_information)
             

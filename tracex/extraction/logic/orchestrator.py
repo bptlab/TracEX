@@ -105,7 +105,7 @@ class Orchestrator:
     def run(self, view):
         """Run the modules."""
         modules = self.initialize_modules()
-        modules_number = len(modules) + 3
+        modules_number = len(modules) + 2
         current_step = 0
 
         patient_journey = self.configuration.patient_journey
@@ -164,6 +164,7 @@ class Orchestrator:
     def update_progress(self, view, current_step, modules_number, module_name):
         """Update the progress of the extraction."""
         percentage = round(((current_step / modules_number) * 100),2)
-        view.request.session["extraction_progress"] = percentage
-        view.request.session["current_module"] = module_name
+        view.request.session["progress"] = percentage
+        view.request.session["status"] = module_name
+        print(view.request.session["status"])
         view.request.session.save()
