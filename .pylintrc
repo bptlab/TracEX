@@ -14,6 +14,7 @@ disable=
   unspecified-encoding,
   too-few-public-methods,
   import-outside-toplevel,
+  no-name-in-module
 
 [FORMAT]
 max-line-length=120
@@ -26,3 +27,4 @@ max-nested-blocks=6
 [MASTER]
 ignore=setup.py
 ignore-paths=^tracex/extraction/migrations/.*$,
+

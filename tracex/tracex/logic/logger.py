@@ -3,7 +3,7 @@ import ast
 import time
 import functools
 import inspect
-import logging
+from logging import getLogger,INFO, FileHandler, Formatter
 
 import pandas as pd
 
@@ -67,11 +67,11 @@ def log_tokens_used(log_file_path):
 
 def setup_logger(logger_name, log_file_path, log_format):
     """Set up a logger with the given path and format."""
-    logger = logging.getLogger(logger_name)
-    logger.setLevel(logging.INFO)
+    logger = getLogger(logger_name)
+    logger.setLevel(INFO)
 
-    file_handler = logging.FileHandler(log_file_path)
-    formatter = logging.Formatter(log_format)
+    file_handler = FileHandler(log_file_path)
+    formatter = Formatter(log_format)
     file_handler.setFormatter(formatter)
 
     if not logger.handlers:

@@ -4,11 +4,11 @@ import pandas as pd
 import numpy as np
 from django.conf import settings
 
-from ..logging import log_execution_time
+from tracex.logic.logger import log_execution_time
+from tracex.logic import constants as c
+from tracex.logic import utils as u
 from ..module import Module
-from .. import utils as u
 from .. import prompts as p
-from .. import constants as c
 
 
 class MetricsAnalyzer(Module):
@@ -26,7 +26,7 @@ class MetricsAnalyzer(Module):
             "Measures the output of the pipeline based on specified metrics."
         )
 
-    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 
