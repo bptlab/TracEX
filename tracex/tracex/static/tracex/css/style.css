@@ -41,7 +41,7 @@ h2 {
 }
 
 .form {
-    margin-bottom: 20px;
+    margin-bottom: -10px;
 }
 
 .form-row {
@@ -194,4 +194,22 @@ h2 {
     height: auto;
     display: block;
     margin: 0 auto; 
+}
+
+/* PAGE TRANSITIONS */
+.landing_page_body, .selection_body, .main_body {
+    animation: transitionIn 1s; 
+}
+
+
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
 }
