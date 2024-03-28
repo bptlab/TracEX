@@ -74,7 +74,7 @@
     <a href="{% url 'result' %}">
         <button id="result_button" class="not_visible">See Results</button>
     </a>
-    <a href="{% url 'journey_input' %}">
+    <a href="{{ request.META.HTTP_REFERER }}">
         <button class="previous_button">Previous</button>
     </a>
     <a href="{% url 'landing_page' %}">

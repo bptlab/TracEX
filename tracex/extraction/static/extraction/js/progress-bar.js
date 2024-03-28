@@ -9,7 +9,7 @@ function updateProgressBar() {
         method: "GET",
         success: function(data) {
             // Update the progress bar element with the received progress data
-            const percentage = data.progress + "%";
+            const percentage = data.progress !== null ? data.progress + "%" : "0%";
             const current_module = data.status;
             progress_box.innerHTML = `
             <div class="progress">

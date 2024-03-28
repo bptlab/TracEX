@@ -90,25 +90,5 @@ class JourneyForm(forms.Form, forms.ModelForm):
 class FilterForm(BaseEventForm):
     """Form for selecting filter for extraction result"""
 
-class GenerationForm(BaseEventForm, forms.ModelForm):
-    """Form for generating events from a patient journey."""
-
-    class Meta:
-        """Metaclass for GenerationForm, provides additional parameters for the form."""
-
-        model = PatientJourney
-        fields = ["name"]
-        help_texts = {
-            "name": PatientJourney.name.field.help_text,
-        }
-        widgets = {
-            "name": forms.TextInput(
-                attrs={"placeholder": "Name for your patient journey"}
-            ),
-        }
-
-    field_order = ["name", "event_types", "locations"]
-
-
 class ResultForm(BaseEventForm):
     """Form for displaying results of event extraction."""
