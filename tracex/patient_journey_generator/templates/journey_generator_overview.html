@@ -3,7 +3,9 @@
 <title>Generation</title>
 <head>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/patient_journey_generator/css/loading-spinner.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <script src="{% static '/patient_journey_generator/js/loading-spinner.js' %}" defer></script>
 </head>
 <body class="selection_body">
     <div class="selection_container">
@@ -27,6 +29,7 @@
                 {{ form.name.errors }}
             </div>
         </div>
+        <span id="loading-spinner" class="loader not_visible"></span>
         <input type="submit" value="Select Generated Patient Journey" class="button">
     </form>
     {% else %}
@@ -34,19 +37,15 @@
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
     <h2>Welcome to the Patient Journey Generator of TracEX</h1>
     <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
+    <span id="loading-spinner" class="loader not_visible"></span>
     {% endif %}
 
-    <p></p>
-
-
     <a href="{% url 'journey_generation' %}">
-        <button>Generate New Patient Journey</button>
+        <button id="generate_button" class="menu_button">Generate New Patient Journey</button>
     </a>
 
-    <p></p>
-
     <a href="{% url 'landing_page' %}">
-        <button>Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX menu</button>
     </a>
 </div>
 </body>

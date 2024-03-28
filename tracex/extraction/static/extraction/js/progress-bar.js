@@ -1,7 +1,5 @@
 const execute_button = document.getElementById('execute_button');
 const progress_box = document.getElementById('progress_box');
-const result_button = document.getElementById('result_button');
-const csrf_token = document.getElementsByName('csrfmiddlewaretoken');
 
 function updateProgressBar() {
     $.ajax({
@@ -22,8 +20,6 @@ function updateProgressBar() {
             if (data.progress === 100) {
                 // Hide the progress bar and show the result button
                 execute_button.classList.add('not_visible');
-                result_button.classList.remove('not_visible');
-                result_button.classList.add('input_button');
                 
             } else {
                 // If progress is not 100, continue fetching progress

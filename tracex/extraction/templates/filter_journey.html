@@ -1,42 +1,15 @@
 <head>
     <title>Upload Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/progress-bar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <script src="{% static '/extraction/js/progress-bar.js' %}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% csrf_token %}
     <style>
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .form-column {
-            flex: 1;
-            margin-right: 5px;
-        }
-        .form-column:last-child {
-            margin-right: 0;
-        }
-        .input_button {
-            display: inline-block;
-            width: 100%;
-            padding: 10px;
-        }
         .previous_button{
             margin-bottom: 15px;
         }
-        .extraction_logo {
-            width: 350px;
-            height: auto;
-            display: block;
-            margin: 0 auto; 
-        }
-        .not_visible {
-             display: none;
-        }
-
     </style>
 </head>
 
@@ -67,17 +40,14 @@
             </div>
         </div>
 
-        <input type="submit" value="Execute Extraction Pipeline" id="execute_button" class="input_button">
+        <input type="submit" value="Execute Extraction Pipeline" id="execute_button" class="button">
     </form>
     
 
-    <a href="{% url 'result' %}">
-        <button id="result_button" class="not_visible">See Results</button>
-    </a>
     <a href="{{ request.META.HTTP_REFERER }}">
-        <button class="previous_button">Previous</button>
+        <button class="menu_button">Previous</button>
     </a>
     <a href="{% url 'landing_page' %}">
-        <button>Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>
