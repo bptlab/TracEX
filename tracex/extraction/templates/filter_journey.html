@@ -6,11 +6,6 @@
     <script src="{% static '/extraction/js/progress-bar.js' %}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% csrf_token %}
-    <style>
-        .previous_button{
-            margin-bottom: 15px;
-        }
-    </style>
 </head>
 
 
@@ -45,9 +40,9 @@
     
 
     <a href="{{ request.META.HTTP_REFERER }}">
-        <button class="menu_button">Previous</button>
+        <button class="menu_button_under_form">Previous</button>
     </a>
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button_under_form">Return to TracEX menu</button>
     </a>
 </body>

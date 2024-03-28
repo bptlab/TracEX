@@ -16,7 +16,11 @@ button, input[type="submit"].button  {
 }
 
 .menu_button, input[type="submit"].button{
-    margin-top: 20px;
+    margin-top: 15px;
+}
+
+.menu_button_under_form {
+    margin-bottom: 15px;
 }
 
 .item {
