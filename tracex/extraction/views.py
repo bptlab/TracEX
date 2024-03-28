@@ -50,7 +50,6 @@ class JourneyInputView(generic.CreateView):
         )
         orchestrator = Orchestrator(configuration)
         response = super().form_valid(form)
-        orchestrator.db_objects["patient_journey"] = self.object.id
 
         return response
 
@@ -64,7 +63,7 @@ class JourneyFilterView(generic.FormView):
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         orchestrator = Orchestrator.get_instance()
-        orchestrator.db_objects["patient_journey"] = self.object.id
+        orchestrator.db_objects["patient_journey"] = orchestrator.configuration.patient_journey
         orchestrator.configuration.update(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],

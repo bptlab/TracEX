@@ -166,5 +166,4 @@ class Orchestrator:
         percentage = round(((current_step / modules_number) * 100),2)
         view.request.session["progress"] = percentage
         view.request.session["status"] = module_name
-        print(view.request.session["status"])
         view.request.session.save()
