@@ -125,7 +125,7 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .landing_page_container {
@@ -175,12 +175,11 @@ h2 {
 }
 
 .landing_page_logo {
-    max-width: 700px;
-    margin-bottom: 10px;
-    margin-top: 200px;
-    display: block;
-    margin: 0 auto;
+    max-width: 95%;
+    height: auto;
+    object-fit: contain;
 }
+
 
 .selection_logo {
     max-width: 800px;
