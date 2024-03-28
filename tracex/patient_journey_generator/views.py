@@ -28,7 +28,6 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         orchestrator = Orchestrator.get_instance()
         form.instance.patient_journey = orchestrator.configuration.patient_journey
         response = super().form_valid(form)
-        orchestrator.db_objects["patient_journey"] = self.object.id
 
         return response
 
