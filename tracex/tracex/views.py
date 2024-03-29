@@ -1,11 +1,10 @@
 """This file contains the views for the landing page of the tracex app."""
-from django.shortcuts import render
-import django.views.generic as generic
+import django.views.generic as TemplateView
 
 
-class TracexLandingPage(generic.TemplateView):
+class TracexLandingPage(TemplateView):
     """View for the landing page of the tracex app."""
-    
+
     template_name = "landing_page.html"
 
     def get_context_data(self, **kwargs):

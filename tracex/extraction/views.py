@@ -54,7 +54,7 @@ class JourneyInputView(generic.CreateView):
 
 class JourneyFilterView(generic.FormView):
     """View for selecting extraction results filter"""
-    
+
     form_class = FilterForm
     template_name = "filter_journey.html"
     success_url = reverse_lazy("result")
@@ -81,7 +81,7 @@ class JourneyFilterView(generic.FormView):
         self.request.session.save()
 
         return super().form_valid(form)
-    
+
     def get(self, request):
         """Return a JSON response with the current progress of the pipeline."""
         is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
@@ -92,7 +92,7 @@ class JourneyFilterView(generic.FormView):
                 "status": self.request.session.get("status"),
                     }
                 return JsonResponse(progress_information)
-            
+
         return super().get(request)
 
 

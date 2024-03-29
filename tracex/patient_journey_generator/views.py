@@ -2,10 +2,11 @@
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.shortcuts import redirect
-from . import patient_journey_generator
 from patient_journey_generator.forms import GenerationOverviewForm
-from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from . import patient_journey_generator
+
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 

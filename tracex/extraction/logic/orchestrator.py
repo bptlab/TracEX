@@ -160,7 +160,7 @@ class Orchestrator:
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
-    
+
     def update_progress(self, view, current_step, modules_number, module_name):
         """Update the progress of the extraction."""
         percentage = round(((current_step / modules_number) * 100),2)
