@@ -1,16 +1,16 @@
 """This file contains the views for the patient journey generator app."""
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views.generic import CreateView, TemplateView
+from django.shortcuts import redirect
+from . import patient_journey_generator
 from patient_journey_generator.forms import GenerationOverviewForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
-from . import patient_journey_generator
-from django.shortcuts import redirect
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
-class JourneyGeneratorOverviewView(generic.CreateView):
+class JourneyGeneratorOverviewView(CreateView):
     """View for the landing page of the patient journey generator."""
 
     form_class = GenerationOverviewForm
@@ -32,13 +32,13 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         return response
 
 
-class JourneyGenerationView(generic.TemplateView):
+class JourneyGenerationView(TemplateView):
     """View for the patient journey generation"""
 
     template_name = "journey_generation.html"
     success_url = reverse_lazy("journey_generator_overview")
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         """Generate a patient journey and save it in the cache."""
         orchestrator = Orchestrator()
 
@@ -52,7 +52,6 @@ class JourneyGenerationView(generic.TemplateView):
             # This automatically updates the configuration with the generated patient journey
             configuration = ExtractionConfiguration(patient_journey=patient_journey_generator.generate())
             orchestrator.set_configuration(configuration)
-            request.session["generated_journey"] = orchestrator.configuration.patient_journey        
+            request.session["generated_journey"] = orchestrator.configuration.patient_journey
 
         return redirect(self.success_url)
-    

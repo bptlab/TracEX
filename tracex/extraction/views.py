@@ -8,7 +8,7 @@ from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse, HttpResponseBadRequest
+from django.http import JsonResponse
 
 from tracex.logic import utils
 from .forms import JourneyForm, ResultForm, FilterForm
@@ -29,7 +29,6 @@ class JourneyInputView(generic.CreateView):
     template_name = "upload_journey.html"
     success_url = reverse_lazy("journey_filter")
 
-    
     def get_context_data(self, **kwargs):
         """Clear session variables"""
         self.request.session["is_extracted"] = False
@@ -48,7 +47,7 @@ class JourneyInputView(generic.CreateView):
         configuration = ExtractionConfiguration(
             patient_journey=content,
         )
-        orchestrator = Orchestrator(configuration)
+        Orchestrator(configuration)
         response = super().form_valid(form)
 
         return response
