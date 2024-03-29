@@ -102,7 +102,7 @@ class Orchestrator:
         print("Initialization of modules successful.")
         return modules
 
-    def run(self, view):
+    def run(self, view=None):
         """Run the modules."""
         modules = self.initialize_modules()
         modules_number = len(modules) + 2
@@ -163,7 +163,8 @@ class Orchestrator:
 
     def update_progress(self, view, current_step, modules_number, module_name):
         """Update the progress of the extraction."""
-        percentage = round(((current_step / modules_number) * 100),2)
-        view.request.session["progress"] = percentage
-        view.request.session["status"] = module_name
-        view.request.session.save()
+        if view is not None:
+            percentage = round(((current_step / modules_number) * 100),2)
+            view.request.session["progress"] = percentage
+            view.request.session["status"] = module_name
+            view.request.session.save()

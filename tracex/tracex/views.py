@@ -1,5 +1,5 @@
 """This file contains the views for the landing page of the tracex app."""
-import django.views.generic as TemplateView
+from django.views.generic import TemplateView
 
 
 class TracexLandingPage(TemplateView):

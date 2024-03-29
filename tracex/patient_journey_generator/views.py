@@ -3,8 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, TemplateView
 from django.shortcuts import redirect
 from patient_journey_generator.forms import GenerationOverviewForm
-from tracex.logic import constants
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from tracex.logic import constants
 from . import patient_journey_generator
 
 
