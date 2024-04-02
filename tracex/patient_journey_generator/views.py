@@ -4,7 +4,7 @@ from django.views import generic
 from extraction.forms import GenerationForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
-from . import patient_journey_generator
+from .generator import generate_patient_journey
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
@@ -35,8 +35,9 @@ class JourneyGenerationView(generic.CreateView):
                 configuration = ExtractionConfiguration(patient_journey=journey)
                 orchestrator.set_configuration(configuration)
         else:
-            # This automatically updates the configuration with the generated patient journey
-            configuration = ExtractionConfiguration(patient_journey=patient_journey_generator.generate())
+            configuration = ExtractionConfiguration(
+                patient_journey=generate_patient_journey()
+            )
             orchestrator.set_configuration(configuration)
 
         context["generated_journey"] = orchestrator.configuration.patient_journey
@@ -57,4 +58,3 @@ class JourneyGenerationView(generic.CreateView):
         orchestrator.db_objects["patient_journey"] = self.object.id
 
         return response
-    

@@ -8,7 +8,7 @@ from tracex.logic import constants as c
 from . import prompts as p
 
 
-def generate():
+def generate_patient_journey():
     """Creates a new patient journey with the help of the GPT engine."""
     print(
         "Please wait while the system is generating a patient journey. This may take a few moments."
@@ -33,6 +33,7 @@ def generate():
         + '" generated.'
     )
     return patient_journey
+
 
 def create_patient_journey_context():
     """Creation of a patient journey."""
@@ -137,8 +138,6 @@ def get_life_circumstances(sex):
                 include more than 50 words.""",
         }
     ]
-    life_circumstances = u.query_gpt(
-        messages=message, max_tokens=100, temperature=1
-    )
+    life_circumstances = u.query_gpt(messages=message, max_tokens=100, temperature=1)
 
     return life_circumstances
