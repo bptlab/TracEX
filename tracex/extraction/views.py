@@ -87,12 +87,11 @@ class JourneyFilterView(generic.FormView):
         """Return a JSON response with the current progress of the pipeline."""
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
-            if request.method == "GET":
-                progress_information = {
-                    "progress": self.request.session.get("progress"),
-                    "status": self.request.session.get("status"),
-                }
-                return JsonResponse(progress_information)
+            progress_information = {
+                "progress": self.request.session.get("progress"),
+                "status": self.request.session.get("status"),
+            }
+            return JsonResponse(progress_information)
 
         return super().get(request)
 

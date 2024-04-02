@@ -11,5 +11,5 @@ class TracexLandingPage(TemplateView):
         """Reset session variables."""
         context = super().get_context_data(**kwargs)
         self.request.session.flush()
-        
+
         return context
