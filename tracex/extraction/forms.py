@@ -90,5 +90,6 @@ class JourneyForm(forms.ModelForm):
 class FilterForm(BaseEventForm):
     """Form for selecting filter for extraction result"""
 
+
 class ResultForm(BaseEventForm):
     """Form for displaying results of event extraction."""
