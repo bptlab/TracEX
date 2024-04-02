@@ -1,7 +1,7 @@
 """Test cases for the extraction app."""
-import pandas as pd
 from unittest.mock import MagicMock
 from django.test import TestCase
+import pandas as pd
 
 from tracex_project.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex_project.extraction.logic.modules.module_activity_labeler import ActivityLabeler
@@ -144,9 +144,6 @@ class EventTypeClassifierTests(TestCase):
         result = event_type_classifier.execute(input_dataframe)
         self.assertIsInstance(result, pd.DataFrame)
         self.assertIn("event_type", result.columns)
-
-    def test_event_types(self):
-        pass
 
 
 class LocationExtractorTests(TestCase):

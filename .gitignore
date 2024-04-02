@@ -1,6 +1,7 @@
 # Content directory
-tracex/extraction/content/inputs
-tracex/extraction/content/outputs
+tracex_project/extraction/content/inputs
+tracex_project/extraction/content/outputs
+tracex_project/db.sqlite3
 
 *.log
 
