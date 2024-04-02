@@ -3,11 +3,11 @@ import pandas as pd
 from unittest.mock import MagicMock
 from django.test import TestCase
 
-from tracex.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from tracex.extraction.logic.modules.module_activity_labeler import ActivityLabeler
-from tracex.extraction.logic.modules.module_time_extractor import TimeExtractor
-from tracex.extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
-from tracex.extraction.logic.modules.module_location_extractor import LocationExtractor
+from tracex_project.extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from tracex_project.extraction.logic.modules.module_activity_labeler import ActivityLabeler
+from tracex_project.extraction.logic.modules.module_time_extractor import TimeExtractor
+from tracex_project.extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
+from tracex_project.extraction.logic.modules.module_location_extractor import LocationExtractor
 
 
 class OrchestratorTests(TestCase):
