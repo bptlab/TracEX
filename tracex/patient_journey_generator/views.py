@@ -44,15 +44,21 @@ class JourneyGenerationView(TemplateView):
         orchestrator = Orchestrator()
 
         if IS_TEST:
-            with open(str(constants.input_path / "journey_synth_covid_1.txt"), "r") as file:
+            with open(
+                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
+            ) as file:
                 journey = file.read()
                 configuration = ExtractionConfiguration(patient_journey=journey)
                 orchestrator.set_configuration(configuration)
                 self.request.session["generated_journey"] = journey
         else:
             # This automatically updates the configuration with the generated patient journey
-            configuration = ExtractionConfiguration(patient_journey=patient_journey_generator.generate())
+            configuration = ExtractionConfiguration(
+                patient_journey=patient_journey_generator.generate()
+            )
             orchestrator.set_configuration(configuration)
-            request.session["generated_journey"] = orchestrator.configuration.patient_journey
+            request.session[
+                "generated_journey"
+            ] = orchestrator.configuration.patient_journey
 
         return redirect(self.success_url)

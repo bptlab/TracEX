@@ -52,6 +52,7 @@ class JourneyInputView(generic.CreateView):
 
         return response
 
+
 class JourneyFilterView(generic.FormView):
     """View for selecting extraction results filter"""
 
@@ -62,7 +63,9 @@ class JourneyFilterView(generic.FormView):
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         orchestrator = Orchestrator.get_instance()
-        orchestrator.db_objects["patient_journey"] = orchestrator.configuration.patient_journey
+        orchestrator.db_objects[
+            "patient_journey"
+        ] = orchestrator.configuration.patient_journey
         orchestrator.configuration.update(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
@@ -84,13 +87,13 @@ class JourneyFilterView(generic.FormView):
 
     def get(self, request):
         """Return a JSON response with the current progress of the pipeline."""
-        is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
-            if request.method == 'GET':
+            if request.method == "GET":
                 progress_information = {
-                "progress": self.request.session.get("progress"),
-                "status": self.request.session.get("status"),
-                    }
+                    "progress": self.request.session.get("progress"),
+                    "status": self.request.session.get("status"),
+                }
                 return JsonResponse(progress_information)
 
         return super().get(request)
@@ -113,9 +116,7 @@ class ResultView(generic.FormView):
             "attribute_location": orchestrator.configuration.locations,
         }
 
-        output_path_xes = (
-            f"{str(utils.output_path / 'single_trace')}_event_type.xes"
-        )
+        output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
         single_trace_df = pm4py.read_xes(output_path_xes)
 
         # 2. Sort and filter the single journey dataframe

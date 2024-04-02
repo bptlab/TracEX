@@ -11,7 +11,7 @@ from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
-from .modules.module_preprocessing_patient_journey import Preprocessor
+from .modules.module_patient_journey_preprocessor import Preprocessor
 
 # from .modules.module_metrics_analyzer import MetricsAnalyzer
 # from .modules.module_event_log_comparator import EventLogComparator
@@ -111,12 +111,13 @@ class Orchestrator:
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            self.update_progress(view, current_step, modules_number, "Preprocessing" )
-            patient_journey = preprocessor.execute(patient_journey=self.configuration.patient_journey)
+            self.update_progress(view, current_step, modules_number, "Preprocessing")
+            patient_journey = preprocessor.execute(
+                patient_journey=self.configuration.patient_journey
+            )
             current_step += 1
 
-
-        self.update_progress(view, current_step, modules_number, "Cohort Tagger" )
+        self.update_progress(view, current_step, modules_number, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
         ]().execute_and_save(self.data, patient_journey)
@@ -164,7 +165,7 @@ class Orchestrator:
     def update_progress(self, view, current_step, modules_number, module_name):
         """Update the progress of the extraction."""
         if view is not None:
-            percentage = round(((current_step / modules_number) * 100),2)
+            percentage = round(((current_step / modules_number) * 100), 2)
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
             view.request.session.save()

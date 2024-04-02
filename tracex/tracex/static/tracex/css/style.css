@@ -133,7 +133,7 @@ h2 {
 }
 
 
-/* EXTRACTION */ 
+/* EXTRACTION */
 
 .dfg-container img {
     width: 100%;
@@ -188,20 +188,20 @@ h2 {
 }
 
 .patient_journey_generator_logo {
-    width: 280px; 
-    height: auto; 
+    width: 280px;
+    height: auto;
     }
 
 .extraction_logo {
     width: 350px;
     height: auto;
     display: block;
-    margin: 0 auto; 
+    margin: 0 auto;
 }
 
 /* PAGE TRANSITIONS */
 .landing_page_body, .selection_body, .main_body {
-    animation: transitionIn 1s; 
+    animation: transitionIn 1s;
 }
 
 

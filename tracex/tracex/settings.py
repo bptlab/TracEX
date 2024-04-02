@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     "tracex",
     "patient_journey_generator",
+    "tracex",
+    "patient_journey_generator",
     "extraction",
     "django.contrib.admin",
     "django.contrib.auth",
