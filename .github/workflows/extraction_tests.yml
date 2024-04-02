@@ -18,6 +18,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install openai==1.5.0
+        pip install django
         pip install pm4py
         pip install pandas
         pip install numpy
