@@ -83,12 +83,12 @@ class TimeExtractorBackup(Module):
         )
         mask = converted_start.isna()
         df.loc[mask, "start"] = converted_start
-        df["start"].ffill()
+        df["start"].ffill(inplace=True)
 
         converted_end = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
         mask = converted_end.isna()
         df.loc[mask, "end"] = converted_end
-        df["end"].ffill()
+        df["end"].ffill(inplace=True)
 
         df = df.apply(fix_end_dates, axis=1)
 
