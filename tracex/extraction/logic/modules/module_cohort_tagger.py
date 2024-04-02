@@ -40,7 +40,7 @@ class CohortTagger(Module):
             key: value for key, value in cohort_data.items() if value != "N/A"
         }
 
-        # if all values are "N/A" ther is no use in saving the results
+        # if all values are "N/A" there is no use in saving the results
         # return 0 indicates to the calling function, that there is no Cohort
         # it expects a database id and 0 is not a valid id
         if not any(value != "NA" for value in valid_cohort_data.values()):

@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from .modules.module_patient_journey_generator import PatientJourneyGenerator
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_cohort_tagger import CohortTagger
-from .modules.module_time_extractor_backup import TimeExtractorBackup
+from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 from .modules.module_preprocessing_patient_journey import Preprocessor
@@ -36,7 +36,7 @@ class ExtractionConfiguration:
         "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
-        "time_extraction": TimeExtractorBackup,
+        "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
         # "metrics_analyzer": MetricsAnalyzer,
@@ -110,8 +110,9 @@ class Orchestrator:
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            patient_journey = preprocessor.execute(patient_journey=self.configuration.patient_journey)
-
+            patient_journey = preprocessor.execute(
+                patient_journey=self.configuration.patient_journey
+            )
 
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"

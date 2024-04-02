@@ -28,16 +28,10 @@ class ActivityLabeler(Module):
     def __extract_activities(self):
         """Converts the input text to activity_labels."""
         name = "activity"
-        messages = [
-            {"role": "system", "content": p.TXT_TO_ACTIVITY_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.TXT_TO_ACTIVITY_PROMPT} {self.patient_journey}",
-            },
-            {"role": "assistant", "content": p.TXT_TO_ACTIVITY_ANSWER},
-        ]
+        messages = p.TEXT_TO_ACTIVITY_MESSAGES
+        messages.append({"role": "user", "content": self.patient_journey})
         activity_labels = u.query_gpt(messages)
-        # TODO: adjust prompt to remove "-" instead of replace()
-        activity_labels = activity_labels.replace("- ", "").split("\n")
+        activity_labels = activity_labels.split("\n")
         df = pd.DataFrame(activity_labels, columns=[name])
+
         return df

@@ -31,35 +31,18 @@ class EventTypeClassifier(Module):
         """Adds event types to the activity labels."""
         name = "event_type"
         df[name] = df["activity"].apply(self.__classify_event_type)
-        # document_intermediates(output)
+
+        df.to_csv(
+            u.output_path / "intermediates/activities_with_event_types.csv", index=False
+        )
 
         return df
 
     @staticmethod
     def __classify_event_type(activity_label):
         """Classify the event type for a given activity."""
-        messages = [
-            {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.EVENT_TYPE_PROMPT}\n The bulletpoint: {activity_label}",
-            },
-            {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
-        ]
-        output = u.query_gpt(messages)
-        fc_message = [
-            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.FC_EVENT_TYPE_PROMPT} The text: {output}",
-            },
-        ]
-        event_type = u.query_gpt(
-            messages=fc_message,
-            tool_choice={
-                "type": "function",
-                "function": {"name": "add_event_type"},
-            },
-        )
+        messages = p.EVENT_TYPE_MESSAGES
+        messages.append({"role": "user", "content": activity_label})
+        event_type = u.query_gpt(messages)
 
         return event_type

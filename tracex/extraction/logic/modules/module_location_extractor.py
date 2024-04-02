@@ -22,36 +22,21 @@ class LocationExtractor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
+
         return self.__add_locations(df)
 
     def __add_locations(self, df):
         """Adds locations to the activity labels."""
         name = "attribute_location"
         df[name] = df["activity"].apply(self.__classify_location)
-        # document_intermediates(output)
 
         return df
 
     @staticmethod
     def __classify_location(activity_label):
         """Classify the location for a given activity."""
-        messages = [
-            {"role": "system", "content": p.LOCATION_CONTEXT},
-            {"role": "user", "content": f"{p.LOCATION_PROMPT} {activity_label}"},
-            {"role": "assistant", "content": p.LOCATION_ANSWER},
-        ]
-        output = u.query_gpt(messages)
-
-        fc_message = [
-            {"role": "system", "content": p.FC_LOCATION_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.FC_LOCATION_PROMPT} The text: {output}",
-            },
-        ]
-        location = u.query_gpt(
-            messages=fc_message,
-            tool_choice={"type": "function", "function": {"name": "add_location"}},
-        )
+        messages = p.LOCATION_MESSAGES
+        messages.append({"role": "user", "content": activity_label})
+        location = u.query_gpt(messages)
 
         return location

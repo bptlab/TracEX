@@ -16,7 +16,7 @@ class Preprocessor(Module):
 
     def __init__(self):
         super().__init__()
-        self.name = "Preprocessing Module"
+        self.name = "Preprocessor"
         self.description = "Preprocesses patient input for better data quality."
 
     @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
@@ -28,6 +28,9 @@ class Preprocessor(Module):
         preprocessed_text = self.transform_timestamps(preprocessed_text)
         preprocessed_text = self.interprete_timestamps(preprocessed_text)
         preprocessed_text = self.calculate_timestamps(preprocessed_text)
+
+        with open(u.output_path / "intermediates/preprocessed_text.txt", "w") as file:
+            file.write(preprocessed_text)
 
         return preprocessed_text
 
