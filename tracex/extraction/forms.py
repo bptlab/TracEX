@@ -62,7 +62,7 @@ class BaseEventForm(forms.Form):
             )
 
 
-class JourneyForm(forms.Form, forms.ModelForm):
+class JourneyForm(forms.ModelForm):
     """Form for extracting events from a patient journey."""
 
     class Meta:
