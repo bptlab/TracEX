@@ -29,15 +29,6 @@ class JourneyInputView(generic.CreateView):
     template_name = "upload_journey.html"
     success_url = reverse_lazy("journey_filter")
 
-    def get_context_data(self, **kwargs):
-        """Clear session variables"""
-        self.request.session["is_extracted"] = False
-        self.request.session["progress"] = 0
-        self.request.session["status"] = None
-        self.request.session.save()
-
-        return super().get_context_data(**kwargs)
-
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         uploaded_file = self.request.FILES.get("file")
@@ -92,6 +83,11 @@ class JourneyFilterView(generic.FormView):
                 "status": self.request.session.get("status"),
             }
             return JsonResponse(progress_information)
+        else:
+            self.request.session["is_extracted"] = False
+            self.request.session["progress"] = 0
+            self.request.session["status"] = None
+            self.request.session.save()
 
         return super().get(request)
 

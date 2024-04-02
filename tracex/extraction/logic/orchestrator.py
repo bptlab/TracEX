@@ -166,7 +166,7 @@ class Orchestrator:
     def update_progress(view, current_step, modules_number, module_name):
         """Update the progress of the extraction."""
         if view is not None:
-            percentage = round(((current_step / modules_number) * 100), 2)
+            percentage = round((current_step / modules_number) * 100)
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
             view.request.session.save()

@@ -22,7 +22,7 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         """Add the patient journey to the context."""
         context = super().get_context_data(**kwargs)
         context["generated_journey"] = self.request.session.get("generated_journey")
-        
+
         return context
 
     def form_valid(self, form):
