@@ -83,11 +83,11 @@ class JourneyFilterView(generic.FormView):
                 "status": self.request.session.get("status"),
             }
             return JsonResponse(progress_information)
-        else:
-            self.request.session["is_extracted"] = False
-            self.request.session["progress"] = 0
-            self.request.session["status"] = None
-            self.request.session.save()
+
+        self.request.session["is_extracted"] = False
+        self.request.session["progress"] = 0
+        self.request.session["status"] = None
+        self.request.session.save()
 
         return super().get(request)
 
