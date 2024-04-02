@@ -87,6 +87,7 @@ class JourneyForm(forms.ModelForm):
     )
     field_order = ["file", "name", "event_types", "locations"]
 
+
 class FilterForm(BaseEventForm):
     """Form for selecting filter for extraction result"""
 
