@@ -1,8 +1,9 @@
 """Implementation of forms for the extraction app."""
 from django import forms
 
+from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 from .models import PatientJourney
-from .logic.constants import EVENT_TYPES, LOCATIONS
+
 
 
 class BaseEventForm(forms.Form):

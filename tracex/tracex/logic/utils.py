@@ -1,5 +1,4 @@
 """Module providing various utility functions for the project."""
-# pylint: disable=unused-import
 import os
 from io import StringIO, BytesIO
 from pathlib import Path
@@ -15,18 +14,19 @@ import pm4py
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from openai import OpenAI
-from . import function_calls
-from .constants import (
+from tracex.logic.logger import log_tokens_used
+from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
     output_path,
-    input_path,
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
-from .logging import log_tokens_used
+
+from . import function_calls
+
 
 
 def deprecated(func):
@@ -69,7 +69,7 @@ def query_gpt(
 
     tools = function_calls.TOOLS if tools is None else tools
 
-    @log_tokens_used(Path(settings.BASE_DIR / "extraction/logs/tokens_used.log"))
+    @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
         """Queries the GPT engine."""
         client = OpenAI(api_key=oaik)

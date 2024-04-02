@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <title>TracEX</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <style>
+        button {
+            margin: 10px 0; /* Add some margin around buttons */
+        }
+    </style>
+</head>
+
+<body class="landing_page_body">
+    <div class="landing_page_container">
+        <img src="{% static '/tracex/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="landing_page_logo">
+        <div class="landing_page_menu">
+            <div class="item patient_journey_generator">
+                <a href="{% url 'journey_generator_overview' %}">
+                <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
+                <span class="item_text">Patient Journey Generator</span>
+            </div>
+            <div class="item extraction">
+                <a href="{% url 'journey_input' %}">
+                <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
+                <span class="item_text">Pipeline Extraction</span> </a>
+            </div>
+            <div class="item result_dashboard">
+                <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Result Dashboard Logo" class="result_dashboard_logo">
+                <span class="item_text">Results Dashboard</span>
+            </div>
+            <div class="item testing_environment">
+                <img src="{% static '/tracex/img/test_environment_logo.png' %}" alt="Test Environment Logo" class="test_environment_logo">
+                <span class="item_text">Event Log Testing Environment</span>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

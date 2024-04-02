@@ -10,9 +10,9 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import redirect
 
-from .forms import JourneyForm, GenerationForm, ResultForm
+from tracex.logic import utils
+from .forms import JourneyForm, ResultForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
-from .logic import utils, constants
 from .models import Trace
 
 # necessary due to Windows error. see information for your os here:
@@ -20,17 +20,6 @@ from .models import Trace
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
-
-
-def redirect_to_selection(request):
-    """Redirect to selection page."""
-    return redirect("selection")
-
-
-class SelectionView(generic.TemplateView):
-    """View for selecting a patient journey."""
-
-    template_name = "selection.html"
 
 
 class JourneyInputView(generic.CreateView):
@@ -57,51 +46,6 @@ class JourneyInputView(generic.CreateView):
         orchestrator.db_objects["patient_journey"] = self.object.id
 
         return response
-
-
-class JourneyGenerationView(generic.CreateView):
-    """View for generating a patient journey."""
-
-    form_class = GenerationForm
-    template_name = "generation.html"
-    success_url = reverse_lazy("processing")
-
-    def get_context_data(self, **kwargs):
-        """Generate a patient journey and save it in the cache."""
-        context = super().get_context_data(**kwargs)
-        orchestrator = Orchestrator()
-
-        if IS_TEST:
-            with open(
-                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
-            ) as file:
-                journey = file.read()
-                configuration = ExtractionConfiguration(patient_journey=journey)
-                orchestrator.set_configuration(configuration)
-        else:
-            # This automatically updates the configuration with the generated patient journey
-            orchestrator.generate_patient_journey()
-
-        context["generated_journey"] = orchestrator.configuration.patient_journey
-
-        return context
-
-    def form_valid(self, form):
-        """Save the generated journey in the orchestrator's configuration."""
-        self.request.session["is_extracted"] = False
-        orchestrator = Orchestrator.get_instance()
-        orchestrator.configuration.update(
-            # This should not be necessary, unspecefied values should be unchanged
-            patient_journey=orchestrator.configuration.patient_journey,
-            event_types=form.cleaned_data["event_types"],
-            locations=form.cleaned_data["locations"],
-        )
-        form.instance.patient_journey = orchestrator.configuration.patient_journey
-        response = super().form_valid(form)
-        orchestrator.db_objects["patient_journey"] = self.object.id
-
-        return response
-
 
 class ProcessingView(generic.TemplateView):
     """View for processing the patient journey."""
