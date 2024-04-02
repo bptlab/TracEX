@@ -11,7 +11,7 @@ from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor_backup import TimeExtractorBackup
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
-from .modules.module_preprocessing_patient_journey import Preprocessor
+from .modules.module_patient_journey_preprocessor import Preprocessor
 
 # from .modules.module_metrics_analyzer import MetricsAnalyzer
 # from .modules.module_event_log_comparator import EventLogComparator
