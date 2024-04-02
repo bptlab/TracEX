@@ -19,5 +19,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install django
         pip install pylint
+        pip install pandas
     - name: Run extraction tests
       run: python tracex_project/manage.py test tracex_project/extraction
