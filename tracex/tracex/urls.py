@@ -4,10 +4,8 @@ from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
-from . import views
 
 urlpatterns = [
-    path("", include("patient_journey_generator.urls")),
     path("", include("patient_journey_generator.urls")),
     path("", include("extraction.urls")),
     path("", views.TracexLandingPage.as_view(), name="landing_page"),
