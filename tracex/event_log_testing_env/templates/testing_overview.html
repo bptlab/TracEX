@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Event Log Testing Environment</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    </head>
+<body class="main_body">
+    <img src="{% static '/tracex/img/test_environment_logo.png' %}" alt="Testing Environment Logo" class="test_environment_logo">
+    <h2>Welcome to the Event Log Testing Environment</h2>
+    <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
+    <p> Please select one patient journey as ground truth to compare it against the extraction pipeline result.</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</body>
+</html>

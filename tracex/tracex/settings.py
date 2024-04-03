@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "tracex",
     "patient_journey_generator",
     "extraction",
+    "event_log_testing_env",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
