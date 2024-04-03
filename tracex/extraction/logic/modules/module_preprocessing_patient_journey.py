@@ -30,7 +30,7 @@ class Preprocessor(Module):
         preprocessed_text = self.calculate_timestamps(preprocessed_text)
         preprocessed_text = preprocessed_text.replace("\n", " ")
         patient_journey_list = preprocessed_text.split(". ")
-        
+
         return patient_journey_list
 
     def spellcheck(self, text):

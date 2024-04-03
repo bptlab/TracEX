@@ -16,16 +16,19 @@ TEXT_TO_ACTIVITY_MESSAGES = [
         "content": """You are an expert in text understanding and summarization. Your Job is to take a given text about
             an illness and convert it into bullet points regarding all important points about the course of the disease.
             Do not include time dates and use a miximum of 6 words per bullet point.
-            Include the number of the sentence in the text from which you take the bullet point. The related numbers are in front of the sentences.""",
+            Include the number of the sentence in the text from which you take the bullet point.
+            The related numbers are in front of the sentences.""",
     },
     {
         "role": "user",
-        "content": "1: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.\
-            \n2: Four days later I went to the doctor and got tested positive for Covid19.\n3: Then I got hospitalized for two weeks.",
+        "content": "1: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, \
+            and a low-grade fever.\n2: Four days later I went to the doctor and got tested positive for Covid19.\
+            \n3: Then I got hospitalized for two weeks.",
     },
     {
         "role": "assistant",
-        "content": "starting to experience symptoms #1\nvisiting doctor's #2\ntesting positive for Covid19 #2\ngetting admissioned to hospital #3\ngetting discharged from hospital #3",
+        "content": "starting to experience symptoms #1\nvisiting doctor's #2\ntesting positive for Covid19 #2\
+            \ngetting admissioned to hospital #3\ngetting discharged from hospital #3",
     },
     {
         "role": "user",
@@ -40,7 +43,8 @@ TEXT_TO_ACTIVITY_MESSAGES = [
     {"role": "assistant", "content": "starting to experience symptoms #5"},
     {
         "role": "user",
-        "content": "1: On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days.\n2: Initially, I had a mild cough and fatigue.",
+        "content": "1: On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days.\
+            \n2: Initially, I had a mild cough and fatigue.",
     },
     {
         "role": "assistant",
@@ -51,49 +55,50 @@ TEXT_TO_ACTIVITY_MESSAGES = [
 START_DATE_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text understanding and your job is to take a given text and a given activity label and to
-            extract a start date to this activity label. Only output the extracted start date! Rely also on the context.""",
+        "content": """You are an expert in text understanding and your job is to take a given text and a given
+            activity label and to extract a start date to this activity label. Only output the extracted start date!
+            Rely also on the context.""",
     },
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
-        Activity Label: experiencing mild symptoms""",
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough,
+            fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\nActivity Label: experiencing mild symptoms""",
     },
     {"role": "assistant", "content": """20200401T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
-        Activity Label: testing positive for Covid19""",
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19""",
     },
     {"role": "assistant", "content": """20200405T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
-        Activity Label: getting infected again""",
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\nActivity Label: getting infected again""",
     },
     {"role": "assistant", "content": """20200601T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
-        Activity Label: having back pain""",
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\nActivity Label: having back pain""",
     },
     {"role": "assistant", "content": """N/A"""},
     {
         "role": "user",
         "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\n
-        Activity Label: starting to experience symptoms""",
+            In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+            I had heavy side effects.\nActivity Label: starting to experience symptoms""",
     },
     {"role": "assistant", "content": """20210701T0000"""},
     {
         "role": "user",
         "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\n
-        Activity Label: experiencing side effects of vaccination""",
+            In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+            I had heavy side effects.\nActivity Label: experiencing side effects of vaccination""",
     },
     {"role": "assistant", "content": """20211104T0000"""},
 ]
@@ -101,56 +106,60 @@ START_DATE_MESSAGES = [
 END_DATE_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text understanding and your job is to take a given text, a given activity label and a given timestamp for the
-            beginning of this activity and to then extract an end date to this activity label. Only output the extracted start date! Rely also on the context.
-            Use averages if necessary. If there is no information about the end date at all, please state the start date also as the end date.""",
+        "content": """You are an expert in text understanding and your job is to take a given text, a given activity label
+            and a given timestamp for the beginning of this activity and to then extract an end date to this activity label.
+            Only output the extracted start date! Rely also on the context. Use averages if necessary.
+            If there is no information about the end date at all, please state the start date also as the end date.""",
     },
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
-        Activity Label: experiencing mild symptoms\nStart Date: 20200401T0000""",
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\n
+            Activity Label: experiencing mild symptoms\nStart Date: 20200401T0000""",
     },
     {"role": "assistant", "content": """20200405T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\n
         Activity Label: testing positive for Covid19\nStart Date: 20200405T0000""",
     },
     {"role": "assistant", "content": """20200405T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\n
         Activity Label: getting infected again\nStart Date: 20200601T0000""",
     },
     {"role": "assistant", "content": """20200615T0000"""},
     {
         "role": "user",
-        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-    Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\n
+        "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
+            In June I got infected again. After that I had a back pain.\n
         Activity Label: having back pain\nStart Date: N/A""",
     },
     {"role": "assistant", "content": """N/A"""},
     {
         "role": "user",
         "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\n
-        Activity Label: experiencing side effects of \nStart Date: 20211104T0000""",
+            In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+            I had heavy side effects.\nActivity Label: experiencing side effects of \nStart Date: 20211104T0000""",
     },
     {"role": "assistant", "content": """20211106T0000"""},
     {
         "role": "user",
         "content": """Text: Four days after the first april 2020 I went to the doctor and got tested positive for
-        Covid19. I was then hospitalized for two weeks.\n
-        Activity Label: getting hospitalized\nStart Date: 20200405T0000""",
+            Covid19. I was then hospitalized for two weeks.\nActivity Label: getting hospitalized\nStart Date: 20200405T0000""",
     },
     {"role": "assistant", "content": """20200419T0000"""},
     {
         "role": "user",
         "content": """Text: In the next time I made sure to improve my mental well being.\n
-        Activity Label: improving mental well being\nStart Date: 20210610T0000""",
+            Activity Label: improving mental well being\nStart Date: 20210610T0000""",
     },
     {"role": "assistant", "content": """20210710T0000"""},
 ]
@@ -158,8 +167,9 @@ END_DATE_MESSAGES = [
 EVENT_TYPE_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text categorization and your job is to take a given activity label and to classify it into one of the following event types:
-            'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor Visit', 'Treatment', 'Hospital Admission', 'Hospital Discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
+        "content": """You are an expert in text categorization and your job is to take a given activity label and to classify
+            it into one of the following event types: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor Visit', 'Treatment',
+            'Hospital Admission', 'Hospital Discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
             Please consider the capitalization.""",
     },
     {"role": "user", "content": "visiting doctor's"},
@@ -213,14 +223,18 @@ LOCATION_MESSAGES = [
 METRIC_ACTIVITY_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize it into
-            No Relevance, Low Relevance, Moderate Relevance or High Relevance.
+        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize
+            it into 'No Relevance', 'Low Relevance', 'Moderate Relevance' or 'High Relevance'.
             It is really important, that that relevance category is correct.
             Category definition:
-            No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
-            Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
-            Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
-            High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.""",
+            No Relevance: Events or actions that are not connected to the progression or impact
+                of the disease of the patient in any way.
+            Low Relevance: Events or actions that have limited potential to affect the progression of the disease
+                of the patient and hold minimal significance in its course.
+            Moderate Relevance: Events or actions that possess some potential to influence the disease's progression
+                of the patient but may not be critical to its outcome.
+            High Relevance: Events or actions that hold substantial potential to impact the disease's course
+                of the patient and are crucial in understanding its trajectory.""",
     },
     {"role": "user", "content": "receiving support from my children"},
     {"role": "assistant", "content": "Low Relevance"},
@@ -237,53 +251,60 @@ METRIC_ACTIVITY_MESSAGES = [
 METRIC_TIMESTAMP_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text understanding and your job is to take a given text and to check if a given start date and end date of a given bulletpoint are correct.
-            Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
-            If the start date and end date appearing in the context of the bulletpoint, you should output True.
-            If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
-            If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
+        "content": """You are an expert in text understanding and your job is to take a given text and to check if
+            a given start date and end date of a given bulletpoint are correct. Correct is a start and end date in the format
+            YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint. If the start date and
+            end date appearing in the context of the bulletpoint, you should output True. If there is another start or end date
+            in the patient journey, the given timestamps are wrong and you should output False. If the start or end date is
+            not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
             the estimation is reasonable and output True if it is and False if it is not.""",
     },
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210721T0000",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+            In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+            I had heavy side effects.\nActivity Label: starting to experience symptoms
+            \nStart Date: 20210721T0000\nEnd Date: 20210721T0000""",
     },
     {"role": "assistant", "content": "True"},
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210724T0000",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+        I had heavy side effects.\nActivity Label: starting to experience symptoms
+        \nStart Date: 20210721T0000\nEnd Date: 20210724T0000""",
     },
     {"role": "assistant", "content": "True"},
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 07/21/2021\nEnd Date: 20210721T0000",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+        I had heavy side effects.\nActivity Label: starting to experience symptoms
+        \nStart Date: 07/21/2021\nEnd Date: 20210721T0000""",
     },
     {"role": "assistant", "content": "False"},
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: N/A",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+        I had heavy side effects.\nActivity Label: starting to experience symptoms
+        \nStart Date: 20210721T0000\nEnd Date: N/A""",
     },
     {"role": "assistant", "content": "False"},
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211104T0000\nEnd Date: 20211107T0000",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+        I had heavy side effects.\nActivity Label: experiencing heavy side effects of vaccination
+        \nStart Date: 20211104T0000\nEnd Date: 20211107T0000""",
     },
     {"role": "assistant", "content": "True"},
     {
         "role": "user",
-        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
-        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211201T0000\nEnd Date: 20211204T0000",
+        "content": """Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine.
+        I had heavy side effects.\nActivity Label: experiencing heavy side effects of vaccination
+        \nStart Date: 20211201T0000\nEnd Date: 20211204T0000""",
     },
     {"role": "assistant", "content": "False"},
 ]
@@ -291,9 +312,9 @@ METRIC_TIMESTAMP_MESSAGES = [
 COMPARE_MESSAGES = [
     {
         "role": "system",
-        "content": """ You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and compare the semantic to each other.
-            So you take two bulletpoints and check if they are semantically similar.
-            You should return True if you think they are similar and False if you don't.""",
+        "content": """ You are an expert in text understanding and your job is to understand the semantical meaning of
+            bulletpoints and compare the semantic to each other. So you take two bulletpoints and check if they are
+            semantically similar. You should return True if you think they are similar and False if you don't.""",
     },
     {
         "role": "user",

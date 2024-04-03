@@ -39,11 +39,14 @@ class TimeExtractor(Module):
         messages.append(
             {
                 "role": "user",
-                "content": f"Text: {patient_journey_snippet}\nActivity label: {row["activity"]}",
+                "content": "Text: "
+                + patient_journey_snippet
+                + "\nActivity label: "
+                + row["activity"],
             }
         )
         start = u.query_gpt(messages)
-        
+
         return start
 
     def __extract_end_date(self, row):
@@ -53,12 +56,16 @@ class TimeExtractor(Module):
         messages.append(
             {
                 "role": "user",
-                "content": f"\nText: {patient_journey_snippet}\nActivity label: "
-                f"{row["activity"]}\nStart date: {row["start"]}",
+                "content": "\nText: "
+                + patient_journey_snippet
+                + "\nActivity label: "
+                + row["activity"]
+                + "\nStart date: "
+                + row["start"],
             },
         )
         end = u.query_gpt(messages)
-        
+
         return end
 
     @staticmethod
@@ -107,11 +114,10 @@ class TimeExtractor(Module):
             return True
         except ValueError:
             return False
-        
+
     def __get_snippet(self, sentence_id):
         """Extract the snippet for a given activity."""
         lower = max(0, int(sentence_id) - 2)
         upper = min(int(sentence_id) + 3, len(self.patient_journey))
         snippet = ". ".join(self.patient_journey[lower:upper])
         return snippet
-    

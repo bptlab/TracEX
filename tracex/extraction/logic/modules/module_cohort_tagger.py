@@ -28,7 +28,7 @@ class CohortTagger(Module):
     def __extract_cohort_tags(self):
         """Converts the input text to activity_labels."""
         patient_journey = ".\n".join(self.patient_journey)
-        
+
         cohort_data = {}
         for message_list in p.COHORT_TAG_MESSAGES:
             messages = message_list[1:]
