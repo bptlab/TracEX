@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "tracex",
+    "patient_journey_generator",
     "extraction",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -120,6 +122,7 @@ STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "extraction" / "static",
+    BASE_DIR / "tracex" / "static",
 ]
 
 # Default primary key field type

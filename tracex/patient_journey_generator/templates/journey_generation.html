@@ -3,7 +3,7 @@
 <title>Generation</title>
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <style>
         .form-row {
             display: flex;
@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <input type="submit" value="See the results" class="button">
+        <input type="submit" value="Execute Extraction Pipeline with this Patient Journey and Configuration" class="button">
     </form>
 
     <p></p>
@@ -71,8 +71,8 @@
 
     <p></p>
 
-    <a href="{% url 'selection' %}">
-        <button>Return to input selection</button>
+    <a href="{% url 'landing_page' %}">
+        <button>Return to TracEX menu</button>
     </a>
 </body>
 </html>

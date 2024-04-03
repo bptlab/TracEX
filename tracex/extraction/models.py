@@ -1,7 +1,7 @@
 """This module contains the models for the extraction app."""
 from django.db import models
 
-from .logic.constants import EVENT_TYPES, LOCATIONS
+from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 
 
 class PatientJourney(models.Model):

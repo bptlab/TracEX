@@ -2,10 +2,10 @@
 from pathlib import Path
 from django.conf import settings
 
-from ..logging import log_execution_time
+from tracex.logic.logger import log_execution_time
+from tracex.logic import utils as u
 from ..module import Module
 from .. import prompts as p
-from .. import utils as u
 
 
 class Preprocessor(Module):
@@ -19,7 +19,7 @@ class Preprocessor(Module):
         self.name = "Preprocessor"
         self.description = "Preprocesses patient input for better data quality."
 
-    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df=None, patient_journey=None):
         super().execute(df, patient_journey)
         preprocessed_text = self.spellcheck(patient_journey)

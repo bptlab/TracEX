@@ -1,31 +1,14 @@
 <head>
     <title>Upload Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/style.css' %}">
-    <style>
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .form-column {
-            flex: 1;
-            margin-right: 5px;
-        }
-        .form-column:last-child {
-            margin-right: 0;
-        }
-        input[type="submit"].button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5%;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 
 
 <body class="main_body">
-    <h2>Welcome</h2>
+    <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
+    <h2>Welcome to the Extraction Pipeline of TracEX</h2>
+    <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
     <p>Please select the patient journey you want to upload below.</p>
 
     <form method="post" enctype="multipart/form-data">
@@ -58,7 +41,7 @@
 
         <input type="submit" value="Upload" class="button">
     </form>
-    <a href="{% url 'selection' %}">
-        <button>Return to input selection</button>
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>

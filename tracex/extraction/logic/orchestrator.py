@@ -4,17 +4,17 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from .modules.module_patient_journey_generator import PatientJourneyGenerator
+from tracex.logic import utils
+
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_cohort_tagger import CohortTagger
 from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
-from .modules.module_preprocessing_patient_journey import Preprocessor
+from .modules.module_patient_journey_preprocessor import Preprocessor
 from .modules.module_metrics_analyzer import MetricsAnalyzer
 from .modules.module_event_log_comparator import EventLogComparator
 
-from ..logic import utils
 from ..models import Trace, PatientJourney, Event, Cohort
 
 
@@ -31,7 +31,6 @@ class ExtractionConfiguration:
     locations: Optional[List[str]] = None
     modules = {
         "preprocessing": Preprocessor,
-        "patient_journey_generation": PatientJourneyGenerator,
         "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
@@ -128,16 +127,6 @@ class Orchestrator:
             del self.data["sentence_id"]
             self.data.insert(0, "case_id", latest_id + 1)
             self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
-
-    # This method may be deleted later. The original idea was to always call Orchestrator.run() and depending on if
-    # a configuration was given or not, the patient journey generation may be executed.
-    def generate_patient_journey(self):
-        """Generate a patient journey with the help of the GPT engine."""
-        print("Orchestrator is generating a patient journey.")
-        self.set_configuration(ExtractionConfiguration())
-        module = self.configuration.modules["patient_journey_generation"]()
-        patient_journey = module.execute(self.data, self.configuration.patient_journey)
-        self.configuration.update(patient_journey=patient_journey)
 
     def save_results_to_db(self):
         """Save the trace to the database."""

@@ -2,9 +2,9 @@
 from pathlib import Path
 from django.conf import settings
 
-from ..logging import log_execution_time
+from tracex.logic.logger import log_execution_time
+from tracex.logic import utils as u
 from ..module import Module
-from .. import utils as u
 from .. import prompts as p
 
 
@@ -19,7 +19,7 @@ class LocationExtractor(Module):
         self.name = "Location Extractor"
         self.description = "Extracts the locations for the corresponding activity labels from a patient journey."
 
-    @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
+    @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
 
