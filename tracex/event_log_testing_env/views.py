@@ -1,5 +1,5 @@
 """This file contains the views for the event log testing environment app."""
-from django.views.generic import FormView
+from django.views.generic import FormView, TemplateView
 from django.urls import reverse_lazy
 from .forms import PatientJourneySelectForm
 from extraction.models import PatientJourney
@@ -34,5 +34,9 @@ class EventLogTestingOverviewView(FormView):
                 "event_log_comparator": EventLogComparator,
             },
         )
-        Orchestrator(configuration=configuration)
+        orchestrator = Orchestrator(configuration=configuration)
         return super().form_valid(form)
+
+
+class EventLogTestingResultView(TemplateView):
+    template_name = "testing_result.html"

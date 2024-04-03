@@ -31,7 +31,6 @@ class EventLogComparator(Module):
 
     def __compare_event_logs(self, df):
         """Comparing the event logs."""
-        # Check if the comparison patient journey is the same as the one used in the pipeline not yet implemented
         ground_truth_df = pd.read_csv(
             c.comparison_path / "journey_test_1_comparison_basis.csv"
         )

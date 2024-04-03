@@ -86,18 +86,12 @@ class Orchestrator:
 
     def initialize_modules(self):
         """Bring the modules into the right order and initialize them."""
-        # Make changes here, if selection and reordering of modules should be more sophisticated
-        # (i.e. depending on config given by user)
-        modules = [
-            self.configuration.modules["activity_labeling"](),
-            self.configuration.modules["time_extraction"](),
-            self.configuration.modules["event_type_classification"](),
-            self.configuration.modules["location_extraction"](),
-            # This module should be activated only if the user wants to analyze the metrics
-            # self.configuration.modules["metrics_analyzer"](),
-            # Only activate this module with a test comparison patient journey as ground truth
-            # self.configuration.modules["event_log_comparator"](),
-        ]
+        modules = []
+
+        for key in self.configuration.modules:
+            module = self.configuration.modules[key]()
+            modules.append(module)
+
         print("Initialization of modules successful.")
         return modules
 

@@ -9,9 +9,9 @@ urlpatterns = [
         views.EventLogTestingOverviewView.as_view(),
         name="testing_environment",
     ),
-    # path(
-    #     "event_log_testing_environment/result/",
-    #     views.JourneyGenerationView.as_view(),
-    #     name="journey_generation",
-    # ),
+    path(
+        "testing_environment/result/",
+        views.EventLogTestingResultView.as_view(),
+        name="testing_result",
+    ),
 ]

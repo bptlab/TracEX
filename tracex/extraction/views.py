@@ -2,6 +2,7 @@
 Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
 import os
+from django.shortcuts import redirect
 import pm4py
 import pandas as pd
 from django.db.models import Q
@@ -71,6 +72,10 @@ class JourneyFilterView(generic.FormView):
         )
         self.request.session["is_extracted"] = True
         self.request.session.save()
+
+        if "event_log_comparator" in orchestrator.configuration.modules:
+            orchestrator.save_results_to_db()
+            return redirect(reverse_lazy("testing_result"))
 
         return super().form_valid(form)
 
