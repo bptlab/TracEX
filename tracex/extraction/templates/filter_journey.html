@@ -2,13 +2,21 @@
 <head>
     <title>Upload Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/progress-bar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/progress-bar.css' %}">
     <script src="{% static '/extraction/js/progress-bar.js' %}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     {% csrf_token %}
 </head>
 
+<style>
+    .spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+</style>
 
 <body class="main_body">
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
@@ -30,6 +38,10 @@
             </div>
         </div>
         
+        <div class="spinner-container" id="loading-container">
+            <span id="loading-spinner" class="loader not_visible"></span>
+        </div>
+
         <div id="progress_box" class="not_visible">
             <div class="progress-container">
                 <!-- Progress bar and message will be added here -->

@@ -1,5 +1,6 @@
 const execute_button = document.getElementById('execute_button');
 const progress_box = document.getElementById('progress_box');
+const loader = document.getElementById('loading-spinner');
 
 function updateProgressBar() {
     $.ajax({
@@ -27,7 +28,9 @@ function updateProgressBar() {
             }
         },
         error: function() {
-            console.log("Error occurred while fetching progress.");
+            console.log("Error occurred while fetching progress. Alternatively, a spinning loading wheel will be displayed.");
+            progress_box.classList.add('not_visible');
+            loader.classList.remove('not_visible');
         }
     });
 }
@@ -48,6 +51,6 @@ function getProgressBarColor(progress) {
 
 execute_button.addEventListener('click', () => {
     progress_box.classList.remove('not_visible');
-    progress_box.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div><p>Extraction in progress...</p>';
+    progress_box.innerHTML = '<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>';
     updateProgressBar();
 })

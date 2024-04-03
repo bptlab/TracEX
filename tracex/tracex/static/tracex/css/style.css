@@ -212,28 +212,3 @@ h2 {
         transform: rotateX(0deg);
     }
 }
-
-
-/* LOADING SPINNER */
-.loader {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: inline-block;
-    position: relative;
-    border: 15px solid;
-    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.35) rgba(0, 0, 0, 0.5);
-    box-sizing: border-box;
-    animation: rotation 1s linear infinite;
-    margin: 10px;
-    margin-bottom: 20px;
-  }
-  
-  @keyframes rotation {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  } 
