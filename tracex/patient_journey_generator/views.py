@@ -1,7 +1,6 @@
 """This file contains the views for the patient journey generator app."""
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import redirect
 from patient_journey_generator.forms import GenerationOverviewForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
@@ -35,24 +34,22 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         return response
 
 
-class JourneyGenerationView(generic.TemplateView):
+class JourneyGenerationView(generic.RedirectView):
     """View for the patient journey generation"""
 
-    template_name = "journey_generation.html"
-    success_url = reverse_lazy("journey_generator_overview")
+    url = reverse_lazy("journey_generator_overview")
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """Generate a patient journey and save it in the cache."""
         orchestrator = Orchestrator()
-
         if IS_TEST:
             with open(
                 str(constants.input_path / "journey_synth_covid_1.txt"), "r"
             ) as file:
                 journey = file.read()
-                configuration = ExtractionConfiguration(patient_journey=journey)
-                orchestrator.set_configuration(configuration)
-                self.request.session["generated_journey"] = journey
+            configuration = ExtractionConfiguration(patient_journey=journey)
+            orchestrator.set_configuration(configuration)
+            self.request.session["generated_journey"] = journey
         else:
             # This automatically updates the configuration with the generated patient journey
             configuration = ExtractionConfiguration(
@@ -62,5 +59,4 @@ class JourneyGenerationView(generic.TemplateView):
             request.session[
                 "generated_journey"
             ] = orchestrator.configuration.patient_journey
-
-        return redirect(self.success_url)
+        return super().get(request, *args, **kwargs)

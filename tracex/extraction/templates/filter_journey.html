@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 <head>
     <title>Upload Journey</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/extraction/css/progress-bar.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <script src="{% static '/extraction/js/progress-bar.js' %}" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     {% csrf_token %}
 </head>
 
@@ -37,7 +38,7 @@
 
         <input type="submit" value="Execute Extraction Pipeline" id="execute_button" class="button">
     </form>
-    
+
 
     <a href="{{ request.META.HTTP_REFERER }}">
         <button class="menu_button_under_form">Previous</button>
