@@ -1,6 +1,6 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
-from dataclasses import dataclass
-from typing import Optional, List, Dict
+from dataclasses import dataclass, field
+from typing import Optional, List, Dict, Type
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -30,18 +30,17 @@ class ExtractionConfiguration:
     patient_journey: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
-    modules = {
-        "preprocessing": Preprocessor,
-        "activity_labeling": ActivityLabeler,
-        "cohort_tagging": CohortTagger,
-        "event_type_classification": EventTypeClassifier,
-        "time_extraction": TimeExtractorBackup,
-        "location_extraction": LocationExtractor,
-        # This module should be activated only if the user wants to analyze the metrics
-        # "metrics_analyzer": MetricsAnalyzer,
-        # Only activate this module with a test comparison patient journey as ground truth
-        # "event_log_comparator": EventLogComparator,
-    }
+    modules: Dict[str, Type] = field(
+        default_factory=lambda: {
+            "preprocessing": Preprocessor,
+            "activity_labeling": ActivityLabeler,
+            "cohort_tagging": CohortTagger,
+            "event_type_classification": EventTypeClassifier,
+            "time_extraction": TimeExtractorBackup,
+            "location_extraction": LocationExtractor,
+        }
+    )
+
     activity_key: Optional[str] = "event_type"
 
     def update(self, **kwargs):

@@ -11,8 +11,7 @@ class PatientJourneySelectForm(forms.Form):
             "selected_patient_journey"
         ].choices = self.get_patient_journey_choices()
 
-    # def get_patient_journey_choices(self):
-    #     # Make a database query to retrieve the patient journey options
-    #     patient_journeys = PatientJourney.objects.all()  # Retrieve all patient journeys from the database
-    #     choices = [(pj.id, pj.name) for pj in patient_journeys]  # Create a list of tuples with (id, name)
-    #     return choices
+    def get_patient_journey_choices(self):
+        patient_journeys = PatientJourney.manager.filter(name__contains="journey_test_")
+        choices = [(pj.name, pj.name) for pj in patient_journeys]
+        return choices

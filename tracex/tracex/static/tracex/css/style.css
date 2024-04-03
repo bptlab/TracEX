@@ -195,6 +195,15 @@ h2 {
     margin: 0 auto;
 }
 
+.test_environment_logo {
+    width: 320px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 /* PAGE TRANSITIONS */
 .landing_page_body, .selection_body, .main_body {
     animation: transitionIn 1s;
