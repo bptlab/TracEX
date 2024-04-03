@@ -69,8 +69,8 @@ START_DATE_MESSAGES = [
     {
         "role": "user",
         "content": """Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue,
-            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19.
-            In June I got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19""",
+            and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I
+            got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19""",
     },
     {"role": "assistant", "content": """20200405T0000"""},
     {
@@ -106,10 +106,11 @@ START_DATE_MESSAGES = [
 END_DATE_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text understanding and your job is to take a given text, a given activity label
-            and a given timestamp for the beginning of this activity and to then extract an end date to this activity label.
-            Only output the extracted start date! Rely also on the context. Use averages if necessary.
-            If there is no information about the end date at all, please state the start date also as the end date.""",
+        "content": """You are an expert in text understanding and your job is to take a given text,
+            a given activity label and a given timestamp for the beginning of this activity and to then extract
+            an end date to this activity label. Only output the extracted start date! Rely also on the context.
+            Use averages if necessary. If there is no information about the end date at all,
+            please state the start date also as the end date.""",
     },
     {
         "role": "user",
@@ -152,8 +153,9 @@ END_DATE_MESSAGES = [
     {"role": "assistant", "content": """20211106T0000"""},
     {
         "role": "user",
-        "content": """Text: Four days after the first april 2020 I went to the doctor and got tested positive for
-            Covid19. I was then hospitalized for two weeks.\nActivity Label: getting hospitalized\nStart Date: 20200405T0000""",
+        "content": """Text: Four days after the first april 2020 I went to the doctor and got tested positive
+            for Covid19. I was then hospitalized for two weeks.
+            \nActivity Label: getting hospitalized\nStart Date: 20200405T0000""",
     },
     {"role": "assistant", "content": """20200419T0000"""},
     {
@@ -167,10 +169,10 @@ END_DATE_MESSAGES = [
 EVENT_TYPE_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text categorization and your job is to take a given activity label and to classify
-            it into one of the following event types: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor Visit', 'Treatment',
-            'Hospital Admission', 'Hospital Discharge', 'Medication', 'Lifestyle Change' and 'Feelings'.
-            Please consider the capitalization.""",
+        "content": """You are an expert in text categorization and your job is to take a given activity label and to
+            classify it into one of the following event types: 'Symptom Onset', 'Symptom Offset', 'Diagnosis',
+            'Doctor Visit', 'Treatment', 'Hospital Admission', 'Hospital Discharge', 'Medication', 'Lifestyle Change'
+            and 'Feelings'. Please consider the capitalization.""",
     },
     {"role": "user", "content": "visiting doctor's"},
     {"role": "assistant", "content": "Doctors Visit"},
@@ -223,8 +225,8 @@ LOCATION_MESSAGES = [
 METRIC_ACTIVITY_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize
-            it into 'No Relevance', 'Low Relevance', 'Moderate Relevance' or 'High Relevance'.
+        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to
+            categorize it into 'No Relevance', 'Low Relevance', 'Moderate Relevance' or 'High Relevance'.
             It is really important, that that relevance category is correct.
             Category definition:
             No Relevance: Events or actions that are not connected to the progression or impact
@@ -613,7 +615,8 @@ PREPROCESSING_IDENTIFY_TIMESTAMPS = [
         "role": "assistant",
         "content": "I started feeling unusually fatigued right before $$$Thanksgiving 2020$$$. \
             The fatigue worsened over the holiday, and by the following Monday, I had developed a fever. \
-            I was tested for Covid-19 $$$two days later$$$ and received a positive result on $$$November 30th, 2020$$$.",
+            I was tested for Covid-19 $$$two days later$$$ and received a positive result on \
+            $$$November 30th, 2020$$$.",
     },
 ]
 
