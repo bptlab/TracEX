@@ -11,9 +11,8 @@ from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 from .modules.module_preprocessing_patient_journey import Preprocessor
-
-# from .modules.module_metrics_analyzer import MetricsAnalyzer
-# from .modules.module_event_log_comparator import EventLogComparator
+from .modules.module_metrics_analyzer import MetricsAnalyzer
+from .modules.module_event_log_comparator import EventLogComparator
 
 from ..logic import utils
 from ..models import Trace, PatientJourney, Event, Cohort
@@ -39,9 +38,9 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        # "metrics_analyzer": MetricsAnalyzer,
+        #"metrics_analyzer": MetricsAnalyzer,
         # Only activate this module with a test comparison patient journey as ground truth
-        # "event_log_comparator": EventLogComparator,
+        #"event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -96,9 +95,9 @@ class Orchestrator:
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
             # This module should be activated only if the user wants to analyze the metrics
-            # self.configuration.modules["metrics_analyzer"](),
+            #self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            # self.configuration.modules["event_log_comparator"](),
+            #self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -113,6 +112,8 @@ class Orchestrator:
             patient_journey = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
+        else:
+            patient_journey = self.configuration.patient_journey.split(". ")
 
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"

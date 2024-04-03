@@ -28,11 +28,10 @@ class Preprocessor(Module):
         preprocessed_text = self.transform_timestamps(preprocessed_text)
         preprocessed_text = self.interprete_timestamps(preprocessed_text)
         preprocessed_text = self.calculate_timestamps(preprocessed_text)
-
-        with open(u.output_path / "intermediates/preprocessed_text.txt", "w") as file:
-            file.write(preprocessed_text)
-
-        return preprocessed_text
+        preprocessed_text = preprocessed_text.replace("\n", " ")
+        patient_journey_list = preprocessed_text.split(". ")
+        
+        return patient_journey_list
 
     def spellcheck(self, text):
         """Checks and corrects spelling and grammar in the input."""

@@ -35,7 +35,7 @@ class LocationExtractor(Module):
     @staticmethod
     def __classify_location(activity_label):
         """Classify the location for a given activity."""
-        messages = p.LOCATION_MESSAGES
+        messages = p.LOCATION_MESSAGES[:]
         messages.append({"role": "user", "content": activity_label})
         location = u.query_gpt(messages)
 

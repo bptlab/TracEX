@@ -31,17 +31,13 @@ class EventTypeClassifier(Module):
         """Adds event types to the activity labels."""
         name = "event_type"
         df[name] = df["activity"].apply(self.__classify_event_type)
-
-        df.to_csv(
-            u.output_path / "intermediates/activities_with_event_types.csv", index=False
-        )
-
+        
         return df
 
     @staticmethod
     def __classify_event_type(activity_label):
         """Classify the event type for a given activity."""
-        messages = p.EVENT_TYPE_MESSAGES
+        messages = p.EVENT_TYPE_MESSAGES[:]
         messages.append({"role": "user", "content": activity_label})
         event_type = u.query_gpt(messages)
 

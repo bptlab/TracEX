@@ -25,38 +25,40 @@ class TimeExtractor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "extraction/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
         super().execute(df, patient_journey)
-        df["start"] = df["activity"].apply(self.__extract_start_date)
+        df["start"] = df.apply(self.__extract_start_date, axis=1)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
         df["duration"] = df.apply(self.__calculate_duration, axis=1)
 
         return df
 
-    def __extract_start_date(self, activity_label):
+    def __extract_start_date(self, row):
         """Extract the start date for a given activity."""
-        messages = p.START_DATE_MESSAGES
+        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
+        messages = p.START_DATE_MESSAGES[:]
         messages.append(
             {
                 "role": "user",
-                "content": f"Text: {self.patient_journey}\nActivity label: {activity_label}",
+                "content": f"Text: {patient_journey_snippet}\nActivity label: {row["activity"]}",
             }
         )
         start = u.query_gpt(messages)
-
+        
         return start
 
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
-        messages = p.END_DATE_MESSAGES
+        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
+        messages = p.END_DATE_MESSAGES[:]
         messages.append(
             {
                 "role": "user",
-                "content": f"\nText: {self.patient_journey}\nActivity label: "
-                f"{row['activity']}\nStart date: {row['start']}",
+                "content": f"\nText: {patient_journey_snippet}\nActivity label: "
+                f"{row["activity"]}\nStart date: {row["start"]}",
             },
         )
         end = u.query_gpt(messages)
-
+        
         return end
 
     @staticmethod
@@ -105,3 +107,11 @@ class TimeExtractor(Module):
             return True
         except ValueError:
             return False
+        
+    def __get_snippet(self, sentence_id):
+        """Extract the snippet for a given activity."""
+        lower = max(0, int(sentence_id) - 2)
+        upper = min(int(sentence_id) + 3, len(self.patient_journey))
+        snippet = ". ".join(self.patient_journey[lower:upper])
+        return snippet
+    

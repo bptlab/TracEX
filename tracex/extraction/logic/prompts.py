@@ -6,7 +6,7 @@ CREATE_PATIENT_JOURNEY_PROMPT = """
     Please give some information about the time, in a few cases directly as a date and in the other as something in the
     lines of 'in the next days', 'the week after that' or similar.
     Give your outline as a continuous text. Also include if you later went for getting a vaccine and if so, how often.
-    You don't have to include deals about who you are. Please include 100 to 400 words, but not more than 400.
+    You don't have to include deals about who you are. Please include 100 to 500 words, but not more than 500.
 """
 
 
@@ -15,38 +15,38 @@ TEXT_TO_ACTIVITY_MESSAGES = [
         "role": "system",
         "content": """You are an expert in text understanding and summarization. Your Job is to take a given text about
             an illness and convert it into bullet points regarding all important points about the course of the disease.
-            Do not include time dates and use a miximum of 6 words per bullet point.""",
+            Do not include time dates and use a miximum of 6 words per bullet point.
+            Include the number of the sentence in the text from which you take the bullet point. The related numbers are in front of the sentences.""",
     },
     {
         "role": "user",
-        "content": """On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.
-            Four days later I went to the doctor and got tested positive for Covid19. Then I got hospitalized for two weeks.""",
+        "content": "1: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.\
+            \n2: Four days later I went to the doctor and got tested positive for Covid19.\n3: Then I got hospitalized for two weeks.",
     },
     {
         "role": "assistant",
-        "content": "starting to experience symptoms\nvisiting doctor's\ntesting positive for Covid19\ngetting admissioned to hospital\ngetting discharged from hospital",
+        "content": "starting to experience symptoms #1\nvisiting doctor's #2\ntesting positive for Covid19 #2\ngetting admissioned to hospital #3\ngetting discharged from hospital #3",
     },
     {
         "role": "user",
-        "content": """Concerned about my condition, I contacted my primary care physician via phone.
-        He advised me to monitor my symptoms and stay at home unless they became severe.""",
+        "content": """8: Concerned about my condition, I contacted my primary care physician via phone.
+        9: He advised me to monitor my symptoms and stay at home unless they became severe.""",
     },
     {
         "role": "assistant",
-        "content": "contacting primary care physician\nmonitoring symptoms at home",
+        "content": "contacting primary care physician #8\nmonitoring symptoms at home #9",
     },
-    {"role": "user", "content": "First symptoms on 01/04/2020"},
-    {"role": "assistant", "content": "starting to experience symptoms"},
+    {"role": "user", "content": "5: First symptoms on 01/04/2020"},
+    {"role": "assistant", "content": "starting to experience symptoms #5"},
     {
         "role": "user",
-        "content": "On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days. Initially, I had a mild cough and fatigue.",
+        "content": "1: On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days.\n2: Initially, I had a mild cough and fatigue.",
     },
     {
         "role": "assistant",
-        "content": "starting to experience symptoms, ending to experience symptoms",
+        "content": "starting to experience symptoms #1\nending to experience symptoms #1",
     },
 ]
-
 
 START_DATE_MESSAGES = [
     {
@@ -97,7 +97,6 @@ START_DATE_MESSAGES = [
     },
     {"role": "assistant", "content": """20211104T0000"""},
 ]
-
 
 END_DATE_MESSAGES = [
     {
@@ -156,7 +155,6 @@ END_DATE_MESSAGES = [
     {"role": "assistant", "content": """20210710T0000"""},
 ]
 
-
 EVENT_TYPE_MESSAGES = [
     {
         "role": "system",
@@ -183,7 +181,6 @@ EVENT_TYPE_MESSAGES = [
     {"role": "user", "content": "starting to experience symptoms"},
     {"role": "assistant", "content": "Symptom Onset"},
 ]
-
 
 LOCATION_MESSAGES = [
     {
@@ -213,67 +210,90 @@ LOCATION_MESSAGES = [
     {"role": "assistant", "content": "Home"},
 ]
 
+METRIC_ACTIVITY_MESSAGES = [
+    {
+        "role": "system",
+        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize it into 
+            No Relevance, Low Relevance, Moderate Relevance or High Relevance.
+            It is really important, that that relevance category is correct.
+            Category definition:
+            No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
+            Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
+            Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
+            High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.""",
+    },
+    {"role": "user", "content": "receiving support from my children"},
+    {"role": "assistant", "content": "Low Relevance"},
+    {"role": "user", "content": "taking medicine"},
+    {"role": "assistant", "content": "High Relevance"},
+    {"role": "user", "content": "eating chips"},
+    {"role": "assistant", "content": "No Relevance"},
+    {"role": "user", "content": "starting to experience symptoms"},
+    {"role": "assistant", "content": "High Relevance"},
+    {"role": "user", "content": "feeling side effects from vaccination"},
+    {"role": "assistant", "content": "Moderate Relevance"},
+]
 
-METRIC_ACTIVITY_CONTEXT = """
-    You are an expert in text categorization and your job is to take given bulletpoint and to add one of the given relevance categories to every bulletpoint.
-    The categories are as follows: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
-    It is important, that every bulletpoint gets a relevance category.
-    Furthermore it is really important, that that relevance category is correct.
-    The only output should be the relevance category and the reason why the bulletpoint is part of the category.
-    Please do not add a phrase like "here are your bulletpoints" or something like that.
+METRIC_TIMESTAMP_MESSAGES = [
+    {
+        "role": "system",
+        "content": """You are an expert in text understanding and your job is to take a given text and to check if a given start date and end date of a given bulletpoint are correct.
+            Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
+            If the start date and end date appearing in the context of the bulletpoint, you should output True.
+            If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
+            If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
+            the estimation is reasonable and output True if it is and False if it is not.""",
+    },
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210721T0000"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210724T0000"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: starting to experience symptoms\nStart Date: 07/21/2021\nEnd Date: 20210721T0000"},
+    {"role": "assistant", "content": "False"},
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: N/A"},
+    {"role": "assistant", "content": "False"},
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211104T0000\nEnd Date: 20211107T0000"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+        In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
+        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211201T0000\nEnd Date: 20211204T0000"},
+    {"role": "assistant", "content": "False"},
+]
 
-    The relevance categories are defined as follows:
-    No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way.
-    Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course.
-    Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome.
-    High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory.
-"""
-
-METRIC_ACTIVITY_PROMPT = """
-    Please classify to given bulletpoint one of the following categories: No Relevance, Low Relevance, Moderate Relevance, High Relevance.
-    Think step by step and derive from the bulletpoint the according category. Explain why a bulletpoint is assigned to a category in following template.
-    Don't forget to include the reason why the bulletpoint is part of the category and don't repeat the bulletpoint in the answer.
-
-    Take this as an example:
-    Bulletpoint: 'receiving support from my children' -> Answer: 'Low Relvance: Receiving support from the childern is good for mental stability but have a low relevance for the course of disease.'
-    Bulletpoint: 'taking medicine' -> Answer: 'High Relvance: Taking medicine is highly relevant for the course of the event. The medicine could help the patient to improve their health.'
-    Bullepoint:  'eating chips' -> Answer: 'No Relevance: The action of eating chips has no direct or indirect impact on the course of the disease.'
-
-"""
-
-METRIC_TIMESTAMPS_CONTEXT = """
-    You are an expert in text understanding and your job is to take a given text and to check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
-    Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint.
-    If the start date and end date appearing in the context of the bulletpoint, you should output True.
-    If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False.
-    If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
-    the estimation is reasonable and output True if it is and False if it is not.
-    The only output should be the True or False, and nothing else.
-"""
-
-METRIC_TIMESTAMPS_PROMPT = """
-    Please check if the given start date and end date of an given bulletpoint are correct based on the given patient journey.
-
-    Is the following start and end date correct in the context of the bulletpoint based on the given patient journey?
-    Only output the True or False, and nothing else. You MUST NOT include any other information.
-"""
-
-COMPARE_CONTEXT = """
-    You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and compare the semantic to each other.
-    So you take two bulletpoints and check if they are semantically similar.
-    Semantically similar phrases mostly share some words.
-    For example the two Points 'visiting doctor's' and 'going to the doctor' are semantically similar.
-    Also, "experiencing covid 19 symptoms" and "first symptoms of covid 19" are semantically similar.
-    In contrary "experiencing first covid 19 symptoms" and "experiencing worse symptoms" are not semantically similar.
-    Also, "putting loved ones over financial worries" and "consulting a doctor" aren't similar.
-    You should return 'True' if you think they are similar and 'False' if you don't.
-"""
-
-COMPARE_PROMPT = """
-    Are the 2 following bulletpoints semantically similar? Return "True" if you think they are similar and "False if you don't.
-    Start with your reasoning and then give the answer "True" or "False".
-    Here are the two bulletpoints:
-"""
+COMPARE_MESSAGES = [
+    {
+        "role": "system",
+        "content": """ You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and compare the semantic to each other.
+            So you take two bulletpoints and check if they are semantically similar.
+            You should return True if you think they are similar and False if you don't.""",
+    },
+    {"role": "user", "content": "First: receiving support from my children\nSecond: taking medicine"},
+    {"role": "assistant", "content": "False"},
+    {"role": "user", "content": "First: visiting doctor's\nSecond: going to the doctor"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "First: experiencing covid 19 symptoms\nSecond: first symptoms of covid 19"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "First: experiencing first covid 19 symptoms\nSecond: experiencing worse symptoms"},
+    {"role": "assistant", "content": "False"},
+    {"role": "user", "content": "First: putting loved ones over financial worries\nSecond: consulting a doctor"},
+    {"role": "assistant", "content": "False"},
+    {"role": "user", "content": "First: isolating myself\nSecond: beginning self isolation"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "First: informing family\nSecond: informing family about my condition"},
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "First: getting hospitalized\nSecond: consulting family physician"},
+    {"role": "assistant", "content": "False"},
+]
 
 COHORT_TAG_MESSAGES = [
     [

@@ -11,11 +11,3 @@ In terms of vaccination, after recovering from Covid-19, I decided to get vaccin
 I received the second dose of the vaccine in October 2021, completing the vaccination process. I followed up with my primary care physician to ensure I had developed a strong immune response to the virus. They reassured me that the vaccine would significantly reduce the likelihood of reinfection and the severity of any future infections.
 
 Overall, my experience with Covid-19 highlighted the importance of following public health guidelines, seeking medical advice, and taking necessary precautions to protect both myself and my loved ones.
-
-
-
-
-
-'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor visit', 'Treatment', 'Hospital stay', 'Medication', 'Lifestyle Change' and 'Feelings'
-
-'Home', 'Hospital' and 'Doctors'

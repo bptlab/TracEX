@@ -1,2 +1,14 @@
-case_id,activity,start,end,duration,event_type,attribute_location
-1,"starting to experience symptoms, developing high fever, experiencing difficulty breathing, getting tested for Covid-19, receiving test results, testing positive for Covid-19",20220602T0000,20220617T0000,360:00:00,Symptom Onset,Home
+case_id,activity,sentence_id,start,end,duration,event_type,attribute_location
+8,starting to experience symptoms,0,20220930T0000,20221002T0000,48:00:00,Symptom Onset,Home
+8,isolating from family,1,20220930T0000,20221002T0000,48:00:00,Lifestyle Change,Home
+8,symptoms worsening,2,20220930T0000,20221002T0000,48:00:00,Symptom Onset,Doctors
+8,consulting doctor,3,20221002T0000,20221002T0000,00:00:00,Doctors Visit,Doctors
+8,confirming Covid-19 diagnosis,4,20221004T0000,20221004T0000,00:00:00,Diagnosis,Doctors
+8,experiencing symptom fluctuations,5,20221009T0000,20221016T0000,168:00:00,Symptom Offset,Home
+8,undergoing treatment for symptoms,6,20221009T0000,20221016T0000,168:00:00,Treatment,Doctors
+8,following medication regimen,7,20221009T0000,20221016T0000,168:00:00,Treatment,Doctors
+8,recovering from virus,8,20221009T0000,20221016T0000,168:00:00,Symptom Offset,Home
+8,getting vaccinated post-recovery,9,20221009T0000,20221016T0000,168:00:00,Treatment,Doctors
+8,receiving Covid-19 vaccine,9,20221009T0000,20221016T0000,168:00:00,Treatment,Doctors
+8,relying on family support,10,20221009T0000,20221016T0000,168:00:00,Feelings,Home
+8,prioritizing health and well-being,11,20221009T0000,20221016T0000,168:00:00,Lifestyle Change,Home

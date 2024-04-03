@@ -156,7 +156,7 @@ class PatientJourneyGenerator(Module):
                 + """Please give me a short description of the life circumstances of an imaginary person in form
                     of continuous text. Write the text from a second-person perspective. Something like "You are a
                     51-year-old Teacher" and so forth. Include the age, the job and the family status. Please do not
-                    include more than 50 words.""",
+                    include at least 50 words.""",
             }
         ]
         life_circumstances = u.query_gpt(

@@ -73,13 +73,11 @@ class EventLogComparator(Module):
     @staticmethod
     def __find_activity(activity, comparison_basis_df):
         for comparison_activity in comparison_basis_df["activity"]:
-            messages = [
-                {"role": "system", "content": p.COMPARE_CONTEXT},
-                {
-                    "role": "user",
-                    "content": f"{p.COMPARE_PROMPT} + {activity}\n {comparison_activity}",
-                },
-            ]
+            messages = p.COMPARE_MESSAGES
+            messages.append({
+                "role": "user",
+                "content": f"First: {activity}\nSecond: {comparison_activity}",
+            })
             response = u.query_gpt(messages)
             with open(c.output_path.joinpath("compare.txt"), "a") as f:
                 f.write(

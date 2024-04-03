@@ -1,17 +1,126 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
-	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
 	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
 	<string key="origin" value="csv" />
 	<trace>
-		<string key="concept:name" value="1" />
+		<string key="concept:name" value="8" />
 		<event>
-			<string key="activity" value="starting to experience symptoms, worsening condition, calling general practitioner, getting tested for Covid-19, receiving positive test results, contacting local health authorities, advising self-isolation, monitoring symptoms closely, consulting pulmonologist, undergoing lung function tests, prescribing medication, getting vaccinated against Covid-19, receiving mRNA vaccine doses, prioritizing well-being." />
-			<date key="time:timestamp" value="2022-09-15T00:00:00" />
-			<date key="time:endDate" value="2022-09-20T00:00:00" />
-			<string key="time:duration" value="120:00:00" />
+			<string key="activity" value="starting to experience symptoms" />
+			<int key="sentence_id" value="0" />
+			<date key="start_timestamp" value="2022-09-30T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-02T00:00:00" />
+			<string key="time:duration" value="48:00:00" />
+			<string key="concept:name" value="Symptom Onset" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="isolating from family" />
+			<int key="sentence_id" value="1" />
+			<date key="start_timestamp" value="2022-09-30T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-02T00:00:00" />
+			<string key="time:duration" value="48:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="symptoms worsening" />
+			<int key="sentence_id" value="2" />
+			<date key="start_timestamp" value="2022-09-30T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-02T00:00:00" />
+			<string key="time:duration" value="48:00:00" />
+			<string key="concept:name" value="Symptom Onset" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="consulting doctor" />
+			<int key="sentence_id" value="3" />
+			<date key="start_timestamp" value="2022-10-02T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-02T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Doctors Visit" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="confirming Covid-19 diagnosis" />
+			<int key="sentence_id" value="4" />
+			<date key="start_timestamp" value="2022-10-04T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-04T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
 			<string key="concept:name" value="Diagnosis" />
 			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="experiencing symptom fluctuations" />
+			<int key="sentence_id" value="5" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Symptom Offset" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="undergoing treatment for symptoms" />
+			<int key="sentence_id" value="6" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="following medication regimen" />
+			<int key="sentence_id" value="7" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="recovering from virus" />
+			<int key="sentence_id" value="8" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Symptom Offset" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="getting vaccinated post-recovery" />
+			<int key="sentence_id" value="9" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="receiving Covid-19 vaccine" />
+			<int key="sentence_id" value="9" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="relying on family support" />
+			<int key="sentence_id" value="10" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Feelings" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="prioritizing health and well-being" />
+			<int key="sentence_id" value="11" />
+			<date key="start_timestamp" value="2022-10-09T00:00:00" />
+			<date key="time:end_timestamp" value="2022-10-16T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Home" />
 		</event>
 	</trace>
 </log>
