@@ -110,19 +110,19 @@ class Orchestrator:
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            self.update_progress(self, view, current_step, "Preprocessing")
+            self.update_progress(view, current_step, "Preprocessing")
             patient_journey = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
             current_step += 1
 
-        self.update_progress(self, view, current_step, "Cohort Tagger")
+        self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
         ]().execute_and_save(self.data, patient_journey)
         current_step += 1
         for module in modules:
-            self.update_progress(self, view, current_step, module.name)
+            self.update_progress(view, current_step, module.name)
             self.data = module.execute(self.data, patient_journey)
             current_step += 1
 
