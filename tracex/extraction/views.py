@@ -53,7 +53,7 @@ class JourneyFilterView(generic.FormView):
     success_url = reverse_lazy("result")
 
     def form_valid(self, form):
-        """Save the uploaded journey in the cache."""
+        """Run extraction pipeline and save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.configuration.update(
             event_types=form.cleaned_data["event_types"],

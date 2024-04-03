@@ -12,7 +12,7 @@ function updateProgressBar() {
             const current_module = data.status;
             progress_box.innerHTML = `
             <div class="progress">
-                <div class="progress-bar progress-bar-striped progress-bar-animated ${getProgressBarColor(data.progress)}" role="progressbar" style="width: ${percentage};" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">${percentage}</div>
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar" style="width: ${percentage};" aria-valuenow="${percentage}" aria-valuemin="0" aria-valuemax="100">${percentage}</div>
             </div>
             ${current_module ? `<div class="progress-container"><p>${current_module} is currently running</p></div>` : '<div class="progress-container"><p>Execute Extraction Pipeline</p></div>'}
         `;
@@ -33,20 +33,6 @@ function updateProgressBar() {
             loader.classList.remove('not_visible');
         }
     });
-}
-
-function getProgressBarColor(progress) {
-    if (progress <= 10) {
-        return 'bg-danger';
-    } else if (progress <= 25) {
-        return 'bg-warning';
-    } else if (progress <= 50) {
-        return 'bg-info';
-    } else if (progress <= 75) {
-        return 'bg-primary';
-    } else {
-        return 'bg-success';
-    }
 }
 
 execute_button.addEventListener('click', () => {
