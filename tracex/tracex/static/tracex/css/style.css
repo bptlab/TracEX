@@ -20,10 +20,6 @@ button, input[type="submit"].button  {
     margin-bottom: 15px;
 }
 
-.menu_button_under_form {
-    margin-bottom: 15px;
-}
-
 .item {
     height: 300px;
     border: 1px solid #000000;

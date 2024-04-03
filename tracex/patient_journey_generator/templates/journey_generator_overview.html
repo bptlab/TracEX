@@ -3,10 +3,11 @@
 <title>Generation</title>
 <head>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/patient_journey_generator/css/loading-spinner.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <script src="{% static '/patient_journey_generator/js/loading-spinner.js' %}" defer></script>
 </head>
+
 <body class="selection_body">
     <div class="selection_container">
     {% if generated_journey %}
