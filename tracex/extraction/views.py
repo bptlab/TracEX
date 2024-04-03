@@ -74,7 +74,7 @@ class JourneyFilterView(generic.FormView):
 
         return super().form_valid(form)
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """Return a JSON response with the current progress of the pipeline."""
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
@@ -89,7 +89,7 @@ class JourneyFilterView(generic.FormView):
         self.request.session["status"] = None
         self.request.session.save()
 
-        return super().get(request)
+        return super().get(request, *args, **kwargs)
 
 
 class ResultView(generic.FormView):
