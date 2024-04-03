@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <head>
     <title>Upload Journey</title>
     {% load static %}
@@ -15,7 +16,7 @@
     <p> You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
     <p>Please select the filter below.</p>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="filter_form">
         {% csrf_token %}
 
         <div class="form-row">
@@ -28,21 +29,22 @@
                 {{ form.locations.errors }}
             </div>
         </div>
-
+        
         <div id="progress_box" class="not_visible">
             <div class="progress-container">
                 <!-- Progress bar and message will be added here -->
             </div>
         </div>
+        
 
         <input type="submit" value="Execute Extraction Pipeline" id="execute_button" class="button">
     </form>
     
 
     <a href="{{ request.META.HTTP_REFERER }}">
-        <button class="menu_button_under_form">Previous</button>
+        <button class="menu_button">Previous</button>
     </a>
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button_under_form">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>
