@@ -26,15 +26,16 @@ class EventLogTestingOverviewView(FormView):
             patient_journey=patient_journey_entry.patient_journey,
             modules={
                 "preprocessing": Preprocessor,
-                "activity_labeling": ActivityLabeler,
                 "cohort_tagging": CohortTagger,
-                "event_type_classification": EventTypeClassifier,
+                "activity_labeling": ActivityLabeler,
                 "time_extraction": TimeExtractorBackup,
                 "location_extraction": LocationExtractor,
+                "event_type_classification": EventTypeClassifier,
                 "event_log_comparator": EventLogComparator,
             },
         )
         orchestrator = Orchestrator(configuration=configuration)
+        orchestrator.db_objects["patient_journey"] = patient_journey_entry.id
         return super().form_valid(form)
 
 

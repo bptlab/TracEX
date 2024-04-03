@@ -1,6 +1,6 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Type
+from typing import Optional, List, Type, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -33,10 +33,10 @@ class ExtractionConfiguration:
     modules: Dict[str, Type] = field(
         default_factory=lambda: {
             "preprocessing": Preprocessor,
-            "activity_labeling": ActivityLabeler,
             "cohort_tagging": CohortTagger,
-            "event_type_classification": EventTypeClassifier,
+            "activity_labeling": ActivityLabeler,
             "time_extraction": TimeExtractorBackup,
+            "event_type_classification": EventTypeClassifier,
             "location_extraction": LocationExtractor,
         }
     )
@@ -86,11 +86,19 @@ class Orchestrator:
 
     def initialize_modules(self):
         """Bring the modules into the right order and initialize them."""
-        modules = []
+        # Make changes here, if selection and reordering of modules should be more sophisticated
+        # (i.e. depending on config given by user)
+        modules = [
+            self.configuration.modules["activity_labeling"](),
+            self.configuration.modules["time_extraction"](),
+            self.configuration.modules["event_type_classification"](),
+            self.configuration.modules["location_extraction"](),
+            # This module should be activated only if the user wants to analyze the metrics
+            # self.configuration.modules["metrics_analyzer"](),
+        ]
 
-        for key in self.configuration.modules:
-            module = self.configuration.modules[key]()
-            modules.append(module)
+        if "event_log_comparator" in self.configuration.modules:
+            modules.append(self.configuration.modules["event_log_comparator"]())
 
         print("Initialization of modules successful.")
         return modules
@@ -103,7 +111,7 @@ class Orchestrator:
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            self.update_progress(view, current_step, "Preprocessing")
+            self.update_progress(view, current_step, "Preprocessor")
             patient_journey = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )

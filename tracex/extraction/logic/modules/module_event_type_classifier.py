@@ -31,7 +31,6 @@ class EventTypeClassifier(Module):
         """Adds event types to the activity labels."""
         name = "event_type"
         df[name] = df["activity"].apply(self.__classify_event_type)
-        # document_intermediates(output)
 
         return df
 
