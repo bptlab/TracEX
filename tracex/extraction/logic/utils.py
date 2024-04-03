@@ -22,7 +22,6 @@ from .constants import (
     MODEL,
     oaik,
     output_path,
-    input_path,
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
@@ -212,4 +211,3 @@ class Conversion:
             elif is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
-    

@@ -38,9 +38,9 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        #"metrics_analyzer": MetricsAnalyzer,
+        "metrics_analyzer": MetricsAnalyzer,
         # Only activate this module with a test comparison patient journey as ground truth
-        #"event_log_comparator": EventLogComparator,
+        "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -95,9 +95,9 @@ class Orchestrator:
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
             # This module should be activated only if the user wants to analyze the metrics
-            #self.configuration.modules["metrics_analyzer"](),
+            # self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            #self.configuration.modules["event_log_comparator"](),
+            # self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -125,6 +125,7 @@ class Orchestrator:
                 latest_id = Trace.manager.latest("last_modified").id
             except ObjectDoesNotExist:
                 latest_id = 0
+            del self.data["sentence_id"]
             self.data.insert(0, "case_id", latest_id + 1)
             self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 

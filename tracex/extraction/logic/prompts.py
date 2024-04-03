@@ -213,7 +213,7 @@ LOCATION_MESSAGES = [
 METRIC_ACTIVITY_MESSAGES = [
     {
         "role": "system",
-        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize it into 
+        "content": """You are an expert in text categorization and your job is to take a given bulletpoint and to categorize it into
             No Relevance, Low Relevance, Moderate Relevance or High Relevance.
             It is really important, that that relevance category is correct.
             Category definition:
@@ -244,29 +244,47 @@ METRIC_TIMESTAMP_MESSAGES = [
             If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if
             the estimation is reasonable and output True if it is and False if it is not.""",
     },
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210721T0000"},
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210721T0000",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210724T0000"},
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210724T0000",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 07/21/2021\nEnd Date: 20210721T0000"},
+        \nActivity Label: starting to experience symptoms\nStart Date: 07/21/2021\nEnd Date: 20210721T0000",
+    },
     {"role": "assistant", "content": "False"},
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: N/A"},
+        \nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: N/A",
+    },
     {"role": "assistant", "content": "False"},
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211104T0000\nEnd Date: 20211107T0000"},
+        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211104T0000\nEnd Date: 20211107T0000",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
+    {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19.\
         In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\
-        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211201T0000\nEnd Date: 20211204T0000"},
+        \nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211201T0000\nEnd Date: 20211204T0000",
+    },
     {"role": "assistant", "content": "False"},
 ]
 
@@ -277,22 +295,73 @@ COMPARE_MESSAGES = [
             So you take two bulletpoints and check if they are semantically similar.
             You should return True if you think they are similar and False if you don't.""",
     },
-    {"role": "user", "content": "First: receiving support from my children\nSecond: taking medicine"},
+    {
+        "role": "user",
+        "content": "First: receiving support from my children\nSecond: taking medicine",
+    },
     {"role": "assistant", "content": "False"},
-    {"role": "user", "content": "First: visiting doctor's\nSecond: going to the doctor"},
+    {
+        "role": "user",
+        "content": "First: visiting doctor's\nSecond: going to the doctor",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "First: experiencing covid 19 symptoms\nSecond: first symptoms of covid 19"},
+    {
+        "role": "user",
+        "content": "First: experiencing covid 19 symptoms\nSecond: first symptoms of covid 19",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "First: experiencing first covid 19 symptoms\nSecond: experiencing worse symptoms"},
+    {
+        "role": "user",
+        "content": "First: experiencing first covid 19 symptoms\nSecond: experiencing worse symptoms",
+    },
     {"role": "assistant", "content": "False"},
-    {"role": "user", "content": "First: putting loved ones over financial worries\nSecond: consulting a doctor"},
+    {
+        "role": "user",
+        "content": "First: putting loved ones over financial worries\nSecond: consulting a doctor",
+    },
     {"role": "assistant", "content": "False"},
-    {"role": "user", "content": "First: isolating myself\nSecond: beginning self isolation"},
+    {
+        "role": "user",
+        "content": "First: isolating myself\nSecond: beginning self isolation",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "First: informing family\nSecond: informing family about my condition"},
+    {
+        "role": "user",
+        "content": "First: informing family\nSecond: informing family about my condition",
+    },
     {"role": "assistant", "content": "True"},
-    {"role": "user", "content": "First: getting hospitalized\nSecond: consulting family physician"},
+    {
+        "role": "user",
+        "content": "First: getting hospitalized\nSecond: consulting family physician",
+    },
     {"role": "assistant", "content": "False"},
+    {
+        "role": "user",
+        "content": "First: taking immediate action\nSecond: isolating myself",
+    },
+    {"role": "assistant", "content": "False"},
+    {
+        "role": "user",
+        "content": "First: isolating at home\nSecond: experiencing first covid 19 symptoms",
+    },
+    {"role": "assistant", "content": "False"},
+    {
+        "role": "user",
+        "content": "First: advised home quarantine and treatment\nSecond: consulting family physician",
+    },
+    {"role": "assistant", "content": "False"},
+    {
+        "role": "user",
+        "content": "First: informing family about situation\nSecond: isolating myself",
+    },
+    {"role": "assistant", "content": "False"},
+    {
+        "role": "user",
+        "content": "First: consulting family physician\nSecond: consulting doctor",
+    },
+    {"role": "assistant", "content": "True"},
+    {"role": "user", "content": "First: isolating myself\nSecond: isolating at home"},
+    {"role": "assistant", "content": "True"},
 ]
 
 COHORT_TAG_MESSAGES = [

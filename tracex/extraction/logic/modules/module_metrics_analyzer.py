@@ -66,11 +66,8 @@ class MetricsAnalyzer(Module):
             "High Relevance": 3,
         }
 
-        messages = p.METRIC_ACTIVITY_MESSAGES
-        messages.append({
-            "role": "user",
-            "content": activity
-        })
+        messages = p.METRIC_ACTIVITY_MESSAGES[:]
+        messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
         for key in category_mapping:
@@ -81,14 +78,16 @@ class MetricsAnalyzer(Module):
         return category
 
     def __rate_timestamps_correctness(self, activity, start, end):
-        messages = p.METRIC_TIMESTAMP_MESSAGES
-        messages.append({
-            "role": "user",
-            "content": (
-                f"Text: {self.patient_journey}\nActivity: {activity}\n\
+        messages = p.METRIC_TIMESTAMP_MESSAGES[:]
+        messages.append(
+            {
+                "role": "user",
+                "content": (
+                    f"Text: {self.patient_journey}\nActivity: {activity}\n\
                 Start date: {start}\nEnd date: {end}\n"
-            ),
-        })
+                ),
+            }
+        )
 
         timestamp_correctness, top_logprops = u.query_gpt(
             messages, logprobs=True, top_logprobs=1
