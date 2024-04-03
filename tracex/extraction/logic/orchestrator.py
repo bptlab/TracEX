@@ -105,25 +105,24 @@ class Orchestrator:
     def run(self, view=None):
         """Run the modules."""
         modules = self.initialize_modules()
-        self.modules_number = len(modules) + 2
         current_step = 0
 
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            self.update_progress(view, current_step, "Preprocessing")
+            self.update_progress(self, view, current_step, "Preprocessing")
             patient_journey = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
             current_step += 1
 
-        self.update_progress(view, current_step, "Cohort Tagger")
+        self.update_progress(self, view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
         ]().execute_and_save(self.data, patient_journey)
         current_step += 1
         for module in modules:
-            self.update_progress(view, current_step, module.name)
+            self.update_progress(self, view, current_step, module.name)
             self.data = module.execute(self.data, patient_journey)
             current_step += 1
 
@@ -164,9 +163,8 @@ class Orchestrator:
 
     def update_progress(self, view, current_step, module_name):
         """Update the progress of the extraction."""
-        modules_number = self.modules_number
         if view is not None:
-            percentage = round((current_step / modules_number) * 100)
+            percentage = round((current_step / len(self.configuration.modules)) * 100)
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
             view.request.session.save()
