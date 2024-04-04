@@ -16,7 +16,7 @@ class Preprocessor(Module):
 
     def __init__(self):
         super().__init__()
-        self.name = "Preprocessing Module"
+        self.name = "Preprocessor"
         self.description = "Preprocesses patient input for better data quality."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
