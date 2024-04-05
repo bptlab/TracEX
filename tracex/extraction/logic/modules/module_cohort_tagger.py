@@ -20,8 +20,8 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute_and_save(self, df, patient_journey=None):
-        super().execute(df, patient_journey)
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__extract_cohort_tags()
 
@@ -40,7 +40,7 @@ class CohortTagger(Module):
             key: value for key, value in cohort_data.items() if value != "N/A"
         }
 
-        # if all values are "N/A" ther is no use in saving the results
+        # if all values are "N/A" there is no use in saving the results
         # return 0 indicates to the calling function, that there is no Cohort
         # it expects a database id and 0 is not a valid id
         if not any(value != "NA" for value in valid_cohort_data.values()):

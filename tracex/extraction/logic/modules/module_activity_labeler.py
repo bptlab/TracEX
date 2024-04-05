@@ -20,24 +20,24 @@ class ActivityLabeler(Module):
         self.description = "Extracts the activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, _input, patient_journey=None):
-        super().execute(_input, patient_journey)
+    def execute(self, _input, patient_journey=None, patient_journey_sentences=None):
+        super().execute(_input, patient_journey, patient_journey_sentences)
 
         return self.__extract_activities()
 
     def __extract_activities(self):
         """Converts the input text to activity_labels."""
+        patient_journey_numbered = self.patient_journey_sentences[:]
+        for count, value in enumerate(patient_journey_numbered):
+            patient_journey_numbered[count] = f"{count}: {value}"
+        patient_journey_numbered = ".\n".join(patient_journey_numbered)
+
         name = "activity"
-        messages = [
-            {"role": "system", "content": p.TXT_TO_ACTIVITY_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.TXT_TO_ACTIVITY_PROMPT} {self.patient_journey}",
-            },
-            {"role": "assistant", "content": p.TXT_TO_ACTIVITY_ANSWER},
-        ]
+        messages = p.TEXT_TO_ACTIVITY_MESSAGES[:]
+        messages.append({"role": "user", "content": patient_journey_numbered})
         activity_labels = u.query_gpt(messages)
-        # TODO: adjust prompt to remove "-" instead of replace()
-        activity_labels = activity_labels.replace("- ", "").split("\n")
+        activity_labels = activity_labels.split("\n")
         df = pd.DataFrame(activity_labels, columns=[name])
+        df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)
+
         return df
