@@ -80,7 +80,8 @@ class EventLogComparator(Module):
     @staticmethod
     def __find_activity(activity, comparison_basis_df, index):
         # We want to look at a snippet from the other dataframe where we take five activities into account
-        # starting from the current index -2 and ending at the current index +2 (writing +3 as python is exclusive on the upper bound)
+        # starting from the current index -2 and ending at the current index +2
+        # (writing +3 as python is exclusive on the upper bound)
         lower = max(0, index - 2)
         upper = min(len(comparison_basis_df), index + 3)
         for comparison_activity in comparison_basis_df["activity"][lower:upper]:

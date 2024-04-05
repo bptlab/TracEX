@@ -118,7 +118,8 @@ class TimeExtractor(Module):
     def __get_snippet(self, sentence_id):
         """Extract the snippet for a given activity."""
         # We want to look at a snippet from the patient journey where we take five sentences into account
-        # starting from the current sentence index -2 and ending at the current index +2 (writing +3 as python is exclusive on the upper bound)
+        # starting from the current sentence index -2 and ending at the current index +2
+        # (writing +3 as python is exclusive on the upper bound)
         lower = max(0, int(sentence_id) - 2)
         upper = min(int(sentence_id) + 3, len(self.patient_journey_sentences))
         snippet = ". ".join(self.patient_journey_sentences[lower:upper])
