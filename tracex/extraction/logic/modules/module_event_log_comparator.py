@@ -67,9 +67,9 @@ class EventLogComparator(Module):
 
     def __compare_activities(self, input_df, comparison_basis_df):
         total_matching_activities = 0
-        for i in range(len(input_df["activity"])):
+        for index, activity in enumerate(input_df["activity"]):
             total_matching_activities += self.__find_activity(
-                input_df["activity"][i], comparison_basis_df, i
+                activity, comparison_basis_df, index
             )
             time.sleep(2)
         matching_percentage = round(total_matching_activities / input_df.shape[0], 2)
@@ -79,6 +79,8 @@ class EventLogComparator(Module):
 
     @staticmethod
     def __find_activity(activity, comparison_basis_df, index):
+        # We want to look at a snippet from the other dataframe where we take five activities into account
+        # starting from the current index -2 and ending at the current index +2 (writing +3 as python is exclusive on the upper bound)
         lower = max(0, index - 2)
         upper = min(len(comparison_basis_df), index + 3)
         for comparison_activity in comparison_basis_df["activity"][lower:upper]:
