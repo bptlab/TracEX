@@ -90,13 +90,13 @@ class Orchestrator:
         # (i.e. depending on config given by user)
         modules = [
             self.configuration.modules["activity_labeling"](),
-            self.configuration.modules["time_extraction"](),
-            self.configuration.modules["event_type_classification"](),
-            self.configuration.modules["location_extraction"](),
+            # self.configuration.modules["time_extraction"](),
+            # self.configuration.modules["event_type_classification"](),
+            # self.configuration.modules["location_extraction"](),
             # This module should be activated only if the user wants to analyze the metrics
             # self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            # self.configuration.modules["event_log_comparator"](),
+            self.configuration.modules["event_log_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules

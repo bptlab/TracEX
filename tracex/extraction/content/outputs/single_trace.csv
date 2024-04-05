@@ -1,21 +1,20 @@
-case_id,activity,start,end,duration,event_type,attribute_location
-8,starting to experience symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-8,taking immediate action,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,isolating at home,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,informing family about situation,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,consulting doctor due to worsening symptoms,20210715T0000,20210715T0000,00:00:00,Doctor Visit,Doctors
-8,getting tested for Covid-19,20210715T0000,20210715T0000,00:00:00,Diagnosis,Doctors
-8,receiving positive test results,20210715T0000,20210715T0000,00:00:00,Diagnosis,Doctors
-8,advised home quarantine and treatment,20210715T0000,20210715T0000,00:00:00,Treatment,Home
-8,resting and following doctor's advice,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,receiving care from wife,20210715T0000,20210715T0000,00:00:00,Other,Home
-8,children supporting emotionally and around house,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,slow recovery with family support,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,returning to work with precautions,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-8,decision to get vaccinated,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Doctors
-8,consulting doctor about vaccine benefits,20210901T0000,20210901T0000,00:00:00,Doctor Visit,Doctors
-8,receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
-8,experiencing mild side effects,20210901T0000,20210901T0000,00:00:00,Feelings,Doctors
-8,receiving second vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
-8,feeling relief and hope post-vaccination,20210901T0000,20210901T0000,00:00:00,Feelings,Home
-8,grateful for family and healthcare support,20210901T0000,20210901T0000,00:00:00,Feelings,Home
+case_id,activity
+8,starting to experience symptoms
+8,taking immediate action
+8,isolating at home
+8,informing family
+8,consulting doctor
+8,getting tested for Covid19
+8,receiving positive test results
+8,advised home quarantine
+8,receiving care from wife
+8,children supporting emotionally
+8,recovering with family support
+8,returning to work as teacher
+8,getting vaccinated
+8,consulting doctor about vaccine
+8,receiving first vaccine dose
+8,experiencing mild side effects
+8,receiving second vaccine dose
+8,feeling relief and hope
+8,grateful for family and healthcare support
