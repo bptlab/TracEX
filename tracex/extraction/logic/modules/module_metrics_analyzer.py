@@ -52,10 +52,6 @@ class MetricsAnalyzer(Module):
             axis=1,
         )
 
-        metrics_df.to_csv(
-            Path(c.output_path.joinpath("metrics.csv")), index=False, sep=","
-        )
-
         return df
 
     def __rate_activity_relevance(self, activity):

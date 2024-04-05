@@ -120,4 +120,5 @@ class TimeExtractor(Module):
         lower = max(0, int(sentence_id) - 2)
         upper = min(int(sentence_id) + 3, len(self.patient_journey))
         snippet = ". ".join(self.patient_journey[lower:upper])
+
         return snippet

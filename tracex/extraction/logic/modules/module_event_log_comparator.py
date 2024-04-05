@@ -74,6 +74,7 @@ class EventLogComparator(Module):
             time.sleep(2)
         matching_percentage = round(total_matching_activities / input_df.shape[0], 2)
         matching_percentage = round(matching_percentage * 100, 0)
+
         return matching_percentage
 
     @staticmethod
@@ -89,15 +90,7 @@ class EventLogComparator(Module):
                 }
             )
             response = u.query_gpt(messages)
-            with open(c.output_path.joinpath("compare.txt"), "a") as f:
-                f.write(
-                    activity
-                    + " comparing with: "
-                    + comparison_activity
-                    + ":\n\n"
-                    + response
-                    + "\n\n\n"
-                )
+
             if "True" in response:
                 return 1
         return 0

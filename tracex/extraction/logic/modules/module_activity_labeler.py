@@ -29,7 +29,7 @@ class ActivityLabeler(Module):
         """Converts the input text to activity_labels."""
         patient_journey = self.patient_journey
         for count, value in enumerate(patient_journey):
-            patient_journey[count] = str(count) + ": " + value
+            patient_journey[count] = f"{count}: {value}"
         patient_journey = ".\n".join(patient_journey)
 
         name = "activity"
@@ -39,7 +39,5 @@ class ActivityLabeler(Module):
         activity_labels = activity_labels.split("\n")
         df = pd.DataFrame(activity_labels, columns=[name])
         df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)
-
-        df.to_csv(u.output_path / "activity_labels.csv", index=False)
 
         return df
