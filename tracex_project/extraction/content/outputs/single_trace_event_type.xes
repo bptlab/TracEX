@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
+	<string key="origin" value="csv" />
+	<trace>
+		<string key="concept:name" value="3" />
+		<event>
+			<string key="activity" value="starting to experience Covid-19 symptoms" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-20T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Symptom Onset" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="consulting with family doctor" />
+			<date key="start_timestamp" value="2021-06-22T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-22T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Doctor visit" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="receiving Covid-19 diagnosis" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-27T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Diagnosis" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="prioritizing self-isolation at home" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-27T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="managing symptoms with treatment" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-27T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="experiencing tough week post-diagnosis" />
+			<date key="start_timestamp" value="2021-06-27T00:00:00" />
+			<date key="time:end_timestamp" value="2021-07-04T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Diagnosis" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="focusing on resting" />
+			<date key="start_timestamp" value="2021-06-27T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-27T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Other" />
+		</event>
+		<event>
+			<string key="activity" value="following prescribed medication" />
+			<date key="start_timestamp" value="2021-06-28T00:00:00" />
+			<date key="time:end_timestamp" value="2021-07-05T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Medication" />
+			<string key="attribute_location" value="Other" />
+		</event>
+		<event>
+			<string key="activity" value="gradually feeling better" />
+			<date key="start_timestamp" value="2021-06-27T00:00:00" />
+			<date key="time:end_timestamp" value="2021-07-04T00:00:00" />
+			<string key="time:duration" value="168:00:00" />
+			<string key="concept:name" value="Symptom Offset" />
+			<string key="attribute_location" value="Other" />
+		</event>
+		<event>
+			<string key="activity" value="resuming work responsibilities from home" />
+			<date key="start_timestamp" value="2021-06-29T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-29T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="maintaining regular contact with doctor" />
+			<date key="start_timestamp" value="2021-06-28T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-28T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Doctor visit" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="getting vaccinated post-recovery" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-20T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="Doctors" />
+		</event>
+		<event>
+			<string key="activity" value="protecting loved ones" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-20T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Lifestyle Change" />
+			<string key="attribute_location" value="Home" />
+		</event>
+		<event>
+			<string key="activity" value="following recommended vaccination schedule" />
+			<date key="start_timestamp" value="2021-06-20T00:00:00" />
+			<date key="time:end_timestamp" value="2021-06-20T00:00:00" />
+			<string key="time:duration" value="00:00:00" />
+			<string key="concept:name" value="Treatment" />
+			<string key="attribute_location" value="following recommended vaccination schedule" />
+		</event>
+	</trace>
+</log>

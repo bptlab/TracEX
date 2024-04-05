@@ -1,0 +1,15 @@
+case_id,activity,start,end,duration,event_type,attribute_location
+3,starting to experience Covid-19 symptoms,20210620T0000,20210620T0000,00:00:00,Symptom Onset,Home
+3,consulting with family doctor,20210622T0000,20210622T0000,00:00:00,Doctor visit,Doctors
+3,receiving Covid-19 diagnosis,20210620T0000,20210627T0000,168:00:00,Diagnosis,Doctors
+3,prioritizing self-isolation at home,20210620T0000,20210627T0000,168:00:00,Lifestyle Change,Home
+3,managing symptoms with treatment,20210620T0000,20210627T0000,168:00:00,Treatment,Home
+3,experiencing tough week post-diagnosis,20210627T0000,20210704T0000,168:00:00,Diagnosis,Home
+3,focusing on resting,20210627T0000,20210627T0000,00:00:00,Lifestyle Change,Other
+3,following prescribed medication,20210628T0000,20210705T0000,168:00:00,Medication,Other
+3,gradually feeling better,20210627T0000,20210704T0000,168:00:00,Symptom Offset,Other
+3,resuming work responsibilities from home,20210629T0000,20210629T0000,00:00:00,Lifestyle Change,Home
+3,maintaining regular contact with doctor,20210628T0000,20210628T0000,00:00:00,Doctor visit,Doctors
+3,getting vaccinated post-recovery,20210620T0000,20210620T0000,00:00:00,Treatment,Doctors
+3,protecting loved ones,20210620T0000,20210620T0000,00:00:00,Lifestyle Change,Home
+3,following recommended vaccination schedule,20210620T0000,20210620T0000,00:00:00,Treatment,following recommended vaccination schedule
