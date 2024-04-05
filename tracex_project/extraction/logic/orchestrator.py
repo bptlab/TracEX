@@ -4,7 +4,6 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from tracex.logic import utils
 
 from extraction.logic.modules.module_activity_labeler import ActivityLabeler
 from extraction.logic.modules.module_cohort_tagger import CohortTagger
@@ -13,10 +12,11 @@ from extraction.logic.modules.module_location_extractor import LocationExtractor
 from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
 from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
 
-# from .modules.module_metrics_analyzer import MetricsAnalyzer
-# from .modules.module_event_log_comparator import EventLogComparator
+# from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
+# from extraction.logic.modules.module_event_log_comparator import EventLogComparator
 
 from extraction.models import Trace, PatientJourney, Event, Cohort
+from tracex.logic import utils
 
 
 @dataclass
