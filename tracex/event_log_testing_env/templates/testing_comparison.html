@@ -5,14 +5,21 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
-
+<style>
+    body {
+        padding-top: 20px; /* Add padding to the top of the body */
+    }
+</style>
 <body class="selection_body">
     <div class="selection_container">
     <h1>Extraction Result</h1>
 
-
+    <h2>Patient Journey: {{ patient_journey_name }}</h2>
+    <p>{{ patient_journey }}</p>
     <p><b>This is the event log extracted from the journey above (single trace)</b></p>
-    <div id="xesContent1">{{ xes_html|safe }}</div>
+    <div id="xesContent1" style="text-align: center;">
+        {{ xes_html|safe }}
+    </div>
 
 
     <form method="post" action="{% url 'testing_result' %}">

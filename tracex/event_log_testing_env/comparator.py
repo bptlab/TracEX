@@ -10,17 +10,8 @@ from . import prompts as p
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-def comparing_event_logs(df, patient_journey_id):
+def comparing_event_logs(pipeline_df, ground_truth_df):
     """Comparing event logs."""
-
-    ground_truth_df = pd.read_csv(
-        c.comparison_path / "journey_test_1_comparison_basis.csv"
-    )
-
-    return start_comparison(df, ground_truth_df)
-
-
-def start_comparison(pipeline_df, ground_truth_df):
     matching_perc_pipeline_to_ground_truth = compare_activities(
         pipeline_df, ground_truth_df
     )

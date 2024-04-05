@@ -37,6 +37,10 @@ class EventLogTestingComparisonView(TemplateView):
             patient_journey_name=orchestrator.get_configuration().patient_journey_name,
             trace_position="last",
         )
+        context[
+            "patient_journey_name"
+        ] = orchestrator.get_configuration().patient_journey_name
+        context["patient_journey"] = orchestrator.get_configuration().patient_journey
         context["xes_html"] = utils.Conversion.create_html_from_xes(
             pipeline_output_df
         ).getvalue()
@@ -46,9 +50,15 @@ class EventLogTestingComparisonView(TemplateView):
     def post(self, request, *args, **kwargs):
         """Comparing a generated trace of a patient journey against the ground truth."""
         orchestrator = Orchestrator()
-        patient_journey_id = orchestrator.get_db_id_objects("patient_journey")
-        pipeline_output_df = orchestrator.get_data()
-        comparing_event_logs(pipeline_output_df, patient_journey_id)
+        pipeline_output_df = utils.DataFrameUtilities.get_events_df(
+            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            trace_position="last",
+        )
+        ground_truth_df = utils.DataFrameUtilities.get_events_df(
+            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            trace_position="first",
+        )
+        comparing_event_logs(pipeline_output_df, ground_truth_df)
         context = self.get_context_data(**kwargs)
         return self.render_to_response(context)
 
