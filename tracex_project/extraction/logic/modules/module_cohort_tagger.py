@@ -21,6 +21,7 @@ class CohortTagger(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute_and_save(self, df, patient_journey=None):
+        """Executes the module and saves the results in the database."""
         super().execute(df, patient_journey)
 
         return self.__extract_cohort_tags()
