@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Comparison</title>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
+
+<body class="selection_body">
+    <div class="selection_container">
+    <h1>Extraction Result</h1>
+    <script>
+        $(document).ready(function() {
+            $("#toggleButton1").click(function() {
+                $("#contentWrapper1").toggle();
+            });
+        });
+    </script>
+
+        <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
+        <div id="contentWrapper1" class="menu_button" style="display: none;">
+            <p><b>This is the event log extracted from the journey above (single trace)</b></p>
+            <div id="xesContent1">{{ xes_html|safe }}</div>
+        </div>
+
+    <form method="post" action="{% url 'testing_result' %}">
+        {% csrf_token %}
+        <button type="submit" class="menu_button" name="compare_button">Start Comparing Against Ground Truth</button>
+    </form>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</div>
+</body>
+</html>

@@ -26,7 +26,8 @@ from tracex.logic.constants import (
 )
 
 from . import function_calls
-
+from django.db.models import Q
+from extraction.models import Trace
 
 
 def deprecated(func):
@@ -212,4 +213,59 @@ class Conversion:
             elif is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
-    
+
+
+class DataFrameUtilities:
+    @staticmethod
+    def get_events_df(query: Q = None):
+        """Get all events from the database, or filter them by a query and return them as a dataframe."""
+        traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
+        event_data = []
+
+        for trace in traces:
+            events = trace.events.all()
+            for event in events:
+                event_data.append(
+                    {
+                        "case_id": trace.id,
+                        "activity": event.activity,
+                        "event_type": event.event_type,
+                        "start": event.start,
+                        "end": event.end,
+                        "duration": event.duration,
+                        "attribute_location": event.location,
+                    }
+                )
+        events_df = pd.DataFrame(event_data)
+
+        return events_df
+
+    @staticmethod
+    def flatten_list(original_list):
+        """Flatten a list of lists."""
+        flattened_list = []
+        for item in original_list:
+            if "," in item:
+                flattened_list.extend(item.split(", "))
+            else:
+                flattened_list.append(item)
+        return flattened_list
+
+    @staticmethod
+    def sort_dataframe(df):
+        """Sort a dataframe containing a trace by timestamp."""
+        sorted_df = df.sort_values(by="start_timestamp", inplace=False)
+        return sorted_df
+
+    @staticmethod
+    def filter_dataframe(df, filter_dict):
+        """Filter a dataframe."""
+        filter_conditions = [
+            df[column].isin(values) for column, values in filter_dict.items()
+        ]
+        combined_condition = pd.Series(True, index=df.index)
+
+        for condition in filter_conditions:
+            combined_condition &= condition
+
+        return df[combined_condition]

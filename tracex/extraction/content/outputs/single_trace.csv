@@ -1,2 +1,20 @@
 case_id,activity,start,end,duration,event_type,attribute_location
-1,"starting to experience symptoms, developing high fever, experiencing difficulty breathing, getting tested for Covid-19, receiving test results, testing positive for Covid-19",20220602T0000,20220617T0000,360:00:00,Symptom Onset,Home
+18,experiencing Covid-19 symptoms,20210715T0000,20210721T0000,144:00:00,Symptom Onset,Home
+18,isolating at home,20210715T0000,20210722T0000,168:00:00,Lifestyle Change,Home
+18,consulting a doctor,20210719T0000,20210719T0000,00:00:00,Doctor visit,Doctors
+18,getting tested for Covid-19,20210719T0000,20210719T0000,00:00:00,Diagnosis,Hospital
+18,confirming infection,20210719T0000,20210719T0000,00:00:00,Diagnosis,confirming infection
+18,recommending home quarantine,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Home
+18,focusing on resting,20210720T0000,20210720T0000,00:00:00,Lifestyle Change,Home
+18,following doctor's advice,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+18,receiving care from family,20210717T0000,20210717T0000,00:00:00,Treatment,Home
+18,slowly recovering,20210901T0000,20210901T0000,00:00:00,Treatment,appropriate location
+18,returning to work,20210901T0000,20210901T0000,00:00:00,Symptom Offset,N/A
+18,taking necessary precautions,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Other
+18,deciding to get vaccinated,20210901T0000,20210901T0000,00:00:00,Treatment,Home
+18,consulting with doctor,20210720T0000,20210720T0000,00:00:00,Doctor visit,Doctors
+18,receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+18,experiencing mild side effects,20210901T0000,20210901T0000,00:00:00,Treatment,Home
+18,receiving second vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+18,completing vaccination process,20210901T0000,20210901T0000,00:00:00,Treatment,Hospital
+18,feeling relief and hope,20210901T0000,20210901T0000,00:00:00,Feelings,Other

@@ -10,6 +10,11 @@ urlpatterns = [
         name="testing_environment",
     ),
     path(
+        "testing_environment/comparison/",
+        views.EventLogTestingComparisonView.as_view(),
+        name="testing_comparison",
+    ),
+    path(
         "testing_environment/result/",
         views.EventLogTestingResultView.as_view(),
         name="testing_result",

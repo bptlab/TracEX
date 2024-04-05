@@ -1,4 +1,4 @@
-case_id,activity,start,end,duration,event_type,attribute_location
+case_id,activity,start_timestamp,end,duration,event_type,attribute_location
 0,experiencing first covid 19 symptoms,20220815T0000,20220815T0000,12:00:00,Symptom Onset,Home
 0,self-isolating to protect patients,20220815T0000,20220829T0000,00:00:00,Lifestyle Change,Home
 0,experiencing worse symptoms,20220815T0000,20220818T0000,72:00:00,Symptom Onset,Home

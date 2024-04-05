@@ -12,6 +12,8 @@ class PatientJourneySelectForm(forms.Form):
         ].choices = self.get_patient_journey_choices()
 
     def get_patient_journey_choices(self):
-        patient_journeys = PatientJourney.manager.filter(name__contains="journey_test_")
+        patient_journeys = PatientJourney.manager.filter(
+            name__contains="journey_comparison_"
+        )
         choices = [(pj.name, pj.name) for pj in patient_journeys]
         return choices
