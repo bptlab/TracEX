@@ -3,6 +3,7 @@ from django.db import models
 
 from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 
+
 class PatientJourney(models.Model):
     """Model for the patient journey input."""
 
@@ -15,7 +16,7 @@ class PatientJourney(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"{self.name} (id: {self.id})"
+        return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Cohort(models.Model):
@@ -29,7 +30,7 @@ class Cohort(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"Cohort of {self.trace.__str__()} (id: {self.id})"
+        return f"Cohort of {self.trace.__str__()} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Trace(models.Model):
@@ -45,7 +46,7 @@ class Trace(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"Trace of {self.patient_journey.name} (id: {self.id})"
+        return f"Trace of {self.patient_journey.name} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Event(models.Model):
@@ -62,7 +63,7 @@ class Event(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"Event of {self.trace.__str__().split('(')[0]} (id: {self.id})"
+        return f"Event of {self.trace.__str__().split('(')[0]} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Prompt(models.Model):

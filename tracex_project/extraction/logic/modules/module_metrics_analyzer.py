@@ -28,6 +28,7 @@ class MetricsAnalyzer(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
+        """Executes the metrics analyzer."""
         super().execute(df, patient_journey)
 
         return self.__measure_metrics(df)

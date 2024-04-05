@@ -21,6 +21,7 @@ class LocationExtractor(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
+        """Extracts the locations for the corresponding activity labels from a patient journey."""
         super().execute(df, patient_journey)
         return self.__add_locations(df)
 

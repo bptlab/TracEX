@@ -21,6 +21,7 @@ class Preprocessor(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df=None, patient_journey=None):
+        """Preprocesses the patient input for better data quality."""
         super().execute(df, patient_journey)
         preprocessed_text = self.spellcheck(patient_journey)
         preprocessed_text = self.punctuationcheck(preprocessed_text)

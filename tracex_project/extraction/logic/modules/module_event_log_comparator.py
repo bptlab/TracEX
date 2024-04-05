@@ -25,6 +25,7 @@ class EventLogComparator(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None):
+        """Compares an event log with a ground truth."""
         super().execute(df, patient_journey)
 
         return self.__compare_event_logs(df)
