@@ -9,7 +9,7 @@ class PatientJourney(models.Model):
 
     name = models.CharField(
         max_length=100,
-        help_text="This is a unique title describing the content of the patient journey.",
+        help_text="The name represents a unique title describing the content of the patient journey.",
         unique=True,
     )
     patient_journey = models.TextField()
