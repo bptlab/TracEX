@@ -35,7 +35,7 @@ class ExtractionConfiguration:
             "preprocessing": Preprocessor,
             "cohort_tagging": CohortTagger,
             "activity_labeling": ActivityLabeler,
-            "time_extraction": TimeExtractorBackup,
+            "time_extraction": TimeExtractor,
             "event_type_classification": EventTypeClassifier,
             "location_extraction": LocationExtractor,
         }
