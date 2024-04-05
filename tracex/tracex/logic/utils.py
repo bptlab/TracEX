@@ -27,7 +27,9 @@ from tracex.logic.constants import (
 
 from . import function_calls
 from django.db.models import Q
-from extraction.models import Trace
+from extraction.models import Trace, PatientJourney
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Max, Min
 
 
 def deprecated(func):
@@ -217,11 +219,50 @@ class Conversion:
 
 class DataFrameUtilities:
     @staticmethod
-    def get_events_df(query: Q = None):
-        """Get all events from the database, or filter them by a query and return them as a dataframe."""
-        traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
-        event_data = []
+    def get_events_df(
+        patient_journey_name: str = None, query: Q = None, trace_position: str = "last"
+    ):
+        """
+        Get events from the database based on the specified criteria and return them as a dataframe.
 
+        Args:
+            patient_journey_name (str, optional): The name of the patient journey to filter traces by.
+                                                  If not provided, all traces will be considered.
+            query (Q, optional): Additional query to filter traces.
+            trace_position (str, optional): The position of the trace if there are many traces related to a patient journey.
+                                         Valid values are 'last' (default) or 'first'.
+
+        Returns:
+            pd.DataFrame: A dataframe containing the event data.
+
+        Raises:
+            ObjectDoesNotExist: If the specified patient journey name does not exist in the database.
+            ValueError: If an invalid value is provided for the trace_order parameter.
+        """
+        if patient_journey_name is None:
+            traces = Trace.manager.all()
+        else:
+            try:
+                patient_journey = PatientJourney.manager.get(name=patient_journey_name)
+                if trace_position == "last":
+                    trace_id = patient_journey.trace.aggregate(Max("id"))["id__max"]
+                elif trace_position == "first":
+                    trace_id = patient_journey.trace.aggregate(Min("id"))["id__min"]
+                else:
+                    raise ValueError(
+                        f"Invalid trace_order value: {trace_position}. Valid values are 'last' or 'first'."
+                    )
+
+                traces = Trace.manager.filter(id=trace_id)
+            except ObjectDoesNotExist:
+                raise ObjectDoesNotExist(
+                    f"PatientJourney with name '{patient_journey_name}' does not exist."
+                )
+
+        if query is not None:
+            traces = traces.filter(query)
+
+        event_data = []
         for trace in traces:
             events = trace.events.all()
             for event in events:
@@ -236,8 +277,8 @@ class DataFrameUtilities:
                         "attribute_location": event.location,
                     }
                 )
-        events_df = pd.DataFrame(event_data)
 
+        events_df = pd.DataFrame(event_data)
         return events_df
 
     @staticmethod

@@ -33,7 +33,10 @@ class EventLogTestingComparisonView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator().get_instance()
-        pipeline_output_df = utils.DataFrameUtilities.get_events_df()
+        pipeline_output_df = utils.DataFrameUtilities.get_events_df(
+            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            trace_position="last",
+        )
         context["xes_html"] = utils.Conversion.create_html_from_xes(
             pipeline_output_df
         ).getvalue()

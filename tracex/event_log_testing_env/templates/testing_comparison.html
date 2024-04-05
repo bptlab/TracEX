@@ -9,19 +9,11 @@
 <body class="selection_body">
     <div class="selection_container">
     <h1>Extraction Result</h1>
-    <script>
-        $(document).ready(function() {
-            $("#toggleButton1").click(function() {
-                $("#contentWrapper1").toggle();
-            });
-        });
-    </script>
 
-        <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
-        <div id="contentWrapper1" class="menu_button" style="display: none;">
-            <p><b>This is the event log extracted from the journey above (single trace)</b></p>
-            <div id="xesContent1">{{ xes_html|safe }}</div>
-        </div>
+
+    <p><b>This is the event log extracted from the journey above (single trace)</b></p>
+    <div id="xesContent1">{{ xes_html|safe }}</div>
+
 
     <form method="post" action="{% url 'testing_result' %}">
         {% csrf_token %}
