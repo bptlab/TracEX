@@ -1,78 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
-<title>Generation</title>
+<html lang="EN">
 <head>
+    <title>TracEX</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <style>
-        .form-row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-        .form-column {
-            flex: 1;
-            margin-right: 5px;
-        }
-        .form-column:last-child {
-            margin-right: 0;
-        }
-        input[type="submit"].button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5%;
-        }
-    </style>
 </head>
-<body class="main_body">
-    <h1>Generated Journey</h1>
-    <p>{{ generated_journey }}</p>
 
-    <p style="margin-bottom: 0"><b>If you want to proceed with this journey, select at least one event type or location, otherwise see the options below.</b></p>
-
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.journey.label_tag }} {{ form.journey }}
-                {{ form.journey.errors }}
-                <p>{{ form.journey.help_text }}</p>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.name.label_tag }} {{ form.name }}
-                {{ form.name.errors }}
-                <p>{{ form.name.help_text }}</p>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.event_types.label_tag }} {{ form.event_types }}
-                {{ form.event_types.errors }}
-            </div>
-            <div class="form-column">
-                {{ form.locations.label_tag }} {{ form.locations }}
-                {{ form.locations.errors }}
-            </div>
-        </div>
-
-        <input type="submit" value="Execute Extraction Pipeline with this Patient Journey and Configuration" class="button">
-    </form>
-
-    <p></p>
-
-
-    <a href="{% url 'journey_generation' %}">
-        <button>Re-generate Patient Journey</button>
-    </a>
-
-    <p></p>
-
-    <a href="{% url 'landing_page' %}">
-        <button>Return to TracEX menu</button>
-    </a>
-</body>
 </html>

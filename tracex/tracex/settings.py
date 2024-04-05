@@ -123,6 +123,7 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "extraction" / "static",
     BASE_DIR / "tracex" / "static",
+    BASE_DIR / "patient_journey_generator" / "static",
 ]
 
 # Default primary key field type
