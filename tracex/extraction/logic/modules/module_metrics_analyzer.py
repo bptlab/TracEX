@@ -5,7 +5,6 @@ import numpy as np
 from django.conf import settings
 
 from tracex.logic.logger import log_execution_time
-from tracex.logic import constants as c
 from tracex.logic import utils as u
 from ..module import Module
 from .. import prompts as p
@@ -27,8 +26,8 @@ class MetricsAnalyzer(Module):
         )
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None):
-        super().execute(df, patient_journey)
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__measure_metrics(df)
 

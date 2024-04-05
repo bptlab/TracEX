@@ -20,8 +20,8 @@ class Preprocessor(Module):
         self.description = "Preprocesses patient input for better data quality."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df=None, patient_journey=None):
-        super().execute(df, patient_journey)
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        super().execute(df, patient_journey, patient_journey_sentences)
         preprocessed_text = self.spellcheck(patient_journey)
         preprocessed_text = self.punctuationcheck(preprocessed_text)
         preprocessed_text = self.identify_timestamps(preprocessed_text)
@@ -29,9 +29,9 @@ class Preprocessor(Module):
         preprocessed_text = self.interprete_timestamps(preprocessed_text)
         preprocessed_text = self.calculate_timestamps(preprocessed_text)
         preprocessed_text = preprocessed_text.replace("\n", " ")
-        patient_journey_list = preprocessed_text.split(". ")
+        patient_journey_sentences = preprocessed_text.split(". ")
 
-        return patient_journey_list
+        return patient_journey_sentences
 
     def spellcheck(self, text):
         """Checks and corrects spelling and grammar in the input."""

@@ -105,20 +105,21 @@ class Orchestrator:
         """Run the modules."""
         modules = self.initialize_modules()
 
-        patient_journey = self.configuration.patient_journey
+        patient_journey_sentences = self.configuration.patient_journey.split(". ")
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            patient_journey = preprocessor.execute(
+            patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
-        else:
-            patient_journey = self.configuration.patient_journey.split(". ")
+        patient_journey = ". ".join(patient_journey_sentences)
 
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
-        ]().execute_and_save(self.data, patient_journey)
+        ]().execute_and_save(self.data, patient_journey_sentences)
         for module in modules:
-            self.data = module.execute(self.data, patient_journey)
+            self.data = module.execute(
+                self.data, patient_journey, patient_journey_sentences
+            )
         if self.data is not None:
             try:
                 latest_id = Trace.manager.latest("last_modified").id

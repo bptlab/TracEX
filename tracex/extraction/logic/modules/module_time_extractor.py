@@ -23,8 +23,8 @@ class TimeExtractor(Module):
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None):
-        super().execute(df, patient_journey)
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        super().execute(df, patient_journey, patient_journey_sentences)
         df["start"] = df.apply(self.__extract_start_date, axis=1)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
@@ -118,7 +118,7 @@ class TimeExtractor(Module):
     def __get_snippet(self, sentence_id):
         """Extract the snippet for a given activity."""
         lower = max(0, int(sentence_id) - 2)
-        upper = min(int(sentence_id) + 3, len(self.patient_journey))
-        snippet = ". ".join(self.patient_journey[lower:upper])
+        upper = min(int(sentence_id) + 3, len(self.patient_journey_sentences))
+        snippet = ". ".join(self.patient_journey_sentences[lower:upper])
 
         return snippet
