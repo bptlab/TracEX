@@ -8,10 +8,10 @@ from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.shortcuts import redirect
+from django.http import JsonResponse
 
 from tracex.logic import utils
-from .forms import JourneyForm, ResultForm
+from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace
 
@@ -27,18 +27,15 @@ class JourneyInputView(generic.CreateView):
 
     form_class = JourneyForm
     template_name = "upload_journey.html"
-    success_url = reverse_lazy("processing")
+    success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
-        self.request.session["is_extracted"] = False
         uploaded_file = self.request.FILES.get("file")
         content = uploaded_file.read().decode("utf-8")
         form.instance.patient_journey = content
 
         configuration = ExtractionConfiguration(
-            event_types=form.cleaned_data["event_types"],
-            locations=form.cleaned_data["locations"],
             patient_journey=content,
         )
         orchestrator = Orchestrator(configuration)
@@ -47,14 +44,52 @@ class JourneyInputView(generic.CreateView):
 
         return response
 
-class ProcessingView(generic.TemplateView):
-    """View for processing the patient journey."""
 
-    template_name = "processing.html"
+class JourneyFilterView(generic.FormView):
+    """View for selecting extraction results filter"""
+
+    form_class = FilterForm
+    template_name = "filter_journey.html"
+    success_url = reverse_lazy("result")
+
+    def form_valid(self, form):
+        """Run extraction pipeline and save the filter settings in the cache."""
+        orchestrator = Orchestrator.get_instance()
+        orchestrator.configuration.update(
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+        )
+        orchestrator.run(view=self)
+        single_trace_df = orchestrator.data
+        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
+            single_trace_df, orchestrator.configuration.activity_key
+        )
+        utils.Conversion.create_xes(
+            utils.CSV_OUTPUT,
+            name="single_trace",
+            key=orchestrator.configuration.activity_key,
+        )
+        self.request.session["is_extracted"] = True
+        self.request.session.save()
+
+        return super().form_valid(form)
 
     def get(self, request, *args, **kwargs):
-        """Redirect to result page."""
-        return redirect("result")
+        """Return a JSON response with the current progress of the pipeline."""
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        if is_ajax:
+            progress_information = {
+                "progress": self.request.session.get("progress"),
+                "status": self.request.session.get("status"),
+            }
+            return JsonResponse(progress_information)
+
+        self.request.session["is_extracted"] = False
+        self.request.session["progress"] = 0
+        self.request.session["status"] = None
+        self.request.session.save()
+
+        return super().get(request, *args, **kwargs)
 
 
 class ResultView(generic.FormView):
@@ -73,30 +108,9 @@ class ResultView(generic.FormView):
             "concept:name": event_types,
             "attribute_location": orchestrator.configuration.locations,
         }
-        is_extracted = (
-            False
-            if self.request.session.get("is_extracted") is None
-            else self.request.session.get("is_extracted")
-        )
-        # 1. Run the pipeline to create the single trace
-        if not (IS_TEST or is_extracted):
-            orchestrator.run()
-            single_trace_df = orchestrator.data
-            single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-                single_trace_df, orchestrator.configuration.activity_key
-            )
-            # TODO: only do this if an export button in the UI is pressed
-            utils.Conversion.create_xes(
-                utils.CSV_OUTPUT,
-                name="single_trace",
-                key=orchestrator.configuration.activity_key,
-            )
-            self.request.session["is_extracted"] = True
-        else:
-            output_path_xes = (
-                f"{str(utils.output_path / 'single_trace')}_event_type.xes"
-            )
-            single_trace_df = pm4py.read_xes(output_path_xes)
+
+        output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
+        single_trace_df = pm4py.read_xes(output_path_xes)
 
         # 2. Sort and filter the single journey dataframe
         single_trace_df = self.sort_dataframe(single_trace_df)

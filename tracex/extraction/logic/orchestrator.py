@@ -102,21 +102,30 @@ class Orchestrator:
         print("Initialization of modules successful.")
         return modules
 
-    def run(self):
+    def run(self, view=None):
         """Run the modules."""
         modules = self.initialize_modules()
+        current_step = 0
 
         patient_journey = self.configuration.patient_journey
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
-            patient_journey = preprocessor.execute(patient_journey=self.configuration.patient_journey)
+            self.update_progress(view, current_step, "Preprocessing")
+            patient_journey = preprocessor.execute(
+                patient_journey=self.configuration.patient_journey
+            )
+            current_step += 1
 
-
+        self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
         ]().execute_and_save(self.data, patient_journey)
+        current_step += 1
         for module in modules:
+            self.update_progress(view, current_step, module.name)
             self.data = module.execute(self.data, patient_journey)
+            current_step += 1
+
         if self.data is not None:
             try:
                 latest_id = Trace.manager.latest("last_modified").id
@@ -151,3 +160,11 @@ class Orchestrator:
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
+
+    def update_progress(self, view, current_step, module_name):
+        """Update the progress of the extraction."""
+        if view is not None:
+            percentage = round((current_step / len(self.configuration.modules)) * 100)
+            view.request.session["progress"] = percentage
+            view.request.session["status"] = module_name
+            view.request.session.save()

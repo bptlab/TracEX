@@ -5,7 +5,7 @@
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
     width: 50%;
-    margin-top: 5%;
+    margin-top: 0%;
     margin-left: auto;
     margin-right: auto;
 }
@@ -16,7 +16,7 @@ button, input[type="submit"].button  {
 }
 
 .menu_button, input[type="submit"].button{
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .item {
@@ -41,7 +41,7 @@ h2 {
 }
 
 .form {
-    margin-bottom: 20px;
+    margin-bottom: -10px;
 }
 
 .form-row {
@@ -55,6 +55,10 @@ h2 {
 }
 .form-column:last-child {
     margin-right: 0;
+}
+
+.not_visible {
+    display: none;
 }
 
 
@@ -117,7 +121,7 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .landing_page_container {
@@ -125,7 +129,7 @@ h2 {
 }
 
 
-/* EXTRACTION */ 
+/* EXTRACTION */
 
 .dfg-container img {
     width: 100%;
@@ -167,12 +171,11 @@ h2 {
 }
 
 .landing_page_logo {
-    max-width: 700px;
-    margin-bottom: 10px;
-    margin-top: 200px;
-    display: block;
-    margin: 0 auto;
+    max-width: 95%;
+    height: auto;
+    object-fit: contain;
 }
+
 
 .selection_logo {
     max-width: 800px;
@@ -181,13 +184,31 @@ h2 {
 }
 
 .patient_journey_generator_logo {
-    width: 280px; 
-    height: auto; 
+    width: 280px;
+    height: auto;
     }
 
 .extraction_logo {
     width: 350px;
     height: auto;
     display: block;
-    margin: 0 auto; 
+    margin: 0 auto;
+}
+
+/* PAGE TRANSITIONS */
+.landing_page_body, .selection_body, .main_body {
+    animation: transitionIn 1s;
+}
+
+
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
 }

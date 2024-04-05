@@ -1,6 +1,8 @@
+<!DOCTYPE html>
 <head>
     <title>Upload Journey</title>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 
@@ -28,18 +30,8 @@
                 <p>{{ form.name.help_text }}</p>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.event_types.label_tag }} {{ form.event_types }}
-                {{ form.event_types.errors }}
-            </div>
-            <div class="form-column">
-                {{ form.locations.label_tag }} {{ form.locations }}
-                {{ form.locations.errors }}
-            </div>
-        </div>
 
-        <input type="submit" value="Upload" class="button">
+        <input type="submit" value="Next" class="button">
     </form>
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX menu</button>
