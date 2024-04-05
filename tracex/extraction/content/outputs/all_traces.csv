@@ -22,19 +22,3 @@ case_id,activity,start,end,duration,event_type,attribute_location
 1,Finding work-life balance,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
 1,Prioritizing self-care,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
 1,Creating meaningful time with loved ones,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
-2,"experiencing first Covid-19 symptoms: mild cough, fatigue",20220601T0000,20220608T0000,168:00:00,Symptom Onset,Home
-2,brushing off symptoms as common cold,20220601T0000,20220608T0000,168:00:00,Other,Home
-2,developing high fever and difficulty breathing,20220601T0000,20220611T0000,240:00:00,Symptom Onset,Hospital
-2,deciding to get tested for Covid-19,20220601T0000,20220617T0000,384:00:00,Diagnosis,Doctors
-2,going to local testing center,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
-2,undergoing PCR test,20220617T0000,20220617T0000,00:00:00,Diagnosis,Home
-2,receiving negative test results,20220617T0000,20220619T0000,48:00:00,Diagnosis,Doctors
-2,getting infected and testing positive,20220617T0000,20220617T0000,00:00:00,Symptom Onset,Home
-3,experiencing first Covid-19 symptoms,20220715T0000,20220729T0000,336:00:00,Symptom Onset,Home
-3,isolating myself to prevent spread,20220715T0000,20220729T0000,336:00:00,Lifestyle Change,Home
-3,"symptoms worsening: persistent cough, fever, fatigue",20220715T0000,20220718T0000,72:00:00,Seeking Medical Advice,Home
-3,contacting primary care physician for advice,20220718T0000,20220718T0000,00:00:00,Doctor visit,Doctors
-3,monitoring symptoms closely,20220715T0000,20220725T0000,240:00:00,Symptom Onset,Home
-3,getting tested for Covid-19,20220718T0000,20220719T0000,24:00:00,Diagnosis,Hospital
-3,continuing to isolate at home,20220715T0000,20220729T0000,336:00:00,Other,Home
-3,taking over-the-counter medications for symptoms,20220715T0000,20220722T0000,168:00:00,Treatment,Home

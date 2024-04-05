@@ -22,8 +22,8 @@ class EventTypeClassifier(Module):
         self.description = "Classifies the event types for the corresponding activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None):
-        super().execute(df, patient_journey)
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__add_event_types(df)
 
@@ -37,28 +37,8 @@ class EventTypeClassifier(Module):
     @staticmethod
     def __classify_event_type(activity_label):
         """Classify the event type for a given activity."""
-        messages = [
-            {"role": "system", "content": p.EVENT_TYPE_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.EVENT_TYPE_PROMPT}\n The bulletpoint: {activity_label}",
-            },
-            {"role": "assistant", "content": p.EVENT_TYPE_ANSWER},
-        ]
-        output = u.query_gpt(messages)
-        fc_message = [
-            {"role": "system", "content": p.FC_EVENT_TYPE_CONTEXT},
-            {
-                "role": "user",
-                "content": f"{p.FC_EVENT_TYPE_PROMPT} The text: {output}",
-            },
-        ]
-        event_type = u.query_gpt(
-            messages=fc_message,
-            tool_choice={
-                "type": "function",
-                "function": {"name": "add_event_type"},
-            },
-        )
+        messages = p.EVENT_TYPE_MESSAGES[:]
+        messages.append({"role": "user", "content": activity_label})
+        event_type = u.query_gpt(messages)
 
         return event_type

@@ -8,7 +8,7 @@ from tracex.logic import utils
 
 from .modules.module_activity_labeler import ActivityLabeler
 from .modules.module_cohort_tagger import CohortTagger
-from .modules.module_time_extractor_backup import TimeExtractorBackup
+from .modules.module_time_extractor import TimeExtractor
 from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 from .modules.module_patient_journey_preprocessor import Preprocessor
@@ -133,6 +133,7 @@ class Orchestrator:
                 patient_journey=self.get_configuration().patient_journey
             )
             current_step += 1
+        patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
         self.set_db_id_objects(

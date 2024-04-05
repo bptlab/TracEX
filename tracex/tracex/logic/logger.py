@@ -3,7 +3,7 @@ import ast
 import time
 import functools
 import inspect
-from logging import getLogger,INFO, FileHandler, Formatter
+from logging import getLogger, INFO, FileHandler, Formatter
 
 import pandas as pd
 
@@ -49,12 +49,16 @@ def log_tokens_used(log_file_path):
             response = func(*args, **kwargs)
 
             tokens_used = response.usage.total_tokens
+            input_tokens_used = response.usage.prompt_tokens
+            output_tokens_used = response.usage.completion_tokens
             parent_calling_frame = inspect.stack()[2]
             log_entry = {
                 "calling_function_name": parent_calling_frame[3],
                 "calling_file": parent_calling_frame[1],
                 "calling_line": parent_calling_frame[2],
                 "tokens_used": tokens_used,
+                "input_tokens_used": input_tokens_used,
+                "output_tokens_used": output_tokens_used,
             }
             logger.info(log_entry)
 
