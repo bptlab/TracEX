@@ -61,6 +61,12 @@ h2 {
     display: none;
 }
 
+.xes_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 
 /* LANDING PAGE */
 

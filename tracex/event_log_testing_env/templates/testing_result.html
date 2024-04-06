@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Testing Result</title>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
+<body class="main_body">
+    <div class="container">
+    <h1>Comparison Result</h1>
+
+    <h2>Patient Journey: {{ patient_journey_name }}</h2>
+    <p>{{ patient_journey }}</p>
+    <p><b>This is the event log extracted from the journey above</b></p>
+    <div id="xesContent" class="xes_container">
+        {{ xes_pipeline_output|safe }}
+      </div>
+
+
+    <a href="{% url 'testing_environment' %}">
+        <button class="menu_button">Return to Event Log Testing Environment</button>
+    </a>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</div>
+</body>
+</html>

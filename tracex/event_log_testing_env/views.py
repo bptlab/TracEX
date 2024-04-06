@@ -6,6 +6,7 @@ from extraction.models import PatientJourney
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .comparator import comparing_event_logs
 from tracex.logic import utils
+from django.shortcuts import redirect
 
 
 class EventLogTestingOverviewView(FormView):
@@ -41,10 +42,10 @@ class EventLogTestingComparisonView(TemplateView):
             "patient_journey_name"
         ] = orchestrator.get_configuration().patient_journey_name
         context["patient_journey"] = orchestrator.get_configuration().patient_journey
-        context["xes_html"] = utils.Conversion.create_html_from_xes(
+        context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
             pipeline_output_df
         ).getvalue()
-        print(context["xes_html"])
+
         return context
 
     def post(self, request, *args, **kwargs):
@@ -58,10 +59,33 @@ class EventLogTestingComparisonView(TemplateView):
             patient_journey_name=orchestrator.get_configuration().patient_journey_name,
             trace_position="first",
         )
-        comparing_event_logs(pipeline_output_df, ground_truth_df)
-        context = self.get_context_data(**kwargs)
-        return self.render_to_response(context)
+
+        comparison_result = comparing_event_logs(
+            self, pipeline_output_df, ground_truth_df
+        )
+
+        request.session["pipeline_output_df"] = pipeline_output_df
+        request.session["ground_truth_df"] = ground_truth_df
+        request.session["comparison_result"] = comparison_result
+
+        return redirect("testing_result")
 
 
 class EventLogTestingResultView(TemplateView):
     template_name = "testing_result.html"
+
+    def post(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        orchestrator = Orchestrator().get_instance()
+        context[
+            "patient_journey_name"
+        ] = orchestrator.get_configuration().patient_journey_name
+        context["patient_journey"] = orchestrator.get_configuration().patient_journey
+        context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
+            request.get("pipeline_output_df")
+        ).getvalue()
+        context["xes_ground_truth"] = utils.Conversion.create_html_from_xes(
+            request.get("ground_truth_df")
+        ).getvalue()
+
+        return self.render_to_response(context)
