@@ -125,12 +125,12 @@ class Orchestrator:
         modules = self.initialize_modules()
         current_step = 0
 
-        patient_journey = self.get_configuration().patient_journey
-        if "preprocessing" in self.get_configuration().modules:
-            preprocessor = self.get_configuration().modules.get("preprocessing")()
-            self.update_progress(view, current_step, "Preprocessor")
-            patient_journey = preprocessor.execute(
-                patient_journey=self.get_configuration().patient_journey
+        patient_journey_sentences = self.configuration.patient_journey.split(". ")
+        if "preprocessing" in self.configuration.modules:
+            preprocessor = self.configuration.modules.get("preprocessing")()
+            self.update_progress(view, current_step, "Preprocessing")
+            patient_journey_sentences = preprocessor.execute(
+                patient_journey=self.configuration.patient_journey
             )
             current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
@@ -142,11 +142,15 @@ class Orchestrator:
             .modules["cohort_tagging"]()
             .execute_and_save(self.get_data(), patient_journey),
         )
-
         current_step += 1
+
         for module in modules:
             self.update_progress(view, current_step, module.name)
-            self.set_data(module.execute(self.get_data(), patient_journey))
+            self.set_data(
+                module.execute(
+                    self.get_data(), patient_journey, patient_journey_sentences
+                )
+            )
             current_step += 1
 
         if self.get_data() is not None:
