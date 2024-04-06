@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 
 class EventLogTestingOverviewView(FormView):
     form_class = PatientJourneySelectForm
-    template_name = "test.html"
+    template_name = "testing_result.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
