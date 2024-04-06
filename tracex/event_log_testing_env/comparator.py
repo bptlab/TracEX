@@ -11,7 +11,7 @@ from . import prompts as p
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-def execute(pipeline_df, ground_truth_df):
+def execute(view, pipeline_df, ground_truth_df):
     """Compares the output of the pipeline against the ground truth."""
     mapping_groundtruth_to_data = (
         []
@@ -104,7 +104,6 @@ def compare_activities(
     return matching_percentage
 
 
-@staticmethod
 def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
@@ -129,7 +128,6 @@ def find_activity(
     mapping_input_to_comparison.append(-1)
 
 
-@staticmethod
 def find_missing_activities(ground_truth_activities, mapping_groundtruth_to_data):
     number_of_missing_activities = len(
         [elem for elem in mapping_groundtruth_to_data if elem == -1]
@@ -145,7 +143,6 @@ def find_missing_activities(ground_truth_activities, mapping_groundtruth_to_data
                 f.write(f"{ground_truth_activities[count]}\n")
 
 
-@staticmethod
 def find_unexpected_activities(df_activities, mapping_data_to_groundtruth):
     number_of_unexpected_activities = len(
         [elem for elem in mapping_data_to_groundtruth if elem == -1]
@@ -161,7 +158,6 @@ def find_unexpected_activities(df_activities, mapping_data_to_groundtruth):
                 f.write(f"{df_activities[count]}\n")
 
 
-@staticmethod
 def find_wrong_orders(df_activities, mapping_groundtruth_to_data):
     wrong_orders = []
     for index, first_activity in enumerate(mapping_groundtruth_to_data):

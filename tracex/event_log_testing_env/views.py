@@ -4,14 +4,14 @@ from django.urls import reverse_lazy
 from .forms import PatientJourneySelectForm
 from extraction.models import PatientJourney
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from .comparator import comparing_event_logs
+from . import comparator
 from tracex.logic import utils
 from django.shortcuts import redirect
 
 
 class EventLogTestingOverviewView(FormView):
     form_class = PatientJourneySelectForm
-    template_name = "testing_overview.html"
+    template_name = "test.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
@@ -60,13 +60,13 @@ class EventLogTestingComparisonView(TemplateView):
             trace_position="first",
         )
 
-        comparison_result = comparing_event_logs(
+        comparison_result = comparator.execute(
             self, pipeline_output_df, ground_truth_df
         )
 
         request.session["pipeline_output_df"] = pipeline_output_df
         request.session["ground_truth_df"] = ground_truth_df
-        request.session["comparison_result"] = comparison_result
+        # request.session["comparison_result"] = comparison_result
 
         return redirect("testing_result")
 
