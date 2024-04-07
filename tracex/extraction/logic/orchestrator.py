@@ -27,7 +27,6 @@ class ExtractionConfiguration:
     """
 
     patient_journey: Optional[str] = None
-    patient_journey_name: Optional[str] = None
     event_types: Optional[List[str]] = None
     locations: Optional[List[str]] = None
     modules: Dict[str, Type] = field(

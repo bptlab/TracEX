@@ -36,9 +36,7 @@ class JourneyInputView(generic.CreateView):
         form.instance.patient_journey = content
 
         response = super().form_valid(form)
-        configuration = ExtractionConfiguration(
-            patient_journey=content, patient_journey_name=self.object.name
-        )
+        configuration = ExtractionConfiguration(patient_journey=content)
         orchestrator = Orchestrator(configuration)
         orchestrator.set_db_id_objects("patient_journey", self.object.id)
         return response

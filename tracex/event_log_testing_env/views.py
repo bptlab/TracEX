@@ -19,10 +19,10 @@ class EventLogTestingOverviewView(FormView):
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
         configuration = ExtractionConfiguration(
             patient_journey=patient_journey_entry.patient_journey,
-            patient_journey_name=selected_journey,
         )
         orchestrator = Orchestrator(configuration=configuration)
         orchestrator.set_db_id_objects("patient_journey", patient_journey_entry.id)
+        self.request.session["patient_journey_name"] = selected_journey
         self.request.session["is_comparing"] = True
 
         return super().form_valid(form)
@@ -35,12 +35,12 @@ class EventLogTestingComparisonView(TemplateView):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator().get_instance()
         pipeline_output_df = utils.DataFrameUtilities.get_events_df(
-            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            patient_journey_name=self.request.session.get("patient_journey_name"),
             trace_position="last",
         )
-        context[
+        context["patient_journey_name"] = self.request.session.get(
             "patient_journey_name"
-        ] = orchestrator.get_configuration().patient_journey_name
+        )
         context["patient_journey"] = orchestrator.get_configuration().patient_journey
         context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
             pipeline_output_df
@@ -53,11 +53,11 @@ class EventLogTestingComparisonView(TemplateView):
         print("INSIDE")
         orchestrator = Orchestrator()
         pipeline_output_df = utils.DataFrameUtilities.get_events_df(
-            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            patient_journey_name=self.request.session.get("patient_journey_name"),
             trace_position="last",
         )
         ground_truth_df = utils.DataFrameUtilities.get_events_df(
-            patient_journey_name=orchestrator.get_configuration().patient_journey_name,
+            patient_journey_name=self.request.session.get("patient_journey_name"),
             trace_position="first",
         )
         ### nach Timestamp sortieren fehlt noch
@@ -86,9 +86,9 @@ class EventLogTestingResultView(TemplateView):
     def post(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         orchestrator = Orchestrator().get_instance()
-        context[
+        context["patient_journey_name"] = self.request.session.get(
             "patient_journey_name"
-        ] = orchestrator.get_configuration().patient_journey_name
+        )
         context["patient_journey"] = orchestrator.get_configuration().patient_journey
         context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
             request.get("pipeline_output_df")
