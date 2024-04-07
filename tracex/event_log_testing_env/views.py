@@ -11,7 +11,7 @@ from django.shortcuts import redirect
 
 class EventLogTestingOverviewView(FormView):
     form_class = PatientJourneySelectForm
-    template_name = "testing_result.html"
+    template_name = "testing_overview.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
@@ -50,6 +50,7 @@ class EventLogTestingComparisonView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         """Comparing a generated trace of a patient journey against the ground truth."""
+        print("INSIDE")
         orchestrator = Orchestrator()
         pipeline_output_df = utils.DataFrameUtilities.get_events_df(
             patient_journey_name=orchestrator.get_configuration().patient_journey_name,
@@ -59,14 +60,17 @@ class EventLogTestingComparisonView(TemplateView):
             patient_journey_name=orchestrator.get_configuration().patient_journey_name,
             trace_position="first",
         )
-
-        comparison_result = comparator.execute(
+        print("Comparison")
+        comparison_result_dict = comparator.execute(
             self, pipeline_output_df, ground_truth_df
         )
 
+        for key, value in comparison_result_dict.items():
+            print(key + ":", value)
+
         request.session["pipeline_output_df"] = pipeline_output_df
         request.session["ground_truth_df"] = ground_truth_df
-        # request.session["comparison_result"] = comparison_result
+        request.session["comparison_result"] = comparison_result_dict
 
         return redirect("testing_result")
 
