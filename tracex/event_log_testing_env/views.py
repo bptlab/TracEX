@@ -60,6 +60,8 @@ class EventLogTestingComparisonView(TemplateView):
             patient_journey_name=orchestrator.get_configuration().patient_journey_name,
             trace_position="first",
         )
+        ### nach Timestamp sortieren fehlt noch
+        ### übergeben von den ids und dann später nochmal db call
         print("Comparison")
         comparison_result_dict = comparator.execute(
             self, pipeline_output_df, ground_truth_df
@@ -68,8 +70,11 @@ class EventLogTestingComparisonView(TemplateView):
         for key, value in comparison_result_dict.items():
             print(key + ":", value)
 
-        request.session["pipeline_output_df"] = pipeline_output_df
-        request.session["ground_truth_df"] = ground_truth_df
+        print(pipeline_output_df.to_dict())
+        print(ground_truth_df.to_dict())
+
+        request.session["pipeline_output_df"] = pipeline_output_df.to_dict()
+        request.session["ground_truth_df"] = ground_truth_df.to_dict()
         request.session["comparison_result"] = comparison_result_dict
 
         return redirect("testing_result")
