@@ -23,6 +23,7 @@ class Preprocessor(Module):
     def execute(
         self, _input=None, patient_journey=None, patient_journey_sentences=None
     ):
+        """Preprocesses the patient input for better data quality."""
         super().execute(_input, patient_journey, patient_journey_sentences)
         preprocessed_text = self.__spellcheck(patient_journey)
         preprocessed_text = self.__punctuationcheck(preprocessed_text)

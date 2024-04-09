@@ -23,6 +23,7 @@ class ActivityLabeler(Module):
     def execute(
         self, _input=None, patient_journey=None, patient_journey_sentences=None
     ):
+        """Extracts the activity labels from the patient journey."""
         super().execute(_input, patient_journey, patient_journey_sentences)
 
         return self.__extract_activities()

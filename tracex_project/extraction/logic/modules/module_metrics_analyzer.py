@@ -6,7 +6,6 @@ from django.conf import settings
 
 from extraction.logic.module import Module
 from extraction.logic import prompts as p
-from tracex.logic import constants as c
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -28,6 +27,7 @@ class MetricsAnalyzer(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        """Measures different metrics while the dataframe is created."""
         super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__measure_metrics(df)

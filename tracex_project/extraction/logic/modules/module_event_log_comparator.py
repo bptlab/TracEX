@@ -26,6 +26,7 @@ class EventLogComparator(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        """Compares the event log created by the pipeline against a manually created ground truth."""
         super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__compare_event_logs(df)
