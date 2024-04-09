@@ -7,13 +7,13 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from extraction.logic.modules.module_activity_labeler import ActivityLabeler
 from extraction.logic.modules.module_cohort_tagger import CohortTagger
-from extraction.logic.modules.module_time_extractor_backup import TimeExtractorBackup
+from extraction.logic.modules.module_time_extractor import TimeExtractor
 from extraction.logic.modules.module_location_extractor import LocationExtractor
 from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
 from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
 
-# from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
-# from extraction.logic.modules.module_event_log_comparator import EventLogComparator
+# from .modules.module_metrics_analyzer import MetricsAnalyzer
+# from .modules.module_event_log_comparator import EventLogComparator
 
 from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
@@ -35,12 +35,12 @@ class ExtractionConfiguration:
         "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
-        "time_extraction": TimeExtractorBackup,
+        "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         # This module should be activated only if the user wants to analyze the metrics
-        # "metrics_analyzer": MetricsAnalyzer,
+        "metrics_analyzer": MetricsAnalyzer,
         # Only activate this module with a test comparison patient journey as ground truth
-        # "event_log_comparator": EventLogComparator,
+        "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -107,23 +107,26 @@ class Orchestrator:
         modules = self.initialize_modules()
         current_step = 0
 
-        patient_journey = self.configuration.patient_journey
+        patient_journey_sentences = self.configuration.patient_journey.split(". ")
         if "preprocessing" in self.configuration.modules:
             preprocessor = self.configuration.modules.get("preprocessing")()
             self.update_progress(view, current_step, "Preprocessing")
-            patient_journey = preprocessor.execute(
+            patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
             current_step += 1
+        patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
-        ]().execute_and_save(self.data, patient_journey)
+        ]().execute_and_save(self.data, patient_journey_sentences)
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
-            self.data = module.execute(self.data, patient_journey)
+            self.data = module.execute(
+                self.data, patient_journey, patient_journey_sentences
+            )
             current_step += 1
 
         if self.data is not None:
@@ -131,6 +134,7 @@ class Orchestrator:
                 latest_id = Trace.manager.latest("last_modified").id
             except ObjectDoesNotExist:
                 latest_id = 0
+            del self.data["sentence_id"]
             self.data.insert(0, "case_id", latest_id + 1)
             self.data.to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
