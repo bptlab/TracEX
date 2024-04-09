@@ -52,9 +52,6 @@ def compare_activities_by_similarity(
     mapping_data_to_ground_truth,
     mapping_ground_truth_to_data,
 ):
-    with open(c.output_path / "compare.txt", "w") as f:
-        f.write("Activity comparisons\n\n")
-
     matching_percent_pipeline_to_ground_truth = compare_activities(
         pipeline_activities, ground_truth_activities, mapping_data_to_ground_truth
     )
@@ -110,9 +107,6 @@ def find_activity(
         )
         response = u.query_gpt(messages)
 
-        with open(c.output_path / "compare.txt", "a") as f:
-            f.write(f'"{activity}" compared with: "{second_activity}"\n{response}\n\n')
-
         if "True" in response:
             mapping_input_to_comparison.append(lower + count)
             return
@@ -125,8 +119,6 @@ def find_missing_activities(ground_truth_activities, mapping_ground_truth_to_dat
     for count, value in enumerate(mapping_ground_truth_to_data):
         if value == -1:
             missing_activites.append(ground_truth_activities[count])
-            # with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-            #     f.write(f"{ground_truth_activities[count]}\n")
 
     missing_activities_dict = {
         "number_of_missing_activities": len(missing_activites),
@@ -142,8 +134,6 @@ def find_unexpected_activities(df_activities, mapping_data_to_ground_truth):
     for count, value in enumerate(mapping_data_to_ground_truth):
         if value == -1:
             unexpteced_activities.append(df_activities[count])
-            # with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-            #     f.write(f"{df_activities[count]}\n")
 
     unexpected_activities_dict = {
         "number_of_unexpected_activities": len(unexpteced_activities),
@@ -165,13 +155,6 @@ def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
                 wrong_orders.append(
                     (df_activities[second_activity], df_activities[first_activity])
                 )
-
-    # with open(c.output_path / "event_log_comparison.txt", "a") as f:
-    #     f.write(f"\nWrong orders in the pipeline: {len(wrong_orders)}\n")
-    #     for first_activity, second_activity in wrong_orders:
-    #         f.write(
-    #             f'"{df_activities[second_activity]}" should come before "{df_activities[first_activity]}"\n'
-    #         )
 
     wrong_orders_dict = {
         "number_of_wrong_orders": len(wrong_orders),

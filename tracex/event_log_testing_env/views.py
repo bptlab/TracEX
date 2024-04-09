@@ -12,7 +12,7 @@ import pandas as pd
 
 class EventLogTestingOverviewView(FormView):
     form_class = PatientJourneySelectForm
-    template_name = "testing_result.html"
+    template_name = "testing_overview.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
@@ -74,6 +74,8 @@ class EventLogTestingComparisonView(TemplateView):
 
 
 class EventLogTestingResultView(TemplateView):
+    """Preparing the result data and saving them into the context for the results page."""
+
     template_name = "testing_result.html"
 
     def get_context_data(self, **kwargs):
@@ -147,29 +149,34 @@ class EventLogTestingResultView(TemplateView):
             comparison_result_dict["unexpected_activities"],
             columns=["Unexpected Activities"],
         )
+
         wrong_orders_df = pd.DataFrame(
-            [
-                {"Wrong Orders": (second_activity, first_activity)}
-                for second_activity, first_activity in comparison_result_dict[
-                    "wrong_orders"
-                ]
-            ]
+            comparison_result_dict["wrong_orders"],
+            columns=["Expected Preceding Activity", "Actual Preceding Activity"],
         )
 
-        context["mapping_data_to_ground_truth_df"] = data_to_ground_truth_df.to_html()
-        context["mapping_ground_truth_to_data_df"] = ground_truth_to_data_df.to_html()
+        context["mapping_data_to_ground_truth_df"] = data_to_ground_truth_df.to_html(
+            index=False
+        )
+        context["mapping_ground_truth_to_data_df"] = ground_truth_to_data_df.to_html(
+            index=False
+        )
 
         context["number_of_missing_activities"] = comparison_result_dict[
             "number_of_missing_activities"
         ]
-        context["missing_activities"] = missing_activities_df.to_html()
+        context["missing_activities"] = missing_activities_df.to_html(
+            index=False, header=False
+        )
         context["number_of_unexpected_activities"] = comparison_result_dict[
             "number_of_unexpected_activities"
         ]
-        context["unexpected_activities"] = unexpected_activities_df.to_html()
+        context["unexpected_activities"] = unexpected_activities_df.to_html(
+            index=False, header=False
+        )
         context["number_of_wrong_orders"] = comparison_result_dict[
             "number_of_wrong_orders"
         ]
-        context["wrong_orders"] = wrong_orders_df.to_html()
+        context["wrong_orders"] = wrong_orders_df.to_html(index=False)
 
         return context

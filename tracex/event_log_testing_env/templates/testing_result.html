@@ -83,6 +83,16 @@
             display: inline-block; /* Add this line */
             text-align: left; /* Add this line */
         }
+        .dataframe { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; }
+        .dataframe th, .dataframe td { padding: 8px; text-align: center; }
+        .dataframe thead { background-color: #f1f1f1; }
+        .dataframe tbody tr:nth-child(even) { background-color: #f9f9f9; }
+        .number-metric {
+        font-size: 48px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
     </style>
 </head>
 <body class="main_body">
@@ -90,34 +100,37 @@
 <div class="dashboard">
     <div class="row">
         <div class="metric-tile">
-            <h3>Metric 1</h3>
-            <div class="metric-content">{{ mapping_data_to_ground_truth_df }} </div>
+            <h3>Mapping Pipeline Activity to <br> Ground Truth Activity</h3>
+            <div class="metric-content">{{ mapping_data_to_ground_truth_df|safe }} </div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">Info about Metric 1</div>
         </div>
         <div class="metric-tile">
-            <h3>Metric 2</h3>
-            <div class="metric-content">{{ mapping_ground_truth_to_data_df }}</div>
+            <h3>Mapping Ground Truth Activity to <br> Pipeline Activity</h3>
+            <div class="metric-content">{{ mapping_ground_truth_to_data_df|safe }}</div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">Info about Metric 2</div>
         </div>
     </div>
     <div class="row">
         <div class="metric-tile">
-            <h3>Metric 3</h3>
-            <div class="metric-content">{{ number_of_missing_activities }}</div>
-            <span class="info-icon">&#9432;</span>
+            <h3>Number of <br> Missing Activities</h3>
+            <div class="number-metric">{{ number_of_missing_activities }}</div>
+            <div class="metric-content">{{ missing_activities|safe }}</div>
+            <span class="info-icon ">&#9432;</span>
             <div class="info-text">Info about Metric 3</div>
         </div>
         <div class="metric-tile">
-            <h3>Metric 4</h3>
-            <div class="metric-content">{{ number_of_unexpected_activities }}</div>
+            <h3>Number of <br> Unexepcted Activities</h3>
+            <div class="metric-content number-metric">{{ number_of_unexpected_activities }}</div>
+            <div class="metric-content">{{ unexpected_activities|safe }}</div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">Info about Metric 4</div>
         </div>
         <div class="metric-tile">
-            <h3>Metric 5</h3>
-            <div class="metric-content">{{ number_of_wrong_orders }}</div>
+            <h3>Number of <br> Wrong Orders</h3>
+            <div class="metric-content number-metric">{{ number_of_wrong_orders }}</div>
+            <div class="metric-content">{{ wrong_orders|safe }}</div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">Info about Metric 4</div>
         </div>
