@@ -105,7 +105,7 @@ class ActivityLabelerTests(TestCase):
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method always is a dataframe and if column name is as expected."""
-        test_data = ["1: I fell ill yesterday."]
+        test_data = ["I fell ill yesterday.", "I went to the doctor today."]
         activity_labeler = ActivityLabeler()
         result = activity_labeler.execute(patient_journey_sentences=test_data)
         self.assertIsInstance(result, pd.DataFrame)
