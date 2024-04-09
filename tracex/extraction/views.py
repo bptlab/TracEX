@@ -116,7 +116,9 @@ class ResultView(generic.FormView):
         single_trace_df = pm4py.read_xes(output_path_xes)
 
         # 2. Sort and filter the single journey dataframe
-        single_trace_df = utils.DataFrameUtilities.sort_dataframe(single_trace_df)
+        single_trace_df = single_trace_df.sort_values(
+            by="start_timestamp", inplace=False
+        )
         single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             single_trace_df, filter_dict
         )
@@ -136,9 +138,10 @@ class ResultView(generic.FormView):
                 ignore_index=True,
                 axis="rows",
             )
-            all_traces_df.groupby(
+            all_traces_df = all_traces_df.groupby(
                 "case:concept:name", group_keys=False, sort=False
-            ).apply(utils.DataFrameUtilities.sort_dataframe)
+            ).apply(lambda x: x.sort_values(by="start_timestamp", inplace=False))
+
             all_traces_df_filtered = utils.DataFrameUtilities.filter_dataframe(
                 all_traces_df, filter_dict
             )

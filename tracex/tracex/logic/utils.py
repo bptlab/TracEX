@@ -293,12 +293,6 @@ class DataFrameUtilities:
         return flattened_list
 
     @staticmethod
-    def sort_dataframe(df):
-        """Sort a dataframe containing a trace by timestamp."""
-        sorted_df = df.sort_values(by="start_timestamp", inplace=False)
-        return sorted_df
-
-    @staticmethod
     def filter_dataframe(df, filter_dict):
         """Filter a dataframe."""
         filter_conditions = [

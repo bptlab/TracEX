@@ -62,43 +62,12 @@ def compare_activities_by_similarity(
     matching_percent_ground_truth_to_pipeline = compare_activities(
         ground_truth_activities, pipeline_activities, mapping_ground_truth_to_data
     )
-    # with open(c.output_path / "event_log_comparison.txt", "w") as f:
-    #     f.write(
-    #         "Percentage of activities found by the pipeline that are contained in ground truth: "
-    #         + str(matching_percent_pipeline_to_ground_truth)
-    #         + "%\n\n"
-    #     )
-    #     f.write(
-    #         "Percentage of activities contained in ground truth that are found by the pipeline: "
-    #         + str(matching_percent_ground_truth_to_pipeline)
-    #         + "%\n"
-    #     )
-
-    # with open(c.output_path / "compare.txt", "a") as f:
-    #     f.write("Activities from the pipeline output:\n\n")
-    #     for activity in pipeline_activities:
-    #         f.write(f"{activity}\n")
-    #     f.write("\n\nActivities from the ground truth:\n\n")
-    #     for activity in ground_truth_activities:
-    #         f.write(f"{activity}\n")
-    #     f.write("\n\nMapping from pipeline to ground truth:\n\n")
-    #     for index, value in enumerate(mapping_data_to_ground_truth):
-    #         if value != -1:
-    #             f.write(
-    #                 f'"{pipeline_activities[index]}": "{ground_truth_activities[value]}"\n'
-    #             )
-    #     f.write("\n\nMapping from ground truth to pipeline:\n\n")
-    #     for index, value in enumerate(mapping_ground_truth_to_data):
-    #         if value != -1:
-    #             f.write(
-    #                 f'"{ground_truth_activities[index]}": "{pipeline_activities[value]}"\n'
-    #             )
 
     compare_activities_dict = {
         "matching_percent_pipeline_to_ground_truth": matching_percent_pipeline_to_ground_truth,
         "matching_percent_ground_truth_to_pipeline": matching_percent_ground_truth_to_pipeline,
-        "mapping_data_to_ground_truth_df": mapping_data_to_ground_truth,
-        "mapping_ground_truth_to_data_df": mapping_ground_truth_to_data,
+        "mapping_data_to_ground_truth": mapping_data_to_ground_truth,
+        "mapping_ground_truth_to_data": mapping_ground_truth_to_data,
     }
 
     return compare_activities_dict
@@ -151,21 +120,13 @@ def find_activity(
 
 
 def find_missing_activities(ground_truth_activities, mapping_ground_truth_to_data):
-    # number_of_missing_activities = len(
-    #     [elem for elem in mapping_ground_truth_to_data if elem == -1]
-    # )
-    # with open(c.output_path / "event_log_comparison.txt", "a") as f:
-    #     f.write(
-    #         f"\nMissing activities in the pipeline: {number_of_missing_activities}\n"
-    #     )
-
     missing_activites = []
 
     for count, value in enumerate(mapping_ground_truth_to_data):
         if value == -1:
             missing_activites.append(ground_truth_activities[count])
-            with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-                f.write(f"{ground_truth_activities[count]}\n")
+            # with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
+            #     f.write(f"{ground_truth_activities[count]}\n")
 
     missing_activities_dict = {
         "number_of_missing_activities": len(missing_activites),
@@ -176,21 +137,13 @@ def find_missing_activities(ground_truth_activities, mapping_ground_truth_to_dat
 
 
 def find_unexpected_activities(df_activities, mapping_data_to_ground_truth):
-    # number_of_unexpected_activities = len(
-    #     [elem for elem in mapping_data_to_ground_truth if elem == -1]
-    # )
-    # with open(c.output_path / "event_log_comparison.txt", "a") as f:
-    #     f.write(
-    #         f"\nUnexpected activities in the pipeline: {number_of_unexpected_activities}\n"
-    #     )
-
     unexpteced_activities = []
 
     for count, value in enumerate(mapping_data_to_ground_truth):
         if value == -1:
             unexpteced_activities.append(df_activities[count])
-            with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-                f.write(f"{df_activities[count]}\n")
+            # with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
+            #     f.write(f"{df_activities[count]}\n")
 
     unexpected_activities_dict = {
         "number_of_unexpected_activities": len(unexpteced_activities),
@@ -209,13 +162,16 @@ def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
             if second_activity == -1:
                 continue
             if first_activity > second_activity:
-                wrong_orders.append((first_activity, second_activity))
-    with open(c.output_path / "event_log_comparison.txt", "a") as f:
-        f.write(f"\nWrong orders in the pipeline: {len(wrong_orders)}\n")
-        for first_activity, second_activity in wrong_orders:
-            f.write(
-                f'"{df_activities[second_activity]}" should come before "{df_activities[first_activity]}"\n'
-            )
+                wrong_orders.append(
+                    (df_activities[second_activity], df_activities[first_activity])
+                )
+
+    # with open(c.output_path / "event_log_comparison.txt", "a") as f:
+    #     f.write(f"\nWrong orders in the pipeline: {len(wrong_orders)}\n")
+    #     for first_activity, second_activity in wrong_orders:
+    #         f.write(
+    #             f'"{df_activities[second_activity]}" should come before "{df_activities[first_activity]}"\n'
+    #         )
 
     wrong_orders_dict = {
         "number_of_wrong_orders": len(wrong_orders),

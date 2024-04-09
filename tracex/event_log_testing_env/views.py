@@ -12,7 +12,7 @@ import pandas as pd
 
 class EventLogTestingOverviewView(FormView):
     form_class = PatientJourneySelectForm
-    template_name = "testing_overview.html"
+    template_name = "testing_result.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
@@ -57,12 +57,12 @@ class EventLogTestingComparisonView(TemplateView):
             patient_journey_name=patient_journey_name,
             trace_position="last",
         )
-        pipeline_output_df = utils.DataFrameUtilities.sort_dataframe(pipeline_output_df)
+        pipeline_output_df = pipeline_output_df.sort_values(by="start", inplace=False)
         ground_truth_df = utils.DataFrameUtilities.get_events_df(
             patient_journey_name=patient_journey_name,
             trace_position="first",
         )
-        ground_truth_df = utils.DataFrameUtilities.sort_dataframe(ground_truth_df)
+        ground_truth_df = ground_truth_df.sort_values(by="start", inplace=False)
 
         comparison_result_dict = comparator.execute(
             self, pipeline_output_df, ground_truth_df
@@ -76,8 +76,9 @@ class EventLogTestingComparisonView(TemplateView):
 class EventLogTestingResultView(TemplateView):
     template_name = "testing_result.html"
 
-    def post(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         patient_journey_name = self.request.session.get("patient_journey_name")
         context["patient_journey_name"] = patient_journey_name
         context["patient_journey"] = PatientJourney.manager.get(
@@ -87,27 +88,20 @@ class EventLogTestingResultView(TemplateView):
             patient_journey_name=patient_journey_name,
             trace_position="last",
         )
-        pipeline_output_df = utils.DataFrameUtilities.sort_dataframe(pipeline_output_df)
+        pipeline_output_df = pipeline_output_df.sort_values(by="start", inplace=False)
         ground_truth_df = utils.DataFrameUtilities.get_events_df(
             patient_journey_name=patient_journey_name,
             trace_position="first",
         )
-        ground_truth_df = utils.DataFrameUtilities.sort_dataframe(ground_truth_df)
+        ground_truth_df = ground_truth_df.sort_values(by="start", inplace=False)
         context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
-            request.get("pipeline_output_df")
+            pipeline_output_df
         ).getvalue()
         context["xes_ground_truth"] = utils.Conversion.create_html_from_xes(
-            request.get("ground_truth_df")
+            ground_truth_df
         ).getvalue()
 
-        comparison_result_dict = request.session.get("comparison_result")
-
-        context["matching_percent_pipeline_to_ground_truth"] = comparison_result_dict[
-            "matching_percent_pipeline_to_ground_truth"
-        ]
-        context["matching_percent_ground_truth_to_pipeline"] = comparison_result_dict[
-            "matching_percent_ground_truth_to_pipeline"
-        ]
+        comparison_result_dict = self.request.session.get("comparison_result")
 
         mapping_data_to_ground_truth = comparison_result_dict[
             "mapping_data_to_ground_truth"
@@ -154,7 +148,12 @@ class EventLogTestingResultView(TemplateView):
             columns=["Unexpected Activities"],
         )
         wrong_orders_df = pd.DataFrame(
-            comparison_result_dict["wrong_orders"], columns=["Wrong Orders"]
+            [
+                {"Wrong Orders": (second_activity, first_activity)}
+                for second_activity, first_activity in comparison_result_dict[
+                    "wrong_orders"
+                ]
+            ]
         )
 
         context["mapping_data_to_ground_truth_df"] = data_to_ground_truth_df.to_html()
@@ -173,4 +172,4 @@ class EventLogTestingResultView(TemplateView):
         ]
         context["wrong_orders"] = wrong_orders_df.to_html()
 
-        return self.render_to_response(context)
+        return context
