@@ -11,6 +11,8 @@ from extraction.logic.modules.module_time_extractor import TimeExtractor
 from extraction.logic.modules.module_location_extractor import LocationExtractor
 from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
 from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
+from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
+from extraction.logic.modules.module_event_log_comparator import EventLogComparator
 
 # from .modules.module_metrics_analyzer import MetricsAnalyzer
 # from .modules.module_event_log_comparator import EventLogComparator
