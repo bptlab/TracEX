@@ -105,12 +105,12 @@ class ActivityLabelerTests(TestCase):
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method always is a dataframe and if column name is as expected."""
-        input_dataframe = pd.DataFrame()
-        test_data = "I fell ill yesterday."
+        test_data = ["1: I fell ill yesterday."]
         activity_labeler = ActivityLabeler()
-        result = activity_labeler.execute(_input=input_dataframe, patient_journey=test_data)
+        result = activity_labeler.execute(patient_journey_sentences=test_data)
         self.assertIsInstance(result, pd.DataFrame)
         self.assertIn("activity", result.columns)
+        self.assertIn("sentence_id", result.columns)
 
 
 class TimeExtractorTests(TestCase):
@@ -118,10 +118,14 @@ class TimeExtractorTests(TestCase):
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method is always a dataframe and if column names are as expected."""
-        input_dataframe = pd.DataFrame(["fell ill"], columns=["activity"])
-        test_data = "I fell ill on June 1 and recovered on June 5."
+        data = {
+            'activity': ['fell ill'],
+            'sentence_id': ['1']
+        }
+        patient_journey = ["1: I fell ill on June 5 and recovered on June 7."]
+        input_dataframe = pd.DataFrame(data)
         time_extractor = TimeExtractor()
-        result = time_extractor.execute(df=input_dataframe, patient_journey=test_data)
+        result = time_extractor.execute(df=input_dataframe, patient_journey_sentences=patient_journey)
         self.assertIsInstance(result, pd.DataFrame)
         self.assertIn("start", result.columns)
         self.assertIn("end", result.columns)
