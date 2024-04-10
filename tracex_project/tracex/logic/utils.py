@@ -56,13 +56,13 @@ def get_decision(question):
 
 
 def query_gpt(
-        messages,
-        max_tokens=MAX_TOKENS,
-        temperature=TEMPERATURE_SUMMARIZING,
-        tools=None,
-        tool_choice="none",
-        logprobs=False,
-        top_logprobs=None,
+    messages,
+    max_tokens=MAX_TOKENS,
+    temperature=TEMPERATURE_SUMMARIZING,
+    tools=None,
+    tool_choice="none",
+    logprobs=False,
+    top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
 
