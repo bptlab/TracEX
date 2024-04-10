@@ -5,113 +5,22 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <script src="{% static '/event_log_testing_env/js/dashboard.js' %}" defer></script>
-    <style>
-        .main_body {
-            background-color: white;
-            font-family: 'Gill Sans', sans-serif;
-            width: 50%;
-            margin-top: 0%;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        button,
-        input[type="submit"].button {
-            width: 100%;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        .menu_button,
-        input[type="submit"].button {
-            margin-top: 15px;
-        }
-
-        .dashboard {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .row {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-
-        .metric-tile {
-            flex: 1;
-            min-height: 150px; /* Change height to min-height */
-            background-color: #f1f1f1;
-            margin: 0;
-            padding: 20px;
-            position: relative;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            outline: 2px solid #ccc;
-            box-sizing: border-box;
-            text-align: center;
-        }
-
-        .metric-tile:not(:last-child) {
-            margin-right: 20px;
-        }
-
-        .metric-tile .info-icon {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            cursor: pointer;
-        }
-
-        .metric-tile .info-text {
-            display: none;
-            position: absolute;
-            top: 30px;
-            right: 10px;
-            width: 200px;
-            padding: 10px;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-        }
-
-        .metric-tile .info-icon:hover+.info-text {
-            display: block;
-        }
-
-        .metric-content {
-            display: inline-block; /* Add this line */
-            text-align: left; /* Add this line */
-        }
-        .dataframe { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; }
-        .dataframe th, .dataframe td { padding: 8px; text-align: center; }
-        .dataframe thead { background-color: #f1f1f1; }
-        .dataframe tbody tr:nth-child(even) { background-color: #f9f9f9; }
-        .dataframe tbody tr:nth-child(odd) { background-color: #f9f9f9; }
-        .number-metric {
-        font-size: 48px;
-        margin-bottom: 20px;
-        font-weight: bold;
-        text-align: center;
-    }
-    </style>
 </head>
 <body class="main_body">
 <h2>Event Log Comparison Results</h2>
 <div class="dashboard">
     <div class="row">
         <div class="metric-tile">
-            <h3>Mapping Pipeline Activity to <br> Ground Truth Activity</h3>
+            <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
             <div class="metric-content">{{ mapping_data_to_ground_truth_df|safe }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">Info about Metric 1</div>
+            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
         </div>
         <div class="metric-tile">
-            <h3>Mapping Ground Truth Activity to <br> Pipeline Activity</h3>
+            <h3>Mapping Ground Truth Activities to <br> Pipeline Activities</h3>
             <div class="metric-content">{{ mapping_ground_truth_to_data_df|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">Info about Metric 2</div>
+            <div class="info-text">The table presents a comparison between the activities of the ground truth and the corresponding activities of the extraction pipeline. Each activity in the ground truth is being compared with a range of extraction pipeline activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the extraction pipeline and matches the activities based on semantic similarities.</div>
         </div>
     </div>
     <div class="row">
@@ -120,24 +29,34 @@
             <div class="number-metric">{{ number_of_missing_activities }}</div>
             <div class="metric-content">{{ missing_activities|safe }}</div>
             <span class="info-icon ">&#9432;</span>
-            <div class="info-text">Info about Metric 3</div>
+            <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
         </div>
         <div class="metric-tile">
-            <h3>Number of <br> Unexepcted Activities</h3>
-            <div class="metric-content number-metric">{{ number_of_unexpected_activities }}</div>
+            <h3>Number of <br> Unexpected Activities</h3>
+            <div class="number-metric">{{ number_of_unexpected_activities }}</div>
             <div class="metric-content">{{ unexpected_activities|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">Info about Metric 4</div>
+            <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
         </div>
         <div class="metric-tile">
             <h3>Number of <br> Wrong Orders</h3>
             <div class="metric-content number-metric">{{ number_of_wrong_orders }}</div>
             <div class="metric-content">{{ wrong_orders|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">Info about Metric 4</div>
+            <div class="info-text">This metric shows extraction pipeline activities which occur in the wrong order based on the ground truth. The "Expected Preceding Activity" should come before "Actual Preceding Activity"</div>
         </div>
     </div>
 </div>
+<button id="togglePipelineTable" class="menu_button">Show/Hide Extracted Trace from the Pipeline</button>
+<div id="contentPipeline" style="display: none;">
+    <div>{{ pipeline_output|safe }}</div>
+</div>
+
+<button id="toggleGroundTruthTable" class="menu_button">Show/Hide Ground Truth Trace</button>
+<div id="contentGroundTruth" style="display: none;">
+    <div>{{ ground_truth_output|safe }}</div>
+</div>
+
 <a href="{% url 'testing_environment' %}">
     <button class="menu_button">Return to Event Log Testing Environment</button>
 </a>

@@ -44,9 +44,7 @@ class EventLogTestingComparisonView(TemplateView):
         )
         context["patient_journey_name"] = patient_journey_name
         context["patient_journey"] = patient_journey
-        context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
-            pipeline_output_df
-        ).getvalue()
+        context["pipeline_output"] = pipeline_output_df.to_html(index=False)
 
         return context
 
@@ -96,12 +94,6 @@ class EventLogTestingResultView(TemplateView):
             trace_position="first",
         )
         ground_truth_df = ground_truth_df.sort_values(by="start", inplace=False)
-        context["xes_pipeline_output"] = utils.Conversion.create_html_from_xes(
-            pipeline_output_df
-        ).getvalue()
-        context["xes_ground_truth"] = utils.Conversion.create_html_from_xes(
-            ground_truth_df
-        ).getvalue()
 
         comparison_result_dict = self.request.session.get("comparison_result")
 
@@ -155,6 +147,8 @@ class EventLogTestingResultView(TemplateView):
             columns=["Expected Preceding Activity", "Actual Preceding Activity"],
         )
 
+        context["pipeline_output"] = pipeline_output_df.to_html(index=False)
+        context["ground_truth_output"] = ground_truth_df.to_html(index=False)
         context["mapping_data_to_ground_truth_df"] = data_to_ground_truth_df.to_html(
             index=False
         )
