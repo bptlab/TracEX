@@ -125,6 +125,7 @@ STATICFILES_DIRS = [
     BASE_DIR / "extraction" / "static",
     BASE_DIR / "tracex" / "static",
     BASE_DIR / "patient_journey_generator" / "static",
+    BASE_DIR / "event_log_testing_env" / "static",
 ]
 
 # Default primary key field type
