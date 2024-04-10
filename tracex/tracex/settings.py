@@ -122,10 +122,10 @@ USE_TZ = False
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "extraction" / "static",
     BASE_DIR / "tracex" / "static",
-    BASE_DIR / "patient_journey_generator" / "static",
+    BASE_DIR / "extraction" / "static",
     BASE_DIR / "event_log_testing_env" / "static",
+    BASE_DIR / "patient_journey_generator" / "static",
 ]
 
 # Default primary key field type
