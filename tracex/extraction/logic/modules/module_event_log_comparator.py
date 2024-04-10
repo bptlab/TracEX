@@ -28,8 +28,11 @@ class EventLogComparator(Module):
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         super().execute(df, patient_journey, patient_journey_sentences)
 
+        return self.__compare_event_logs(df)
+
+    def __compare_event_logs(self, df):
         ground_truth_df = pd.read_csv(
-            c.comparison_path / "journey_test_1_comparison_basis.csv"
+            c.comparison_path / "journey_test_4_comparison_basis.csv"
         )
 
         mapping_groundtruth_to_data = (
@@ -84,23 +87,27 @@ class EventLogComparator(Module):
 
         with open(c.output_path / "compare.txt", "a") as f:
             f.write("Activities from the pipeline output:\n\n")
-            for activity in pipeline_activities:
-                f.write(f"{activity}\n")
+            for index, activity in enumerate(pipeline_activities):
+                f.write(f"{index}: {activity}\n")
             f.write("\n\nActivities from the ground truth:\n\n")
-            for activity in ground_truth_activities:
-                f.write(f"{activity}\n")
+            for index, activity in enumerate(ground_truth_activities):
+                f.write(f"{index}: {activity}\n")
             f.write("\n\nMapping from pipeline to ground truth:\n\n")
             for index, value in enumerate(mapping_data_to_groundtruth):
                 if value != -1:
                     f.write(
                         f'"{pipeline_activities[index]}": "{ground_truth_activities[value]}"\n'
                     )
+                else:
+                    f.write(f'"{pipeline_activities[index]}": "-"\n')
             f.write("\n\nMapping from ground truth to pipeline:\n\n")
             for index, value in enumerate(mapping_groundtruth_to_data):
                 if value != -1:
                     f.write(
                         f'"{ground_truth_activities[index]}": "{pipeline_activities[value]}"\n'
                     )
+                else:
+                    f.write(f'"{pipeline_activities[index]}": "-"\n')
 
     def __compare_activities(
         self, input_activities, comparison_basis_activities, mapping_input_to_comparison

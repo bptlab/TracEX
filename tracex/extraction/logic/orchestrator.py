@@ -36,9 +36,7 @@ class ExtractionConfiguration:
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
-        # This module should be activated only if the user wants to analyze the metrics
         "metrics_analyzer": MetricsAnalyzer,
-        # Only activate this module with a test comparison patient journey as ground truth
         "event_log_comparator": EventLogComparator,
     }
     activity_key: Optional[str] = "event_type"
@@ -90,9 +88,9 @@ class Orchestrator:
         # (i.e. depending on config given by user)
         modules = [
             self.configuration.modules["activity_labeling"](),
-            # self.configuration.modules["time_extraction"](),
-            # self.configuration.modules["event_type_classification"](),
-            # self.configuration.modules["location_extraction"](),
+            self.configuration.modules["time_extraction"](),
+            self.configuration.modules["event_type_classification"](),
+            self.configuration.modules["location_extraction"](),
             # This module should be activated only if the user wants to analyze the metrics
             # self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
@@ -119,7 +117,7 @@ class Orchestrator:
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
-        ]().execute_and_save(self.data, patient_journey_sentences)
+        ]().execute_and_save(self.data, patient_journey)
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
