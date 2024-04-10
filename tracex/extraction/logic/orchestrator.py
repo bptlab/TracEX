@@ -13,7 +13,7 @@ from .modules.module_location_extractor import LocationExtractor
 from .modules.module_event_type_classifier import EventTypeClassifier
 from .modules.module_patient_journey_preprocessor import Preprocessor
 from .modules.module_metrics_analyzer import MetricsAnalyzer
-from .modules.module_event_log_comparator import EventLogComparator
+from .modules.module_trace_comparator import TraceComparator
 
 from ..models import Trace, PatientJourney, Event, Cohort
 
@@ -37,7 +37,7 @@ class ExtractionConfiguration:
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         "metrics_analyzer": MetricsAnalyzer,
-        "event_log_comparator": EventLogComparator,
+        "trace_comparator": TraceComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -94,7 +94,7 @@ class Orchestrator:
             # This module should be activated only if the user wants to analyze the metrics
             # self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            self.configuration.modules["event_log_comparator"](),
+            self.configuration.modules["trace_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
