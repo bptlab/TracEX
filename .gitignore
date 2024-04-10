@@ -2,7 +2,5 @@
 tracex_project/extraction/content/inputs
 tracex_project/extraction/content/outputs
 
-*.log
-
 # all __pycache__ directories
 __pycache__

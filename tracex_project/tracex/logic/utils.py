@@ -100,10 +100,10 @@ def query_gpt(
 
 
 def get_all_xes_output_path(
-        is_test=False,
-        is_extracted=False,
-        xes_name="all_traces",
-        activity_key="event_type",
+    is_test=False,
+    is_extracted=False,
+    xes_name="all_traces",
+    activity_key="event_type",
 ):
     """Create the xes file for all journeys."""
     if not (is_test or is_extracted):

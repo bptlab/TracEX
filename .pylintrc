@@ -28,6 +28,8 @@ max-nested-blocks=6
 [MASTER]
 ignore=setup.py
 ignore-paths=^tracex_project/extraction/migrations/.*$,
+ignore-patterns=__init__.py
+
 
 [DESIGN]
 max-parents=10
