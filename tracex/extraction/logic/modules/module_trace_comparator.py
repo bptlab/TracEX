@@ -32,7 +32,7 @@ class TraceComparator(Module):
 
     def __compare_traces(self, df):
         ground_truth_df = pd.read_csv(
-            c.comparison_path / "journey_test_4_comparison_basis.csv"
+            c.comparison_path / "journey_test_2_comparison_basis.csv"
         )
 
         # for each activity in the ground truth, the index of the corresponding activity in the data from the pipeline
@@ -93,7 +93,6 @@ class TraceComparator(Module):
         self.__compare_activities(
             pipeline_activities, ground_truth_activities, mapping_data_to_groundtruth
         )
-        print("50% done.")
         self.__compare_activities(
             ground_truth_activities, pipeline_activities, mapping_groundtruth_to_data
         )
@@ -143,8 +142,9 @@ class TraceComparator(Module):
                 possible_matches.append((lower + count, linear_prop))
         if possible_matches:
             best_match = max(possible_matches, key=lambda x: x[1])
-            mapping_input_to_comparison.append(best_match)
-            return
+            if best_match[1] > 0.7:
+                mapping_input_to_comparison.append(best_match)
+                return
         mapping_input_to_comparison.append((-1, 0))
 
     @staticmethod
@@ -183,7 +183,7 @@ class TraceComparator(Module):
                         possible_matches.append((index_back, activity_index_back[1]))
                 if possible_matches:
                     best_match = max(possible_matches, key=lambda x: x[1])
-                    activity_index_forth = (best_match[0], 0)
+                    mapping_back_to_forth[index_forth] = (best_match[0], 0)
         return mapping_back_to_forth
 
     @staticmethod
@@ -220,19 +220,30 @@ class TraceComparator(Module):
         return unexpected_activities
 
     def __find_wrong_orders(self, df_activities, mapping_groundtruth_to_data):
-        wrong_orders = []
-        for index, first_activity in enumerate(mapping_groundtruth_to_data):
-            if first_activity == -1:
+        wrong_orders_indizes = []
+        wrong_orders_activities = []
+        for index, first_activity_index in enumerate(mapping_groundtruth_to_data):
+            if first_activity_index == -1:
                 continue
-            for second_activity in mapping_groundtruth_to_data[index:]:
-                if second_activity == -1:
+            for second_activity_index in mapping_groundtruth_to_data[index:]:
+                if second_activity_index == -1:
                     continue
-                if first_activity > second_activity:
+                if first_activity_index > second_activity_index:
                     if not self.__pair_exists(
-                        wrong_orders, (first_activity, second_activity)
+                        wrong_orders_indizes,
+                        (first_activity_index, second_activity_index),
                     ):
-                        wrong_orders.append((first_activity, second_activity))
-        return wrong_orders
+                        wrong_orders_indizes.append(
+                            (first_activity_index, second_activity_index)
+                        )
+        for first_activity_index, second_activity_index in wrong_orders_indizes:
+            wrong_orders_activities.append(
+                (
+                    df_activities[first_activity_index],
+                    df_activities[second_activity_index],
+                )
+            )
+        return wrong_orders_activities
 
     @staticmethod
     def __pair_exists(pair_list, new_pair):
@@ -278,7 +289,7 @@ class TraceComparator(Module):
                     f.write(f'"{ground_truth_activities[index]}": "-"\n')
 
             f.write(
-                "Percentage of activities found by the pipeline that are contained in ground truth: "
+                "\n\nPercentage of activities found by the pipeline that are contained in ground truth: "
                 + str(matching_percent_pipeline_to_ground_truth)
                 + "%\n\n"
             )
@@ -296,10 +307,8 @@ class TraceComparator(Module):
             f.write(
                 f"\n\nUnexpected activities in the pipeline: {len(unexpected_activities)}\n"
             )
-            for unexpected_activity in missing_activities:
+            for unexpected_activity in unexpected_activities:
                 f.write(f'"{unexpected_activity}"\n')
             f.write(f"\n\nWrong orders in the pipeline: {len(wrong_orders)}\n")
             for first_activity, second_activity in wrong_orders:
-                f.write(
-                    f'"{pipeline_activities[second_activity]}" should come before "{pipeline_activities[first_activity]}"\n'
-                )
+                f.write(f'"{second_activity}" should come before "{first_activity}"\n')
