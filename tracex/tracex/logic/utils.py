@@ -138,6 +138,7 @@ def append_csv():
 
 
 def calculate_linear_probability(logprob):
+    """ "Calculates the linear probability from the log probability of the gpt output."""
     linear_prob = np.round(np.exp(logprob), 2)
     return linear_prob
 

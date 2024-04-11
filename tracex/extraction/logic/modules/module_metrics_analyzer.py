@@ -1,7 +1,6 @@
 """This module measures the outpupt of the pipeline based on specified metrics."""
 from pathlib import Path
 import pandas as pd
-import numpy as np
 from django.conf import settings
 
 from tracex.logic.logger import log_execution_time

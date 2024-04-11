@@ -20,8 +20,13 @@ class Preprocessor(Module):
         self.description = "Preprocesses patient input for better data quality."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, patient_journey=None, patient_journey_sentences=None):
-        super().execute(patient_journey, patient_journey_sentences)
+    def execute(
+        self, _input=None, patient_journey=None, patient_journey_sentences=None
+    ):
+        super().execute(
+            patient_journey=patient_journey,
+            patient_journey_sentences=patient_journey_sentences,
+        )
         preprocessed_text = self.__spellcheck(patient_journey)
         preprocessed_text = self.__punctuationcheck(preprocessed_text)
         preprocessed_text = self.__identify_timestamps(preprocessed_text)

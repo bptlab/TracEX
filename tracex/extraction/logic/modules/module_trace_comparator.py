@@ -35,27 +35,51 @@ class TraceComparator(Module):
             c.comparison_path / "journey_test_4_comparison_basis.csv"
         )
 
-        mapping_groundtruth_to_data = (
-            []
-        )  # for each activity in the ground truth, the index of the corresponding activity in the data from the pipeline
-        mapping_data_to_groundtruth = (
-            []
-        )  # for each activity in the data from the pipeline, the index of the corresponding activity in the ground truth
+        # for each activity in the ground truth, the index of the corresponding activity in the data from the pipeline
+        mapping_groundtruth_to_data = []
+        # for each activity in the data from the pipeline, the index of the corresponding activity in the ground truth
+        mapping_data_to_groundtruth = []
+
+        pipeline_activities = df["activity"]
+        ground_truth_activities = ground_truth_df["activity"]
 
         (
             mapping_data_to_groundtruth,
             mapping_groundtruth_to_data,
         ) = self.__find_activity_mapping(
-            df["activity"],
-            ground_truth_df["activity"],
+            pipeline_activities,
+            ground_truth_activities,
             mapping_data_to_groundtruth,
             mapping_groundtruth_to_data,
         )
-        self.__find_missing_activities(
-            ground_truth_df["activity"], mapping_groundtruth_to_data
+        missing_activities = self.__find_missing_activities(
+            ground_truth_activities, mapping_groundtruth_to_data
         )
-        self.__find_unexpected_activities(df["activity"], mapping_data_to_groundtruth)
-        self.__find_wrong_orders(df["activity"], mapping_groundtruth_to_data)
+        unexpected_activities = self.__find_unexpected_activities(
+            pipeline_activities, mapping_data_to_groundtruth
+        )
+        wrong_orders = self.__find_wrong_orders(
+            pipeline_activities, mapping_groundtruth_to_data
+        )
+
+        matching_percent_pipeline_to_ground_truth = self.__find_matching_percentage(
+            pipeline_activities, mapping_data_to_groundtruth
+        )
+        matching_percent_ground_truth_to_pipeline = self.__find_matching_percentage(
+            ground_truth_activities, mapping_groundtruth_to_data
+        )
+
+        self.__document(
+            matching_percent_pipeline_to_ground_truth,
+            matching_percent_ground_truth_to_pipeline,
+            pipeline_activities,
+            ground_truth_activities,
+            mapping_data_to_groundtruth,
+            mapping_groundtruth_to_data,
+            missing_activities,
+            unexpected_activities,
+            wrong_orders,
+        )
 
         return df
 
@@ -80,21 +104,6 @@ class TraceComparator(Module):
             mapping_data_to_groundtruth, mapping_groundtruth_to_data
         )
 
-        matching_percent_pipeline_to_ground_truth = self.__find_matching_percentage(
-            pipeline_activities, mapping_data_to_groundtruth
-        )
-        matching_percent_ground_truth_to_pipeline = self.__find_matching_percentage(
-            ground_truth_activities, mapping_groundtruth_to_data
-        )
-
-        self.__document(
-            matching_percent_pipeline_to_ground_truth,
-            matching_percent_ground_truth_to_pipeline,
-            pipeline_activities,
-            ground_truth_activities,
-            mapping_data_to_groundtruth,
-            mapping_groundtruth_to_data,
-        )
         return mapping_data_to_groundtruth, mapping_groundtruth_to_data
 
     def __compare_activities(
@@ -112,8 +121,9 @@ class TraceComparator(Module):
     def __find_activity(
         self, activity, comparison_basis_activities, index, mapping_input_to_comparison
     ):
-        lower = max(0, index - 2)
-        upper = min(len(comparison_basis_activities), index + 3)
+        lower, upper = self.__get_snippet_bounds(
+            index, len(comparison_basis_activities)
+        )
         possible_matches = []
         for count, second_activity in enumerate(
             comparison_basis_activities[lower:upper]
@@ -136,6 +146,15 @@ class TraceComparator(Module):
             mapping_input_to_comparison.append(best_match)
             return
         mapping_input_to_comparison.append((-1, 0))
+
+    @staticmethod
+    def __get_snippet_bounds(index, dataframe_length):
+        half_snipet_size = min(max(2, dataframe_length // 20), 5)
+        lower = max(0, index - half_snipet_size)
+        upper = min(dataframe_length, index + half_snipet_size + 1)
+        if index < half_snipet_size:
+            upper += abs(index - half_snipet_size)
+        return lower, upper
 
     def __postprocess_mappings(
         self, mapping_data_to_groundtruth, mapping_groundtruth_to_data
@@ -186,33 +205,19 @@ class TraceComparator(Module):
 
     @staticmethod
     def __find_missing_activities(ground_truth_activities, mapping_groundtruth_to_data):
-        number_of_missing_activities = len(
-            [elem for elem in mapping_groundtruth_to_data if elem == -1]
-        )
-        with open(c.output_path / "event_log_comparison.txt", "a") as f:
-            f.write(
-                f"\nMissing activities in the pipeline: {number_of_missing_activities}\n"
-            )
-
-        for count, value in enumerate(mapping_groundtruth_to_data):
+        missing_activities = []
+        for index, value in enumerate(mapping_groundtruth_to_data):
             if value == -1:
-                with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-                    f.write(f"{ground_truth_activities[count]}\n")
+                missing_activities.append(ground_truth_activities[index])
+        return missing_activities
 
     @staticmethod
     def __find_unexpected_activities(df_activities, mapping_data_to_groundtruth):
-        number_of_unexpected_activities = len(
-            [elem for elem in mapping_data_to_groundtruth if elem == -1]
-        )
-        with open(c.output_path / "event_log_comparison.txt", "a") as f:
-            f.write(
-                f"\nUnexpected activities in the pipeline: {number_of_unexpected_activities}\n"
-            )
-
+        unexpected_activities = []
         for count, value in enumerate(mapping_data_to_groundtruth):
             if value == -1:
-                with open(c.output_path.joinpath("event_log_comparison.txt"), "a") as f:
-                    f.write(f"{df_activities[count]}\n")
+                unexpected_activities.append(df_activities[count])
+        return unexpected_activities
 
     def __find_wrong_orders(self, df_activities, mapping_groundtruth_to_data):
         wrong_orders = []
@@ -227,12 +232,7 @@ class TraceComparator(Module):
                         wrong_orders, (first_activity, second_activity)
                     ):
                         wrong_orders.append((first_activity, second_activity))
-        with open(c.output_path / "event_log_comparison.txt", "a") as f:
-            f.write(f"\nWrong orders in the pipeline: {len(wrong_orders)}\n")
-            for first_activity, second_activity in wrong_orders:
-                f.write(
-                    f'"{df_activities[second_activity]}" should come before "{df_activities[first_activity]}"\n'
-                )
+        return wrong_orders
 
     @staticmethod
     def __pair_exists(pair_list, new_pair):
@@ -249,23 +249,11 @@ class TraceComparator(Module):
         ground_truth_activities,
         mapping_data_to_groundtruth,
         mapping_groundtruth_to_data,
+        missing_activities,
+        unexpected_activities,
+        wrong_orders,
     ):
-        print("mapping data to ground truth: ")
-        print(mapping_data_to_groundtruth)
-        with open(c.output_path / "compare.txt", "w") as f:
-            f.write("Activity comparisons\n\n")
         with open(c.output_path / "event_log_comparison.txt", "w") as f:
-            f.write(
-                "Percentage of activities found by the pipeline that are contained in ground truth: "
-                + str(matching_percent_pipeline_to_ground_truth)
-                + "%\n\n"
-            )
-            f.write(
-                "Percentage of activities contained in ground truth that are found by the pipeline: "
-                + str(matching_percent_ground_truth_to_pipeline)
-                + "%\n"
-            )
-        with open(c.output_path / "compare.txt", "a") as f:
             f.write("Activities from the pipeline output:\n\n")
             for index, activity in enumerate(pipeline_activities):
                 f.write(f"{index}: {activity}\n")
@@ -288,3 +276,30 @@ class TraceComparator(Module):
                     )
                 else:
                     f.write(f'"{ground_truth_activities[index]}": "-"\n')
+
+            f.write(
+                "Percentage of activities found by the pipeline that are contained in ground truth: "
+                + str(matching_percent_pipeline_to_ground_truth)
+                + "%\n\n"
+            )
+            f.write(
+                "Percentage of activities contained in ground truth that are found by the pipeline: "
+                + str(matching_percent_ground_truth_to_pipeline)
+                + "%\n"
+            )
+
+            f.write(
+                f"\n\nMissing activities in the pipeline: {len(missing_activities)}\n"
+            )
+            for missing_activity in missing_activities:
+                f.write(f'"{missing_activity}"\n')
+            f.write(
+                f"\n\nUnexpected activities in the pipeline: {len(unexpected_activities)}\n"
+            )
+            for unexpected_activity in missing_activities:
+                f.write(f'"{unexpected_activity}"\n')
+            f.write(f"\n\nWrong orders in the pipeline: {len(wrong_orders)}\n")
+            for first_activity, second_activity in wrong_orders:
+                f.write(
+                    f'"{pipeline_activities[second_activity]}" should come before "{pipeline_activities[first_activity]}"\n'
+                )
