@@ -23,7 +23,7 @@ class Module(ABC):
         self.patient_journey_sentences = None
 
     def execute(
-        self, df=None, patient_journey=None, patient_journey_sentences=None
+        self, df, patient_journey=None, patient_journey_sentences=None
     ) -> pd.DataFrame:
         """
         Executes the logic of the module. Override this to define your own module.
