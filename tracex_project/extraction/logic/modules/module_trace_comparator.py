@@ -26,6 +26,7 @@ class TraceComparator(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        """This function compares the pipeline output to a manually derived groundtruth."""
         super().execute(df, patient_journey, patient_journey_sentences)
 
         return self.__compare_traces(df)
