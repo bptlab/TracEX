@@ -1,0 +1,14 @@
+case_id,activity,start,end,duration,event_type,attribute_location
+9,starting to experience symptoms,20210528T0000,20210601T0000,96:00:00,Symptom Onset,Home
+9,isolating at home,20210528T0000,20210602T0000,120:00:00,Lifestyle Change,Home
+9,symptoms progression,20210528T0000,20210602T0000,120:00:00,Symptom Offset,Doctors
+9,consulting primary care physician,20210602T0000,20210610T0000,192:00:00,Doctors Visit,Doctors
+9,monitoring symptoms at home,20210602T0000,20210609T0000,168:00:00,Lifestyle Change,Home
+9,hospital admission,20210610T0000,20210617T0000,168:00:00,Hospital Admission,Hospital
+9,receiving oxygen therapy,20210610T0000,20210617T0000,168:00:00,Treatment,Hospital
+9,hospital discharge,20210617T0000,20210617T0000,00:00:00,Hospital Discharge,Hospital
+9,regaining strength through rest,20210617T0000,20210624T0000,168:00:00,Lifestyle Change,Home
+9,making lifestyle changes,20210617T0000,20210624T0000,168:00:00,Lifestyle Change,Home
+9,getting vaccinated against Covid-19,20210701T0000,20210701T0000,00:00:00,Treatment,Doctors
+9,receiving two vaccine doses,20210701T0000,20210701T0000,00:00:00,Treatment,Doctors
+9,benefits of vaccination,20210701T0000,20210701T0000,00:00:00,Feelings,Doctors
