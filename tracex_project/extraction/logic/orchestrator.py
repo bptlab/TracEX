@@ -93,7 +93,7 @@ class Orchestrator:
             self.configuration.modules["location_extraction"](),
             self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            # self.configuration.modules["event_log_comparator"](),
+            self.configuration.modules["trace_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
