@@ -21,7 +21,7 @@ class Preprocessor(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df=None, patient_journey=None, patient_journey_sentences=None):
-        super().execute(None, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey, patient_journey_sentences)
         preprocessed_text = self.__spellcheck(patient_journey)
         preprocessed_text = self.__punctuationcheck(preprocessed_text)
         preprocessed_text = self.__identify_timestamps(preprocessed_text)
