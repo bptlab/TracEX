@@ -1,0 +1,7 @@
+2024-04-14 21:12:58,605 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_patient_journey_preprocessor.py', 'execution_time': '31.75528 seconds'}
+2024-04-14 21:15:25,891 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_patient_journey_preprocessor.py', 'execution_time': '38.73827 seconds'}
+2024-04-14 21:15:28,755 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_activity_labeler.py', 'execution_time': '2.85340 seconds'}
+2024-04-14 21:15:55,788 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_time_extractor.py', 'execution_time': '27.02969 seconds'}
+2024-04-14 21:16:09,633 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_event_type_classifier.py', 'execution_time': '13.84061 seconds'}
+2024-04-14 21:16:21,614 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/extraction/logic/modules/module_location_extractor.py', 'execution_time': '11.97365 seconds'}
+2024-04-14 21:19:07,351 - {'function_name': 'execute', 'calling_file': '/home/tkv29/progress-bar/TracEX/tracex_project/trace_comparator/comparator.py', 'execution_time': '158.40635 seconds'}

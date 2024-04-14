@@ -1,0 +1,340 @@
+Activity comparisons
+
+"starting to experience symptoms" compared with: "experiencing first covid 19 symptoms"
+True
+
+"taking immediate action" compared with: "experiencing first covid 19 symptoms"
+False
+
+"taking immediate action" compared with: "isolating myself"
+True
+
+"isolating at home" compared with: "experiencing first covid 19 symptoms"
+False
+
+"isolating at home" compared with: "isolating myself"
+True
+
+"informing family" compared with: "isolating myself"
+False
+
+"informing family" compared with: "informing family"
+True
+
+"consulting doctor" compared with: "informing family"
+False
+
+"consulting doctor" compared with: "putting loved ones over financial worries"
+False
+
+"consulting doctor" compared with: "experiencing worse symptoms"
+False
+
+"consulting doctor" compared with: "consulting family physician"
+True
+
+"getting tested for Covid19" compared with: "putting loved ones over financial worries"
+False
+
+"getting tested for Covid19" compared with: "experiencing worse symptoms"
+False
+
+"getting tested for Covid19" compared with: "consulting family physician"
+False
+
+"getting tested for Covid19" compared with: "getting tested for covid 19 in local testing center"
+True
+
+"receiving positive test results" compared with: "experiencing worse symptoms"
+False
+
+"receiving positive test results" compared with: "consulting family physician"
+False
+
+"receiving positive test results" compared with: "getting tested for covid 19 in local testing center"
+False
+
+"receiving positive test results" compared with: "testing positive for covid 19"
+True
+
+"advised home quarantine" compared with: "consulting family physician"
+False
+
+"advised home quarantine" compared with: "getting tested for covid 19 in local testing center"
+False
+
+"advised home quarantine" compared with: "testing positive for covid 19"
+False
+
+"advised home quarantine" compared with: "focusing on resting while isolated"
+False
+
+"advised home quarantine" compared with: "receiving emotional support from family"
+False
+
+"receiving care from wife" compared with: "getting tested for covid 19 in local testing center"
+False
+
+"receiving care from wife" compared with: "testing positive for covid 19"
+False
+
+"receiving care from wife" compared with: "focusing on resting while isolated"
+False
+
+"receiving care from wife" compared with: "receiving emotional support from family"
+False
+
+"receiving care from wife" compared with: "experiencing slow recovery"
+False
+
+"children supporting emotionally" compared with: "testing positive for covid 19"
+False
+
+"children supporting emotionally" compared with: "focusing on resting while isolated"
+False
+
+"children supporting emotionally" compared with: "receiving emotional support from family"
+True
+
+"recovering with family support" compared with: "focusing on resting while isolated"
+False
+
+"recovering with family support" compared with: "receiving emotional support from family"
+True
+
+"returning to work as teacher" compared with: "receiving emotional support from family"
+False
+
+"returning to work as teacher" compared with: "experiencing slow recovery"
+False
+
+"returning to work as teacher" compared with: "returning to work with precautions"
+False
+
+"returning to work as teacher" compared with: "getting vaccinated after consultation with doctor"
+False
+
+"returning to work as teacher" compared with: "experiencing mild side effects from vaccine"
+False
+
+"getting vaccinated" compared with: "experiencing slow recovery"
+False
+
+"getting vaccinated" compared with: "returning to work with precautions"
+False
+
+"getting vaccinated" compared with: "getting vaccinated after consultation with doctor"
+True
+
+"consulting doctor about vaccine" compared with: "returning to work with precautions"
+False
+
+"consulting doctor about vaccine" compared with: "getting vaccinated after consultation with doctor"
+True
+
+"receiving first vaccine dose" compared with: "getting vaccinated after consultation with doctor"
+True
+
+"experiencing mild side effects" compared with: "experiencing mild side effects from vaccine"
+True
+
+"receiving second vaccine dose" compared with: "remainding optimistic and adhering to safety guidelines"
+False
+
+"receiving second vaccine dose" compared with: "getting the second vaccination"
+True
+
+"feeling relief and hope" compared with: "getting the second vaccination"
+False
+
+"feeling relief and hope" compared with: "feeling a sense of relief"
+True
+
+"grateful for family and healthcare support" compared with: "feeling a sense of relief"
+False
+
+"grateful for family and healthcare support" compared with: "feeling thankful for healthcare personal"
+False
+
+"experiencing first covid 19 symptoms" compared with: "starting to experience symptoms"
+True
+
+"isolating myself" compared with: "starting to experience symptoms"
+False
+
+"isolating myself" compared with: "taking immediate action"
+False
+
+"isolating myself" compared with: "isolating at home"
+True
+
+"informing family" compared with: "starting to experience symptoms"
+False
+
+"informing family" compared with: "taking immediate action"
+False
+
+"informing family" compared with: "isolating at home"
+False
+
+"informing family" compared with: "informing family"
+True
+
+"putting loved ones over financial worries" compared with: "taking immediate action"
+False
+
+"putting loved ones over financial worries" compared with: "isolating at home"
+False
+
+"putting loved ones over financial worries" compared with: "informing family"
+False
+
+"putting loved ones over financial worries" compared with: "consulting doctor"
+False
+
+"putting loved ones over financial worries" compared with: "getting tested for Covid19"
+False
+
+"experiencing worse symptoms" compared with: "isolating at home"
+False
+
+"experiencing worse symptoms" compared with: "informing family"
+False
+
+"experiencing worse symptoms" compared with: "consulting doctor"
+True
+
+"consulting family physician" compared with: "informing family"
+False
+
+"consulting family physician" compared with: "consulting doctor"
+True
+
+"getting tested for covid 19 in local testing center" compared with: "consulting doctor"
+False
+
+"getting tested for covid 19 in local testing center" compared with: "getting tested for Covid19"
+True
+
+"testing positive for covid 19" compared with: "getting tested for Covid19"
+True
+
+"focusing on resting while isolated" compared with: "receiving positive test results"
+False
+
+"focusing on resting while isolated" compared with: "advised home quarantine"
+False
+
+"focusing on resting while isolated" compared with: "receiving care from wife"
+False
+
+"focusing on resting while isolated" compared with: "children supporting emotionally"
+False
+
+"focusing on resting while isolated" compared with: "recovering with family support"
+False
+
+"receiving emotional support from family" compared with: "advised home quarantine"
+False
+
+"receiving emotional support from family" compared with: "receiving care from wife"
+False
+
+"receiving emotional support from family" compared with: "children supporting emotionally"
+True
+
+"experiencing slow recovery" compared with: "receiving care from wife"
+False
+
+"experiencing slow recovery" compared with: "children supporting emotionally"
+False
+
+"experiencing slow recovery" compared with: "recovering with family support"
+False
+
+"experiencing slow recovery" compared with: "returning to work as teacher"
+False
+
+"experiencing slow recovery" compared with: "getting vaccinated"
+False
+
+"returning to work with precautions" compared with: "children supporting emotionally"
+False
+
+"returning to work with precautions" compared with: "recovering with family support"
+False
+
+"returning to work with precautions" compared with: "returning to work as teacher"
+False
+
+"returning to work with precautions" compared with: "getting vaccinated"
+False
+
+"returning to work with precautions" compared with: "consulting doctor about vaccine"
+False
+
+"getting vaccinated after consultation with doctor" compared with: "recovering with family support"
+False
+
+"getting vaccinated after consultation with doctor" compared with: "returning to work as teacher"
+False
+
+"getting vaccinated after consultation with doctor" compared with: "getting vaccinated"
+True
+
+"experiencing mild side effects from vaccine" compared with: "returning to work as teacher"
+False
+
+"experiencing mild side effects from vaccine" compared with: "getting vaccinated"
+True
+
+"remainding optimistic and adhering to safety guidelines" compared with: "getting vaccinated"
+False
+
+"remainding optimistic and adhering to safety guidelines" compared with: "consulting doctor about vaccine"
+False
+
+"remainding optimistic and adhering to safety guidelines" compared with: "receiving first vaccine dose"
+False
+
+"remainding optimistic and adhering to safety guidelines" compared with: "experiencing mild side effects"
+False
+
+"remainding optimistic and adhering to safety guidelines" compared with: "receiving second vaccine dose"
+False
+
+"getting the second vaccination" compared with: "consulting doctor about vaccine"
+False
+
+"getting the second vaccination" compared with: "receiving first vaccine dose"
+False
+
+"getting the second vaccination" compared with: "experiencing mild side effects"
+False
+
+"getting the second vaccination" compared with: "receiving second vaccine dose"
+True
+
+"feeling a sense of relief" compared with: "receiving first vaccine dose"
+False
+
+"feeling a sense of relief" compared with: "experiencing mild side effects"
+False
+
+"feeling a sense of relief" compared with: "receiving second vaccine dose"
+False
+
+"feeling a sense of relief" compared with: "feeling relief and hope"
+True
+
+"feeling thankful for healthcare personal" compared with: "experiencing mild side effects"
+False
+
+"feeling thankful for healthcare personal" compared with: "receiving second vaccine dose"
+False
+
+"feeling thankful for healthcare personal" compared with: "feeling relief and hope"
+False
+
+"feeling thankful for healthcare personal" compared with: "grateful for family and healthcare support"
+True

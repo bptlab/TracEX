@@ -1,0 +1,41 @@
+Percentage of activities found by the pipeline that are contained in ground truth: 85.0%
+
+Percentage of activities contained in ground truth that are found by the pipeline: 83.0%
+
+Missing activities in the pipeline: 3
+putting loved ones over financial worries
+experiencing slow recovery
+remainding optimistic and adhering to safety guidelines
+
+Unexpected activities in the pipeline: 3
+children helping at home
+experiencing mild side effects
+grateful for family and healthcare support
+
+Wrong orders in the pipeline: 0
+putting loved ones over financial worries
+experiencing mild side effects from vaccine
+remainding optimistic and adhering to safety guidelines
+getting the second vaccination
+feeling a sense of relief
+feeling thankful for healthcare personal
+receiving care from wife
+consulting doctor about vaccine benefits
+experiencing mild side effects
+feeling relief and hope
+grateful for family and healthcare support
+
+Wrong orders in the pipeline: 2
+"consulting doctor" should come before "getting tested for Covid-19"
+"resting and following doctor's advice" should come before "children supporting emotionally and around house"
+putting loved ones over financial worries
+focusing on resting while isolated
+experiencing slow recovery
+returning to work with precautions
+remainding optimistic and adhering to safety guidelines
+advised home quarantine
+receiving care from wife
+returning to work as teacher
+grateful for family and healthcare support
+
+Wrong orders in the pipeline: 0
