@@ -36,27 +36,17 @@ class TraceComparator(Module):
             c.comparison_path / "journey_test_4_comparison_basis.csv"
         )
 
-        # for each activity in the ground truth, the index of the corresponding activity in the data from the pipeline
-        mapping_groundtruth_to_data = []
-        # for each activity in the data from the pipeline, the index of the corresponding activity in the ground truth
-        mapping_data_to_groundtruth = []
-
         pipeline_activities = df["activity"]
         ground_truth_activities = ground_truth_df["activity"]
 
         (
             mapping_data_to_groundtruth,
             mapping_groundtruth_to_data,
-        ) = self.__find_activity_mapping(
-            pipeline_activities,
-            ground_truth_activities,
-            mapping_data_to_groundtruth,
-            mapping_groundtruth_to_data,
-        )
-        missing_activities = self.__find_missing_activities(
+        ) = self.__find_activity_mapping(pipeline_activities, ground_truth_activities)
+        missing_activities = self.__find_not_mapped_activities(
             ground_truth_activities, mapping_groundtruth_to_data
         )
-        unexpected_activities = self.__find_unexpected_activities(
+        unexpected_activities = self.__find_not_mapped_activities(
             pipeline_activities, mapping_data_to_groundtruth
         )
         wrong_orders = self.__find_wrong_orders(
@@ -88,14 +78,12 @@ class TraceComparator(Module):
         self,
         pipeline_activities,
         ground_truth_activities,
-        mapping_data_to_groundtruth,
-        mapping_groundtruth_to_data,
     ):
-        self.__compare_activities(
-            pipeline_activities, ground_truth_activities, mapping_data_to_groundtruth
+        mapping_data_to_groundtruth = self.__compare_activities(
+            pipeline_activities, ground_truth_activities
         )
-        self.__compare_activities(
-            ground_truth_activities, pipeline_activities, mapping_groundtruth_to_data
+        mapping_groundtruth_to_data = self.__compare_activities(
+            ground_truth_activities, pipeline_activities
         )
         (
             mapping_data_to_groundtruth,
@@ -106,9 +94,8 @@ class TraceComparator(Module):
 
         return mapping_data_to_groundtruth, mapping_groundtruth_to_data
 
-    def __compare_activities(
-        self, input_activities, comparison_basis_activities, mapping_input_to_comparison
-    ):
+    def __compare_activities(self, input_activities, comparison_basis_activities):
+        mapping_input_to_comparison = []
         for index, activity in enumerate(input_activities):
             self.__find_activity(
                 activity,
@@ -117,6 +104,7 @@ class TraceComparator(Module):
                 mapping_input_to_comparison,
             )
             time.sleep(2)
+        return mapping_input_to_comparison
 
     def __find_activity(
         self, activity, comparison_basis_activities, index, mapping_input_to_comparison
@@ -198,27 +186,18 @@ class TraceComparator(Module):
             [elem for elem in mapping_input_to_comparison if elem != -1]
         )
         matching_percentage = round(
-            total_matching_activities / input_activities.shape[0], 3
+            total_matching_activities / input_activities.shape[0] * 100
         )
-        matching_percentage = round(matching_percentage * 100, 0)
 
         return matching_percentage
 
     @staticmethod
-    def __find_missing_activities(ground_truth_activities, mapping_groundtruth_to_data):
-        missing_activities = []
-        for index, value in enumerate(mapping_groundtruth_to_data):
-            if value == -1:
-                missing_activities.append(ground_truth_activities[index])
-        return missing_activities
-
-    @staticmethod
-    def __find_unexpected_activities(df_activities, mapping_data_to_groundtruth):
-        unexpected_activities = []
-        for count, value in enumerate(mapping_data_to_groundtruth):
-            if value == -1:
-                unexpected_activities.append(df_activities[count])
-        return unexpected_activities
+    def __find_not_mapped_activities(activities, mapping):
+        return [
+            activities[index]
+            for index, match_index in enumerate(mapping)
+            if match_index == -1
+        ]
 
     def __find_wrong_orders(self, df_activities, mapping_groundtruth_to_data):
         wrong_orders_indizes = []

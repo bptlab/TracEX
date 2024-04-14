@@ -553,7 +553,7 @@ PREPROCESSING_IDENTIFY_TIMESTAMPS = [
         "role": "user",
         "content": "I started feeling unusually fatigued right before Thanksgiving 2020. \
             The fatigue worsened over the holiday, and by the following Monday, I had developed a fever. \
-            I was tested for Covid-19 $$$two days later$$$ and received a positive result on November 30th, 2020.",
+            I was tested for Covid-19 two days later and received a positive result on November 30th, 2020.",
     },
     {
         "role": "assistant",
@@ -592,7 +592,7 @@ PREPROCESSING_TRANSFORM_TIMESTAMPS = [
         "role": "assistant",
         "content": "I noticed the first symptoms shortly after my birthday on 2024/04/01, \
             and exactly 12 weeks later, on 2024/06/24, my condition had deteriorated significantly. \
-            I was officially diagnosed with Lyme disease on 2024/08/07. It will be gone on $$$2025/01/01$$$!",
+            I was officially diagnosed with Lyme disease on 2024/08/07. It will be gone on 2025/01/01!",
     },
     {
         "role": "user",
