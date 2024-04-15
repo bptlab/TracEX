@@ -86,24 +86,27 @@
 
         <input type="submit" value="Refresh Filter" class="button">
     </form>
+    <br>
 
-    <p style="margin-bottom: 0"><b>Choose the XES file to download:</b></p><br>
-    <form action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+<!-- Trigger/Open The Modal -->
+    <button id="downloadBtn" class="button">Download XES File</button>
 
-        <div class="form-row">
-            <div class="form-column">
+<!-- The Modal -->
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please select the type of XES file to download:</p>
+            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
                 <input type="radio" id="single_trace" name="trace_type" value="single_trace" class="trace-radio">
-                <label for="single_trace">Single Trace XES</label>
-            </div>
-            <div class="form-column">
+                <label for="single_trace">Single Trace XES</label><br>
                 <input type="radio" id="all_traces" name="trace_type" value="all_traces" checked class="trace-radio">
-                <label for="all_traces">All Traces XES</label>
-            </div>
+                <label for="all_traces">All Traces XES</label><br><br>
+                <input type="submit" value="Confirm Download" class="button">
+            </form>
         </div>
+    </div>
 
-        <input type="submit" value="Download Selected XES File" class="button">
-    </form>
 
     <a href="{% url 'save_success' %}">
         <button class="menu_button">Save results to the database</button>
@@ -115,6 +118,8 @@
 
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX Menu</button>
+
+    <script src="{% static '/extraction/js/pop_up_xes.js' %}" defer></script>
 
 </body>
 </html>
