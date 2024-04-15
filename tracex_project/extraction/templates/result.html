@@ -88,24 +88,22 @@
     </form>
     <br>
 
-<!-- Trigger/Open The Modal -->
-<button id="downloadBtn" class="button">Download XES File</button>
-
-<!-- The Modal -->
-<div id="downloadModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <p>Please select the type(s) of XES file to download:</p>
-        <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            <input type="checkbox" id="single_trace" name="trace_type[]" value="single_trace" class="trace-checkbox">
-            <label for="single_trace">Single Trace XES</label><br>
-            <input type="checkbox" id="all_traces" name="trace_type[]" value="all_traces" class="trace-checkbox">
-            <label for="all_traces">All Traces XES</label><br><br>
-            <input type="submit" value="Confirm Download" class="button">
-        </form>
+    <!-- Trigger/Open The Modal (XES Download) -->
+    <button id="downloadBtn" class="button">Download XES File</button>
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please select the type(s) of XES file to download:</p>
+            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="checkbox" id="single_trace" name="trace_type[]" value="single_trace" class="trace-checkbox">
+                <label for="single_trace">Single Trace XES</label><br>
+                <input type="checkbox" id="all_traces" name="trace_type[]" value="all_traces" class="trace-checkbox">
+                <label for="all_traces">All Traces XES</label><br><br>
+                <input type="submit" value="Confirm Download" class="button">
+            </form>
+        </div>
     </div>
-</div>
 
     <a href="{% url 'save_success' %}">
         <button class="menu_button">Save results to the database</button>

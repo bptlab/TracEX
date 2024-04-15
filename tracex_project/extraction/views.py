@@ -267,16 +267,16 @@ def download_xes(request):
             view_instance.setup(request)
             context = view_instance.get_context_data()
             df = context['all_traces_df_filtered']
-            xes_path = utils.Conversion.dataframe_to_xes(df)
+            xes = utils.Conversion.dataframe_to_xes(df)
         elif trace_type == 'single_trace':
-            xes_path = str(utils.output_path / 'single_trace_event_type.xes')
+            xes = str(utils.output_path / 'single_trace_event_type.xes')
         else:
             continue  # Skip if not a valid type
 
-        if os.path.exists(xes_path):
-            files_to_download.append(xes_path)
+        if os.path.exists(xes):
+            files_to_download.append(xes)
         else:
-            return HttpResponse(f"File not found: {xes_path}", status=404)
+            return HttpResponse(f"File not found: {xes}", status=404)
 
     if not files_to_download:
         return HttpResponse("File(s) not found.", status=404)

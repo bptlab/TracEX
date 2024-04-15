@@ -1,26 +1,17 @@
-// Get the modal
+
 var modal = document.getElementById("downloadModal");
-
-// Get the button that opens the modal
 var btn = document.getElementById("downloadBtn");
-
-// Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
 
-// Get checkboxes
 var checkboxes = document.querySelectorAll('.trace-checkbox');
-
-// Get the download form
 var downloadForm = document.getElementById("downloadForm");
 
-// Create an error display element and configure it
 var errorDisplay = document.createElement('p');
 errorDisplay.style.color = 'red';
 errorDisplay.style.fontWeight = 'bold';  // Make the text bold
 errorDisplay.textContent = 'Please select at least one type of XES file to download.';
 errorDisplay.style.display = 'none';
 
-// Insert the error display at the top of the form
 downloadForm.insertBefore(errorDisplay, downloadForm.firstChild);
 
 // When the user clicks the button, open the modal and hide any error
@@ -45,7 +36,7 @@ window.onclick = function(event) {
 downloadForm.onsubmit = function(event) {
     var anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
     if (!anyChecked) {
-        errorDisplay.style.display = 'block';  // Show error message
-        event.preventDefault();  // Prevent form submission
+        errorDisplay.style.display = 'block';
+        event.preventDefault();
     }
 };
