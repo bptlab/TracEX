@@ -3,11 +3,13 @@ from django.urls import reverse_lazy
 from django.views import generic
 from patient_journey_generator.forms import GenerationOverviewForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.models import PatientJourney
 from tracex.logic import constants
 from .generator import generate_patient_journey
+from tracex.logic.constants import IS_TEST
 
 
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
+# IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -43,13 +45,11 @@ class JourneyGenerationView(generic.RedirectView):
         """Generate a patient journey and save it in the cache."""
         orchestrator = Orchestrator()
         if IS_TEST:
-            with open(
-                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
-            ) as file:
-                journey = file.read()
-            configuration = ExtractionConfiguration(patient_journey=journey)
+            default_journey = PatientJourney.manager.get(name="default_journey_name")
+            default_journey = default_journey.patient_journey
+            configuration = ExtractionConfiguration(patient_journey=default_journey)
             orchestrator.set_configuration(configuration)
-            self.request.session["generated_journey"] = journey
+            self.request.session["generated_journey"] = default_journey
         else:
             # This automatically updates the configuration with the generated patient journey
             configuration = ExtractionConfiguration(

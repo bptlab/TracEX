@@ -38,3 +38,4 @@ LOCATIONS = [
     ("Hospital", "Hospital"),
     ("Doctors", "Doctors"),
 ]
+IS_TEST = True  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
