@@ -277,30 +277,22 @@ def download_xes(request):
         return HttpResponse("File(s) not found.", status=404)
 
     # Handle the ZIP creation and response
-    try:
-        if len(files_to_download) == 1:
-            file = open(files_to_download[0], 'rb')
-            response = FileResponse(file, as_attachment=True)
-            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(files_to_download[0])}"'
-            return response
-
-        # Create a ZIP file if multiple files are selected
-        zip_filename = "downloaded_xes_files.zip"
-        zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
-        zipf = zipfile.ZipFile(zip_path, 'w')
-        for file_path in files_to_download:
-            zipf.write(file_path, arcname=os.path.basename(file_path))
-        zipf.close()
-
-        file = open(zip_path, 'rb')
+    # pylint: disable=consider-using-with
+    if len(files_to_download) == 1:
+        file = open(files_to_download[0], 'rb')
         response = FileResponse(file, as_attachment=True)
-        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(files_to_download[0])}"'
         return response
 
-    except Exception as e:
-        # Make sure to close the file if an exception occurs
-        if 'file' in locals():
-            file.close()
-        if 'zipf' in locals() and zipf.fp:
-            zipf.close()
-        return HttpResponse(f"An error occurred: {str(e)}", status=500)
+    # Create a ZIP file if multiple files are selected
+    zip_filename = "downloaded_xes_files.zip"
+    zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
+    zipf = zipfile.ZipFile(zip_path, 'w')
+    for file_path in files_to_download:
+        zipf.write(file_path, arcname=os.path.basename(file_path))
+    zipf.close()
+
+    file = open(zip_path, 'rb')
+    response = FileResponse(file, as_attachment=True)
+    response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+    return response
