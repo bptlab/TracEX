@@ -249,7 +249,8 @@ class SaveSuccessView(generic.TemplateView):
 
 
 def download_xes(request):
-    """Download one or more XES files based on the types specified in POST request, bundled into a ZIP file if multiple."""
+    """Download one or more XES files based on the types specified in POST request,
+    bundled into a ZIP file if multiple."""
 
     if request.method != 'POST':
         return HttpResponse("Invalid request", status=400)
