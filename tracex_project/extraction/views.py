@@ -106,10 +106,6 @@ class ResultView(generic.FormView):
     template_name = "result.html"
     success_url = reverse_lazy("result")
 
-    def setup(self, request, *args, **kwargs):
-        """Set up the view."""
-        super().setup(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
