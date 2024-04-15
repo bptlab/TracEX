@@ -8,12 +8,14 @@ from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 
 from tracex.logic import utils
 from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace
+from django.http import FileResponse
+
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -239,3 +241,24 @@ class SaveSuccessView(generic.TemplateView):
         orchestrator.save_results_to_db()
 
         return context
+
+
+def download_xes(request):
+    if request.method == 'POST':
+        trace_type = request.POST.get('trace_type')
+
+        if trace_type == 'all_traces':
+            xes_path = utils.get_all_xes_output_path()
+        elif trace_type == 'single_trace':
+            xes_path = str(utils.output_path / 'single_trace_event_type.xes')
+        else:
+            return HttpResponse("Invalid file type requested.", status=400)
+
+        if os.path.exists(xes_path):
+            response = FileResponse(open(xes_path, 'rb'), as_attachment=True)
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
+            return response
+        else:
+            return HttpResponse("Sorry, the file does not exist.", status=404)
+    else:
+        return HttpResponse("Invalid request", status=400)

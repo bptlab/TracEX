@@ -87,6 +87,24 @@
         <input type="submit" value="Refresh Filter" class="button">
     </form>
 
+    <p style="margin-bottom: 0"><b>Choose the XES file to download:</b></p><br>
+    <form action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-column">
+                <input type="radio" id="single_trace" name="trace_type" value="single_trace" class="trace-radio">
+                <label for="single_trace">Single Trace XES</label>
+            </div>
+            <div class="form-column">
+                <input type="radio" id="all_traces" name="trace_type" value="all_traces" checked class="trace-radio">
+                <label for="all_traces">All Traces XES</label>
+            </div>
+        </div>
+
+        <input type="submit" value="Download Selected XES File" class="button">
+    </form>
+
     <a href="{% url 'save_success' %}">
         <button class="menu_button">Save results to the database</button>
     </a>
