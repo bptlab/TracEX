@@ -1,10 +1,11 @@
 """This file contains the views for the extraction app.
 Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
+import zipfile
 import os
 import pm4py
 import pandas as pd
-import zipfile
+
 from django.db.models import Q
 
 from django.conf import settings
