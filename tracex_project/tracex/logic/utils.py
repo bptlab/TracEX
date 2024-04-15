@@ -241,11 +241,7 @@ class Conversion:
         parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
         event_log = log_converter.apply(df, parameters=parameters)
 
-        # Define XES file path
         xes_file = output_path / "all_traces_event_type.xes"
-
-        # Writing to XES file
         pm4py.write_xes(event_log, xes_file)
 
-        # Return the path to the XES file
         return xes_file
