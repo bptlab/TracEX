@@ -165,6 +165,7 @@ class ResultView(generic.FormView):
         context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
+        context["all_traces_df_filtered"] = all_traces_df_filtered
 
         return context
 
@@ -262,7 +263,10 @@ def download_xes(request):
     files_to_download = []
     for trace_type in trace_types:
         if trace_type == 'all_traces':
-            df = ResultView.get_events_df()
+            view_instance = ResultView()
+            view_instance.request = request
+            context = view_instance.get_context_data()
+            df = context['all_traces_df_filtered']
             xes_path = utils.Conversion.dataframe_to_xes(df)
         elif trace_type == 'single_trace':
             xes_path = str(utils.output_path / 'single_trace_event_type.xes')
@@ -277,8 +281,6 @@ def download_xes(request):
     if not files_to_download:
         return HttpResponse("File(s) not found.", status=404)
 
-    # Handle the ZIP creation and response
-    # pylint: disable=consider-using-with
     if len(files_to_download) == 1:
         file = open(files_to_download[0], 'rb')
         response = FileResponse(file, as_attachment=True)
