@@ -263,8 +263,7 @@ def download_xes(request):
             response = FileResponse(file, as_attachment=True)
             response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
             return response
-        except Exception as e:
-            # If an error occurs while opening or reading the file, log the error and return an error response
-            return HttpResponse("An error occurred while processing the file.", status=500)
+        except IOError as err:
+            return HttpResponse(f"An error occurred while processing the file: {str(err)}", status=500)
     else:
         return HttpResponse("Sorry, the file does not exist.", status=404)
