@@ -1,14 +1,15 @@
 """This file contains the views for the trace testing environment app."""
-from django.views.generic import FormView, TemplateView
-from django.urls import reverse_lazy
-from .forms import PatientJourneySelectForm
-from extraction.models import PatientJourney
-from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from trace_comparator.comparator import compare_traces
-from tracex.logic.utils import DataFrameUtilities as dfu
-from django.shortcuts import redirect
 import pandas as pd
 from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import FormView, TemplateView
+
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.models import PatientJourney
+from trace_comparator.comparator import compare_traces
+from trace_comparator.forms import PatientJourneySelectForm
+from tracex.logic.utils import DataFrameUtilities as dfu
 
 
 class TraceTestingOverviewView(FormView):
@@ -70,7 +71,7 @@ class TraceTestingComparisonView(TemplateView):
 
         return super().get(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         """Comparing a generated trace of a patient journey against the ground truth."""
         patient_journey_name = self.request.session.get("patient_journey_name")
         pipeline_df = dfu.get_events_df(

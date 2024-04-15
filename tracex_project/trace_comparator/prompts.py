@@ -1,3 +1,5 @@
+"""File containing all prompts for the trace comparator."""
+
 COMPARE_MESSAGES = [
     {
         "role": "system",
