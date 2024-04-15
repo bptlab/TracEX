@@ -218,6 +218,7 @@ class Conversion:
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
 
+    @staticmethod
     def dataframe_to_xes(df):
         """Conversion from dataframe to xes file."""
 
