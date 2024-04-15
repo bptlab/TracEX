@@ -258,8 +258,13 @@ def download_xes(request):
         return HttpResponse("Invalid file type requested.", status=400)
 
     if os.path.exists(xes_path):
-        response = FileResponse(open(xes_path, 'rb'), as_attachment=True)
-        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
-        return response
-
-    return HttpResponse("Sorry, the file does not exist.", status=404)
+        try:
+            file = open(xes_path, 'rb')
+            response = FileResponse(file, as_attachment=True)
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
+            return response
+        except Exception as e:
+            # If an error occurs while opening or reading the file, log the error and return an error response
+            return HttpResponse("An error occurred while processing the file.", status=500)
+    else:
+        return HttpResponse("Sorry, the file does not exist.", status=404)
