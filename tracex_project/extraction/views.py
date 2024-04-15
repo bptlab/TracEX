@@ -259,10 +259,12 @@ def download_xes(request):
 
     if os.path.exists(xes_path):
         try:
+            # pylint: disable=consider-using-with
             file = open(xes_path, 'rb')
             response = FileResponse(file, as_attachment=True)
             response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
             return response
+            # pylint: enable=consider-using-with
         except IOError as err:
             return HttpResponse(f"An error occurred while processing the file: {str(err)}", status=500)
     else:
