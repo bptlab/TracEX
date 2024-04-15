@@ -71,8 +71,6 @@ class JourneyFilterView(generic.FormView):
 
         if self.request.session.get("is_comparing") == True:
             orchestrator.save_results_to_db()
-            self.request.session["progress"] = 0
-            self.request.session["status"] = None
             return redirect(reverse_lazy("testing_comparison"))
 
         return super().form_valid(form)

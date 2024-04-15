@@ -8,6 +8,7 @@ from trace_comparator.comparator import compare_traces
 from tracex.logic.utils import DataFrameUtilities as dfu
 from django.shortcuts import redirect
 import pandas as pd
+from django.http import JsonResponse
 
 
 class TraceTestingOverviewView(FormView):
@@ -50,6 +51,22 @@ class TraceTestingComparisonView(TemplateView):
                 "pipeline_output": pipeline_df.to_html(index=False),
             }
         )
+
+    def get(self, request, *args, **kwargs):
+        """Return a JSON response with the current progress of the pipeline."""
+        is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
+        if is_ajax:
+            progress_information = {
+                "progress": self.request.session.get("progress"),
+                "status": self.request.session.get("status"),
+            }
+            return JsonResponse(progress_information)
+
+        self.request.session["progress"] = 0
+        self.request.session["status"] = None
+        self.request.session.save()
+
+        return super().get(request, *args, **kwargs)
 
         return context
 
