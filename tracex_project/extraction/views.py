@@ -106,8 +106,9 @@ class ResultView(generic.FormView):
     template_name = "result.html"
     success_url = reverse_lazy("result")
 
-    def set_request(self, request):
-        self.request = request
+    def setup(self, request, *args, **kwargs):
+        """Set up the view."""
+        super().setup(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
@@ -267,7 +268,7 @@ def download_xes(request):
     for trace_type in trace_types:
         if trace_type == 'all_traces':
             view_instance = ResultView()
-            view_instance.set_request(request)
+            view_instance.setup(request)
             context = view_instance.get_context_data()
             df = context['all_traces_df_filtered']
             xes_path = utils.Conversion.dataframe_to_xes(df)
