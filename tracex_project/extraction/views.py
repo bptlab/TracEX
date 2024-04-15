@@ -243,6 +243,8 @@ class SaveSuccessView(generic.TemplateView):
 
 
 def download_xes(request):
+    """Download XES file based on the type specified in POST request."""
+
     if request.method == 'POST':
         trace_type = request.POST.get('trace_type')
 
