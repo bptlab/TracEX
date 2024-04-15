@@ -94,12 +94,12 @@ class TimeExtractor(Module):
         )
         mask = converted_start.isna()
         df.loc[mask, "start"] = converted_start
-        df["start"] = df["start"].ffill()  # Modified to avoid using inplace=True
+        df["start"] = df["start"].ffill()
 
         converted_end = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
         mask = converted_end.isna()
         df.loc[mask, "end"] = converted_end
-        df["end"] = df["end"].ffill()  # Modified to avoid using inplace=True
+        df["end"] = df["end"].ffill()
 
         df = df.apply(fix_end_dates, axis=1)
 
