@@ -26,11 +26,12 @@ from tracex.logic.constants import (
     CSV_ALL_TRACES,
 )
 
-from . import function_calls
 from django.db.models import Q
 from extraction.models import Trace, PatientJourney
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Max, Min
+
+from . import function_calls
 
 
 def deprecated(func):
@@ -225,6 +226,8 @@ class Conversion:
 
 
 class DataFrameUtilities:
+    """Class for all kinds of operations that performs on Dataframes"""
+
     @staticmethod
     def get_events_df(
         patient_journey_name: str = None, query: Q = None, trace_position: str = "last"
