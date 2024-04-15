@@ -281,6 +281,8 @@ def download_xes(request):
     if not files_to_download:
         return HttpResponse("File(s) not found.", status=404)
 
+    # Handle the ZIP creation and response
+    # pylint: disable=consider-using-with
     if len(files_to_download) == 1:
         file = open(files_to_download[0], 'rb')
         response = FileResponse(file, as_attachment=True)
