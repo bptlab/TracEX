@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <log xes.version="1849-2016" xes.features="nested-attributes" xmlns="http://www.xes-standard.org/">
-	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
 	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext" />
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext" />
 	<string key="origin" value="csv" />
 	<trace>
-		<string key="concept:name" value="25" />
+		<string key="concept:name" value="29" />
 		<event>
 			<string key="activity" value="starting to experience symptoms" />
 			<date key="start_timestamp" value="2021-07-15T00:00:00" />
@@ -30,7 +30,7 @@
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="activity" value="informing family" />
+			<string key="activity" value="informing family about situation" />
 			<date key="start_timestamp" value="2021-07-15T00:00:00" />
 			<date key="time:end_timestamp" value="2021-07-15T00:00:00" />
 			<string key="time:duration" value="00:00:00" />
@@ -42,7 +42,7 @@
 			<date key="start_timestamp" value="2021-07-15T00:00:00" />
 			<date key="time:end_timestamp" value="2021-07-15T00:00:00" />
 			<string key="time:duration" value="00:00:00" />
-			<string key="concept:name" value="Doctors Visit" />
+			<string key="concept:name" value="Doctor Visit" />
 			<string key="attribute_location" value="Doctors" />
 		</event>
 		<event>
@@ -62,7 +62,7 @@
 			<string key="attribute_location" value="Doctors" />
 		</event>
 		<event>
-			<string key="activity" value="doctor's recommendation for home quarantine" />
+			<string key="activity" value="doctor recommending home quarantine" />
 			<date key="start_timestamp" value="2021-07-15T00:00:00" />
 			<date key="time:end_timestamp" value="2021-07-15T00:00:00" />
 			<string key="time:duration" value="00:00:00" />
@@ -78,7 +78,7 @@
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="activity" value="children supporting emotionally" />
+			<string key="activity" value="children supporting emotionally and around house" />
 			<date key="start_timestamp" value="2021-07-15T00:00:00" />
 			<date key="time:end_timestamp" value="2021-07-15T00:00:00" />
 			<string key="time:duration" value="00:00:00" />
@@ -150,7 +150,7 @@
 			<string key="attribute_location" value="Home" />
 		</event>
 		<event>
-			<string key="activity" value="gratitude for family and healthcare support" />
+			<string key="activity" value="grateful for family and healthcare support" />
 			<date key="start_timestamp" value="2021-09-01T00:00:00" />
 			<date key="time:end_timestamp" value="2021-09-01T00:00:00" />
 			<string key="time:duration" value="00:00:00" />

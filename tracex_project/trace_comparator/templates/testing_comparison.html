@@ -3,7 +3,11 @@
 <title>Comparison</title>
 <head>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
+    <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body class="main_body">
     <div class="container">
@@ -29,7 +33,7 @@
 
     <form method="post" >
         {% csrf_token %}
-        <button type="submit" class="menu_button" name="compare_button">Start Comparing Against Ground Truth</button>
+        <button type="submit" class="menu_button" id="progress_button">Start Comparing Against Ground Truth</button>
     </form>
 
     <a href="{% url 'testing_environment' %}">

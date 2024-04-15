@@ -17,7 +17,7 @@ def compare_traces(view, pipeline_df, ground_truth_df):
     (
         mapping_data_to_ground_truth,
         mapping_ground_truth_to_data,
-    ) = find_activity_mapping(pipeline_activities, ground_truth_activities)
+    ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
     missing_activities = find_unmapped_activities(
         ground_truth_activities, mapping_ground_truth_to_data
     )
@@ -46,16 +46,27 @@ def compare_traces(view, pipeline_df, ground_truth_df):
     return results_dict
 
 
-def find_activity_mapping(
-    pipeline_activities,
-    ground_truth_activities,
-):
+def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
+    total_steps = len(pipeline_activities) + len(ground_truth_activities)
+    half_progress = len(pipeline_activities)
+
     mapping_data_to_ground_truth = compare_activities(
-        pipeline_activities, ground_truth_activities
+        view,
+        0,
+        total_steps,
+        "Mapping Pipeline Activites to Ground Truth Activites",
+        pipeline_activities,
+        ground_truth_activities,
     )
     mapping_ground_truth_to_data = compare_activities(
-        ground_truth_activities, pipeline_activities
+        view,
+        half_progress,
+        total_steps,
+        "Mapping Ground Truth Activites to Pipeline Activites",
+        ground_truth_activities,
+        pipeline_activities,
     )
+
     (
         mapping_data_to_ground_truth,
         mapping_ground_truth_to_data,
@@ -64,9 +75,17 @@ def find_activity_mapping(
     return mapping_data_to_ground_truth, mapping_ground_truth_to_data
 
 
-def compare_activities(input_activities, comparison_basis_activities):
+def compare_activities(
+    view,
+    current_step,
+    total_steps,
+    status,
+    input_activities,
+    comparison_basis_activities,
+):
     mapping_input_to_comparison = []
     for index, activity in enumerate(input_activities):
+        update_progress(view, current_step, total_steps, status)
         find_activity(
             activity,
             comparison_basis_activities,
@@ -74,6 +93,8 @@ def compare_activities(input_activities, comparison_basis_activities):
             mapping_input_to_comparison,
         )
         time.sleep(2)
+        current_step += 1
+
     return mapping_input_to_comparison
 
 
@@ -192,9 +213,17 @@ def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
     return wrong_orders_activities
 
 
-@staticmethod
 def pair_exists(pair_list, new_pair):
     for pair in pair_list:
         if pair == new_pair:
             return True
     return False
+
+
+def update_progress(view, current_step, total_steps, status):
+    """Update the progress of the extraction."""
+    if view is not None:
+        percentage = round((current_step / total_steps) * 100)
+        view.request.session["progress"] = percentage
+        view.request.session["status"] = status
+        view.request.session.save()

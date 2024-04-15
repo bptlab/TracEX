@@ -123,7 +123,6 @@ STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "tracex" / "static",
-    BASE_DIR / "extraction" / "static",
     BASE_DIR / "trace_comparator" / "static",
     BASE_DIR / "patient_journey_generator" / "static",
 ]
