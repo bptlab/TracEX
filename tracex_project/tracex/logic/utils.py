@@ -219,7 +219,6 @@ class Conversion:
     def dataframe_to_xes(df):
         """Conversion from dataframe to xes file."""
 
-        print(df)
         # Convert 'start' and 'end' columns to datetime
         df['start_timestamp'] = pd.to_datetime(df['start_timestamp'])
         df['time:end_timestamp'] = pd.to_datetime(df['time:end_timestamp'])
