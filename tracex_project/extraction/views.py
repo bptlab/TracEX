@@ -262,7 +262,8 @@ def download_xes(request):
     files_to_download = []
     for trace_type in trace_types:
         if trace_type == 'all_traces':
-            xes_path = utils.get_all_xes_output_path()
+            df = ResultView.get_events_df()
+            xes_path = utils.Conversion.dataframe_to_xes(df)
         elif trace_type == 'single_trace':
             xes_path = str(utils.output_path / 'single_trace_event_type.xes')
         else:
