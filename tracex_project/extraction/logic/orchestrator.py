@@ -6,14 +6,16 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from tracex.logic import utils
 
-from .modules.module_activity_labeler import ActivityLabeler
-from .modules.module_cohort_tagger import CohortTagger
-from .modules.module_time_extractor import TimeExtractor
-from .modules.module_location_extractor import LocationExtractor
-from .modules.module_event_type_classifier import EventTypeClassifier
-from .modules.module_patient_journey_preprocessor import Preprocessor
-from .modules.module_metrics_analyzer import MetricsAnalyzer
-from .modules.module_trace_comparator import TraceComparator
+from .modules import (
+    Preprocessor,
+    CohortTagger,
+    ActivityLabeler,
+    TimeExtractor,
+    LocationExtractor,
+    EventTypeClassifier,
+    MetricsAnalyzer,
+    TraceComparator,
+)
 
 from ..models import Trace, PatientJourney, Event, Cohort
 
@@ -105,12 +107,12 @@ class Orchestrator:
 
         patient_journey_sentences = self.configuration.patient_journey.split(". ")
         if "preprocessing" in self.configuration.modules:
+            current_step += 1
             preprocessor = self.configuration.modules.get("preprocessing")()
             self.update_progress(view, current_step, "Preprocessing")
             patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
-            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
@@ -120,6 +122,11 @@ class Orchestrator:
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
+            if module.name == "Trace Comparator":
+                self.data = module.execute(
+                    self.data, "journey_test_1_comparison_basis.csv"
+                )
+                continue
             self.data = module.execute(
                 self.data, patient_journey, patient_journey_sentences
             )

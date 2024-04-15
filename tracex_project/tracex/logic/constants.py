@@ -38,3 +38,4 @@ LOCATIONS = [
     ("Hospital", "Hospital"),
     ("Doctors", "Doctors"),
 ]
+THRESHOLD_FOR_MATCH = 0.5

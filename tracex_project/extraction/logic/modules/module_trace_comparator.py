@@ -25,16 +25,14 @@ class TraceComparator(Module):
         self.description = "Compares the output of the pipeline against a ground truth."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute(self, df, comparison_basis, patient_journey_sentences=None):
         """This function compares the pipeline output to a manually derived groundtruth."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, comparison_basis, patient_journey_sentences)
 
-        return self.__compare_traces(df)
+        return self.__compare_traces(df, comparison_basis)
 
-    def __compare_traces(self, df):
-        ground_truth_df = pd.read_csv(
-            c.comparison_path / "journey_test_4_comparison_basis.csv"
-        )
+    def __compare_traces(self, df, comparison_basis):
+        ground_truth_df = pd.read_csv(c.comparison_path / comparison_basis)
 
         pipeline_activities = df["activity"]
         ground_truth_activities = ground_truth_df["activity"]
@@ -131,18 +129,20 @@ class TraceComparator(Module):
                 possible_matches.append((lower + count, linear_prop))
         if possible_matches:
             best_match = max(possible_matches, key=lambda x: x[1])
-            if best_match[1] > 0.7:
+            if best_match[1] > c.THRESHOLD_FOR_MATCH:
                 mapping_input_to_comparison.append(best_match)
                 return
         mapping_input_to_comparison.append((-1, 0))
 
     @staticmethod
     def __get_snippet_bounds(index, dataframe_length):
-        half_snipet_size = min(max(2, dataframe_length // 20), 5)
-        lower = max(0, index - half_snipet_size)
-        upper = min(dataframe_length, index + half_snipet_size + 1)
-        if index < half_snipet_size:
-            upper += abs(index - half_snipet_size)
+        half_snippet_size = min(max(2, dataframe_length // 20), 5)
+        lower = max(0, index - half_snippet_size)
+        upper = min(dataframe_length, index + half_snippet_size + 1)
+        if index < half_snippet_size:
+            upper += abs(index - half_snippet_size)
+        if index > dataframe_length - half_snippet_size:
+            lower -= abs(index - (dataframe_length - half_snippet_size))
         return lower, upper
 
     def __postprocess_mappings(
@@ -200,7 +200,7 @@ class TraceComparator(Module):
         ]
 
     def __find_wrong_orders(self, df_activities, mapping_groundtruth_to_data):
-        wrong_orders_indizes = []
+        wrong_orders_indices = []
         wrong_orders_activities = []
         for index, first_activity_index in enumerate(mapping_groundtruth_to_data):
             if first_activity_index == -1:
@@ -209,14 +209,14 @@ class TraceComparator(Module):
                 if second_activity_index == -1:
                     continue
                 if first_activity_index > second_activity_index:
-                    if not self.__pair_exists(
-                        wrong_orders_indizes,
-                        (first_activity_index, second_activity_index),
+                    if not any(
+                        pair == (first_activity_index, second_activity_index)
+                        for pair in wrong_orders_indices
                     ):
-                        wrong_orders_indizes.append(
+                        wrong_orders_indices.append(
                             (first_activity_index, second_activity_index)
                         )
-        for first_activity_index, second_activity_index in wrong_orders_indizes:
+        for first_activity_index, second_activity_index in wrong_orders_indices:
             wrong_orders_activities.append(
                 (
                     df_activities[first_activity_index],
@@ -224,13 +224,6 @@ class TraceComparator(Module):
                 )
             )
         return wrong_orders_activities
-
-    @staticmethod
-    def __pair_exists(pair_list, new_pair):
-        for pair in pair_list:
-            if pair == new_pair:
-                return True
-        return False
 
     @staticmethod
     def __document(
