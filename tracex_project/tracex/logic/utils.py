@@ -10,6 +10,12 @@ import functools
 import warnings
 import pandas as pd
 import pm4py
+import os
+
+from pm4py.objects.log.exporter.xes import exporter as xes_exporter
+from pm4py.objects.conversion.log import converter as log_converter
+from pm4py.objects.log.util import dataframe_utils
+
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
@@ -182,7 +188,7 @@ class Conversion:
 
     @staticmethod
     def create_dfg_from_df(df):
-        """Create png image from xes file."""
+        """Create png image from df."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
             df, "concept:name", "start_timestamp", "case:concept:name"
@@ -211,3 +217,37 @@ class Conversion:
             elif is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
         return source_df
+
+    def dataframe_to_xes(df):
+        """Conversion from dataframe to xes file."""
+
+        # Convert 'start' and 'end' columns to datetime
+        df['start'] = pd.to_datetime(df['start'])
+        df['end'] = pd.to_datetime(df['end'])
+
+        # Renaming columns to fit XES standards
+        df.rename(
+            columns={
+                'case_id': 'case:concept:name',
+                'activity': 'activity',
+                'start': 'start_timestamp',
+                'end': 'time:end_timestamp',
+                'duration': 'time:duration',
+                'event_type': 'concept:name',
+                'location': 'attribute_location'
+            },
+            inplace=True
+        )
+
+        # Converting DataFrame to XES
+        parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
+        event_log = log_converter.apply(df, parameters=parameters)
+
+        # Define XES file path
+        xes_file = output_path / "all_traces_event_type.xes"
+
+        # Writing to XES file
+        pm4py.write_xes(event_log, xes_file)
+
+        # Return the path to the XES file
+        return xes_file
