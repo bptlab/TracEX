@@ -4,8 +4,10 @@ Some unused imports have to be made because of architectural requirement."""
 import os
 import pm4py
 import pandas as pd
+import zipfile
 from django.db.models import Q
 
+from django.conf import settings
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse, HttpResponse, FileResponse
@@ -14,6 +16,9 @@ from tracex.logic import utils
 from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace
+
+
+
 
 
 # necessary due to Windows error. see information for your os here:
@@ -243,42 +248,57 @@ class SaveSuccessView(generic.TemplateView):
 
 
 def download_xes(request):
-    """Download XES files based on the types specified in POST request."""
+    """Download one or more XES files based on the types specified in POST request, bundled into a ZIP file if multiple."""
 
     if request.method != 'POST':
         return HttpResponse("Invalid request", status=400)
 
-    trace_types = request.POST.getlist('trace_type[]')  # Ensure this matches the 'name' attribute in your HTML checkboxes
-
+    trace_types = request.POST.getlist('trace_type[]')
     if not trace_types:
         return HttpResponse("No file type specified.", status=400)
 
-    valid_types = {'all_traces', 'single_trace'}
     files_to_download = []
-
     for trace_type in trace_types:
-        if trace_type in valid_types:
-            if trace_type == 'all_traces':
-                xes_path = utils.get_all_xes_output_path()
-                files_to_download.append(xes_path)
-            elif trace_type == 'single_trace':
-                xes_path = str(utils.output_path / 'single_trace_event_type.xes')
-                files_to_download.append(xes_path)
+        if trace_type == 'all_traces':
+            xes_path = utils.get_all_xes_output_path()
+        elif trace_type == 'single_trace':
+            xes_path = str(utils.output_path / 'single_trace_event_type.xes')
         else:
-            return HttpResponse("Invalid file type requested.", status=400)
+            continue  # Skip if not a valid type
 
-    # Example handling for a single file download scenario
-    if files_to_download:
-        xes_path = files_to_download[0]  # Simplifying for demonstration
         if os.path.exists(xes_path):
-            try:
-                file = open(xes_path, 'rb')
-                response = FileResponse(file, as_attachment=True)
-                response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
-                return response
-            except IOError as err:
-                return HttpResponse(f"An error occurred while processing the file: {str(err)}", status=500)
+            files_to_download.append(xes_path)
         else:
-            return HttpResponse("Sorry, the file does not exist.", status=404)
-    else:
-        return HttpResponse("No valid file type selected.", status=400)
+            return HttpResponse(f"File not found: {xes_path}", status=404)
+
+    if not files_to_download:
+        return HttpResponse("File(s) not found.", status=404)
+
+    # Handle the ZIP creation and response
+    try:
+        if len(files_to_download) == 1:
+            file = open(files_to_download[0], 'rb')
+            response = FileResponse(file, as_attachment=True)
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(files_to_download[0])}"'
+            return response
+
+        # Create a ZIP file if multiple files are selected
+        zip_filename = "downloaded_xes_files.zip"
+        zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
+        zipf = zipfile.ZipFile(zip_path, 'w')
+        for file_path in files_to_download:
+            zipf.write(file_path, arcname=os.path.basename(file_path))
+        zipf.close()
+
+        file = open(zip_path, 'rb')
+        response = FileResponse(file, as_attachment=True)
+        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        return response
+
+    except Exception as e:
+        # Make sure to close the file if an exception occurs
+        if 'file' in locals():
+            file.close()
+        if 'zipf' in locals() and zipf.fp:
+            zipf.close()
+        return HttpResponse(f"An error occurred: {str(e)}", status=500)
