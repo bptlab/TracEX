@@ -10,11 +10,8 @@ import functools
 import warnings
 import pandas as pd
 import pm4py
-import os
 
-from pm4py.objects.log.exporter.xes import exporter as xes_exporter
 from pm4py.objects.conversion.log import converter as log_converter
-from pm4py.objects.log.util import dataframe_utils
 
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
