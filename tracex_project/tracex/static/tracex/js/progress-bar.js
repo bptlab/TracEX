@@ -2,9 +2,10 @@ const execute_button = document.getElementById('progress_button');
 const progress_box = document.getElementById('progress_box');
 const loader = document.getElementById('loading-spinner');
 
+
 function updateProgressBar() {
     $.ajax({
-        url: '/extraction/filter/',
+        url: window.location.pathname,
         method: "GET",
         success: function(data) {
             // Update the progress bar element with the received progress data
