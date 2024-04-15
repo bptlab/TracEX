@@ -8,13 +8,12 @@ from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, FileResponse
 
 from tracex.logic import utils
 from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace
-from django.http import FileResponse
 
 
 # necessary due to Windows error. see information for your os here:
