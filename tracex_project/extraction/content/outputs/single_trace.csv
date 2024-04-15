@@ -1,21 +1,20 @@
 case_id,activity,start,end,duration,event_type,attribute_location
-19,starting to experience symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
-19,taking immediate action,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
-19,isolating at home,20210715T0000,20210718T0000,72:00:00,Lifestyle Change,Home
-19,informing family about situation,20210715T0000,20210718T0000,72:00:00,Lifestyle Change,Home
-19,worsening symptoms,20210715T0000,20210718T0000,72:00:00,Symptom Onset,Hospital
-19,consulting doctor,20210715T0000,20210718T0000,72:00:00,Doctors Visit,Doctors
-19,getting tested for Covid-19,20210715T0000,20210718T0000,72:00:00,Diagnosis,Doctors
-19,receiving positive test results,20210715T0000,20210718T0000,72:00:00,Diagnosis,Doctors
-19,doctor recommending home quarantine,20210715T0000,20210718T0000,72:00:00,Lifestyle Change,Home
-19,receiving care from wife,20210715T0000,20210718T0000,72:00:00,Other,Home
-19,children supporting emotionally,20210715T0000,20210718T0000,72:00:00,Feelings,Home
-19,slow recovery from infection,20210715T0000,20210718T0000,72:00:00,Symptom Offset,Home
-19,returning to work as teacher,20210715T0000,20210718T0000,72:00:00,Lifestyle Change,Home
-19,getting vaccinated,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
-19,consulting doctor about vaccine benefits,20210901T0000,20210901T0000,00:00:00,Doctor Visit,Doctors
-19,receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
-19,experiencing mild side effects,20210901T0000,20210901T0000,00:00:00,Feelings,Doctors
-19,receiving second vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
-19,feeling relief and hope,20210901T0000,20210901T0000,00:00:00,Feelings,Home
-19,grateful for family support,20210901T0000,20210901T0000,00:00:00,Feelings,Home
+25,starting to experience symptoms,20210715T0000,20210715T0000,00:00:00,Symptom Onset,Home
+25,taking immediate action,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+25,isolating at home,20210715T0000,20210718T0000,72:00:00,Lifestyle Change,Home
+25,informing family,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+25,consulting doctor,20210715T0000,20210715T0000,00:00:00,Doctors Visit,Doctors
+25,getting tested for Covid-19,20210715T0000,20210715T0000,00:00:00,Diagnosis,Doctors
+25,receiving positive test results,20210715T0000,20210715T0000,00:00:00,Diagnosis,Doctors
+25,doctor's recommendation for home quarantine,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+25,receiving care from wife,20210715T0000,20210715T0000,00:00:00,Other,Home
+25,children supporting emotionally,20210715T0000,20210715T0000,00:00:00,Feelings,Home
+25,slow recovery with family support,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+25,returning to work with precautions,20210715T0000,20210715T0000,00:00:00,Lifestyle Change,Home
+25,decision to get vaccinated,20210901T0000,20210901T0000,00:00:00,Lifestyle Change,Doctors
+25,consulting doctor about vaccine benefits,20210901T0000,20210901T0000,00:00:00,Doctor Visit,Doctors
+25,receiving first vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
+25,experiencing mild side effects,20210901T0000,20210901T0000,00:00:00,Feelings,Doctors
+25,receiving second vaccine dose,20210901T0000,20210901T0000,00:00:00,Treatment,Doctors
+25,feeling relief and hope,20210901T0000,20210901T0000,00:00:00,Feelings,Home
+25,gratitude for family and healthcare support,20210901T0000,20210901T0000,00:00:00,Feelings,Home

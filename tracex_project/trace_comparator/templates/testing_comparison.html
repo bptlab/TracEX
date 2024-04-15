@@ -16,6 +16,16 @@
         {{ pipeline_output|safe }}
       </div>
 
+    <div class="spinner-container" id="loading-container">
+        <span id="loading-spinner" class="loader not_visible"></span>
+    </div>
+
+    <div id="progress_box" class="not_visible">
+        <div class="progress-container">
+            <!-- Progress bar and message will be added here -->
+        </div>
+    </div>
+
 
     <form method="post" >
         {% csrf_token %}
@@ -23,7 +33,7 @@
     </form>
 
     <a href="{% url 'testing_environment' %}">
-        <button class="menu_button">Return to Event Log Testing Environment</button>
+        <button class="menu_button">Return to Trace Testing Environment</button>
     </a>
 
     <a href="{% url 'landing_page' %}">

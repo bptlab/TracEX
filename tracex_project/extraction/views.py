@@ -149,25 +149,29 @@ class ResultView(generic.FormView):
             all_traces_df_filtered = single_trace_df_filtered
 
         # 4. Save all information in context to display on website
-        context["form"] = ResultForm(
-            initial={
-                "event_types": orchestrator.get_configuration().event_types,
-                "locations": orchestrator.get_configuration().locations,
+        context.update(
+            {
+                "form": ResultForm(
+                    initial={
+                        "event_types": orchestrator.get_configuration().event_types,
+                        "locations": orchestrator.get_configuration().locations,
+                    }
+                ),
+                "journey": orchestrator.get_configuration().patient_journey,
+                "dfg_img": utils.Conversion.create_dfg_from_df(
+                    single_trace_df_filtered
+                ),
+                "xes_html": utils.Conversion.create_html_from_xes(
+                    single_trace_df_filtered
+                ).getvalue(),
+                "all_dfg_img": utils.Conversion.create_dfg_from_df(
+                    all_traces_df_filtered
+                ),
+                "all_xes_html": utils.Conversion.create_html_from_xes(
+                    all_traces_df_filtered
+                ).getvalue(),
             }
         )
-        context["journey"] = orchestrator.get_configuration().patient_journey
-        context["dfg_img"] = utils.Conversion.create_dfg_from_df(
-            single_trace_df_filtered
-        )
-        context["xes_html"] = utils.Conversion.create_html_from_xes(
-            single_trace_df_filtered
-        ).getvalue()
-        context["all_dfg_img"] = utils.Conversion.create_dfg_from_df(
-            all_traces_df_filtered
-        )
-        context["all_xes_html"] = utils.Conversion.create_html_from_xes(
-            all_traces_df_filtered
-        ).getvalue()
 
         return context
 

@@ -10,6 +10,7 @@ import functools
 import warnings
 import pandas as pd
 import pm4py
+import numpy as np
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
@@ -138,6 +139,12 @@ def append_csv():
         for row in content:
             row = row.replace(row[0], str(int(row[0]) + trace_count), 1)
             f.writelines(row)
+
+
+def calculate_linear_probability(logprob):
+    """ "Calculates the linear probability from the log probability of the gpt output."""
+    linear_prob = np.round(np.exp(logprob), 2)
+    return linear_prob
 
 
 class Conversion:
@@ -279,7 +286,7 @@ class DataFrameUtilities:
                 )
 
         events_df = pd.DataFrame(event_data)
-        return events_df
+        return events_df.sort_values(by="start", inplace=False)
 
     @staticmethod
     def flatten_list(original_list):
