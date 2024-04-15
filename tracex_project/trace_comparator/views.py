@@ -52,6 +52,8 @@ class TraceTestingComparisonView(TemplateView):
             }
         )
 
+        return context
+
     def get(self, request, *args, **kwargs):
         """Return a JSON response with the current progress of the pipeline."""
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
@@ -67,8 +69,6 @@ class TraceTestingComparisonView(TemplateView):
         self.request.session.save()
 
         return super().get(request, *args, **kwargs)
-
-        return context
 
     def post(self, request, *args, **kwargs):
         """Comparing a generated trace of a patient journey against the ground truth."""

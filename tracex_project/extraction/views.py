@@ -11,8 +11,8 @@ from django.views import generic
 from django.http import JsonResponse
 
 from tracex.logic import utils
-from .forms import JourneyForm, ResultForm, FilterForm
-from .logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.forms import JourneyForm, ResultForm, FilterForm
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
 
 # necessary due to Windows error. see information for your os here:
@@ -69,7 +69,7 @@ class JourneyFilterView(generic.FormView):
         self.request.session["is_extracted"] = True
         self.request.session.save()
 
-        if self.request.session.get("is_comparing") == True:
+        if self.request.session.get("is_comparing") is True:
             orchestrator.save_results_to_db()
             return redirect(reverse_lazy("testing_comparison"))
 
