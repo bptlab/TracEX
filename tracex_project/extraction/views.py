@@ -243,24 +243,21 @@ class SaveSuccessView(generic.TemplateView):
 
 
 def download_xes(request):
-    """Download XES file based on the type specified in POST request."""
+    if request.method == 'POST':
+        trace_type = request.POST.get('trace_type')
 
-    if request.method != 'POST':
-        return HttpResponse("Invalid request", status=400)
+        if trace_type == 'all_traces':
+            xes_path = utils.get_all_xes_output_path()
+        elif trace_type == 'single_trace':
+            xes_path = str(utils.output_path / 'single_trace_event_type.xes')
+        else:
+            return HttpResponse("Invalid file type requested.", status=400)
 
-    trace_type = request.POST.get('trace_type')
-
-    if trace_type == 'all_traces':
-        xes_path = utils.get_all_xes_output_path()
-    elif trace_type == 'single_trace':
-        xes_path = str(utils.output_path / 'single_trace_event_type.xes')
+        if os.path.exists(xes_path):
+            response = FileResponse(open(xes_path, 'rb'), as_attachment=True)
+            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
+            return response
+        else:
+            return HttpResponse("Sorry, the file does not exist.", status=404)
     else:
-        return HttpResponse("Invalid file type requested.", status=400)
-
-    if not os.path.exists(xes_path):
-        return HttpResponse("Sorry, the file does not exist.", status=404)
-
-    with open(xes_path, 'rb') as file:
-        response = FileResponse(file, as_attachment=True)
-        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
-        return response
+        return HttpResponse("Invalid request", status=400)
