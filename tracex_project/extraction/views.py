@@ -243,29 +243,42 @@ class SaveSuccessView(generic.TemplateView):
 
 
 def download_xes(request):
-    """Download XES file based on the type specified in POST request."""
+    """Download XES files based on the types specified in POST request."""
 
     if request.method != 'POST':
         return HttpResponse("Invalid request", status=400)
 
-    trace_type = request.POST.get('trace_type')
+    trace_types = request.POST.getlist('trace_type[]')  # Ensure this matches the 'name' attribute in your HTML checkboxes
 
-    if trace_type == 'all_traces':
-        xes_path = utils.get_all_xes_output_path()
-    elif trace_type == 'single_trace':
-        xes_path = str(utils.output_path / 'single_trace_event_type.xes')
-    else:
-        return HttpResponse("Invalid file type requested.", status=400)
+    if not trace_types:
+        return HttpResponse("No file type specified.", status=400)
 
-    if os.path.exists(xes_path):
-        try:
-            # pylint: disable=consider-using-with
-            file = open(xes_path, 'rb')
-            response = FileResponse(file, as_attachment=True)
-            response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
-            return response
-            # pylint: enable=consider-using-with
-        except IOError as err:
-            return HttpResponse(f"An error occurred while processing the file: {str(err)}", status=500)
+    valid_types = {'all_traces', 'single_trace'}
+    files_to_download = []
+
+    for trace_type in trace_types:
+        if trace_type in valid_types:
+            if trace_type == 'all_traces':
+                xes_path = utils.get_all_xes_output_path()
+                files_to_download.append(xes_path)
+            elif trace_type == 'single_trace':
+                xes_path = str(utils.output_path / 'single_trace_event_type.xes')
+                files_to_download.append(xes_path)
+        else:
+            return HttpResponse("Invalid file type requested.", status=400)
+
+    # Example handling for a single file download scenario
+    if files_to_download:
+        xes_path = files_to_download[0]  # Simplifying for demonstration
+        if os.path.exists(xes_path):
+            try:
+                file = open(xes_path, 'rb')
+                response = FileResponse(file, as_attachment=True)
+                response['Content-Disposition'] = f'attachment; filename="{os.path.basename(xes_path)}"'
+                return response
+            except IOError as err:
+                return HttpResponse(f"An error occurred while processing the file: {str(err)}", status=500)
+        else:
+            return HttpResponse("Sorry, the file does not exist.", status=404)
     else:
-        return HttpResponse("Sorry, the file does not exist.", status=404)
+        return HttpResponse("No valid file type selected.", status=400)
