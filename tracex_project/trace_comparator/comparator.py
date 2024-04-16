@@ -129,6 +129,7 @@ def find_activity(
 
 @staticmethod
 def get_snippet_bounds(index, dataframe_length):
+    """Calculate the lower and upper bounds for the comparison snippet."""
     half_snippet_size = min(max(2, dataframe_length // 20), 5)
     lower = max(0, index - half_snippet_size)
     upper = min(dataframe_length, index + half_snippet_size + 1)

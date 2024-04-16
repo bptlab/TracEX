@@ -14,8 +14,12 @@ import numpy as np
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Max, Min
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
+from tracex.logic import function_calls
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
@@ -26,12 +30,7 @@ from tracex.logic.constants import (
     CSV_ALL_TRACES,
 )
 
-from django.db.models import Q
 from extraction.models import Trace, PatientJourney
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Max, Min
-
-from . import function_calls
 
 
 def deprecated(func):
@@ -239,8 +238,10 @@ class DataFrameUtilities:
             patient_journey_name (str, optional): The name of the patient journey to filter traces by.
                                                   If not provided, all traces will be considered.
             query (Q, optional): Additional query to filter traces.
-            trace_position (str, optional): The position of the trace if there are many traces related to a patient journey.
-                                         Valid values are 'last' (default) or 'first'.
+            trace_position (str, optional): The position of the trace if there are many traces related
+                                            to a patient journey.
+                                            Valid values are 'last' (default) or 'first'.
+
 
         Returns:
             pd.DataFrame: A dataframe containing the event data.
@@ -264,10 +265,10 @@ class DataFrameUtilities:
                     )
 
                 traces = Trace.manager.filter(id=trace_id)
-            except ObjectDoesNotExist:
+            except ObjectDoesNotExist as PatientJournyDoesNotExist:
                 raise ObjectDoesNotExist(
                     f"PatientJourney with name '{patient_journey_name}' does not exist."
-                )
+                ) from PatientJournyDoesNotExist
 
         if query is not None:
             traces = traces.filter(query)

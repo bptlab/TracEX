@@ -4,9 +4,8 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-
-from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import PatientJourney
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from trace_comparator.comparator import compare_traces
 from trace_comparator.forms import PatientJourneySelectForm
 from tracex.logic.utils import DataFrameUtilities as dfu
