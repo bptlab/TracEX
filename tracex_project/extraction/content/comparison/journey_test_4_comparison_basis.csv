@@ -1,0 +1,11 @@
+case_id,activity,start,end,duration,event_type,attribute_location
+0, deterioration of the immune system due to masks, 20200701T0000, 20210101T0000, 4320:00:00, Symptom Onset, Home
+0, starting to cough, 20210101T0000, 20210103T0000, 48:00:00, Symptom Onset, Home
+0, getting a fever on top, 20210103T0000, 20210105T0000, 48:00:00, Symptom Onset, Home
+0, refusing to test, 20210101T0000, 20210105T0000, 96:00:00, Lifestyle Change, Home
+0, testing positive for covid19, 20210415T0000, 20210415T0000, 00:00:00, Diagnosis, Home
+0, quarantining myself, 20210415T0000, 20210422T0000, 168:00:00, Treatment, Home
+0, testing negative for covid19, 20210422T0000, 20210422T0000, 00:00:00, Diagnosis, Home
+0, getting first dose of vaccine, 20211001T0000, 20211001T0000, 00:00:00, Treatment, Doctors
+0, getting second dose of vaccine, 20211114T0000, 20211114T0000, 00:00:00, Treatment, Doctors
+0, getting third dose of vaccine, 20220301T0000, 20220301T0000, 00:00:00, Treatment, Doctors

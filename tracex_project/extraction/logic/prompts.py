@@ -7,7 +7,8 @@ TEXT_TO_ACTIVITY_MESSAGES = [
             an illness and convert it into bullet points regarding all important points about the course of the disease.
             Do not include time dates and use a miximum of 6 words per bullet point.
             Include the number of the sentence in the text from which you take the bullet point.
-            The related numbers are in front of the sentences.""",
+            The related numbers are in front of the sentences.
+            Only include ONE sentence number per bullet point!""",
     },
     {
         "role": "user",
@@ -523,7 +524,7 @@ PREPROCESSING_IDENTIFY_TIMESTAMPS = [
         "role": "user",
         "content": "I started feeling unusually fatigued right before Thanksgiving 2020. \
             The fatigue worsened over the holiday, and by the following Monday, I had developed a fever. \
-            I was tested for Covid-19 $$$two days later$$$ and received a positive result on November 30th, 2020.",
+            I was tested for Covid-19 two days later and received a positive result on November 30th, 2020.",
     },
     {
         "role": "assistant",
@@ -555,13 +556,14 @@ PREPROCESSING_TRANSFORM_TIMESTAMPS = [
         "role": "user",
         "content": "I noticed the first symptoms shortly after my birthday in $$$April$$$, \
             and exactly $$$12 weeks later$$$, my condition had deteriorated significantly. \
-            I was officially diagnosed with Lyme disease on $$$August 7th$$$.",
+            I was officially diagnosed with Lyme disease on $$$August 7th$$$. In $$$early 2025$$$, \
+            it will be gone!",
     },
     {
         "role": "assistant",
         "content": "I noticed the first symptoms shortly after my birthday on 2024/04/01, \
             and exactly 12 weeks later, on 2024/06/24, my condition had deteriorated significantly. \
-            I was officially diagnosed with Lyme disease on 2024/08/07.",
+            I was officially diagnosed with Lyme disease on 2024/08/07. It will be gone on 2025/01/01!",
     },
     {
         "role": "user",
@@ -645,5 +647,15 @@ PREPROCESSING_TIME_INTERPRETATION = [
         "content": "In 2020/01/01, I noticed a persistent cough. By 2020/01/15, the cough had worsened,\
              leading me to seek medical advice. A specialist finally saw me at 2020/01/31, \
              diagnosing me with a chronic condition.",
+    },
+    {
+        "role": "user",
+        "content": "In the middle of 2023 I got a stroke. By the end of the year I had recovered. But in early 2024 \
+            I had a relapse.",
+    },
+    {
+        "role": "assistant",
+        "content": "On 2023/06/01, I got a stroke. By 2023/12/01, I had recovered,\
+             On 2024/01/01, I had a relapse.",
     },
 ]

@@ -18,6 +18,19 @@ from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
 from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
 
+from .modules import (
+    Preprocessor,
+    CohortTagger,
+    ActivityLabeler,
+    TimeExtractor,
+    LocationExtractor,
+    EventTypeClassifier,
+    MetricsAnalyzer,
+    TraceComparator,
+)
+
+from ..models import Trace, PatientJourney, Event, Cohort
+
 
 @dataclass
 class ExtractionConfiguration:
@@ -37,7 +50,6 @@ class ExtractionConfiguration:
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
-        # This module should be activated only if the user wants to analyze the metrics
         "metrics_analyzer": MetricsAnalyzer,
     }
     activity_key: Optional[str] = "event_type"
@@ -130,7 +142,6 @@ class Orchestrator:
             patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.get_configuration().patient_journey
             )
-            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
