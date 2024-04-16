@@ -4,21 +4,20 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-
-from extraction.logic.modules.module_activity_labeler import ActivityLabeler
-from extraction.logic.modules.module_cohort_tagger import CohortTagger
-from extraction.logic.modules.module_time_extractor import TimeExtractor
-from extraction.logic.modules.module_location_extractor import LocationExtractor
-from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
-from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
-from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
-from extraction.logic.modules.module_event_log_comparator import EventLogComparator
-
-# from .modules.module_metrics_analyzer import MetricsAnalyzer
-# from .modules.module_event_log_comparator import EventLogComparator
-
-from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
+
+from .modules import (
+    Preprocessor,
+    CohortTagger,
+    ActivityLabeler,
+    TimeExtractor,
+    LocationExtractor,
+    EventTypeClassifier,
+    MetricsAnalyzer,
+    TraceComparator,
+)
+
+from ..models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -39,10 +38,8 @@ class ExtractionConfiguration:
         "event_type_classification": EventTypeClassifier,
         "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
-        # This module should be activated only if the user wants to analyze the metrics
         "metrics_analyzer": MetricsAnalyzer,
-        # Only activate this module with a test comparison patient journey as ground truth
-        "event_log_comparator": EventLogComparator,
+        "trace_comparator": TraceComparator,
     }
     activity_key: Optional[str] = "event_type"
 
@@ -96,10 +93,9 @@ class Orchestrator:
             self.configuration.modules["time_extraction"](),
             self.configuration.modules["event_type_classification"](),
             self.configuration.modules["location_extraction"](),
-            # This module should be activated only if the user wants to analyze the metrics
-            # self.configuration.modules["metrics_analyzer"](),
+            self.configuration.modules["metrics_analyzer"](),
             # Only activate this module with a test comparison patient journey as ground truth
-            # self.configuration.modules["event_log_comparator"](),
+            self.configuration.modules["trace_comparator"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -111,12 +107,12 @@ class Orchestrator:
 
         patient_journey_sentences = self.configuration.patient_journey.split(". ")
         if "preprocessing" in self.configuration.modules:
+            current_step += 1
             preprocessor = self.configuration.modules.get("preprocessing")()
             self.update_progress(view, current_step, "Preprocessing")
             patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.configuration.patient_journey
             )
-            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
@@ -126,6 +122,11 @@ class Orchestrator:
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
+            if module.name == "Trace Comparator":
+                self.data = module.execute(
+                    self.data, "journey_test_1_comparison_basis.csv"
+                )
+                continue
             self.data = module.execute(
                 self.data, patient_journey, patient_journey_sentences
             )

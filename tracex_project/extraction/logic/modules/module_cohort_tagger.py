@@ -27,7 +27,7 @@ class CohortTagger(Module):
         return self.__extract_cohort_tags()
 
     def __extract_cohort_tags(self):
-        """Converts the input text to activity_labels."""
+        """Extracts information about condition, gender, age, origin and preexisting condition."""
         cohort_data = {}
         for message_list in p.COHORT_TAG_MESSAGES:
             messages = message_list[1:]

@@ -1,6 +1,7 @@
 # Content directory
 tracex_project/extraction/content/inputs
 tracex_project/extraction/content/outputs
+tracex_project/tracex/logs
 
 # all __pycache__ directories
 __pycache__

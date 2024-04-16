@@ -1,7 +1,6 @@
 """This module measures the outpupt of the pipeline based on specified metrics."""
 from pathlib import Path
 import pandas as pd
-import numpy as np
 from django.conf import settings
 
 from extraction.logic.module import Module
@@ -88,10 +87,5 @@ class MetricsAnalyzer(Module):
         timestamp_correctness, top_logprops = u.query_gpt(
             messages, logprobs=True, top_logprobs=1
         )
-        linear_prop = self.__calculate_linear_probability(top_logprops[0].logprob)
+        linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
         return (timestamp_correctness, linear_prop)
-
-    @staticmethod
-    def __calculate_linear_probability(logprob):
-        linear_prob = np.round(np.exp(logprob), 2)
-        return linear_prob
