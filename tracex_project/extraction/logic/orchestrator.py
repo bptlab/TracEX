@@ -26,7 +26,6 @@ from .modules import (
     LocationExtractor,
     EventTypeClassifier,
     MetricsAnalyzer,
-    TraceComparator,
 )
 
 from ..models import Trace, PatientJourney, Event, Cohort

@@ -13,11 +13,14 @@ from tracex.logic.utils import DataFrameUtilities as dfu
 
 
 class TraceTestingOverviewView(FormView):
+    """View for selecting a patient journey for testing."""
+
     form_class = PatientJourneySelectForm
     template_name = "testing_overview.html"
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
+        """Pass selected journey to orchestrator."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
         configuration = ExtractionConfiguration(
@@ -32,9 +35,12 @@ class TraceTestingOverviewView(FormView):
 
 
 class TraceTestingComparisonView(TemplateView):
+    """View for comparing the pipeline output against the ground truth."""
+
     template_name = "testing_comparison.html"
 
     def get_context_data(self, **kwargs):
+        """Preparing displaying pipeline extraction results"""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session.get("patient_journey_name")
         patient_journey = PatientJourney.manager.get(
@@ -89,11 +95,12 @@ class TraceTestingComparisonView(TemplateView):
 
 
 class TraceTestingResultView(TemplateView):
-    """Preparing the result data and saving them into the context for the results page."""
+    """View for displaying the comparison results."""
 
     template_name = "testing_result.html"
 
     def create_mapping_list(self, mapping, source_df, target_df):
+        """Create a list of mappings between two dataframes."""
         mapping_list = [
             [source_df["activity"][index], target_df["activity"][value]]
             for index, value in enumerate(mapping)
@@ -102,6 +109,7 @@ class TraceTestingResultView(TemplateView):
         return mapping_list
 
     def get_context_data(self, **kwargs):
+        """Prepare the data for the trace testing results page."""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session.get("patient_journey_name")
 

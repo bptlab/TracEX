@@ -6,6 +6,7 @@ from django.conf import settings
 from trace_comparator import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
+from tracex.logic import constants as c
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
@@ -47,6 +48,7 @@ def compare_traces(view, pipeline_df, ground_truth_df):
 
 
 def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
+    """Find the activity mapping between two dataframes"""
     total_steps = len(pipeline_activities) + len(ground_truth_activities)
     half_progress = len(pipeline_activities)
 
@@ -83,6 +85,7 @@ def compare_activities(
     input_activities,
     comparison_basis_activities,
 ):
+    """Compare input activities with comparison basis activities."""
     mapping_input_to_comparison = []
     for index, activity in enumerate(input_activities):
         update_progress(view, current_step, total_steps, status)
@@ -101,6 +104,7 @@ def compare_activities(
 def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
+    """Find the best matching activity in comparison basis activities."""
     lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
@@ -115,25 +119,28 @@ def find_activity(
         linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
         if "True" in response:
             possible_matches.append((lower + count, linear_prop))
-    if possible_matches:
-        best_match = max(possible_matches, key=lambda x: x[1])
-        if best_match[1] > 0.7:
-            mapping_input_to_comparison.append(best_match)
-            return
-    mapping_input_to_comparison.append((-1, 0))
+        if possible_matches:
+            best_match = max(possible_matches, key=lambda x: x[1])
+            if best_match[1] > c.THRESHOLD_FOR_MATCH:
+                mapping_input_to_comparison.append(best_match)
+                return
+        mapping_input_to_comparison.append((-1, 0))
 
 
 @staticmethod
 def get_snippet_bounds(index, dataframe_length):
-    half_snipet_size = min(max(2, dataframe_length // 20), 5)
-    lower = max(0, index - half_snipet_size)
-    upper = min(dataframe_length, index + half_snipet_size + 1)
-    if index < half_snipet_size:
-        upper += abs(index - half_snipet_size)
+    half_snippet_size = min(max(2, dataframe_length // 20), 5)
+    lower = max(0, index - half_snippet_size)
+    upper = min(dataframe_length, index + half_snippet_size + 1)
+    if index < half_snippet_size:
+        upper += abs(index - half_snippet_size)
+    if index > dataframe_length - half_snippet_size:
+        lower -= abs(index - (dataframe_length - half_snippet_size))
     return lower, upper
 
 
 def postprocess_mappings(mapping_data_to_ground_truth, mapping_ground_truth_to_data):
+    """Postprocess the mappings between data and ground truth."""
     mapping_data_to_ground_truth = fill_mapping(
         mapping_data_to_ground_truth, mapping_ground_truth_to_data
     )
@@ -147,6 +154,7 @@ def postprocess_mappings(mapping_data_to_ground_truth, mapping_ground_truth_to_d
 
 @staticmethod
 def fill_mapping(mapping_back_to_forth, mapping_forth_to_back):
+    """Fill the missing mappings using the reverse mapping."""
     for index_forth, activity_index_forth in enumerate(mapping_back_to_forth):
         if activity_index_forth[0] == -1:
             possible_matches = []
@@ -161,12 +169,14 @@ def fill_mapping(mapping_back_to_forth, mapping_forth_to_back):
 
 @staticmethod
 def remove_probabilities(mapping):
+    """Remove the probabilities from the mapping."""
     new_mapping = [elem[0] for elem in mapping]
     return new_mapping
 
 
 @staticmethod
 def find_matching_percentage(input_activities, mapping_input_to_comparison):
+    """Calculate the percentage of matching activities."""
     total_matching_activities = len(
         [elem for elem in mapping_input_to_comparison if elem != -1]
     )
@@ -179,6 +189,7 @@ def find_matching_percentage(input_activities, mapping_input_to_comparison):
 
 @staticmethod
 def find_unmapped_activities(activities, mapping):
+    """Find the activities that are not mapped."""
     return [
         activities[index]
         for index, match_index in enumerate(mapping)
@@ -187,7 +198,8 @@ def find_unmapped_activities(activities, mapping):
 
 
 def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
-    wrong_orders_indizes = []
+    """Find the activities that are in the wrong order."""
+    wrong_orders_indices = []
     wrong_orders_activities = []
     for index, first_activity_index in enumerate(mapping_ground_truth_to_data):
         if first_activity_index == -1:
@@ -196,14 +208,14 @@ def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
             if second_activity_index == -1:
                 continue
             if first_activity_index > second_activity_index:
-                if not pair_exists(
-                    wrong_orders_indizes,
-                    (first_activity_index, second_activity_index),
+                if not any(
+                    pair == (first_activity_index, second_activity_index)
+                    for pair in wrong_orders_indices
                 ):
-                    wrong_orders_indizes.append(
+                    wrong_orders_indices.append(
                         (first_activity_index, second_activity_index)
                     )
-    for first_activity_index, second_activity_index in wrong_orders_indizes:
+    for first_activity_index, second_activity_index in wrong_orders_indices:
         wrong_orders_activities.append(
             (
                 df_activities[first_activity_index],
@@ -214,6 +226,7 @@ def find_wrong_orders(df_activities, mapping_ground_truth_to_data):
 
 
 def pair_exists(pair_list, new_pair):
+    """Check if a pair exists in the pair list."""
     for pair in pair_list:
         if pair == new_pair:
             return True
