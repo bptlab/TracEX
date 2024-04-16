@@ -15,6 +15,7 @@ import numpy as np
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from openai import OpenAI
+from tracex.logic import function_calls
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
     MAX_TOKENS,
@@ -25,8 +26,6 @@ from tracex.logic.constants import (
     CSV_OUTPUT,
     CSV_ALL_TRACES,
 )
-
-from . import function_calls
 
 
 def deprecated(func):

@@ -27,7 +27,7 @@ class MetricsAnalyzer(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """Measures different metrics while the dataframe is created."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
         return self.__measure_metrics(df)
 
@@ -53,7 +53,8 @@ class MetricsAnalyzer(Module):
 
         return df
 
-    def __rate_activity_relevance(self, activity):
+    @staticmethod
+    def __rate_activity_relevance(activity):
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -65,6 +66,7 @@ class MetricsAnalyzer(Module):
         messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
+        category = "No Relevance"  # By default, an activity is not relevant.
         for key in category_mapping:
             if key in response:
                 category = key

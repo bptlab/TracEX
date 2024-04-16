@@ -24,7 +24,7 @@ class TimeExtractor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """This function extracts the time information from the patient journey."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
         df["start"] = df.apply(self.__extract_start_date, axis=1)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)

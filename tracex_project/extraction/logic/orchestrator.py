@@ -4,20 +4,18 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from tracex.logic import utils
-
-from .modules import (
+from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
     ActivityLabeler,
     TimeExtractor,
-    LocationExtractor,
     EventTypeClassifier,
+    LocationExtractor,
     MetricsAnalyzer,
     TraceComparator,
 )
-
-from ..models import Trace, PatientJourney, Event, Cohort
+from extraction.models import (Trace, PatientJourney, Event, Cohort)
+from tracex.logic import utils
 
 
 @dataclass
@@ -33,10 +31,10 @@ class ExtractionConfiguration:
     locations: Optional[List[str]] = None
     modules = {
         "preprocessing": Preprocessor,
-        "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
-        "event_type_classification": EventTypeClassifier,
+        "activity_labeling": ActivityLabeler,
         "time_extraction": TimeExtractor,
+        "event_type_classification": EventTypeClassifier,
         "location_extraction": LocationExtractor,
         "metrics_analyzer": MetricsAnalyzer,
         "trace_comparator": TraceComparator,
@@ -118,17 +116,12 @@ class Orchestrator:
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects["cohort"] = self.configuration.modules[
             "cohort_tagging"
-        ]().execute_and_save(self.data, patient_journey_sentences)
+        ]().execute_and_save(self.data, patient_journey_sentences=patient_journey_sentences)
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
-            if module.name == "Trace Comparator":
-                self.data = module.execute(
-                    self.data, "journey_test_1_comparison_basis.csv"
-                )
-                continue
             self.data = module.execute(
-                self.data, patient_journey, patient_journey_sentences
+                self.data, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences
             )
             current_step += 1
 

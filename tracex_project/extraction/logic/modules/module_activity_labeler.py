@@ -20,11 +20,9 @@ class ActivityLabeler(Module):
         self.description = "Extracts the activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(
-        self, _input=None, patient_journey=None, patient_journey_sentences=None
-    ):
+    def execute(self, _input=None, patient_journey=None, patient_journey_sentences=None):
         """Extracts the activity labels from the patient journey."""
-        super().execute(_input, patient_journey, patient_journey_sentences)
+        super().execute(_input, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
         return self.__extract_activities()
 
