@@ -224,6 +224,7 @@ class Conversion:
         df['time:end_timestamp'] = pd.to_datetime(df['time:end_timestamp'])
 
         # Renaming columns to fit XES standards
+
         df.rename(
             columns={
                 'case_id': 'case:concept:name',
@@ -236,6 +237,9 @@ class Conversion:
             },
             inplace=True
         )
+
+        # Sorting Dataframe for start timestamp
+        df = df.sort_values('start_timestamp')
 
         # Converting DataFrame to XES
         parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
