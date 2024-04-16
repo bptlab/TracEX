@@ -265,10 +265,10 @@ class DataFrameUtilities:
                     )
 
                 traces = Trace.manager.filter(id=trace_id)
-            except ObjectDoesNotExist as PatientJournyDoesNotExist:
+            except ObjectDoesNotExist as patient_journey_exception:
                 raise ObjectDoesNotExist(
                     f"PatientJourney with name '{patient_journey_name}' does not exist."
-                ) from PatientJournyDoesNotExist
+                ) from patient_journey_exception
 
         if query is not None:
             traces = traces.filter(query)
