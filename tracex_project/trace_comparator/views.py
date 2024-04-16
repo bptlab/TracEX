@@ -1,6 +1,4 @@
 """This file contains the views for the trace testing environment app."""
-import pandas as pd
-
 from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -11,6 +9,8 @@ from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from trace_comparator.comparator import compare_traces
 from trace_comparator.forms import PatientJourneySelectForm
 from tracex.logic.utils import DataFrameUtilities as dfu
+
+import pandas as pd
 
 
 class TraceTestingOverviewView(FormView):
