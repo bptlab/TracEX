@@ -250,7 +250,12 @@ class SaveSuccessView(generic.TemplateView):
 
 
 class DownloadXesView(View):
+    """Download one or more XES files based on the types specified in POST request,
+     bundled into a ZIP file if multiple."""
+
     def post(self, request, *args, **kwargs):
+        """Processes a POST request to download specified trace types as XES files.
+        Validates trace types and prepares the appropriate file response."""
         trace_types = self.get_trace_types(request)
         if not trace_types:
             return HttpResponse("No file type specified.", status=400)
@@ -262,9 +267,11 @@ class DownloadXesView(View):
         return self.prepare_response(files_to_download)
 
     def get_trace_types(self, request):
+        """Retrieves a list of trace types from the POST data."""
         return request.POST.getlist('trace_type[]')
 
     def collect_files(self, request, trace_types):
+        """Collects file for the specified trace types to download, checking for their existence."""
         files_to_download = []
         for trace_type in trace_types:
             file_path = self.process_trace_type(request, trace_type)
@@ -276,30 +283,34 @@ class DownloadXesView(View):
         return files_to_download
 
     def process_trace_type(self, request, trace_type):
+        """Process and provide the to be downloaded XES files."""
         if trace_type == 'all_traces':
             view_instance = ResultView()
             view_instance.setup(request)
             context = view_instance.get_context_data()
             df = context['all_traces_df_filtered']
             return utils.Conversion.dataframe_to_xes(df)
-        elif trace_type == 'single_trace':
+        if trace_type == 'single_trace':
             return str(utils.output_path / 'single_trace_event_type.xes')
-        else:
-            return None  # Return None for unrecognized trace type
+        return None  # Return None for unrecognized trace type
 
     def prepare_response(self, files_to_download):
+        """Prepares the appropriate response based on the number of files to be downloaded."""
         if len(files_to_download) == 1:
             return self.single_file_response(files_to_download[0])
-        else:
-            return self.zip_files_response(files_to_download)
 
+        return self.zip_files_response(files_to_download)
+
+    # pylint: disable=consider-using-with
     def single_file_response(self, file_path):
+        """Prepares a file if there is only a single XES file."""
         file = open(file_path, 'rb')
         response = FileResponse(file, as_attachment=True)
         response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
         return response
 
     def zip_files_response(self, files_to_download):
+        """Prepares a zip file if there are multiple XES files."""
         zip_filename = "downloaded_xes_files.zip"
         zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
         zipf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
