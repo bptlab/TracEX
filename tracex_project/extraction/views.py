@@ -10,7 +10,7 @@ from django.db.models import Q
 
 from django.conf import settings
 from django.urls import reverse_lazy
-from django.views import generic
+from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
 
 from tracex.logic import utils
@@ -249,55 +249,65 @@ class SaveSuccessView(generic.TemplateView):
         return context
 
 
-def download_xes(request):
-    """Download one or more XES files based on the types specified in POST request,
-    bundled into a ZIP file if multiple."""
+class DownloadXesView(View):
+    def post(self, request, *args, **kwargs):
+        trace_types = self.get_trace_types(request)
+        if not trace_types:
+            return HttpResponse("No file type specified.", status=400)
 
-    if request.method != 'POST':
-        return HttpResponse("Invalid request", status=400)
+        files_to_download = self.collect_files(request, trace_types)
+        if files_to_download is None:  # Check for None explicitly to handle error scenario
+            return HttpResponse("One or more files could not be found.", status=404)
 
-    trace_types = request.POST.getlist('trace_type[]')
-    if not trace_types:
-        return HttpResponse("No file type specified.", status=400)
+        return self.prepare_response(files_to_download)
 
-    files_to_download = []
-    for trace_type in trace_types:
+    def get_trace_types(self, request):
+        return request.POST.getlist('trace_type[]')
+
+    def collect_files(self, request, trace_types):
+        files_to_download = []
+        for trace_type in trace_types:
+            file_path = self.process_trace_type(request, trace_type)
+            if file_path:
+                if os.path.exists(file_path):
+                    files_to_download.append(file_path)
+                else:
+                    return None  # Return None if any file path is invalid
+        return files_to_download
+
+    def process_trace_type(self, request, trace_type):
         if trace_type == 'all_traces':
             view_instance = ResultView()
             view_instance.setup(request)
             context = view_instance.get_context_data()
             df = context['all_traces_df_filtered']
-            xes = utils.Conversion.dataframe_to_xes(df)
+            return utils.Conversion.dataframe_to_xes(df)
         elif trace_type == 'single_trace':
-            xes = str(utils.output_path / 'single_trace_event_type.xes')
+            return str(utils.output_path / 'single_trace_event_type.xes')
         else:
-            continue  # Skip if not a valid type
+            return None  # Return None for unrecognized trace type
 
-        if os.path.exists(xes):
-            files_to_download.append(xes)
+    def prepare_response(self, files_to_download):
+        if len(files_to_download) == 1:
+            return self.single_file_response(files_to_download[0])
         else:
-            return HttpResponse(f"File not found: {xes}", status=404)
+            return self.zip_files_response(files_to_download)
 
-    if not files_to_download:
-        return HttpResponse("File(s) not found.", status=404)
-
-    # Handle the ZIP creation and response
-    # pylint: disable=consider-using-with
-    if len(files_to_download) == 1:
-        file = open(files_to_download[0], 'rb')
+    def single_file_response(self, file_path):
+        file = open(file_path, 'rb')
         response = FileResponse(file, as_attachment=True)
-        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(files_to_download[0])}"'
+        response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
         return response
 
-    # Create a ZIP file if multiple files are selected
-    zip_filename = "downloaded_xes_files.zip"
-    zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
-    zipf = zipfile.ZipFile(zip_path, 'w')
-    for file_path in files_to_download:
-        zipf.write(file_path, arcname=os.path.basename(file_path))
-    zipf.close()
+    def zip_files_response(self, files_to_download):
+        zip_filename = "downloaded_xes_files.zip"
+        zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
+        zipf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
+        for file_path in files_to_download:
+            zipf.write(file_path, arcname=os.path.basename(file_path))
+        zipf.close()
 
-    file = open(zip_path, 'rb')
-    response = FileResponse(file, as_attachment=True)
-    response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
-    return response
+        file = open(zip_path, 'rb')
+        response = FileResponse(file, as_attachment=True)
+        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        return response
