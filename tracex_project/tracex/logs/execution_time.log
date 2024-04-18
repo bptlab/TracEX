@@ -1,0 +1,12 @@
+Placeholder for log data
+2024-04-18 12:10:59,473 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_activity_labeler.py', 'execution_time': '1.26432 seconds'}
+2024-04-18 12:11:00,037 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_event_type_classifier.py', 'execution_time': '0.56319 seconds'}
+2024-04-18 12:11:00,579 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_location_extractor.py', 'execution_time': '0.54106 seconds'}
+2024-04-18 12:11:01,709 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_time_extractor.py', 'execution_time': '1.12708 seconds'}
+2024-04-18 12:13:06,534 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_patient_journey_preprocessor.py', 'execution_time': '34.35785 seconds'}
+2024-04-18 12:13:09,893 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_activity_labeler.py', 'execution_time': '3.35183 seconds'}
+2024-04-18 12:13:22,879 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_time_extractor.py', 'execution_time': '12.98348 seconds'}
+2024-04-18 12:13:31,321 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_event_type_classifier.py', 'execution_time': '8.43725 seconds'}
+2024-04-18 12:13:37,465 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_location_extractor.py', 'execution_time': '6.14025 seconds'}
+2024-04-18 12:13:50,053 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_metrics_analyzer.py', 'execution_time': '12.58388 seconds'}
+2024-04-18 12:16:47,380 - {'function_name': 'execute', 'calling_file': '/Users/pit/TracEX/tracex_project/extraction/logic/modules/module_trace_comparator.py', 'execution_time': '177.32664 seconds'}
