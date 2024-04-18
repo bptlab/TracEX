@@ -1,53 +1,61 @@
 <!DOCTYPE html>
 <head>
-    <title>Upload Journey</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
-    <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    {% csrf_token %}
+  <title>Upload Journey</title>
+  {% load static %}
+  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
+  <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  {% csrf_token %}
+  <style>
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
-
 <body class="main_body">
+  {% if is_comparing %}
+    <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
+    <h2>Execute Extraction Pipeline</h2>
+    <p>Click the "Execute Extraction Pipeline" button below to start the extraction process.</p>
+    <p>You can monitor the progress and see which modules are currently running in the progress bar that appears. The progress bar will keep you informed about the status of the extraction pipeline from start to finish.</p>
+  {% else %}
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
     <h2>Filter Selection for Extraction Results</h2>
-    <p> You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
+    <p>You can filter the results by event type and location before and after extraction to get exactly what you need.</p>
     <p>Please select the filter below.</p>
+  {% endif %}
 
-    <form method="post" enctype="multipart/form-data" id="filter_form">
-        {% csrf_token %}
+  <form method="post" enctype="multipart/form-data" id="filter_form">
+    {% csrf_token %}
+    <div class="form-row {% if is_comparing %}hidden{% endif %}">
+      <div class="form-column">
+        {{ form.event_types.label_tag }}
+        {{ form.event_types }}
+        {{ form.event_types.errors }}
+      </div>
+      <div class="form-column">
+        {{ form.locations.label_tag }}
+        {{ form.locations }}
+        {{ form.locations.errors }}
+      </div>
+    </div>
+    <div class="spinner-container" id="loading-container">
+      <span id="loading-spinner" class="loader not_visible"></span>
+    </div>
+    <div id="progress_box" class="not_visible">
+      <div class="progress-container">
+        <!-- Progress bar and message will be added here -->
+      </div>
+    </div>
+    <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button">
+  </form>
 
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.event_types.label_tag }} {{ form.event_types }}
-                {{ form.event_types.errors }}
-            </div>
-            <div class="form-column">
-                {{ form.locations.label_tag }} {{ form.locations }}
-                {{ form.locations.errors }}
-            </div>
-        </div>
-
-        <div class="spinner-container" id="loading-container">
-            <span id="loading-spinner" class="loader not_visible"></span>
-        </div>
-
-        <div id="progress_box" class="not_visible">
-            <div class="progress-container">
-                <!-- Progress bar and message will be added here -->
-            </div>
-        </div>
-
-        <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button">
-    </form>
-
-
-    <a href="{{ request.META.HTTP_REFERER }}">
-        <button class="menu_button">Previous</button>
-    </a>
-    <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
-    </a>
+  <a href="{{ request.META.HTTP_REFERER }}">
+    <button class="menu_button">Previous</button>
+  </a>
+  <a href="{% url 'landing_page' %}">
+    <button class="menu_button">Return to TracEX menu</button>
+  </a>
 </body>

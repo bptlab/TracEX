@@ -49,6 +49,13 @@ class JourneyFilterView(generic.FormView):
     template_name = "filter_journey.html"
     success_url = reverse_lazy("result")
 
+    def get_context_data(self, **kwargs):
+        """Add session variable to context."""
+        context = super().get_context_data(**kwargs)
+        context["is_comparing"] = self.request.session.get("is_comparing")
+
+        return context
+
     def form_valid(self, form):
         """Run extraction pipeline and save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()

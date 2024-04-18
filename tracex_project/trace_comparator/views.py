@@ -41,7 +41,7 @@ class TraceTestingComparisonView(TemplateView):
     template_name = "testing_comparison.html"
 
     def get_context_data(self, **kwargs):
-        """Preparing displaying pipeline extraction results"""
+        """Preparing displaying extraction pipeline results"""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session.get("patient_journey_name")
         patient_journey = PatientJourney.manager.get(
