@@ -299,15 +299,10 @@ class DownloadXesView(View):
     def process_trace_type(self, request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
         if trace_type == 'all_traces':
-            all_traces = request.session.get('all_traces_xes')
-
-            return all_traces
-        elif trace_type == 'single_trace':
-            single_trace = request.session.get('single_trace_xes')
-
-            return single_trace
-        else:
-            return None  # Return None for unrecognized trace type
+            return request.session.get('all_traces_xes')
+        if trace_type == 'single_trace':
+            return request.session.get('single_trace_xes')
+        return None  # Return None for unrecognized trace type
 
     def prepare_response(self, files_to_download):
         """Prepares the appropriate response based on the number of files to be downloaded."""
