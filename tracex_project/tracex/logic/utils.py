@@ -230,10 +230,7 @@ class Conversion:
                 'case_id': 'case:concept:name',
                 'activity': 'activity',
                 'start_timestamp': 'time:timestamp', # Disco takes time:timestamp as timestamp key
-                'end': 'time:end_timestamp',
-                'duration': 'time:duration',
-                'event_type': 'concept:name',
-                'location': 'attribute_location'
+                'event_type': 'concept:name',       # We want Disco to take event types as activities
             },
             inplace=True
         )
