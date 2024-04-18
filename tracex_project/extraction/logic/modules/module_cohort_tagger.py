@@ -20,9 +20,9 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
         """Extracts the cohort from the patient journey."""
-        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
+        super().execute_and_save(df, patient_journey=patient_journey)
 
         return self.__extract_cohort_tags()
 
@@ -35,6 +35,7 @@ class CohortTagger(Module):
                 {"role": "user", "content": self.patient_journey},
             )
             tag = u.query_gpt(messages)
+            print(tag)
             cohort_data[message_list[0]] = tag
 
         valid_cohort_data = {

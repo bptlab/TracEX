@@ -43,4 +43,5 @@ class Module(ABC):
         print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
+
         return 0
