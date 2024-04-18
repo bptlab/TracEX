@@ -1,4 +1,5 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
+import time
 from dataclasses import dataclass
 from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
@@ -19,6 +20,7 @@ from extraction.logic.modules.module_event_log_comparator import EventLogCompara
 
 from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
+from tracex.logic.constants import IS_TEST
 
 
 @dataclass
@@ -174,3 +176,9 @@ class Orchestrator:
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
             view.request.session.save()
+
+    def simulate_extraction(self, view):
+        """Simulate the progress of the extraction process."""
+        for current_step, module_name in enumerate(self.configuration.modules, start=1):
+            self.update_progress(view, current_step, module_name)
+            time.sleep(1)

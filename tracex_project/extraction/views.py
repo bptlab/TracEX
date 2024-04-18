@@ -68,7 +68,11 @@ class JourneyFilterView(generic.FormView):
         )
         if IS_TEST:
             default_journey = PatientJourney.manager.get(name="default_journey_name")
-            trace = Trace.manager.filter(patient_journey=default_journey).order_by("last_modified").first()
+            trace = (
+                Trace.manager.filter(patient_journey=default_journey)
+                .order_by("last_modified")
+                .first()
+            )
             print(trace)
             event_objects = trace.events.all()
             data = {
@@ -81,16 +85,10 @@ class JourneyFilterView(generic.FormView):
                 "attribute_location": [event.location for event in event_objects],
             }
             orchestrator.data = pd.DataFrame(data)
+            orchestrator.simulate_extraction(view=self)
         else:
             orchestrator.run(view=self)
-            # single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            #     single_trace_df, orchestrator.configuration.activity_key
-            # )
-        # utils.Conversion.create_xes_from_csv(
-        #     utils.CSV_OUTPUT,
-        #     name="single_trace",
-        #     key=orchestrator.configuration.activity_key,
-        # )
+
         utils.Conversion.create_xes_from_df(
             orchestrator.data,
             name="single_trace",
