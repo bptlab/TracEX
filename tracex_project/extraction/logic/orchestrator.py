@@ -179,6 +179,10 @@ class Orchestrator:
 
     def simulate_extraction(self, view):
         """Simulate the progress of the extraction process."""
-        for current_step, module_name in enumerate(self.configuration.modules, start=1):
-            self.update_progress(view, current_step, module_name)
+        for current_step, current_module in enumerate(
+            self.configuration.modules, start=1
+        ):
+            self.update_progress(
+                view, current_step, self.configuration.modules[current_module]().name
+            )
             time.sleep(1)

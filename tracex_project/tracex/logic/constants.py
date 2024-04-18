@@ -39,3 +39,4 @@ LOCATIONS = [
     ("Doctors", "Doctors"),
 ]
 THRESHOLD_FOR_MATCH = 0.5
+IS_TEST = False  # Set to True if you want to use the test mode instead of running the pipeline
