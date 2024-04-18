@@ -11,6 +11,7 @@ import warnings
 import pandas as pd
 import pm4py
 
+
 from pm4py.objects.conversion.log import converter as log_converter
 
 
@@ -224,12 +225,11 @@ class Conversion:
         df['time:end_timestamp'] = pd.to_datetime(df['time:end_timestamp'])
 
         # Renaming columns to fit XES standards
-
         df.rename(
             columns={
                 'case_id': 'case:concept:name',
                 'activity': 'activity',
-                'start': 'start_timestamp',
+                'start_timestamp': 'time:timestamp', # Disco takes time:timestamp as timestamp key
                 'end': 'time:end_timestamp',
                 'duration': 'time:duration',
                 'event_type': 'concept:name',
@@ -239,13 +239,16 @@ class Conversion:
         )
 
         # Sorting Dataframe for start timestamp
-        df = df.sort_values('start_timestamp')
+        df = df.sort_values(['time:timestamp', 'time:end_timestamp'])
 
         # Converting DataFrame to XES
         parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
         event_log = log_converter.apply(df, parameters=parameters)
 
         xes_file = output_path / name
-        pm4py.write_xes(event_log, xes_file)
+        pm4py.write_xes(event_log, xes_file,
+                        activity_key='activity',
+                        case_id_key='case:concept:name',
+                        timestamp_key='time:timestamp')
 
         return xes_file
