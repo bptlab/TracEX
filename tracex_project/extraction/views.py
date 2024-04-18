@@ -167,13 +167,13 @@ class ResultView(generic.FormView):
             all_traces_df_filtered
         ).getvalue()
 
-        # Generate and store XES files, recording their paths in the session
+        # Generate XES files
         single_trace_xes = utils.Conversion.dataframe_to_xes(
             single_trace_df_filtered, "single_trace.xes")
         all_traces_xes = utils.Conversion.dataframe_to_xes(
             all_traces_df_filtered, "all_traces.xes")
 
-        # Store paths in session for retrieval in DownloadXesView
+        # Store XES in session for retrieval in DownloadXesView
         self.request.session['single_trace_xes'] = str(single_trace_xes)
         self.request.session['all_traces_xes'] = str(all_traces_xes)
 
