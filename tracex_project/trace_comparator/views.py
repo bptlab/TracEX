@@ -28,7 +28,7 @@ class TraceTestingOverviewView(FormView):
             patient_journey=patient_journey_entry.patient_journey,
         )
         orchestrator = Orchestrator(configuration=configuration)
-        orchestrator.set_db_id_objects("patient_journey", patient_journey_entry.id)
+        orchestrator.set_db_objects_id("patient_journey", patient_journey_entry.id)
         self.request.session["patient_journey_name"] = selected_journey
         self.request.session["is_comparing"] = True
 

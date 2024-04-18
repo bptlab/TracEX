@@ -4,21 +4,10 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-
-from extraction.logic.modules.module_activity_labeler import ActivityLabeler
-from extraction.logic.modules.module_cohort_tagger import CohortTagger
-from extraction.logic.modules.module_time_extractor import TimeExtractor
-from extraction.logic.modules.module_location_extractor import LocationExtractor
-from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
-from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
-from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
-
-# from .modules.module_metrics_analyzer import MetricsAnalyzer
-
-from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
 
-from .modules import (
+from extraction.models import Trace, PatientJourney, Event, Cohort
+from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
     ActivityLabeler,
@@ -27,8 +16,6 @@ from .modules import (
     EventTypeClassifier,
     MetricsAnalyzer,
 )
-
-from ..models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -78,7 +65,7 @@ class Orchestrator:
         if configuration is not None:
             self.set_configuration(configuration)
         self.set_data(None)
-        self.db_id_objects: Dict[str, int] = {}
+        self.db_objects_id: Dict[str, int] = {}
 
     @classmethod
     def get_instance(cls):
@@ -106,13 +93,13 @@ class Orchestrator:
         """Return the data for the orchestrator instance."""
         return self.data
 
-    def set_db_id_objects(self, object_name: str, object_id: int):
+    def set_db_objects_id(self, object_name: str, object_id: int):
         """Set the database id objects for the orchestrator instance."""
-        self.db_id_objects[object_name] = object_id
+        self.db_objects_id[object_name] = object_id
 
-    def get_db_id_objects(self, object_name):
+    def get_db_objects_id(self, object_name):
         """Return the database id objects for the orchestrator instance."""
-        return self.db_id_objects[object_name]
+        return self.db_objects_id[object_name]
 
     def initialize_modules(self):
         """Bring the modules into the right order and initialize them."""
@@ -144,7 +131,7 @@ class Orchestrator:
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
-        self.db_id_objects["cohort"] = (
+        self.db_objects_id["cohort"] = (
             self.get_configuration()
             .modules["cohort_tagging"]()
             .execute_and_save(self.get_data(), patient_journey_sentences)
@@ -171,7 +158,7 @@ class Orchestrator:
     def save_results_to_db(self):
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(
-            pk=self.db_id_objects["patient_journey"]
+            pk=self.db_objects_id["patient_journey"]
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
         events: List[Event] = Event.manager.bulk_create(
@@ -189,8 +176,8 @@ class Orchestrator:
             ]
         )
         trace.events.set(events)
-        if self.db_id_objects["cohort"] and self.db_id_objects["cohort"] != 0:
-            trace.cohort = Cohort.manager.get(pk=self.db_id_objects["cohort"])
+        if self.db_objects_id["cohort"] and self.db_objects_id["cohort"] != 0:
+            trace.cohort = Cohort.manager.get(pk=self.db_objects_id["cohort"])
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()

@@ -5,8 +5,7 @@ from django.conf import settings
 
 from trace_comparator import prompts as p
 from tracex.logic.logger import log_execution_time
-from tracex.logic import utils as u
-from tracex.logic import constants as c
+from tracex.logic import utils as u, constants as c
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))

@@ -38,7 +38,7 @@ class JourneyInputView(generic.CreateView):
         response = super().form_valid(form)
         configuration = ExtractionConfiguration(patient_journey=content)
         orchestrator = Orchestrator(configuration)
-        orchestrator.set_db_id_objects("patient_journey", self.object.id)
+        orchestrator.set_db_objects_id("patient_journey", self.object.id)
         return response
 
 
@@ -125,7 +125,7 @@ class ResultView(generic.FormView):
         # 3. Append the single journey dataframe to the all traces dataframe
 
         # TODO: remove comment once cohort is implemented
-        # condition = Cohort.manager.get(pk=orchestrator.get_db_id_objects("cohort")).condition
+        # condition = Cohort.manager.get(pk=orchestrator.get_db_objects_id("cohort")).condition
         # query = Q(cohort__condition=condition)
         all_traces_df = utils.DataFrameUtilities.get_events_df()
         if not all_traces_df.empty:
