@@ -224,7 +224,7 @@ class Conversion:
         df['start_timestamp'] = pd.to_datetime(df['start_timestamp'])
         df['time:end_timestamp'] = pd.to_datetime(df['time:end_timestamp'])
 
-        # Renaming columns to fit XES standards
+        # Renaming columns to for Disco
         df.rename(
             columns={
                 'start_timestamp': 'time:timestamp', # Disco takes time:timestamp as timestamp key
