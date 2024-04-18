@@ -118,6 +118,7 @@ class ResultView(generic.FormView):
 
         output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
         single_trace_df = pm4py.read_xes(output_path_xes)
+        single_trace_df.rename(columns={'time:timestamp': 'start_timestamp'}, inplace=True)
 
         # 2. Sort and filter the single journey dataframe
         single_trace_df = self.sort_dataframe(single_trace_df)
@@ -181,6 +182,7 @@ class ResultView(generic.FormView):
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )
+
         return super().form_valid(form)
 
     @staticmethod
@@ -216,12 +218,14 @@ class ResultView(generic.FormView):
                 flattened_list.extend(item.split(", "))
             else:
                 flattened_list.append(item)
+
         return flattened_list
 
     @staticmethod
     def sort_dataframe(df):
         """Sort a dataframe containing a trace by timestamp."""
         sorted_df = df.sort_values(by="start_timestamp", inplace=False)
+
         return sorted_df
 
     @staticmethod
@@ -283,6 +287,7 @@ class DownloadXesView(View):
                     files_to_download.append(file_path)
                 else:
                     return None  # Return None if any file path is invalid
+
         return files_to_download
 
     def process_trace_type(self, request, trace_type):
@@ -313,6 +318,7 @@ class DownloadXesView(View):
         file = open(file_path, 'rb')
         response = FileResponse(file, as_attachment=True)
         response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+
         return response
 
     def zip_files_response(self, files_to_download):
@@ -327,4 +333,5 @@ class DownloadXesView(View):
         file = open(zip_path, 'rb')
         response = FileResponse(file, as_attachment=True)
         response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+
         return response
