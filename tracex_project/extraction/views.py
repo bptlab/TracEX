@@ -165,6 +165,9 @@ class ResultView(generic.FormView):
         context["all_xes_html"] = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
+
+        # save the df in context in order to create the xes download
+        context["single_trace_df_filtered"] = single_trace_df_filtered
         context["all_traces_df_filtered"] = all_traces_df_filtered
 
         return context
@@ -284,14 +287,17 @@ class DownloadXesView(View):
 
     def process_trace_type(self, request, trace_type):
         """Process and provide the to be downloaded XES files."""
+        view_instance = ResultView()
+        view_instance.setup(request)
+        context = view_instance.get_context_data()
+
         if trace_type == 'all_traces':
-            view_instance = ResultView()
-            view_instance.setup(request)
-            context = view_instance.get_context_data()
             df = context['all_traces_df_filtered']
-            return utils.Conversion.dataframe_to_xes(df)
+            return utils.Conversion.dataframe_to_xes(df, "all_traces_event_type.xes")
         if trace_type == 'single_trace':
-            return str(utils.output_path / 'single_trace_event_type.xes')
+            df = context["single_trace_df_filtered"]
+            return utils.Conversion.dataframe_to_xes(df, "single_trace_event_type.xes")
+
         return None  # Return None for unrecognized trace type
 
     def prepare_response(self, files_to_download):
