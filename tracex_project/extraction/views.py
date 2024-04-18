@@ -167,9 +167,15 @@ class ResultView(generic.FormView):
             all_traces_df_filtered
         ).getvalue()
 
-        # save the df in context in order to create the xes download
-        context["single_trace_df_filtered"] = single_trace_df_filtered
-        context["all_traces_df_filtered"] = all_traces_df_filtered
+        # Generate and store XES files, recording their paths in the session
+        single_trace_xes = utils.Conversion.dataframe_to_xes(
+            single_trace_df_filtered, "single_trace.xes")
+        all_traces_xes = utils.Conversion.dataframe_to_xes(
+            all_traces_df_filtered, "all_traces.xes")
+
+        # Store paths in session for retrieval in DownloadXesView
+        self.request.session['single_trace_xes'] = str(single_trace_xes)
+        self.request.session['all_traces_xes'] = str(all_traces_xes)
 
         return context
 
@@ -291,19 +297,17 @@ class DownloadXesView(View):
         return files_to_download
 
     def process_trace_type(self, request, trace_type):
-        """Process and provide the to be downloaded XES files."""
-        view_instance = ResultView()
-        view_instance.setup(request)
-        context = view_instance.get_context_data()
-
+        """Process and provide the XES files to be downloaded based on the trace type."""
         if trace_type == 'all_traces':
-            df = context['all_traces_df_filtered']
-            return utils.Conversion.dataframe_to_xes(df, "all_traces_event_type.xes")
-        if trace_type == 'single_trace':
-            df = context["single_trace_df_filtered"]
-            return utils.Conversion.dataframe_to_xes(df, "single_trace_event_type.xes")
+            all_traces = request.session.get('all_traces_xes')
 
-        return None  # Return None for unrecognized trace type
+            return all_traces
+        elif trace_type == 'single_trace':
+            single_trace = request.session.get('single_trace_xes')
+
+            return single_trace
+        else:
+            return None  # Return None for unrecognized trace type
 
     def prepare_response(self, files_to_download):
         """Prepares the appropriate response based on the number of files to be downloaded."""
