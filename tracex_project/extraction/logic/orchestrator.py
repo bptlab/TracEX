@@ -20,7 +20,6 @@ from extraction.logic.modules.module_event_log_comparator import EventLogCompara
 
 from extraction.models import Trace, PatientJourney, Event, Cohort
 from tracex.logic import utils
-from tracex.logic.constants import IS_TEST
 
 
 @dataclass
