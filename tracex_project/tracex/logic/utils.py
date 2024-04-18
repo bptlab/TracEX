@@ -15,7 +15,6 @@ import numpy as np
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from openai import OpenAI
-from tracex.logic import function_calls
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
     MAX_TOKENS,
@@ -59,14 +58,10 @@ def query_gpt(
     messages,
     max_tokens=MAX_TOKENS,
     temperature=TEMPERATURE_SUMMARIZING,
-    tools=None,
-    tool_choice="none",
     logprobs=False,
     top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
-
-    tools = function_calls.TOOLS if tools is None else tools
 
     @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
@@ -77,8 +72,6 @@ def query_gpt(
             messages=messages,
             max_tokens=max_tokens,
             temperature=temperature,
-            tools=tools,
-            tool_choice=tool_choice,
             logprobs=logprobs,
             top_logprobs=top_logprobs,
         )
@@ -86,11 +79,8 @@ def query_gpt(
         return _response
 
     response = make_api_call()
-    if tool_choice != "none":
-        api_response = response.choices[0].message.tool_calls[0].function.arguments
-        output = json.loads(api_response)["output"][0]
 
-    elif logprobs:
+    if logprobs:
         top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
         content = response.choices[0].message.content
         return content, top_logprobs
