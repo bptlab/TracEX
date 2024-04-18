@@ -281,6 +281,7 @@ class DownloadXesView(View):
 
     def get_trace_types(self, request):
         """Retrieves a list of trace types from the POST data."""
+
         return request.POST.getlist('trace_type[]')
 
     def collect_files(self, request, trace_types):
@@ -302,6 +303,7 @@ class DownloadXesView(View):
             return request.session.get('all_traces_xes')
         if trace_type == 'single_trace':
             return request.session.get('single_trace_xes')
+
         return None  # Return None for unrecognized trace type
 
     def prepare_response(self, files_to_download):
