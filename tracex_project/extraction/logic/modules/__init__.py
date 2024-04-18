@@ -5,4 +5,3 @@ from extraction.logic.modules.module_location_extractor import LocationExtractor
 from extraction.logic.modules.module_patient_journey_preprocessor import Preprocessor
 from extraction.logic.modules.module_cohort_tagger import CohortTagger
 from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
-from extraction.logic.modules.module_trace_comparator import TraceComparator

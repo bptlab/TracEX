@@ -104,9 +104,7 @@ class ResultView(generic.FormView):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        event_types = utils.DataFrameUtilities.flatten_list(
-            orchestrator.get_configuration().event_types
-        )
+        event_types = orchestrator.get_configuration().event_types
         filter_dict = {
             "concept:name": event_types,
             "attribute_location": orchestrator.get_configuration().locations,

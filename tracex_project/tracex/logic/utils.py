@@ -303,18 +303,6 @@ class DataFrameUtilities:
         return events_df.sort_values(by="start", inplace=False)
 
     @staticmethod
-    def flatten_list(original_list):
-        """Flatten a list of lists."""
-        flattened_list = []
-        for item in original_list:
-            if "," in item:
-                flattened_list.extend(item.split(", "))
-            else:
-                flattened_list.append(item)
-
-        return flattened_list
-
-    @staticmethod
     def filter_dataframe(df, filter_dict):
         """Filter a dataframe."""
         filter_conditions = [
