@@ -11,10 +11,10 @@ from django.views import generic
 from django.http import JsonResponse
 
 from tracex.logic import utils
+from tracex.logic.constants import IS_TEST
 from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
 from .models import Trace, PatientJourney
-from tracex.logic.constants import IS_TEST
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft

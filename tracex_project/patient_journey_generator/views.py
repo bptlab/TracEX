@@ -4,9 +4,8 @@ from django.views import generic
 from patient_journey_generator.forms import GenerationOverviewForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import PatientJourney
-from tracex.logic import constants
-from .generator import generate_patient_journey
 from tracex.logic.constants import IS_TEST
+from .generator import generate_patient_journey
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
