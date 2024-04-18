@@ -11,15 +11,14 @@ from django.views import generic
 from django.http import JsonResponse
 
 from tracex.logic import utils
+from tracex.logic.constants import IS_TEST
 from .forms import JourneyForm, ResultForm, FilterForm
 from .logic.orchestrator import Orchestrator, ExtractionConfiguration
-from .models import Trace
+from .models import Trace, PatientJourney
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
-
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 class JourneyInputView(generic.CreateView):
@@ -31,13 +30,19 @@ class JourneyInputView(generic.CreateView):
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
-        uploaded_file = self.request.FILES.get("file")
-        content = uploaded_file.read().decode("utf-8")
-        form.instance.patient_journey = content
+        if IS_TEST:
+            default_journey = PatientJourney.manager.get(name="default_journey_name")
+            configuration = ExtractionConfiguration(
+                patient_journey=default_journey.patient_journey,
+            )
+        else:
+            uploaded_file = self.request.FILES.get("file")
+            content = uploaded_file.read().decode("utf-8")
+            form.instance.patient_journey = content
 
-        configuration = ExtractionConfiguration(
-            patient_journey=content,
-        )
+            configuration = ExtractionConfiguration(
+                patient_journey=content,
+            )
         orchestrator = Orchestrator(configuration)
         response = super().form_valid(form)
         orchestrator.db_objects["patient_journey"] = self.object.id
@@ -59,16 +64,35 @@ class JourneyFilterView(generic.FormView):
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
         )
-        orchestrator.run(view=self)
-        single_trace_df = orchestrator.data
-        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            single_trace_df, orchestrator.configuration.activity_key
-        )
-        utils.Conversion.create_xes(
-            utils.CSV_OUTPUT,
+        if IS_TEST:
+            default_journey = PatientJourney.manager.get(name="default_journey_name")
+            trace = (
+                Trace.manager.filter(patient_journey=default_journey)
+                .order_by("last_modified")
+                .first()
+            )
+            print(trace)
+            event_objects = trace.events.all()
+            data = {
+                "case_id": trace.id,
+                "activity": [event.activity for event in event_objects],
+                "event_type": [event.event_type for event in event_objects],
+                "start": [event.start for event in event_objects],
+                "end": [event.end for event in event_objects],
+                "duration": [event.duration for event in event_objects],
+                "attribute_location": [event.location for event in event_objects],
+            }
+            orchestrator.data = pd.DataFrame(data)
+            orchestrator.simulate_extraction(view=self)
+        else:
+            orchestrator.run(view=self)
+
+        utils.Conversion.create_xes_from_df(
+            orchestrator.data,
             name="single_trace",
             key=orchestrator.configuration.activity_key,
         )
+        print(orchestrator.data)
         self.request.session["is_extracted"] = True
         self.request.session.save()
 
@@ -108,6 +132,7 @@ class ResultView(generic.FormView):
             "concept:name": event_types,
             "attribute_location": orchestrator.configuration.locations,
         }
+        print(filter_dict)
 
         output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
         single_trace_df = pm4py.read_xes(output_path_xes)

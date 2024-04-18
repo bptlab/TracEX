@@ -1,0 +1,5 @@
+2024-04-15 14:00:31,633 - {'function_name': 'execute', 'calling_file': 'C:\\Users\\soere\\PycharmProjects\\TracEX\\tracex_project\\extraction\\logic\\modules\\module_patient_journey_preprocessor.py', 'execution_time': '34.02301 seconds'}
+2024-04-15 14:00:33,676 - {'function_name': 'execute', 'calling_file': 'C:\\Users\\soere\\PycharmProjects\\TracEX\\tracex_project\\extraction\\logic\\modules\\module_activity_labeler.py', 'execution_time': '2.01946 seconds'}
+2024-04-15 14:00:47,762 - {'function_name': 'execute', 'calling_file': 'C:\\Users\\soere\\PycharmProjects\\TracEX\\tracex_project\\extraction\\logic\\modules\\module_time_extractor.py', 'execution_time': '14.06810 seconds'}
+2024-04-15 14:00:54,872 - {'function_name': 'execute', 'calling_file': 'C:\\Users\\soere\\PycharmProjects\\TracEX\\tracex_project\\extraction\\logic\\modules\\module_event_type_classifier.py', 'execution_time': '7.10148 seconds'}
+2024-04-15 14:01:01,493 - {'function_name': 'execute', 'calling_file': 'C:\\Users\\soere\\PycharmProjects\\TracEX\\tracex_project\\extraction\\logic\\modules\\module_location_extractor.py', 'execution_time': '6.60500 seconds'}

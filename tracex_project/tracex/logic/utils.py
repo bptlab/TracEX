@@ -109,7 +109,7 @@ def get_all_xes_output_path(
     """Create the xes file for all journeys."""
     if not (is_test or is_extracted):
         append_csv()
-        all_traces_xes_path = Conversion.create_xes(
+        all_traces_xes_path = Conversion.create_xes_from_csv(
             csv_file=CSV_ALL_TRACES, name=xes_name, key=activity_key
         )
     else:
@@ -164,7 +164,7 @@ class Conversion:
         return df
 
     @staticmethod
-    def create_xes(csv_file, name, key):
+    def create_xes_from_csv(csv_file, name, key):
         """Creates a xes with all traces from the regarding csv."""
         dataframe = pd.read_csv(csv_file, sep=",")
         dataframe = Conversion.prepare_df_for_xes_conversion(dataframe, key)
@@ -178,6 +178,24 @@ class Conversion:
             start_timestamp_key="start_timestamp",
             timestamp_key="time:timestamp",
         )
+
+        return str(output_path / output_name)
+
+    @staticmethod
+    def create_xes_from_df(df, name, key):
+        """Creates a xes with all traces from the regarding df."""
+        dataframe = Conversion.prepare_df_for_xes_conversion(df, key)
+
+        output_name = name + "_" + key + ".xes"
+        pm4py.write_xes(
+            dataframe,
+            (output_path / output_name),
+            case_id_key="case:concept:name",
+            activity_key="concept:name",
+            start_timestamp_key="start_timestamp",
+            timestamp_key="time:timestamp",
+        )
+
         return str(output_path / output_name)
 
     @staticmethod
