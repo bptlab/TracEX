@@ -227,8 +227,6 @@ class Conversion:
         # Renaming columns to fit XES standards
         df.rename(
             columns={
-                'case_id': 'case:concept:name',
-                'activity': 'activity',
                 'start_timestamp': 'time:timestamp', # Disco takes time:timestamp as timestamp key
                 'event_type': 'concept:name',       # We want Disco to take event types as activities
             },
