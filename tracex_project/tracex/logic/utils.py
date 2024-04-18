@@ -216,7 +216,7 @@ class Conversion:
         return source_df
 
     @staticmethod
-    def dataframe_to_xes(df):
+    def dataframe_to_xes(df, name):
         """Conversion from dataframe to xes file."""
 
         # Convert 'start' and 'end' columns to datetime
@@ -245,7 +245,7 @@ class Conversion:
         parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
         event_log = log_converter.apply(df, parameters=parameters)
 
-        xes_file = output_path / "all_traces_event_type.xes"
+        xes_file = output_path / name
         pm4py.write_xes(event_log, xes_file)
 
         return xes_file
