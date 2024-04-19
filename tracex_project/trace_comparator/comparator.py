@@ -103,7 +103,7 @@ def compare_activities(
 def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
-    """Find the best matching activity in comparison basis activities."""
+    """Compares a target activity against a sublist of potential matches to identify the best match based on similarity."""
     lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
@@ -135,6 +135,7 @@ def get_snippet_bounds(index, dataframe_length):
         upper += abs(index - half_snippet_size)
     if index > dataframe_length - half_snippet_size:
         lower -= abs(index - (dataframe_length - half_snippet_size))
+
     return lower, upper
 
 
@@ -148,6 +149,7 @@ def postprocess_mappings(mapping_data_to_groundtruth, mapping_groundtruth_to_dat
     )
     mapping_data_to_groundtruth = remove_probabilities(mapping_data_to_groundtruth)
     mapping_groundtruth_to_data = remove_probabilities(mapping_groundtruth_to_data)
+
     return mapping_data_to_groundtruth, mapping_groundtruth_to_data
 
 
@@ -162,12 +164,14 @@ def fill_mapping(mapping_back_to_forth, mapping_forth_to_back):
             if possible_matches:
                 best_match = max(possible_matches, key=lambda x: x[1])
                 mapping_back_to_forth[index_forth] = (best_match[0], 0)
+
     return mapping_back_to_forth
 
 
 def remove_probabilities(mapping):
     """Remove the probabilities from the mapping."""
     new_mapping = [elem[0] for elem in mapping]
+
     return new_mapping
 
 
@@ -217,6 +221,7 @@ def find_wrong_orders(df_activities, mapping_groundtruth_to_data):
                 df_activities[second_activity_index],
             )
         )
+
     return wrong_orders_activities
 
 

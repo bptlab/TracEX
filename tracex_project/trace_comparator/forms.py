@@ -21,4 +21,5 @@ class PatientJourneySelectForm(forms.Form):
             name__contains="journey_comparison_"
         )
         choices = [(pj.name, pj.name) for pj in patient_journeys]
+
         return choices
