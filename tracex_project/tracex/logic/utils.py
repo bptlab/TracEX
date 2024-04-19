@@ -199,7 +199,7 @@ class Conversion:
 
     @staticmethod
     def create_dfg_from_df(df):
-        """Create png image from xes file."""
+        """Create png image from df."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
             df, "concept:name", "start_timestamp", "case:concept:name"
@@ -230,6 +230,46 @@ class Conversion:
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
 
         return source_df
+
+    @staticmethod
+    def dataframe_to_xes(df, name):
+        """Conversion from dataframe to xes file."""
+
+        # Convert 'start' and 'end' columns to datetime
+        df["start_timestamp"] = pd.to_datetime(df["start_timestamp"])
+        df["time:end_timestamp"] = pd.to_datetime(df["time:end_timestamp"])
+
+        # Renaming columns to for Disco
+        df.rename(
+            columns={
+                "start_timestamp": "time:timestamp",  # Disco takes time:timestamp as timestamp key
+                "event_type": "concept:name",  # We want Disco to take event types as activities
+            },
+            inplace=True,
+        )
+
+        # Sorting Dataframe for start timestamp
+        df = df.sort_values(["time:timestamp", "time:end_timestamp"])
+
+        # Converting DataFrame to XES
+        parameters = {
+            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
+                'case:concept:name'
+        }
+        event_log = pm4py.objects.conversion.log.converter.apply(
+            df, parameters=parameters
+        )
+
+        xes_file = output_path / name
+        pm4py.write_xes(
+            event_log,
+            xes_file,
+            activity_key="activity",
+            case_id_key="case:concept:name",
+            timestamp_key="time:timestamp",
+        )
+
+        return xes_file
 
 
 class DataFrameUtilities:
