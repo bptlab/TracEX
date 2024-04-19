@@ -3,8 +3,9 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
+from django.db.models import Q, Max, Min
 
-from extraction.models import PatientJourney
+from extraction.models import PatientJourney, Trace
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from trace_comparator.comparator import compare_traces
 from trace_comparator.forms import PatientJourneySelectForm
@@ -47,10 +48,10 @@ class TraceTestingComparisonView(TemplateView):
         patient_journey = PatientJourney.manager.get(
             name=patient_journey_name
         ).patient_journey
-        pipeline_df = dfu.get_events_df(
-            patient_journey_name=patient_journey_name,
-            trace_position="last",
+        query_last_trace = Q(patient_journey__name=patient_journey_name) & Q(
+            id=Trace.manager.aggregate(Max("id"))["id__max"]
         )
+        pipeline_df = dfu.get_events_df(query_last_trace)
 
         context.update(
             {
@@ -81,12 +82,14 @@ class TraceTestingComparisonView(TemplateView):
     def post(self, request):
         """Comparing a generated trace of a patient journey against the ground truth."""
         patient_journey_name = self.request.session.get("patient_journey_name")
-        pipeline_df = dfu.get_events_df(
-            patient_journey_name=patient_journey_name, trace_position="last"
+        query_last_trace = Q(patient_journey__name=patient_journey_name) & Q(
+            id=Trace.manager.aggregate(Max("id"))["id__max"]
         )
-        ground_truth_df = dfu.get_events_df(
-            patient_journey_name=patient_journey_name, trace_position="first"
+        pipeline_df = dfu.get_events_df(query_last_trace)
+        query_first_trace = Q(patient_journey__name=patient_journey_name) & Q(
+            id=Trace.manager.aggregate(Min("id"))["id__min"]
         )
+        ground_truth_df = dfu.get_events_df(query_first_trace)
 
         comparison_result_dict = compare_traces(self, pipeline_df, ground_truth_df)
 
@@ -113,11 +116,14 @@ class TraceTestingResultView(TemplateView):
         """Prepare the data for the trace testing results page."""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session.get("patient_journey_name")
-
-        pipeline_df = dfu.get_events_df(patient_journey_name, trace_position="last")
-        ground_truth_df = dfu.get_events_df(
-            patient_journey_name, trace_position="first"
+        query_last_trace = Q(patient_journey__name=patient_journey_name) & Q(
+            id=Trace.manager.aggregate(Max("id"))["id__max"]
         )
+        pipeline_df = dfu.get_events_df(query_last_trace)
+        query_first_trace = Q(patient_journey__name=patient_journey_name) & Q(
+            id=Trace.manager.aggregate(Min("id"))["id__min"]
+        )
+        ground_truth_df = dfu.get_events_df(query_first_trace)
 
         comparison_result_dict = self.request.session.get("comparison_result")
         mapping_data_to_ground_truth = comparison_result_dict.get(
