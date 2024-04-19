@@ -92,7 +92,6 @@ class JourneyFilterView(generic.FormView):
             name="single_trace",
             key=orchestrator.configuration.activity_key,
         )
-        print(orchestrator.data)
         self.request.session["is_extracted"] = True
         self.request.session.save()
 
@@ -132,7 +131,6 @@ class ResultView(generic.FormView):
             "concept:name": event_types,
             "attribute_location": orchestrator.configuration.locations,
         }
-        print(filter_dict)
 
         output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
         single_trace_df = pm4py.read_xes(output_path_xes)

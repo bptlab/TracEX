@@ -185,4 +185,4 @@ class Orchestrator:
             self.update_progress(
                 view, current_step, self.configuration.modules[current_module]().name
             )
-            time.sleep(1)
+            time.sleep(2)
