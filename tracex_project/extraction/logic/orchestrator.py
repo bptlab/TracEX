@@ -63,8 +63,8 @@ class Orchestrator:
 
     def __init__(self, configuration=None):
         if configuration is not None:
-            self.set_configuration(configuration)
-        self.set_data(None)
+            self.configuration = configuration
+        self.data = None
         self.db_objects_id: Dict[str, int] = {}
 
     @classmethod
