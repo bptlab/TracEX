@@ -11,10 +11,6 @@ import warnings
 import pandas as pd
 import pm4py
 
-
-from pm4py.objects.conversion.log import converter as log_converter
-
-
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from openai import OpenAI
@@ -237,8 +233,11 @@ class Conversion:
         df = df.sort_values(['time:timestamp', 'time:end_timestamp'])
 
         # Converting DataFrame to XES
-        parameters = {log_converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: 'case:concept:name'}
-        event_log = log_converter.apply(df, parameters=parameters)
+        parameters = {
+            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
+                'case:concept:name'
+        }
+        event_log = pm4py.objects.conversion.log.converter.apply(df, parameters=parameters)
 
         xes_file = output_path / name
         pm4py.write_xes(event_log, xes_file,
