@@ -5,6 +5,7 @@ import pandas as pd
 from django.conf import settings
 
 from extraction.logic.module import Module
+from extraction.models import Prompt
 from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
@@ -114,7 +115,8 @@ class TraceComparator(Module):
         for count, second_activity in enumerate(
             comparison_basis_activities[lower:upper]
         ):
-            messages = p.COMPARE_MESSAGES[:]
+            # messages = p.COMPARE_MESSAGES[:]
+            messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
             messages.append(
                 {
                     "role": "user",

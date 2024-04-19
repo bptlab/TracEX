@@ -54,7 +54,8 @@ class TimeExtractor(Module):
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
         patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        messages = p.END_DATE_MESSAGES[:]
+        # messages = p.END_DATE_MESSAGES[:]
+        messages = Prompt.objects.get(name="END_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",

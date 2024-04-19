@@ -3,6 +3,7 @@ from pathlib import Path
 from django.conf import settings
 
 from extraction.logic.module import Module
+from extraction.models import Prompt
 from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
@@ -36,7 +37,8 @@ class LocationExtractor(Module):
     @staticmethod
     def __classify_location(activity_label):
         """Classify the location for a given activity."""
-        messages = p.LOCATION_MESSAGES[:]
+        # messages = p.LOCATION_MESSAGES[:]
+        messages = Prompt.objects.get(name="LOCATION_MESSAGES").text
         messages.append({"role": "user", "content": activity_label})
         location = u.query_gpt(messages)
 
