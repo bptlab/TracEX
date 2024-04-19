@@ -253,7 +253,8 @@ class Conversion:
 
         # Converting DataFrame to XES
         parameters = {
-            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: "case:concept:name"
+            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
+                'case:concept:name'
         }
         event_log = pm4py.objects.conversion.log.converter.apply(
             df, parameters=parameters
