@@ -103,7 +103,7 @@ def compare_activities(
 def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
-    """Compares a target activity against a sublist of potential matches to identify the best match based on similarity."""
+    """Compares a target activity against potential matches to identify the best match based on similarity."""
     lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
