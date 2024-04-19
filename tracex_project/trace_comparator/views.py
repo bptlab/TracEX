@@ -49,9 +49,9 @@ class TraceTestingComparisonView(TemplateView):
             name=patient_journey_name
         ).patient_journey
         query_last_trace = Q(
-            id=Trace.manager.filter(
-                patient_journey__name=patient_journey_name
-            ).aggregate(Max("id"))["id__max"]
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            .latest("last_modified")
+            .id
         )
         pipeline_df = dfu.get_events_df(query_last_trace)
 
@@ -77,6 +77,7 @@ class TraceTestingComparisonView(TemplateView):
 
         self.request.session["progress"] = 0
         self.request.session["status"] = None
+        self.request.session.save()
 
         return super().get(request, *args, **kwargs)
 
@@ -84,15 +85,15 @@ class TraceTestingComparisonView(TemplateView):
         """Comparing a generated trace of a patient journey against the ground truth."""
         patient_journey_name = self.request.session.get("patient_journey_name")
         query_last_trace = Q(
-            id=Trace.manager.filter(
-                patient_journey__name=patient_journey_name
-            ).aggregate(Max("id"))["id__max"]
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            .latest("last_modified")
+            .id
         )
         pipeline_df = dfu.get_events_df(query_last_trace)
         query_first_trace = Q(
-            id=Trace.manager.filter(
-                patient_journey__name=patient_journey_name
-            ).aggregate(Min("id"))["id__min"]
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            .earliest("last_modified")
+            .id
         )
         ground_truth_df = dfu.get_events_df(query_first_trace)
 
@@ -122,15 +123,15 @@ class TraceTestingResultView(TemplateView):
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session.get("patient_journey_name")
         query_last_trace = Q(
-            id=Trace.manager.filter(
-                patient_journey__name=patient_journey_name
-            ).aggregate(Max("id"))["id__max"]
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            .latest("last_modified")
+            .id
         )
         pipeline_df = dfu.get_events_df(query_last_trace)
         query_first_trace = Q(
-            id=Trace.manager.filter(
-                patient_journey__name=patient_journey_name
-            ).aggregate(Min("id"))["id__min"]
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            .earliest("last_modified")
+            .id
         )
         ground_truth_df = dfu.get_events_df(query_first_trace)
 
