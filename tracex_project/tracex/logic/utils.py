@@ -29,7 +29,7 @@ from tracex.logic.constants import (
     CSV_ALL_TRACES,
 )
 
-from extraction.models import Trace, PatientJourney
+from extraction.models import Trace
 
 
 def deprecated(func):
