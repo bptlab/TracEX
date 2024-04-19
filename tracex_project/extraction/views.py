@@ -275,7 +275,6 @@ class DownloadXesView(View):
 
         return self.prepare_response(files_to_download)
 
-    @staticmethod
     def get_trace_types(self, request):
         """Retrieves a list of trace types from the POST data."""
 
@@ -294,7 +293,6 @@ class DownloadXesView(View):
 
         return files_to_download
 
-    @staticmethod
     def process_trace_type(self, request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
         if trace_type == 'all_traces':
@@ -311,7 +309,6 @@ class DownloadXesView(View):
 
         return self.zip_files_response(files_to_download)
 
-    @staticmethod
     # pylint: disable=consider-using-with
     def single_file_response(self, file_path):
         """Prepares a file if there is only a single XES file."""
@@ -321,7 +318,6 @@ class DownloadXesView(View):
 
         return response
 
-    @staticmethod
     def zip_files_response(self, files_to_download):
         """Prepares a zip file if there are multiple XES files using a temporary file."""
         temp_zip = NamedTemporaryFile(mode='w+b', suffix='.zip', delete=False)
