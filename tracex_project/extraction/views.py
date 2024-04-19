@@ -3,13 +3,12 @@ Some unused imports have to be made because of architectural requirement."""
 # pylint: disable=unused-argument
 import zipfile
 import os
+from tempfile import NamedTemporaryFile
 import pm4py
 import pandas as pd
-from tempfile import NamedTemporaryFile
 
 from django.db.models import Q
 
-from django.conf import settings
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
