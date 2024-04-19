@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from django.db.models import Q, Max, Min
+from django.db.models import Q
 
 from extraction.models import PatientJourney, Trace
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
