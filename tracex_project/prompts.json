@@ -1,0 +1,111 @@
+[
+  {
+    "model": "extraction.prompt",
+    "pk": 1,
+    "fields": {
+      "name": "TEXT_TO_ACTIVITY_MESSAGES",
+      "category": "few-shot",
+      "text": [
+        {
+          "role": "system",
+          "content": "You are an expert in text understanding and summarization. Your Job is to take a given text about an illness and convert it into bullet points regarding all important points about the course of the disease. Do not include time dates and use a miximum of 6 words per bullet point. Include the number of the sentence in the text from which you take the bullet point. The related numbers are in front of the sentences. Only include ONE sentence number per bullet point!"
+        },
+        {
+          "role": "user",
+          "content": "1: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.\n2: Four days later I went to the doctor and got tested positive for Covid19.\n3: Then I got hospitalized for two weeks."
+        },
+        {
+          "role": "assistant",
+          "content": "starting to experience symptoms #1\nvisiting doctor's #2\ntesting positive for Covid19 #2\ngetting admissioned to hospital #3\ngetting discharged from hospital #3"
+        },
+        {
+          "role": "user",
+          "content": "8: Concerned about my condition, I contacted my primary care physician via phone.\n9: He advised me to monitor my symptoms and stay at home unless they became severe."
+        },
+        {
+          "role": "assistant",
+          "content": "contacting primary care physician #8\nmonitoring symptoms at home #9"
+        },
+        {
+          "role": "user",
+          "content": "5: First symptoms on 01/04/2020"
+        },
+        {
+          "role": "assistant",
+          "content": "starting to experience symptoms #5"
+        },
+        {
+          "role": "user",
+          "content": "1: On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days.\n2: Initially, I had a mild cough and fatigue."
+        },
+        {
+          "role": "assistant",
+          "content": "starting to experience symptoms #1\nending to experience symptoms #1"
+        }
+      ]
+    }
+  },
+  {
+  "model": "extraction.prompt",
+  "pk": 2,
+  "fields": {
+    "name": "START_DATE_MESSAGES",
+    "category": "few-shot",
+    "text": [
+      {
+        "role": "system",
+        "content": "You are an expert in text understanding and your job is to take a given text and a given activity label and to extract a start date to this activity label. Only output the extracted start date! Rely also on the context."
+      },
+      {
+        "role": "user",
+        "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: experiencing mild symptoms"
+      },
+      {
+        "role": "assistant",
+        "content": "20200401T0000"
+      },
+      {
+        "role": "user",
+        "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19"
+      },
+      {
+        "role": "assistant",
+        "content": "20200405T0000"
+      },
+      {
+        "role": "user",
+        "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: getting infected again"
+      },
+      {
+        "role": "assistant",
+        "content": "20200601T0000"
+      },
+      {
+        "role": "user",
+        "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: having back pain"
+      },
+      {
+        "role": "assistant",
+        "content": "N/A"
+      },
+      {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms"
+      },
+      {
+        "role": "assistant",
+        "content": "20210701T0000"
+      },
+      {
+        "role": "user",
+        "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: experiencing side effects of vaccination"
+      },
+      {
+        "role": "assistant",
+        "content": "20211104T0000"
+      }
+    ]
+  }
+}
+
+]

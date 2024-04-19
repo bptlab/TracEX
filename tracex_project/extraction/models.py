@@ -69,5 +69,9 @@ class Event(models.Model):
 class Prompt(models.Model):
     """Model for the prompt to be used in the GPT query."""
 
-    name = models.CharField(max_length=100)
-    text = models.TextField()
+    DEFAULT_NAME = ""
+    DEFAULT_CATEGORY = "zero-shot"
+
+    name = models.CharField(max_length=100, default=DEFAULT_NAME)
+    category = models.CharField(max_length=100, default=DEFAULT_CATEGORY)
+    text = models.JSONField()
