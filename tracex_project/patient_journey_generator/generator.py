@@ -1,4 +1,4 @@
-"""This module generates a synthetic patient journey with the help of the GPT engine."""
+"""The patient journey generator creates a synthetic patient journey with the help of the GPT engine."""
 from datetime import datetime, timedelta
 import os
 import random

@@ -14,8 +14,11 @@ import numpy as np
 
 from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
+from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
+from tracex.logic import function_calls
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
@@ -26,7 +29,7 @@ from tracex.logic.constants import (
     CSV_ALL_TRACES,
 )
 
-from . import function_calls
+from extraction.models import Trace
 
 
 def deprecated(func):
@@ -53,6 +56,7 @@ def get_decision(question):
     if decision == "n":
         return False
     print("Please enter y or n.")
+
     return get_decision(question)
 
 
@@ -97,6 +101,7 @@ def query_gpt(
         return content, top_logprobs
     else:
         output = response.choices[0].message.content
+
     return output
 
 
@@ -114,6 +119,7 @@ def get_all_xes_output_path(
         )
     else:
         all_traces_xes_path = str(output_path / xes_name) + "_" + activity_key + ".xes"
+
     return all_traces_xes_path
 
 
@@ -140,6 +146,7 @@ def append_csv():
 def calculate_linear_probability(logprob):
     """ "Calculates the linear probability from the log probability of the gpt output."""
     linear_prob = np.round(np.exp(logprob), 2)
+
     return linear_prob
 
 
@@ -161,6 +168,7 @@ class Conversion:
                 "duration": "time:duration",
             }
         )
+
         return df
 
     @staticmethod
@@ -178,6 +186,7 @@ class Conversion:
             start_timestamp_key="start_timestamp",
             timestamp_key="time:timestamp",
         )
+
         return str(output_path / output_name)
 
     @staticmethod
@@ -185,6 +194,7 @@ class Conversion:
         """Create html table from xes file."""
         xes_html_buffer = StringIO()
         pd.DataFrame.to_html(df, buf=xes_html_buffer)
+
         return xes_html_buffer
 
     @staticmethod
@@ -207,6 +217,7 @@ class Conversion:
             dfg_img_buffer.write(temp_file.read())
         os.remove(temp_file_path)
         dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
+
         return dfg_img_base64
 
     @staticmethod
@@ -217,4 +228,50 @@ class Conversion:
                 source_df[column] = source_df[column].astype(target_df[column].dtype)
             elif is_datetime(source_df[column].dtype):
                 source_df[column] = source_df[column].dt.tz_localize(tz=None)
+
         return source_df
+
+
+class DataFrameUtilities:
+    """Class for all kinds of operations that performs on Dataframes"""
+
+    @staticmethod
+    def get_events_df(query: Q = None):
+        """Get all events from the database, or filter them by a query and return them as a dataframe."""
+        traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
+
+        if not traces.exists():
+            raise ObjectDoesNotExist("No traces match the provided query.")
+
+        event_data = []
+
+        for trace in traces:
+            events = trace.events.all()
+            for event in events:
+                event_data.append(
+                    {
+                        "case_id": trace.id,
+                        "activity": event.activity,
+                        "event_type": event.event_type,
+                        "start": event.start,
+                        "end": event.end,
+                        "duration": event.duration,
+                        "attribute_location": event.location,
+                    }
+                )
+        events_df = pd.DataFrame(event_data)
+
+        return events_df.sort_values(by="start", inplace=False)
+
+    @staticmethod
+    def filter_dataframe(df, filter_dict):
+        """Filter a dataframe."""
+        filter_conditions = [
+            df[column].isin(values) for column, values in filter_dict.items()
+        ]
+        combined_condition = pd.Series(True, index=df.index)
+
+        for condition in filter_conditions:
+            combined_condition &= condition
+
+        return df[combined_condition]

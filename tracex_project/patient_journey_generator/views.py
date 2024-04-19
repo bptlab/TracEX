@@ -27,9 +27,9 @@ class JourneyGeneratorOverviewView(generic.CreateView):
     def form_valid(self, form):
         """Save the generated journey in the orchestrator's configuration."""
         orchestrator = Orchestrator.get_instance()
-        form.instance.patient_journey = orchestrator.configuration.patient_journey
+        form.instance.patient_journey = orchestrator.get_configuration().patient_journey
         response = super().form_valid(form)
-        orchestrator.db_objects["patient_journey"] = self.object.id
+        orchestrator.set_db_objects_id("patient_journey", self.object.id)
 
         return response
 
@@ -58,5 +58,5 @@ class JourneyGenerationView(generic.RedirectView):
             orchestrator.set_configuration(configuration)
             request.session[
                 "generated_journey"
-            ] = orchestrator.configuration.patient_journey
+            ] = orchestrator.get_configuration().patient_journey
         return super().get(request, *args, **kwargs)
