@@ -61,6 +61,21 @@ h2 {
     display: none;
 }
 
+.xes_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* TABLE STYLING */
+
+.dataframe { width: 100%; border-collapse: collapse; font-family: Arial, sans-serif; }
+.dataframe th, .dataframe td { padding: 8px; text-align: center; }
+.dataframe thead { background-color: #c2c0c0; }
+.dataframe tbody tr:nth-child(even) { background-color: #f9f9f9; }
+.dataframe tbody tr:nth-child(odd) { background-color: #f9f9f9; }
+
 
 /* LANDING PAGE */
 
@@ -162,6 +177,73 @@ h2 {
     width: 50%;
 }
 
+/* DASHBOARD */
+
+.dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.metric-tile {
+    flex: 1;
+    min-height: 150px; /* Change height to min-height */
+    background-color: #f1f1f1;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: 2px solid #ccc;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.metric-tile:not(:last-child) {
+    margin-right: 20px;
+}
+
+.metric-tile .info-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.metric-tile .info-text {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.metric-tile .info-icon:hover+.info-text {
+    display: block;
+}
+
+.metric-content {
+    display: inline-block;
+    text-align: left;
+}
+
+.number-metric {
+font-size: 48px;
+margin-bottom: 20px;
+font-weight: bold;
+text-align: center;
+}
+
 /* LOGOS */
 
 .img {
@@ -195,12 +277,19 @@ h2 {
     margin: 0 auto;
 }
 
+.test_environment_logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 /* PAGE TRANSITIONS */
 .landing_page_body, .selection_body, .main_body {
     animation: transitionIn 1s;
 }
-
-
 
 @keyframes transitionIn {
     from {

@@ -18,15 +18,17 @@
             <div class="item extraction">
                 <a href="{% url 'journey_input' %}">
                 <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-                <span class="item_text">Pipeline Extraction</span> </a>
+                <span class="item_text">Extraction Pipeline</span> </a>
             </div>
             <div class="item result_dashboard">
                 <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Result Dashboard Logo" class="result_dashboard_logo">
                 <span class="item_text">Results Dashboard</span>
             </div>
             <div class="item testing_environment">
+                <a href="{% url 'testing_environment' %}">
                 <img src="{% static '/tracex/img/test_environment_logo.png' %}" alt="Test Environment Logo" class="test_environment_logo">
-                <span class="item_text">Event Log Testing Environment</span>
+                <span class="item_text">Trace Testing Environment</span>
+                </a>
             </div>
 
         </div>

@@ -1,4 +1,3 @@
-
 var modal = document.getElementById("downloadModal");
 var btn = document.getElementById("downloadBtn");
 var span = document.getElementsByClassName("close")[0];
