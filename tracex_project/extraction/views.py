@@ -5,6 +5,7 @@ import zipfile
 import os
 import pm4py
 import pandas as pd
+from tempfile import NamedTemporaryFile
 
 from django.db.models import Q
 
@@ -323,16 +324,17 @@ class DownloadXesView(View):
         return response
 
     def zip_files_response(self, files_to_download):
-        """Prepares a zip file if there are multiple XES files."""
-        zip_filename = "downloaded_xes_files.zip"
-        zip_path = os.path.join(settings.MEDIA_ROOT, zip_filename)
-        zipf = zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED)
+        """Prepares a zip file if there are multiple XES files using a temporary file."""
+        temp_zip = NamedTemporaryFile(mode='w+b', suffix='.zip', delete=False)
+        zipf = zipfile.ZipFile(temp_zip, 'w', zipfile.ZIP_DEFLATED)
         for file_path in files_to_download:
             zipf.write(file_path, arcname=os.path.basename(file_path))
         zipf.close()
+        temp_zip_path = temp_zip.name
+        temp_zip.close()
 
-        file = open(zip_path, 'rb')
+        file = open(temp_zip_path, 'rb')
         response = FileResponse(file, as_attachment=True)
-        response['Content-Disposition'] = f'attachment; filename="{zip_filename}"'
+        response['Content-Disposition'] = 'attachment; filename="downloaded_xes_files.zip"'
 
         return response
