@@ -75,3 +75,6 @@ class Prompt(models.Model):
     name = models.CharField(max_length=100, default=DEFAULT_NAME)
     category = models.CharField(max_length=100, default=DEFAULT_CATEGORY)
     text = models.JSONField()
+
+    def __str__(self):
+        return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
