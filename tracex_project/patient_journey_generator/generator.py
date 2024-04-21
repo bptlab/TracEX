@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import os
 import random
 
-from patient_journey_generator import prompts as p
 from extraction.models import Prompt
 from tracex.logic import constants as c
 from tracex.logic import utils as u
