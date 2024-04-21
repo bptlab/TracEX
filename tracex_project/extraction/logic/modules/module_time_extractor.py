@@ -6,7 +6,6 @@ import pandas as pd
 
 from extraction.logic.module import Module
 from extraction.models import Prompt
-from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -54,7 +53,6 @@ class TimeExtractor(Module):
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
         patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        # messages = p.END_DATE_MESSAGES[:]
         messages = Prompt.objects.get(name="END_DATE_MESSAGES").text
         messages.append(
             {

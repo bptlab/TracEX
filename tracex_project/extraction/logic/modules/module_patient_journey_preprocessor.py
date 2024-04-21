@@ -39,7 +39,6 @@ class Preprocessor(Module):
     @staticmethod
     def __spellcheck(text):
         """Checks and corrects spelling and grammar in the input."""
-        # messages = p.PREPROCESSING_SPELLCHECK
         messages = Prompt.objects.get(name="PREPROCESSING_SPELLCHECK").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
@@ -50,7 +49,6 @@ class Preprocessor(Module):
     @staticmethod
     def __punctuationcheck(text):
         """Checks and corrects punctuations and commas in the input."""
-        # messages = p.PREPROCESSING_PUNCTUATION
         messages = Prompt.objects.get(name="PREPROCESSING_PUNCTUATION").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
@@ -61,7 +59,6 @@ class Preprocessor(Module):
     @staticmethod
     def __identify_timestamps(text):
         """Identifies and formats time specifications in the input."""
-        # messages = p.PREPROCESSING_IDENTIFY_TIMESTAMPS
         messages = Prompt.objects.get(name="PREPROCESSING_IDENTIFY_TIMESTAMPS").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
@@ -72,7 +69,6 @@ class Preprocessor(Module):
     @staticmethod
     def __transform_timestamps(text):
         """Adds a timeline to the input for better understanding of events."""
-        # messages = p.PREPROCESSING_TRANSFORM_TIMESTAMPS
         messages = Prompt.objects.get(name="PREPROCESSING_TRANSFORM_TIMESTAMPS").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
@@ -83,7 +79,6 @@ class Preprocessor(Module):
     @staticmethod
     def __calculate_timestamps(text):
         """Calculate a Timestamp to the input for better understanding of events."""
-        # messages = p.PREPROCESSING_TIME_CALCULATION
         messages = Prompt.objects.get(name="PREPROCESSING_TIME_CALCULATION").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
@@ -94,7 +89,6 @@ class Preprocessor(Module):
     @staticmethod
     def __interpret_timestamps(text):
         """Interpret a Timestamp to the input for better understanding of events."""
-        # messages = p.PREPROCESSING_TIME_INTERPRETATION
         messages = Prompt.objects.get(name="PREPROCESSING_TIME_INTERPRETATION").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
