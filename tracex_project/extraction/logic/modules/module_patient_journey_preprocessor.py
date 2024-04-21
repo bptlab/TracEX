@@ -4,7 +4,6 @@ from django.conf import settings
 
 from extraction.logic.module import Module
 from extraction.models import Prompt
-from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 

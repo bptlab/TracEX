@@ -4,6 +4,7 @@ import os
 import random
 
 from patient_journey_generator import prompts as p
+from extraction.models import Prompt
 from tracex.logic import constants as c
 from tracex.logic import utils as u
 
@@ -15,7 +16,12 @@ def generate_patient_journey():
     )
     messages = [
         {"role": "system", "content": create_patient_journey_context()},
-        {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
+        {
+            "role": "user",
+            "content": Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text[0][
+                "content"
+            ],
+        },
     ]
     patient_journey = u.query_gpt(messages=messages, temperature=1)
     i = 0

@@ -4,7 +4,6 @@ from django.conf import settings
 
 from extraction.models import Cohort, Prompt
 from extraction.logic.module import Module
-from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -29,7 +28,6 @@ class CohortTagger(Module):
     def __extract_cohort_tags(self):
         """Extracts information about condition, gender, age, origin and preexisting condition."""
         cohort_data = {}
-        # for message_list in p.COHORT_TAG_MESSAGES:
         for message_list in Prompt.objects.get(name="COHORT_TAG_MESSAGES").text:
             messages = message_list[1:]
             messages.append(
