@@ -1,3 +1,5 @@
+"""This module contains the PoC for web scraping using Selenium."""
+### Run "pip install selenium, webdriver_manager" before running this script ###
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.firefox.service import Service
@@ -7,12 +9,12 @@ from webdriver_manager.firefox import GeckoDriverManager
 from pathlib import Path
 import time
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+input_path = Path(__file__).resolve().parent.parent / "content/inputs"
 
 # Initialize the Firefox driver
 driver = webdriver.Firefox(service=Service(GeckoDriverManager().install()))
 
-# Navigate to the subreddit page
+# Navigate to the reddit page
 driver.get(
     "https://www.reddit.com/r/COVID19positive/comments/1c9mh4h/severe_periods_every_23_months_since_first/"
 )
@@ -27,7 +29,7 @@ if read_more_button:
 
 # Scrape the top posts
 content = driver.find_element(By.CSS_SELECTOR, ".mb-sm.mb-xs.px-md.xs\:px-0")
-with open(BASE_DIR / "extraction/content/inputs/scraped_patient_journey.txt", "w") as f:
+with open(input_path / "scraped_patient_journey.txt", "w") as f:
     f.write(content.text)
 
 # Scrape the comments

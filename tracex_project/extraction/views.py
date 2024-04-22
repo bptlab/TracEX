@@ -65,6 +65,7 @@ class JourneyFilterView(generic.FormView):
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
+            activity_key=form.cleaned_data["activity_key"],
         )
         orchestrator.run(view=self)
         single_trace_df = orchestrator.get_data()
@@ -114,13 +115,23 @@ class ResultView(generic.FormView):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        event_types = orchestrator.get_configuration().event_types
-        filter_dict = {
-            "concept:name": event_types,
-            "attribute_location": orchestrator.get_configuration().locations,
-        }
+        if orchestrator.get_configuration().activity_key == "activity_label":
+            filter_dict = {
+                "attribute_location": orchestrator.get_configuration().locations,
+                "event_type": orchestrator.get_configuration().event_types,
+            }
+        elif orchestrator.get_configuration().activity_key == "event_type":
+            filter_dict = {
+                "attribute_location": orchestrator.get_configuration().locations,
+                "concept:name": orchestrator.get_configuration().event_types,
+            }
+        else:
+            filter_dict = {
+                "concept:name": orchestrator.get_configuration().locations,
+                "event_type": orchestrator.get_configuration().event_types,
+            }
 
-        output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
+        output_path_xes = f"{str(utils.output_path / 'single_trace')}.xes"
         single_trace_df = pm4py.read_xes(output_path_xes)
         single_trace_df.rename(
             columns={"time:timestamp": "start_timestamp"}, inplace=True

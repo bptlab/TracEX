@@ -177,7 +177,7 @@ class Conversion:
         dataframe = pd.read_csv(csv_file, sep=",")
         dataframe = Conversion.prepare_df_for_xes_conversion(dataframe, key)
 
-        output_name = name + "_" + key + ".xes"
+        output_name = name + ".xes"
         pm4py.write_xes(
             dataframe,
             (output_path / output_name),
@@ -253,8 +253,7 @@ class Conversion:
 
         # Converting DataFrame to XES
         parameters = {
-            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
-                'case:concept:name'
+            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: "case:concept:name"
         }
         event_log = pm4py.objects.conversion.log.converter.apply(
             df, parameters=parameters
@@ -307,7 +306,10 @@ class DataFrameUtilities:
     def filter_dataframe(df, filter_dict):
         """Filter a dataframe."""
         filter_conditions = [
-            df[column].isin(values) for column, values in filter_dict.items()
+            df[column].isin(values)
+            if column in df.columns
+            else pd.Series(True, index=df.index)
+            for column, values in filter_dict.items()
         ]
         combined_condition = pd.Series(True, index=df.index)
 
