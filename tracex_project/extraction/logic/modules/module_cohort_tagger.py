@@ -21,26 +21,38 @@ class CohortTagger(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
-        """Extracts the cohort from the patient journey."""
+        """
+        Extracts the cohort from the patient journey using the following steps:
+        1.
+        """
         super().execute_and_save(
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences
         )
 
-        return self.__extract_cohort_tags()
+        cohort_tags = self.__extract_cohort_tags(patient_journey)
+        cohort_pk = self.__save_to_db(cohort_tags)
 
-    def __extract_cohort_tags(self):
+        return cohort_pk
+
+    @staticmethod
+    def __extract_cohort_tags(patient_journey):
         """Extracts information about condition, gender, age, origin and preexisting condition."""
         cohort_data = {}
         for message_list in p.COHORT_TAG_MESSAGES:
             messages = message_list[1:]
             messages.append(
-                {"role": "user", "content": self.patient_journey},
+                {"role": "user", "content": patient_journey},
             )
             tag = u.query_gpt(messages)
             cohort_data[message_list[0]] = tag
 
+        return cohort_data
+
+    @staticmethod
+    def __save_to_db(cohort_data):
+        """Saves the cohort tags to the database."""
         valid_cohort_data = {
             key: value for key, value in cohort_data.items() if value != "N/A"
         }
@@ -53,3 +65,4 @@ class CohortTagger(Module):
         new_cohort = Cohort.manager.create(**valid_cohort_data)
 
         return new_cohort.pk
+
