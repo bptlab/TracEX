@@ -35,7 +35,6 @@ class TimeExtractor(Module):
     def __extract_start_date(self, row):
         """Extract the start date for a given activity."""
         patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        # messages = p.START_DATE_MESSAGES[:]
         messages = Prompt.objects.get(name="START_DATE_MESSAGES").text
         messages.append(
             {

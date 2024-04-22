@@ -13,15 +13,8 @@ def generate_patient_journey():
     print(
         "Please wait while the system is generating a patient journey. This may take a few moments."
     )
-    messages = [
-        {"role": "system", "content": create_patient_journey_context()},
-        {
-            "role": "user",
-            "content": Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text[0][
-                "content"
-            ],
-        },
-    ]
+    messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
+    messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
     i = 0
     proposed_filename = "journey_synth_covid_" + str(i) + ".txt"

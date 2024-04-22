@@ -114,7 +114,6 @@ class TraceComparator(Module):
         for count, second_activity in enumerate(
             comparison_basis_activities[lower:upper]
         ):
-            # messages = p.COMPARE_MESSAGES[:]
             messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
             messages.append(
                 {
