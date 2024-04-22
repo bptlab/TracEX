@@ -65,4 +65,3 @@ class CohortTagger(Module):
         new_cohort = Cohort.manager.create(**valid_cohort_data)
 
         return new_cohort.pk
-

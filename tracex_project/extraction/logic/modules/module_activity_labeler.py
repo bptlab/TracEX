@@ -21,24 +21,44 @@ class ActivityLabeler(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, _input=None, patient_journey=None, patient_journey_sentences=None):
-        """Extracts the activity labels from the patient journey."""
+        """
+        Extracts the activity labels from the patient journey with the following steps:
+        1. Number the patient journey sentences for better prompt usage.
+        2. Extract the activity labels from the patient journey using chatgpt.
+        """
         super().execute(_input, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
-        return self.__extract_activities()
+        patient_journey_numbered = self.__number_patient_journey_sentences(patient_journey_sentences)
+        activity_labels = self.__extract_activities(patient_journey_numbered)
 
-    def __extract_activities(self):
-        """Converts the input text to activity_labels."""
-        patient_journey_numbered = self.patient_journey_sentences[:]
+        return activity_labels
+
+    @staticmethod
+    def __number_patient_journey_sentences(patient_journey_sentences):
+        """
+        Number the patient journey sentences in the format:
+            1: ...
+            2: ...
+        And so on.
+        """
+        patient_journey_numbered = patient_journey_sentences[:]
         for count, value in enumerate(patient_journey_numbered):
             patient_journey_numbered[count] = f"{count}: {value}"
-        patient_journey_numbered = ".\n".join(patient_journey_numbered)
+        patient_journey_numbered = "\n".join(patient_journey_numbered)
 
-        name = "activity"
+        return patient_journey_numbered
+
+    @staticmethod
+    def __extract_activities(patient_journey_numbered):
+        """
+        Converts a patient journey, where every sentence is numbered, to a DataFrame with the activity labels by
+        extracting the activity labels from the patient journey.
+        """
+        column_name = "activity"
         messages = p.TEXT_TO_ACTIVITY_MESSAGES[:]
         messages.append({"role": "user", "content": patient_journey_numbered})
-        activity_labels = u.query_gpt(messages)
-        activity_labels = activity_labels.split("\n")
-        df = pd.DataFrame(activity_labels, columns=[name])
+        activity_labels = u.query_gpt(messages).split("\n")
+        df = pd.DataFrame(activity_labels, columns=[column_name])
         df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)
 
         return df
