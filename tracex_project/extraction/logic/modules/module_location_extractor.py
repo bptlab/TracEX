@@ -28,8 +28,8 @@ class LocationExtractor(Module):
 
     def __add_locations(self, df):
         """Adds locations to the activity labels."""
-        name = "attribute_location"
-        df[name] = df["activity"].apply(self.__classify_location)
+        column_name = "attribute_location"
+        df[column_name] = df["activity"].apply(self.__classify_location)
 
         return df
 

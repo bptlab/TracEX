@@ -30,8 +30,8 @@ class EventTypeClassifier(Module):
 
     def __add_event_types(self, df):
         """Adds event types to the activity labels."""
-        name = "event_type"
-        df[name] = df["activity"].apply(self.__classify_event_type)
+        column_name = "event_type"
+        df[column_name] = df["activity"].apply(self.__classify_event_type)
 
         return df
 
