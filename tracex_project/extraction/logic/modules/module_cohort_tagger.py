@@ -39,7 +39,6 @@ class CohortTagger(Module):
                 {"role": "user", "content": self.patient_journey},
             )
             tag = u.query_gpt(messages)
-            print(tag)
             cohort_data[message_list[0]] = tag
 
         valid_cohort_data = {

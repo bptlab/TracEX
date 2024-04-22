@@ -133,11 +133,6 @@ class Orchestrator:
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects_id["cohort"] = (
             self.get_configuration()
-            .modules["cohort_tagging"]()
-            .execute_and_save(
-                self.get_data(),
-                patient_journey_sentences=patient_journey_sentences
-            )
         )
         current_step += 1
         for module in modules:
