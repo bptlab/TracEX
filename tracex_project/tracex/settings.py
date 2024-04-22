@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "tracex",
     "patient_journey_generator",
     "extraction",
+    "trace_comparator",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -121,8 +122,8 @@ USE_TZ = False
 STATIC_ROOT = BASE_DIR / "static"
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [
-    BASE_DIR / "extraction" / "static",
     BASE_DIR / "tracex" / "static",
+    BASE_DIR / "trace_comparator" / "static",
     BASE_DIR / "patient_journey_generator" / "static",
 ]
 
