@@ -4,7 +4,6 @@ from io import StringIO, BytesIO
 from pathlib import Path
 
 import base64
-import json
 import tempfile
 import functools
 import warnings
@@ -89,8 +88,8 @@ def query_gpt(
         top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
         content = response.choices[0].message.content
         return content, top_logprobs
-    else:
-        output = response.choices[0].message.content
+
+    output = response.choices[0].message.content
 
     return output
 
