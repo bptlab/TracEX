@@ -5,4 +5,3 @@ from extraction.logic.modules.module_time_extractor import TimeExtractor
 from extraction.logic.modules.module_event_type_classifier import EventTypeClassifier
 from extraction.logic.modules.module_location_extractor import LocationExtractor
 from extraction.logic.modules.module_metrics_analyzer import MetricsAnalyzer
-from extraction.logic.modules.module_trace_comparator import TraceComparator

@@ -6,6 +6,7 @@
     <title>Result</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <script src="{% static '/extraction/js/pop_up_xes.js' %}" defer></script>
 </head>
 <body class="main_body">
     <h1>Success! The TracEX pipeline produced the following results:</h1>
@@ -30,7 +31,7 @@
         <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
         <div id="contentWrapper1" style="display: none;">
             <p><b>This is the event log extracted from the journey above (single trace)</b></p>
-            <div id="xesContent1">{{ xes_html|safe }}</div>
+            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
@@ -42,7 +43,7 @@
         <button id="toggleButton2">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
             <p><b>This is the event log enriched by the extracted trace</b></p>
-            <div id="xesContent2">{{ all_xes_html|safe }}</div>
+            <div id="xesContent2" class="xes_container">{{ all_xes_html|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
@@ -86,11 +87,29 @@
 
         <input type="submit" value="Refresh Filter" class="button">
     </form>
+    <br>
+
+    <!-- Trigger/Open The Modal (XES Download) -->
+    <button id="downloadBtn" class="button">Download XES File</button>
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please select the type(s) of XES file to download:</p>
+            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="checkbox" id="single_trace" name="trace_type[]" value="single_trace" class="trace-checkbox">
+                <label for="single_trace">Single Trace XES</label><br>
+                <input type="checkbox" id="all_traces" name="trace_type[]" value="all_traces" class="trace-checkbox">
+                <label for="all_traces">All Traces XES</label><br><br>
+                <input type="submit" value="Confirm Download" class="button">
+            </form>
+        </div>
+    </div>
 
     <a href="{% url 'save_success' %}">
         <button class="menu_button">Save results to the database</button>
     </a>
-    
+
     <a href="{% url 'journey_input' %}">
         <button class="menu_button">Return to input selection</button>
     </a>

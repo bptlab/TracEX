@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<title>Comparison</title>
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
+    <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body class="main_body">
+    <div class="container">
+    <h1>Extraction Result</h1>
+
+    <h2>Patient Journey: {{ patient_journey_name }}</h2>
+    <p>{{ patient_journey }}</p>
+    <p><b>This is the event log extracted from the journey above</b></p>
+    <div id="xesContent" class="xes_container">
+        {{ pipeline_output|safe }}
+      </div>
+
+    <div class="spinner-container" id="loading-container">
+        <span id="loading-spinner" class="loader not_visible"></span>
+    </div>
+
+    <div id="progress_box" class="not_visible">
+        <div class="progress-container">
+            <!-- Progress bar and message will be added here -->
+        </div>
+    </div>
+
+
+    <form method="post" >
+        {% csrf_token %}
+        <button type="submit" class="menu_button" id="progress_button">Start Comparing Against Ground Truth</button>
+    </form>
+
+    <a href="{% url 'testing_environment' %}">
+        <button class="menu_button">Return to Trace Testing Environment</button>
+    </a>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</div>
+</body>
+</html>

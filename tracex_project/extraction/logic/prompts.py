@@ -302,35 +302,6 @@ METRIC_TIMESTAMP_MESSAGES = [
     {"role": "assistant", "content": "False"},
 ]
 
-COMPARE_MESSAGES = [
-    {
-        "role": "system",
-        "content": """ You are an expert in text understanding and your job is to understand the semantical meaning of
-            bulletpoints and compare the semantic to each other. So you take two bulletpoints and check if they are
-            semantically similar. You should return True if you think they are similar and False if you don't.""",
-    },
-    {
-        "role": "user",
-        "content": "First: receiving support from my children\nSecond: taking medicine",
-    },
-    {"role": "assistant", "content": "False"},
-    {
-        "role": "user",
-        "content": "First: visiting doctor's\nSecond: going to the doctor",
-    },
-    {"role": "assistant", "content": "True"},
-    {
-        "role": "user",
-        "content": "First: experiencing covid 19 symptoms\nSecond: first symptoms of covid 19",
-    },
-    {"role": "assistant", "content": "True"},
-    {
-        "role": "user",
-        "content": "First: experiencing first covid 19 symptoms\nSecond: experiencing worse symptoms",
-    },
-    {"role": "assistant", "content": "False"},
-]
-
 COHORT_TAG_MESSAGES = [
     [
         "condition",
