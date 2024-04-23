@@ -9,12 +9,11 @@ class TracexLandingPage(TemplateView):
     """View for the landing page of the tracex app."""
     template_name = "landing_page.html"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *_args, **kwargs):
         """Handles GET requests by initializing a form for API key entry and adding it to the context."""
         form = ApiKeyForm()
         context = self.get_context_data(**kwargs)
         context['form'] = form
-
         return self.render_to_response(context)
 
     def post(self, request):
@@ -25,11 +24,9 @@ class TracexLandingPage(TemplateView):
         if form.is_valid():
             api_key = form.cleaned_data['api_key']
             os.environ['OPENAI_API_KEY'] = api_key  # This sets it for the current process only
-
             return redirect('landing_page')
-        else:
 
-            return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {'form': form})
 
     def get_context_data(self, **kwargs):
         """Retrieves and returns the base context data enhanced with the presence check for the API key.
@@ -38,5 +35,4 @@ class TracexLandingPage(TemplateView):
         self.request.session.flush()
         api_key = os.getenv('OPENAI_API_KEY')
         context['prompt_for_key'] = not bool(api_key)
-
         return context
