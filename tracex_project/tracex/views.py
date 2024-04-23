@@ -35,6 +35,7 @@ class TracexLandingPage(TemplateView):
         """Retrieves and returns the base context data enhanced with the presence check for the API key.
         Indicates if a prompt for the API key is needed based on its absence."""
         context = super().get_context_data(**kwargs)
+        self.request.session.flush()
         api_key = os.getenv('OPENAI_API_KEY')
         context['prompt_for_key'] = not bool(api_key)
 
