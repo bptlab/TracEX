@@ -25,8 +25,6 @@ from tracex.logic.constants import (
     MODEL,
     oaik,
     output_path,
-    CSV_OUTPUT,
-    CSV_ALL_TRACES,
 )
 
 from extraction.models import Trace
@@ -46,18 +44,6 @@ def deprecated(func):
         return func(*args, **kwargs)
 
     return new_func
-
-
-""" def get_decision(question):
-    Gets a decision from the user.
-    decision = input(question).lower()
-    if decision == "y":
-        return True
-    if decision == "n":
-        return False
-    print("Please enter y or n.")
-
-    return get_decision(question) """
 
 
 def query_gpt(
@@ -106,7 +92,7 @@ def query_gpt(
 
 
 def calculate_linear_probability(logprob):
-    """ "Calculates the linear probability from the log probability of the gpt output."""
+    """Calculates the linear probability from the log probability of the gpt output."""
     linear_prob = np.round(np.exp(logprob), 2)
 
     return linear_prob

@@ -107,11 +107,10 @@ class ResultView(generic.FormView):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         single_trace_df = orchestrator.get_data()
-
-        print(f"activity_key: {orchestrator.get_configuration().activity_key}")
+        activity_key = orchestrator.get_configuration().activity_key
 
         # 1. Set the filter dictionary based on the activity key
-        match orchestrator.get_configuration().activity_key:
+        match (activity_key):
             case "activity":
                 filter_dict = {
                     "attribute_location": orchestrator.get_configuration().locations,
@@ -132,7 +131,7 @@ class ResultView(generic.FormView):
 
         # 2. Filter the single journey dataframe
         single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            single_trace_df, orchestrator.get_configuration().activity_key
+            single_trace_df, activity_key
         )
         single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             single_trace_df, filter_dict
@@ -146,7 +145,7 @@ class ResultView(generic.FormView):
         all_traces_df = utils.DataFrameUtilities.get_events_df()
         if not all_traces_df.empty:
             all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-                all_traces_df, orchestrator.get_configuration().activity_key
+                all_traces_df, activity_key
             )
             utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
             all_traces_df = pd.concat(

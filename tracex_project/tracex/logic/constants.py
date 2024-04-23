@@ -19,8 +19,6 @@ MODEL = "gpt-3.5-turbo"
 MAX_TOKENS = 1100
 TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
-CSV_OUTPUT = settings.BASE_DIR / "extraction/content/outputs/single_trace.csv"
-CSV_ALL_TRACES = settings.BASE_DIR / "extraction/content/outputs/all_traces.csv"
 EVENT_TYPES = [
     ("Symptom Onset", "Symptom Onset"),
     ("Symptom Offset", "Symptom Offset"),
