@@ -1,8 +1,8 @@
 """This file contains the views for the landing page of the tracex app."""
+import os
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from .forms import ApiKeyForm
-import os
 
 
 class TracexLandingPage(TemplateView):
