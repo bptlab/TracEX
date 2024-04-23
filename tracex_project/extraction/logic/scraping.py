@@ -39,9 +39,11 @@ with open(input_path / "scraped_patient_journey.txt", "w") as f:
     f.write(content.text)
 
 # Scrape the comments
-""" comments = driver.find_elements(By.CSS_SELECTOR, ".py-0.xs\:mx-xs.mx-2xs.inline-block.max-w-full")
+comments = driver.find_elements(
+    By.CSS_SELECTOR, ".py-0.xs\:mx-xs.mx-2xs.inline-block.max-w-full"
+)
 for comment in comments:
-   print(comment.text) """
+    print(comment.text)
 
 # Quit the driver
 driver.quit()

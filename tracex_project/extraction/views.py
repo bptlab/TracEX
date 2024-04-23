@@ -4,7 +4,6 @@ Some unused imports have to be made because of architectural requirement."""
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
-import pm4py
 import pandas as pd
 
 

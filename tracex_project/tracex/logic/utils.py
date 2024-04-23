@@ -171,15 +171,9 @@ class Conversion:
         )
 
         # Converting DataFrame to XES
-        parameters = {
-            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY: "case:concept:name"
-        }
-        event_log = pm4py.objects.conversion.log.converter.apply(
-            df, parameters=parameters
-        )
         xes_file = output_path / name
         pm4py.write_xes(
-            log=event_log,
+            log=df,
             file_path=xes_file,
             case_id_key="case:concept:name",
             timestamp_key="time:timestamp",

@@ -153,7 +153,6 @@ class Orchestrator:
                 latest_id = 0
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case_id", latest_id + 1)
-            self.get_data().to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     def save_results_to_db(self):
         """Save the trace to the database."""
