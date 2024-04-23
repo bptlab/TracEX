@@ -16,6 +16,11 @@ class TracexLandingPage(TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests by processing a submitted form containing an API key.
+        If valid, saves the API key to the environment and redirects to the landing page;
+        otherwise, renders the form with errors.
+        """
         form = ApiKeyForm(request.POST)
         if form.is_valid():
             api_key = form.cleaned_data['api_key']
