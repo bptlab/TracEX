@@ -6,7 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from tracex.logic import utils
 
-from extraction.models import Trace, PatientJourney, Event, Cohort
+from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
 from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
@@ -161,20 +161,31 @@ class Orchestrator:
             pk=self.db_objects_id["patient_journey"]
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
-        events: List[Event] = Event.manager.bulk_create(
-            [
-                Event(
-                    trace=trace,
-                    activity=row["activity"],
-                    event_type=row["event_type"],
-                    start=row["start"],
-                    end=row["end"],
-                    duration=parse_duration(row["duration"]),
-                    location=row["attribute_location"],
-                )
-                for _, row in self.get_data().iterrows()
-            ]
-        )
+        events_with_metric = []
+        metric_list = []
+        for _, row in self.get_data().iterrows():
+            event = Event(
+                trace=trace,
+                activity=row["activity"],
+                event_type=row["event_type"],
+                start=row["start"],
+                end=row["end"],
+                duration=parse_duration(row["duration"]),
+                location=row["attribute_location"],
+            )
+            metric = Metric(
+                activity_relevance=row["activity_relevance"],
+                timestamp_correctness=row["timestamp_correctness"],
+                correctness_confidence=row["correctness_confidence"],
+            )
+            event.metric = metric
+            events_with_metric.append(event)
+            metric_list.append(metric)
+
+        events: List[Event] = Event.manager.bulk_create(events_with_metric)
+        for event, metric in zip(events, metric_list):
+            metric.event = event
+        Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
         if self.db_objects_id["cohort"] and self.db_objects_id["cohort"] != 0:
             trace.cohort = Cohort.manager.get(pk=self.db_objects_id["cohort"])
