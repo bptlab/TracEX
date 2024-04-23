@@ -25,7 +25,7 @@ class BaseEventForm(forms.Form):
     activity_key = forms.ChoiceField(
         label="Select activity key for output",
         choices=ACTIVITY_KEYS,
-        widget=forms.Select(),
+        widget=forms.RadioSelect(),
         required=True,
         initial=ACTIVITY_KEYS[0][0],
     )
