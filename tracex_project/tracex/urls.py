@@ -7,6 +7,7 @@ from . import views
 
 urlpatterns = [
     path("", include("patient_journey_generator.urls")),
+    path("set-api-key/", views.set_api_key, name="set_api_key"),
     path("", include("extraction.urls")),
     path("", include("trace_comparator.urls")),
     path("", views.TracexLandingPage.as_view(), name="landing_page"),

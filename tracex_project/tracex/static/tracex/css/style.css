@@ -339,3 +339,30 @@ text-align: center;
     text-decoration: none;
     cursor: pointer;
 }
+
+.modal-backdrop {
+    z-index: 1040; /* or lower than modal if modal needs to be on top */
+}
+
+.modal {
+    z-index: 1050; /* higher than modal-backdrop */
+}
+
+/* Default width */
+#apiKeyModal .modal-dialog {
+    max-width: 90%; /* Use a high percentage for smaller screens */
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 70%; /* Slightly smaller percentage for medium screens */
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 50%; /* Even smaller for large screens */
+    }
+}
