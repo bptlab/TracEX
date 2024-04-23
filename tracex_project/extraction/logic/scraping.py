@@ -1,6 +1,6 @@
 """This module contains the PoC for web scraping using Selenium."""
 ### Run "pip install selenium, webdriver_manager" before running this script ###
-# pylint: disable=anomalous-backslash-in-string
+# pylint: disable=anomalous-backslash-in-string, bare-except, pointless-statement
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -28,7 +28,7 @@ try:
     )
     read_more_button.click()
 except:
-    None
+    pass
 
 # Scrape the top posts
 title = driver.find_element(
