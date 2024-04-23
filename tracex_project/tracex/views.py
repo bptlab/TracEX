@@ -34,8 +34,6 @@ class TracexLandingPage(TemplateView):
         Indicates if a prompt for the API key is needed based on its absence."""
         context = super().get_context_data(**kwargs)
         api_key = os.getenv('OPENAI_API_KEY')
-        print(api_key)
         context['prompt_for_key'] = not bool(api_key)
-        print(context['prompt_for_key'])
 
         return context
