@@ -1,3 +1,4 @@
+"""This file contains the views for the landing page of the tracex app."""
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
 from .forms import ApiKeyForm
@@ -5,6 +6,7 @@ import os
 
 
 class TracexLandingPage(TemplateView):
+    """View for the landing page of the tracex app."""
     template_name = "landing_page.html"
 
     def get(self, request, *args, **kwargs):
