@@ -2,6 +2,7 @@ from django import forms
 
 
 class ApiKeyForm(forms.Form):
+    """A form for inputting the OpenAI API key."""
     api_key = forms.CharField(
         label='Enter your OpenAI API Key',
         max_length=100,
