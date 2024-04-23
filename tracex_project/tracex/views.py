@@ -16,11 +16,9 @@ class TracexLandingPage(TemplateView):
         return self.render_to_response(context)
 
     def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests by processing a submitted form containing an API key.
+        """Handles POST requests by processing a submitted form containing an API key.
         If valid, saves the API key to the environment and redirects to the landing page;
-        otherwise, renders the form with errors.
-        """
+        otherwise, renders the form with errors."""
         form = ApiKeyForm(request.POST)
         if form.is_valid():
             api_key = form.cleaned_data['api_key']
@@ -32,6 +30,8 @@ class TracexLandingPage(TemplateView):
             return render(request, self.template_name, {'form': form})
 
     def get_context_data(self, **kwargs):
+        """Retrieves and returns the base context data enhanced with the presence check for the API key.
+        Indicates if a prompt for the API key is needed based on its absence."""
         context = super().get_context_data(**kwargs)
         api_key = os.getenv('OPENAI_API_KEY')
         print(api_key)
