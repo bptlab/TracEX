@@ -4,8 +4,6 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from tracex.logic import utils
-
 from extraction.models import Trace, PatientJourney, Event, Cohort
 from extraction.logic.modules import (
     Preprocessor,
