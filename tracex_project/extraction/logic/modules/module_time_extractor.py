@@ -5,7 +5,7 @@ from django.conf import settings
 import pandas as pd
 
 from extraction.logic.module import Module
-from extraction.logic import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -35,7 +35,7 @@ class TimeExtractor(Module):
     def __extract_start_date(self, row):
         """Extract the start date for a given activity."""
         patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        messages = p.START_DATE_MESSAGES[:]
+        messages = Prompt.objects.get(name="START_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",
@@ -52,7 +52,7 @@ class TimeExtractor(Module):
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
         patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        messages = p.END_DATE_MESSAGES[:]
+        messages = Prompt.objects.get(name="END_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",

@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 from django.conf import settings
 
-from trace_comparator import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u, constants as c
 
@@ -107,7 +107,7 @@ def find_activity(
     lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
-        messages = p.COMPARE_MESSAGES[:]
+        messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
         messages.append(
             {
                 "role": "user",

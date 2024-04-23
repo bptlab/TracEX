@@ -4,7 +4,7 @@ import pandas as pd
 from django.conf import settings
 
 from extraction.logic.module import Module
-from extraction.logic import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -36,7 +36,7 @@ class ActivityLabeler(Module):
         patient_journey_numbered = ".\n".join(patient_journey_numbered)
 
         name = "activity"
-        messages = p.TEXT_TO_ACTIVITY_MESSAGES[:]
+        messages = Prompt.objects.get(name="TEXT_TO_ACTIVITY_MESSAGES").text
         messages.append({"role": "user", "content": patient_journey_numbered})
         activity_labels = u.query_gpt(messages)
         activity_labels = activity_labels.split("\n")
