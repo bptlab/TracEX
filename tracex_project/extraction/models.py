@@ -71,3 +71,13 @@ class Prompt(models.Model):
 
     name = models.CharField(max_length=100)
     text = models.TextField()
+
+class Metrics(models.Model):
+    """Model for metrics which are being tracked by the metrics analyzer"""
+    
+    event = models.OneToOneField(Event, on_delete=models.CASCADE, related_name='metrics')
+    activity_relevance = models.CharField(max_length=25)
+    timestamp_correctness = models.BooleanField()
+    correctness_confidence = models.FloatField()
+    last_modified = models.DateTimeField(auto_now=True)
+    manager = models.Manager()

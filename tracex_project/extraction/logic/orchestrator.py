@@ -110,8 +110,7 @@ class Orchestrator:
             self.get_configuration().modules["time_extraction"](),
             self.get_configuration().modules["event_type_classification"](),
             self.get_configuration().modules["location_extraction"](),
-            # This module should be activated only if the user wants to analyze the metrics
-            # self.get_configuration().modules["metrics_analyzer"](),
+            self.get_configuration().modules["metrics_analyzer"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -144,6 +143,7 @@ class Orchestrator:
                     self.get_data(), patient_journey, patient_journey_sentences
                 )
             )
+            print(self.get_data())
             current_step += 1
 
         if self.get_data() is not None:

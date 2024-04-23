@@ -51,7 +51,7 @@ class MetricsAnalyzer(Module):
             axis=1,
         )
 
-        return df
+        return metrics_df
 
     def __rate_activity_relevance(self, activity):
         category_mapping = {

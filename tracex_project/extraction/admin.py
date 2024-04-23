@@ -1,6 +1,6 @@
 """Admin file for extraction app."""
 from django.contrib import admin
-from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort
+from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort, Metrics
 
 
 class TraceInline(admin.TabularInline):
@@ -35,6 +35,6 @@ class TraceAdmin(admin.ModelAdmin):
 class EventAdmin(admin.ModelAdmin):
     """Admin page for the Event model."""
 
-
+admin.site.register(Metrics)
 admin.site.register(Prompt)
 admin.site.register(Cohort)
