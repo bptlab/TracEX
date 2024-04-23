@@ -40,7 +40,7 @@ LOCATIONS = [
 ]
 ACTIVITY_KEYS = [
     ("event_type", "Event Type"),
-    ("activity_label", "Activity Label"),
+    ("activity", "Activity Label"),
     ("attribute_location", "Location"),
 ]
 THRESHOLD_FOR_MATCH = 0.5
