@@ -9,11 +9,12 @@ class TracexLandingPage(TemplateView):
     """View for the landing page of the tracex app."""
     template_name = "landing_page.html"
 
-    def get(self, request, *_args, **kwargs):
+    def get(self, _request, *args, **kwargs):
         """Handles GET requests by initializing a form for API key entry and adding it to the context."""
         form = ApiKeyForm()
         context = self.get_context_data(**kwargs)
         context['form'] = form
+
         return self.render_to_response(context)
 
     def post(self, request):
@@ -35,4 +36,5 @@ class TracexLandingPage(TemplateView):
         self.request.session.flush()
         api_key = os.getenv('OPENAI_API_KEY')
         context['prompt_for_key'] = not bool(api_key)
+
         return context
