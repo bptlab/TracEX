@@ -23,7 +23,7 @@ class ActivityLabeler(Module):
     def execute(self, _input=None, patient_journey=None, patient_journey_sentences=None):
         """
         Extracts the activity labels from the patient journey with the following steps:
-        1. Number the patient journey sentences for better prompt usage.
+        1. Number the patient journey sentences to enable selecting a specific range of sentences.
         2. Extract the activity labels from the patient journey using chatgpt.
         """
         super().execute(_input, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
