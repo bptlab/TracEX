@@ -32,13 +32,9 @@ class MetricsAnalyzer(Module):
 
         metrics_df = df.copy()
         metrics_df["activity_relevance"] = metrics_df["activity"].apply(self.__rate_activity_relevance)
-        metrics_df[
-            ["timestamp_correctness", "correctness_confidence"]
-        ] = metrics_df.apply(
+        metrics_df[["timestamp_correctness", "correctness_confidence"]] = metrics_df.apply(
             lambda row: pd.Series(
-                self.__rate_timestamps_correctness(
-                    row["activity"], row["start"], row["end"]
-                )
+                self.__rate_timestamps_correctness(row["activity"], row["start"], row["end"])
             ),
             axis=1,
         )

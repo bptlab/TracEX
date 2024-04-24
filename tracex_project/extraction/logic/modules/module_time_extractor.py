@@ -25,6 +25,7 @@ class TimeExtractor(Module):
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """This function extracts the time information from the patient journey."""
         super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
+
         df["start"] = df.apply(self.__extract_start_date, axis=1)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
@@ -105,15 +106,6 @@ class TimeExtractor(Module):
 
         return df
 
-    @staticmethod
-    def is_valid_date_format(date_string, date_format):
-        """Determine if a string matches the given date format."""
-        try:
-            datetime.strptime(date_string, date_format)
-
-            return True
-        except ValueError:
-            return False
 
     def __get_snippet(self, sentence_id):
         """Extract the snippet for a given activity."""
