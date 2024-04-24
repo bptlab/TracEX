@@ -31,10 +31,17 @@ class Preprocessor(Module):
         preprocessed_text = self.__transform_timestamps(preprocessed_text)
         preprocessed_text = self.__interpret_timestamps(preprocessed_text)
         preprocessed_text = self.__calculate_timestamps(preprocessed_text)
-        preprocessed_text = preprocessed_text.replace("\n", " ")
-        patient_journey_sentences = preprocessed_text.split(". ")
+        patient_journey_sentences = self.__make_sentences(preprocessed_text)
 
         return patient_journey_sentences
+
+    @staticmethod
+    def __make_sentences(text):
+        """Splits the input into a list of its sentences."""
+        text = text.replace("\n", " ")
+        text = text.split(". ")
+
+        return text
 
     @staticmethod
     def __spellcheck(text):
