@@ -53,7 +53,8 @@ class TimeExtractor(Module):
 
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
-        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
+        lower, upper = u.get_snippet_bounds(index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences))
+        patient_journey_snippet = ". ".join(self.patient_journey_sentences[lower:upper])
         messages = Prompt.objects.get(name="END_DATE_MESSAGES").text
         messages.append(
             {
@@ -106,14 +107,3 @@ class TimeExtractor(Module):
         df = df.apply(fix_end_dates, axis=1)
 
         return df
-
-    def __get_snippet(self, sentence_id):
-        """Extract the snippet for a given activity."""
-        # We want to look at a snippet from the patient journey where we take five sentences into account
-        # starting from the current sentence index -2 and ending at the current index +2
-        # (writing +3 as python is exclusive on the upper bound)
-        lower = max(0, int(sentence_id) - 2)
-        upper = min(int(sentence_id) + 3, len(self.patient_journey_sentences))
-        snippet = ". ".join(self.patient_journey_sentences[lower:upper])
-
-        return snippet
