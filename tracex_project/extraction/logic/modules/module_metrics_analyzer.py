@@ -4,7 +4,7 @@ import pandas as pd
 from django.conf import settings
 
 from extraction.logic.module import Module
-from extraction.logic import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -54,7 +54,7 @@ class MetricsAnalyzer(Module):
             "High Relevance": 3,
         }
 
-        messages = p.METRIC_ACTIVITY_MESSAGES[:]
+        messages = Prompt.objects.get(name="METRIC_ACTIVITY_MESSAGES").text
         messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
@@ -67,7 +67,7 @@ class MetricsAnalyzer(Module):
         return category
 
     def __rate_timestamps_correctness(self, activity, start, end):
-        messages = p.METRIC_TIMESTAMP_MESSAGES[:]
+        messages = Prompt.objects.get(name="METRIC_TIMESTAMP_MESSAGES").text
         messages.append(
             {
                 "role": "user",
