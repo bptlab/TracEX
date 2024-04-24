@@ -22,8 +22,7 @@ class CohortTagger(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
         """
-        Extracts the cohort from the patient journey using the following steps:
-        1.
+        Extracts the cohort from the patient journey and saves the result in the database.
         """
         super().execute_and_save(
             df,
