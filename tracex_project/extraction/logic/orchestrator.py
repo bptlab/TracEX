@@ -128,7 +128,6 @@ class Orchestrator:
                 patient_journey=self.get_configuration().patient_journey
             )
         patient_journey = ". ".join(patient_journey_sentences)
-        self.configuration.update(patient_journey=patient_journey)
 
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects_id["cohort"] = (
