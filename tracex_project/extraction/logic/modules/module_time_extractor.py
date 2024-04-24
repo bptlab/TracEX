@@ -35,15 +35,16 @@ class TimeExtractor(Module):
 
     def __extract_start_date(self, row):
         """Extract the start date for a given activity."""
-        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
+        lower, upper = u.get_snippet_bounds(index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences))
+        patient_journey_snippet = ". ".join(self.patient_journey_sentences[lower:upper])
         messages = Prompt.objects.get(name="START_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",
                 "content": "Text: "
-                + patient_journey_snippet
-                + "\nActivity label: "
-                + row["activity"],
+                           + patient_journey_snippet
+                           + "\nActivity label: "
+                           + row["activity"],
             }
         )
         start = u.query_gpt(messages)
@@ -58,11 +59,11 @@ class TimeExtractor(Module):
             {
                 "role": "user",
                 "content": "\nText: "
-                + patient_journey_snippet
-                + "\nActivity label: "
-                + row["activity"]
-                + "\nStart date: "
-                + row["start"],
+                           + patient_journey_snippet
+                           + "\nActivity label: "
+                           + row["activity"]
+                           + "\nStart date: "
+                           + row["start"],
             },
         )
         end = u.query_gpt(messages)
@@ -105,7 +106,6 @@ class TimeExtractor(Module):
         df = df.apply(fix_end_dates, axis=1)
 
         return df
-
 
     def __get_snippet(self, sentence_id):
         """Extract the snippet for a given activity."""

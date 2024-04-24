@@ -104,7 +104,7 @@ def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
     """Compares a target activity against potential matches to identify the best match based on similarity."""
-    lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
+    lower, upper = u.get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
         messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
@@ -124,19 +124,6 @@ def find_activity(
             mapping_input_to_comparison.append(best_match)
             return
     mapping_input_to_comparison.append((-1, 0))
-
-
-def get_snippet_bounds(index, dataframe_length):
-    """Calculate the lower and upper bounds for the comparison snippet."""
-    half_snippet_size = min(max(2, dataframe_length // 20), 5)
-    lower = max(0, index - half_snippet_size)
-    upper = min(dataframe_length, index + half_snippet_size + 1)
-    if index < half_snippet_size:
-        upper += abs(index - half_snippet_size)
-    if index > dataframe_length - half_snippet_size:
-        lower -= abs(index - (dataframe_length - half_snippet_size))
-
-    return lower, upper
 
 
 def postprocess_mappings(mapping_data_to_groundtruth, mapping_groundtruth_to_data):

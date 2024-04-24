@@ -59,11 +59,11 @@ def get_decision(question):
 
 
 def query_gpt(
-    messages,
-    max_tokens=MAX_TOKENS,
-    temperature=TEMPERATURE_SUMMARIZING,
-    logprobs=False,
-    top_logprobs=None,
+        messages,
+        max_tokens=MAX_TOKENS,
+        temperature=TEMPERATURE_SUMMARIZING,
+        logprobs=False,
+        top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
 
@@ -95,10 +95,10 @@ def query_gpt(
 
 
 def get_all_xes_output_path(
-    is_test=False,
-    is_extracted=False,
-    xes_name="all_traces",
-    activity_key="event_type",
+        is_test=False,
+        is_extracted=False,
+        xes_name="all_traces",
+        activity_key="event_type",
 ):
     """Create the xes file for all journeys."""
     if not (is_test or is_extracted):
@@ -130,6 +130,22 @@ def append_csv():
         for row in content:
             row = row.replace(row[0], str(int(row[0]) + trace_count), 1)
             f.writelines(row)
+
+
+def get_snippet_bounds(index, length):
+    """Extract bounds for a snippet for a given activity index."""
+    # We want to look at a snippet from the patient journey where we take five sentences into account
+    # starting from the current sentence index -2 and ending at the current index +2
+    # (writing +3 as python is exclusive on the upper bound)
+    half_snippet_size = min(max(2, length // 20), 5)
+    lower = max(0, index - half_snippet_size)
+    upper = min(length, index + half_snippet_size + 1)
+    if index < half_snippet_size:
+        upper += abs(index - half_snippet_size)
+    if index > length - half_snippet_size:
+        lower -= abs(index - (length - half_snippet_size))
+
+    return lower, upper
 
 
 def calculate_linear_probability(logprob):
