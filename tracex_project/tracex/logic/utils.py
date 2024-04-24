@@ -136,16 +136,17 @@ def get_snippet_bounds(index, length):
     """Extract bounds for a snippet for a given activity index."""
     # We want to look at a snippet from the patient journey where we take five sentences into account
     # starting from the current sentence index -2 and ending at the current index +2
-    # (writing +3 as python is exclusive on the upper bound)
     half_snippet_size = min(max(2, length // 20), 5)
-    lower = max(0, index - half_snippet_size)
-    upper = min(length, index + half_snippet_size + 1)
-    if index < half_snippet_size:
-        upper += abs(index - half_snippet_size)
-    if index > length - half_snippet_size:
-        lower -= abs(index - (length - half_snippet_size))
+    lower_bound = max(0, index - half_snippet_size)
+    upper_bound = min(length, index + half_snippet_size + 1)
 
-    return lower, upper
+    # Adjust the bounds if they exceed the boundaries of the patient journey
+    if index < half_snippet_size:
+        upper_bound += abs(index - half_snippet_size)
+    if index > length - half_snippet_size:
+        lower_bound -= abs(index - (length - half_snippet_size))
+
+    return lower_bound, upper_bound
 
 
 def calculate_linear_probability(logprob):
