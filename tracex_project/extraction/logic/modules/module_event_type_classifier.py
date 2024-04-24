@@ -24,14 +24,10 @@ class EventTypeClassifier(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """Classifies the event types for the corresponding activity labels from a patient journey."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
-        return self.__add_event_types(df)
-
-    def __add_event_types(self, df):
-        """Adds event types to the activity labels."""
-        name = "event_type"
-        df[name] = df["activity"].apply(self.__classify_event_type)
+        column_name = "event_type"
+        df[column_name] = df["activity"].apply(self.__classify_event_type)
 
         return df
 

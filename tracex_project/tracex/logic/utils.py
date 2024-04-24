@@ -4,7 +4,6 @@ from io import StringIO, BytesIO
 from pathlib import Path
 
 import base64
-import json
 import tempfile
 import functools
 import warnings
@@ -18,7 +17,6 @@ from django.db.models import Q
 from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
-from tracex.logic import function_calls
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
@@ -61,17 +59,13 @@ def get_decision(question):
 
 
 def query_gpt(
-    messages,
-    max_tokens=MAX_TOKENS,
-    temperature=TEMPERATURE_SUMMARIZING,
-    tools=None,
-    tool_choice="none",
-    logprobs=False,
-    top_logprobs=None,
+        messages,
+        max_tokens=MAX_TOKENS,
+        temperature=TEMPERATURE_SUMMARIZING,
+        logprobs=False,
+        top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
-
-    tools = function_calls.TOOLS if tools is None else tools
 
     @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
@@ -82,8 +76,6 @@ def query_gpt(
             messages=messages,
             max_tokens=max_tokens,
             temperature=temperature,
-            tools=tools,
-            tool_choice=tool_choice,
             logprobs=logprobs,
             top_logprobs=top_logprobs,
         )
@@ -91,25 +83,22 @@ def query_gpt(
         return _response
 
     response = make_api_call()
-    if tool_choice != "none":
-        api_response = response.choices[0].message.tool_calls[0].function.arguments
-        output = json.loads(api_response)["output"][0]
 
-    elif logprobs:
+    if logprobs:
         top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
         content = response.choices[0].message.content
         return content, top_logprobs
-    else:
-        output = response.choices[0].message.content
+
+    output = response.choices[0].message.content
 
     return output
 
 
 def get_all_xes_output_path(
-    is_test=False,
-    is_extracted=False,
-    xes_name="all_traces",
-    activity_key="event_type",
+        is_test=False,
+        is_extracted=False,
+        xes_name="all_traces",
+        activity_key="event_type",
 ):
     """Create the xes file for all journeys."""
     if not (is_test or is_extracted):
@@ -141,6 +130,23 @@ def append_csv():
         for row in content:
             row = row.replace(row[0], str(int(row[0]) + trace_count), 1)
             f.writelines(row)
+
+
+def get_snippet_bounds(index, length):
+    """Extract bounds for a snippet for a given activity index."""
+    # We want to look at a snippet from the patient journey where we take five sentences into account
+    # starting from the current sentence index -2 and ending at the current index +2
+    half_snippet_size = min(max(2, length // 20), 5)
+    lower_bound = max(0, index - half_snippet_size)
+    upper_bound = min(length, index + half_snippet_size + 1)
+
+    # Adjust the bounds if they exceed the boundaries of the patient journey
+    if index < half_snippet_size:
+        upper_bound += abs(index - half_snippet_size)
+    if index > length - half_snippet_size:
+        lower_bound -= abs(index - (length - half_snippet_size))
+
+    return lower_bound, upper_bound
 
 
 def calculate_linear_probability(logprob):

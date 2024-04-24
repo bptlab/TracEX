@@ -26,34 +26,23 @@ class MetricsAnalyzer(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
-        """Measures different metrics while the dataframe is created."""
-        super().execute(df, patient_journey, patient_journey_sentences)
-
-        return self.__measure_metrics(df)
-
-    def __measure_metrics(self, df):
         """Executing the measurement of metrics. The metrics output will be written on disk as a csv file.
         The dataframe without the metrics is returned for visualization."""
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
         metrics_df = df.copy()
-        metrics_df["activity_relevance"] = metrics_df["activity"].apply(
-            self.__rate_activity_relevance
-        )
-
-        metrics_df[
-            ["timestamp_correctness", "correctness_confidence"]
-        ] = metrics_df.apply(
+        metrics_df["activity_relevance"] = metrics_df["activity"].apply(self.__rate_activity_relevance)
+        metrics_df[["timestamp_correctness", "correctness_confidence"]] = metrics_df.apply(
             lambda row: pd.Series(
-                self.__rate_timestamps_correctness(
-                    row["activity"], row["start"], row["end"]
-                )
+                self.__rate_timestamps_correctness(row["activity"], row["start"], row["end"])
             ),
             axis=1,
         )
 
         return df
 
-    def __rate_activity_relevance(self, activity):
+    @staticmethod
+    def __rate_activity_relevance(activity):
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -65,6 +54,7 @@ class MetricsAnalyzer(Module):
         messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
+        category = "No Relevance"  # By default, an activity is not relevant.
         for key in category_mapping:
             if key in response:
                 category = key
@@ -88,4 +78,5 @@ class MetricsAnalyzer(Module):
             messages, logprobs=True, top_logprobs=1
         )
         linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
-        return (timestamp_correctness, linear_prop)
+
+        return timestamp_correctness, linear_prop

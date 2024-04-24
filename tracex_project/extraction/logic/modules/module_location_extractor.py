@@ -22,14 +22,10 @@ class LocationExtractor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """Extracts the location information for each activity."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
 
-        return self.__add_locations(df)
-
-    def __add_locations(self, df):
-        """Adds locations to the activity labels."""
-        name = "attribute_location"
-        df[name] = df["activity"].apply(self.__classify_location)
+        column_name = "attribute_location"
+        df[column_name] = df["activity"].apply(self.__classify_location)
 
         return df
 

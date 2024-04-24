@@ -19,23 +19,38 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
-        """Extracts the cohort from the patient journey."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+    def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
+        """
+        Extracts the cohort from the patient journey and saves the result in the database.
+        """
+        super().execute_and_save(
+            df,
+            patient_journey=patient_journey,
+            patient_journey_sentences=patient_journey_sentences
+        )
 
-        return self.__extract_cohort_tags()
+        cohort_tags = self.__extract_cohort_tags(patient_journey)
+        cohort_pk = self.__save_to_db(cohort_tags)
 
-    def __extract_cohort_tags(self):
+        return cohort_pk
+
+    @staticmethod
+    def __extract_cohort_tags(patient_journey):
         """Extracts information about condition, gender, age, origin and preexisting condition."""
         cohort_data = {}
         for message_list in Prompt.objects.get(name="COHORT_TAG_MESSAGES").text:
             messages = message_list[1:]
             messages.append(
-                {"role": "user", "content": self.patient_journey},
+                {"role": "user", "content": patient_journey},
             )
             tag = u.query_gpt(messages)
             cohort_data[message_list[0]] = tag
 
+        return cohort_data
+
+    @staticmethod
+    def __save_to_db(cohort_data):
+        """Saves the cohort tags to the database."""
         valid_cohort_data = {
             key: value for key, value in cohort_data.items() if value != "N/A"
         }

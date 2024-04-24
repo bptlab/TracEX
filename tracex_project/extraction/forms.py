@@ -5,7 +5,6 @@ from extraction.models import PatientJourney
 from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 
 
-
 class BaseEventForm(forms.Form):
     """Base form for event extraction forms."""
 
