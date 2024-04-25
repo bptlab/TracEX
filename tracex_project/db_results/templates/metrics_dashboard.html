@@ -4,57 +4,70 @@
     <title>Metrics Dashboard</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <script src="{% static '/trace_comparator/js/dashboard.js' %}" defer></script>
 </head>
 <body class="main_body">
-<h2>Metrics Dashboard</h2>
+<h1>Metrics Dashboard</h1>
 <div class="dashboard">
+    <h2>Activity Relevance</h2>
     <div class="row">
         <div class="metric-tile">
-            <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
-            <div class="metric-content">{{ mapping_data_to_ground_truth|safe }} </div>
+            <h3>Most Frequent Category</h3>
+            <div class="number-metric">{{ most_frequent_category_count }}</div>
+            <div class="metric-content">{{ most_frequent_category }} </div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
-        </div>
-        <div class="metric-tile">
-            <h3>Mapping: Ground Truth Activities to <br> Pipeline Activities</h3>
-            <div class="metric-content">{{ mapping_ground_truth_to_data|safe }}</div>
-            <span class="info-icon">&#9432;</span>
-            <div class="info-text">The table presents a comparison between the activities of the ground truth and the corresponding activities of the extraction pipeline. Each activity in the ground truth is being compared with a range of extraction pipeline activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the extraction pipeline and matches the activities based on semantic similarities.</div>
         </div>
     </div>
     <div class="row">
         <div class="metric-tile">
-            <h3>Number of <br> Missing Activities</h3>
-            <div class="number-metric">{{ number_of_missing_activities }}</div>
-            <div class="metric-content">{{ missing_activities|safe }}</div>
+            <h3>Activity Relevance Pie Chart</h3>
+            <div class="metric-content">{{ activity_relevance_pie_chart|safe }}</div>
             <span class="info-icon ">&#9432;</span>
             <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
         </div>
         <div class="metric-tile">
-            <h3>Number of <br> Unexpected Activities</h3>
-            <div class="number-metric">{{ number_of_unexpected_activities }}</div>
-            <div class="metric-content">{{ unexpected_activities|safe }}</div>
+            <h3>Activity Relevance Bar Chart</h3>
+            <div class="metric-content">{{ activity_relevance_bar_chart|safe }}</div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
         </div>
+    </div>
+    <div class="row">
+        <div class="table-container"> {{ relevance_df|safe}}</div>
+    </div>
+    <h2>Timestamp Correctness</h2>
+    <div class="row">
         <div class="metric-tile">
-            <h3>Number of <br> Wrong Orders</h3>
-            <div class="metric-content number-metric">{{ number_of_wrong_orders }}</div>
-            <div class="metric-content">{{ wrong_orders|safe }}</div>
+            <h3>Most Frequent Timestamp Correctness</h3>
+            <div class="number-metric">{{ most_frequent_timestamp_correctness_count }}</div>
+            <div class="metric-content">{{ most_frequent_timestamp_correctness }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric shows extraction pipeline activities which occur in the wrong order based on the ground truth. The "Expected Preceding Activity" should come before "Actual Preceding Activity"</div>
+            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+        </div>
+        <div class="metric-tile">
+            <h3>Average Timestamp Correctness</h3>
+            <div class="number-metric">{{ average_timestamp_correctness }}</div>
+            <span class="info-icon">&#9432;</span>
+            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
         </div>
     </div>
-</div>
-<button id="togglePipelineTable" class="menu_button">Show/Hide Extracted Trace from the Pipeline</button>
-<div id="contentPipeline" style="display: none;">
-    <div>{{ pipeline_output|safe }}</div>
-</div>
-
-<button id="toggleGroundTruthTable" class="menu_button">Show/Hide Ground Truth Trace</button>
-<div id="contentGroundTruth" style="display: none;">
-    <div>{{ ground_truth_output|safe }}</div>
+    <div class="row">
+        <div class="metric-tile">
+            <h3>Timestamp Correctnes Pie Chart</h3>
+            <div class="metric-content">{{ timestamp_correctness_pie_chart|safe }}</div>
+            <span class="info-icon ">&#9432;</span>
+            <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+        </div>
+        <div class="metric-tile">
+            <h3>Timestamp Correctnes Bar Chart</h3>
+            <div class="metric-content">{{ timestamp_correctness_bar_chart|safe }}</div>
+            <span class="info-icon">&#9432;</span>
+            <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="table-container"> {{ timestamp_df|safe}}</div>
+    </div>
 </div>
 
 <a href="{% url 'testing_environment' %}">

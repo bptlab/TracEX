@@ -4,7 +4,7 @@
 .main_body {
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
-    width: 50%;
+    width: 80%;
     margin-top: 0%;
     margin-left: auto;
     margin-right: auto;
@@ -61,10 +61,10 @@ h2 {
     display: none;
 }
 
-.xes_container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
 }
 
 

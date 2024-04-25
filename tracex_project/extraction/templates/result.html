@@ -31,7 +31,7 @@
         <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
         <div id="contentWrapper1" style="display: none;">
             <p><b>This is the event log extracted from the journey above (single trace)</b></p>
-            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+            <div id="xesContent1" class="table-container">{{ xes_html|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
@@ -43,7 +43,7 @@
         <button id="toggleButton2">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
             <p><b>This is the event log enriched by the extracted trace</b></p>
-            <div id="xesContent2" class="xes_container">{{ all_xes_html|safe }}</div>
+            <div id="xesContent2" class="table-container">{{ all_xes_html|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>

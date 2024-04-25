@@ -48,12 +48,12 @@
     </div>
 </div>
 <button id="togglePipelineTable" class="menu_button">Show/Hide Extracted Trace from the Pipeline</button>
-<div id="contentPipeline" style="display: none;">
+<div id="contentPipeline" style="display: none;" class="table-container">
     <div>{{ pipeline_output|safe }}</div>
 </div>
 
 <button id="toggleGroundTruthTable" class="menu_button">Show/Hide Ground Truth Trace</button>
-<div id="contentGroundTruth" style="display: none;">
+<div id="contentGroundTruth" style="display: none;" class="table-container">
     <div>{{ ground_truth_output|safe }}</div>
 </div>
 

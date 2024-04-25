@@ -11,7 +11,7 @@ urlpatterns = [
     ),
     path(
         "db_results/metrics_dashboard/",
-        views.MetricsDasboardView.as_view(),
-        name="metrics_dashboards",
+        views.MetricsDashboardView.as_view(),
+        name="metrics_dashboard",
     ),
 ]
