@@ -13,8 +13,7 @@ from extraction.logic.modules import (
     LocationExtractor,
     MetricsAnalyzer,
 )
-from extraction.models import (Trace, PatientJourney, Event, Cohort)
-from tracex.logic import utils
+from extraction.models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -131,7 +130,9 @@ class Orchestrator:
 
         self.update_progress(view, current_step, "Cohort Tagger")
         self.db_objects_id["cohort"] = (
-            self.get_configuration().modules["cohort_tagging"]().execute_and_save(
+            self.get_configuration()
+            .modules["cohort_tagging"]()
+            .execute_and_save(
                 self.get_data(),
                 patient_journey=patient_journey,
                 patient_journey_sentences=patient_journey_sentences,
@@ -144,7 +145,7 @@ class Orchestrator:
                 module.execute(
                     self.get_data(),
                     patient_journey=patient_journey,
-                    patient_journey_sentences=patient_journey_sentences
+                    patient_journey_sentences=patient_journey_sentences,
                 )
             )
             current_step += 1
@@ -156,7 +157,6 @@ class Orchestrator:
                 latest_id = 0
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case_id", latest_id + 1)
-            self.get_data().to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     def save_results_to_db(self):
         """Save the trace to the database."""
