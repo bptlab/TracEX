@@ -4,16 +4,16 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from extraction.models import Trace, PatientJourney, Event, Cohort
 from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
     ActivityLabeler,
     TimeExtractor,
-    LocationExtractor,
     EventTypeClassifier,
+    LocationExtractor,
     MetricsAnalyzer,
 )
+from extraction.models import Trace, PatientJourney, Event, Cohort
 
 
 @dataclass
@@ -29,10 +29,10 @@ class ExtractionConfiguration:
     locations: Optional[List[str]] = None
     modules = {
         "preprocessing": Preprocessor,
-        "activity_labeling": ActivityLabeler,
         "cohort_tagging": CohortTagger,
-        "event_type_classification": EventTypeClassifier,
+        "activity_labeling": ActivityLabeler,
         "time_extraction": TimeExtractor,
+        "event_type_classification": EventTypeClassifier,
         "location_extraction": LocationExtractor,
         "metrics_analyzer": MetricsAnalyzer,
     }
@@ -132,14 +132,20 @@ class Orchestrator:
         self.db_objects_id["cohort"] = (
             self.get_configuration()
             .modules["cohort_tagging"]()
-            .execute_and_save(self.get_data(), patient_journey_sentences)
+            .execute_and_save(
+                self.get_data(),
+                patient_journey=patient_journey,
+                patient_journey_sentences=patient_journey_sentences,
+            )
         )
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
             self.set_data(
                 module.execute(
-                    self.get_data(), patient_journey, patient_journey_sentences
+                    self.get_data(),
+                    patient_journey=patient_journey,
+                    patient_journey_sentences=patient_journey_sentences,
                 )
             )
             current_step += 1

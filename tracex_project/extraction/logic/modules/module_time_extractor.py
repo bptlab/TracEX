@@ -5,7 +5,7 @@ from django.conf import settings
 import pandas as pd
 
 from extraction.logic.module import Module
-from extraction.logic import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -24,7 +24,8 @@ class TimeExtractor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """This function extracts the time information from the patient journey."""
-        super().execute(df, patient_journey, patient_journey_sentences)
+        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
+
         df["start"] = df.apply(self.__extract_start_date, axis=1)
         df["end"] = df.apply(self.__extract_end_date, axis=1)
         df = self.__post_processing(df)
@@ -34,15 +35,16 @@ class TimeExtractor(Module):
 
     def __extract_start_date(self, row):
         """Extract the start date for a given activity."""
-        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        messages = p.START_DATE_MESSAGES[:]
+        lower, upper = u.get_snippet_bounds(index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences))
+        patient_journey_snippet = ". ".join(self.patient_journey_sentences[lower:upper])
+        messages = Prompt.objects.get(name="START_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",
                 "content": "Text: "
-                + patient_journey_snippet
-                + "\nActivity label: "
-                + row["activity"],
+                           + patient_journey_snippet
+                           + "\nActivity label: "
+                           + row["activity"],
             }
         )
         start = u.query_gpt(messages)
@@ -51,17 +53,18 @@ class TimeExtractor(Module):
 
     def __extract_end_date(self, row):
         """Extract the end date for a given activity."""
-        patient_journey_snippet = self.__get_snippet(row["sentence_id"])
-        messages = p.END_DATE_MESSAGES[:]
+        lower, upper = u.get_snippet_bounds(index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences))
+        patient_journey_snippet = ". ".join(self.patient_journey_sentences[lower:upper])
+        messages = Prompt.objects.get(name="END_DATE_MESSAGES").text
         messages.append(
             {
                 "role": "user",
                 "content": "\nText: "
-                + patient_journey_snippet
-                + "\nActivity label: "
-                + row["activity"]
-                + "\nStart date: "
-                + row["start"],
+                           + patient_journey_snippet
+                           + "\nActivity label: "
+                           + row["activity"]
+                           + "\nStart date: "
+                           + row["start"],
             },
         )
         end = u.query_gpt(messages)
@@ -104,24 +107,3 @@ class TimeExtractor(Module):
         df = df.apply(fix_end_dates, axis=1)
 
         return df
-
-    @staticmethod
-    def is_valid_date_format(date_string, date_format):
-        """Determine if a string matches the given date format."""
-        try:
-            datetime.strptime(date_string, date_format)
-
-            return True
-        except ValueError:
-            return False
-
-    def __get_snippet(self, sentence_id):
-        """Extract the snippet for a given activity."""
-        # We want to look at a snippet from the patient journey where we take five sentences into account
-        # starting from the current sentence index -2 and ending at the current index +2
-        # (writing +3 as python is exclusive on the upper bound)
-        lower = max(0, int(sentence_id) - 2)
-        upper = min(int(sentence_id) + 3, len(self.patient_journey_sentences))
-        snippet = ". ".join(self.patient_journey_sentences[lower:upper])
-
-        return snippet
