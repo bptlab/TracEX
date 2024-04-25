@@ -13,15 +13,18 @@
     <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
     <p>Please select the patient journey you want to upload below.</p>
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post">
         {% csrf_token %}
-        {% for journey in all_patient_journeys %}
-            <input type="radio" name="journey" value="{{ journey.id }}">
-            <label for="{{ journey.id }}">{{ journey.name }}</label><br>
-        {% endfor %}
-        <input type="submit" value="Select Journey" class="button">
+        {{ form.as_p }}
+        <button type="submit" class="menu_button">Select this Patient Journey</button>
     </form>
 
+    <a href="{% url 'journey_details' %}">
+        <button class="menu_button">Return to method selection</button>
+    </a>
+    <a href="{% url 'choose_input_method' %}">
+        <button class="menu_button">Return to method selection</button>
+    </a>
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX menu</button>
     </a>
