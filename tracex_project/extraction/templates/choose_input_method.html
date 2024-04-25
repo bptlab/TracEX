@@ -1,38 +1,31 @@
 <!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Upload Journey</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Input Method</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
-
-
-<body class="main_body">
+<body>
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-    <h2>Upload Patient Journey</h2>
+    <h2>Choose Input Method</h2>
     <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
     <p>Please select the patient journey you want to upload below.</p>
-
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
         <div class="form-row">
             <div class="form-column">
-                {{ form.file.label_tag }} {{ form.file }}
-                {{ form.file.errors }}
-                <p>{{ form.file.help_text }}</p>
+                <a href='{% url 'journey_upload' %}'>
+                    <button class="menu_button">Upload a patient journey</button>
+                </a>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-column">
-                {{ form.name.label_tag }} {{ form.name }}
-                {{ form.name.errors }}
-                <p>{{ form.name.help_text }}</p>
+                <a href='{% url 'journey_select' %}'>
+                    <button class="menu_button">Select a patient journey</button>
+                </a>
             </div>
         </div>
-
-        <input type="submit" value="Next" class="button">
-    </form>
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>
+</html>

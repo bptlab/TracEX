@@ -14,8 +14,9 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
 from tracex.logic import utils
-from extraction.forms import JourneyForm, ResultForm, FilterForm
+from extraction.forms import JourneyUploadForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.models import PatientJourney
 
 
 # necessary due to Windows error. see information for your os here:
@@ -25,10 +26,16 @@ os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
+class JourneyInputSelectView(generic.TemplateView):
+    """View for choosing if you want to upload a patient journey or select from the database."""
+
+    template_name = "choose_input_method.html"
+
+
 class JourneyInputView(generic.CreateView):
     """View for uploading a patient journey."""
 
-    form_class = JourneyForm
+    form_class = JourneyUploadForm
     template_name = "upload_journey.html"
     success_url = reverse_lazy("journey_filter")
 
@@ -43,6 +50,15 @@ class JourneyInputView(generic.CreateView):
         orchestrator = Orchestrator(configuration)
         orchestrator.set_db_objects_id("patient_journey", self.object.id)
         return response
+
+
+class JourneySelectView(generic.ListView):
+    """View for selecting a patient journey from the database."""
+    model = PatientJourney
+    template_name = "select_journey.html"
+    context_object_name = "all_patient_journeys"
+    success_url = reverse_lazy("journey_filter")
+
 
 
 class JourneyFilterView(generic.FormView):

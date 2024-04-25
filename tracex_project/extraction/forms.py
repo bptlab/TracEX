@@ -61,8 +61,8 @@ class BaseEventForm(forms.Form):
             )
 
 
-class JourneyForm(forms.ModelForm):
-    """Form for extracting events from a patient journey."""
+class JourneyUploadForm(forms.ModelForm):
+    """Form for uploading your own patient journey."""
 
     class Meta:
         """Metaclass for JourneyForm, provides additional parameters for the form."""
