@@ -27,7 +27,7 @@ class BaseEventForm(forms.Form):
         choices=ACTIVITY_KEYS,
         widget=forms.RadioSelect(),
         required=True,
-        initial=ACTIVITY_KEYS[0][0],
+        initial=ACTIVITY_KEYS[0][0], # selects the first activity-key in the list, should be event_type
     )
 
     def clean_event_types(self):
