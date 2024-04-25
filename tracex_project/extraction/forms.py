@@ -90,7 +90,10 @@ class JourneyUploadForm(forms.ModelForm):
 class JourneySelectForm(forms.Form):
     """Form for selecting ground truth patient journey."""
 
-    selected_patient_journey = forms.ChoiceField(choices=[])
+    selected_patient_journey = forms.ChoiceField(
+        choices=[],
+        widget=forms.Select(attrs={"id": "patient-journey-select"}),
+    )
 
     def __init__(self, *args, **kwargs):
         """Initializes the PatientJourneySelectForm."""
@@ -103,7 +106,6 @@ class JourneySelectForm(forms.Form):
         """Retrieves the available patient journey choices from the database."""
         patient_journeys = PatientJourney.manager.all()
         choices = [(pj.name, pj.name) for pj in patient_journeys]
-
         return choices
 
 

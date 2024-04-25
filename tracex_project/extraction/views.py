@@ -63,7 +63,7 @@ class JourneySelectView(generic.FormView):
     model = PatientJourney
     form_class = JourneySelectForm
     template_name = "select_journey.html"
-    success_url = reverse_lazy("journey_filter")
+    success_url = reverse_lazy("journey_details")
 
     def form_valid(self, form):
         """Pass selected journey to orchestrator."""
@@ -73,7 +73,7 @@ class JourneySelectView(generic.FormView):
             patient_journey=patient_journey_entry.patient_journey,
         )
         orchestrator = Orchestrator(configuration=configuration)
-        return super().form_valid(form)
+        return redirect("journey_details", pk=patient_journey_entry.pk)
 
 
 class JourneyDetailView(generic.DetailView):
