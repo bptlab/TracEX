@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "patient_journey_generator",
     "extraction",
     "trace_comparator",
+    "db_results",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

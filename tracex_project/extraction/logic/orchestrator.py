@@ -143,7 +143,6 @@ class Orchestrator:
                     self.get_data(), patient_journey, patient_journey_sentences
                 )
             )
-            print(self.get_data())
             current_step += 1
 
         if self.get_data() is not None:

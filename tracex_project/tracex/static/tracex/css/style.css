@@ -286,6 +286,15 @@ text-align: center;
     margin-bottom: 5%;
 }
 
+.metrics_dashboard_logo{
+    width: 350px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
 /* PAGE TRANSITIONS */
 .landing_page_body, .selection_body, .main_body {
     animation: transitionIn 1s;

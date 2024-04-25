@@ -1,0 +1,17 @@
+"""tracex URL Configuration for database result app"""
+from django.urls import path
+from . import views
+
+
+urlpatterns = [
+    path(
+        "db_results/metrics_overview/",
+        views.MetricsOverviewView.as_view(),
+        name="metrics_overview",
+    ),
+    path(
+        "db_results/metrics_dashboard/",
+        views.MetricsDasboardView.as_view(),
+        name="metrics_dashboards",
+    ),
+]
