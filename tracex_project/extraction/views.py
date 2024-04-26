@@ -21,8 +21,6 @@ from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
 os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
 
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
-
 
 class JourneyInputView(generic.CreateView):
     """View for uploading a patient journey."""
@@ -41,6 +39,7 @@ class JourneyInputView(generic.CreateView):
         configuration = ExtractionConfiguration(patient_journey=content)
         orchestrator = Orchestrator(configuration)
         orchestrator.set_db_objects_id("patient_journey", self.object.id)
+
         return response
 
 
@@ -59,7 +58,7 @@ class JourneyFilterView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        """Run extraction pipeline and save the filter settings in the cache."""
+        """Run extraction pipeline and save the filter settings in the Orchestrator's configuration."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
@@ -67,7 +66,6 @@ class JourneyFilterView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         orchestrator.run(view=self)
-        self.request.session["is_extracted"] = True
         self.request.session.save()
 
         if self.request.session.get("is_comparing") is True:
@@ -106,27 +104,11 @@ class ResultView(generic.FormView):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         single_trace_df = orchestrator.get_data()
-        activity_key = orchestrator.get_configuration().activity_key
+        configuration = orchestrator.get_configuration()
+        activity_key = configuration.activity_key
 
         # 1. Set the filter dictionary based on the activity key
-        match (activity_key):
-            case "activity":
-                filter_dict = {
-                    "attribute_location": orchestrator.get_configuration().locations,
-                    "event_type": orchestrator.get_configuration().event_types,
-                }
-            case "event_type":
-                filter_dict = {
-                    "attribute_location": orchestrator.get_configuration().locations,
-                    "concept:name": orchestrator.get_configuration().event_types,
-                }
-            case "attribute_location":
-                filter_dict = {
-                    "concept:name": orchestrator.get_configuration().locations,
-                    "event_type": orchestrator.get_configuration().event_types,
-                }
-            case _:
-                filter_dict = {}
+        filter_dict = self.__configure_filter(activity_key, configuration)
 
         # 2. Filter the single journey dataframe
         single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
@@ -172,15 +154,15 @@ class ResultView(generic.FormView):
                 "dfg_img": utils.Conversion.create_dfg_from_df(
                     single_trace_df_filtered
                 ),
-                "xes_html": utils.Conversion.create_html_from_xes(
+                "xes_html": utils.Conversion.create_html_table_from_df(
                     single_trace_df_filtered
-                ).getvalue(),
+                ),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
                     all_traces_df_filtered
                 ),
-                "all_xes_html": utils.Conversion.create_html_from_xes(
+                "all_xes_html": utils.Conversion.create_html_table_from_df(
                     all_traces_df_filtered
-                ).getvalue(),
+                ),
             }
         )
 
@@ -210,6 +192,26 @@ class ResultView(generic.FormView):
         )
 
         return super().form_valid(form)
+
+    @staticmethod
+    def __configure_filter(activity_key, configuration):
+        filter_mappings = {
+            "activity": {
+                "attribute_location": configuration.locations,
+                "event_type": configuration.event_types,
+            },
+            "event_type": {
+                "attribute_location": configuration.locations,
+                "concept:name": configuration.event_types,
+            },
+            "attribute_location": {
+                "concept:name": configuration.locations,
+                "event_type": configuration.event_types,
+            },
+        }
+        filter_dict = filter_mappings.get(activity_key, {})
+
+        return filter_dict
 
 
 class SaveSuccessView(generic.TemplateView):

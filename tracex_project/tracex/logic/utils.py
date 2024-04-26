@@ -110,28 +110,26 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["case_id"] = df["case_id"].astype(str)
-        df["start"] = pd.to_datetime(df["start"])
-        df["end"] = pd.to_datetime(df["end"])
+        df["case:concept:name"] = df["case:concept:name"].astype(str)
         df = df.rename(
             columns={
                 activity_key: "concept:name",
-                "case_id": "case:concept:name",
-                "start": "time:timestamp",
-                "end": "time:end_timestamp",
-                "duration": "time:duration",
             }
         )
 
         return df
 
     @staticmethod
-    def create_html_from_xes(df):
-        """Create html table from xes file."""
-        xes_html_buffer = StringIO()
-        pd.DataFrame.to_html(df, buf=xes_html_buffer)
+    def create_html_table_from_df(df: pd.DataFrame):
+        """Create html table from DataFrame."""
+        html_buffer = StringIO()
+        df.to_html(
+            buf=html_buffer,
+            columns=df.drop(columns=["start_timestamp"]).columns,
+            index=False,
+        )
 
-        return xes_html_buffer
+        return html_buffer.getvalue()
 
     @staticmethod
     def create_dfg_from_df(df):
@@ -206,22 +204,22 @@ class DataFrameUtilities:
             for event in events:
                 event_data.append(
                     {
-                        "case_id": trace.id,
+                        "case:concept:name": trace.id,
                         "activity": event.activity,
                         "event_type": event.event_type,
-                        "start": event.start,
-                        "end": event.end,
-                        "duration": event.duration,
+                        "time:timestamp": event.start,
+                        "time:end_timestamp": event.end,
+                        "time:duration": event.duration,
                         "attribute_location": event.location,
                     }
                 )
         events_df = pd.DataFrame(event_data)
 
-        return events_df.sort_values(by="start", inplace=False)
+        return events_df.sort_values(by="time:timestamp", inplace=False)
 
     @staticmethod
     def filter_dataframe(df, filter_dict):
-        """Filter a dataframe."""
+        """Filter a dataframe using a dictionary with column names."""
         filter_conditions = [
             df[column].isin(values)
             if column in df.columns
