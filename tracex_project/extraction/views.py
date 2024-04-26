@@ -103,23 +103,72 @@ class ResultView(generic.FormView):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        single_trace_df = orchestrator.get_data()
         activity_key = orchestrator.get_configuration().activity_key
-
         filter_dict = {
             "event_type": orchestrator.get_configuration().event_types,
             "attribute_location": orchestrator.get_configuration().locations,
         }
 
+        single_trace_df = self.build_single_trace_df(filter_dict)
+        all_traces_df = self.build_all_traces_df(filter_dict, single_trace_df)
+
+        context.update(
+            {
+                "form": ResultForm(
+                    initial={
+                        "event_types": orchestrator.get_configuration().event_types,
+                        "locations": orchestrator.get_configuration().locations,
+                        "activity_key": activity_key,
+                    }
+                ),
+                "journey": orchestrator.get_configuration().patient_journey,
+                "dfg_img": utils.Conversion.create_dfg_from_df(
+                    df=single_trace_df,
+                    activity_key=activity_key,
+                ),
+                "single_trace_table": utils.Conversion.create_html_table_from_df(
+                    single_trace_df
+                ),
+                "all_dfg_img": utils.Conversion.create_dfg_from_df(
+                    df=all_traces_df,
+                    activity_key=activity_key,
+                ),
+                "all_traces_table": utils.Conversion.create_html_table_from_df(
+                    all_traces_df
+                ),
+            }
+        )
+
+        # Generate XES files
+        single_trace_xes = utils.Conversion.dataframe_to_xes(
+            single_trace_df, name="single_trace.xes", activity_key=activity_key
+        )
+        all_traces_xes = utils.Conversion.dataframe_to_xes(
+            all_traces_df, name="all_traces.xes", activity_key=activity_key
+        )
+
+        # Store XES in session for retrieval in DownloadXesView
+        self.request.session["single_trace_xes"] = str(single_trace_xes)
+        self.request.session["all_traces_xes"] = str(all_traces_xes)
+
+        return context
+
+    @staticmethod
+    def build_single_trace_df(filter_dict):
+        single_trace_df = Orchestrator.get_instance().get_data()
         single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             single_trace_df, filter_dict
         )
 
-        # 3. Append the single journey dataframe to the all traces dataframe
+        return single_trace_df_filtered
 
+    @staticmethod
+    def build_all_traces_df(filter_dict, single_trace_df_filtered):
+        orchestrator = Orchestrator.get_instance()
         condition = Cohort.manager.get(
             pk=orchestrator.get_db_objects_id("cohort")
         ).condition  # get only those traces that belong to the same condition as the newly extracted trace
+
         all_traces_df = utils.DataFrameUtilities.get_events_df(
             Q(cohort__condition=condition)
         )
@@ -138,47 +187,7 @@ class ResultView(generic.FormView):
         else:
             all_traces_df_filtered = single_trace_df_filtered
 
-        # 4. Save all information in context to display on website
-        context.update(
-            {
-                "form": ResultForm(
-                    initial={
-                        "event_types": orchestrator.get_configuration().event_types,
-                        "locations": orchestrator.get_configuration().locations,
-                        "activity_key": activity_key,
-                    }
-                ),
-                "journey": orchestrator.get_configuration().patient_journey,
-                "dfg_img": utils.Conversion.create_dfg_from_df(
-                    df=single_trace_df_filtered,
-                    activity_key=activity_key,
-                ),
-                "single_trace_table": utils.Conversion.create_html_table_from_df(
-                    single_trace_df_filtered
-                ),
-                "all_dfg_img": utils.Conversion.create_dfg_from_df(
-                    df=all_traces_df_filtered,
-                    activity_key=activity_key,
-                ),
-                "all_traces_table": utils.Conversion.create_html_table_from_df(
-                    all_traces_df_filtered
-                ),
-            }
-        )
-
-        # 5 .Generate XES files
-        single_trace_xes = utils.Conversion.dataframe_to_xes(
-            single_trace_df_filtered, name="single_trace.xes", activity_key=activity_key
-        )
-        all_traces_xes = utils.Conversion.dataframe_to_xes(
-            all_traces_df_filtered, name="all_traces.xes", activity_key=activity_key
-        )
-
-        # 6. Store XES in session for retrieval in DownloadXesView
-        self.request.session["single_trace_xes"] = str(single_trace_xes)
-        self.request.session["all_traces_xes"] = str(all_traces_xes)
-
-        return context
+        return all_traces_df_filtered
 
     def form_valid(self, form):
         """Save the filter settings in the cache."""
