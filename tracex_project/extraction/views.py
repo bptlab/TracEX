@@ -69,10 +69,6 @@ class JourneySelectView(generic.FormView):
         """Pass selected journey to orchestrator."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
-        configuration = ExtractionConfiguration(
-            patient_journey=patient_journey_entry.patient_journey,
-        )
-        orchestrator = Orchestrator(configuration=configuration)
         return redirect("journey_details", pk=patient_journey_entry.pk)
 
 

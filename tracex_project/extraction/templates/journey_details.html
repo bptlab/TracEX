@@ -9,9 +9,8 @@
 
 <body class="main_body">
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-    <h2>Details of selected Patient Journey</h2>
-    <p>Name: {{ patient_journey.name }}</p>
-    <p>Content: {{ patient_journey.patient_journey }}</p>
+    <h2>Content of "{{ patient_journey.name }}"</h2>
+    {{ patient_journey.patient_journey }}
 
     <form method="post" action="{% url 'journey_details' pk=patient_journey.pk %}">
         {% csrf_token %}
