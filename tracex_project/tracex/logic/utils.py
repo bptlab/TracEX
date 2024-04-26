@@ -210,12 +210,10 @@ class DataFrameUtilities:
     def get_events_df(query: Q = None):
         """Get all events from the database, or filter them by a query and return them as a dataframe."""
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
-
         if not traces.exists():
-            raise ObjectDoesNotExist("No traces match the provided query.")
+            return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
-
         for trace in traces:
             events = trace.events.all()
             for event in events:
