@@ -1,6 +1,6 @@
 """This file contains the views for the extraction app.
-Some unused imports have to be made because of architectural requirement."""
-# pylint: disable=unused-argument
+Some unused imports and variables have to be made because of architectural requirement."""
+# pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
@@ -87,6 +87,7 @@ class JourneyDetailView(generic.DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
+        """Redirect to the FilterView afterwards."""
         patient_journey_id = self.request.session.get("patient_journey_id")
         patient_journey = PatientJourney.manager.get(pk=patient_journey_id)
         configuration = ExtractionConfiguration(

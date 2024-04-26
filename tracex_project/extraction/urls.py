@@ -15,7 +15,7 @@ urlpatterns = [
         "extraction/select/", views.JourneySelectView.as_view(), name="journey_select"
     ),
     path(
-        "extraction/patient_journey/<int:pk>/",
+        "extraction/select/<int:pk>/",
         views.JourneyDetailView.as_view(),
         name="journey_details",
     ),
