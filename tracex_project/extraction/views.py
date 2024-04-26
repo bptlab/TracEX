@@ -122,7 +122,9 @@ class ResultView(generic.FormView):
         # query = Q(cohort__condition=condition)
         all_traces_df = utils.DataFrameUtilities.get_events_df()
         if not all_traces_df.empty:
-            utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
+            utils.Conversion.align_df_datatypes(
+                source_df=single_trace_df_filtered, target_df=all_traces_df
+            )
             all_traces_df = pd.concat(
                 [all_traces_df, single_trace_df_filtered],
                 ignore_index=True,
@@ -223,7 +225,8 @@ class DownloadXesView(View):
 
         return self.prepare_response(files_to_download)
 
-    def get_trace_types(self, request):
+    @staticmethod
+    def get_trace_types(request):
         """Retrieves a list of trace types from the POST data."""
 
         return request.POST.getlist("trace_type[]")
@@ -241,7 +244,8 @@ class DownloadXesView(View):
 
         return files_to_download
 
-    def process_trace_type(self, request, trace_type):
+    @staticmethod
+    def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
         if trace_type == "all_traces":
             return request.session.get("all_traces_xes")
@@ -258,7 +262,8 @@ class DownloadXesView(View):
         return self.zip_files_response(files_to_download)
 
     # pylint: disable=consider-using-with
-    def single_file_response(self, file_path):
+    @staticmethod
+    def single_file_response(file_path):
         """Prepares a file if there is only a single XES file."""
         file = open(file_path, "rb")
         response = FileResponse(file, as_attachment=True)
@@ -268,7 +273,8 @@ class DownloadXesView(View):
 
         return response
 
-    def zip_files_response(self, files_to_download):
+    @staticmethod
+    def zip_files_response(files_to_download):
         """Prepares a zip file if there are multiple XES files using a temporary file."""
         temp_zip = NamedTemporaryFile(mode="w+b", suffix=".zip", delete=False)
         zipf = zipfile.ZipFile(temp_zip, "w", zipfile.ZIP_DEFLATED)
