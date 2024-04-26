@@ -104,16 +104,13 @@ class ResultView(generic.FormView):
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         single_trace_df = orchestrator.get_data()
-        configuration = orchestrator.get_configuration()
-        activity_key = configuration.activity_key
+        activity_key = orchestrator.get_configuration().activity_key
 
-        # 1. Set the filter dictionary based on the activity key
-        filter_dict = self.__configure_filter(activity_key, configuration)
+        filter_dict = {
+            "event_type": orchestrator.get_configuration().event_types,
+            "attribute_location": orchestrator.get_configuration().locations,
+        }
 
-        # 2. Filter the single journey dataframe
-        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            single_trace_df, activity_key
-        )
         single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             single_trace_df, filter_dict
         )
@@ -125,9 +122,6 @@ class ResultView(generic.FormView):
         # query = Q(cohort__condition=condition)
         all_traces_df = utils.DataFrameUtilities.get_events_df()
         if not all_traces_df.empty:
-            all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-                all_traces_df, activity_key
-            )
             utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
             all_traces_df = pd.concat(
                 [all_traces_df, single_trace_df_filtered],
@@ -147,20 +141,22 @@ class ResultView(generic.FormView):
                     initial={
                         "event_types": orchestrator.get_configuration().event_types,
                         "locations": orchestrator.get_configuration().locations,
-                        "activity_key": orchestrator.get_configuration().activity_key,
+                        "activity_key": activity_key,
                     }
                 ),
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
-                    single_trace_df_filtered
+                    df=single_trace_df_filtered,
+                    activity_key=activity_key,
                 ),
-                "xes_html": utils.Conversion.create_html_table_from_df(
+                "single_trace_table": utils.Conversion.create_html_table_from_df(
                     single_trace_df_filtered
                 ),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
-                    all_traces_df_filtered
+                    df=all_traces_df_filtered,
+                    activity_key=activity_key,
                 ),
-                "all_xes_html": utils.Conversion.create_html_table_from_df(
+                "all_traces_table": utils.Conversion.create_html_table_from_df(
                     all_traces_df_filtered
                 ),
             }
@@ -168,10 +164,10 @@ class ResultView(generic.FormView):
 
         # 5 .Generate XES files
         single_trace_xes = utils.Conversion.dataframe_to_xes(
-            single_trace_df_filtered, "single_trace.xes"
+            single_trace_df_filtered, name="single_trace.xes", activity_key=activity_key
         )
         all_traces_xes = utils.Conversion.dataframe_to_xes(
-            all_traces_df_filtered, "all_traces.xes"
+            all_traces_df_filtered, name="all_traces.xes", activity_key=activity_key
         )
 
         # 6. Store XES in session for retrieval in DownloadXesView
@@ -192,26 +188,6 @@ class ResultView(generic.FormView):
         )
 
         return super().form_valid(form)
-
-    @staticmethod
-    def __configure_filter(activity_key, configuration):
-        filter_mappings = {
-            "activity": {
-                "attribute_location": configuration.locations,
-                "event_type": configuration.event_types,
-            },
-            "event_type": {
-                "attribute_location": configuration.locations,
-                "concept:name": configuration.event_types,
-            },
-            "attribute_location": {
-                "concept:name": configuration.locations,
-                "event_type": configuration.event_types,
-            },
-        }
-        filter_dict = filter_mappings.get(activity_key, {})
-
-        return filter_dict
 
 
 class SaveSuccessView(generic.TemplateView):

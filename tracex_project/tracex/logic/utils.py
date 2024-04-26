@@ -110,33 +110,48 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["case:concept:name"] = df["case:concept:name"].astype(str)
-        df = df.rename(
+        df_renamed = df.rename(
             columns={
                 activity_key: "concept:name",
-            }
+            },
+            inplace=False,
         )
+        df_renamed["case:concept:name"] = df["case:concept:name"].astype(str)
 
-        return df
+        return df_renamed
 
     @staticmethod
     def create_html_table_from_df(df: pd.DataFrame):
-        """Create html table from DataFrame."""
+        """Create html table from DataFrame and rename columns for better readability."""
+        df_renamed = df.rename(
+            columns={
+                "case:concept:name": "Case ID",
+                "activity": "Activity",
+                "event_type": "Event Type",
+                "time:timestamp": "Start Timestamp",
+                "time:end_timestamp": "End Timestamp",
+                "time:duration": "Duration",
+                "attribute_location": "Location",
+            },
+            inplace=False,
+        )
         html_buffer = StringIO()
-        df.to_html(
+        df_renamed.to_html(
             buf=html_buffer,
-            columns=df.drop(columns=["start_timestamp"]).columns,
             index=False,
         )
 
         return html_buffer.getvalue()
 
     @staticmethod
-    def create_dfg_from_df(df):
+    def create_dfg_from_df(df, activity_key):
         """Create png image from df."""
         dfg_img_buffer = BytesIO()
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
+        )
         output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "time:timestamp", "case:concept:name"
+            df_renamed, "concept:name", "time:timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
@@ -166,18 +181,20 @@ class Conversion:
         return source_df
 
     @staticmethod
-    def dataframe_to_xes(df, name):
+    def dataframe_to_xes(df, name, activity_key):
         """Conversion from dataframe to xes file."""
-
-        # Sorting Dataframe for start timestamp
-        df = df.groupby("case:concept:name", group_keys=False, sort=False).apply(
-            lambda x: x.sort_values(by="time:timestamp", inplace=False)
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
         )
+        # Sorting Dataframe for start timestamp
+        df_renamed = df_renamed.groupby(
+            "case:concept:name", group_keys=False, sort=False
+        ).apply(lambda x: x.sort_values(by="time:timestamp", inplace=False))
 
         # Converting DataFrame to XES
         xes_file = output_path / name
         pm4py.write_xes(
-            log=df,
+            log=df_renamed,
             file_path=xes_file,
             case_id_key="case:concept:name",
             timestamp_key="time:timestamp",
