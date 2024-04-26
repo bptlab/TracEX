@@ -163,7 +163,7 @@ class ResultView(generic.FormView):
         return single_trace_df_filtered
 
     @staticmethod
-    def build_all_traces_df(filter_dict, single_trace_df_filtered):
+    def build_all_traces_df(filter_dict, single_trace_df):
         orchestrator = Orchestrator.get_instance()
         condition = Cohort.manager.get(
             pk=orchestrator.get_db_objects_id("cohort")
@@ -172,29 +172,25 @@ class ResultView(generic.FormView):
         all_traces_df = utils.DataFrameUtilities.get_events_df(
             Q(cohort__condition=condition)
         )
-        if not all_traces_df.empty:
-            utils.Conversion.align_df_datatypes(
-                source_df=single_trace_df_filtered, target_df=all_traces_df
-            )
+        if not all_traces_df.empty and not single_trace_df.empty:
             all_traces_df = pd.concat(
-                [all_traces_df, single_trace_df_filtered],
+                [all_traces_df, single_trace_df],
                 ignore_index=True,
                 axis="rows",
             )
-            all_traces_df_filtered = utils.DataFrameUtilities.filter_dataframe(
+        if not all_traces_df.empty:
+            all_traces_df = utils.DataFrameUtilities.filter_dataframe(
                 all_traces_df, filter_dict
             )
-        else:
-            all_traces_df_filtered = single_trace_df_filtered
+        elif not single_trace_df.empty:
+            all_traces_df = single_trace_df
 
-        return all_traces_df_filtered
+        return all_traces_df
 
     def form_valid(self, form):
         """Save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
-            # This should not be necessary, unspecified values should be unchanged
-            patient_journey=orchestrator.get_configuration().patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],

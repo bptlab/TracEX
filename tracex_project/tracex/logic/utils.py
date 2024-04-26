@@ -174,9 +174,11 @@ class Conversion:
         """Aligns the datatypes of two dataframes."""
         for column in source_df.columns:
             if column in target_df.columns and not is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].astype(target_df[column].dtype)
+                source_df.loc[:, column] = source_df[column].astype(
+                    target_df[column].dtype
+                )
             elif is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].dt.tz_localize(tz=None)
+                source_df.loc[:, column] = source_df[column].dt.tz_localize(tz=None)
 
         return source_df
 
