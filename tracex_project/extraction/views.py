@@ -5,17 +5,17 @@ import zipfile
 import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
-
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
+from extraction.models import Cohort
 from tracex.logic import utils
 from extraction.forms import JourneyForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -117,10 +117,12 @@ class ResultView(generic.FormView):
 
         # 3. Append the single journey dataframe to the all traces dataframe
 
-        # TODO: remove comment once cohort is implemented
-        # condition = Cohort.manager.get(pk=orchestrator.get_db_objects_id("cohort")).condition
-        # query = Q(cohort__condition=condition)
-        all_traces_df = utils.DataFrameUtilities.get_events_df()
+        condition = Cohort.manager.get(
+            pk=orchestrator.get_db_objects_id("cohort")
+        ).condition  # get only those traces that belong to the same condition as the newly extracted trace
+        all_traces_df = utils.DataFrameUtilities.get_events_df(
+            Q(cohort__condition=condition)
+        )
         if not all_traces_df.empty:
             utils.Conversion.align_df_datatypes(
                 source_df=single_trace_df_filtered, target_df=all_traces_df
