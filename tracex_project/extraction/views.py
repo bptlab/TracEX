@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 from tracex.logic import utils
 from extraction.forms import JourneyForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.models import Trace, Event, Cohort
 
 
 # necessary due to Windows error. see information for your os here:
@@ -307,3 +308,33 @@ class DownloadXesView(View):
         ] = 'attachment; filename="downloaded_xes_files.zip"'
 
         return response
+
+
+class EvaluationView(generic.FormView):
+    """View for displaying all extracted traces and DFG image with filter selection."""
+
+    form_class = ResultForm
+    template_name = "evaluation.html"
+    success_url = reverse_lazy("evaluation")
+
+    def get_context_data(self, **kwargs):
+        """Prepare the data for the evaluation page."""
+        context = super().get_context_data(**kwargs)
+        activity_key = ExtractionConfiguration().activity_key
+
+        # Query the database to get all traces
+        all_traces_df = utils.DataFrameUtilities.get_events_df()
+
+        # Prepare the DataFrame for XES conversion and DFG creation
+        all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
+            all_traces_df, activity_key
+        )
+
+        context.update(
+            {
+                "all_dfg_img": utils.Conversion.create_dfg_from_df(all_traces_df),
+                "all_traces_df": all_traces_df,
+            }
+        )
+
+        return context

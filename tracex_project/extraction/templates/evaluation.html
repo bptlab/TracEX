@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation View</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
+<body class="main_body">
+    <h1>Evaluation View</h1>
+
+    <div class="dfg-container">
+        <div>
+            <p><b>All Traces (DFG)</b></p>
+            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+        </div>
+    </div>
+
+    <div>
+        <p><b>All Traces Table</b></p>
+        <!-- You will need to implement a way to display the all_traces_df DataFrame here -->
+    </div>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX Menu</button>
+    </a>
+</body>
+</html>
