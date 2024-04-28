@@ -317,6 +317,7 @@ class EvaluationView(generic.FormView):
     template_name = "evaluation.html"
     success_url = reverse_lazy("evaluation")
 
+    # TODO: Adjust get_context_data and form_valid so that the filters are applied to the data
     def get_context_data(self, **kwargs):
         """Prepare the data for the evaluation page."""
         context = super().get_context_data(**kwargs)
@@ -330,11 +331,51 @@ class EvaluationView(generic.FormView):
             all_traces_df, activity_key
         )
 
+        xes_html = utils.Conversion.create_html_from_xes(all_traces_df).getvalue()
+
         context.update(
             {
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(all_traces_df),
                 "all_traces_df": all_traces_df,
+                "xes_html": xes_html,
             }
         )
 
         return context
+
+    def form_valid(self, form):
+        """Save the filter settings in the cache and apply them to the dataframe."""
+        config = ExtractionConfiguration()
+        config.update(
+            event_types=form.cleaned_data["event_types"],
+            locations=form.cleaned_data["locations"],
+            activity_key=form.cleaned_data["activity_key"],
+        )
+
+        # Store the form data in the session
+        self.request.session["form_data"] = form.cleaned_data
+
+        # Get the dataframe
+        all_traces_df = utils.DataFrameUtilities.get_events_df()
+
+        # Prepare the DataFrame for XES conversion and DFG creation
+        all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
+            all_traces_df, config.activity_key
+        )
+
+        # Apply the filters to the dataframe
+        filter_dict = {
+            "event_type": config.event_types,
+            "attribute_location": config.locations,
+        }
+        filtered_df = utils.DataFrameUtilities.filter_dataframe(
+            all_traces_df, filter_dict
+        )
+
+        # Convert the filtered dataframe to HTML for rendering
+        xes_html = utils.Conversion.create_html_from_xes(filtered_df).getvalue()
+
+        # Update the context with the filtered dataframe
+        self.request.session["xes_html"] = xes_html
+
+        return super().form_valid(form)

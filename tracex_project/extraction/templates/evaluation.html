@@ -10,6 +10,19 @@
 <body class="main_body">
     <h1>Evaluation View</h1>
 
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#toggleButton1").click(function() {
+                $("#contentWrapper1").toggle();
+            });
+
+            $("#toggleButton2").click(function() {
+                $("#contentWrapper2").toggle();
+            });
+        });
+    </script>
+
     <div class="dfg-container">
         <div>
             <p><b>All Traces (DFG)</b></p>
@@ -18,9 +31,52 @@
     </div>
 
     <div>
-        <p><b>All Traces Table</b></p>
-        <!-- You will need to implement a way to display the all_traces_df DataFrame here -->
+    <p><b>All Traces Table</b></p>
+    {% if xes_html %}
+        <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
+        <div id="contentWrapper1" style="display: none;">
+            <p></p>
+            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+        </div>
+    {% else %}
+        <p>Something went wrong during the event log generation: No buffer content available.</p>
+    {% endif %}
     </div>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.journey.label_tag }} {{ form.journey }}
+                {{ form.journey.errors }}
+                <p>{{ form.journey.help_text }}</p>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-column">
+                {{ form.event_types.label_tag }} {{ form.event_types }}
+                {{ form.event_types.errors }}
+            </div>
+            <div class="form-column">
+                {{ form.locations.label_tag }} {{ form.locations }}
+                {{ form.locations.errors }}
+            </div>
+            <div class="form-column activity-key-column">
+                {{ form.activity_key.label_tag }} {{ form.activity_key }}
+                {{ form.activity_key.errors }}
+            </div>
+            <style>
+                .activity-key-column label, .activity-key-column select {
+                    display: block;
+                }
+            </style>
+            {{ form.errors }}
+        </div>
+
+        <input type="submit" value="Refresh Filter" class="button">
+    </form>
 
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX Menu</button>
