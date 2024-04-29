@@ -2,7 +2,7 @@
 import os
 from django.views.generic import TemplateView
 from django.shortcuts import render, redirect
-from .forms import ApiKeyForm
+from tracex_project.tracex.forms import ApiKeyForm
 
 
 class TracexLandingPage(TemplateView):
