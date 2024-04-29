@@ -2,12 +2,19 @@
 from django import forms
 
 from extraction.models import PatientJourney
-from tracex.logic.constants import EVENT_TYPES, LOCATIONS, ACTIVITY_KEYS
+from tracex.logic.constants import EVENT_TYPES, LOCATIONS, ACTIVITY_KEYS, MODULES
 
 
 class BaseEventForm(forms.Form):
     """Base form for event extraction forms."""
 
+    modules = forms.MultipleChoiceField(
+        label="Select desired modules",
+        choices=MODULES,
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        initial=["all"],
+    )
     event_types = forms.MultipleChoiceField(
         label="Select desired event types",
         choices=EVENT_TYPES,
@@ -27,7 +34,9 @@ class BaseEventForm(forms.Form):
         choices=ACTIVITY_KEYS,
         widget=forms.RadioSelect(),
         required=True,
-        initial=ACTIVITY_KEYS[0][0], # selects the first activity-key in the list, should be event_type
+        initial=ACTIVITY_KEYS[0][
+            0
+        ],  # selects the first activity-key in the list, should be event_type
     )
 
     def clean_event_types(self):
