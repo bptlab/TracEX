@@ -27,7 +27,7 @@ class OrchestratorTests(TestCase):
         Orchestrator.reset_instance()
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
-        orchestrator1.data = 'test_data'
+        orchestrator1.data = "test_data"
 
         self.assertEqual(orchestrator1.data, orchestrator2.data)
 
@@ -83,7 +83,7 @@ class OrchestratorTests(TestCase):
         )
         modules = orchestrator.initialize_modules()
 
-        self.assertTrue(any(isinstance((module), ActivityLabeler) for module in modules))
+        self.assertTrue(any(isinstance(module, ActivityLabeler) for module in modules))
         self.assertEqual(modules[0].name, "Activity Labeler")
 
 
@@ -106,19 +106,18 @@ class TimeExtractorTests(TestCase):
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method is always a dataframe and if column names are as expected."""
-        data = {
-            'activity': ['fell ill'],
-            'sentence_id': ['1']
-        }
+        data = {"activity": ["fell ill"], "sentence_id": ["1"]}
         patient_journey = ["I fell ill on June 5 and recovered on June 7."]
         input_dataframe = pd.DataFrame(data)
         time_extractor = TimeExtractor()
-        result = time_extractor.execute(df=input_dataframe, patient_journey_sentences=patient_journey)
+        result = time_extractor.execute(
+            df=input_dataframe, patient_journey_sentences=patient_journey
+        )
 
         self.assertIsInstance(result, pd.DataFrame)
-        self.assertIn("start", result.columns)
-        self.assertIn("end", result.columns)
-        self.assertIn("duration", result.columns)
+        self.assertIn("time:timestamp", result.columns)
+        self.assertIn("time:end_timestamp", result.columns)
+        self.assertIn("time:duration", result.columns)
 
 
 class EventTypeClassifierTests(TestCase):
@@ -128,9 +127,9 @@ class EventTypeClassifierTests(TestCase):
         """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
         test_data = {
             "activity": "fell ill",
-            "start": "20220601T0000",
-            "end": "20220605T0000",
-            "duration": "96:00:00",
+            "time:timestamp": "20220601T0000",
+            "time:end_timestamp": "20220605T0000",
+            "time:duration": "96:00:00",
         }
         input_dataframe = pd.DataFrame([test_data])
         event_type_classifier = EventTypeClassifier()
@@ -147,9 +146,9 @@ class LocationExtractorTests(TestCase):
         """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
         test_data = {
             "activity": "fell ill",
-            "start": "20220601T0000",
-            "end": "20220605T0000",
-            "duration": "96:00:00",
+            "time:timestamp": "20220601T0000",
+            "time:end_timestamp": "20220605T0000",
+            "time:duration": "96:00:00",
             "event_type": "Symptom Onset",
         }
         input_dataframe = pd.DataFrame([test_data])

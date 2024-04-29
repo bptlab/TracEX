@@ -11,10 +11,8 @@ import pandas as pd
 import pm4py
 import numpy as np
 
-from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
@@ -22,7 +20,6 @@ from tracex.logic.constants import (
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
-    output_path,
 )
 
 from extraction.models import Trace
