@@ -14,6 +14,8 @@ from extraction.logic.modules import (
 class OrchestratorTests(TestCase):
     """Test cases for the Orchestrator class utilizing the ExtractionConfiguration."""
 
+    fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
+
     def test_single_instance_creation(self):
         """Tests if two initialized orchestrators are the same instance."""
         Orchestrator.reset_instance()
@@ -90,6 +92,8 @@ class OrchestratorTests(TestCase):
 class ActivityLabelerTests(TestCase):
     """Test cases for the ActivityLabeler."""
 
+    fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
+
     def test_execute_return_value(self):
         """Tests if the return value of the execute method always is a dataframe and if column name is as expected."""
         test_data = ["I fell ill yesterday.", "I went to the doctor today."]
@@ -103,6 +107,8 @@ class ActivityLabelerTests(TestCase):
 
 class TimeExtractorTests(TestCase):
     """Test cases for the TimeExtractor."""
+
+    fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method is always a dataframe and if column names are as expected."""
@@ -123,6 +129,8 @@ class TimeExtractorTests(TestCase):
 class EventTypeClassifierTests(TestCase):
     """Test cases for the EventTypeClassifier."""
 
+    fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
+
     def test_execute_return_value(self):
         """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
         test_data = {
@@ -141,6 +149,8 @@ class EventTypeClassifierTests(TestCase):
 
 class LocationExtractorTests(TestCase):
     """Test cases for the LocationExtractor."""
+
+    fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
         """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
