@@ -19,14 +19,16 @@ MODEL = "gpt-3.5-turbo"
 MAX_TOKENS = 1100
 TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
-MODULES = [
+MODULES_REQUIRED = [
+    ("activity_labeling", "Activity Labeler"),
+]
+MODULES_OPTIONAL = [
     ("preprocessing", "Preprocessor"),
-    ("cohort_tagging", "CohortTagger"),
-    ("activity_labeling", "ActivityLabeler"),
-    ("time_extraction", "TimeExtractor"),
-    ("event_type_classification", "EventTypeClassifier"),
-    ("location_extraction", "LocationExtractor"),
-    ("metrics_analyzer", "MetricsAnalyzer"),
+    ("cohort_tagging", "Cohort Tagger"),
+    ("time_extraction", "Time Extractor"),
+    ("event_type_classification", "Event Type Classifier"),
+    ("location_extraction", "Location Extractor"),
+    ("metrics_analyzer", "Metrics Analyzer"),
 ]
 EVENT_TYPES = [
     ("Symptom Onset", "Symptom Onset"),

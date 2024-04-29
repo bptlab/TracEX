@@ -66,9 +66,17 @@ class JourneyFilterView(generic.FormView):
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
         )
+        modules_list = (
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
+        )
+        orchestrator.update_modules(modules_list)
         orchestrator.run(view=self)
         self.request.session["is_extracted"] = True
         self.request.session.save()
+
+        selected_modules = form.cleaned_data["modules_optional"]
+        self.request.session["selected_modules"] = selected_modules
 
         if self.request.session.get("is_comparing") is True:
             orchestrator.save_results_to_db()
@@ -101,12 +109,18 @@ class ResultView(generic.FormView):
     template_name = "result.html"
     success_url = reverse_lazy("result")
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["selected_modules"] = self.request.session.get("selected_modules")
+        return kwargs
+
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         single_trace_df = orchestrator.get_data()
         activity_key = orchestrator.get_configuration().activity_key
+        print(activity_key)
 
         # 1. Set the filter dictionary based on the activity key
         match (activity_key):
@@ -166,6 +180,9 @@ class ResultView(generic.FormView):
                         "event_types": orchestrator.get_configuration().event_types,
                         "locations": orchestrator.get_configuration().locations,
                         "activity_key": orchestrator.get_configuration().activity_key,
+                        "modules_optional": self.request.session.get(
+                            "selected_modules"
+                        ),
                     }
                 ),
                 "journey": orchestrator.get_configuration().patient_journey,
@@ -208,6 +225,11 @@ class ResultView(generic.FormView):
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
         )
+        modules_list = (
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
+        )
+        orchestrator.get_configuration().modules = modules_list
 
         return super().form_valid(form)
 

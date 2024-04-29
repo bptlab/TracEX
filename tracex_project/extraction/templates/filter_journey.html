@@ -29,19 +29,25 @@
   <form method="post" enctype="multipart/form-data" id="filter_form">
     {% csrf_token %}
     <div class="form-row {% if is_comparing %}hidden{% endif %}">
-      <div class="form-column activity-key-column">
-        {{ form.activity_key.label_tag }}
-        {{ form.activity_key }}
-        {{ form.activity_key.errors }}
-      </div>
       <div class="form-column">
-        <div class="form-row">
-          <div class="form-column">
+        <h4>Pipeline modules to run</h4>
+        {{ form.modules_required.label_tag }}
+        {{ form.modules_required }}
+        {{ form.modules_required.errors }}
+        <br>
+        {{ form.modules_optional.label_tag }}
+        {{ form.modules_optional }}
+        {{ form.modules_optional.errors }}
+      </div>
+      <div class="form-column" style="flex: 2;">
+        <h4>Output filters</h4>
+        <div class="form-row" style="display: flex; justify-content: space-between;">
+          <div class="form-column" style="flex: 1;">
             {{ form.event_types.label_tag }}
             {{ form.event_types }}
             {{ form.event_types.errors }}
           </div>
-          <div class="form-column">
+          <div class="form-column" style="flex: 1;">
             {{ form.locations.label_tag }}
             {{ form.locations }}
             {{ form.locations.errors }}
@@ -49,6 +55,7 @@
         </div>
       </div>
       <div class="form-column activity-key-column">
+        <h4>DFG activity key</h4>
         {{ form.activity_key.label_tag }}
         {{ form.activity_key }}
         {{ form.activity_key.errors }}
@@ -59,6 +66,14 @@
         }
       </style>
     </div>
+    {% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            <p>{{ error }}</p>
+        {% endfor %}
+    </div>
+    {% endif %}
+
     <div class="spinner-container" id="loading-container">
       <span id="loading-spinner" class="loader not_visible"></span>
     </div>
