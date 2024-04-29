@@ -23,8 +23,6 @@ from tracex.logic.constants import (
     MODEL,
     oaik,
     output_path,
-    CSV_OUTPUT,
-    CSV_ALL_TRACES,
 )
 
 from extraction.models import Trace
@@ -46,24 +44,12 @@ def deprecated(func):
     return new_func
 
 
-def get_decision(question):
-    """Gets a decision from the user."""
-    decision = input(question).lower()
-    if decision == "y":
-        return True
-    if decision == "n":
-        return False
-    print("Please enter y or n.")
-
-    return get_decision(question)
-
-
 def query_gpt(
-        messages,
-        max_tokens=MAX_TOKENS,
-        temperature=TEMPERATURE_SUMMARIZING,
-        logprobs=False,
-        top_logprobs=None,
+    messages,
+    max_tokens=MAX_TOKENS,
+    temperature=TEMPERATURE_SUMMARIZING,
+    logprobs=False,
+    top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
 
@@ -94,44 +80,6 @@ def query_gpt(
     return output
 
 
-def get_all_xes_output_path(
-        is_test=False,
-        is_extracted=False,
-        xes_name="all_traces",
-        activity_key="event_type",
-):
-    """Create the xes file for all journeys."""
-    if not (is_test or is_extracted):
-        append_csv()
-        all_traces_xes_path = Conversion.create_xes(
-            csv_file=CSV_ALL_TRACES, name=xes_name, key=activity_key
-        )
-    else:
-        all_traces_xes_path = str(output_path / xes_name) + "_" + activity_key + ".xes"
-
-    return all_traces_xes_path
-
-
-def append_csv():
-    """Appends the current trace to the CSV containing all traces."""
-    trace_count = 0
-    with open(CSV_ALL_TRACES, "r") as f:
-        rows = f.readlines()[1:]
-        if len(rows) >= 2:
-            trace_count = max(int(row.split(",")[0]) for row in rows if row)
-    with open(CSV_OUTPUT, "r") as f:
-        previous_content = f.readlines()
-        content = []
-        for row in previous_content:
-            if row != "\n":
-                content.append(row)
-        content = content[1:]
-    with open(CSV_ALL_TRACES, "a") as f:
-        for row in content:
-            row = row.replace(row[0], str(int(row[0]) + trace_count), 1)
-            f.writelines(row)
-
-
 def get_snippet_bounds(index, length):
     """Extract bounds for a snippet for a given activity index."""
     # We want to look at a snippet from the patient journey where we take five sentences into account
@@ -150,7 +98,7 @@ def get_snippet_bounds(index, length):
 
 
 def calculate_linear_probability(logprob):
-    """ "Calculates the linear probability from the log probability of the gpt output."""
+    """Calculates the linear probability from the log probability of the gpt output."""
     linear_prob = np.round(np.exp(logprob), 2)
 
     return linear_prob
@@ -169,31 +117,13 @@ class Conversion:
             columns={
                 activity_key: "concept:name",
                 "case_id": "case:concept:name",
-                "start": "start_timestamp",
+                "start": "time:timestamp",
                 "end": "time:end_timestamp",
                 "duration": "time:duration",
             }
         )
 
         return df
-
-    @staticmethod
-    def create_xes(csv_file, name, key):
-        """Creates a xes with all traces from the regarding csv."""
-        dataframe = pd.read_csv(csv_file, sep=",")
-        dataframe = Conversion.prepare_df_for_xes_conversion(dataframe, key)
-
-        output_name = name + "_" + key + ".xes"
-        pm4py.write_xes(
-            dataframe,
-            (output_path / output_name),
-            case_id_key="case:concept:name",
-            activity_key="concept:name",
-            start_timestamp_key="start_timestamp",
-            timestamp_key="time:timestamp",
-        )
-
-        return str(output_path / output_name)
 
     @staticmethod
     def create_html_from_xes(df):
@@ -208,7 +138,7 @@ class Conversion:
         """Create png image from df."""
         dfg_img_buffer = BytesIO()
         output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "start_timestamp", "case:concept:name"
+            df, "concept:name", "time:timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             temp_file_path = temp_file.name
@@ -241,36 +171,16 @@ class Conversion:
     def dataframe_to_xes(df, name):
         """Conversion from dataframe to xes file."""
 
-        # Convert 'start' and 'end' columns to datetime
-        df["start_timestamp"] = pd.to_datetime(df["start_timestamp"])
-        df["time:end_timestamp"] = pd.to_datetime(df["time:end_timestamp"])
-
-        # Renaming columns to for Disco
-        df.rename(
-            columns={
-                "start_timestamp": "time:timestamp",  # Disco takes time:timestamp as timestamp key
-                "event_type": "concept:name",  # We want Disco to take event types as activities
-            },
-            inplace=True,
-        )
-
         # Sorting Dataframe for start timestamp
-        df = df.sort_values(["time:timestamp", "time:end_timestamp"])
+        df = df.groupby("case:concept:name", group_keys=False, sort=False).apply(
+            lambda x: x.sort_values(by="time:timestamp", inplace=False)
+        )
 
         # Converting DataFrame to XES
-        parameters = {
-            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
-                'case:concept:name'
-        }
-        event_log = pm4py.objects.conversion.log.converter.apply(
-            df, parameters=parameters
-        )
-
         xes_file = output_path / name
         pm4py.write_xes(
-            event_log,
-            xes_file,
-            activity_key="activity",
+            log=df,
+            file_path=xes_file,
             case_id_key="case:concept:name",
             timestamp_key="time:timestamp",
         )
@@ -313,7 +223,10 @@ class DataFrameUtilities:
     def filter_dataframe(df, filter_dict):
         """Filter a dataframe."""
         filter_conditions = [
-            df[column].isin(values) for column, values in filter_dict.items()
+            df[column].isin(values)
+            if column in df.columns
+            else pd.Series(True, index=df.index)
+            for column, values in filter_dict.items()
         ]
         combined_condition = pd.Series(True, index=df.index)
 

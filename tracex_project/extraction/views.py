@@ -4,7 +4,6 @@ Some unused imports and variables have to be made because of architectural requi
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
-import pm4py
 import pandas as pd
 
 
@@ -122,17 +121,9 @@ class JourneyFilterView(generic.FormView):
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
+            activity_key=form.cleaned_data["activity_key"],
         )
         orchestrator.run(view=self)
-        single_trace_df = orchestrator.get_data()
-        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            single_trace_df, orchestrator.get_configuration().activity_key
-        )
-        utils.Conversion.create_xes(
-            utils.CSV_OUTPUT,
-            name="single_trace",
-            key=orchestrator.get_configuration().activity_key,
-        )
         self.request.session["is_extracted"] = True
         self.request.session.save()
 
@@ -171,25 +162,37 @@ class ResultView(generic.FormView):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        event_types = orchestrator.get_configuration().event_types
-        filter_dict = {
-            "concept:name": event_types,
-            "attribute_location": orchestrator.get_configuration().locations,
-        }
+        single_trace_df = orchestrator.get_data()
+        activity_key = orchestrator.get_configuration().activity_key
 
-        output_path_xes = f"{str(utils.output_path / 'single_trace')}_event_type.xes"
-        single_trace_df = pm4py.read_xes(output_path_xes)
-        single_trace_df.rename(
-            columns={"time:timestamp": "start_timestamp"}, inplace=True
-        )
+        # 1. Set the filter dictionary based on the activity key
+        match (activity_key):
+            case "activity":
+                filter_dict = {
+                    "attribute_location": orchestrator.get_configuration().locations,
+                    "event_type": orchestrator.get_configuration().event_types,
+                }
+            case "event_type":
+                filter_dict = {
+                    "attribute_location": orchestrator.get_configuration().locations,
+                    "concept:name": orchestrator.get_configuration().event_types,
+                }
+            case "attribute_location":
+                filter_dict = {
+                    "concept:name": orchestrator.get_configuration().locations,
+                    "event_type": orchestrator.get_configuration().event_types,
+                }
+            case _:
+                filter_dict = {}
 
-        # 2. Sort and filter the single journey dataframe
-        single_trace_df = single_trace_df.sort_values(
-            by="start_timestamp", inplace=False
+        # 2. Filter the single journey dataframe
+        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
+            single_trace_df, activity_key
         )
         single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             single_trace_df, filter_dict
         )
+
         # 3. Append the single journey dataframe to the all traces dataframe
 
         # TODO: remove comment once cohort is implemented
@@ -198,7 +201,7 @@ class ResultView(generic.FormView):
         all_traces_df = utils.DataFrameUtilities.get_events_df()
         if not all_traces_df.empty:
             all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-                all_traces_df, orchestrator.get_configuration().activity_key
+                all_traces_df, activity_key
             )
             utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
             all_traces_df = pd.concat(
@@ -206,10 +209,6 @@ class ResultView(generic.FormView):
                 ignore_index=True,
                 axis="rows",
             )
-            all_traces_df = all_traces_df.groupby(
-                "case:concept:name", group_keys=False, sort=False
-            ).apply(lambda x: x.sort_values(by="start_timestamp", inplace=False))
-
             all_traces_df_filtered = utils.DataFrameUtilities.filter_dataframe(
                 all_traces_df, filter_dict
             )
@@ -223,6 +222,7 @@ class ResultView(generic.FormView):
                     initial={
                         "event_types": orchestrator.get_configuration().event_types,
                         "locations": orchestrator.get_configuration().locations,
+                        "activity_key": orchestrator.get_configuration().activity_key,
                     }
                 ),
                 "journey": orchestrator.get_configuration().patient_journey,
@@ -241,7 +241,7 @@ class ResultView(generic.FormView):
             }
         )
 
-        # Generate XES files
+        # 5 .Generate XES files
         single_trace_xes = utils.Conversion.dataframe_to_xes(
             single_trace_df_filtered, "single_trace.xes"
         )
@@ -249,7 +249,7 @@ class ResultView(generic.FormView):
             all_traces_df_filtered, "all_traces.xes"
         )
 
-        # Store XES in session for retrieval in DownloadXesView
+        # 6. Store XES in session for retrieval in DownloadXesView
         self.request.session["single_trace_xes"] = str(single_trace_xes)
         self.request.session["all_traces_xes"] = str(all_traces_xes)
 
@@ -263,6 +263,7 @@ class ResultView(generic.FormView):
             patient_journey=orchestrator.get_configuration().patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
+            activity_key=form.cleaned_data["activity_key"],
         )
 
         return super().form_valid(form)
