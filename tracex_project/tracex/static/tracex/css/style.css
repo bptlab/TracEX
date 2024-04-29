@@ -303,29 +303,29 @@ text-align: center;
 }
 
 /* The Modal (background) */
+/* Base styles for the modal */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1050; /* Sit on top, higher than modal-backdrop */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
 }
 
-/* Modal Content */
+/* Styles for the modal content */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 30%; /* Adjusts based on screen size */
 }
 
-/* The Close Button */
+/* Styles for the close button */
 .close {
     color: #aaa;
     float: right;
@@ -340,27 +340,24 @@ text-align: center;
     cursor: pointer;
 }
 
+/* z-index for backdrop */
 .modal-backdrop {
-    z-index: 1040; /* or lower than modal if modal needs to be on top */
+    z-index: 1040; /* Lower than modal to stay behind */
 }
 
-.modal {
-    z-index: 1050; /* higher than modal-backdrop */
-}
-
-/* Default width */
+/* Default modal width and adjustments for different screen sizes */
 #apiKeyModal .modal-dialog {
-    max-width: 90%; /* Use a high percentage for smaller screens */
+    max-width: 90%; /* Default for smaller screens */
 }
 
-/* Medium devices (tablets, 768px and up) */
+/* Adjustments for medium devices (tablets) */
 @media (min-width: 768px) {
     #apiKeyModal .modal-dialog {
-        max-width: 70%; /* Slightly smaller percentage for medium screens */
+        max-width: 70%; /* Smaller percentage for medium screens */
     }
 }
 
-/* Large devices (desktops, 992px and up) */
+/* Adjustments for large devices (desktops) */
 @media (min-width: 992px) {
     #apiKeyModal .modal-dialog {
         max-width: 50%; /* Even smaller for large screens */
