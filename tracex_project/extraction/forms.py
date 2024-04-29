@@ -102,7 +102,8 @@ class JourneySelectForm(forms.Form):
             "selected_patient_journey"
         ].choices = self.get_patient_journey_choices()
 
-    def get_patient_journey_choices(self):
+    @staticmethod
+    def get_patient_journey_choices():
         """Retrieves the available patient journey choices from the database."""
         patient_journeys = PatientJourney.manager.all()
         choices = [(pj.name, pj.name) for pj in patient_journeys]

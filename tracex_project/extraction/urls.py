@@ -10,7 +10,7 @@ urlpatterns = [
         views.JourneyInputSelectView.as_view(),
         name="choose_input_method",
     ),
-    path("extraction/upload/", views.JourneyInputView.as_view(), name="journey_upload"),
+    path("extraction/upload/", views.JourneyUploadView.as_view(), name="journey_upload"),
     path(
         "extraction/select/", views.JourneySelectView.as_view(), name="journey_select"
     ),

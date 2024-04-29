@@ -37,24 +37,25 @@ class JourneyInputSelectView(generic.TemplateView):
     template_name = "choose_input_method.html"
 
 
-class JourneyInputView(generic.CreateView):
+class JourneyUploadView(generic.CreateView):
     """View for uploading a patient journey."""
 
     form_class = JourneyUploadForm
     template_name = "upload_journey.html"
-    success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         uploaded_file = self.request.FILES.get("file")
         content = uploaded_file.read().decode("utf-8")
         form.instance.patient_journey = content
-
         response = super().form_valid(form)
-        configuration = ExtractionConfiguration(patient_journey=content)
-        orchestrator = Orchestrator(configuration)
-        orchestrator.set_db_objects_id("patient_journey", self.object.id)
+
         return response
+
+    def get_success_url(self):
+        """Return the success URL."""
+
+        return reverse_lazy("journey_details", kwargs={"pk": self.object.id})
 
 
 class JourneySelectView(generic.FormView):
@@ -69,6 +70,7 @@ class JourneySelectView(generic.FormView):
         """Pass selected journey to orchestrator."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
+
         return redirect("journey_details", pk=patient_journey_entry.pk)
 
 
@@ -84,16 +86,19 @@ class JourneyDetailView(generic.DetailView):
         patient_journey = self.get_object()
         context["patient_journey"] = patient_journey
         self.request.session["patient_journey_id"] = patient_journey.id
+
         return context
 
     def post(self, request, *args, **kwargs):
-        """Redirect to the FilterView afterwards."""
+        """Redirect to the FilterView afterward."""
         patient_journey_id = self.request.session.get("patient_journey_id")
         patient_journey = PatientJourney.manager.get(pk=patient_journey_id)
         configuration = ExtractionConfiguration(
             patient_journey=patient_journey.patient_journey
         )
         orchestrator = Orchestrator(configuration)
+        orchestrator.set_db_objects_id("patient_journey", patient_journey_id)
+
         return redirect("journey_filter")
 
 
