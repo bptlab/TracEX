@@ -5,9 +5,9 @@
     {% load static %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <script src="{% static '/tracex/js/forms_open_ai_key.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <script src="{% static '/tracex/js/forms_open_ai_key.js' %}"></script>
 </head>
 <body class="landing_page_body">
     <div class="landing_page_container">
@@ -62,11 +62,6 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function(){
-        $('#apiKeyModal').modal('show');
-    });
-</script>
 {% endif %}
 </body>
 </html>
