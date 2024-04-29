@@ -109,8 +109,8 @@ class ResultView(generic.FormView):
             "attribute_location": orchestrator.get_configuration().locations,
         }
 
-        single_trace_df = self.build_single_trace_df(filter_dict)
-        all_traces_df = self.build_all_traces_df(filter_dict, single_trace_df)
+        trace = self.build_trace_df(filter_dict)
+        event_log = self.build_event_log_df(filter_dict, trace)
 
         context.update(
             {
@@ -123,69 +123,64 @@ class ResultView(generic.FormView):
                 ),
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
-                    df=single_trace_df,
+                    df=trace,
                     activity_key=activity_key,
                 ),
-                "single_trace_table": utils.Conversion.create_html_table_from_df(
-                    single_trace_df
-                ),
+                "trace_table": utils.Conversion.create_html_table_from_df(trace),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
-                    df=all_traces_df,
+                    df=event_log,
                     activity_key=activity_key,
                 ),
-                "all_traces_table": utils.Conversion.create_html_table_from_df(
-                    all_traces_df
+                "event_log_table": utils.Conversion.create_html_table_from_df(
+                    event_log
                 ),
             }
         )
 
-        # Generate XES files
-        single_trace_xes = utils.Conversion.dataframe_to_xes(
-            single_trace_df, name="single_trace.xes", activity_key=activity_key
-        )
-        all_traces_xes = utils.Conversion.dataframe_to_xes(
-            all_traces_df, name="all_traces.xes", activity_key=activity_key
-        )
-
-        # Store XES in session for retrieval in DownloadXesView
-        self.request.session["single_trace_xes"] = str(single_trace_xes)
-        self.request.session["all_traces_xes"] = str(all_traces_xes)
+        self.request.session["trace"] = trace.to_json()
+        self.request.session["event_log"] = event_log.to_json()
 
         return context
 
     @staticmethod
-    def build_single_trace_df(filter_dict):
-        single_trace_df = Orchestrator.get_instance().get_data()
-        single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
-            single_trace_df, filter_dict
+    def build_trace_df(filter_dict):
+        """Build the trace df based on the filter settings."""
+        trace_df = Orchestrator.get_instance().get_data()
+        trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
+            trace_df, filter_dict
         )
 
-        return single_trace_df_filtered
+        return trace_df_filtered
 
     @staticmethod
-    def build_all_traces_df(filter_dict, single_trace_df):
+    def build_event_log_df(filter_dict, trace):
+        """Build the event log dataframe based on the filter settings."""
         orchestrator = Orchestrator.get_instance()
+        # get only those traces from the database, that belong to the same condition as the newly extracted trace
         condition = Cohort.manager.get(
             pk=orchestrator.get_db_objects_id("cohort")
-        ).condition  # get only those traces that belong to the same condition as the newly extracted trace
-
-        all_traces_df = utils.DataFrameUtilities.get_events_df(
+        ).condition
+        event_log_df = utils.DataFrameUtilities.get_events_df(
             Q(cohort__condition=condition)
         )
-        if not all_traces_df.empty and not single_trace_df.empty:
-            all_traces_df = pd.concat(
-                [all_traces_df, single_trace_df],
+
+        # concatenate the dataframes if they are not empty
+        if not event_log_df.empty and not trace.empty:
+            event_log_df = pd.concat(
+                [event_log_df, trace],
                 ignore_index=True,
                 axis="rows",
             )
-        if not all_traces_df.empty:
-            all_traces_df = utils.DataFrameUtilities.filter_dataframe(
-                all_traces_df, filter_dict
+        # filter the event log dataframe if it is not empty
+        if not event_log_df.empty:
+            event_log_df = utils.DataFrameUtilities.filter_dataframe(
+                event_log_df, filter_dict
             )
-        elif not single_trace_df.empty:
-            all_traces_df = single_trace_df
+        # if event log is still empty, use the trace instead
+        elif not trace.empty:
+            event_log_df = trace
 
-        return all_traces_df
+        return event_log_df
 
     def form_valid(self, form):
         """Save the filter settings in the cache."""
@@ -254,12 +249,25 @@ class DownloadXesView(View):
     @staticmethod
     def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
-        if trace_type == "all_traces":
-            return request.session.get("all_traces_xes")
-        if trace_type == "single_trace":
-            return request.session.get("single_trace_xes")
+        orchestrator = Orchestrator.get_instance()
+        activity_key = orchestrator.get_configuration().activity_key
+        if trace_type == "event_log":
+            # Process event log data into XES format
+            df = pd.read_json(request.session.get("event_log"))
+            event_log_xes = utils.Conversion.dataframe_to_xes(
+                df, name="event_log", activity_key=activity_key
+            )
+            return event_log_xes
+        elif trace_type == "trace":
+            # Process trace data into XES format
+            df = pd.read_json(request.session.get("trace"))
+            trace_xes = utils.Conversion.dataframe_to_xes(
+                df, name="trace", activity_key=activity_key
+            )
+            return trace_xes
+        # Return None if the trace type is unrecognized
 
-        return None  # Return None for unrecognized trace type
+        return None
 
     def prepare_response(self, files_to_download):
         """Prepares the appropriate response based on the number of files to be downloaded."""

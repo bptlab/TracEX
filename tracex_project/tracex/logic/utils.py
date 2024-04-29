@@ -135,6 +135,7 @@ class Conversion:
             },
             inplace=False,
         )
+        df_renamed.sort_values(by="Start Timestamp", inplace=True)
         html_buffer = StringIO()
         df_renamed.to_html(
             buf=html_buffer,
@@ -146,63 +147,44 @@ class Conversion:
     @staticmethod
     def create_dfg_from_df(df, activity_key):
         """Create png image from df."""
-        dfg_img_buffer = BytesIO()
         df_renamed = Conversion.prepare_df_for_xes_conversion(
             df, activity_key=activity_key
         )
-        output_dfg_file = pm4py.discover_dfg(
+        output_dfg = pm4py.discover_dfg(
             df_renamed, "concept:name", "time:timestamp", "case:concept:name"
         )
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
-            temp_file_path = temp_file.name
+        with tempfile.NamedTemporaryFile(suffix=".png") as temp_file:
             pm4py.save_vis_dfg(
-                output_dfg_file[0],
-                output_dfg_file[1],
-                output_dfg_file[2],
-                temp_file_path,
+                output_dfg[0],
+                output_dfg[1],
+                output_dfg[2],
+                temp_file.name,
                 rankdir="TB",
             )
-        with open(temp_file_path, "rb") as temp_file:
-            dfg_img_buffer.write(temp_file.read())
-        os.remove(temp_file_path)
-        dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
+            temp_file.seek(0)
+            image_data = temp_file.read()
 
-        return dfg_img_base64
-
-    @staticmethod
-    def align_df_datatypes(source_df, target_df):
-        """Aligns the datatypes of two dataframes."""
-        for column in source_df.columns:
-            if column in target_df.columns and not is_datetime(source_df[column].dtype):
-                source_df.loc[:, column] = source_df[column].astype(
-                    target_df[column].dtype
-                )
-            elif is_datetime(source_df[column].dtype):
-                source_df.loc[:, column] = source_df[column].dt.tz_localize(tz=None)
-
-        return source_df
+        return base64.b64encode(image_data).decode("utf-8")
 
     @staticmethod
     def dataframe_to_xes(df, name, activity_key):
-        """Conversion from dataframe to xes file."""
+        """Conversion from dataframe to xes file, stored temporarily on disk."""
         df_renamed = Conversion.prepare_df_for_xes_conversion(
             df, activity_key=activity_key
         )
-        # Sorting Dataframe for start timestamp
-        df_renamed = df_renamed.groupby(
-            "case:concept:name", group_keys=False, sort=False
-        ).apply(lambda x: x.sort_values(by="time:timestamp", inplace=False))
-
-        # Converting DataFrame to XES
-        xes_file = output_path / name
-        pm4py.write_xes(
-            log=df_renamed,
-            file_path=xes_file,
-            case_id_key="case:concept:name",
-            timestamp_key="time:timestamp",
+        df_renamed.sort_values(by="time:timestamp", inplace=True)
+        temp_dir = tempfile.mkdtemp()
+        file_path = os.path.join(temp_dir, f"{name}.xes")
+        pm4py.objects.log.exporter.xes.exporter.apply(
+            df_renamed,
+            file_path,
+            parameters={
+                "case_id_key": "case:concept:name",
+                "timestamp_key": "time:timestamp",
+            },
         )
 
-        return xes_file
+        return file_path
 
 
 class DataFrameUtilities:
