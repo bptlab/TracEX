@@ -120,7 +120,6 @@ class ResultView(generic.FormView):
         orchestrator = Orchestrator.get_instance()
         single_trace_df = orchestrator.get_data()
         activity_key = orchestrator.get_configuration().activity_key
-        print(activity_key)
 
         # 1. Set the filter dictionary based on the activity key
         match (activity_key):

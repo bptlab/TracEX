@@ -27,6 +27,8 @@ class BaseEventForm(forms.Form):
         choices=MODULES_OPTIONAL,
         widget=forms.CheckboxSelectMultiple(),
         required=False,
+        initial=[module[0] for module in MODULES_OPTIONAL],
+        help_text="If modules are deselected, the resulting dataframe will be filled with placeholders!",
     )
     event_types = forms.MultipleChoiceField(
         label="Select desired event types",
@@ -34,6 +36,7 @@ class BaseEventForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         required=False,
         initial=[event_type[0] for event_type in EVENT_TYPES],
+        help_text="'N/A' only occurs, if 'Event Type Classifier' is not selected.",
     )
     locations = forms.MultipleChoiceField(
         label="Select desired locations",
@@ -41,6 +44,7 @@ class BaseEventForm(forms.Form):
         widget=forms.CheckboxSelectMultiple(),
         required=False,
         initial=[location[0] for location in LOCATIONS],
+        help_text="'N/A' only occurs, if 'Location Extractor' is not selected.",
     )
     activity_key = forms.ChoiceField(
         label="Select activity key for output",
@@ -57,26 +61,6 @@ class BaseEventForm(forms.Form):
         cleaned_data = super().clean()
         event_types = cleaned_data.get("event_types")
         locations = cleaned_data.get("locations")
-        modules = cleaned_data.get("modules_optional") + cleaned_data.get(
-            "modules_required"
-        )
-        print(f"modules in clean: {modules}")
-        activity_key = cleaned_data.get("activity_key")
-        key_to_module = {
-            "event_type": "event_type_classification",
-            "activity": "activity_labeling",
-            "attribute_location": "location_extraction",
-        }
-        if key_to_module[activity_key] not in modules:
-            error_module = [
-                module[1]
-                for module in MODULES_OPTIONAL
-                if module[0] == key_to_module[activity_key]
-            ][0]
-            raise forms.ValidationError(
-                f"For the chosen activity key the module {error_module} has to run.",
-            )
-
         if not event_types and not locations:
             raise forms.ValidationError(
                 "Please select at least one event type or one location.",
@@ -102,7 +86,6 @@ class BaseEventForm(forms.Form):
         choices = self.cleaned_data.get(field)
 
         if choices is not None and ((choice_1 in choices) ^ (choice_2 in choices)):
-            print("error should be raised")
             raise forms.ValidationError(
                 f"{choice_1} and {choice_2} depend on each other. Please select both or none.",
                 code="dependant_fields",
@@ -138,23 +121,12 @@ class JourneyForm(forms.ModelForm):
 class FilterForm(BaseEventForm):
     """Form for selecting filter for extraction result"""
 
-
-class ResultForm(BaseEventForm):
-    """Form for displaying results of event extraction."""
-
-    def __init__(self, *args, selected_modules=None, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.selected_modules = selected_modules
-        print(f"selected_modules in result form: {selected_modules}")
-        self.fields["modules_optional"].disabled = True
-
     def clean(self):
         """Validate form data."""
         cleaned_data = super().clean()
-        event_types = cleaned_data.get("event_types")
-        locations = cleaned_data.get("locations")
-        modules = self.selected_modules + cleaned_data.get("modules_required")
-        print(f"modules in result clean: {modules}")
+        modules = cleaned_data.get("modules_optional") + cleaned_data.get(
+            "modules_required"
+        )
         activity_key = cleaned_data.get("activity_key")
         key_to_module = {
             "event_type": "event_type_classification",
@@ -168,13 +140,38 @@ class ResultForm(BaseEventForm):
                 if module[0] == key_to_module[activity_key]
             ][0]
             raise forms.ValidationError(
-                f"For the chosen activity key the module {error_module} has to run.",
+                f"For the chosen activity key the module {error_module} has to run.\nSelect this module or change the activity key.",
             )
 
-        if not event_types and not locations:
+        return cleaned_data
+
+
+class ResultForm(BaseEventForm):
+    """Form for displaying results of event extraction."""
+
+    def __init__(self, *args, selected_modules=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.selected_modules = selected_modules
+        self.fields["modules_optional"].disabled = True
+
+    def clean(self):
+        """Validate form data."""
+        cleaned_data = super().clean()
+        modules = self.selected_modules + cleaned_data.get("modules_required")
+        activity_key = cleaned_data.get("activity_key")
+        key_to_module = {
+            "event_type": "event_type_classification",
+            "activity": "activity_labeling",
+            "attribute_location": "location_extraction",
+        }
+        if key_to_module[activity_key] not in modules:
+            error_module = [
+                module[1]
+                for module in MODULES_OPTIONAL
+                if module[0] == key_to_module[activity_key]
+            ][0]
             raise forms.ValidationError(
-                "Please select at least one event type or one location.",
-                code="no_event_type",
+                f"For the chosen activity key the module {error_module} has to run.\nSelect this module or change the activity key.",
             )
 
         return cleaned_data

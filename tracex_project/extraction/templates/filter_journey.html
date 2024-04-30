@@ -37,6 +37,7 @@
         <br>
         {{ form.modules_optional.label_tag }}
         {{ form.modules_optional }}
+        <p>{{ form.modules_optional.help_text }}</p>
         {{ form.modules_optional.errors }}
       </div>
       <div class="form-column" style="flex: 2;">
@@ -45,11 +46,13 @@
           <div class="form-column" style="flex: 1;">
             {{ form.event_types.label_tag }}
             {{ form.event_types }}
+            <p>{{ form.event_types.help_text }}</p>
             {{ form.event_types.errors }}
           </div>
           <div class="form-column" style="flex: 1;">
             {{ form.locations.label_tag }}
             {{ form.locations }}
+            <p>{{ form.locations.help_text }}</p>
             {{ form.locations.errors }}
           </div>
         </div>
@@ -67,11 +70,11 @@
       </style>
     </div>
     {% if form.non_field_errors %}
-    <div class="alert alert-danger">
-        {% for error in form.non_field_errors %}
-            <p>{{ error }}</p>
-        {% endfor %}
-    </div>
+      <div class="alert alert-danger" {% if is_comparing %}hidden{% endif %}>
+          {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+          {% endfor %}
+      </div>
     {% endif %}
 
     <div class="spinner-container" id="loading-container">

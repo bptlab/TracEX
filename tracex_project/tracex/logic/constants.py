@@ -41,11 +41,13 @@ EVENT_TYPES = [
     ("Medication", "Medication"),
     ("Lifestyle Change", "Lifestyle Change"),
     ("Feelings", "Feelings"),
+    ("N/A", "N/A"),
 ]
 LOCATIONS = [
     ("Home", "Home"),
     ("Hospital", "Hospital"),
     ("Doctors", "Doctors"),
+    ("N/A", "N/A"),
 ]
 ACTIVITY_KEYS = [
     ("event_type", "Event Type"),

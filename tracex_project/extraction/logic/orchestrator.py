@@ -149,6 +149,8 @@ class Orchestrator:
                 patient_journey_sentences=patient_journey_sentences,
             )
             current_step += 1
+        else:
+            self.db_objects_id["cohort"] = 0
 
         for module_name in [
             name
@@ -180,7 +182,11 @@ class Orchestrator:
                 self.get_data()["end"] = self.get_data().apply(
                     lambda row: f"20200101T{str(row.name).zfill(3)}1", axis=1
                 )
-            print(self.get_data())
+                self.get_data()["duration"] = "00:01:00"
+            if "event_type_classification" not in self.get_configuration().modules:
+                self.get_data()["event_type"] = "N/A"
+            if "location_extraction" not in self.get_configuration().modules:
+                self.get_data()["attribute_location"] = "N/A"
 
     def save_results_to_db(self):
         """Save the trace to the database."""
