@@ -6,17 +6,15 @@ import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
 
-
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
-from tracex.logic import utils
-from extraction.forms import JourneyForm, ResultForm, FilterForm
+from tracex.logic import utils, constants
+from extraction.forms import JourneyForm, ResultForm, FilterForm, EvaluationForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import Trace, Event, Cohort
-
 
 # necessary due to Windows error. see information for your os here:
 # https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
@@ -313,7 +311,7 @@ class DownloadXesView(View):
 class EvaluationView(generic.FormView):
     """View for displaying all extracted traces and DFG image with filter selection."""
 
-    form_class = ResultForm
+    form_class = EvaluationForm
     template_name = "evaluation.html"
     success_url = reverse_lazy("evaluation")
 
@@ -321,23 +319,64 @@ class EvaluationView(generic.FormView):
     def get_context_data(self, **kwargs):
         """Prepare the data for the evaluation page."""
         context = super().get_context_data(**kwargs)
-        activity_key = ExtractionConfiguration().activity_key
+        config = self.initiate_evaluation_configuration()
+        print("Config: " + str(config))
+        activity_key = config.get("activity_key")
 
         # Query the database to get all traces
         all_traces_df = utils.DataFrameUtilities.get_events_df()
 
-        # Prepare the DataFrame for XES conversion and DFG creation
+        # Set the filter dictionary based on the activity key
+        match (activity_key):
+            case "activity":
+                filter_dict = {
+                    "attribute_location": config.get("locations"),
+                    "event_type": config.get("event_types"),
+                }
+            case "event_type":
+                filter_dict = {
+                    "attribute_location": config.get("locations"),
+                    "concept:name": config.get("event_types"),
+                }
+            case "attribute_location":
+                filter_dict = {
+                    "concept:name": config.get("locations"),
+                    "event_type": config.get("event_types"),
+                }
+            case _:
+                filter_dict = {}
+
+        # Filter the dataframe
         all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
             all_traces_df, activity_key
         )
+        all_traces_df_filtered = utils.DataFrameUtilities.filter_dataframe(
+            all_traces_df, filter_dict
+        )
 
-        xes_html = utils.Conversion.create_html_from_xes(all_traces_df).getvalue()
+        all_cohorts_df = self.get_all_cohorts()
+        # Create HTML for all cohorts
+
+        xes_html = utils.Conversion.create_html_from_xes(
+            all_traces_df_filtered
+        ).getvalue()
+
+        # safe configuration in session, maybe not necessary
+        self.request.session["form_data"] = {
+            "event_types": config.get("event_types"),
+            "locations": config.get("locations"),
+            "activity_key": config.get("activity_key"),
+        }
 
         context.update(
             {
-                "all_dfg_img": utils.Conversion.create_dfg_from_df(all_traces_df),
-                "all_traces_df": all_traces_df,
+                "all_dfg_img": utils.Conversion.create_dfg_from_df(
+                    all_traces_df_filtered
+                ),
+                "all_traces_df": all_traces_df_filtered,
                 "xes_html": xes_html,
+                "form": EvaluationForm(initial=config),
+                "all_cohorts": cohort_html,
             }
         )
 
@@ -345,37 +384,29 @@ class EvaluationView(generic.FormView):
 
     def form_valid(self, form):
         """Save the filter settings in the cache and apply them to the dataframe."""
-        config = ExtractionConfiguration()
-        config.update(
-            event_types=form.cleaned_data["event_types"],
-            locations=form.cleaned_data["locations"],
-            activity_key=form.cleaned_data["activity_key"],
-        )
 
-        # Store the form data in the session
         self.request.session["form_data"] = form.cleaned_data
 
-        # Get the dataframe
-        all_traces_df = utils.DataFrameUtilities.get_events_df()
-
-        # Prepare the DataFrame for XES conversion and DFG creation
-        all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-            all_traces_df, config.activity_key
-        )
-
-        # Apply the filters to the dataframe
-        filter_dict = {
-            "event_type": config.event_types,
-            "attribute_location": config.locations,
-        }
-        filtered_df = utils.DataFrameUtilities.filter_dataframe(
-            all_traces_df, filter_dict
-        )
-
-        # Convert the filtered dataframe to HTML for rendering
-        xes_html = utils.Conversion.create_html_from_xes(filtered_df).getvalue()
-
-        # Update the context with the filtered dataframe
-        self.request.session["xes_html"] = xes_html
-
         return super().form_valid(form)
+
+    def initiate_evaluation_configuration(self):
+        """Initiate the evaluation configuration."""
+        # ToDo: Find better condition for initiation and ensure that all checkboxes are selected initially
+        # initiate the configuration with session data from the form
+        config = self.request.session.get("form_data")
+        if config is None:
+            config = {
+                "event_types": constants.EVENT_TYPES,
+                "locations": constants.LOCATIONS,
+                "activity_key": constants.ACTIVITY_KEYS[0][0],
+            }
+            print("Configuration initiated")
+            print(config)
+        else:
+            print("Configuration already set")
+
+        return config
+
+    def get_all_cohorts(self):
+        """Get all cohorts from the database."""
+        return Cohort.manager.all()
