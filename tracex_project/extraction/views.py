@@ -110,6 +110,7 @@ class ResultView(generic.FormView):
     success_url = reverse_lazy("result")
 
     def get_form_kwargs(self):
+        """Add the selected modules to the form."""
         kwargs = super().get_form_kwargs()
         kwargs["selected_modules"] = self.request.session.get("selected_modules")
         return kwargs

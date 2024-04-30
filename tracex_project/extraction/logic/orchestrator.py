@@ -1,6 +1,6 @@
 """Module providing the orchestrator and corresponding configuration, that manages the modules."""
 from dataclasses import dataclass
-from typing import Optional, List, Dict, Type, Any
+from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -153,9 +153,7 @@ class Orchestrator:
             self.db_objects_id["cohort"] = 0
 
         for module_name in [
-            name
-            for name in modules
-            if name != "cohort_tagging" and name != "preprocessing"
+            name for name in modules if name not in ("cohort_tagging", "preprocessing")
         ]:
             module = modules[module_name]
             self.update_progress(view, current_step, module_name)

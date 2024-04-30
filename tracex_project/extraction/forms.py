@@ -140,7 +140,8 @@ class FilterForm(BaseEventForm):
                 if module[0] == key_to_module[activity_key]
             ][0]
             raise forms.ValidationError(
-                f"For the chosen activity key the module {error_module} has to run.\nSelect this module or change the activity key.",
+                f"For the chosen activity key the module {error_module} has to run.\
+                Select this module or change the activity key.",
             )
 
         return cleaned_data
@@ -171,7 +172,8 @@ class ResultForm(BaseEventForm):
                 if module[0] == key_to_module[activity_key]
             ][0]
             raise forms.ValidationError(
-                f"For the chosen activity key the module {error_module} has to run.\nSelect this module or change the activity key.",
+                f"For the chosen activity key the module {error_module} has to run.\
+                Select this module or change the activity key.",
             )
 
         return cleaned_data
