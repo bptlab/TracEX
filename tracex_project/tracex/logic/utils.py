@@ -1,6 +1,6 @@
 """Module providing various utility functions for the project."""
 import os
-from io import StringIO, BytesIO
+from io import StringIO
 from pathlib import Path
 
 import base64
