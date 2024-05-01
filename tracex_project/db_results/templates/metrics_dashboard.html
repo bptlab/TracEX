@@ -15,8 +15,6 @@
         <div class="metric-tile">
             <h3>Total Activties</h3>
             <div class="number-metric">{{ total_activities }}</div>
-            <span class="info-icon">&#9432;</span>
-            <div class="info-text">>This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile change.</div>
         </div>
     </div>
     <h2>Activity Relevance</h2>
@@ -26,7 +24,7 @@
             <div class="number-metric">{{ most_frequent_category_count }}</div>
             <div class="metric-content" id="most_frequent_category">{{ most_frequent_category }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">>This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile change.</div>
+            <div class="info-text">This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile changes.</div>
         </div>
     </div>
     <div class="row">
@@ -34,13 +32,13 @@
             <h3>Activity Relevance Pie Chart</h3>
             <div class="chart-content">{{ activity_relevance_pie_chart|safe }}</div>
             <span class="info-icon ">&#9432;</span>
-            <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+            <div class="info-text">The pie chart visualizes the distribution of relevance categories for the extracted activities.</div>
         </div>
         <div class="metric-tile">
             <h3>Activity Relevance Bar Chart</h3>
             <div class="chart-content">{{ activity_relevance_bar_chart|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+            <div class="info-text">The bar chart displays the count of extracted activities in each relevance category.</div>
         </div>
     </div>
     <div class="row">
@@ -53,13 +51,13 @@
             <div class="number-metric">{{ most_frequent_timestamp_correctness_count }}</div>
             <div class="metric-content" id="most_frequent_timestamp_correctness">{{ most_frequent_timestamp_correctness }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            <div class="info-text">This metric indicates the most common timestamp correctness value for the extracted activities.</div>
         </div>
         <div class="metric-tile">
-            <h3>Average Timestamp Correctness</h3>
+            <h3>Average Confidence of Timestamp Correctness </h3>
             <div class="number-metric" id="avgTimeStampCorr">{{ average_timestamp_correctness }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            <div class="info-text">This metric represents the average confidence score assigned by the language model when evaluating the correctness of timestamps in the extracted activities.</div>
         </div>
     </div>
     <div class="row">
@@ -67,13 +65,13 @@
             <h3>Timestamp Correctnes Pie Chart</h3>
             <div class="chart-content">{{ timestamp_correctness_pie_chart|safe }}</div>
             <span class="info-icon ">&#9432;</span>
-            <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+            <div class="info-text">The pie chart shows the proportion of extracted activities with correct and incorrect timestamps.</div>
         </div>
         <div class="metric-tile">
             <h3>Timestamp Correctnes Bar Chart</h3>
             <div class="chart-content">{{ timestamp_correctness_bar_chart|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+            <div class="info-text">The bar chart presents the count of extracted activities with correct and incorrect timestamps.</div>
         </div>
     </div>
     <div class="row">
