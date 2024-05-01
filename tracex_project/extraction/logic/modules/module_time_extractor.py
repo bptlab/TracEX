@@ -1,5 +1,4 @@
 """This module extracts the time information from the patient journey."""
-from datetime import datetime
 from pathlib import Path
 from django.conf import settings
 import pandas as pd

@@ -12,8 +12,8 @@ from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
-from extraction.models import Cohort
 from tracex.logic import utils
+from extraction.models import Cohort
 from extraction.forms import JourneyForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
@@ -251,6 +251,7 @@ class DownloadXesView(View):
         """Process and provide the XES files to be downloaded based on the trace type."""
         orchestrator = Orchestrator.get_instance()
         activity_key = orchestrator.get_configuration().activity_key
+
         if trace_type == "event_log":
             # Process event log data into XES format
             df = pd.read_json(request.session.get("event_log"))
@@ -258,7 +259,7 @@ class DownloadXesView(View):
                 df, name="event_log", activity_key=activity_key
             )
             return event_log_xes
-        elif trace_type == "trace":
+        if trace_type == "trace":
             # Process trace data into XES format
             df = pd.read_json(request.session.get("trace"))
             trace_xes = utils.Conversion.dataframe_to_xes(
