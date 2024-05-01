@@ -61,9 +61,11 @@ class MetricsDashboardView(TemplateView):
         )
 
         relevance_df = trace_df[["activity", "activity_relevance"]]
-        relevance_df_styled = relevance_df.style.set_table_attributes(
-            'class="dataframe"'
-        ).apply(self.color_relevance, axis=1)
+        relevance_df_styled = (
+            relevance_df.style.set_table_attributes('class="dataframe"')
+            .apply(self.color_relevance, axis=1)
+            .hide()
+        )
         timestamp_df = trace_df[
             [
                 "activity",
@@ -73,25 +75,26 @@ class MetricsDashboardView(TemplateView):
                 "correctness_confidence",
             ]
         ]
-        timestamp_df = timestamp_df.style.set_table_attributes(
-            'class="dataframe"'
-        ).apply(self.color_timestamp_correctness, axis=1)
+        timestamp_df = (
+            timestamp_df.style.set_table_attributes('class="dataframe"')
+            .apply(self.color_timestamp_correctness, axis=1)
+            .hide()
+        )
 
         context.update(
             {
+                "total_activities": trace_df.shape[0],
                 "most_frequent_category": relevance_counts.index[0],
                 "most_frequent_category_count": relevance_counts.values[0],
-                "total_category": relevance_counts.sum(),
                 "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[
                     0
                 ],
                 "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[
                     0
                 ],
-                "total_timestamp_correctness": timestamp_correctness_counts.sum(),
                 "average_timestamp_correctness": average_timestamp_correctness,
-                "relevance_df": relevance_df_styled.to_html(index=False),
-                "timestamp_df": timestamp_df.to_html(index=False),
+                "relevance_df": relevance_df_styled.to_html(),
+                "timestamp_df": timestamp_df.to_html(),
                 "activity_relevance_pie_chart": activity_relevance_pie_chart,
                 "timestamp_correctness_pie_chart": timestamp_correctness_pie_chart,
                 "activity_relevance_bar_chart": activity_relevance_bar_chart,

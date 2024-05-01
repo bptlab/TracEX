@@ -10,15 +10,23 @@
 <body class="main_body">
 <h1>Metrics Dashboard</h1>
 <div class="dashboard">
+    <h2>General Information</h2>
+    <div class="row">
+        <div class="metric-tile">
+            <h3>Total Activties</h3>
+            <div class="number-metric">{{ total_activities }}</div>
+            <span class="info-icon">&#9432;</span>
+            <div class="info-text">>This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile change.</div>
+        </div>
+    </div>
     <h2>Activity Relevance</h2>
     <div class="row">
         <div class="metric-tile">
             <h3>Most Frequent Category</h3>
-            <div class="number-metric" id="most_frequent_category_count">{{ most_frequent_category_count }}</div>
-            <div class="not_visible" id="total_category">{{ total_category }} </div>
-            <div class="metric-content">{{ most_frequent_category }} </div>
+            <div class="number-metric">{{ most_frequent_category_count }}</div>
+            <div class="metric-content" id="most_frequent_category">{{ most_frequent_category }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            <div class="info-text">>This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile change.</div>
         </div>
     </div>
     <div class="row">
@@ -42,9 +50,8 @@
     <div class="row">
         <div class="metric-tile">
             <h3>Most Frequent Timestamp Correctness</h3>
-            <div class="number-metric" id="most_frequent_timestamp_correctness_count">{{ most_frequent_timestamp_correctness_count }}</div>
-            <div class="not_visible" id="total_timestamp_correctness">{{ total_timestamp_correctness }} </div>
-            <div class="metric-content">{{ most_frequent_timestamp_correctness }} </div>
+            <div class="number-metric">{{ most_frequent_timestamp_correctness_count }}</div>
+            <div class="metric-content" id="most_frequent_timestamp_correctness">{{ most_frequent_timestamp_correctness }} </div>
             <span class="info-icon">&#9432;</span>
             <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
         </div>
