@@ -75,7 +75,8 @@ h2 {
 .dataframe thead { background-color: #c2c0c0; }
 .dataframe tbody tr:nth-child(even) { background-color: #f9f9f9; }
 .dataframe tbody tr:nth-child(odd) { background-color: #f9f9f9; }
-
+.dataframe tbody tr:hover { background-color: #f1f1f1c3; }
+.dataframe th, .dataframe td { border: 1px solid rgba(54, 54, 54, 0.509); }
 
 /* LANDING PAGE */
 

@@ -61,7 +61,9 @@ class MetricsDashboardView(TemplateView):
         )
 
         relevance_df = trace_df[["activity", "activity_relevance"]]
-        relevance_df_styled = relevance_df.style.apply(self.color_relevance, axis=1)
+        relevance_df_styled = relevance_df.style.set_table_attributes(
+            'class="dataframe"'
+        ).apply(self.color_relevance, axis=1)
         timestamp_df = trace_df[
             [
                 "activity",
@@ -71,9 +73,9 @@ class MetricsDashboardView(TemplateView):
                 "correctness_confidence",
             ]
         ]
-        timestamp_df = timestamp_df.style.apply(
-            self.color_timestamp_correctness, axis=1
-        )
+        timestamp_df = timestamp_df.style.set_table_attributes(
+            'class="dataframe"'
+        ).apply(self.color_timestamp_correctness, axis=1)
 
         context.update(
             {
@@ -88,8 +90,8 @@ class MetricsDashboardView(TemplateView):
                 ],
                 "total_timestamp_correctness": timestamp_correctness_counts.sum(),
                 "average_timestamp_correctness": average_timestamp_correctness,
-                "relevance_df": relevance_df_styled.to_html(),
-                "timestamp_df": timestamp_df.to_html(),
+                "relevance_df": relevance_df_styled.to_html(index=False),
+                "timestamp_df": timestamp_df.to_html(index=False),
                 "activity_relevance_pie_chart": activity_relevance_pie_chart,
                 "timestamp_correctness_pie_chart": timestamp_correctness_pie_chart,
                 "activity_relevance_bar_chart": activity_relevance_bar_chart,
