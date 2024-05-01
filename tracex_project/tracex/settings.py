@@ -126,6 +126,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "tracex" / "static",
     BASE_DIR / "trace_comparator" / "static",
     BASE_DIR / "patient_journey_generator" / "static",
+    BASE_DIR / "db_results" / "static",
+    BASE_DIR / "extraction" / "static",
 ]
 
 # Default primary key field type

@@ -192,7 +192,7 @@ h2 {
 
 .metric-tile {
     flex: 1;
-    min-height: 150px; /* Change height to min-height */
+    min-height: 150px;
     background-color: #f1f1f1;
     margin: 0;
     padding: 20px;
@@ -234,7 +234,7 @@ h2 {
 
 .metric-content {
     display: inline-block;
-    text-align: left;
+    text-align: center;
 }
 
 .number-metric {

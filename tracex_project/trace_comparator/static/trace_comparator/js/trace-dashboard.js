@@ -2,8 +2,6 @@ const numberMetrics = document.querySelectorAll('.number-metric');
 var togglePipelineButton = document.getElementById('togglePipelineTable');
 var contentPipeline = document.getElementById('contentPipeline');
 
-
-
 numberMetrics.forEach(metric => {
   const content = parseInt(metric.textContent);
   const metricTile = metric.closest('.metric-tile');
@@ -15,7 +13,6 @@ numberMetrics.forEach(metric => {
     metricTile.style.backgroundColor = 'red';
   }
 });
-
 
 document.getElementById("togglePipelineTable").addEventListener("click", function() {
   var content = document.getElementById("contentPipeline");
