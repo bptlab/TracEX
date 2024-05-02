@@ -106,3 +106,25 @@ class ResultForm(BaseEventForm):
 
 class EvaluationForm(BaseEventForm):
     """Form for evaluating the extraction result."""
+
+    age_range = forms.CharField(label="Age Range", widget=forms.HiddenInput())
+    gender = forms.MultipleChoiceField(
+        label="Select gender",
+        choices=(("male", "Male"), ("female", "Female")),
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+        initial=["male", "female"],  # Both male and female selected by default
+    )
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['age_range'].widget.attrs.update({'id': 'age-slider'})
+    #     self.fields['event_types'].initial = [choice[0] for choice in EVENT_TYPES]
+    #     self.fields['locations'].initial = [choice[0] for choice in LOCATIONS]
+    #     self.fields['gender'].initial = ["male", "female"]
+
+    # def clean_age_range(self):
+    #     age_range = self.cleaned_data['age_range']
+    #     min_age, max_age = age_range.split(',')
+    #     print('Clean age range is used')
+    #     return int(min_age), int(max_age)

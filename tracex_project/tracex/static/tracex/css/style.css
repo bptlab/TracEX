@@ -339,3 +339,7 @@ text-align: center;
     text-decoration: none;
     cursor: pointer;
 }
+
+.noUi-target {
+    width: 100%;
+}

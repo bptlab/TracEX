@@ -320,14 +320,13 @@ class EvaluationView(generic.FormView):
         """Prepare the data for the evaluation page."""
         context = super().get_context_data(**kwargs)
         config = self.initiate_evaluation_configuration()
-        print("Config: " + str(config))
         activity_key = config.get("activity_key")
 
         # Query the database to get all traces
         all_traces_df = utils.DataFrameUtilities.get_events_df()
 
         # Set the filter dictionary based on the activity key
-        match (activity_key):
+        match activity_key:
             case "activity":
                 filter_dict = {
                     "attribute_location": config.get("locations"),
@@ -346,7 +345,7 @@ class EvaluationView(generic.FormView):
             case _:
                 filter_dict = {}
 
-        # Filter the dataframe
+        # Prepare and filter the dataframe
         all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
             all_traces_df, activity_key
         )
@@ -354,19 +353,12 @@ class EvaluationView(generic.FormView):
             all_traces_df, filter_dict
         )
 
-        all_cohorts_df = self.get_all_cohorts()
-        # Create HTML for all cohorts
+        print(filter_dict)
 
+        # generate the xes html
         xes_html = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
         ).getvalue()
-
-        # safe configuration in session, maybe not necessary
-        self.request.session["form_data"] = {
-            "event_types": config.get("event_types"),
-            "locations": config.get("locations"),
-            "activity_key": config.get("activity_key"),
-        }
 
         context.update(
             {
@@ -376,7 +368,6 @@ class EvaluationView(generic.FormView):
                 "all_traces_df": all_traces_df_filtered,
                 "xes_html": xes_html,
                 "form": EvaluationForm(initial=config),
-                "all_cohorts": cohort_html,
             }
         )
 
@@ -385,7 +376,18 @@ class EvaluationView(generic.FormView):
     def form_valid(self, form):
         """Save the filter settings in the cache and apply them to the dataframe."""
 
-        self.request.session["form_data"] = form.cleaned_data
+        print("Cleaned Data: ", form.cleaned_data)
+        self.request.session["filter_settings"] = form.cleaned_data
+
+        age_range = form.cleaned_data["age_range"]
+        min_age, max_age = map(
+            int, age_range.split("-")
+        )  # Extract min and max ages from the range
+        self.request.session["min_age"] = min_age
+        self.request.session["max_age"] = max_age
+
+        gender_selection = form.cleaned_data["gender"]
+        self.request.session["gender"] = gender_selection
 
         return super().form_valid(form)
 
@@ -393,20 +395,16 @@ class EvaluationView(generic.FormView):
         """Initiate the evaluation configuration."""
         # ToDo: Find better condition for initiation and ensure that all checkboxes are selected initially
         # initiate the configuration with session data from the form
-        config = self.request.session.get("form_data")
+        config = self.request.session.get("filter_settings")
+        # print(config)
         if config is None:
             config = {
-                "event_types": constants.EVENT_TYPES,
-                "locations": constants.LOCATIONS,
+                "event_types": [event_type[0] for event_type in constants.EVENT_TYPES],
+                "locations": [location[0] for location in constants.LOCATIONS],
                 "activity_key": constants.ACTIVITY_KEYS[0][0],
             }
             print("Configuration initiated")
-            print(config)
         else:
             print("Configuration already set")
 
         return config
-
-    def get_all_cohorts(self):
-        """Get all cohorts from the database."""
-        return Cohort.manager.all()
