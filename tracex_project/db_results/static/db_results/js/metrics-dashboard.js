@@ -37,4 +37,4 @@ updateFrequentMetricTileColor(most_frequent_category_content, most_frequent_cate
 // Trigger a resize event for the plots to adapt to the new size
 setTimeout(function() {
   window.dispatchEvent(new Event('resize'));
-}, 100);
+}, 0);
