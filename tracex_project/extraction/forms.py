@@ -56,6 +56,9 @@ class BaseEventForm(forms.Form):
                 code="no_event_type",
             )
 
+        # print validation errors
+        print(self.errors.as_data())
+
         return cleaned_data
 
     def validate_dependant_choices(self, field, choice_1, choice_2):
@@ -107,7 +110,9 @@ class ResultForm(BaseEventForm):
 class EvaluationForm(BaseEventForm):
     """Form for evaluating the extraction result."""
 
-    age_range = forms.CharField(label="Age Range", widget=forms.HiddenInput())
+    age_range = forms.CharField(
+        label="Age Range", widget=forms.HiddenInput(), required=False
+    )
     gender = forms.MultipleChoiceField(
         label="Select gender",
         choices=(("male", "Male"), ("female", "Female")),

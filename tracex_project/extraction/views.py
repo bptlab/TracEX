@@ -380,11 +380,13 @@ class EvaluationView(generic.FormView):
         self.request.session["filter_settings"] = form.cleaned_data
 
         age_range = form.cleaned_data["age_range"]
-        min_age, max_age = map(
-            int, age_range.split("-")
-        )  # Extract min and max ages from the range
-        self.request.session["min_age"] = min_age
-        self.request.session["max_age"] = max_age
+        print(age_range)
+        print(type(age_range))
+        # min_age, max_age = map(
+        #     int, age_range.split("-")
+        # )  # Extract min and max ages from the range
+        # self.request.session["min_age"] = min_age
+        # self.request.session["max_age"] = max_age
 
         gender_selection = form.cleaned_data["gender"]
         self.request.session["gender"] = gender_selection

@@ -104,11 +104,7 @@
         <!-- Checkboxes for male and female -->
         <div class="form-row">
             <div class="form-column">
-                <label>Gender</label><br>
-                <input type="checkbox" id="maleCheckbox" name="gender" value="male">
-                <label for="maleCheckbox">Male</label><br>
-                <input type="checkbox" id="femaleCheckbox" name="gender" value="female">
-                <label for="femaleCheckbox">Female</label><br>
+                {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
             </div>
         </div>
 
