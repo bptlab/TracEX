@@ -15,7 +15,7 @@ class DbResultsOverviewView(TemplateView):
     """View for the database results overview."""
 
     template_name = "db_results_overview.html"
-            
+ 
 class MetricsOverviewView(FormView):
     """View for selecting a patient journey for showing metrics."""
 
