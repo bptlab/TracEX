@@ -145,7 +145,7 @@ class MetricsDashboardView(TemplateView):
             ),
             output_type="div",
             include_plotlyjs=False,
-            config={"displaylogo": False, "displayModeBar": False},
+            config={"displaylogo": False, "displayModeBar": False, "showTips": False},
         )
 
     @staticmethod
@@ -164,5 +164,5 @@ class MetricsDashboardView(TemplateView):
             ),
             output_type="div",
             include_plotlyjs=False,
-            config={"displaylogo": False, "displayModeBar": False, "staticPlot": True},
+            config={"displaylogo": False, "displayModeBar": False, "staticPlot": True, "showTips": False},
         )
