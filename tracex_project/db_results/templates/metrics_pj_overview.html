@@ -8,8 +8,8 @@
 <body class="main_body">
     <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Metrics Dashboard" class="metrics_dashboard_logo">
     <h2>Welcome to the Metrics Dashboard</h2>
-    <p> TODO The Trace Testing Environment is a tool that enables you to assess the effectiveness of your current prompts by comparing the results of the extraction pipeline against a manually created trace, which serves as a predefined groundtruth.</p>
-    <p> TODO Please select one patient journey as ground truth to compare it against the extraction pipeline result.</p>
+    <p>The Metrics Dashboard is a comprehensive visual interface that displays key metrics tracked by the metrics analyzer during the extraction of a trace.</p>
+    <p>Please select one patient journey for that you want to see the dashboard.</p>
 
     <form method="post">
         {% csrf_token %}

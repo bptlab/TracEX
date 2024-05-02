@@ -14,15 +14,19 @@
                 <a href="{% url 'journey_generator_overview' %}">
                 <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
                 <span class="item_text">Patient Journey Generator</span>
+                </a>
             </div>
             <div class="item extraction">
                 <a href="{% url 'journey_input' %}">
                 <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-                <span class="item_text">Extraction Pipeline</span> </a>
+                <span class="item_text">Extraction Pipeline</span> 
+                </a>
             </div>
-            <div class="item result_dashboard">
-                <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Result Dashboard Logo" class="result_dashboard_logo">
-                <span class="item_text">Results Dashboard</span>
+            <div class="item db_results">
+                <a href="{% url 'db_results_overview' %}">
+                <img src="{% static '/tracex/img/database_results_logo.png' %}" alt="Datbase Results Logo" class="database_results_logo">
+                <span class="item_text">Database Results</span> 
+                </a>
             </div>
             <div class="item testing_environment">
                 <a href="{% url 'testing_environment' %}">

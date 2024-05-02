@@ -272,7 +272,11 @@ text-align: center;
     width: 350px;
 }
 
-.patient_journey_generator_logo, .extraction_logo, .test_environment_logo, .metrics_dashboard_logo {
+.database_results_logo{
+    width: 280px;
+}
+
+.patient_journey_generator_logo, .extraction_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo {
     height: auto;
     display: block;
     margin: 0 auto;

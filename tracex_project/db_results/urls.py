@@ -5,6 +5,11 @@ from . import views
 
 urlpatterns = [
     path(
+        "db_results/",
+        views.DbResultsOverviewView.as_view(),
+        name="db_results_overview",
+    ),
+    path(
         "db_results/metrics_overview/",
         views.MetricsOverviewView.as_view(),
         name="metrics_overview",

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Database Results</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    </head>
+<body class="main_body">
+    <img src="{% static '/tracex/img/database_results_logo.png' %}" alt="Database Results Logo" class="database_results_logo">
+    <h2>Welcome to the Database Results</h2>
+    <p> TODO The Trace Testing Environment is a tool that enables you to assess the effectiveness of your current prompts by comparing the results of the extraction pipeline against a manually created trace, which serves as a predefined groundtruth.</p>
+    <p> TODO Please select one patient journey as ground truth to compare it against the extraction pipeline result.</p>
+
+
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</body>
+</html>

@@ -11,6 +11,11 @@ from extraction.models import Trace, PatientJourney
 from tracex.logic.utils import DataFrameUtilities as dfu
 
 
+class DbResultsOverviewView(TemplateView):
+    """View for the database results overview."""
+
+    template_name = "db_results_overview.html"
+            
 class MetricsOverviewView(FormView):
     """View for selecting a patient journey for showing metrics."""
 
