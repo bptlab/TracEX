@@ -27,12 +27,12 @@ class MetricsOverviewView(FormView):
 
 
 class MetricsDashboardView(TemplateView):
-    """View for comparing the pipeline output against the ground truth."""
+    """View for displaying metrics."""
 
     template_name = "metrics_dashboard.html"
 
     def get_context_data(self, **kwargs):
-        """Add the plots to the context."""
+        """Add relevant metrics to the context."""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session["patient_journey_name"]
         query_last_trace = Q(
@@ -108,26 +108,27 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def color_relevance(row):
+        """Color the a row based on the activity relevance."""
         activity_relevance = row["activity_relevance"]
         if activity_relevance == "Moderate Relevance":
             return ["background-color: orange"] * len(row)
         if activity_relevance == "Low Relevance":
             return ["background-color: red"] * len(row)
-        else:
-            return [""] * len(row)
+        return [""] * len(row)
 
     @staticmethod
     def color_timestamp_correctness(row):
+        """Color the a row based on the timestamp correctness confidence."""
         correctness_confidence = row["correctness_confidence"]
         if correctness_confidence >= 0.7 and correctness_confidence <= 0.8:
             return ["background-color: orange"] * len(row)
         if correctness_confidence < 0.7:
             return ["background-color: red"] * len(row)
-        else:
-            return [""] * len(row)
+        return [""] * len(row)
 
     @staticmethod
     def create_pie_chart(data):
+        """Create a pie chart from the data."""
         return plot(
             go.Figure(
                 data=[go.Pie(labels=data.index, values=data.values)],
@@ -144,6 +145,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def create_bar_chart(data, x_title, y_title):
+        """Create a bar chart from the data."""
         return plot(
             go.Figure(
                 data=[go.Bar(x=data.index, y=data.values)],
