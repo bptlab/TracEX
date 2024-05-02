@@ -1,15 +1,14 @@
 """This file contains the views for the database result app."""
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-
 from db_results.forms import PatientJourneySelectForm
-from extraction.models import Trace, PatientJourney
+from django.db.models import Q
 
 import plotly.graph_objects as go
 from plotly.offline import plot
 
+from extraction.models import Trace, PatientJourney
 from tracex.logic.utils import DataFrameUtilities as dfu
-from django.db.models import Q
 
 
 class MetricsOverviewView(FormView):
@@ -112,7 +111,7 @@ class MetricsDashboardView(TemplateView):
         activity_relevance = row["activity_relevance"]
         if activity_relevance == "Moderate Relevance":
             return ["background-color: orange"] * len(row)
-        elif activity_relevance == "Low Relevance":
+        if activity_relevance == "Low Relevance":
             return ["background-color: red"] * len(row)
         else:
             return [""] * len(row)
@@ -122,7 +121,7 @@ class MetricsDashboardView(TemplateView):
         correctness_confidence = row["correctness_confidence"]
         if correctness_confidence >= 0.7 and correctness_confidence <= 0.8:
             return ["background-color: orange"] * len(row)
-        elif correctness_confidence < 0.7:
+        if correctness_confidence < 0.7:
             return ["background-color: red"] * len(row)
         else:
             return [""] * len(row)
@@ -149,8 +148,8 @@ class MetricsDashboardView(TemplateView):
             go.Figure(
                 data=[go.Bar(x=data.index, y=data.values)],
                 layout=go.Layout(
-                    xaxis=dict(title=x_title, gridcolor="darkgrey"),
-                    yaxis=dict(title=y_title, gridcolor="darkgrey"),
+                    xaxis={"title": x_title, "gridcolor": "darkgrey"},
+                    yaxis={"title": y_title, "gridcolor": "darkgrey"},
                     paper_bgcolor="rgba(0,0,0,0)",
                     plot_bgcolor="rgba(0,0,0,0)",
                     autosize=True,

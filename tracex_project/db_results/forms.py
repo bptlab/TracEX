@@ -1,8 +1,7 @@
 """Implementation of forms for the database result app."""
 from django import forms
-from extraction.models import PatientJourney, Metric
 from django.db.models import Exists, OuterRef
-
+from extraction.models import PatientJourney, Metric
 
 class PatientJourneySelectForm(forms.Form):
     """Form for selecting a patient journey."""
