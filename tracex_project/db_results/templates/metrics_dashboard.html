@@ -8,13 +8,29 @@
     <script src="{% static '/db_results/js/metrics-dashboard.js' %}" defer></script>
 </head>
 <body class="main_body">
-<h1>Metrics Dashboard</h1>
+<h1>Metrics Dashboard ({{ patient_journey_name }})</h1>
 <div class="dashboard">
     <h2>General Information</h2>
+    <h3>Overall Information</h3>
+    <div class="row">
+        <div class="metric-tile">
+            <h3>Total Patient Journeys</h3>
+            <div class="number-metric">{{ total_patient_journeys }}</div>
+        </div>
+        <div class="metric-tile">
+            <h3>Total Traces in DB</h3>
+            <div class="number-metric">{{ total_traces }}</div>
+        </div>
+    </div>
+    <h3>Trace Related Information</h3>
     <div class="row">
         <div class="metric-tile">
             <h3>Total Activties</h3>
             <div class="number-metric">{{ total_activities }}</div>
+        </div>
+        <div class="metric-tile">
+            <h3>Total Traces of Current Patient Journey</h3>
+            <div class="number-metric">{{ traces_count }}</div>
         </div>
     </div>
     <h2>Activity Relevance</h2>

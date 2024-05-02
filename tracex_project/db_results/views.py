@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 
 from db_results.forms import PatientJourneySelectForm
-from extraction.models import Trace
+from extraction.models import Trace, PatientJourney
 
 import plotly.graph_objects as go
 from plotly.offline import plot
@@ -83,7 +83,11 @@ class MetricsDashboardView(TemplateView):
 
         context.update(
             {
+                "patient_journey_name": patient_journey_name,
+                "total_patient_journeys": PatientJourney.manager.count(),
+                "total_traces": Trace.manager.count(),
                 "total_activities": trace_df.shape[0],
+                "traces_count": Trace.manager.filter(patient_journey__name=patient_journey_name).count(),
                 "most_frequent_category": relevance_counts.index[0],
                 "most_frequent_category_count": relevance_counts.values[0],
                 "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[

@@ -2,3 +2,4 @@ openai==1.5.0
 pm4py
 django
 pre-commit
+plotly
