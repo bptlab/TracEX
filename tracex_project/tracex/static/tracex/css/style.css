@@ -67,6 +67,21 @@ h2 {
     width: 100%;
 }
 
+.patient_journey_generator_form .form-row {
+    display: flex;
+    justify-content: center;
+}
+.patient_journey_generator_form .form-column {
+    text-align: center;
+}
+
+#id_name {
+    width: 15%;
+}
+
+#id_name::placeholder {
+    text-align: center;
+}
 
 /* TABLE STYLING */
 
@@ -159,25 +174,6 @@ h2 {
     justify-content: space-between;
 }
 
-
-/* PATIENT JOURNEY GENERATOR */
-
-.selection_body{
-    background-color: white;
-    font-family: 'Gill Sans', sans-serif;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-.selection_container {
-    width: 50%;
-}
-
 /* DASHBOARD */
 
 .dashboard {
@@ -260,35 +256,23 @@ text-align: center;
 }
 
 
-.selection_logo {
-    max-width: 800px;
-    margin-bottom: 20px;
-    margin-top: -150px;
-}
-
 .patient_journey_generator_logo {
     width: 280px;
-    height: auto;
-    }
+}
 
 .extraction_logo {
     width: 350px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
 }
 
 .test_environment_logo {
     width: 300px;
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    margin-top: 5%;
-    margin-bottom: 5%;
 }
 
 .metrics_dashboard_logo{
     width: 350px;
+}
+
+.patient_journey_generator_logo, .extraction_logo, .test_environment_logo, .metrics_dashboard_logo {
     height: auto;
     display: block;
     margin: 0 auto;
