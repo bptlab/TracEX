@@ -11,6 +11,7 @@ class TraceInline(admin.TabularInline):
 
 
 class EventInline(admin.TabularInline):
+    """Inline for the Event model, used to display the related Event objects in the Trace admin page."""
     model = Event
     extra = 0
     readonly_fields = (
@@ -20,12 +21,15 @@ class EventInline(admin.TabularInline):
     )
 
     def metrics_activity_relevance(self, obj):
+        """Returns the activity relevance metric for the event."""
         return obj.metrics.activity_relevance if hasattr(obj, "metrics") else "-"
 
     def metrics_timestamp_correctness(self, obj):
+        """Returns the timestamp correctness metric for the event."""
         return obj.metrics.timestamp_correctness if hasattr(obj, "metrics") else "-"
 
     def metrics_correctness_confidence(self, obj):
+        """Returns the correctness confidence metric for the event."""
         return obj.metrics.correctness_confidence if hasattr(obj, "metrics") else "-"
 
 

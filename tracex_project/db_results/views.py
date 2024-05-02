@@ -1,12 +1,12 @@
 """This file contains the views for the database result app."""
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from db_results.forms import PatientJourneySelectForm
 from django.db.models import Q
 
 import plotly.graph_objects as go
 from plotly.offline import plot
 
+from db_results.forms import PatientJourneySelectForm
 from extraction.models import Trace, PatientJourney
 from tracex.logic.utils import DataFrameUtilities as dfu
 
@@ -120,7 +120,7 @@ class MetricsDashboardView(TemplateView):
     def color_timestamp_correctness(row):
         """Color the a row based on the timestamp correctness confidence."""
         correctness_confidence = row["correctness_confidence"]
-        if correctness_confidence >= 0.7 and correctness_confidence <= 0.8:
+        if  0.7 <= correctness_confidence <= 0.8:
             return ["background-color: orange"] * len(row)
         if correctness_confidence < 0.7:
             return ["background-color: red"] * len(row)
