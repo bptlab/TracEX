@@ -28,13 +28,23 @@ class MetricsAnalyzer(Module):
     def execute(self, df, patient_journey=None, patient_journey_sentences=None):
         """Executing the measurement of metrics. The metrics output will be written on disk as a csv file.
         The dataframe without the metrics is returned for visualization."""
-        super().execute(df, patient_journey=patient_journey, patient_journey_sentences=patient_journey_sentences)
+        super().execute(
+            df,
+            patient_journey=patient_journey,
+            patient_journey_sentences=patient_journey_sentences,
+        )
 
         metrics_df = df.copy()
-        metrics_df["activity_relevance"] = metrics_df["activity"].apply(self.__rate_activity_relevance)
-        metrics_df[["timestamp_correctness", "correctness_confidence"]] = metrics_df.apply(
+        metrics_df["activity_relevance"] = metrics_df["activity"].apply(
+            self.__rate_activity_relevance
+        )
+        metrics_df[
+            ["timestamp_correctness", "correctness_confidence"]
+        ] = metrics_df.apply(
             lambda row: pd.Series(
-                self.__rate_timestamps_correctness(row["activity"], row["start"], row["end"])
+                self.__rate_timestamps_correctness(
+                    row["activity"], row["time:timestamp"], row["time:end_timestamp"]
+                )
             ),
             axis=1,
         )

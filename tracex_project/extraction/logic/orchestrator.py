@@ -126,6 +126,7 @@ class Orchestrator:
             patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.get_configuration().patient_journey
             )
+            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")
@@ -156,7 +157,7 @@ class Orchestrator:
             except ObjectDoesNotExist:
                 latest_id = 0
             del self.get_data()["sentence_id"]
-            self.get_data().insert(0, "case_id", latest_id + 1)
+            self.get_data().insert(0, "case:concept:name", latest_id + 1)
 
     def save_results_to_db(self):
         """Save the trace to the database."""
@@ -170,9 +171,9 @@ class Orchestrator:
                     trace=trace,
                     activity=row["activity"],
                     event_type=row["event_type"],
-                    start=row["start"],
-                    end=row["end"],
-                    duration=parse_duration(row["duration"]),
+                    start=row["time:timestamp"],
+                    end=row["time:end_timestamp"],
+                    duration=parse_duration(row["time:duration"]),
                     location=row["attribute_location"],
                 )
                 for _, row in self.get_data().iterrows()

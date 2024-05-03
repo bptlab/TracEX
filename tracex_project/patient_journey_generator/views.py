@@ -5,10 +5,6 @@ from django.views import generic
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from patient_journey_generator.forms import GenerationOverviewForm
 from patient_journey_generator.generator import generate_patient_journey
-from tracex.logic import constants
-
-
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -43,21 +39,14 @@ class JourneyGenerationView(generic.RedirectView):
     def get(self, request, *args, **kwargs):
         """Generate a patient journey and save it in the cache."""
         orchestrator = Orchestrator()
-        if IS_TEST:
-            with open(
-                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
-            ) as file:
-                journey = file.read()
-            configuration = ExtractionConfiguration(patient_journey=journey)
-            orchestrator.set_configuration(configuration)
-            self.request.session["generated_journey"] = journey
-        else:
-            # This automatically updates the configuration with the generated patient journey
-            configuration = ExtractionConfiguration(
-                patient_journey=generate_patient_journey()
-            )
-            orchestrator.set_configuration(configuration)
-            request.session[
-                "generated_journey"
-            ] = orchestrator.get_configuration().patient_journey
+
+        # This automatically updates the configuration with the generated patient journey
+        configuration = ExtractionConfiguration(
+            patient_journey=generate_patient_journey()
+        )
+        orchestrator.set_configuration(configuration)
+        request.session[
+            "generated_journey"
+        ] = orchestrator.get_configuration().patient_journey
+
         return super().get(request, *args, **kwargs)
