@@ -6,7 +6,6 @@ import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
 
-
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
@@ -21,13 +20,6 @@ from extraction.forms import (
 )
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import PatientJourney
-
-
-# necessary due to Windows error. see information for your os here:
-# https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
-os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
-
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
 
 
 class JourneyInputSelectView(generic.TemplateView):
@@ -116,7 +108,7 @@ class JourneyFilterView(generic.FormView):
         return context
 
     def form_valid(self, form):
-        """Run extraction pipeline and save the filter settings in the cache."""
+        """Run extraction pipeline and save the filter settings in the Orchestrator's configuration."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
@@ -124,7 +116,6 @@ class JourneyFilterView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         orchestrator.run(view=self)
-        self.request.session["is_extracted"] = True
         self.request.session.save()
 
         if self.request.session.get("is_comparing") is True:
@@ -143,7 +134,6 @@ class JourneyFilterView(generic.FormView):
             }
             return JsonResponse(progress_information)
 
-        self.request.session["is_extracted"] = False
         self.request.session["progress"] = 0
         self.request.session["status"] = None
         self.request.session.save()
@@ -162,105 +152,77 @@ class ResultView(generic.FormView):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        single_trace_df = orchestrator.get_data()
         activity_key = orchestrator.get_configuration().activity_key
+        filter_dict = {
+            "event_type": orchestrator.get_configuration().event_types,
+            "attribute_location": orchestrator.get_configuration().locations,
+        }
 
-        # 1. Set the filter dictionary based on the activity key
-        match (activity_key):
-            case "activity":
-                filter_dict = {
-                    "attribute_location": orchestrator.get_configuration().locations,
-                    "event_type": orchestrator.get_configuration().event_types,
-                }
-            case "event_type":
-                filter_dict = {
-                    "attribute_location": orchestrator.get_configuration().locations,
-                    "concept:name": orchestrator.get_configuration().event_types,
-                }
-            case "attribute_location":
-                filter_dict = {
-                    "concept:name": orchestrator.get_configuration().locations,
-                    "event_type": orchestrator.get_configuration().event_types,
-                }
-            case _:
-                filter_dict = {}
+        trace = self.build_trace_df(filter_dict)
+        event_log = self.build_event_log_df(filter_dict, trace)
 
-        # 2. Filter the single journey dataframe
-        single_trace_df = utils.Conversion.prepare_df_for_xes_conversion(
-            single_trace_df, activity_key
-        )
-        single_trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
-            single_trace_df, filter_dict
-        )
-
-        # 3. Append the single journey dataframe to the all traces dataframe
-
-        # TODO: remove comment once cohort is implemented
-        # condition = Cohort.manager.get(pk=orchestrator.get_db_objects_id("cohort")).condition
-        # query = Q(cohort__condition=condition)
-        all_traces_df = utils.DataFrameUtilities.get_events_df()
-        if not all_traces_df.empty:
-            all_traces_df = utils.Conversion.prepare_df_for_xes_conversion(
-                all_traces_df, activity_key
-            )
-            utils.Conversion.align_df_datatypes(single_trace_df_filtered, all_traces_df)
-            all_traces_df = pd.concat(
-                [all_traces_df, single_trace_df_filtered],
-                ignore_index=True,
-                axis="rows",
-            )
-            all_traces_df_filtered = utils.DataFrameUtilities.filter_dataframe(
-                all_traces_df, filter_dict
-            )
-        else:
-            all_traces_df_filtered = single_trace_df_filtered
-
-        # 4. Save all information in context to display on website
         context.update(
             {
                 "form": ResultForm(
                     initial={
                         "event_types": orchestrator.get_configuration().event_types,
                         "locations": orchestrator.get_configuration().locations,
-                        "activity_key": orchestrator.get_configuration().activity_key,
+                        "activity_key": activity_key,
                     }
                 ),
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
-                    single_trace_df_filtered
+                    df=trace,
+                    activity_key=activity_key,
                 ),
-                "xes_html": utils.Conversion.create_html_from_xes(
-                    single_trace_df_filtered
-                ).getvalue(),
+                "trace_table": utils.Conversion.create_html_table_from_df(trace),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
-                    all_traces_df_filtered
+                    df=event_log,
+                    activity_key=activity_key,
                 ),
-                "all_xes_html": utils.Conversion.create_html_from_xes(
-                    all_traces_df_filtered
-                ).getvalue(),
+                "event_log_table": utils.Conversion.create_html_table_from_df(
+                    event_log
+                ),
             }
         )
 
-        # 5 .Generate XES files
-        single_trace_xes = utils.Conversion.dataframe_to_xes(
-            single_trace_df_filtered, "single_trace.xes"
-        )
-        all_traces_xes = utils.Conversion.dataframe_to_xes(
-            all_traces_df_filtered, "all_traces.xes"
-        )
-
-        # 6. Store XES in session for retrieval in DownloadXesView
-        self.request.session["single_trace_xes"] = str(single_trace_xes)
-        self.request.session["all_traces_xes"] = str(all_traces_xes)
+        self.request.session["trace"] = trace.to_json()
+        self.request.session["event_log"] = event_log.to_json()
 
         return context
+
+    @staticmethod
+    def build_trace_df(filter_dict):
+        """Build the trace df based on the filter settings."""
+        trace_df = Orchestrator.get_instance().get_data()
+        trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
+            trace_df, filter_dict
+        )
+
+        return trace_df_filtered
+
+    @staticmethod
+    def build_event_log_df(filter_dict, trace):
+        """Build the event log dataframe based on the filter settings."""
+        event_log_df = utils.DataFrameUtilities.get_events_df()
+
+        if not event_log_df.empty:
+            if not trace.empty:
+                event_log_df = pd.concat(
+                    [event_log_df, trace], ignore_index=True, axis="rows"
+                )
+            event_log_df = utils.DataFrameUtilities.filter_dataframe(
+                event_log_df, filter_dict
+            )
+        elif not trace.empty:
+            event_log_df = trace
+
+        return event_log_df
 
     def form_valid(self, form):
         """Save the filter settings in the cache."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
-            # This should not be necessary, unspecified values should be unchanged
-            patient_journey=orchestrator.get_configuration().patient_journey,
             event_types=form.cleaned_data["event_types"],
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
@@ -302,7 +264,8 @@ class DownloadXesView(View):
 
         return self.prepare_response(files_to_download)
 
-    def get_trace_types(self, request):
+    @staticmethod
+    def get_trace_types(request):
         """Retrieves a list of trace types from the POST data."""
 
         return request.POST.getlist("trace_type[]")
@@ -320,14 +283,29 @@ class DownloadXesView(View):
 
         return files_to_download
 
-    def process_trace_type(self, request, trace_type):
+    @staticmethod
+    def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
-        if trace_type == "all_traces":
-            return request.session.get("all_traces_xes")
-        if trace_type == "single_trace":
-            return request.session.get("single_trace_xes")
+        orchestrator = Orchestrator.get_instance()
+        activity_key = orchestrator.get_configuration().activity_key
 
-        return None  # Return None for unrecognized trace type
+        if trace_type == "event_log":
+            # Process event log data into XES format
+            df = pd.read_json(request.session.get("event_log"))
+            event_log_xes = utils.Conversion.dataframe_to_xes(
+                df, name="event_log", activity_key=activity_key
+            )
+            return event_log_xes
+        if trace_type == "trace":
+            # Process trace data into XES format
+            df = pd.read_json(request.session.get("trace"))
+            trace_xes = utils.Conversion.dataframe_to_xes(
+                df, name="trace", activity_key=activity_key
+            )
+            return trace_xes
+        # Return None if the trace type is unrecognized
+
+        return None
 
     def prepare_response(self, files_to_download):
         """Prepares the appropriate response based on the number of files to be downloaded."""
@@ -337,7 +315,8 @@ class DownloadXesView(View):
         return self.zip_files_response(files_to_download)
 
     # pylint: disable=consider-using-with
-    def single_file_response(self, file_path):
+    @staticmethod
+    def single_file_response(file_path):
         """Prepares a file if there is only a single XES file."""
         file = open(file_path, "rb")
         response = FileResponse(file, as_attachment=True)
@@ -347,7 +326,8 @@ class DownloadXesView(View):
 
         return response
 
-    def zip_files_response(self, files_to_download):
+    @staticmethod
+    def zip_files_response(files_to_download):
         """Prepares a zip file if there are multiple XES files using a temporary file."""
         temp_zip = NamedTemporaryFile(mode="w+b", suffix=".zip", delete=False)
         zipf = zipfile.ZipFile(temp_zip, "w", zipfile.ZIP_DEFLATED)
