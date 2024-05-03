@@ -8,7 +8,10 @@
 <body class="main_body">
     <img src="{% static '/tracex/img/error.png' %}" alt="Error" class="error_logo">
     <h1>Error</h1>
-    <p>{{ message }}</p>
+    <pre>
+        <p>An error occurred while executing the pipeline. Please try executing the pipeline again.</p>
+        <p>Error Message: {{ message }}</p>
+    </pre>
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX menu</button>
     </a>
