@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Error</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
+<body class="main_body">
+    <img src="{% static '/tracex/img/error.png' %}" alt="Error" class="error_logo">
+    <h1>Error</h1>
+    <p>{{ message }}</p>
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</body>
+</html>

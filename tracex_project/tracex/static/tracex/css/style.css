@@ -277,6 +277,13 @@ text-align: center;
     margin: 0 auto;
 }
 
+.error_logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
 .test_environment_logo {
     width: 300px;
     height: auto;

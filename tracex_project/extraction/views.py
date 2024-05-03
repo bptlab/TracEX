@@ -10,7 +10,7 @@ import pandas as pd
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from tracex.logic import utils
 from extraction.forms import JourneyForm, ResultForm, FilterForm
@@ -66,7 +66,10 @@ class JourneyFilterView(generic.FormView):
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
         )
-        orchestrator.run(view=self)
+        try:
+            orchestrator.run(view=self)
+        except Exception as e:
+            return render(self.request, "error_page.html", {"message": str(e)})
         self.request.session["is_extracted"] = True
         self.request.session.save()
 
