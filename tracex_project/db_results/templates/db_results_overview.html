@@ -8,15 +8,15 @@
 <body class="main_body">
     <img src="{% static '/tracex/img/database_results_logo.png' %}" alt="Database Results Logo" class="database_results_logo">
     <h2>Welcome to the Database Results</h2>
-    <p> TODO The Trace Testing Environment is a tool that enables you to assess the effectiveness of your current prompts by comparing the results of the extraction pipeline against a manually created trace, which serves as a predefined groundtruth.</p>
-    <p> Please select if you want to see the Metrics Dashboard or the Evaluation View.</p>
+    <p> The Database Results page presents a comprehensive overview of the data gathered from the system. It offers insights into various aspects of the database, including metrics, analyses and filter possibilities.</p>
+    <p> Please select if you want to see the Metrics Dashboard or the Evaluation.</p>
 
     <div class="button-container">
         <a href="{% url 'metrics_overview' %}">
             <button class="menu_button">Go to Metrics Dashboard</button>
         </a>
         <a href="{% url 'landing_page' %}">
-            <button class="menu_button">Go to Another Page</button>
+            <button class="menu_button">Go to Evaluation</button>
         </a>
     </div>
 
