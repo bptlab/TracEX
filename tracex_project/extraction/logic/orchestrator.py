@@ -126,6 +126,7 @@ class Orchestrator:
             patient_journey_sentences = preprocessor.execute(
                 patient_journey=self.get_configuration().patient_journey
             )
+            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         self.update_progress(view, current_step, "Cohort Tagger")

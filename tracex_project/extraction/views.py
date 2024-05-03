@@ -154,14 +154,7 @@ class ResultView(generic.FormView):
     @staticmethod
     def build_event_log_df(filter_dict, trace):
         """Build the event log dataframe based on the filter settings."""
-        orchestrator = Orchestrator.get_instance()
-        # get only those traces from the database, that belong to the same condition as the newly extracted trace
-        condition = Cohort.manager.get(
-            pk=orchestrator.get_db_objects_id("cohort")
-        ).condition
-        event_log_df = utils.DataFrameUtilities.get_events_df(
-            Q(cohort__condition=condition)
-        )
+        event_log_df = utils.DataFrameUtilities.get_events_df()
 
         if not event_log_df.empty:
             if not trace.empty:
