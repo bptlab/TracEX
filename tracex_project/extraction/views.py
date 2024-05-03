@@ -163,19 +163,14 @@ class ResultView(generic.FormView):
             Q(cohort__condition=condition)
         )
 
-        # concatenate the dataframes if they are not empty
-        if not event_log_df.empty and not trace.empty:
-            event_log_df = pd.concat(
-                [event_log_df, trace],
-                ignore_index=True,
-                axis="rows",
-            )
-        # filter the event log dataframe if it is not empty
         if not event_log_df.empty:
+            if not trace.empty:
+                event_log_df = pd.concat(
+                    [event_log_df, trace], ignore_index=True, axis="rows"
+                )
             event_log_df = utils.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
-        # if event log is still empty, use the trace instead
         elif not trace.empty:
             event_log_df = trace
 
@@ -220,7 +215,7 @@ class DownloadXesView(View):
 
         files_to_download = self.collect_files(request, trace_types)
         if (
-                files_to_download is None
+            files_to_download is None
         ):  # Check for None explicitly to handle error scenario
             return HttpResponse("One or more files could not be found.", status=404)
 

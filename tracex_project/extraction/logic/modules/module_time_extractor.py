@@ -100,24 +100,12 @@ class TimeExtractor(Module):
 
             return row
 
-        converted_start = pd.to_datetime(
+        df["time:timestamp"] = pd.to_datetime(
             df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        )
-        mask = converted_start.isna()
-        df.loc[mask, "time:timestamp"] = converted_start
-        df["time:timestamp"] = df["time:timestamp"].ffill()
-
-        converted_end = pd.to_datetime(
+        ).ffill()
+        df["time:end_timestamp"] = pd.to_datetime(
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        )
-        mask = converted_end.isna()
-        df.loc[mask, "time:end_timestamp"] = converted_end
-        df["time:end_timestamp"] = df["time:end_timestamp"].ffill()
-
+        ).ffill()
         df = df.apply(fix_end_dates, axis=1)
-
-        df[["time:timestamp", "time:end_timestamp"]] = (
-            df[["time:timestamp", "time:end_timestamp"]]
-        ).apply(pd.to_datetime, format="%Y%m%dT%H%M")
 
         return df
