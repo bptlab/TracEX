@@ -15,7 +15,8 @@ class DbResultsOverviewView(TemplateView):
     """View for the database results overview."""
 
     template_name = "db_results_overview.html"
- 
+
+
 class MetricsOverviewView(FormView):
     """View for selecting a patient journey for showing metrics."""
 
@@ -91,7 +92,9 @@ class MetricsDashboardView(TemplateView):
                 "total_patient_journeys": PatientJourney.manager.count(),
                 "total_traces": Trace.manager.count(),
                 "total_activities": trace_df.shape[0],
-                "traces_count": Trace.manager.filter(patient_journey__name=patient_journey_name).count(),
+                "traces_count": Trace.manager.filter(
+                    patient_journey__name=patient_journey_name
+                ).count(),
                 "most_frequent_category": relevance_counts.index[0],
                 "most_frequent_category_count": relevance_counts.values[0],
                 "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[
@@ -125,7 +128,7 @@ class MetricsDashboardView(TemplateView):
     def color_timestamp_correctness(row):
         """Color the a row based on the timestamp correctness confidence."""
         correctness_confidence = row["correctness_confidence"]
-        if  0.7 <= correctness_confidence <= 0.8:
+        if 0.7 <= correctness_confidence <= 0.8:
             return ["background-color: orange"] * len(row)
         if correctness_confidence < 0.7:
             return ["background-color: red"] * len(row)
@@ -164,5 +167,10 @@ class MetricsDashboardView(TemplateView):
             ),
             output_type="div",
             include_plotlyjs=False,
-            config={"displaylogo": False, "displayModeBar": False, "staticPlot": True, "showTips": False},
+            config={
+                "displaylogo": False,
+                "displayModeBar": False,
+                "staticPlot": True,
+                "showTips": False,
+            },
         )
