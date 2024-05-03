@@ -5,7 +5,6 @@ import zipfile
 import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
-from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic, View
@@ -13,7 +12,6 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
 from tracex.logic import utils
-from extraction.models import Cohort
 from extraction.forms import JourneyForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
