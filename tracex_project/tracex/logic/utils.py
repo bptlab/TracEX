@@ -150,7 +150,7 @@ class Conversion:
         output_dfg = pm4py.discover_dfg(
             df_renamed, "concept:name", "time:timestamp", "case:concept:name"
         )
-        with tempfile.NamedTemporaryFile(suffix=".png") as temp_file:
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
             pm4py.save_vis_dfg(
                 output_dfg[0],
                 output_dfg[1],
