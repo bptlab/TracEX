@@ -180,7 +180,6 @@ class Orchestrator:
                 self.get_data()["event_type"] = "N/A"
             if "location_extraction" not in self.get_configuration().modules:
                 self.get_data()["attribute_location"] = "N/A"
-            print(self.get_data())
 
     def save_results_to_db(self):
         """Save the trace to the database."""

@@ -36,8 +36,15 @@
         {{ form.modules_required.errors }}
         <br>
         {{ form.modules_optional.label_tag }}
-        {{ form.modules_optional }}
-        <p>{{ form.modules_optional.help_text }}</p>
+        {% for field in form.modules_optional %}
+          <div class="tooltip-container">
+            <label>{{ field.label }}</label>
+            <div class="tooltip">
+              {{ field }}
+              <span class="tooltiptext">{{ form.modules_optional.help_text }}</span>
+            </div>
+          </div>
+        {% endfor %}
         {{ form.modules_optional.errors }}
       </div>
       <div class="form-column" style="flex: 2;">
@@ -45,15 +52,27 @@
         <div class="form-row" style="display: flex; justify-content: space-between;">
           <div class="form-column" style="flex: 1;">
             {{ form.event_types.label_tag }}
-            {{ form.event_types }}
-            <p>{{ form.event_types.help_text }}</p>
-            {{ form.event_types.errors }}
+            {% for field in form.event_types %}
+              <div class="tooltip-container">
+                <label>{{ field.label }}</label>
+                <div class="tooltip">
+                  {{ field }}
+                  <span class="tooltiptext">{{ form.event_types.help_text }}</span>
+                </div>
+              </div>
+            {% endfor %}
           </div>
           <div class="form-column" style="flex: 1;">
             {{ form.locations.label_tag }}
-            {{ form.locations }}
-            <p>{{ form.locations.help_text }}</p>
-            {{ form.locations.errors }}
+            {% for field in form.locations %}
+              <div class="tooltip-container">
+                <label>{{ field.label }}</label>
+                <div class="tooltip">
+                  {{ field }}
+                  <span class="tooltiptext">{{ form.locations.help_text }}</span>
+                </div>
+              </div>
+            {% endfor %}
           </div>
         </div>
       </div>
@@ -69,12 +88,15 @@
         }
       </style>
     </div>
+    {% if form.event_types.errors %}
+        <div class="form-errors">
+            {{ form.event_types.errors }}
+        </div>
+    {% endif %}
     {% if form.non_field_errors %}
-      <div class="alert alert-danger" {% if is_comparing %}hidden{% endif %}>
-          {% for error in form.non_field_errors %}
-              <p>{{ error }}</p>
-          {% endfor %}
-      </div>
+        <div class="form-errors">
+          {{ form.non_field_errors }}
+        </div>
     {% endif %}
 
     <div class="spinner-container" id="loading-container">

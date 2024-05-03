@@ -112,7 +112,16 @@ class ResultView(generic.FormView):
     def get_form_kwargs(self):
         """Add the selected modules to the form."""
         kwargs = super().get_form_kwargs()
+        orchestrator = Orchestrator.get_instance()
+        selected_modules = self.request.session.get("selected_modules")
         kwargs["selected_modules"] = self.request.session.get("selected_modules")
+        kwargs["initial"] = {
+            "event_types": orchestrator.get_configuration().event_types,
+            "locations": orchestrator.get_configuration().locations,
+            "activity_key": orchestrator.get_configuration().activity_key,
+            "modules_optional": selected_modules,
+        }
+
         return kwargs
 
     def get_context_data(self, **kwargs):
@@ -172,19 +181,13 @@ class ResultView(generic.FormView):
         else:
             all_traces_df_filtered = single_trace_df_filtered
 
+        form = self.get_form()
+        form.is_valid
+
         # 4. Save all information in context to display on website
         context.update(
             {
-                "form": ResultForm(
-                    initial={
-                        "event_types": orchestrator.get_configuration().event_types,
-                        "locations": orchestrator.get_configuration().locations,
-                        "activity_key": orchestrator.get_configuration().activity_key,
-                        "modules_optional": self.request.session.get(
-                            "selected_modules"
-                        ),
-                    }
-                ),
+                "form": form,
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
                     single_trace_df_filtered

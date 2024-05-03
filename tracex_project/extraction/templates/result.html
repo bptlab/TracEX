@@ -81,7 +81,6 @@
                     <div class="form-column" style="flex: 1;">
                         {{ form.event_types.label_tag }}
                         {{ form.event_types }}
-                        {{ form.event_types.errors }}
                     </div>
                     <div class="form-column" style="flex: 1;">
                         {{ form.locations.label_tag }}
@@ -102,12 +101,17 @@
                 }
             </style>
         </div>
+        {% if form.event_types.errors %}
+            <div class="form-errors">
+                {{ form.event_types.errors }}
+            </div>
+        {% endif %}
         {% if form.non_field_errors %}
-        <div class="alert alert-danger" {% if is_comparing %}hidden{% endif %}>
-            {% for error in form.non_field_errors %}
-                <p>{{ error }}</p>
-            {% endfor %}
-        </div>
+            <div class="alert alert-danger" {% if is_comparing %}hidden{% endif %}>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
         {% endif %}
         <input type="submit" value="Refresh Filter" class="button">
     </form>
