@@ -2,7 +2,12 @@
 from django import forms
 
 from extraction.models import PatientJourney
-from tracex.logic.constants import EVENT_TYPES, LOCATIONS, ACTIVITY_KEYS
+from tracex.logic.constants import (
+    EVENT_TYPES,
+    LOCATIONS,
+    ACTIVITY_KEYS,
+    EUROPEAN_COUNTRIES,
+)
 
 
 class BaseEventForm(forms.Form):
@@ -110,15 +115,31 @@ class ResultForm(BaseEventForm):
 class EvaluationForm(BaseEventForm):
     """Form for evaluating the extraction result."""
 
-    age_range = forms.CharField(
-        label="Age Range", widget=forms.HiddenInput(), required=False
+    min_age = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={"id": "min-age"}),
+    )
+    max_age = forms.IntegerField(
+        required=False,
+        widget=forms.NumberInput(attrs={"id": "max-age"}),
     )
     gender = forms.MultipleChoiceField(
         label="Select gender",
-        choices=(("male", "Male"), ("female", "Female")),
+        choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        initial=["male", "female"],  # Both male and female selected by default
+        initial=["male", "female", "other"],  # Both male and female selected by default
+    )
+    condition = forms.CharField(
+        label="Condition",
+        widget=forms.TextInput(attrs={"placeholder": "Enter condition"}),
+        required=False,
+    )
+    origin = forms.MultipleChoiceField(
+        label="Select origin",
+        choices=[(country, country) for country in EUROPEAN_COUNTRIES],
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
     )
 
     # def __init__(self, *args, **kwargs):

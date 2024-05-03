@@ -8,131 +8,139 @@
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
 </head>
 <body class="main_body">
-    <h1>Evaluation View</h1>
+<h1>Evaluation View</h1>
 
-    <!-- Include necessary libraries -->
-    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<!-- Include necessary libraries -->
+<link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $("#toggleButton1").click(function() {
-                $("#contentWrapper1").toggle();
-            });
-
-            $("#toggleButton2").click(function() {
-                $("#contentWrapper2").toggle();
-            });
+<script>
+    $(document).ready(function () {
+        $("#toggleButton1").click(function () {
+            $("#contentWrapper1").toggle();
         });
-    </script>
 
-    <!-- JavaScript for the range slider -->
-    <script>
-        $(function() {
-            var ageSlider = document.getElementById('age-slider');
-            var minAgeField = document.getElementById('min-age');
-            var maxAgeField = document.getElementById('max-age');
-            var ageValues = [0, 100]; // Default range
-
-            noUiSlider.create(ageSlider, {
-                start: ageValues,
-                connect: true,
-                range: {
-                    'min': 0,
-                    'max': 100
-                }
-            });
-
-            ageSlider.noUiSlider.on('update', function(values, handle) {
-                if (handle === 0) {
-                    minAgeField.value = values[0];
-                } else {
-                    maxAgeField.value = values[1];
-                }
-            });
+        $("#toggleButton2").click(function () {
+            $("#contentWrapper2").toggle();
         });
-    </script>
+    });
+</script>
 
-    <!-- Display DFG image -->
-    <div class="dfg-container">
-        <div>
-            <p><b>All Traces (DFG)</b></p>
-            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
-        </div>
-    </div>
+<!-- JavaScript for the range slider -->
+<!-- JavaScript for the range slider -->
 
-    <!-- Display complete event log -->
+
+<!-- Display DFG image -->
+<div class="dfg-container">
     <div>
-        <p><b>All Traces Table</b></p>
-        {% if xes_html %}
-            <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
-            <div id="contentWrapper1" style="display: none;">
-                <p></p>
-                <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
-            </div>
-        {% else %}
-            <p>Something went wrong during the event log generation: No buffer content available.</p>
-        {% endif %}
+        <p><b>All Traces (DFG)</b></p>
+        <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+    </div>
+</div>
+
+<!-- Display complete event log -->
+<div>
+    <p><b>All Traces Table</b></p>
+    {% if xes_html %}
+        <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
+        <div id="contentWrapper1" style="display: none;">
+            <p></p>
+            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+        </div>
+    {% else %}
+        <p>Something went wrong during the event log generation: No buffer content available.</p>
+    {% endif %}
+</div>
+
+<!-- Form for filters -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.event_types.label_tag }} {{ form.event_types }}
+            {{ form.event_types.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.locations.label_tag }} {{ form.locations }}
+            {{ form.locations.errors }}
+        </div>
+        <div class="form-column activity-key-column">
+            {{ form.activity_key.label_tag }} {{ form.activity_key }}
+            {{ form.activity_key.errors }}
+        </div>
+        <style>
+            .activity-key-column label, .activity-key-column select {
+                display: block;
+            }
+        </style>
+
     </div>
 
-    <!-- Form for filters -->
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.event_types.label_tag }} {{ form.event_types }}
-                {{ form.event_types.errors }}
-            </div>
-            <div class="form-column">
-                {{ form.locations.label_tag }} {{ form.locations }}
-                {{ form.locations.errors }}
-            </div>
-            <div class="form-column activity-key-column">
-                {{ form.activity_key.label_tag }} {{ form.activity_key }}
-                {{ form.activity_key.errors }}
-            </div>
-            <style>
-                .activity-key-column label, .activity-key-column select {
-                    display: block;
-                }
-            </style>
-
+    <!-- Checkboxes for male and female -->
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
         </div>
-
-        <!-- Checkboxes for male and female -->
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
-            </div>
+        <div class="form-column">
+            {{ form.condition.label }} {{ form.condition }} {{ form.condition.errors }}
         </div>
+    </div>
 
-        <!-- Range slider for age -->
-        <div class="form-row">
-            <div class="form-column">
-                <label for="age-slider">Age Range</label>
-                <div id="age-slider"></div>
-            </div>
+    <!-- Range slider for age -->
+    <div class="form-row">
+        <div class="form-column">
+            <label for="age-slider">Age Range</label>
+            <div id="age-slider"></div>
         </div>
+    </div>
 
-        <div class="form-row">
-            <div class="form-column">
-                <label for="min-age">Minimum Age</label>
-                <input type="text" id="min-age" name="min_age" readonly>
-            </div>
-            <div class="form-column">
-                <label for="max-age">Maximum Age</label>
-                <input type="text" id="max-age" name="max_age" readonly>
-            </div>
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.min_age.label_tag }} {{ form.min_age }}
+            {{ form.min_age.errors }}
         </div>
-        {{ form.errors }}
+        <div class="form-column">
+            {{ form.max_age.label_tag }} {{ form.max_age }}
+            {{ form.max_age.errors }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.origin.label_tag }} {{ form.origin }}
+            {{ form.origin.errors }}
+        </div>
+    </div>
 
-        <input type="submit" value="Refresh Filter" class="button">
-    </form>
+    {{ form.errors }}
 
-    <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX Menu</button>
-    </a>
+    <input type="submit" value="Refresh Filter" class="button">
+</form>
+<script>
+    $(function () {
+        var ageSlider = document.getElementById('age-slider');
+        var minAgeField = document.getElementById('min-age');
+        var maxAgeField = document.getElementById('max-age');
+        var ageValues = [0, 100]; // Default range
+
+        noUiSlider.create(ageSlider, {
+            start: ageValues,
+            connect: true,
+            range: {
+                'min': 0,
+                'max': 100
+            }
+        });
+
+        ageSlider.noUiSlider.on('update', function (values, handle) {
+            minAgeField.value = Math.round(values[0]);
+            maxAgeField.value = Math.round(values[1]);
+        });
+    });
+</script>
+<a href="{% url 'landing_page' %}">
+    <button class="menu_button">Return to TracEX Menu</button>
+</a>
 </body>
 </html>

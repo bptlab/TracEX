@@ -5,6 +5,7 @@ import zipfile
 import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
+from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic, View
@@ -323,7 +324,34 @@ class EvaluationView(generic.FormView):
         activity_key = config.get("activity_key")
 
         # Query the database to get all traces
-        all_traces_df = utils.DataFrameUtilities.get_events_df()
+        query_dict = self.request.session.get("query_dict")
+        if query_dict is not None:
+            query_dict = {
+                key: value for key, value in query_dict.items() if value is not None
+            }
+            query_condition = Q(
+                cohort__condition=query_dict.get("condition")
+                if query_dict.get("condition")
+                else Q()
+            )
+            query_age = (
+                Q(
+                    cohort__age__gte=query_dict.get("min_age"),
+                    cohort__age__lte=query_dict.get("max_age"),
+                )
+                if query_dict.get("min_age") and query_dict.get("max_age")
+                else Q()
+            )
+            query_origin = Q(
+                cohort__origin_in=query_dict.get("origin")
+                if query_dict.get("origin")
+                else Q()
+            )
+            all_traces_df = utils.DataFrameUtilities.get_events_df(
+                query_condition & query_age & query_origin
+            )
+        else:
+            all_traces_df = utils.DataFrameUtilities.get_events_df()
 
         # Set the filter dictionary based on the activity key
         match activity_key:
@@ -376,20 +404,16 @@ class EvaluationView(generic.FormView):
     def form_valid(self, form):
         """Save the filter settings in the cache and apply them to the dataframe."""
 
-        print("Cleaned Data: ", form.cleaned_data)
         self.request.session["filter_settings"] = form.cleaned_data
 
-        age_range = form.cleaned_data["age_range"]
-        print(age_range)
-        print(type(age_range))
-        # min_age, max_age = map(
-        #     int, age_range.split("-")
-        # )  # Extract min and max ages from the range
-        # self.request.session["min_age"] = min_age
-        # self.request.session["max_age"] = max_age
-
-        gender_selection = form.cleaned_data["gender"]
-        self.request.session["gender"] = gender_selection
+        print(f"Min age: {form.cleaned_data}")
+        query_dict = {
+            "gender": form.cleaned_data["gender"],
+            "condition": form.cleaned_data["condition"],
+            "min_age": form.cleaned_data["min_age"],
+            "max_age": form.cleaned_data["max_age"],
+        }
+        self.request.session["query_dict"] = query_dict
 
         return super().form_valid(form)
 
