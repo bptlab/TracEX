@@ -15,10 +15,6 @@ from tracex.logic import utils
 from extraction.forms import JourneyForm, ResultForm, FilterForm
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 
-# necessary due to Windows error. see information for your os here:
-# https://stackoverflow.com/questions/35064304/runtimeerror-make-sure-the-graphviz-executables-are-on-your-systems-path-aft
-os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
-
 
 class JourneyInputView(generic.CreateView):
     """View for uploading a patient journey."""
