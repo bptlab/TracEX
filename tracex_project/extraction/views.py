@@ -343,7 +343,7 @@ class EvaluationView(generic.FormView):
                 else Q()
             )
             query_origin = Q(
-                cohort__origin_in=query_dict.get("origin")
+                cohort__origin__in=query_dict.get("origin")
                 if query_dict.get("origin")
                 else Q()
             )
