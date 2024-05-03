@@ -1,6 +1,6 @@
 """This file contains the views for the extraction app.
-Some unused imports have to be made because of architectural requirement."""
-# pylint: disable=unused-argument
+Some unused imports and variables have to be made because of architectural requirement."""
+# pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
@@ -12,29 +12,85 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
 from tracex.logic import utils
-from extraction.forms import JourneyForm, ResultForm, FilterForm
+from extraction.forms import (
+    JourneyUploadForm,
+    ResultForm,
+    FilterForm,
+    JourneySelectForm,
+)
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
+from extraction.models import PatientJourney
 
 
-class JourneyInputView(generic.CreateView):
+class JourneyInputSelectView(generic.TemplateView):
+    """View for choosing if you want to upload a patient journey or select from the database."""
+
+    template_name = "choose_input_method.html"
+
+
+class JourneyUploadView(generic.CreateView):
     """View for uploading a patient journey."""
 
-    form_class = JourneyForm
+    form_class = JourneyUploadForm
     template_name = "upload_journey.html"
-    success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
         """Save the uploaded journey in the cache."""
         uploaded_file = self.request.FILES.get("file")
         content = uploaded_file.read().decode("utf-8")
         form.instance.patient_journey = content
-
         response = super().form_valid(form)
-        configuration = ExtractionConfiguration(patient_journey=content)
-        orchestrator = Orchestrator(configuration)
-        orchestrator.set_db_objects_id("patient_journey", self.object.id)
 
         return response
+
+    def get_success_url(self):
+        """Return the success URL."""
+
+        return reverse_lazy("journey_details", kwargs={"pk": self.object.id})
+
+
+class JourneySelectView(generic.FormView):
+    """View for selecting a patient journey from the database."""
+
+    model = PatientJourney
+    form_class = JourneySelectForm
+    template_name = "select_journey.html"
+    success_url = reverse_lazy("journey_details")
+
+    def form_valid(self, form):
+        """Pass selected journey to orchestrator."""
+        selected_journey = form.cleaned_data["selected_patient_journey"]
+        patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
+
+        return redirect("journey_details", pk=patient_journey_entry.pk)
+
+
+class JourneyDetailView(generic.DetailView):
+    """View for displaying the details of a patient journey."""
+
+    model = PatientJourney
+    template_name = "journey_details.html"
+
+    def get_context_data(self, **kwargs):
+        """Add patient journey to context."""
+        context = super().get_context_data(**kwargs)
+        patient_journey = self.get_object()
+        context["patient_journey"] = patient_journey
+        self.request.session["patient_journey_id"] = patient_journey.id
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        """Redirect to the FilterView afterward."""
+        patient_journey_id = self.request.session.get("patient_journey_id")
+        patient_journey = PatientJourney.manager.get(pk=patient_journey_id)
+        configuration = ExtractionConfiguration(
+            patient_journey=patient_journey.patient_journey
+        )
+        orchestrator = Orchestrator(configuration)
+        orchestrator.set_db_objects_id("patient_journey", patient_journey_id)
+
+        return redirect("journey_filter")
 
 
 class JourneyFilterView(generic.FormView):
