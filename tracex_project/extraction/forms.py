@@ -88,7 +88,7 @@ class JourneyUploadForm(forms.ModelForm):
     ALLOWED_FILE_TYPES = ["txt"]
     file = forms.FileField(
         label="Upload your patient journey",
-        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES} containing your patient journey.",
+        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES}.",
         required=True,
     )
     field_order = ["file", "name", "event_types", "locations"]

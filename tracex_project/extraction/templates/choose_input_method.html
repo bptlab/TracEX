@@ -10,8 +10,7 @@
 <body class="main_body">
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
     <h2>Choose Input Method</h2>
-    <p> The extraction pipeline helps you extract XES Event Logs from Patient Journeys. You can filter the results by event type and location before and after extraction to get exactly what you need. </p>
-    <p>Please select the patient journey you want to upload below.</p>
+    <p>You can either upload a patient journey or select an existing patient journey from the database.</p>
     <div class="form-row">
         <div class="form-column">
             <a href='{% url "journey_upload" %}'>
