@@ -84,7 +84,6 @@ class JourneyFilterView(generic.FormView):
             }
             return JsonResponse(progress_information)
 
-        self.request.session["is_extracted"] = False
         self.request.session["progress"] = 0
         self.request.session["status"] = None
         self.request.session.save()
@@ -221,7 +220,7 @@ class DownloadXesView(View):
 
         files_to_download = self.collect_files(request, trace_types)
         if (
-            files_to_download is None
+                files_to_download is None
         ):  # Check for None explicitly to handle error scenario
             return HttpResponse("One or more files could not be found.", status=404)
 
