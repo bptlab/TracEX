@@ -14,6 +14,7 @@ from extraction.logic.modules import (
     MetricsAnalyzer,
 )
 from extraction.models import Trace, PatientJourney, Event, Cohort
+from tracex.logic import utils as u
 
 
 @dataclass
@@ -156,7 +157,7 @@ class Orchestrator:
             name for name in modules if name not in ("cohort_tagging", "preprocessing")
         ]:
             module = modules[module_name]
-            self.update_progress(view, current_step, module_name)
+            self.update_progress(view, current_step, module.name)
             self.set_data(
                 module.execute(
                     self.get_data(),
@@ -174,17 +175,12 @@ class Orchestrator:
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case_id", latest_id + 1)
             if "time_extraction" not in self.get_configuration().modules:
-                self.get_data()["start"] = self.get_data().apply(
-                    lambda row: f"20200101T{str(row.name).zfill(3)}0", axis=1
-                )
-                self.get_data()["end"] = self.get_data().apply(
-                    lambda row: f"20200101T{str(row.name).zfill(3)}1", axis=1
-                )
-                self.get_data()["duration"] = "00:01:00"
+                u.DataFrameUtilities.set_default_timestamps(self.get_data())
             if "event_type_classification" not in self.get_configuration().modules:
                 self.get_data()["event_type"] = "N/A"
             if "location_extraction" not in self.get_configuration().modules:
                 self.get_data()["attribute_location"] = "N/A"
+            print(self.get_data())
 
     def save_results_to_db(self):
         """Save the trace to the database."""

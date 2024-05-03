@@ -234,3 +234,17 @@ class DataFrameUtilities:
             combined_condition &= condition
 
         return df[combined_condition]
+
+    def set_default_timestamps(df):
+        """Set default timestamps for the trace if the time_extraction module didn't run."""
+        df["start"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0001",
+            axis=1,
+        )
+        df["start"] = pd.to_datetime(df["start"], format="%Y%m%dT%H%M", errors="coerce")
+        df["end"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0002",
+            axis=1,
+        )
+        df["end"] = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
+        df["duration"] = "00:01:00"

@@ -143,8 +143,18 @@ class FilterForm(BaseEventForm):
                 f"For the chosen activity key the module {error_module} has to run.\
                 Select this module or change the activity key.",
             )
+        self.__validate_modules_optional(modules)
 
         return cleaned_data
+
+    @staticmethod
+    def __validate_modules_optional(modules):
+        """Validate optional modules"""
+        if "metrics_analyzer" in modules and "time_extraction" not in modules:
+            raise forms.ValidationError(
+                f"Metrics Analyzer depends on Time Extractor. Please select both or deselect Metrics Analyzer.",
+                code="dependant_fields",
+            )
 
 
 class ResultForm(BaseEventForm):
