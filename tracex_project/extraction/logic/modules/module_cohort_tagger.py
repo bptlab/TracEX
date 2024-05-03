@@ -2,8 +2,9 @@
 from pathlib import Path
 from django.conf import settings
 
-from extraction.models import Cohort, Prompt
+from extraction.models import Cohort
 from extraction.logic.module import Module
+from extraction.logic import prompts as p
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
 
@@ -19,38 +20,23 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
-        """
-        Extracts the cohort from the patient journey and saves the result in the database.
-        """
-        super().execute_and_save(
-            df,
-            patient_journey=patient_journey,
-            patient_journey_sentences=patient_journey_sentences
-        )
+    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+        """Extracts the cohort from the patient journey."""
+        super().execute(df, patient_journey, patient_journey_sentences)
 
-        cohort_tags = self.__extract_cohort_tags(patient_journey)
-        cohort_pk = self.__save_to_db(cohort_tags)
+        return self.__extract_cohort_tags()
 
-        return cohort_pk
-
-    @staticmethod
-    def __extract_cohort_tags(patient_journey):
+    def __extract_cohort_tags(self):
         """Extracts information about condition, gender, age, origin and preexisting condition."""
         cohort_data = {}
-        for message_list in Prompt.objects.get(name="COHORT_TAG_MESSAGES").text:
+        for message_list in p.COHORT_TAG_MESSAGES:
             messages = message_list[1:]
             messages.append(
-                {"role": "user", "content": patient_journey},
+                {"role": "user", "content": self.patient_journey},
             )
             tag = u.query_gpt(messages)
             cohort_data[message_list[0]] = tag
 
-        return cohort_data
-
-    @staticmethod
-    def __save_to_db(cohort_data):
-        """Saves the cohort tags to the database."""
         valid_cohort_data = {
             key: value for key, value in cohort_data.items() if value != "N/A"
         }

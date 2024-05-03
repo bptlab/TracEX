@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import os
 import random
 
-from extraction.models import Prompt
+from patient_journey_generator import prompts as p
 from tracex.logic import constants as c
 from tracex.logic import utils as u
 
@@ -13,8 +13,10 @@ def generate_patient_journey():
     print(
         "Please wait while the system is generating a patient journey. This may take a few moments."
     )
-    messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
-    messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
+    messages = [
+        {"role": "system", "content": create_patient_journey_context()},
+        {"role": "user", "content": p.CREATE_PATIENT_JOURNEY_PROMPT},
+    ]
     patient_journey = u.query_gpt(messages=messages, temperature=1)
     i = 0
     proposed_filename = "journey_synth_covid_" + str(i) + ".txt"

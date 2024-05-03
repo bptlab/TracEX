@@ -1,0 +1,24 @@
+case_id,activity,start,end,duration,event_type,attribute_location
+1,Experiencing mild symptoms,20220601T0000,20220602T0000,00:00:00,Symptom Onset,No location
+1,Developing high fever and difficulty breathing,20220603T0000,20220610T0000,07:00:00,Symptom Onset,No location
+1,Getting tested for Covid-19,20220617T0000,20220617T0000,00:00:00,Diagnosis,Hospital
+1,Isolating from family,20220617T0000,20220620T0000,03:00:00,Lifestyle Change,Home
+1,Receiving confirmation of virus,20220620T0000,20220620T0000,00:00:00,Diagnosis,Hospital
+1,Contacting primary care physician,20220620T0000,20220620T0000,00:00:00,Doctor visit,Doctors
+1,Prescribed medication for fever,20220620T0000,20220625T0000,05:00:00,Medication,Doctors
+1,Resting and drinking fluids,20220620T0000,20220625T0000,05:00:00,Treatment,Home
+1,Gradually improving symptoms,20220625T0000,20220630T0000,05:00:00,Symptom Offset,No location
+1,Experiencing lingering fatigue,20220625T0000,20220710T0000,15:00:00,Symptom Onset,No location
+1,Experiencing occasional shortness of breath,20220625T0000,20220710T0000,15:00:00,Symptom Onset,No location
+1,Taking it easy and gradually increasing activity levels,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Struggling to balance recovery with professional responsibilities,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Temporarily delegating cases to colleagues,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Prioritizing health,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Practicing mindfulness and meditation,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Seeking support from therapist,20220625T0000,20220710T0000,15:00:00,Lifestyle Change,No location
+1,Getting vaccinated,20220805T0000,20220826T0000,21:00:00,Treatment,Hospital
+1,Feeling relief and added protection,20220805T0000,20220826T0000,21:00:00,Feelings,No location
+1,Reassessing priorities,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
+1,Finding work-life balance,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
+1,Prioritizing self-care,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location
+1,Creating meaningful time with loved ones,20220805T0000,20220826T0000,21:00:00,Lifestyle Change,No location

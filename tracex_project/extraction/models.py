@@ -69,15 +69,8 @@ class Event(models.Model):
 class Prompt(models.Model):
     """Model for the prompt to be used in the GPT query."""
 
-    DEFAULT_NAME = ""
-    DEFAULT_CATEGORY = "zero-shot"
-
-    name = models.CharField(max_length=100, default=DEFAULT_NAME)
-    category = models.CharField(max_length=100, default=DEFAULT_CATEGORY)
-    text = models.JSONField()
-
-    def __str__(self):
-        return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
+    name = models.CharField(max_length=100)
+    text = models.TextField()
 
 
 class Metric(models.Model):

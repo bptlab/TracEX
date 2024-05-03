@@ -1,11 +1,10 @@
 """This file contains the views for the patient journey generator app."""
 from django.urls import reverse_lazy
 from django.views import generic
-
-from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from patient_journey_generator.forms import GenerationOverviewForm
-from patient_journey_generator.generator import generate_patient_journey
+from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from tracex.logic import constants
+from .generator import generate_patient_journey
 
 
 IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline

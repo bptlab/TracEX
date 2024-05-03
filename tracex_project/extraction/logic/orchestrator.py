@@ -4,16 +4,18 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
+from tracex.logic import utils
+
+from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
 from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
     ActivityLabeler,
     TimeExtractor,
-    EventTypeClassifier,
     LocationExtractor,
+    EventTypeClassifier,
     MetricsAnalyzer,
 )
-from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
 
 
 @dataclass
@@ -29,10 +31,10 @@ class ExtractionConfiguration:
     locations: Optional[List[str]] = None
     modules = {
         "preprocessing": Preprocessor,
-        "cohort_tagging": CohortTagger,
         "activity_labeling": ActivityLabeler,
-        "time_extraction": TimeExtractor,
+        "cohort_tagging": CohortTagger,
         "event_type_classification": EventTypeClassifier,
+        "time_extraction": TimeExtractor,
         "location_extraction": LocationExtractor,
         "metrics_analyzer": MetricsAnalyzer,
     }
@@ -131,20 +133,14 @@ class Orchestrator:
         self.db_objects_id["cohort"] = (
             self.get_configuration()
             .modules["cohort_tagging"]()
-            .execute_and_save(
-                self.get_data(),
-                patient_journey=patient_journey,
-                patient_journey_sentences=patient_journey_sentences,
-            )
+            .execute_and_save(self.get_data(), patient_journey_sentences)
         )
         current_step += 1
         for module in modules:
             self.update_progress(view, current_step, module.name)
             self.set_data(
                 module.execute(
-                    self.get_data(),
-                    patient_journey=patient_journey,
-                    patient_journey_sentences=patient_journey_sentences,
+                    self.get_data(), patient_journey, patient_journey_sentences
                 )
             )
             current_step += 1
@@ -156,6 +152,7 @@ class Orchestrator:
                 latest_id = 0
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case_id", latest_id + 1)
+            self.get_data().to_csv(utils.CSV_OUTPUT, index=False, header=True)
 
     def save_results_to_db(self):
         """Save the trace to the database."""
