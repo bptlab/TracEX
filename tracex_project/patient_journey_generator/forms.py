@@ -2,6 +2,7 @@
 from django import forms
 from extraction.models import PatientJourney
 
+
 class GenerationOverviewForm(forms.ModelForm):
     """Form for viewing generated patient journey."""
 
@@ -18,6 +19,3 @@ class GenerationOverviewForm(forms.ModelForm):
                 attrs={"placeholder": "Name for your patient journey"}
             ),
         }
-
-class GenerationForm(forms.ModelForm):
-    """Form for generating a patient journey."""
