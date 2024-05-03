@@ -14,17 +14,17 @@
     <p>Please select the patient journey you want to upload below.</p>
     <div class="form-row">
         <div class="form-column">
-            <a href='{% url 'journey_upload' %}'>
+            <a href='{% url "journey_upload" %}'>
                 <button class="menu_button">Upload a patient journey</button>
             </a>
         </div>
         <div class="form-column">
-            <a href='{% url 'journey_select' %}'>
+            <a href='{% url "journey_select" %}'>
                 <button class="menu_button">Select a patient journey</button>
             </a>
         </div>
     </div>
-    <a href="{% url 'landing_page' %}">
+    <a href="{% url "landing_page" %}">
         <button class="menu_button">Return to TracEX menu</button>
     </a>
 </body>
