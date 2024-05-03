@@ -114,6 +114,7 @@ class JourneySelectForm(forms.Form):
         """Retrieves the available patient journey choices from the database."""
         patient_journeys = PatientJourney.manager.all()
         choices = [(pj.name, pj.name) for pj in patient_journeys]
+
         return choices
 
 
