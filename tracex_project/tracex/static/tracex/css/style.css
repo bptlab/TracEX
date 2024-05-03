@@ -343,3 +343,11 @@ text-align: center;
 .noUi-target {
     width: 100%;
 }
+
+.origin-checkbox {
+    column-count: 3;
+}
+
+.noUi-connect {
+    background: #0075ff;
+}

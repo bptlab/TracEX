@@ -138,7 +138,7 @@ class EvaluationForm(BaseEventForm):
     origin = forms.MultipleChoiceField(
         label="Select origin",
         choices=[(country, country) for country in EUROPEAN_COUNTRIES],
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={'class': 'origin-checkbox'}),
         required=False,
     )
 
