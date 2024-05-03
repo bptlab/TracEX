@@ -178,7 +178,7 @@ h2 {
 
 .button-container {
     display: flex;
-    gap: 10px; 
+    gap: 10px;
 }
 
 .button-container a {
@@ -188,7 +188,7 @@ flex: 1;
 .menu_button {
 width: 100%;
 }
-  
+
 
 /* DASHBOARD */
 
@@ -250,7 +250,7 @@ width: 100%;
     text-align: center;
 }
 
-.number-metric {
+.number-metric, .metric-count {
 font-size: 48px;
 margin-bottom: 20px;
 font-weight: bold;

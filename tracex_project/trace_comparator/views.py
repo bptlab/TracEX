@@ -172,6 +172,8 @@ class TraceTestingResultView(TemplateView):
 
         context.update(
             {
+                "total_activities_pipeline": len(pipeline_df),
+                "total_activities_ground_truth": len(ground_truth_df),
                 "patient_journey_name": patient_journey_name,
                 "patient_journey": PatientJourney.manager.get(
                     name=patient_journey_name

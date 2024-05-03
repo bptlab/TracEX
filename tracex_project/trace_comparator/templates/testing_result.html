@@ -11,6 +11,16 @@
 <div class="dashboard">
     <div class="row">
         <div class="metric-tile">
+            <h3>Total Activties in Pipeline</h3>
+            <div class="metric-count">{{ total_activities_pipeline }}</div>
+        </div>
+        <div class="metric-tile">
+            <h3>Total Activties in Ground Truth</h3>
+            <div class="metric-count">{{ total_activities_ground_truth }}</div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="metric-tile">
             <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
             <div class="metric-content">{{ mapping_data_to_ground_truth|safe }} </div>
             <span class="info-icon">&#9432;</span>
