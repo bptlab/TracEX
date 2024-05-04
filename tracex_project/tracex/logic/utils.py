@@ -13,7 +13,6 @@ import numpy as np
 
 from django.conf import settings
 from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
@@ -194,7 +193,7 @@ class DataFrameUtilities:
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
 
         if not traces.exists():
-            raise ObjectDoesNotExist("No traces match the provided query.")
+            return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
 
@@ -233,7 +232,7 @@ class DataFrameUtilities:
 
         events_df = pd.DataFrame(event_data)
 
-        return events_df.sort_values(by="start", inplace=False)
+        return events_df.sort_values(by="time:timestamp", inplace=False)
 
     @staticmethod
     def filter_dataframe(df, filter_dict):
