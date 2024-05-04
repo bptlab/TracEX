@@ -56,7 +56,9 @@
                                                                       value="preprocessing" id="id_modules_optional_0"
                                                                       checked="">
                                 Preprocessor</label>
-                            <span class="tooltiptext">Text 0</span>
+                            <span class="tooltiptext">The Preprocessor brings the Patient Journey in a form that is
+                                better understandable for the pipeline. If it is not run, errors are more likely to
+                                occur.</span>
                         </div>
                     </div>
 
@@ -67,7 +69,7 @@
                                                                       value="cohort_tagging" id="id_modules_optional_1"
                                                                       checked="">
                                 Cohort Tagger</label>
-                            <span class="tooltiptext">Text 1</span>
+                            <span class="tooltiptext">This might be a required module soon.</span>
                         </div>
                     </div>
 
@@ -78,7 +80,8 @@
                                                                       value="time_extraction" id="id_modules_optional_2"
                                                                       checked="">
                                 Time Extractor</label>
-                            <span class="tooltiptext">Text 2</span>
+                            <span class="tooltiptext">The Time Extractor finds Timestamps for the extracted activities.
+                                If it's not run, the timestamps will be set to default values.</span>
                         </div>
                     </div>
 
@@ -89,7 +92,8 @@
                                                                       value="event_type_classification"
                                                                       id="id_modules_optional_3" checked="">
                                 Event Type Classifier</label>
-                            <span class="tooltiptext">Text 3</span>
+                            <span class="tooltiptext">The Event Type Classifier categorizes the extracted activities
+                                into the given event types. If it's not run, every event type will be 'N/A'</span>
                         </div>
                     </div>
 
@@ -101,7 +105,8 @@
                                                                       id="id_modules_optional_4"
                                                                       checked="">
                                 Location Extractor</label>
-                            <span class="tooltiptext">Text 4</span>
+                            <span class="tooltiptext">The Location Extractor finds the related location to the
+                                extracted activities. If it's not run, every location will be 'N/A'</span>
                         </div>
                     </div>
 
@@ -113,7 +118,9 @@
                                                                       id="id_modules_optional_5"
                                                                       checked="">
                                 Metrics Analyzer</label>
-                            <span class="tooltiptext">Text 5</span>
+                            <span class="tooltiptext">The Metrics Analyzer evaluates the results of the pipeline.
+                                First in regard to the relevance of the activities and second in regard to the
+                                timestamp correctness. If it's not run, the analysis will not be possible.</span>
                         </div>
                     </div>
 
