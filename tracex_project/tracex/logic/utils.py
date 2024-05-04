@@ -13,6 +13,7 @@ import numpy as np
 
 from django.conf import settings
 from django.db.models import Q
+from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
