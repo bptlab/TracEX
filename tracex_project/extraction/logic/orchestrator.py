@@ -13,7 +13,7 @@ from extraction.logic.modules import (
     LocationExtractor,
     MetricsAnalyzer,
 )
-from extraction.models import Trace, PatientJourney, Event, Cohort
+from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
 
 
 @dataclass
@@ -108,8 +108,7 @@ class Orchestrator:
             self.get_configuration().modules["time_extraction"](),
             self.get_configuration().modules["event_type_classification"](),
             self.get_configuration().modules["location_extraction"](),
-            # This module should be activated only if the user wants to analyze the metrics
-            # self.get_configuration().modules["metrics_analyzer"](),
+            self.get_configuration().modules["metrics_analyzer"](),
         ]
         print("Initialization of modules successful.")
         return modules
@@ -165,20 +164,31 @@ class Orchestrator:
             pk=self.db_objects_id["patient_journey"]
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
-        events: List[Event] = Event.manager.bulk_create(
-            [
-                Event(
-                    trace=trace,
-                    activity=row["activity"],
-                    event_type=row["event_type"],
-                    start=row["time:timestamp"],
-                    end=row["time:end_timestamp"],
-                    duration=parse_duration(row["time:duration"]),
-                    location=row["attribute_location"],
-                )
-                for _, row in self.get_data().iterrows()
-            ]
-        )
+        events_with_metric = []
+        metric_list = []
+        for _, row in self.get_data().iterrows():
+            event = Event(
+                trace=trace,
+                activity=row["activity"],
+                event_type=row["event_type"],
+                start=row["time:timestamp"],
+                end=row["time:end_timestamp"],
+                duration=parse_duration(row["time:duration"]),
+                location=row["attribute_location"],
+            )
+            metric = Metric(
+                activity_relevance=row["activity_relevance"],
+                timestamp_correctness=row["timestamp_correctness"],
+                correctness_confidence=row["correctness_confidence"],
+            )
+            event.metric = metric
+            events_with_metric.append(event)
+            metric_list.append(metric)
+
+        events: List[Event] = Event.manager.bulk_create(events_with_metric)
+        for event, metric in zip(events, metric_list):
+            metric.event = event
+        Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
         if self.db_objects_id["cohort"] and self.db_objects_id["cohort"] != 0:
             trace.cohort = Cohort.manager.get(pk=self.db_objects_id["cohort"])

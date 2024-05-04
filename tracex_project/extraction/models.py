@@ -78,3 +78,19 @@ class Prompt(models.Model):
 
     def __str__(self):
         return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
+
+
+class Metric(models.Model):
+    """Model for metrics which are being tracked by the metrics analyzer"""
+
+    event = models.OneToOneField(
+        Event, on_delete=models.CASCADE, related_name="metrics"
+    )
+    activity_relevance = models.CharField(max_length=25)
+    timestamp_correctness = models.BooleanField()
+    correctness_confidence = models.DecimalField(max_digits=3, decimal_places=2)
+    last_modified = models.DateTimeField(auto_now=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Metric of {self.event.__str__().split('(')[0]} (id: {self.id})"  # pylint: disable=no-member
