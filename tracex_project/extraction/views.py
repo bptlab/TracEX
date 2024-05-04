@@ -182,7 +182,6 @@ class ResultView(generic.FormView):
             all_traces_df_filtered = single_trace_df_filtered
 
         form = self.get_form()
-        form.is_valid
 
         # 4. Save all information in context to display on website
         context.update(

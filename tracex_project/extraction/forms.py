@@ -152,7 +152,7 @@ class FilterForm(BaseEventForm):
         """Validate optional modules"""
         if "metrics_analyzer" in modules and "time_extraction" not in modules:
             raise forms.ValidationError(
-                f"Metrics Analyzer depends on Time Extractor. Please select both or deselect Metrics Analyzer.",
+                "Metrics Analyzer depends on Time Extractor. Please select both or deselect Metrics Analyzer.",
                 code="dependant_fields",
             )
 

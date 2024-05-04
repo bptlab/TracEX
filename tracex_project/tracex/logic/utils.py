@@ -235,6 +235,7 @@ class DataFrameUtilities:
 
         return df[combined_condition]
 
+    @staticmethod
     def set_default_timestamps(df):
         """Set default timestamps for the trace if the time_extraction module didn't run."""
         df["start"] = df.apply(
