@@ -1,6 +1,6 @@
 """Module providing various utility functions for the project."""
 import os
-from io import StringIO, BytesIO
+from io import StringIO
 from pathlib import Path
 
 import base64
@@ -11,10 +11,8 @@ import pandas as pd
 import pm4py
 import numpy as np
 
-from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
@@ -22,7 +20,6 @@ from tracex.logic.constants import (
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
-    output_path,
 )
 
 from extraction.models import Trace
@@ -110,82 +107,81 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["case_id"] = df["case_id"].astype(str)
-        df["start"] = pd.to_datetime(df["start"])
-        df["end"] = pd.to_datetime(df["end"])
-        df = df.rename(
+        df_renamed = df.rename(
             columns={
                 activity_key: "concept:name",
-                "case_id": "case:concept:name",
-                "start": "time:timestamp",
-                "end": "time:end_timestamp",
-                "duration": "time:duration",
-            }
+            },
+            inplace=False,
+        )
+        df_renamed["case:concept:name"] = df["case:concept:name"].astype(str)
+
+        return df_renamed
+
+    @staticmethod
+    def create_html_table_from_df(df: pd.DataFrame):
+        """Create html table from DataFrame and rename columns for better readability."""
+        df_renamed = df.rename(
+            columns={
+                "case:concept:name": "Case ID",
+                "activity": "Activity",
+                "event_type": "Event Type",
+                "time:timestamp": "Start Timestamp",
+                "time:end_timestamp": "End Timestamp",
+                "time:duration": "Duration",
+                "attribute_location": "Location",
+            },
+            inplace=False,
+        )
+        df_renamed.sort_values(by="Start Timestamp", inplace=True)
+        html_buffer = StringIO()
+        df_renamed.to_html(
+            buf=html_buffer,
+            index=False,
         )
 
-        return df
+        return html_buffer.getvalue()
 
     @staticmethod
-    def create_html_from_xes(df):
-        """Create html table from xes file."""
-        xes_html_buffer = StringIO()
-        pd.DataFrame.to_html(df, buf=xes_html_buffer)
-
-        return xes_html_buffer
-
-    @staticmethod
-    def create_dfg_from_df(df):
+    def create_dfg_from_df(df, activity_key):
         """Create png image from df."""
-        dfg_img_buffer = BytesIO()
-        output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "time:timestamp", "case:concept:name"
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
+        )
+        output_dfg = pm4py.discover_dfg(
+            df_renamed, "concept:name", "time:timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
-            temp_file_path = temp_file.name
             pm4py.save_vis_dfg(
-                output_dfg_file[0],
-                output_dfg_file[1],
-                output_dfg_file[2],
-                temp_file_path,
+                output_dfg[0],
+                output_dfg[1],
+                output_dfg[2],
+                temp_file.name,
                 rankdir="TB",
             )
-        with open(temp_file_path, "rb") as temp_file:
-            dfg_img_buffer.write(temp_file.read())
-        os.remove(temp_file_path)
-        dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
+            temp_file.seek(0)
+            image_data = temp_file.read()
 
-        return dfg_img_base64
+        return base64.b64encode(image_data).decode("utf-8")
 
     @staticmethod
-    def align_df_datatypes(source_df, target_df):
-        """Aligns the datatypes of two dataframes."""
-        for column in source_df.columns:
-            if column in target_df.columns and not is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].astype(target_df[column].dtype)
-            elif is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].dt.tz_localize(tz=None)
-
-        return source_df
-
-    @staticmethod
-    def dataframe_to_xes(df, name):
-        """Conversion from dataframe to xes file."""
-
-        # Sorting Dataframe for start timestamp
-        df = df.groupby("case:concept:name", group_keys=False, sort=False).apply(
-            lambda x: x.sort_values(by="time:timestamp", inplace=False)
+    def dataframe_to_xes(df, name, activity_key):
+        """Conversion from dataframe to xes file, stored temporarily on disk."""
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
+        )
+        df_renamed.sort_values(by="time:timestamp", inplace=True)
+        temp_dir = tempfile.mkdtemp()
+        file_path = os.path.join(temp_dir, f"{name}.xes")
+        pm4py.objects.log.exporter.xes.exporter.apply(
+            df_renamed,
+            file_path,
+            parameters={
+                "case_id_key": "case:concept:name",
+                "timestamp_key": "time:timestamp",
+            },
         )
 
-        # Converting DataFrame to XES
-        xes_file = output_path / name
-        pm4py.write_xes(
-            log=df,
-            file_path=xes_file,
-            case_id_key="case:concept:name",
-            timestamp_key="time:timestamp",
-        )
-
-        return xes_file
+        return file_path
 
 
 class DataFrameUtilities:
@@ -195,33 +191,31 @@ class DataFrameUtilities:
     def get_events_df(query: Q = None):
         """Get all events from the database, or filter them by a query and return them as a dataframe."""
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
-
         if not traces.exists():
-            raise ObjectDoesNotExist("No traces match the provided query.")
+            return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
-
         for trace in traces:
             events = trace.events.all()
             for event in events:
                 event_data.append(
                     {
-                        "case_id": trace.id,
+                        "case:concept:name": trace.id,
                         "activity": event.activity,
                         "event_type": event.event_type,
-                        "start": event.start,
-                        "end": event.end,
-                        "duration": event.duration,
+                        "time:timestamp": event.start,
+                        "time:end_timestamp": event.end,
+                        "time:duration": event.duration,
                         "attribute_location": event.location,
                     }
                 )
         events_df = pd.DataFrame(event_data)
 
-        return events_df.sort_values(by="start", inplace=False)
+        return events_df.sort_values(by="time:timestamp", inplace=False)
 
     @staticmethod
     def filter_dataframe(df, filter_dict):
-        """Filter a dataframe."""
+        """Filter a dataframe using a dictionary with column names."""
         filter_conditions = [
             df[column].isin(values)
             if column in df.columns
@@ -238,14 +232,18 @@ class DataFrameUtilities:
     @staticmethod
     def set_default_timestamps(df):
         """Set default timestamps for the trace if the time_extraction module didn't run."""
-        df["start"] = df.apply(
+        df["time:timestamp"] = df.apply(
             lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0001",
             axis=1,
         )
-        df["start"] = pd.to_datetime(df["start"], format="%Y%m%dT%H%M", errors="coerce")
-        df["end"] = df.apply(
+        df["time:timestamp"] = pd.to_datetime(
+            df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:end_timestamp"] = df.apply(
             lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0002",
             axis=1,
         )
-        df["end"] = pd.to_datetime(df["end"], format="%Y%m%dT%H%M", errors="coerce")
-        df["duration"] = "00:01:00"
+        df["time:end_timestamp"] = pd.to_datetime(
+            df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:duration"] = "00:01:00"

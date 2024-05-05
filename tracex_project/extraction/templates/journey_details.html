@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Select Journey</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
+
+<body class="main_body">
+    <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
+    <h2>Content of "{{ patient_journey.name }}"</h2>
+    {{ patient_journey.patient_journey }}
+
+    <form method="post" action="{% url 'journey_details' pk=patient_journey.pk %}">
+        {% csrf_token %}
+        <input type="submit" value="Next" class="button">
+    </form>
+    <a href="{{ request.META.HTTP_REFERER }}">
+        <button class="menu_button">Previous</button>
+    </a>
+    <a href="{% url "landing_page" %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</body>
+</html>

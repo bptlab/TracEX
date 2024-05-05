@@ -69,7 +69,9 @@
                                                                       value="cohort_tagging" id="id_modules_optional_1"
                                                                       checked="">
                                 Cohort Tagger</label>
-                            <span class="tooltiptext">This might be a required module soon.</span>
+                            <span class="tooltiptext">The Cohort Tagger extracts the disease the patient journey is
+                                about alongside useful case attributes for further filter options. If it is not run,
+                                no case attributes will be extracted.</span>
                         </div>
                     </div>
 
@@ -332,12 +334,14 @@
                 </div>
             </div>
             <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button">
+        </div>
+    </div>
 </form>
 
 <a href="{{ request.META.HTTP_REFERER }}">
     <button class="menu_button">Previous</button>
-</a>
-<a href="{% url 'landing_page' %}">
+  </a>
+  <a href="{% url "landing_page" %}">
     <button class="menu_button">Return to TracEX menu</button>
 </a>
 </body>
