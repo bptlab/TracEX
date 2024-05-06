@@ -118,27 +118,35 @@ class Conversion:
         return df_renamed
 
     @staticmethod
-    def create_html_table_from_df(df: pd.DataFrame):
-        """Create html table from DataFrame and rename columns for better readability."""
-        df_renamed = df.rename(
-            columns={
-                "case:concept:name": "Case ID",
-                "activity": "Activity",
-                "event_type": "Event Type",
-                "time:timestamp": "Start Timestamp",
-                "time:end_timestamp": "End Timestamp",
-                "time:duration": "Duration",
-                "attribute_location": "Location",
-            },
-            inplace=False,
-        )
-        df_renamed.sort_values(by="Start Timestamp", inplace=True)
-        html_buffer = StringIO()
-        df_renamed.to_html(
-            buf=html_buffer,
-            index=False,
-        )
+    def rename_columns(df: pd.DataFrame):
+        """Rename columns in the DataFrame for better readability."""
+        column_mapping = {
+            "case:concept:name": "Case ID",
+            "activity": "Activity",
+            "event_type": "Event Type",
+            "time:timestamp": "Start Timestamp",
+            "time:end_timestamp": "End Timestamp",
+            "time:duration": "Duration",
+            "attribute_location": "Location",
+            "activity_relevance": "Activity Relevance",
+            "timestamp_correctness": "Timestamp Correctness",
+            "correctness_confidence": "Correctness Confidence",
+        }
+        existing_columns = {column: column_mapping[column] for column in column_mapping if column in df.columns}
+        df_renamed = df.rename(columns=existing_columns, inplace=False)
+        return df_renamed
 
+
+    def create_html_table_from_df(self, df: pd.DataFrame):
+        """Create html table from DataFrame."""
+        df_renamed = self.rename_columns(df)
+        
+        if "Start Timestamp" in df_renamed.columns:
+            df_renamed.sort_values(by="Start Timestamp", inplace=True)
+        
+        html_buffer = StringIO()
+        df_renamed.to_html(buf=html_buffer, index=False)
+        
         return html_buffer.getvalue()
 
     @staticmethod

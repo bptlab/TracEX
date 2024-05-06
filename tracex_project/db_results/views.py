@@ -8,7 +8,7 @@ from plotly.offline import plot
 
 from db_results.forms import PatientJourneySelectForm
 from extraction.models import Trace, PatientJourney
-from tracex.logic.utils import DataFrameUtilities as dfu
+from tracex.logic import utils as u
 
 
 class DbResultsOverviewView(TemplateView):
@@ -46,7 +46,7 @@ class MetricsDashboardView(TemplateView):
             .latest("last_modified")
             .id
         )
-        trace_df = dfu.get_events_df(query_last_trace)
+        trace_df = u.DataFrameUtilities.get_events_df(query_last_trace)
 
         relevance_counts = trace_df["activity_relevance"].value_counts()
         timestamp_correctness_counts = trace_df["timestamp_correctness"].value_counts()
@@ -66,12 +66,12 @@ class MetricsDashboardView(TemplateView):
         )
 
         relevance_df = trace_df[["activity", "activity_relevance"]]
+        relevance_df = u.Conversion.rename_columns(relevance_df)
         relevance_df_styled = (
             relevance_df.style.set_table_attributes('class="dataframe"')
             .apply(self.color_relevance, axis=1)
             .hide()
         )
-        print(trace_df.columns.tolist())
         timestamp_df = trace_df[
             [
                 "activity",
@@ -81,6 +81,7 @@ class MetricsDashboardView(TemplateView):
                 "correctness_confidence",
             ]
         ]
+        timestamp_df = u.Conversion.rename_columns(timestamp_df)
         timestamp_df = (
             timestamp_df.style.set_table_attributes('class="dataframe"')
             .apply(self.color_timestamp_correctness, axis=1)
@@ -118,22 +119,23 @@ class MetricsDashboardView(TemplateView):
     @staticmethod
     def color_relevance(row):
         """Color the a row based on the activity relevance."""
-        activity_relevance = row["activity_relevance"]
+        activity_relevance = row["Activity Relevance"]
         if activity_relevance == "Moderate Relevance":
             return ["background-color: orange"] * len(row)
         if activity_relevance == "Low Relevance":
             return ["background-color: red"] * len(row)
+            
         return [""] * len(row)
 
     @staticmethod
     def color_timestamp_correctness(row):
         """Color the a row based on the timestamp correctness confidence."""
-        correctness_confidence = row["correctness_confidence"]
+        correctness_confidence = row["Correctness Confidence"]
         if 0.7 <= correctness_confidence <= 0.8:
             return ["background-color: orange"] * len(row)
-        if correctness_confidence < 0.7:
-            return ["background-color: red"] * len(row)
+            
         return [""] * len(row)
+
 
     @staticmethod
     def create_pie_chart(data):
