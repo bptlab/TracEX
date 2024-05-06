@@ -66,7 +66,7 @@
         {% csrf_token %}
         <div class="form-row {% if is_comparing %}hidden{% endif %}">
             <div class="form-column">
-                <h4>Pipeline modules to run</h4>
+                <h4>Pipeline Modules To Run</h4>
                 {{ form.modules_required.label_tag }}
                 {{ form.modules_required }}
                 {{ form.modules_required.errors }}
@@ -90,7 +90,7 @@
                 </div>
             </div>
             <div class="form-column activity-key-column">
-                <h4>DFG activity key</h4>
+                <h4>DFG Activity Key</h4>
                 {{ form.activity_key.label_tag }}
                 {{ form.activity_key }}
                 {{ form.activity_key.errors }}

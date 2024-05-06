@@ -35,7 +35,7 @@ class BaseEventForm(forms.Form):
         choices=EVENT_TYPES,
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        initial=[event_type[0] for event_type in EVENT_TYPES],
+        initial=EVENT_TYPES[0][0],  # [event_type[0] for event_type in EVENT_TYPES],
         help_text="'N/A' only occurs, if 'Event Type Classifier' is not selected.",
     )
     locations = forms.MultipleChoiceField(
@@ -53,7 +53,7 @@ class BaseEventForm(forms.Form):
         required=True,
         initial=ACTIVITY_KEYS[0][
             0
-        ],  # selects the first activity-key in the list, should be event_type
+        ],  # initialize the activity_key with event_type as key
     )
 
     def clean(self):
@@ -152,17 +152,19 @@ class FilterForm(BaseEventForm):
             "modules_required"
         )
         activity_key = cleaned_data.get("activity_key")
-        key_to_module = {
+        key_to_module_label = {
             "event_type": "event_type_classification",
             "activity": "activity_labeling",
             "attribute_location": "location_extraction",
         }
-        if key_to_module[activity_key] not in modules:
-            error_module = [
-                module[1]
-                for module in MODULES_OPTIONAL
-                if module[0] == key_to_module[activity_key]
-            ][0]
+        if key_to_module_label[activity_key] not in modules:
+            error_module = ""
+            for module in MODULES_OPTIONAL:
+                module_label = module[0]
+                module_name = module[1]
+                if module_label == key_to_module_label[activity_key]:
+                    error_module = module_name
+                    break
             raise forms.ValidationError(
                 f"For the chosen activity key the module {error_module} has to run.\
                 Select this module or change the activity key.",
@@ -184,30 +186,16 @@ class FilterForm(BaseEventForm):
 class ResultForm(BaseEventForm):
     """Form for displaying results of event extraction."""
 
-    def __init__(self, *args, selected_modules=None, **kwargs):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.selected_modules = selected_modules
+        initial = kwargs.pop("initial", None)
+
+        self.event_types = initial["event_types"]
+        self.fields["event_types"].initial = self.event_types
+
+        self.locations = initial["locations"]
+        self.fields["locations"].initial = self.locations
+
+        self.selected_modules = initial["selected_modules"]
+        self.fields["modules_optional"].initial = self.selected_modules
         self.fields["modules_optional"].disabled = True
-
-    def clean(self):
-        """Validate form data."""
-        cleaned_data = super().clean()
-        modules = self.selected_modules + cleaned_data.get("modules_required")
-        activity_key = cleaned_data.get("activity_key")
-        key_to_module = {
-            "event_type": "event_type_classification",
-            "activity": "activity_labeling",
-            "attribute_location": "location_extraction",
-        }
-        if key_to_module[activity_key] not in modules:
-            error_module = [
-                module[1]
-                for module in MODULES_OPTIONAL
-                if module[0] == key_to_module[activity_key]
-            ][0]
-            raise forms.ValidationError(
-                f"For the chosen activity key the module {error_module} has to run.\
-                Select this module or change the activity key.",
-            )
-
-        return cleaned_data

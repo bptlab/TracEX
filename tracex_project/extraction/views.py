@@ -157,16 +157,14 @@ class ResultView(generic.FormView):
     success_url = reverse_lazy("result")
 
     def get_form_kwargs(self):
-        """Add the selected modules to the form."""
+        """Add the context to the form."""
         kwargs = super().get_form_kwargs()
         orchestrator = Orchestrator.get_instance()
-        selected_modules = self.request.session.get("selected_modules")
-        kwargs["selected_modules"] = self.request.session.get("selected_modules")
         kwargs["initial"] = {
+            "activity_key": orchestrator.get_configuration().activity_key,
+            "selected_modules": self.request.session.get("selected_modules"),
             "event_types": orchestrator.get_configuration().event_types,
             "locations": orchestrator.get_configuration().locations,
-            "activity_key": orchestrator.get_configuration().activity_key,
-            "modules_optional": selected_modules,
         }
 
         return kwargs
@@ -184,15 +182,12 @@ class ResultView(generic.FormView):
         trace = self.build_trace_df(filter_dict)
         event_log = self.build_event_log_df(filter_dict, trace)
 
+        form = self.get_form()
+        form.is_valid()
+
         context.update(
             {
-                "form": ResultForm(
-                    initial={
-                        "event_types": orchestrator.get_configuration().event_types,
-                        "locations": orchestrator.get_configuration().locations,
-                        "activity_key": activity_key,
-                    }
-                ),
+                "form": form,
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
                     df=trace,
