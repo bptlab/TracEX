@@ -164,7 +164,7 @@ class Orchestrator:
             pk=self.db_objects_id["patient_journey"]
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
-        events_with_metric = []
+        events_with_metric_list = []
         metric_list = []
         for _, row in self.get_data().iterrows():
             event = Event(
@@ -182,10 +182,10 @@ class Orchestrator:
                 correctness_confidence=row["correctness_confidence"],
             )
             event.metric = metric
-            events_with_metric.append(event)
+            events_with_metric_list.append(event)
             metric_list.append(metric)
 
-        events: List[Event] = Event.manager.bulk_create(events_with_metric)
+        events: List[Event] = Event.manager.bulk_create(events_with_metric_list)
         for event, metric in zip(events, metric_list):
             metric.event = event
         Metric.manager.bulk_create(metric_list)

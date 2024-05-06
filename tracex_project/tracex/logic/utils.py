@@ -134,19 +134,20 @@ class Conversion:
         }
         existing_columns = {column: column_mapping[column] for column in column_mapping if column in df.columns}
         df_renamed = df.rename(columns=existing_columns, inplace=False)
+
         return df_renamed
 
-
-    def create_html_table_from_df(self, df: pd.DataFrame):
+    @staticmethod
+    def create_html_table_from_df(df: pd.DataFrame):
         """Create html table from DataFrame."""
-        df_renamed = self.rename_columns(df)
-        
+        df_renamed = Conversion.rename_columns(df)
+
         if "Start Timestamp" in df_renamed.columns:
             df_renamed.sort_values(by="Start Timestamp", inplace=True)
-        
+
         html_buffer = StringIO()
         df_renamed.to_html(buf=html_buffer, index=False)
-        
+
         return html_buffer.getvalue()
 
     @staticmethod

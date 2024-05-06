@@ -42,7 +42,7 @@ class MetricsDashboardView(TemplateView):
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session["patient_journey_name"]
         query_last_trace = Q(
-            id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+            id=Trace.manager.filter(patient_journey__name=patient_journey_name, events__metrics__isnull=False)
             .latest("last_modified")
             .id
         )
@@ -114,6 +114,7 @@ class MetricsDashboardView(TemplateView):
                 "timestamp_correctness_bar_chart": timestamp_correctness_bar_chart,
             }
         )
+        
         return context
 
     @staticmethod
@@ -121,8 +122,11 @@ class MetricsDashboardView(TemplateView):
         """Color the a row based on the activity relevance."""
         activity_relevance = row["Activity Relevance"]
         if activity_relevance == "Moderate Relevance":
+
             return ["background-color: orange"] * len(row)
+
         if activity_relevance == "Low Relevance":
+
             return ["background-color: red"] * len(row)
             
         return [""] * len(row)
@@ -132,6 +136,7 @@ class MetricsDashboardView(TemplateView):
         """Color the a row based on the timestamp correctness confidence."""
         correctness_confidence = row["Correctness Confidence"]
         if 0.7 <= correctness_confidence <= 0.8:
+
             return ["background-color: orange"] * len(row)
             
         return [""] * len(row)
