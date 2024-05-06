@@ -57,6 +57,10 @@ h2 {
     margin-right: 0;
 }
 
+form #id_name {
+    width: 15em;
+}
+
 .not_visible {
     display: none;
 }

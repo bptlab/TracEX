@@ -68,8 +68,8 @@ class BaseEventForm(forms.Form):
             )
 
 
-class JourneyForm(forms.ModelForm):
-    """Form for extracting events from a patient journey."""
+class JourneyUploadForm(forms.ModelForm):
+    """Form for uploading your own patient journey."""
 
     class Meta:
         """Metaclass for JourneyForm, provides additional parameters for the form."""
@@ -88,10 +88,34 @@ class JourneyForm(forms.ModelForm):
     ALLOWED_FILE_TYPES = ["txt"]
     file = forms.FileField(
         label="Upload your patient journey",
-        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES} containing your patient journey.",
+        help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES}.",
         required=True,
     )
     field_order = ["file", "name", "event_types", "locations"]
+
+
+class JourneySelectForm(forms.Form):
+    """Form for selecting ground truth patient journey."""
+
+    selected_patient_journey = forms.ChoiceField(
+        choices=[],
+        widget=forms.Select(attrs={"id": "patient-journey-select"}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        """Initializes the PatientJourneySelectForm."""
+        super().__init__(*args, **kwargs)
+        self.fields[
+            "selected_patient_journey"
+        ].choices = self.get_patient_journey_choices()
+
+    @staticmethod
+    def get_patient_journey_choices():
+        """Retrieves the available patient journey choices from the database."""
+        patient_journeys = PatientJourney.manager.all()
+        choices = [(pj.name, pj.name) for pj in patient_journeys]
+
+        return choices
 
 
 class FilterForm(BaseEventForm):
