@@ -132,7 +132,12 @@
         var ageSlider = document.getElementById('age-slider');
         var minAgeField = document.getElementById('min-age');
         var maxAgeField = document.getElementById('max-age');
-        var ageValues = [0, 100]; // Default range
+        {#var ageValues = [0, 100]; // Default range#}
+
+        var minAgeInitial = parseInt(minAgeField.value) || 0;
+        var maxAgeInitial = parseInt(maxAgeField.value) || 100;
+
+        var ageValues = [minAgeInitial, maxAgeInitial]; // Use the initial values
 
         noUiSlider.create(ageSlider, {
             start: ageValues,
@@ -141,6 +146,13 @@
                 'min': 0,
                 'max': 100
             }
+        });
+
+        minAgeField.addEventListener('change', function () {
+            ageSlider.noUiSlider.set([this.value, null]);
+        });
+        maxAgeField.addEventListener('change', function () {
+            ageSlider.noUiSlider.set([null, this.value]);
         });
 
         ageSlider.noUiSlider.on('update', function (values, handle) {

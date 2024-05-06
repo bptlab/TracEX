@@ -330,7 +330,7 @@ class EvaluationView(generic.FormView):
                 key: value for key, value in query_dict.items() if value is not None
             }
             query_condition = Q(
-                cohort__condition=query_dict.get("condition")
+                cohort__condition__in=query_dict.get("condition")
                 if query_dict.get("condition")
                 else Q()
             )
@@ -381,8 +381,6 @@ class EvaluationView(generic.FormView):
             all_traces_df, filter_dict
         )
 
-        print(filter_dict)
-
         # generate the xes html
         xes_html = utils.Conversion.create_html_from_xes(
             all_traces_df_filtered
@@ -406,12 +404,13 @@ class EvaluationView(generic.FormView):
 
         self.request.session["filter_settings"] = form.cleaned_data
 
-        print(f"Min age: {form.cleaned_data}")
+        print(f"Cleaned data: {form.cleaned_data}")
         query_dict = {
             "gender": form.cleaned_data["gender"],
             "condition": form.cleaned_data["condition"],
             "min_age": form.cleaned_data["min_age"],
             "max_age": form.cleaned_data["max_age"],
+            "origin": form.cleaned_data["origin"],
         }
         self.request.session["query_dict"] = query_dict
 

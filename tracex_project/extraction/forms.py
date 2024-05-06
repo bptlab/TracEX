@@ -1,12 +1,11 @@
 """Implementation of forms for the extraction app."""
 from django import forms
 
-from extraction.models import PatientJourney
+from extraction.models import PatientJourney, Cohort
 from tracex.logic.constants import (
     EVENT_TYPES,
     LOCATIONS,
     ACTIVITY_KEYS,
-    EUROPEAN_COUNTRIES,
 )
 
 
@@ -130,15 +129,36 @@ class EvaluationForm(BaseEventForm):
         required=False,
         initial=["male", "female", "other"],  # Both male and female selected by default
     )
-    condition = forms.CharField(
-        label="Condition",
-        widget=forms.TextInput(attrs={"placeholder": "Enter condition"}),
-        required=False,
+    condition = forms.MultipleChoiceField(
+        choices=[], widget=forms.CheckboxSelectMultiple(), required=False
     )
     origin = forms.MultipleChoiceField(
         label="Select origin",
-        choices=[(country, country) for country in EUROPEAN_COUNTRIES],
-        widget=forms.CheckboxSelectMultiple(attrs={'class': 'origin-checkbox'}),
+        choices=[],
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "origin-checkbox"}),
         required=False,
     )
 
+    def __init__(self, *args, **kwargs):
+        """Initializes the EvaluationForm."""
+        config = kwargs.get("initial", None)
+        super().__init__(*args, **kwargs)
+
+        if config:
+            self.fields["min_age"].initial = config.get("min_age")
+            self.fields["max_age"].initial = config.get("max_age")
+
+        self.fields["condition"].choices = self.get_condition_choices()
+        self.fields["origin"].choices = self.get_origin_choices()
+
+    @staticmethod
+    def get_condition_choices():
+        choices = Cohort.manager.values_list("condition", flat=True).distinct()
+
+        return [(condition, condition) for condition in choices]
+
+    @staticmethod
+    def get_origin_choices():
+        choices = Cohort.manager.values_list("origin", flat=True).distinct()
+
+        return [(origin, origin) for origin in choices]
