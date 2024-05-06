@@ -357,7 +357,7 @@ text-align: center;
 }
 
 .error_textarea {
-            width: 90%;
+            width: 97%;
             height: 200px; /* Adjust height as needed */
             resize: vertical; /* Allow vertical resizing */
             overflow-y: auto; /* Enable vertical scroll */

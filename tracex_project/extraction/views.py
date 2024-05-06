@@ -118,11 +118,11 @@ class JourneyFilterView(generic.FormView):
         )
         try:
             orchestrator.run(view=self)
-        except Exception:  # pylint: disable=broad-except
+        except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()
 
-            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
+            return render(self.request, "error_page.html", {"type": type(e).__name__, "error_traceback": traceback.format_exc()})
 
         self.request.session.save()
 
