@@ -25,7 +25,7 @@ class MetricsOverviewView(FormView):
     success_url = reverse_lazy("metrics_dashboard")
 
     def form_valid(self, form):
-        """Pass selected journey to orchestrator."""
+        """Save selected journey in session."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         self.request.session["patient_journey_name"] = selected_journey
 
