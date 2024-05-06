@@ -66,6 +66,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
+    <p><b>Filter based on Activities</b></p>
     <div class="form-row">
         <div class="form-column">
             {{ form.event_types.label_tag }} {{ form.event_types }}
@@ -88,12 +89,16 @@
     </div>
 
     <!-- Checkboxes for male and female -->
+    <p><b>Filter based on Cohort</b></p>
     <div class="form-row">
         <div class="form-column">
             {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
         </div>
         <div class="form-column">
             {{ form.condition.label }} {{ form.condition }} {{ form.condition.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.preexisting_condition.label }} {{ form.preexisting_condition }} {{ form.preexisting_condition.errors }}
         </div>
     </div>
 

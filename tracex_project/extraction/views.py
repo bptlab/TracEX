@@ -334,6 +334,13 @@ class EvaluationView(generic.FormView):
                 if query_dict.get("condition")
                 else Q()
             )
+            query_preexisting_condition = Q(
+                cohort__preexisting_condition__in=query_dict.get(
+                    "preexisting_condition"
+                )
+                if query_dict.get("preexisting_condition")
+                else Q()
+            )
             query_age = (
                 Q(
                     cohort__age__gte=query_dict.get("min_age"),
@@ -347,8 +354,17 @@ class EvaluationView(generic.FormView):
                 if query_dict.get("origin")
                 else Q()
             )
+            query_gender = Q(
+                cohort__gender__in=query_dict.get("gender")
+                if query_dict.get("gender")
+                else Q()
+            )
             all_traces_df = utils.DataFrameUtilities.get_events_df(
-                query_condition & query_age & query_origin
+                query_condition
+                & query_preexisting_condition
+                & query_age
+                & query_origin
+                & query_gender
             )
         else:
             all_traces_df = utils.DataFrameUtilities.get_events_df()
@@ -408,6 +424,7 @@ class EvaluationView(generic.FormView):
         query_dict = {
             "gender": form.cleaned_data["gender"],
             "condition": form.cleaned_data["condition"],
+            "preexisting_condition": form.cleaned_data["preexisting_condition"],
             "min_age": form.cleaned_data["min_age"],
             "max_age": form.cleaned_data["max_age"],
             "origin": form.cleaned_data["origin"],
@@ -421,15 +438,11 @@ class EvaluationView(generic.FormView):
         # ToDo: Find better condition for initiation and ensure that all checkboxes are selected initially
         # initiate the configuration with session data from the form
         config = self.request.session.get("filter_settings")
-        # print(config)
         if config is None:
             config = {
                 "event_types": [event_type[0] for event_type in constants.EVENT_TYPES],
                 "locations": [location[0] for location in constants.LOCATIONS],
                 "activity_key": constants.ACTIVITY_KEYS[0][0],
             }
-            print("Configuration initiated")
-        else:
-            print("Configuration already set")
 
         return config

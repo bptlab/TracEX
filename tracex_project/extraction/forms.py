@@ -122,18 +122,33 @@ class EvaluationForm(BaseEventForm):
         required=False,
         widget=forms.NumberInput(attrs={"id": "max-age"}),
     )
+    # gender = forms.MultipleChoiceField(
+    #     label="Select gender",
+    #     choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
+    #     widget=forms.CheckboxSelectMultiple(),
+    #     required=False,
+    #     initial=["male", "female", "other"],  # Both male and female selected by default
+    # )
     gender = forms.MultipleChoiceField(
-        label="Select gender",
-        choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
+        label="Gender:",
+        choices=[],
         widget=forms.CheckboxSelectMultiple(),
         required=False,
-        initial=["male", "female", "other"],  # Both male and female selected by default
     )
     condition = forms.MultipleChoiceField(
-        choices=[], widget=forms.CheckboxSelectMultiple(), required=False
+        label="Condition:",
+        choices=[],
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
+    )
+    preexisting_condition = forms.MultipleChoiceField(
+        label="Preexisting Condition:",
+        choices=[],
+        widget=forms.CheckboxSelectMultiple(),
+        required=False,
     )
     origin = forms.MultipleChoiceField(
-        label="Select origin",
+        label="Origin:",
         choices=[],
         widget=forms.CheckboxSelectMultiple(attrs={"class": "origin-checkbox"}),
         required=False,
@@ -149,7 +164,11 @@ class EvaluationForm(BaseEventForm):
             self.fields["max_age"].initial = config.get("max_age")
 
         self.fields["condition"].choices = self.get_condition_choices()
+        self.fields[
+            "preexisting_condition"
+        ].choices = self.get_preexisting_condition_choices()
         self.fields["origin"].choices = self.get_origin_choices()
+        self.fields["gender"].choices = self.get_gender_choices()
 
     @staticmethod
     def get_condition_choices():
@@ -158,7 +177,24 @@ class EvaluationForm(BaseEventForm):
         return [(condition, condition) for condition in choices]
 
     @staticmethod
+    def get_preexisting_condition_choices():
+        choices = Cohort.manager.values_list(
+            "preexisting_condition", flat=True
+        ).distinct()
+
+        return [
+            (preexisting_condition, preexisting_condition)
+            for preexisting_condition in choices
+        ]
+
+    @staticmethod
     def get_origin_choices():
         choices = Cohort.manager.values_list("origin", flat=True).distinct()
 
         return [(origin, origin) for origin in choices]
+
+    @staticmethod
+    def get_gender_choices():
+        choices = Cohort.manager.values_list("gender", flat=True).distinct()
+
+        return [(gender, gender) for gender in choices]
