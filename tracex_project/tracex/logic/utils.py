@@ -201,12 +201,12 @@ class DataFrameUtilities:
             events = trace.events.all()
             for event in events:
                 event_dict = {
-                    "case_id": trace.id,
+                    "case:concept:name": trace.id,
                     "activity": event.activity,
                     "event_type": event.event_type,
-                    "start": event.start,
-                    "end": event.end,
-                    "duration": event.duration,
+                    "time:timestamp": event.start,
+                    "time:end_timestamp": event.end,
+                    "time:duration": event.duration,
                     "attribute_location": event.location,
                 }
 

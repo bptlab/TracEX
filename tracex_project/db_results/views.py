@@ -71,11 +71,12 @@ class MetricsDashboardView(TemplateView):
             .apply(self.color_relevance, axis=1)
             .hide()
         )
+        print(trace_df.columns.tolist())
         timestamp_df = trace_df[
             [
                 "activity",
-                "start",
-                "end",
+                "time:timestamp",
+                "time:end_timestamp",
                 "timestamp_correctness",
                 "correctness_confidence",
             ]
