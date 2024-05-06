@@ -1,5 +1,6 @@
 """This file contains the views for the extraction app.
 Some unused imports and variables have to be made because of architectural requirement."""
+import traceback
 # pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
@@ -117,12 +118,17 @@ class JourneyFilterView(generic.FormView):
         )
         try:
             orchestrator.run(view=self)
-        except Exception as e:
-            return render(self.request, "error_page.html", {"message": str(e)})
+        except Exception:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
+
         self.request.session.save()
 
         if self.request.session.get("is_comparing") is True:
             orchestrator.save_results_to_db()
+
             return redirect(reverse_lazy("testing_comparison"))
 
         return super().form_valid(form)

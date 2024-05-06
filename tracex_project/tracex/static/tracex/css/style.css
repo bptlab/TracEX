@@ -350,3 +350,18 @@ text-align: center;
     text-decoration: none;
     cursor: pointer;
 }
+
+.error_traceback {
+    font-weight: bold;
+    color: #333;
+}
+
+.error_textarea {
+            width: 90%;
+            height: 200px; /* Adjust height as needed */
+            resize: vertical; /* Allow vertical resizing */
+            overflow-y: auto; /* Enable vertical scroll */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+        }
