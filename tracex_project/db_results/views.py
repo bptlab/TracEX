@@ -114,7 +114,7 @@ class MetricsDashboardView(TemplateView):
                 "timestamp_correctness_bar_chart": timestamp_correctness_bar_chart,
             }
         )
-        
+
         return context
 
     @staticmethod
@@ -128,7 +128,7 @@ class MetricsDashboardView(TemplateView):
         if activity_relevance == "Low Relevance":
 
             return ["background-color: red"] * len(row)
-            
+ 
         return [""] * len(row)
 
     @staticmethod
@@ -138,7 +138,7 @@ class MetricsDashboardView(TemplateView):
         if 0.7 <= correctness_confidence <= 0.8:
 
             return ["background-color: orange"] * len(row)
-            
+ 
         return [""] * len(row)
 
 

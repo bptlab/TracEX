@@ -18,10 +18,6 @@ class PatientJourneySelectForm(forms.Form):
 
     def get_patient_journey_choices(self):
         """Retrieves the available patient journey choices with exisiting metrics from the database."""
-        patient_journeys = PatientJourney.manager.annotate(
-            has_metrics=Exists(
-                Metric.manager.filter(event__trace__patient_journey=OuterRef("pk"))
-            )
-        ).filter(has_metrics=True)
+        patient_journeys = PatientJourney.manager.filter(trace__events__metrics__isnull=False).distinct()
         choices = [(pj.name, pj.name) for pj in patient_journeys]
         return choices
