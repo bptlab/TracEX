@@ -132,13 +132,13 @@ class Conversion:
             "timestamp_correctness": "Timestamp Correctness",
             "correctness_confidence": "Correctness Confidence",
         }
-        
+
         existing_columns = {}
-        for column in column_mapping.keys():
-            if column in df.columns:
-                existing_columns[column] = column_mapping[column]
-        
+        for old_column, new_column in column_mapping.items():
+            if old_column in df.columns:
+                existing_columns[old_column] = new_column
         df_renamed = df.rename(columns=existing_columns, inplace=False)
+
         return df_renamed
 
     @staticmethod
