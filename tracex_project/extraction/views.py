@@ -122,7 +122,11 @@ class JourneyFilterView(generic.FormView):
             orchestrator.reset_instance()
             self.request.session.flush()
 
-            return render(self.request, "error_page.html", {"type": type(e).__name__, "error_traceback": traceback.format_exc()})
+            return render(
+                self.request,
+                "error_page.html",
+                {"type": type(e).__name__, "error_traceback": traceback.format_exc()}
+            )
 
         self.request.session.save()
 
