@@ -163,38 +163,14 @@ class EvaluationForm(BaseEventForm):
             self.fields["min_age"].initial = config.get("min_age")
             self.fields["max_age"].initial = config.get("max_age")
 
-        self.fields["condition"].choices = self.get_condition_choices()
-        self.fields[
+        self.fields["condition"].choices = self.get_choices("condition")
+        self.fields["preexisting_condition"].choices = self.get_choices(
             "preexisting_condition"
-        ].choices = self.get_preexisting_condition_choices()
-        self.fields["origin"].choices = self.get_origin_choices()
-        self.fields["gender"].choices = self.get_gender_choices()
+        )
+        self.fields["origin"].choices = self.get_choices("origin")
+        self.fields["gender"].choices = self.get_choices("gender")
 
     @staticmethod
-    def get_condition_choices():
-        choices = Cohort.manager.values_list("condition", flat=True).distinct()
-
-        return [(condition, condition) for condition in choices]
-
-    @staticmethod
-    def get_preexisting_condition_choices():
-        choices = Cohort.manager.values_list(
-            "preexisting_condition", flat=True
-        ).distinct()
-
-        return [
-            (preexisting_condition, preexisting_condition)
-            for preexisting_condition in choices
-        ]
-
-    @staticmethod
-    def get_origin_choices():
-        choices = Cohort.manager.values_list("origin", flat=True).distinct()
-
-        return [(origin, origin) for origin in choices]
-
-    @staticmethod
-    def get_gender_choices():
-        choices = Cohort.manager.values_list("gender", flat=True).distinct()
-
-        return [(gender, gender) for gender in choices]
+    def get_choices(self, category):
+        choices = Cohort.manager.values_list(category, flat=True).distinct()
+        return [(choice, choice) for choice in choices]
