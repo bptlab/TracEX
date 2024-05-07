@@ -157,6 +157,12 @@ class Orchestrator:
                 latest_id = 0
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
+            if "metrics_analyzer" not in self.get_configuration().modules:
+                self.get_data()["activity_relevance"] = None
+                self.get_data()["timestamp_correctness"] = None
+                self.get_data()["correctness_confidence"] = None
+
+
 
     def save_results_to_db(self):
         """Save the trace to the database."""
