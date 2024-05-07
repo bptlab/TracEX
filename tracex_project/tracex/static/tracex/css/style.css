@@ -351,3 +351,12 @@ text-align: center;
 .noUi-connect {
     background: #0075ff;
 }
+
+.scrollable-table {
+    width: 120%;
+    max-height: 500px; /* Adjust as needed */
+    overflow-y: auto;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}

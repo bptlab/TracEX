@@ -51,15 +51,17 @@
 <!-- Display complete event log -->
 <div>
     <p><b>All Traces Table</b></p>
-    {% if xes_html %}
-        <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
-        <div id="contentWrapper1" style="display: none;">
+    <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
+    <div id="contentWrapper1" style="display: none;">
+        {% if xes_html %}
             <p></p>
-            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
-        </div>
-    {% else %}
-        <p>Something went wrong during the event log generation: No buffer content available.</p>
-    {% endif %}
+            <div class="scrollable-table">
+                <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+            </div>
+        {% else %}
+            <p>Something went wrong during the event log generation: No buffer content available.</p>
+        {% endif %}
+    </div>
 </div>
 
 <!-- Form for filters -->

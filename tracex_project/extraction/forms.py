@@ -122,13 +122,6 @@ class EvaluationForm(BaseEventForm):
         required=False,
         widget=forms.NumberInput(attrs={"id": "max-age"}),
     )
-    # gender = forms.MultipleChoiceField(
-    #     label="Select gender",
-    #     choices=(("male", "Male"), ("female", "Female"), ("other", "Other")),
-    #     widget=forms.CheckboxSelectMultiple(),
-    #     required=False,
-    #     initial=["male", "female", "other"],  # Both male and female selected by default
-    # )
     gender = forms.MultipleChoiceField(
         label="Gender:",
         choices=[],
@@ -170,7 +163,8 @@ class EvaluationForm(BaseEventForm):
         self.fields["origin"].choices = self.get_choices("origin")
         self.fields["gender"].choices = self.get_choices("gender")
 
-    @staticmethod
     def get_choices(self, category):
         choices = Cohort.manager.values_list(category, flat=True).distinct()
-        return [(choice, choice) for choice in choices]
+        return sorted(
+            [(choice, choice) for choice in choices], key=lambda x: (x[0] is None, x)
+        )
