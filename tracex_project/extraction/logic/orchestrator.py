@@ -14,7 +14,7 @@ from extraction.logic.modules import (
     MetricsAnalyzer,
 )
 from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
-from tracex.logic import utils as u
+from tracex.logic.utils import DataFrameUtilities
 
 
 @dataclass
@@ -175,7 +175,7 @@ class Orchestrator:
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
             if "time_extraction" not in self.get_configuration().modules:
-                u.DataFrameUtilities.set_default_timestamps(self.get_data())
+                DataFrameUtilities.set_default_timestamps(self.get_data())
             if "event_type_classification" not in self.get_configuration().modules:
                 self.get_data()["event_type"] = "N/A"
             if "location_extraction" not in self.get_configuration().modules:

@@ -86,9 +86,11 @@ class Metric(models.Model):
     event = models.OneToOneField(
         Event, on_delete=models.CASCADE, related_name="metrics"
     )
-    activity_relevance = models.CharField(max_length=25)
-    timestamp_correctness = models.BooleanField()
-    correctness_confidence = models.DecimalField(max_digits=3, decimal_places=2)
+    activity_relevance = models.CharField(max_length=25, null=True)
+    timestamp_correctness = models.BooleanField(null=True)
+    correctness_confidence = models.DecimalField(
+        max_digits=3, decimal_places=2, null=True
+    )
     last_modified = models.DateTimeField(auto_now=True)
     manager = models.Manager()
 
