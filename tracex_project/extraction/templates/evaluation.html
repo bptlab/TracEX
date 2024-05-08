@@ -35,10 +35,10 @@
 <div>
     <button id="toggleButton1">Show/Hide Event Log with applied filters</button>
     <div id="contentWrapper1" style="display: none;">
-        {% if xes_html %}
+        {% if event_log_table %}
             <p></p>
             <div class="scrollable-table">
-                <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+                <div id="xesContent1" class="xes_container">{{ event_log_table|safe }}</div>
             </div>
         {% else %}
             <p>No buffer content available.</p>

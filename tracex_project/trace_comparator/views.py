@@ -9,8 +9,7 @@ from extraction.models import PatientJourney, Trace
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from trace_comparator.comparator import compare_traces
 from trace_comparator.forms import PatientJourneySelectForm
-from tracex.logic.utils import DataFrameUtilities as dfu
-
+from tracex.logic.utils import DataFrameUtilities as dfu, Conversion
 import pandas as pd
 
 
@@ -59,7 +58,7 @@ class TraceTestingComparisonView(TemplateView):
             {
                 "patient_journey_name": patient_journey_name,
                 "patient_journey": patient_journey,
-                "pipeline_output": pipeline_df.to_html(index=False),
+                "pipeline_output": Conversion.create_html_table_from_df(pipeline_df),
             }
         )
 
@@ -109,7 +108,8 @@ class TraceTestingResultView(TemplateView):
 
     template_name = "testing_result.html"
 
-    def create_mapping_list(self, mapping, source_df, target_df):
+    @staticmethod
+    def create_mapping_list(mapping, source_df, target_df):
         """Create a list of mappings between two dataframes."""
         mapping_list = [
             [source_df["activity"][index], target_df["activity"][value]]
@@ -176,8 +176,10 @@ class TraceTestingResultView(TemplateView):
                 "patient_journey": PatientJourney.manager.get(
                     name=patient_journey_name
                 ).patient_journey,
-                "pipeline_output": pipeline_df.to_html(index=False),
-                "ground_truth_output": ground_truth_df.to_html(index=False),
+                "pipeline_output": Conversion.create_html_table_from_df(pipeline_df),
+                "ground_truth_output": Conversion.create_html_table_from_df(
+                    ground_truth_df
+                ),
                 "mapping_data_to_ground_truth": data_to_ground_truth_df.to_html(
                     index=False
                 ),

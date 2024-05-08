@@ -1,71 +1,343 @@
 <!DOCTYPE html>
 <head>
-  <title>Upload Journey</title>
-  {% load static %}
-  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
-  <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  {% csrf_token %}
-  <style>
-    .hidden {
-      display: none;
-    }
-  </style>
+    <title>Upload Journey</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
+    <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    {% csrf_token %}
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body class="main_body">
-  {% if is_comparing %}
+{% if is_comparing %}
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
     <h2>Execute Extraction Pipeline</h2>
     <p>Click the "Execute Extraction Pipeline" button below to start the extraction process.</p>
-    <p>You can monitor the progress and see which modules are currently running in the progress bar that appears. The progress bar will keep you informed about the status of the extraction pipeline from start to finish.</p>
-  {% else %}
+    <p>You can monitor the progress and see which modules are currently running in the progress bar that appears. The
+        progress bar will keep you informed about the status of the extraction pipeline from start to finish.</p>
+{% else %}
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-    <h2>Filter Selection for Extraction Results</h2>
-    <p>You can filter the results by event type and location before and after extraction to get exactly what you need.</p>
-    <p>Please select the filter below.</p>
-  {% endif %}
+    <h2>Prepare Extraction Pipeline</h2>
+    <p>Here you can set what parts of the pipeline should be run, what should be visibile in the output and how the
+        output is shown.</p>
+{% endif %}
 
-  <form method="post" enctype="multipart/form-data" id="filter_form">
+<form method="post" enctype="multipart/form-data" id="filter_form">
     {% csrf_token %}
     <div class="form-row {% if is_comparing %}hidden{% endif %}">
-      <div class="form-column">
-        {{ form.event_types.label_tag }}
-        {{ form.event_types }}
-        {{ form.event_types.errors }}
-      </div>
-      <div class="form-column">
-        {{ form.locations.label_tag }}
-        {{ form.locations }}
-        {{ form.locations.errors }}
-      </div>
-      <div class="form-column activity-key-column">
-        {{ form.activity_key.label_tag }}
-        {{ form.activity_key }}
-        {{ form.activity_key.errors }}
-      </div>
-      <style>
-        .activity-key-column label, .activity-key-column select {
-            display: block;
-        }
-      </style>
+        <div class="form-column">
+            <h4>Pipeline modules to run</h4>
+            <label>Required modules:</label>
+            <div id="id_modules_required">
+                <div>
+                    <label for="id_modules_required_0"><input type="checkbox" name="modules_required"
+                                                                value="activity_labeling" disabled=""
+                                                                id="id_modules_required_0" checked="">
+                        Activity Labeler</label>
+
+                </div>
+            </div>
+
+            <br>
+            <label>Select additional modules:</label>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_0"><input type="checkbox" name="modules_optional"
+                                                                value="preprocessing" id="id_modules_optional_0"
+                                                                checked="">
+                        Preprocessor</label>
+                    <span class="tooltiptext">The Preprocessor brings the Patient Journey in a form that is
+                        better understandable for the pipeline. If it is not run, errors are more likely to
+                        occur.</span>
+                </div>
+            </div>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_1"><input type="checkbox" name="modules_optional"
+                                                                value="cohort_tagging" id="id_modules_optional_1"
+                                                                checked="">
+                        Cohort Tagger</label>
+                    <span class="tooltiptext">The Cohort Tagger extracts the disease the patient journey is
+                        about alongside useful case attributes for further filter options. If it is not run,
+                        no case attributes will be extracted.</span>
+                </div>
+            </div>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_2"><input type="checkbox" name="modules_optional"
+                                                                value="time_extraction" id="id_modules_optional_2"
+                                                                checked="">
+                        Time Extractor</label>
+                    <span class="tooltiptext">The Time Extractor finds Timestamps for the extracted activities.
+                        If it's not run, the timestamps will be set to default values.</span>
+                </div>
+            </div>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_3"><input type="checkbox" name="modules_optional"
+                                                                value="event_type_classification"
+                                                                id="id_modules_optional_3" checked="">
+                        Event Type Classifier</label>
+                    <span class="tooltiptext">The Event Type Classifier categorizes the extracted activities
+                        into the given event types. If it's not run, every event type will be 'N/A'</span>
+                </div>
+            </div>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_4"><input type="checkbox" name="modules_optional"
+                                                                value="location_extraction"
+                                                                id="id_modules_optional_4"
+                                                                checked="">
+                        Location Extractor</label>
+                    <span class="tooltiptext">The Location Extractor finds the related location to the
+                        extracted activities. If it's not run, every location will be 'N/A'</span>
+                </div>
+            </div>
+
+            <div class="tooltip-container">
+                <label></label>
+                <div class="tooltip">
+                    <label for="id_modules_optional_5"><input type="checkbox" name="modules_optional"
+                                                                value="metrics_analyzer"
+                                                                id="id_modules_optional_5"
+                                                                checked="">
+                        Metrics Analyzer</label>
+                    <span class="tooltiptext">The Metrics Analyzer evaluates the results of the pipeline.
+                        First in regard to the relevance of the activities and second in regard to the
+                        timestamp correctness. If it's not run, the analysis will not be possible.</span>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-column" style="flex: 2;">
+            <h4>Output filters</h4>
+            <div class="form-row" style="display: flex; justify-content: space-between;">
+                <div class="form-column" style="flex: 1;">
+                    <div class="form-column" style="flex: 1;">
+                        <label>Select desired event types:</label>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_0"><input type="checkbox" name="event_types"
+                                                                        value="Symptom Onset" id="id_event_types_0"
+                                                                        checked="">
+                                    Symptom Onset</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_1"><input type="checkbox" name="event_types"
+                                                                        value="Symptom Offset"
+                                                                        id="id_event_types_1"
+                                                                        checked="">
+                                    Symptom Offset</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_2"><input type="checkbox" name="event_types"
+                                                                        value="Diagnosis" id="id_event_types_2"
+                                                                        checked="">
+                                    Diagnosis</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_3"><input type="checkbox" name="event_types"
+                                                                        value="Doctor Visit" id="id_event_types_3"
+                                                                        checked="">
+                                    Doctor Visit</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_4"><input type="checkbox" name="event_types"
+                                                                        value="Treatment" id="id_event_types_4"
+                                                                        checked="">
+                                    Treatment</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_5"><input type="checkbox" name="event_types"
+                                                                        value="Hospital Admission"
+                                                                        id="id_event_types_5"
+                                                                        checked="">
+                                    Hospital Admission</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_6"><input type="checkbox" name="event_types"
+                                                                        value="Hospital Discharge"
+                                                                        id="id_event_types_6"
+                                                                        checked="">
+                                    Hospital Discharge</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_7"><input type="checkbox" name="event_types"
+                                                                        value="Medication" id="id_event_types_7"
+                                                                        checked="">
+                                    Medication</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_8"><input type="checkbox" name="event_types"
+                                                                        value="Lifestyle Change"
+                                                                        id="id_event_types_8"
+                                                                        checked="">
+                                    Lifestyle Change</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_9"><input type="checkbox" name="event_types"
+                                                                        value="Feelings"
+                                                                        id="id_event_types_9" checked="">
+                                    Feelings</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_event_types_10"><input type="checkbox" name="event_types"
+                                                                        value="N/A"
+                                                                        id="id_event_types_10" checked="">
+                                    N/A</label>
+                                <span class="tooltiptext">'N/A' only occurs, if 'Event Type Classifier' is not selected.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-column" style="flex: 1;">
+                    <div class="form-column" style="flex: 1;">
+                        <label>Select desired locations:</label>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_locations_0"><input type="checkbox" name="locations" value="Home"
+                                                                    id="id_locations_0" checked="">
+                                    Home</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_locations_1"><input type="checkbox" name="locations"
+                                                                    value="Hospital"
+                                                                    id="id_locations_1" checked="">
+                                    Hospital</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_locations_2"><input type="checkbox" name="locations"
+                                                                    value="Doctors"
+                                                                    id="id_locations_2" checked="">
+                                    Doctors</label>
+                            </div>
+                        </div>
+
+                        <div class="tooltip-container">
+                            <label></label>
+                            <div class="tooltip">
+                                <label for="id_locations_3"><input type="checkbox" name="locations" value="N/A"
+                                                                    id="id_locations_3" checked="">
+                                    N/A</label>
+                                <span class="tooltiptext">'N/A' only occurs, if 'Location Extractor' is not selected.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-column activity-key-column">
+            <h4>DFG activity key</h4>
+            {{ form.activity_key.label_tag }}
+            {{ form.activity_key }}
+            {{ form.activity_key.errors }}
+        </div>
+        <style>
+            .activity-key-column label, .activity-key-column select {
+                display: block;
+            }
+        </style>
     </div>
+    {% if form.event_types.errors %}
+        <div class="form-errors">
+            {{ form.event_types.errors }}
+        </div>
+    {% endif %}
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+    {% if form.non_field_errors %}
+        <div class="form-errors">
+            {{ form.modules_optional.errors }}
+        </div>
+    {% endif %}
     <div class="spinner-container" id="loading-container">
-      <span id="loading-spinner" class="loader not_visible"></span>
+        <span id="loading-spinner" class="loader not_visible"></span>
     </div>
     <div id="progress_box" class="not_visible">
-      <div class="progress-container">
-        <!-- Progress bar and message will be added here -->
-      </div>
+        <div class="progress-container">
+            <!-- Progress bar and message will be added here -->
+        </div>
     </div>
     <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button">
-  </form>
+</form>
 
-  <a href="{{ request.META.HTTP_REFERER }}">
+<a href="{{ request.META.HTTP_REFERER }}">
     <button class="menu_button">Previous</button>
   </a>
-  <a href="{% url 'landing_page' %}">
+  <a href="{% url "landing_page" %}">
     <button class="menu_button">Return to TracEX menu</button>
-  </a>
+</a>
 </body>
