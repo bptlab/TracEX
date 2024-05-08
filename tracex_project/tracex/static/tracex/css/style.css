@@ -343,3 +343,43 @@ text-align: center;
     text-decoration: none;
     cursor: pointer;
 }
+
+.tooltip-container {
+    position: relative;
+}
+
+.tooltip {
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 70%;
+    background-color: #222222;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 12px 12px;
+
+    position: absolute;
+    z-index: 1;
+    top: 180%;
+    left: 0%;
+    transform: translateX(15%);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+div.form-errors ul {
+    list-style-type: none; /* Ensures no bullet points and overrides other styles */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+div.form-errors li {
+    color: #DB3A34;
+    font-weight: bold;
+}
