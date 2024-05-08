@@ -135,21 +135,21 @@ class Orchestrator:
 
         patient_journey_sentences = self.get_configuration().patient_journey.split(". ")
         if "preprocessing" in modules:
-            current_step += 1
             self.update_progress(view, current_step, "Preprocessing")
             patient_journey_sentences = modules["preprocessing"].execute(
                 patient_journey=self.get_configuration().patient_journey
             )
+            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
         if "cohort_tagging" in modules:
-            current_step += 1
             self.update_progress(view, current_step, "Cohort Tagger")
             self.db_objects_id["cohort"] = modules["cohort_tagging"].execute_and_save(
                 self.get_data(),
                 patient_journey=patient_journey,
                 patient_journey_sentences=patient_journey_sentences,
             )
+            current_step += 1
         else:
             self.db_objects_id["cohort"] = 0
 
