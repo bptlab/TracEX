@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Database Results</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    </head>
+<body class="main_body">
+    <img src="{% static '/tracex/img/database_results_logo.png' %}" alt="Database Results Logo" class="database_results_logo">
+    <h2>Welcome to the Database Results</h2>
+    <p> The Database Results page presents a comprehensive overview of the data gathered from the system. It offers insights into various aspects of the database, including metrics, analyses and filter possibilities.</p>
+    <p> Please select if you want to see the Metrics Dashboard or the Evaluation.</p>
+
+    <div class="button-container">
+        <a href="{% url 'metrics_overview' %}">
+            <button class="menu_button">Go to Metrics Dashboard</button>
+        </a>
+        <a>
+            <button class="menu_button">Go to Evaluation</button>
+        </a>
+    </div>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</body>
+</html>

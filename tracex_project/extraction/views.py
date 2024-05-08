@@ -193,7 +193,7 @@ class ResultView(generic.FormView):
                     df=trace,
                     activity_key=activity_key,
                 ),
-                "trace_table": utils.Conversion.create_html_table_from_df(trace),
+                "trace_table": utils.Conversion.create_html_table_from_df(df=trace),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
                     df=event_log,
                     activity_key=activity_key,

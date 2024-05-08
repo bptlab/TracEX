@@ -49,7 +49,7 @@ class MetricsAnalyzer(Module):
             axis=1,
         )
 
-        return df
+        return metrics_df
 
     @staticmethod
     def __rate_activity_relevance(activity):
