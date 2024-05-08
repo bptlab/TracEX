@@ -134,15 +134,21 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def color_timestamp_correctness(row):
-        """Color the a row based on the timestamp correctness confidence."""
+        """Color a specific cell based on the timestamp correctness confidence."""
         correctness_confidence = row["Correctness Confidence"]
+        confidence_index = row.index.get_loc("Correctness Confidence")
+        timestamp_correctness = row["Timestamp Correctness"]
+        styles = [""] * len(row)
+
+        if timestamp_correctness == False:
+            styles = ["background-color: tan"] * len(row)
+
         if 0.7 <= correctness_confidence <= 0.8:
-            return ["background-color: orange"] * len(row)
+            styles[confidence_index] = "background-color: orange"
+        elif correctness_confidence < 0.7:
+            styles[confidence_index] = "background-color: red"
 
-        if correctness_confidence < 0.7:
-            return ["background-color: red"] * len(row)
-
-        return [""] * len(row)
+        return styles
 
     @staticmethod
     def create_pie_chart(data):
