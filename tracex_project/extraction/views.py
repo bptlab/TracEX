@@ -13,7 +13,6 @@ from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect
 
 from tracex.logic import utils, constants
-from tracex.logic import utils
 from extraction.forms import (
     JourneyUploadForm,
     ResultForm,
