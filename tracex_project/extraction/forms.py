@@ -61,9 +61,6 @@ class BaseEventForm(forms.Form):
                 code="no_event_type",
             )
 
-        # print validation errors
-        print("Validation Errors: ", self.errors.as_data())
-
         return cleaned_data
 
     def validate_dependant_choices(self, field, choice_1, choice_2):
@@ -131,19 +128,19 @@ class EvaluationForm(BaseEventForm):
     gender = forms.MultipleChoiceField(
         label="Gender:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
+        widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     condition = forms.MultipleChoiceField(
         label="Condition:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
+        widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     preexisting_condition = forms.MultipleChoiceField(
         label="Preexisting Condition:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
+        widget=forms.CheckboxSelectMultiple(),
         required=False,
     )
     origin = forms.MultipleChoiceField(
@@ -171,6 +168,7 @@ class EvaluationForm(BaseEventForm):
 
     @staticmethod
     def get_choices(category):
+        """Get all choices available in the database for a given category."""
         choices = Cohort.manager.values_list(category, flat=True).distinct()
         none_info_text = mark_safe("<i>Include elements with None values</i>")
         choices = [
@@ -180,4 +178,6 @@ class EvaluationForm(BaseEventForm):
             )
             for choice in choices
         ]
+
+        # sort by name, but put None values at the beginning
         return sorted(choices, key=lambda x: (x[0] == none_info_text, x))

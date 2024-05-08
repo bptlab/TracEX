@@ -88,7 +88,6 @@
 
     </div>
 
-    <!-- Checkboxes for male and female -->
     <p style="text-align:center;"><b>Filter based on Cohort</b></p>
     <div class="form-row">
         <div class="form-column">
@@ -138,15 +137,14 @@
 </form>
 <script>
     $(function () {
-        var ageSlider = document.getElementById('age-slider');
-        var minAgeField = document.getElementById('min-age');
-        var maxAgeField = document.getElementById('max-age');
-        {#var ageValues = [0, 100]; // Default range#}
+        const ageSlider = document.getElementById('age-slider');
+        const minAgeField = document.getElementById('min-age');
+        const maxAgeField = document.getElementById('max-age');
 
-        var minAgeInitial = parseInt(minAgeField.value) || 0;
-        var maxAgeInitial = parseInt(maxAgeField.value) || 100;
+        const minAgeInitial = minAgeField.value || 0;
+        const maxAgeInitial = maxAgeField.value || 100;
 
-        var ageValues = [minAgeInitial, maxAgeInitial]; // Use the initial values
+        const ageValues = [minAgeInitial, maxAgeInitial];
 
         noUiSlider.create(ageSlider, {
             start: ageValues,
@@ -173,11 +171,8 @@
 
 <script>
     document.getElementById('toggleButton').addEventListener('click', function() {
-        // Get all checkboxes
-        var checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
-        // Check if all checkboxes are checked
-        var allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-        // If all checkboxes are checked, uncheck them. Otherwise, check them.
+        const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
+        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
         checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
     });
 </script>
