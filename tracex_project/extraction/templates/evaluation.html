@@ -1,16 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-
-<!-- Include necessary libraries -->
-<link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluation View</title>
-    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static '/extraction/js/filter_toggle.js' %}" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <style>
         h1 {
@@ -26,20 +24,6 @@
 <body class="main_body">
 <h1>Evaluation View</h1>
 
-
-<script>
-    $(document).ready(function () {
-        $("#toggleButton1").click(function () {
-            $("#contentWrapper1").toggle();
-        });
-
-        $("#toggleButton2").click(function () {
-            $("#contentWrapper2").toggle();
-        });
-    });
-</script>
-
-
 <!-- Display DFG image -->
 <div class="dfg-container">
     <div>
@@ -49,7 +33,7 @@
 
 <!-- Display complete event log -->
 <div>
-    <button id="toggleButton1">Show/Hide Event Log with filters applied</button>
+    <button id="toggleButton1">Show/Hide Event Log with applied filters</button>
     <div id="contentWrapper1" style="display: none;">
         {% if xes_html %}
             <p></p>
@@ -135,47 +119,6 @@
 
     <input type="submit" value="Refresh Filter" class="button">
 </form>
-<script>
-    $(function () {
-        const ageSlider = document.getElementById('age-slider');
-        const minAgeField = document.getElementById('min-age');
-        const maxAgeField = document.getElementById('max-age');
-
-        const minAgeInitial = minAgeField.value || 0;
-        const maxAgeInitial = maxAgeField.value || 100;
-
-        const ageValues = [minAgeInitial, maxAgeInitial];
-
-        noUiSlider.create(ageSlider, {
-            start: ageValues,
-            connect: true,
-            range: {
-                'min': 0,
-                'max': 100
-            }
-        });
-
-        minAgeField.addEventListener('change', function () {
-            ageSlider.noUiSlider.set([this.value, null]);
-        });
-        maxAgeField.addEventListener('change', function () {
-            ageSlider.noUiSlider.set([null, this.value]);
-        });
-
-        ageSlider.noUiSlider.on('update', function (values, handle) {
-            minAgeField.value = Math.round(values[0]);
-            maxAgeField.value = Math.round(values[1]);
-        });
-    });
-</script>
-
-<script>
-    document.getElementById('toggleButton').addEventListener('click', function() {
-        const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
-        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-        checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
-    });
-</script>
 
 <a href="{% url 'landing_page' %}">
     <button class="menu_button">Return to TracEX Menu</button>
