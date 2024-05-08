@@ -135,17 +135,25 @@ class MetricsDashboardView(TemplateView):
     @staticmethod
     def color_timestamp_correctness(row):
         """Color a specific cell based on the timestamp correctness confidence."""
+
+        LOW_CONFIDENCE_THRESHOLD = 0.7
+        HIGH_CONFIDENCE_THRESHOLD = 0.8
+
         correctness_confidence = row["Correctness Confidence"]
         confidence_index = row.index.get_loc("Correctness Confidence")
         timestamp_correctness = row["Timestamp Correctness"]
         styles = [""] * len(row)
 
-        if timestamp_correctness == False:
+        if timestamp_correctness is False:
             styles = ["background-color: tan"] * len(row)
 
-        if 0.7 <= correctness_confidence <= 0.8:
+        if (
+            LOW_CONFIDENCE_THRESHOLD
+            <= correctness_confidence
+            <= HIGH_CONFIDENCE_THRESHOLD
+        ):
             styles[confidence_index] = "background-color: orange"
-        elif correctness_confidence < 0.7:
+        elif correctness_confidence < LOW_CONFIDENCE_THRESHOLD:
             styles[confidence_index] = "background-color: red"
 
         return styles
