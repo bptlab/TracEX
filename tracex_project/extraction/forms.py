@@ -1,5 +1,6 @@
 """Implementation of forms for the extraction app."""
 from django import forms
+from django.utils.safestring import mark_safe
 
 from extraction.models import PatientJourney, Cohort
 from tracex.logic.constants import (
@@ -15,21 +16,21 @@ class BaseEventForm(forms.Form):
     event_types = forms.MultipleChoiceField(
         label="Select desired event types",
         choices=EVENT_TYPES,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
         required=False,
         initial=[event_type[0] for event_type in EVENT_TYPES],
     )
     locations = forms.MultipleChoiceField(
         label="Select desired locations",
         choices=LOCATIONS,
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
         required=False,
         initial=[location[0] for location in LOCATIONS],
     )
     activity_key = forms.ChoiceField(
         label="Select activity key for output",
         choices=ACTIVITY_KEYS,
-        widget=forms.RadioSelect(),
+        widget=forms.RadioSelect(attrs={"class": "filter-selection-field"}),
         required=True,
         initial=ACTIVITY_KEYS[0][
             0
@@ -61,7 +62,7 @@ class BaseEventForm(forms.Form):
             )
 
         # print validation errors
-        print(self.errors.as_data())
+        print("Validation Errors: ", self.errors.as_data())
 
         return cleaned_data
 
@@ -122,22 +123,27 @@ class EvaluationForm(BaseEventForm):
         required=False,
         widget=forms.NumberInput(attrs={"id": "max-age"}),
     )
+    none_age = forms.BooleanField(
+        label=mark_safe("<i>Include elements with None values</i>"),
+        required=False,
+        widget=forms.CheckboxInput(),
+    )
     gender = forms.MultipleChoiceField(
         label="Gender:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
         required=False,
     )
     condition = forms.MultipleChoiceField(
         label="Condition:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
         required=False,
     )
     preexisting_condition = forms.MultipleChoiceField(
         label="Preexisting Condition:",
         choices=[],
-        widget=forms.CheckboxSelectMultiple(),
+        widget=forms.CheckboxSelectMultiple(attrs={"class": "filter-selection-field"}),
         required=False,
     )
     origin = forms.MultipleChoiceField(
@@ -163,8 +169,15 @@ class EvaluationForm(BaseEventForm):
         self.fields["origin"].choices = self.get_choices("origin")
         self.fields["gender"].choices = self.get_choices("gender")
 
-    def get_choices(self, category):
+    @staticmethod
+    def get_choices(category):
         choices = Cohort.manager.values_list(category, flat=True).distinct()
-        return sorted(
-            [(choice, choice) for choice in choices], key=lambda x: (x[0] is None, x)
-        )
+        none_info_text = mark_safe("<i>Include elements with None values</i>")
+        choices = [
+            (
+                "None" if choice is None else choice,
+                none_info_text if choice is None else choice,
+            )
+            for choice in choices
+        ]
+        return sorted(choices, key=lambda x: (x[0] == none_info_text, x))

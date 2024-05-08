@@ -43,15 +43,13 @@
 <!-- Display DFG image -->
 <div class="dfg-container">
     <div>
-        <p class="dfg-title" style="text-align: center;"><b>All Traces (DFG)</b></p>
         <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
     </div>
 </div>
 
 <!-- Display complete event log -->
 <div>
-    <p><b>All Traces Table</b></p>
-    <button id="toggleButton1">Show/Hide complete Event Log stored in the database</button>
+    <button id="toggleButton1">Show/Hide Event Log with filters applied</button>
     <div id="contentWrapper1" style="display: none;">
         {% if xes_html %}
             <p></p>
@@ -59,7 +57,7 @@
                 <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
             </div>
         {% else %}
-            <p>Something went wrong during the event log generation: No buffer content available.</p>
+            <p>No buffer content available.</p>
         {% endif %}
     </div>
 </div>
@@ -68,7 +66,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <p><b>Filter based on Activities</b></p>
+    <p style="text-align:center;"><b>Filter based on Activities</b></p>
     <div class="form-row">
         <div class="form-column">
             {{ form.event_types.label_tag }} {{ form.event_types }}
@@ -91,7 +89,7 @@
     </div>
 
     <!-- Checkboxes for male and female -->
-    <p><b>Filter based on Cohort</b></p>
+    <p style="text-align:center;"><b>Filter based on Cohort</b></p>
     <div class="form-row">
         <div class="form-column">
             {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
@@ -120,6 +118,10 @@
         <div class="form-column">
             {{ form.max_age.label_tag }} {{ form.max_age }}
             {{ form.max_age.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.none_age }} {{ form.none_age.label_tag }}
+            {{ form.none_age.errors }}
         </div>
     </div>
     <button type="button" id="toggleButton">Select/Deselect All</button>

@@ -346,6 +346,11 @@ text-align: center;
 
 .origin-checkbox {
     column-count: 3;
+
+}
+
+.origin-checkbox .label {
+    font-weight: bold;
 }
 
 .noUi-connect {
@@ -359,4 +364,8 @@ text-align: center;
     position: relative;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.filter-selection-field .label {
+    font-weight: bold;
 }

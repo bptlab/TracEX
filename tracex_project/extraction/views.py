@@ -325,47 +325,76 @@ class EvaluationView(generic.FormView):
 
         # Query the database to get all traces
         query_dict = self.request.session.get("query_dict")
+        # if query_dict is not None:
+        #     query_dict = {
+        #         key: value for key, value in query_dict.items() if value is not None
+        #     }
+        #     query_condition = Q(
+        #         cohort__condition__in=query_dict.get("condition")
+        #         if query_dict.get("condition")
+        #         else Q()
+        #     )
+        #     query_preexisting_condition = Q(
+        #         cohort__preexisting_condition__in=query_dict.get(
+        #             "preexisting_condition"
+        #         )
+        #         if query_dict.get("preexisting_condition")
+        #         else Q()
+        #     )
+        #     query_age = (
+        #         Q(
+        #             cohort__age__gte=query_dict.get("min_age"),
+        #             cohort__age__lte=query_dict.get("max_age"),
+        #         )
+        #         if query_dict.get("min_age") and query_dict.get("max_age")
+        #         else Q()
+        #     )
+        #     query_origin = Q(
+        #         cohort__origin__in=query_dict.get("origin")
+        #         if query_dict.get("origin")
+        #         else Q()
+        #     )
+        #     query_gender = Q(
+        #         cohort__gender__in=query_dict.get("gender")
+        #         if query_dict.get("gender")
+        #         else Q()
+        #     )
+        #     all_traces_df = utils.DataFrameUtilities.get_events_df(
+        #         query_condition
+        #         & query_preexisting_condition
+        #         & query_age
+        #         & query_origin
+        #         & query_gender
+        #     )
+        # else:
+        #     all_traces_df = utils.DataFrameUtilities.get_events_df()
+
         if query_dict is not None:
-            query_dict = {
-                key: value for key, value in query_dict.items() if value is not None
-            }
-            query_condition = Q(
-                cohort__condition__in=query_dict.get("condition")
-                if query_dict.get("condition")
-                else Q()
-            )
-            query_preexisting_condition = Q(
-                cohort__preexisting_condition__in=query_dict.get(
-                    "preexisting_condition"
-                )
-                if query_dict.get("preexisting_condition")
-                else Q()
-            )
-            query_age = (
+            query = (
                 Q(
                     cohort__age__gte=query_dict.get("min_age"),
                     cohort__age__lte=query_dict.get("max_age"),
                 )
-                if query_dict.get("min_age") and query_dict.get("max_age")
+                if query_dict.get("min_age")
+                and query_dict.get("max_age")
+                and not query_dict.get("none_age")
                 else Q()
             )
-            query_origin = Q(
-                cohort__origin__in=query_dict.get("origin")
-                if query_dict.get("origin")
-                else Q()
-            )
-            query_gender = Q(
-                cohort__gender__in=query_dict.get("gender")
-                if query_dict.get("gender")
-                else Q()
-            )
-            all_traces_df = utils.DataFrameUtilities.get_events_df(
-                query_condition
-                & query_preexisting_condition
-                & query_age
-                & query_origin
-                & query_gender
-            )
+            if query_dict.get("none_age"):
+                query |= Q(cohort__age__isnull=True)
+            for key, value in query_dict.items():
+                if isinstance(value, list) and len(value) > 0:
+                    # If the filter value is 'None', add a condition to match entries where the attribute is null
+                    if "None" in value:
+                        query &= Q(**{f"cohort__{key}__isnull": True}) | Q(
+                            **{f"cohort__{key}__in": value}
+                        )
+                    else:
+                        query &= Q(**{f"cohort__{key}__in": value})
+
+            # Use the Q object in your query
+            print(f"Query: {query}")
+            all_traces_df = utils.DataFrameUtilities.get_events_df(query)
         else:
             all_traces_df = utils.DataFrameUtilities.get_events_df()
 
@@ -427,6 +456,7 @@ class EvaluationView(generic.FormView):
             "preexisting_condition": form.cleaned_data["preexisting_condition"],
             "min_age": form.cleaned_data["min_age"],
             "max_age": form.cleaned_data["max_age"],
+            "none_age": form.cleaned_data["none_age"],
             "origin": form.cleaned_data["origin"],
         }
         self.request.session["query_dict"] = query_dict
