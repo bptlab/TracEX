@@ -245,7 +245,10 @@ class DataFrameUtilities:
 
         events_df = pd.DataFrame(event_data)
 
-        return events_df.sort_values(by="time:timestamp", inplace=False)
+        if not events_df.empty:
+            events_df = events_df.sort_values(by="time:timestamp", inplace=False)
+
+        return events_df
 
     @staticmethod
     def filter_dataframe(df, filter_dict):

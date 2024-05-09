@@ -183,16 +183,7 @@ class Orchestrator:
                 latest_id = 0
             del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
-            if "time_extraction" not in self.get_configuration().modules:
-                DataFrameUtilities.set_default_timestamps(self.get_data())
-            if "event_type_classification" not in self.get_configuration().modules:
-                self.get_data()["event_type"] = "N/A"
-            if "location_extraction" not in self.get_configuration().modules:
-                self.get_data()["attribute_location"] = "N/A"
-            if "metrics_analyzer" not in self.get_configuration().modules:
-                self.get_data()["activity_relevance"] = None
-                self.get_data()["timestamp_correctness"] = None
-                self.get_data()["correctness_confidence"] = None
+            self.set_default_values()
 
     def save_results_to_db(self):
         """Save the trace to the database."""
@@ -227,13 +218,32 @@ class Orchestrator:
         Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
 
-        if self.cohort:
-            cohort = Cohort.manager.create(**self.cohort)
-            trace.cohort = cohort
+        cohort = Cohort.manager.create(trace=trace, **self.cohort)
 
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
+
+    def set_default_values(self):
+        if "time_extraction" not in self.get_configuration().modules:
+            DataFrameUtilities.set_default_timestamps(self.get_data())
+        if "event_type_classification" not in self.get_configuration().modules:
+            self.get_data()["event_type"] = "N/A"
+        if "location_extraction" not in self.get_configuration().modules:
+            self.get_data()["attribute_location"] = "N/A"
+        if "metrics_analyzer" not in self.get_configuration().modules:
+            self.get_data()["activity_relevance"] = None
+            self.get_data()["timestamp_correctness"] = None
+            self.get_data()["correctness_confidence"] = None
+        if "cohort_tagging" not in self.get_configuration().modules:
+            cohort_default_values = {
+                "age": None,
+                "gender": None,
+                "origin": None,
+                "condition": None,
+                "preexisting_condition": None,
+            }
+            self.set_cohort(cohort_default_values)
 
     def update_progress(self, view, current_step, module_name):
         """Update the progress of the extraction."""

@@ -19,9 +19,25 @@ class PatientJourney(models.Model):
         return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
 
 
+class Trace(models.Model):
+    """Model for a single trace, belonging to a patient journey."""
+
+    patient_journey = models.ForeignKey(
+        PatientJourney, on_delete=models.CASCADE, related_name="trace"
+    )
+    last_modified = models.DateTimeField(auto_now=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Trace of {self.patient_journey.name} (id: {self.id})"  # pylint: disable=no-member
+
+
 class Cohort(models.Model):
     """Model for the Cohort of a patient journey."""
 
+    trace = models.OneToOneField(
+        Trace, on_delete=models.CASCADE, related_name="cohort", null=True
+    )
     age = models.IntegerField(null=True)
     gender = models.CharField(max_length=25, null=True)
     origin = models.CharField(max_length=50, null=True)
@@ -30,23 +46,7 @@ class Cohort(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"Cohort (id: {self.id})"  # pylint: disable=no-member
-
-
-class Trace(models.Model):
-    """Model for a single trace, belonging to a patient journey."""
-
-    patient_journey = models.ForeignKey(
-        PatientJourney, on_delete=models.CASCADE, related_name="trace"
-    )
-    cohort = models.ForeignKey(
-        Cohort, on_delete=models.CASCADE, related_name="trace", null=True, blank=True
-    )
-    last_modified = models.DateTimeField(auto_now=True)
-    manager = models.Manager()
-
-    def __str__(self):
-        return f"Trace of {self.patient_journey.name} (id: {self.id})"  # pylint: disable=no-member
+        return f"Cohort of {self.trace.__str__().split('(')[0]} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Event(models.Model):
