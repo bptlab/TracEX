@@ -30,6 +30,7 @@ class EventTypeClassifier(Module):
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
+            cohort=cohort,
         )
 
         column_name = "event_type"

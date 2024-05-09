@@ -38,6 +38,7 @@ class Module(ABC):
         print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
+        self.cohort = cohort
 
         return pd.DataFrame()
 

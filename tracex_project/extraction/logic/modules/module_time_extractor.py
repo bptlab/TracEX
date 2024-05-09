@@ -29,6 +29,7 @@ class TimeExtractor(Module):
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
+            cohort=cohort,
         )
 
         df["time:timestamp"] = df.apply(self.__extract_start_date, axis=1)
