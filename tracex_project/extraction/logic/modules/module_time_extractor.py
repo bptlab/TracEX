@@ -21,7 +21,9 @@ class TimeExtractor(Module):
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute(
+        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
+    ):
         """This function extracts the time information from the patient journey."""
         super().execute(
             df,

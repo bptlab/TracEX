@@ -172,6 +172,7 @@ class Orchestrator:
                     self.get_data(),
                     patient_journey=patient_journey,
                     patient_journey_sentences=patient_journey_sentences,
+                    cohort=self.get_cohort(),
                 )
             )
             current_step += 1
