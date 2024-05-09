@@ -30,7 +30,7 @@ class Cohort(models.Model):
     manager = models.Manager()
 
     def __str__(self):
-        return f"Cohort of {self.trace.__str__()} (id: {self.id})"  # pylint: disable=no-member
+        return f"Cohort (id: {self.id})"  # pylint: disable=no-member
 
 
 class Trace(models.Model):

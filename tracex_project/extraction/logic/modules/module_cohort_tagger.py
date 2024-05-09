@@ -2,7 +2,7 @@
 from pathlib import Path
 from django.conf import settings
 
-from extraction.models import Cohort, Prompt
+from extraction.models import Prompt
 from extraction.logic.module import Module
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u
