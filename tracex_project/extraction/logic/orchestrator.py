@@ -218,13 +218,15 @@ class Orchestrator:
         Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
 
-        cohort = Cohort.manager.create(trace=trace, **self.cohort)
+        Cohort.manager.create(trace=trace, **self.cohort)
 
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
 
     def set_default_values(self):
+        """Set default if a specific module was deselected"""
+
         if "time_extraction" not in self.get_configuration().modules:
             DataFrameUtilities.set_default_timestamps(self.get_data())
         if "event_type_classification" not in self.get_configuration().modules:
