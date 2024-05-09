@@ -15,27 +15,29 @@ def compare_traces(view, pipeline_df, ground_truth_df):
     ground_truth_activities = ground_truth_df["activity"]
 
     (
-        mapping_data_to_ground_truth,
-        mapping_ground_truth_to_data,
+        mapping_pipeline_to_ground_truth,
+        mapping_ground_truth_to_pipeline,
     ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
     missing_activities = find_unmapped_activities(
-        ground_truth_activities, mapping_ground_truth_to_data
+        ground_truth_activities, mapping_ground_truth_to_pipeline
     )
     unexpected_activities = find_unmapped_activities(
-        pipeline_activities, mapping_data_to_ground_truth
+        pipeline_activities, mapping_pipeline_to_ground_truth
     )
-    wrong_orders = find_wrong_orders(pipeline_activities, mapping_ground_truth_to_data)
+    wrong_orders = find_wrong_orders(
+        pipeline_activities, mapping_ground_truth_to_pipeline
+    )
 
     matching_percent_pipeline_to_ground_truth = find_matching_percentage(
-        pipeline_activities, mapping_data_to_ground_truth
+        pipeline_activities, mapping_pipeline_to_ground_truth
     )
     matching_percent_ground_truth_to_pipeline = find_matching_percentage(
-        ground_truth_activities, mapping_ground_truth_to_data
+        ground_truth_activities, mapping_ground_truth_to_pipeline
     )
 
     results_dict = {
-        "mapping_data_to_ground_truth": mapping_data_to_ground_truth,
-        "mapping_ground_truth_to_data": mapping_ground_truth_to_data,
+        "mapping_pipeline_to_ground_truth": mapping_pipeline_to_ground_truth,
+        "mapping_ground_truth_to_pipeline": mapping_ground_truth_to_pipeline,
         "missing_activities": missing_activities,
         "unexpected_activities": unexpected_activities,
         "wrong_orders": wrong_orders,
@@ -51,7 +53,7 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
     total_steps = len(pipeline_activities) + len(ground_truth_activities)
     half_progress = len(pipeline_activities)
 
-    mapping_data_to_ground_truth = compare_activities(
+    mapping_pipeline_to_ground_truth = compare_activities(
         view,
         0,
         total_steps,
@@ -59,7 +61,7 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
         pipeline_activities,
         ground_truth_activities,
     )
-    mapping_ground_truth_to_data = compare_activities(
+    mapping_ground_truth_to_pipeline = compare_activities(
         view,
         half_progress,
         total_steps,
@@ -69,11 +71,13 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
     )
 
     (
-        mapping_data_to_ground_truth,
-        mapping_ground_truth_to_data,
-    ) = postprocess_mappings(mapping_data_to_ground_truth, mapping_ground_truth_to_data)
+        mapping_pipeline_to_ground_truth,
+        mapping_ground_truth_to_pipeline,
+    ) = postprocess_mappings(
+        mapping_pipeline_to_ground_truth, mapping_ground_truth_to_pipeline
+    )
 
-    return mapping_data_to_ground_truth, mapping_ground_truth_to_data
+    return mapping_pipeline_to_ground_truth, mapping_ground_truth_to_pipeline
 
 
 def compare_activities(
