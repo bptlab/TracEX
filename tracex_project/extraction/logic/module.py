@@ -21,6 +21,7 @@ class Module(ABC):
         self.description = None
         self.patient_journey = None
         self.patient_journey_sentences = None
+        self.cohort = None
 
     def execute(
         self,
