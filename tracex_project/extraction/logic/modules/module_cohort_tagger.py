@@ -19,20 +19,22 @@ class CohortTagger(Module):
         self.description = "Extracts the cohort tags from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute_and_save(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute_and_save(
+        self, df, patient_journey=None, patient_journey_sentences=None
+    ):
         """
         Extracts the cohort from the patient journey and saves the result in the database.
         """
         super().execute_and_save(
             df,
             patient_journey=patient_journey,
-            patient_journey_sentences=patient_journey_sentences
+            patient_journey_sentences=patient_journey_sentences,
         )
 
         cohort_tags = self.__extract_cohort_tags(patient_journey)
-        cohort_pk = self.__save_to_db(cohort_tags)
+        cohort_dict = self.__prepare_cohort_dict(cohort_tags)
 
-        return cohort_pk
+        return cohort_dict
 
     @staticmethod
     def __extract_cohort_tags(patient_journey):
@@ -49,17 +51,14 @@ class CohortTagger(Module):
         return cohort_data
 
     @staticmethod
-    def __save_to_db(cohort_data):
-        """Saves the cohort tags to the database."""
-        valid_cohort_data = {
+    def __prepare_cohort_dict(cohort_data):
+        """Prepares the cohort tags dictionary for saving into database."""
+        cohort_dict = {
             key: value for key, value in cohort_data.items() if value != "N/A"
         }
 
-        # if all values are "N/A" there is no use in saving the results
-        # return 0 indicates to the calling function, that there is no Cohort
-        # it expects a database id and 0 is not a valid id
-        if not any(value != "NA" for value in valid_cohort_data.values()):
-            return 0
-        new_cohort = Cohort.manager.create(**valid_cohort_data)
+        # If all values are "N/A", return None to indicate no valid cohort data
+        if not any(value != "NA" for value in cohort_dict.values()):
+            return None
 
-        return new_cohort.pk
+        return cohort_dict
