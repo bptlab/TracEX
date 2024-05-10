@@ -245,7 +245,7 @@ width: 100%;
     display: block;
 }
 
-.metric-content {
+.metric-content, .number-metric-small {
     display: inline-block;
     text-align: center;
 }
