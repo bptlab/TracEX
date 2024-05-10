@@ -1,5 +1,6 @@
 """This file contains the views for the extraction app.
 Some unused imports and variables have to be made because of architectural requirement."""
+import traceback
 # pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
@@ -9,7 +10,7 @@ import pandas as pd
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from tracex.logic import utils
 from extraction.forms import (
@@ -115,11 +116,31 @@ class JourneyFilterView(generic.FormView):
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
         )
-        orchestrator.run(view=self)
+        modules_list = (
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
+        )
+        orchestrator.update_modules(modules_list)
+        try:
+            orchestrator.run(view=self)
+        except Exception as e:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(
+                self.request,
+                "error_page.html",
+                {"type": type(e).__name__, "error_traceback": traceback.format_exc()}
+            )
+
         self.request.session.save()
+
+        selected_modules = form.cleaned_data["modules_optional"]
+        self.request.session["selected_modules"] = selected_modules
 
         if self.request.session.get("is_comparing") is True:
             orchestrator.save_results_to_db()
+
             return redirect(reverse_lazy("testing_comparison"))
 
         return super().form_valid(form)
@@ -148,6 +169,19 @@ class ResultView(generic.FormView):
     template_name = "result.html"
     success_url = reverse_lazy("result")
 
+    def get_form_kwargs(self):
+        """Add the context to the form."""
+        kwargs = super().get_form_kwargs()
+        orchestrator = Orchestrator.get_instance()
+        kwargs["initial"] = {
+            "activity_key": orchestrator.get_configuration().activity_key,
+            "selected_modules": self.request.session.get("selected_modules"),
+            "event_types": orchestrator.get_configuration().event_types,
+            "locations": orchestrator.get_configuration().locations,
+        }
+
+        return kwargs
+
     def get_context_data(self, **kwargs):
         """Prepare the data for the result page."""
         context = super().get_context_data(**kwargs)
@@ -161,21 +195,18 @@ class ResultView(generic.FormView):
         trace = self.build_trace_df(filter_dict)
         event_log = self.build_event_log_df(filter_dict, trace)
 
+        form = self.get_form()
+        form.is_valid()
+
         context.update(
             {
-                "form": ResultForm(
-                    initial={
-                        "event_types": orchestrator.get_configuration().event_types,
-                        "locations": orchestrator.get_configuration().locations,
-                        "activity_key": activity_key,
-                    }
-                ),
+                "form": form,
                 "journey": orchestrator.get_configuration().patient_journey,
                 "dfg_img": utils.Conversion.create_dfg_from_df(
                     df=trace,
                     activity_key=activity_key,
                 ),
-                "trace_table": utils.Conversion.create_html_table_from_df(trace),
+                "trace_table": utils.Conversion.create_html_table_from_df(df=trace),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
                     df=event_log,
                     activity_key=activity_key,
@@ -227,6 +258,11 @@ class ResultView(generic.FormView):
             locations=form.cleaned_data["locations"],
             activity_key=form.cleaned_data["activity_key"],
         )
+        modules_list = (
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
+        )
+        orchestrator.get_configuration().modules = modules_list
 
         return super().form_valid(form)
 

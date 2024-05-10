@@ -1,4 +1,7 @@
 """This file contains the views for the patient journey generator app."""
+import traceback
+
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -41,9 +44,16 @@ class JourneyGenerationView(generic.RedirectView):
         orchestrator = Orchestrator()
 
         # This automatically updates the configuration with the generated patient journey
-        configuration = ExtractionConfiguration(
-            patient_journey=generate_patient_journey()
-        )
+        try:
+            configuration = ExtractionConfiguration(
+                patient_journey=generate_patient_journey()
+            )
+        except Exception:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
+
         orchestrator.set_configuration(configuration)
         request.session[
             "generated_journey"

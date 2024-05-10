@@ -1,6 +1,8 @@
 """This file contains the views for the trace testing environment app."""
+import traceback
+
 from django.http import JsonResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.db.models import Q
@@ -96,7 +98,12 @@ class TraceTestingComparisonView(TemplateView):
         )
         ground_truth_df = dfu.get_events_df(query_first_trace)
 
-        comparison_result_dict = compare_traces(self, pipeline_df, ground_truth_df)
+        try:
+            comparison_result_dict = compare_traces(self, pipeline_df, ground_truth_df)
+        except Exception:  # pylint: disable=broad-except
+            self.request.session.flush()
+
+            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
 
         request.session["comparison_result"] = comparison_result_dict
 

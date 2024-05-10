@@ -118,26 +118,39 @@ class Conversion:
         return df_renamed
 
     @staticmethod
+    def rename_columns(df: pd.DataFrame):
+        """Rename columns in the DataFrame for better readability."""
+        column_mapping = {
+            "case:concept:name": "Case ID",
+            "activity": "Activity",
+            "event_type": "Event Type",
+            "time:timestamp": "Start Timestamp",
+            "time:end_timestamp": "End Timestamp",
+            "time:duration": "Duration",
+            "attribute_location": "Location",
+            "activity_relevance": "Activity Relevance",
+            "timestamp_correctness": "Timestamp Correctness",
+            "correctness_confidence": "Correctness Confidence",
+        }
+
+        existing_columns = {}
+        for old_column, new_column in column_mapping.items():
+            if old_column in df.columns:
+                existing_columns[old_column] = new_column
+        df_renamed = df.rename(columns=existing_columns, inplace=False)
+
+        return df_renamed
+
+    @staticmethod
     def create_html_table_from_df(df: pd.DataFrame):
-        """Create html table from DataFrame and rename columns for better readability."""
-        df_renamed = df.rename(
-            columns={
-                "case:concept:name": "Case ID",
-                "activity": "Activity",
-                "event_type": "Event Type",
-                "time:timestamp": "Start Timestamp",
-                "time:end_timestamp": "End Timestamp",
-                "time:duration": "Duration",
-                "attribute_location": "Location",
-            },
-            inplace=False,
-        )
-        df_renamed.sort_values(by="Start Timestamp", inplace=True)
+        """Create html table from DataFrame."""
+        df_renamed = Conversion.rename_columns(df)
+
+        if "Start Timestamp" in df_renamed.columns:
+            df_renamed.sort_values(by="Start Timestamp", inplace=True)
+
         html_buffer = StringIO()
-        df_renamed.to_html(
-            buf=html_buffer,
-            index=False,
-        )
+        df_renamed.to_html(buf=html_buffer, index=False)
 
         return html_buffer.getvalue()
 
@@ -191,24 +204,45 @@ class DataFrameUtilities:
     def get_events_df(query: Q = None):
         """Get all events from the database, or filter them by a query and return them as a dataframe."""
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
+
         if not traces.exists():
             return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
+
         for trace in traces:
             events = trace.events.all()
             for event in events:
-                event_data.append(
-                    {
-                        "case:concept:name": trace.id,
-                        "activity": event.activity,
-                        "event_type": event.event_type,
-                        "time:timestamp": event.start,
-                        "time:end_timestamp": event.end,
-                        "time:duration": event.duration,
-                        "attribute_location": event.location,
-                    }
-                )
+                event_dict = {
+                    "case:concept:name": trace.id,
+                    "activity": event.activity,
+                    "event_type": event.event_type,
+                    "time:timestamp": event.start,
+                    "time:end_timestamp": event.end,
+                    "time:duration": event.duration,
+                    "attribute_location": event.location,
+                }
+
+                if hasattr(event, "metrics"):
+                    metric = event.metrics
+                    event_dict.update(
+                        {
+                            "activity_relevance": metric.activity_relevance,
+                            "timestamp_correctness": metric.timestamp_correctness,
+                            "correctness_confidence": metric.correctness_confidence,
+                        }
+                    )
+                else:
+                    event_dict.update(
+                        {
+                            "activity_relevance": None,
+                            "timestamp_correctness": None,
+                            "correctness_confidence": None,
+                        }
+                    )
+
+                event_data.append(event_dict)
+
         events_df = pd.DataFrame(event_data)
 
         return events_df.sort_values(by="time:timestamp", inplace=False)
@@ -228,3 +262,22 @@ class DataFrameUtilities:
             combined_condition &= condition
 
         return df[combined_condition]
+
+    @staticmethod
+    def set_default_timestamps(df):
+        """Set default timestamps for the trace if the time_extraction module didn't run."""
+        df["time:timestamp"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0001",
+            axis=1,
+        )
+        df["time:timestamp"] = pd.to_datetime(
+            df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:end_timestamp"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0002",
+            axis=1,
+        )
+        df["time:end_timestamp"] = pd.to_datetime(
+            df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:duration"] = "00:01:00"
