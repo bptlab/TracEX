@@ -16,20 +16,7 @@ def generate_patient_journey():
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
-    i = 0
-    proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-    output_path = c.input_path / proposed_filename
-    while os.path.isfile(output_path):
-        i += 1
-        proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-        output_path = c.input_path / proposed_filename
-    with open(output_path, "w") as f:
-        f.write(patient_journey)
-    print(
-        'Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey "'
-        + proposed_filename
-        + '" generated.'
-    )
+    print("Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey generated.")
     return patient_journey
 
 
