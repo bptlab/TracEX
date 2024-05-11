@@ -1,10 +1,8 @@
 """The patient journey generator creates a synthetic patient journey with the help of the GPT engine."""
 from datetime import datetime, timedelta
-import os
 import random
 
 from extraction.models import Prompt
-from tracex.logic import constants as c
 from tracex.logic import utils as u
 
 

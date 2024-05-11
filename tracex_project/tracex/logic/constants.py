@@ -1,6 +1,5 @@
 """Module providing constants for the project."""
 import os
-from django.conf import settings
 
 oaik = os.environ.get(
     "OPENAI_API_KEY"
