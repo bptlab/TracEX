@@ -266,10 +266,10 @@ text-align: center;
 }
 
 .landing_page_logo {
-    max-width: 75%;
+    max-width: 65%;
     height: auto;
     object-fit: contain;
-    padding-top: 1%;
+    padding: 1%;
 }
 
 
