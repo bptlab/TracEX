@@ -119,8 +119,8 @@ class JourneyFilterView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         modules_list = (
-            form.cleaned_data["modules_required"]
-            + form.cleaned_data["modules_optional"]
+                form.cleaned_data["modules_required"]
+                + form.cleaned_data["modules_optional"]
         )
         orchestrator.update_modules(modules_list)
         try:
@@ -261,8 +261,8 @@ class ResultView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         modules_list = (
-            form.cleaned_data["modules_required"]
-            + form.cleaned_data["modules_optional"]
+                form.cleaned_data["modules_required"]
+                + form.cleaned_data["modules_optional"]
         )
         orchestrator.get_configuration().modules = modules_list
 
@@ -296,7 +296,7 @@ class DownloadXesView(View):
 
         files_to_download = self.collect_files(request, trace_types)
         if (
-            files_to_download is None
+                files_to_download is None
         ):  # Check for None explicitly to handle error scenario
             return HttpResponse("One or more files could not be found.", status=404)
 
@@ -410,18 +410,19 @@ class EvaluationView(generic.FormView):
             "event_type": config.get("event_types"),
             "attribute_location": config.get("locations"),
         }
-
-        event_log_df = utils.DataFrameUtilities.filter_dataframe(
-            event_log_df, filter_dict
-        )
-        event_log_table = utils.Conversion.create_html_table_from_df(event_log_df)
+        if not event_log_df.empty:
+            event_log_df = utils.DataFrameUtilities.filter_dataframe(
+                event_log_df, filter_dict
+            )
+            context.update(
+                {
+                    "all_dfg_img": utils.Conversion.create_dfg_from_df(event_log_df, activity_key),
+                    "event_log_table": utils.Conversion.create_html_table_from_df(event_log_df),
+                }
+            )
 
         context.update(
             {
-                "all_dfg_img": utils.Conversion.create_dfg_from_df(
-                    event_log_df, activity_key
-                ),
-                "event_log_table": event_log_table,
                 "form": EvaluationForm(initial=config),
             }
         )
@@ -437,8 +438,8 @@ class EvaluationView(generic.FormView):
                 cohort__age__lte=query_dict.get("max_age"),
             )
             if query_dict.get("min_age")
-            and query_dict.get("max_age")
-            and not query_dict.get("none_age")
+               and query_dict.get("max_age")
+               and not query_dict.get("none_age")
             else Q()
         )
         if query_dict.get("none_age"):

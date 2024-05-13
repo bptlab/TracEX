@@ -26,9 +26,13 @@
 
 <!-- Display DFG image -->
 <div class="dfg-container">
-    <div>
-        <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
-    </div>
+    {% if all_dfg_img %}
+        <div>
+            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+        </div>
+    {% else %}
+        <p style="margin-top: 2em; margin-bottom: 2em">No database entries match your selected filters.</p>
+    {% endif %}
 </div>
 
 <!-- Display complete event log -->
@@ -41,7 +45,7 @@
                 <div id="xesContent1" class="xes_container">{{ event_log_table|safe }}</div>
             </div>
         {% else %}
-            <p>No buffer content available.</p>
+            <p style="text-align: center">No database entries match your selected filters.</p>
         {% endif %}
     </div>
 </div>
