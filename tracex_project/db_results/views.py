@@ -210,7 +210,6 @@ class EvaluationView(FormView):
     template_name = "evaluation.html"
     success_url = reverse_lazy("evaluation")
 
-    # TODO: Adjust get_context_data and form_valid so that the filters are applied to the data
     def get_context_data(self, **kwargs):
         """Prepare the data for the evaluation page."""
         context = super().get_context_data(**kwargs)
