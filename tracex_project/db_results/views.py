@@ -9,6 +9,10 @@ from plotly.offline import plot
 from db_results.forms import PatientJourneySelectForm
 from extraction.models import Trace, PatientJourney
 from tracex.logic import utils as u
+from db_results.forms import EvaluationForm
+
+from tracex.logic import utils
+from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
 
 
 class DbResultsOverviewView(TemplateView):
@@ -147,9 +151,9 @@ class MetricsDashboardView(TemplateView):
             styles = ["background-color: tan"] * len(row)
 
         if (
-            low_confidence_threshold
-            <= correctness_confidence
-            <= high_confidence_threshold
+                low_confidence_threshold
+                <= correctness_confidence
+                <= high_confidence_threshold
         ):
             styles[confidence_index] = "background-color: orange"
         elif correctness_confidence < low_confidence_threshold:
@@ -197,3 +201,108 @@ class MetricsDashboardView(TemplateView):
                 "showTips": False,
             },
         )
+
+
+class EvaluationView(FormView):
+    """View for displaying all extracted traces and DFG image with filter selection."""
+
+    form_class = EvaluationForm
+    template_name = "evaluation.html"
+    success_url = reverse_lazy("evaluation")
+
+    # TODO: Adjust get_context_data and form_valid so that the filters are applied to the data
+    def get_context_data(self, **kwargs):
+        """Prepare the data for the evaluation page."""
+        context = super().get_context_data(**kwargs)
+        config = self.initiate_evaluation_configuration()
+        activity_key = config.get("activity_key")
+
+        # Query the database to get all traces
+        query_dict = self.request.session.get("query_dict")
+        if query_dict is not None:
+            query = self.create_query(query_dict)
+            event_log_df = utils.DataFrameUtilities.get_events_df(query)
+        else:
+            event_log_df = utils.DataFrameUtilities.get_events_df()
+
+        filter_dict = {
+            "event_type": config.get("event_types"),
+            "attribute_location": config.get("locations"),
+        }
+        if not event_log_df.empty:
+            event_log_df = utils.DataFrameUtilities.filter_dataframe(
+                event_log_df, filter_dict
+            )
+            context.update(
+                {
+                    "all_dfg_img": utils.Conversion.create_dfg_from_df(event_log_df, activity_key),
+                    "event_log_table": utils.Conversion.create_html_table_from_df(event_log_df),
+                }
+            )
+
+        context.update(
+            {
+                "form": EvaluationForm(initial=config),
+            }
+        )
+
+        return context
+
+    @staticmethod
+    def create_query(query_dict):
+        """Create a query object based on the given dictionary."""
+        query = (
+            Q(
+                cohort__age__gte=query_dict.get("min_age"),
+                cohort__age__lte=query_dict.get("max_age"),
+            )
+            if query_dict.get("min_age")
+               and query_dict.get("max_age")
+               and not query_dict.get("none_age")
+            else Q()
+        )
+        if query_dict.get("none_age"):
+            query |= Q(cohort__age__isnull=True)
+        # Extend query for items of type list
+        for key, value in query_dict.items():
+            if isinstance(value, list) and len(value) > 0:
+                # include entries where the respective attribute is missing
+                if "None" in value:
+                    query &= Q(**{f"cohort__{key}__isnull": True}) | Q(
+                        **{f"cohort__{key}__in": value}
+                    )
+                else:
+                    query &= Q(**{f"cohort__{key}__in": value})
+
+        return query
+
+    def form_valid(self, form):
+        """Save the filter settings in the cache and apply them to the dataframe."""
+
+        self.request.session["filter_settings"] = form.cleaned_data
+
+        query_dict = {
+            "gender": form.cleaned_data["gender"],
+            "condition": form.cleaned_data["condition"],
+            "preexisting_condition": form.cleaned_data["preexisting_condition"],
+            "min_age": form.cleaned_data["min_age"],
+            "max_age": form.cleaned_data["max_age"],
+            "none_age": form.cleaned_data["none_age"],
+            "origin": form.cleaned_data["origin"],
+        }
+        self.request.session["query_dict"] = query_dict
+
+        return super().form_valid(form)
+
+    def initiate_evaluation_configuration(self):
+        """Initialize form with default values if no filter settings are present."""
+
+        config = self.request.session.get("filter_settings")
+        if config is None:
+            config = {
+                "event_types": [event_type[0] for event_type in EVENT_TYPES],
+                "locations": [location[0] for location in LOCATIONS],
+                "activity_key": ACTIVITY_KEYS[0][0],
+            }
+
+        return config

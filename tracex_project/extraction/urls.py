@@ -26,5 +26,4 @@ urlpatterns = [
         "extraction/filter/", views.JourneyFilterView.as_view(), name="journey_filter"
     ),
     path("extraction/saved/", views.SaveSuccessView.as_view(), name="save_success"),
-    path("evaluation/", views.EvaluationView.as_view(), name="evaluation"),
 ]

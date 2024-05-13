@@ -19,4 +19,9 @@ urlpatterns = [
         views.MetricsDashboardView.as_view(),
         name="metrics_dashboard",
     ),
+    path(
+        "db_results/evaluation/",
+        views.EvaluationView.as_view(),
+        name="evaluation",
+    ),
 ]
