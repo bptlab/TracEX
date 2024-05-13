@@ -1,6 +1,4 @@
 """Test cases for utils."""
-import os
-
 from django.db.models import Q
 from django.test import TestCase
 import pandas as pd
