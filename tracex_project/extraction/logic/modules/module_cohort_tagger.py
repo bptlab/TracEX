@@ -58,7 +58,7 @@ class CohortTagger(Module):
         }
 
         # If all values are "N/A", return None to indicate no valid cohort data
-        if not any(value != "NA" for value in cohort_dict.values()):
+        if not any(value != "N/A" for value in cohort_dict.values()):
             return None
 
         return cohort_dict

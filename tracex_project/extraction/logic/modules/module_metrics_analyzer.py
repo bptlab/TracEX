@@ -69,12 +69,13 @@ class MetricsAnalyzer(Module):
             messages.append(
                 {
                     "role": "user",
-                    "content": "Rate the activity relevance in the context of the course of disease: "
+                    "content": activity
+                    + "\n\nRate the activity relevance in the context of the course of disease: "
                     + condition,
                 }
             )
-            print(messages)
-        messages.append({"role": "user", "content": activity})
+        else:
+            messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
         category = "No Relevance"  # By default, an activity is not relevant.

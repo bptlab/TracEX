@@ -219,7 +219,7 @@ class Orchestrator:
         Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
 
-        Cohort.manager.create(trace=trace, **self.cohort)
+        Cohort.manager.create(trace=trace, **self.get_cohort())
 
         trace.save()
         patient_journey.trace.add(trace)

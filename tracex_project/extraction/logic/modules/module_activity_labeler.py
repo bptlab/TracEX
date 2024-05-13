@@ -71,15 +71,18 @@ class ActivityLabeler(Module):
         """
         column_name = "activity"
         messages = Prompt.objects.get(name="TEXT_TO_ACTIVITY_MESSAGES").text
+
         if condition is not None:
             messages.append(
                 {
                     "role": "user",
-                    "content": "Consider all important points regarding the course of the disease of "
+                    "content": patient_journey_numbered
+                    + "\n\nConsider all important points regarding the course of the disease of "
                     + condition,
                 }
             )
-            print(messages)
+        else:
+            messages.append({"role": "user", "content": patient_journey_numbered})
         messages.append({"role": "user", "content": patient_journey_numbered})
         activity_labels = u.query_gpt(messages).split("\n")
         df = pd.DataFrame(activity_labels, columns=[column_name])
