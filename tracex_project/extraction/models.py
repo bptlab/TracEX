@@ -38,11 +38,11 @@ class Cohort(models.Model):
     trace = models.OneToOneField(
         Trace, on_delete=models.CASCADE, related_name="cohort", null=True
     )
-    age = models.IntegerField(null=True)
-    gender = models.CharField(max_length=25, null=True)
-    origin = models.CharField(max_length=50, null=True)
-    condition = models.CharField(max_length=50, null=True)
-    preexisting_condition = models.CharField(max_length=100, null=True)
+    age = models.IntegerField(null=True, blank=True)
+    gender = models.CharField(max_length=25, null=True, blank=True)
+    origin = models.CharField(max_length=50, null=True, blank=True)
+    condition = models.CharField(max_length=50, null=True, blank=True)
+    preexisting_condition = models.CharField(max_length=100, null=True, blank=True)
     manager = models.Manager()
 
     def __str__(self):
