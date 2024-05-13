@@ -50,6 +50,20 @@
     </div>
 </div>
 
+<div>
+    <button id="toggleButton2" style="margin-top: 1em">Show/Hide Cohorts belonging to remaining entries</button>
+    <div id="contentWrapper2" style="display: none;">
+        {% if cohorts_table %}
+            <p></p>
+            <div class="scrollable-table">
+                <div id="cohortTable" class="xes_container">{{ cohorts_table|safe }}</div>
+            </div>
+        {% else %}
+            <p style="text-align: center">No database entries match your selected filters.</p>
+        {% endif %}
+    </div>
+</div>
+
 <!-- Form for filters -->
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}

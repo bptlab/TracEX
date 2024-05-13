@@ -1,4 +1,5 @@
 """This file contains the views for the database result app."""
+import pandas as pd
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from django.db.models import Q
@@ -13,6 +14,7 @@ from db_results.forms import EvaluationForm
 
 from tracex.logic import utils
 from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
+from extraction.models import Trace, Cohort
 
 
 class DbResultsOverviewView(TemplateView):
@@ -221,9 +223,16 @@ class EvaluationView(FormView):
         if query_dict is not None:
             query = self.create_query(query_dict)
             event_log_df = utils.DataFrameUtilities.get_events_df(query)
+            traces = Trace.manager.filter(query)
         else:
             event_log_df = utils.DataFrameUtilities.get_events_df()
+            traces = Trace.manager.all()
 
+        cohorts = Cohort.manager.filter(trace__in=traces)
+        cohorts_data = list(cohorts.values('trace', 'age', 'gender', 'origin', 'condition', 'preexisting_condition'))
+
+        cohorts_df = pd.DataFrame(cohorts_data)
+        print(cohorts_df)
         filter_dict = {
             "event_type": config.get("event_types"),
             "attribute_location": config.get("locations"),
@@ -236,14 +245,11 @@ class EvaluationView(FormView):
                 {
                     "all_dfg_img": utils.Conversion.create_dfg_from_df(event_log_df, activity_key),
                     "event_log_table": utils.Conversion.create_html_table_from_df(event_log_df),
+                    "cohorts_table": utils.Conversion.create_html_table_from_df(cohorts_df),
                 }
             )
 
-        context.update(
-            {
-                "form": EvaluationForm(initial=config),
-            }
-        )
+        context.update({"form": EvaluationForm(initial=config)})
 
         return context
 
