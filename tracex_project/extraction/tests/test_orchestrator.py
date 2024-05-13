@@ -79,5 +79,5 @@ class OrchestratorTests(TestCase):
         )
         modules = orchestrator.initialize_modules()
 
-        self.assertTrue(any(isinstance(module, ActivityLabeler) for module in modules))
-        self.assertEqual(modules[0].name, "Activity Labeler")
+        self.assertIsInstance(modules['activity_labeling'], ActivityLabeler)
+        self.assertEqual(modules['activity_labeling'].name, "Activity Labeler")
