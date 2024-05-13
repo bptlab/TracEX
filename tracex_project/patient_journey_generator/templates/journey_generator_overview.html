@@ -8,37 +8,44 @@
     <script src="{% static '/patient_journey_generator/js/loading-spinner.js' %}" defer></script>
 </head>
 
-<body class="selection_body">
+<body class="main_body">
     <div class="selection_container">
     {% if generated_journey %}
-    <h1>Generated Journey</h1>
+    <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo not_visible">
+    <h2>Generated Journey</h2>
     <p>{{ generated_journey }}</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
 
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.journey.label_tag }} {{ form.journey }}
-                {{ form.journey.errors }}
-                <p>{{ form.journey.help_text }}</p>
+        <div class="patient_journey_generator_form">
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.journey.label_tag }} {{ form.journey }}
+                    {{ form.journey.errors }}
+                    <p>{{ form.journey.help_text }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.name.label_tag }} {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
             </div>
         </div>
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.name.label_tag }} {{ form.name }}
-                {{ form.name.errors }}
-            </div>
+        <div class="spinner-container" id="loading-container">
+            <span id="loading-spinner" class="loader not_visible"></span>
         </div>
-        <span id="loading-spinner" class="loader not_visible"></span>
         <input type="submit" value="Select Generated Patient Journey" class="button">
     </form>
     {% else %}
 
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
     <h2>Welcome to the Patient Journey Generator of TracEX</h1>
-    <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span> and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
-    <span id="loading-spinner" class="loader not_visible"></span>
+    <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
+    <div class="spinner-container" id="loading-container">
+        <span id="loading-spinner" class="loader not_visible"></span>
+    </div>
     {% endif %}
 
     <a href="{% url 'journey_generation' %}">

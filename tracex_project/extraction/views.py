@@ -1,5 +1,6 @@
 """This file contains the views for the extraction app.
 Some unused imports and variables have to be made because of architectural requirement."""
+import traceback
 # pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
@@ -10,7 +11,7 @@ from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 
 from tracex.logic import utils, constants
 from extraction.forms import (
@@ -122,7 +123,18 @@ class JourneyFilterView(generic.FormView):
             + form.cleaned_data["modules_optional"]
         )
         orchestrator.update_modules(modules_list)
-        orchestrator.run(view=self)
+        try:
+            orchestrator.run(view=self)
+        except Exception as e:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(
+                self.request,
+                "error_page.html",
+                {"type": type(e).__name__, "error_traceback": traceback.format_exc()}
+            )
+
         self.request.session.save()
 
         selected_modules = form.cleaned_data["modules_optional"]
@@ -130,6 +142,7 @@ class JourneyFilterView(generic.FormView):
 
         if self.request.session.get("is_comparing") is True:
             orchestrator.save_results_to_db()
+
             return redirect(reverse_lazy("testing_comparison"))
 
         return super().form_valid(form)
@@ -195,7 +208,7 @@ class ResultView(generic.FormView):
                     df=trace,
                     activity_key=activity_key,
                 ),
-                "trace_table": utils.Conversion.create_html_table_from_df(trace),
+                "trace_table": utils.Conversion.create_html_table_from_df(df=trace),
                 "all_dfg_img": utils.Conversion.create_dfg_from_df(
                     df=event_log,
                     activity_key=activity_key,
