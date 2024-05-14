@@ -1,19 +1,19 @@
 """This file contains the views for the extraction app.
 Some unused imports and variables have to be made because of architectural requirement."""
 import traceback
+
 # pylint: disable=unused-argument, unused-variable
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
 import pandas as pd
-from django.db.models import Q
 
 from django.urls import reverse_lazy
 from django.views import generic, View
 from django.http import JsonResponse, HttpResponse, FileResponse
 from django.shortcuts import redirect, render
 
-from tracex.logic import utils, constants
+from tracex.logic import utils
 from extraction.forms import (
     JourneyUploadForm,
     ResultForm,
@@ -118,8 +118,8 @@ class JourneyFilterView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         modules_list = (
-                form.cleaned_data["modules_required"]
-                + form.cleaned_data["modules_optional"]
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
         )
         orchestrator.update_modules(modules_list)
         try:
@@ -131,7 +131,7 @@ class JourneyFilterView(generic.FormView):
             return render(
                 self.request,
                 "error_page.html",
-                {"type": type(e).__name__, "error_traceback": traceback.format_exc()}
+                {"type": type(e).__name__, "error_traceback": traceback.format_exc()},
             )
 
         self.request.session.save()
@@ -260,8 +260,8 @@ class ResultView(generic.FormView):
             activity_key=form.cleaned_data["activity_key"],
         )
         modules_list = (
-                form.cleaned_data["modules_required"]
-                + form.cleaned_data["modules_optional"]
+            form.cleaned_data["modules_required"]
+            + form.cleaned_data["modules_optional"]
         )
         orchestrator.get_configuration().modules = modules_list
 
@@ -295,7 +295,7 @@ class DownloadXesView(View):
 
         files_to_download = self.collect_files(request, trace_types)
         if (
-                files_to_download is None
+            files_to_download is None
         ):  # Check for None explicitly to handle error scenario
             return HttpResponse("One or more files could not be found.", status=404)
 

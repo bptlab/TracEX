@@ -1,3 +1,4 @@
+"""Implementation of forms for the tracex app."""
 from django import forms
 
 from tracex.logic.constants import (
@@ -5,7 +6,8 @@ from tracex.logic.constants import (
     MODULES_OPTIONAL,
     EVENT_TYPES,
     LOCATIONS,
-    ACTIVITY_KEYS)
+    ACTIVITY_KEYS,
+)
 
 
 class BaseEventForm(forms.Form):

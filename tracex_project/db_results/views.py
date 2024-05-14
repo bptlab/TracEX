@@ -7,14 +7,10 @@ from django.db.models import Q
 import plotly.graph_objects as go
 from plotly.offline import plot
 
-from db_results.forms import PatientJourneySelectForm
-from extraction.models import Trace, PatientJourney
+from db_results.forms import PatientJourneySelectForm, EvaluationForm
+from extraction.models import Trace, PatientJourney, Cohort
 from tracex.logic import utils as u
-from db_results.forms import EvaluationForm
-
-from tracex.logic import utils
 from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
-from extraction.models import Trace, Cohort
 
 
 class DbResultsOverviewView(TemplateView):
@@ -153,9 +149,9 @@ class MetricsDashboardView(TemplateView):
             styles = ["background-color: tan"] * len(row)
 
         if (
-                low_confidence_threshold
-                <= correctness_confidence
-                <= high_confidence_threshold
+            low_confidence_threshold
+            <= correctness_confidence
+            <= high_confidence_threshold
         ):
             styles[confidence_index] = "background-color: orange"
         elif correctness_confidence < low_confidence_threshold:
@@ -222,14 +218,18 @@ class EvaluationView(FormView):
         query_dict = self.request.session.get("query_dict")
         if query_dict is not None:
             query = self.create_query(query_dict)
-            event_log_df = utils.DataFrameUtilities.get_events_df(query)
+            event_log_df = u.DataFrameUtilities.get_events_df(query)
             traces = Trace.manager.filter(query)
         else:
-            event_log_df = utils.DataFrameUtilities.get_events_df()
+            event_log_df = u.DataFrameUtilities.get_events_df()
             traces = Trace.manager.all()
 
         cohorts = Cohort.manager.filter(trace__in=traces)
-        cohorts_data = list(cohorts.values('trace', 'age', 'gender', 'origin', 'condition', 'preexisting_condition'))
+        cohorts_data = list(
+            cohorts.values(
+                "trace", "age", "gender", "origin", "condition", "preexisting_condition"
+            )
+        )
 
         cohorts_df = pd.DataFrame(cohorts_data)
         print(cohorts_df)
@@ -238,14 +238,18 @@ class EvaluationView(FormView):
             "attribute_location": config.get("locations"),
         }
         if not event_log_df.empty:
-            event_log_df = utils.DataFrameUtilities.filter_dataframe(
+            event_log_df = u.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
             context.update(
                 {
-                    "all_dfg_img": utils.Conversion.create_dfg_from_df(event_log_df, activity_key),
-                    "event_log_table": utils.Conversion.create_html_table_from_df(event_log_df),
-                    "cohorts_table": utils.Conversion.create_html_table_from_df(cohorts_df),
+                    "all_dfg_img": u.Conversion.create_dfg_from_df(
+                        event_log_df, activity_key
+                    ),
+                    "event_log_table": u.Conversion.create_html_table_from_df(
+                        event_log_df
+                    ),
+                    "cohorts_table": u.Conversion.create_html_table_from_df(cohorts_df),
                 }
             )
 
@@ -262,8 +266,8 @@ class EvaluationView(FormView):
                 cohort__age__lte=query_dict.get("max_age"),
             )
             if query_dict.get("min_age")
-               and query_dict.get("max_age")
-               and not query_dict.get("none_age")
+            and query_dict.get("max_age")
+            and not query_dict.get("none_age")
             else Q()
         )
         if query_dict.get("none_age"):

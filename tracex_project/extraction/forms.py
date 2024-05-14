@@ -1,7 +1,7 @@
 """Implementation of forms for the extraction app."""
 from django import forms
 
-from extraction.models import PatientJourney, Cohort
+from extraction.models import PatientJourney
 from tracex.forms import BaseEventForm
 from tracex.logic.constants import MODULES_OPTIONAL
 
