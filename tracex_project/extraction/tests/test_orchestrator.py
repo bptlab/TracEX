@@ -1,8 +1,18 @@
 """Test cases for the Orchestrator class."""
-from django.test import TestCase
+import pandas as pd
+from django.contrib.sessions.middleware import SessionMiddleware
+from django.test import TestCase, RequestFactory
 
 from extraction.logic.orchestrator import ExtractionConfiguration, Orchestrator
-from extraction.logic.modules import ActivityLabeler
+from extraction.logic.modules import (
+    Preprocessor,
+    ActivityLabeler,
+)
+
+
+class MockConfiguration:
+    """Mock configuration class for testing purposes."""
+    modules = ["Preprocessor", "Cohort Tagger", "ActivityLabeler", "TimeExtractor", "EventTypeClassifier"]
 
 
 class OrchestratorTests(TestCase):
@@ -10,9 +20,19 @@ class OrchestratorTests(TestCase):
 
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
+    def setUp(self):
+        """Set up method that gets called before every tests are executed."""
+        self.factory = RequestFactory()
+        self.orchestrator = Orchestrator()
+
+        self.orchestrator.get_configuration = lambda: MockConfiguration()  # pylint: disable=unnecessary-lambda
+
+    def tearDown(self):
+        """Tear down method that gets called after every test is executed."""
+        Orchestrator.reset_instance()
+
     def test_single_instance_creation(self):
         """Tests if two initialized orchestrators are the same instance."""
-        Orchestrator.reset_instance()
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
 
@@ -20,7 +40,6 @@ class OrchestratorTests(TestCase):
 
     def test_consistent_object_state(self):
         """Tests if the state of the orchestrator instance is the same for two instances."""
-        Orchestrator.reset_instance()
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
         orchestrator1.data = "test_data"
@@ -29,7 +48,6 @@ class OrchestratorTests(TestCase):
 
     def test_get_instance_method(self):
         """Tests if the get_instance method returns the same instance and if a new instance is the same instance."""
-        Orchestrator.reset_instance()
         Orchestrator()
         orchestrator1 = Orchestrator.get_instance()
         orchestrator2 = Orchestrator.get_instance()
@@ -40,7 +58,6 @@ class OrchestratorTests(TestCase):
 
     def test_reset_instance(self):
         """Tests if reset_instance resets the instance for all objects."""
-        Orchestrator.reset_instance()
         orchestrator1 = Orchestrator()
         Orchestrator.reset_instance()
         orchestrator2 = Orchestrator()
@@ -49,7 +66,6 @@ class OrchestratorTests(TestCase):
 
     def test_set_configuration(self):
         """Tests if the set_configuration method correctly updates the Orchestrators instance's configuration."""
-        Orchestrator.reset_instance()
         config = ExtractionConfiguration()
         orchestrator = Orchestrator(config)
         new_config = ExtractionConfiguration()
@@ -81,3 +97,79 @@ class OrchestratorTests(TestCase):
 
         self.assertIsInstance(modules['activity_labeling'], ActivityLabeler)
         self.assertEqual(modules['activity_labeling'].name, "Activity Labeler")
+
+    def test_run(self):
+        """Tests if the run method correctly return a dataframe. Execution of ActivityLabeler and Preprocessor is
+        necessary since the run method makes assumptions on how the patient journey looks like."""
+        Orchestrator.reset_instance()
+        config = ExtractionConfiguration(
+            patient_journey="This is a test patient journey. This is some description about how I fell and and "
+                            "recovered in the end.",
+        )
+        config.update(
+            modules={
+                "preprocessing": Preprocessor,
+                "activity_labeling": ActivityLabeler,
+            }
+        )
+        orchestrator = Orchestrator(configuration=config)
+        orchestrator.run()
+
+        self.assertIsNot(orchestrator.get_data(), None)
+        self.assertIsInstance(orchestrator.get_data(), pd.DataFrame)
+
+    def test_set_db_objects_id(self):
+        """Test if the set_db_objects_id method correctly sets the object ID."""
+        object_name = "test_object"
+        object_id = 123
+
+        self.orchestrator.set_db_objects_id(object_name, object_id)
+
+        self.assertEqual(self.orchestrator.db_objects_id[object_name], object_id)
+
+    def test_get_db_objects_id(self):
+        """Test if the get_db_objects_id method returns the correct object ID."""
+        object_name = "test_object"
+        object_id = 456
+
+        self.orchestrator.set_db_objects_id(object_name, object_id)
+        retrieved_id = self.orchestrator.get_db_objects_id(object_name)
+
+        self.assertEqual(retrieved_id, object_id)
+
+    def test_get_db_objects_id_key_error(self):
+        """Test if the get_db_objects_id method raises a KeyError when the object name is not found."""
+        object_name = "non_existent_object"
+
+        with self.assertRaises(KeyError):
+            self.orchestrator.get_db_objects_id(object_name)
+
+    def test_update_progress_with_view(self):
+        """Tests if the progress of the views are updated correctly."""
+        request = self.factory.get("/extraction/filter")
+        middleware = SessionMiddleware(lambda req: req)
+        middleware.process_request(request)
+        request.session.save()
+
+        class MockView:
+            """Mock View class for testing purposes."""
+            def __init__(self, request):
+                self.request = request
+
+        view = MockView(request)
+        current_step = 2
+        module_name = "Activity Labeler"
+
+        self.orchestrator.update_progress(view, current_step, module_name)
+
+        self.assertEqual(request.session["progress"], 40)  # 2/5 = 0.4 * 100 = 40
+        self.assertEqual(request.session["status"], module_name)
+
+    def test_update_progress_without_view(self):
+        """Tests if the progress of the views are updated correctly."""
+        current_step = 2
+        module_name = "Activity Labeler"
+
+        self.orchestrator.update_progress(None, current_step, module_name)
+
+        # No assertions needed since the method should just return without updating the session
