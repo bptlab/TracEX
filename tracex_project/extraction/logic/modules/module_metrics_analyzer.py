@@ -73,7 +73,6 @@ class MetricsAnalyzer(Module):
                     + condition,
                 }
             )
-            print(messages)
         messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
