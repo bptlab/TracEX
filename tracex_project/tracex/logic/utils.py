@@ -219,15 +219,9 @@ class DataFrameUtilities:
                     "time:end_timestamp": event.end,
                     "time:duration": event.duration,
                     "attribute_location": event.location,
-                    "activity_relevance": getattr(
-                        event.metrics, "activity_relevance", None
-                    ),
-                    "timestamp_correctness": getattr(
-                        event.metrics, "timestamp_correctness", None
-                    ),
-                    "correctness_confidence": getattr(
-                        event.metrics, "correctness_confidence", None
-                    ),
+                    "activity_relevance": event.metrics.activity_relevance,
+                    "timestamp_correctness": event.metrics.timestamp_correctness,
+                    "correctness_confidence": event.metrics.correctness_confidence,
                 }
 
                 event_data.append(event_dict)

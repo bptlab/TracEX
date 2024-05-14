@@ -408,12 +408,25 @@ div.form-errors li {
 }
 
 .error_textarea {
-            width: 100%;
-            height: 200px;
-            resize: vertical;
-            overflow-y: auto;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            padding: 10px;
-            box-sizing: border-box;
-        }
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+ }
+
+.item-container {
+    display: flex;
+}
+
+.item-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
