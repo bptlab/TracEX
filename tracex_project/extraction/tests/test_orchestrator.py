@@ -21,7 +21,7 @@ class OrchestratorTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def setUp(self):
-        """Set up method that gets called before every tests are executed."""
+        """Set up method that gets called everytime before tests are executed."""
         self.factory = RequestFactory()
         self.orchestrator = Orchestrator()
 
