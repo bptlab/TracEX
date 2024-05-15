@@ -117,8 +117,8 @@ class TimeExtractor(Module):
                 pd.Timestamp("2020-01-01 00:00")
             )
 
-        df["time:timestamp"] = df["time:timestamp"].bfill().ffill()
-        df["time:end_timestamp"] = df["time:end_timestamp"].bfill().ffill()
+        df["time:timestamp"] = df["time:timestamp"].ffill().bfill()
+        df["time:end_timestamp"] = df["time:end_timestamp"].ffill().bfill()
 
         df = df.apply(fix_end_dates, axis=1)
 

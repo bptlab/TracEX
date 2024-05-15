@@ -14,21 +14,15 @@ def generate_patient_journey():
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
-    print("Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey generated.")
     return patient_journey
 
 
 def create_patient_journey_context():
     """Creation of a patient journey."""
-    print("Generation in progress: [----------] 0%", end="\r")
     sex = "male" if random.randrange(2) == 0 else "female"
-    print("Generation in progress: [▬---------] 10%", end="\r")
     country = get_country()
-    print("Generation in progress: [▬▬--------] 20%", end="\r")
     date = get_date()
-    print("Generation in progress: [▬▬▬-------] 30%", end="\r")
     life_circumstances = get_life_circumstances(sex)
-    print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
     patient_journey_context = (
         f"Imagine being a {sex} person from {country}, that was infected with Covid19."
         f" You had first symptoms on {date}. {life_circumstances}"
