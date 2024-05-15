@@ -1,7 +1,10 @@
 """This file contains the views for the landing page of the tracex app."""
 import os
-from django.views.generic import TemplateView
+from django.http import HttpRequest
+from django.http.response import HttpResponse as HttpResponse
+from django.views.generic import TemplateView, RedirectView
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
 from tracex.forms import ApiKeyForm
 
 class TracexLandingPage(TemplateView):
@@ -37,3 +40,14 @@ class TracexLandingPage(TemplateView):
         context['prompt_for_key'] = not bool(api_key)
 
         return context
+
+class ResetApiKey(RedirectView):
+    """View for the resetting the API key."""
+
+    url = reverse_lazy("landing_page")
+
+    def get(self, request, *args, **kwargs):
+        """Handles GET requests by deleting the API key from the environment and redirecting to the landing page."""
+        del os.environ['OPENAI_API_KEY']
+
+        return super().get(request, *args, **kwargs)

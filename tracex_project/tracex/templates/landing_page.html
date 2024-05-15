@@ -10,7 +10,9 @@
     <script src="{% static '/tracex/js/forms_open_ai_key.js' %}"></script>
 </head>
 <body class="landing_page_body">
-    <img src="{% static '/tracex/img/key.png' %}" class="key_icon">
+    <a href="{% url 'reset_api_key' %}">
+        <img src="{% static '/tracex/img/key.png' %}" class="key_icon">
+    </a>
     <div class="landing_page_container">
         <img src="{% static '/tracex/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="landing_page_logo">
         <div class="landing_page_menu">
