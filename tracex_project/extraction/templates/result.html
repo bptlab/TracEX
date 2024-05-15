@@ -27,11 +27,11 @@
         });
     </script>
 
-    {% if xes_html %}
+    {% if trace_table %}
         <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
         <div id="contentWrapper1" style="display: none;">
-            <p><b>This is the event log extracted from the journey above (single trace)</b></p>
-            <div id="xesContent1" class="xes_container">{{ xes_html|safe }}</div>
+            <p><b>This is the event log extracted from the journey above.</b></p>
+            <div id="xesContent1" class="xes_container">{{ trace_table|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
@@ -39,11 +39,11 @@
 
     <p></p>
 
-    {% if all_xes_html %}
+    {% if event_log_table %}
         <button id="toggleButton2">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
-            <p><b>This is the event log enriched by the extracted trace</b></p>
-            <div id="xesContent2" class="xes_container">{{ all_xes_html|safe }}</div>
+            <p><b>This is the event log enriched by the extracted trace.</b></p>
+            <div id="xesContent2" class="xes_container">{{ event_log_table|safe }}</div>
         </div>
     {% else %}
         <p>Something went wrong during the event log generation: No buffer content available.</p>
@@ -64,27 +64,55 @@
     <p style="margin-bottom: 0"><b>You have selected the following event types / locations:</b></p>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-
-        <div class="form-row">
+        <div class="form-row {% if is_comparing %}hidden{% endif %}">
             <div class="form-column">
-                {{ form.journey.label_tag }} {{ form.journey }}
-                {{ form.journey.errors }}
-                <p>{{ form.journey.help_text }}</p>
+                <h4>Pipeline Modules To Run</h4>
+                {{ form.modules_required.label_tag }}
+                {{ form.modules_required }}
+                {{ form.modules_required.errors }}
+                <br>
+                {{ form.modules_optional.label_tag }}
+                {{ form.modules_optional }}
+                {{ form.modules_optional.errors }}
             </div>
+            <div class="form-column" style="flex: 2;">
+                <h4>Output filters</h4>
+                <div class="form-row" style="display: flex; justify-content: space-between;">
+                    <div class="form-column" style="flex: 1;">
+                        {{ form.event_types.label_tag }}
+                        {{ form.event_types }}
+                    </div>
+                    <div class="form-column" style="flex: 1;">
+                        {{ form.locations.label_tag }}
+                        {{ form.locations }}
+                        {{ form.locations.errors }}
+                    </div>
+                </div>
+            </div>
+            <div class="form-column activity-key-column">
+                <h4>DFG Activity Key</h4>
+                {{ form.activity_key.label_tag }}
+                {{ form.activity_key }}
+                {{ form.activity_key.errors }}
+            </div>
+            <style>
+                .activity-key-column label, .activity-key-column select {
+                    display: block;
+                }
+            </style>
         </div>
-
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.event_types.label_tag }} {{ form.event_types }}
+        {% if form.event_types.errors %}
+            <div class="form-errors">
                 {{ form.event_types.errors }}
             </div>
-            <div class="form-column">
-                {{ form.locations.label_tag }} {{ form.locations }}
-                {{ form.locations.errors }}
+        {% endif %}
+        {% if form.non_field_errors %}
+            <div class="alert alert-danger" {% if is_comparing %}hidden{% endif %}>
+                {% for error in form.non_field_errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
             </div>
-            {{ form.errors }}
-        </div>
-
+        {% endif %}
         <input type="submit" value="Refresh Filter" class="button">
     </form>
     <br>
@@ -97,25 +125,21 @@
             <p>Please select the type(s) of XES file to download:</p>
             <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="checkbox" id="single_trace" name="trace_type[]" value="single_trace" class="trace-checkbox">
-                <label for="single_trace">Single Trace XES</label><br>
-                <input type="checkbox" id="all_traces" name="trace_type[]" value="all_traces" class="trace-checkbox">
-                <label for="all_traces">All Traces XES</label><br><br>
+                <input type="checkbox" id="trace" name="trace_type[]" value="trace" class="trace-checkbox">
+                <label for="trace">Trace XES</label><br>
+                <input type="checkbox" id="event_log" name="trace_type[]" value="event_log" class="trace-checkbox">
+                <label for="event_log">Event Log XES</label><br><br>
                 <input type="submit" value="Confirm Download" class="button">
             </form>
         </div>
     </div>
-
-    <a href="{% url 'save_success' %}">
+    <a href="{% url "save_success" %}">
         <button class="menu_button">Save results to the database</button>
     </a>
-
-    <a href="{% url 'journey_input' %}">
+    <a href="{% url "choose_input_method" %}">
         <button class="menu_button">Return to input selection</button>
     </a>
-
-    <a href="{% url 'landing_page' %}">
+    <a href="{% url "landing_page" %}">
         <button class="menu_button">Return to TracEX Menu</button>
-
 </body>
 </html>

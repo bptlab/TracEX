@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 from django.conf import settings
 
-from trace_comparator import prompts as p
+from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
 from tracex.logic import utils as u, constants as c
 
@@ -15,27 +15,29 @@ def compare_traces(view, pipeline_df, ground_truth_df):
     ground_truth_activities = ground_truth_df["activity"]
 
     (
-        mapping_data_to_ground_truth,
-        mapping_ground_truth_to_data,
+        mapping_pipeline_to_ground_truth,
+        mapping_ground_truth_to_pipeline,
     ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
     missing_activities = find_unmapped_activities(
-        ground_truth_activities, mapping_ground_truth_to_data
+        ground_truth_activities, mapping_ground_truth_to_pipeline
     )
     unexpected_activities = find_unmapped_activities(
-        pipeline_activities, mapping_data_to_ground_truth
+        pipeline_activities, mapping_pipeline_to_ground_truth
     )
-    wrong_orders = find_wrong_orders(pipeline_activities, mapping_ground_truth_to_data)
+    wrong_orders = find_wrong_orders(
+        pipeline_activities, mapping_ground_truth_to_pipeline
+    )
 
     matching_percent_pipeline_to_ground_truth = find_matching_percentage(
-        pipeline_activities, mapping_data_to_ground_truth
+        pipeline_activities, mapping_pipeline_to_ground_truth
     )
     matching_percent_ground_truth_to_pipeline = find_matching_percentage(
-        ground_truth_activities, mapping_ground_truth_to_data
+        ground_truth_activities, mapping_ground_truth_to_pipeline
     )
 
     results_dict = {
-        "mapping_data_to_ground_truth": mapping_data_to_ground_truth,
-        "mapping_ground_truth_to_data": mapping_ground_truth_to_data,
+        "mapping_pipeline_to_ground_truth": mapping_pipeline_to_ground_truth,
+        "mapping_ground_truth_to_pipeline": mapping_ground_truth_to_pipeline,
         "missing_activities": missing_activities,
         "unexpected_activities": unexpected_activities,
         "wrong_orders": wrong_orders,
@@ -51,7 +53,7 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
     total_steps = len(pipeline_activities) + len(ground_truth_activities)
     half_progress = len(pipeline_activities)
 
-    mapping_data_to_ground_truth = compare_activities(
+    mapping_pipeline_to_ground_truth = compare_activities(
         view,
         0,
         total_steps,
@@ -59,7 +61,7 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
         pipeline_activities,
         ground_truth_activities,
     )
-    mapping_ground_truth_to_data = compare_activities(
+    mapping_ground_truth_to_pipeline = compare_activities(
         view,
         half_progress,
         total_steps,
@@ -69,11 +71,13 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
     )
 
     (
-        mapping_data_to_ground_truth,
-        mapping_ground_truth_to_data,
-    ) = postprocess_mappings(mapping_data_to_ground_truth, mapping_ground_truth_to_data)
+        mapping_pipeline_to_ground_truth,
+        mapping_ground_truth_to_pipeline,
+    ) = postprocess_mappings(
+        mapping_pipeline_to_ground_truth, mapping_ground_truth_to_pipeline
+    )
 
-    return mapping_data_to_ground_truth, mapping_ground_truth_to_data
+    return mapping_pipeline_to_ground_truth, mapping_ground_truth_to_pipeline
 
 
 def compare_activities(
@@ -104,10 +108,10 @@ def find_activity(
     activity, comparison_basis_activities, index, mapping_input_to_comparison
 ):
     """Compares a target activity against potential matches to identify the best match based on similarity."""
-    lower, upper = get_snippet_bounds(index, len(comparison_basis_activities))
+    lower, upper = u.get_snippet_bounds(index, len(comparison_basis_activities))
     possible_matches = []
     for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
-        messages = p.COMPARE_MESSAGES[:]
+        messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
         messages.append(
             {
                 "role": "user",
@@ -124,19 +128,6 @@ def find_activity(
             mapping_input_to_comparison.append(best_match)
             return
     mapping_input_to_comparison.append((-1, 0))
-
-
-def get_snippet_bounds(index, dataframe_length):
-    """Calculate the lower and upper bounds for the comparison snippet."""
-    half_snippet_size = min(max(2, dataframe_length // 20), 5)
-    lower = max(0, index - half_snippet_size)
-    upper = min(dataframe_length, index + half_snippet_size + 1)
-    if index < half_snippet_size:
-        upper += abs(index - half_snippet_size)
-    if index > dataframe_length - half_snippet_size:
-        lower -= abs(index - (dataframe_length - half_snippet_size))
-
-    return lower, upper
 
 
 def postprocess_mappings(mapping_data_to_groundtruth, mapping_groundtruth_to_data):

@@ -21,9 +21,15 @@ class Module(ABC):
         self.description = None
         self.patient_journey = None
         self.patient_journey_sentences = None
+        self.cohort = None
 
     def execute(
-        self, _input, patient_journey=None, patient_journey_sentences=None
+        self,
+        _input,
+        *,
+        patient_journey=None,
+        patient_journey_sentences=None,
+        cohort=None,
     ) -> pd.DataFrame:
         """
         Executes the logic of the module. Override this to define your own module.
@@ -33,10 +39,13 @@ class Module(ABC):
         print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
+        self.cohort = cohort
 
         return pd.DataFrame()
 
-    def execute_and_save(self, _input, patient_journey=None) -> int:
+    def execute_and_save(
+        self, _input, *, patient_journey=None, patient_journey_sentences=None
+    ) -> int:
         """
         Executes the logic of the module and saves the result to the database. Override this to define your own module.
         Every module receives the patient journey as parameter which is set to the instance variable of each module.
@@ -44,4 +53,6 @@ class Module(ABC):
         """
         print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
+        self.patient_journey_sentences = patient_journey_sentences
+
         return 0

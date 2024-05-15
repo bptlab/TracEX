@@ -1,10 +1,9 @@
 """Module providing various utility functions for the project."""
 import os
-from io import StringIO, BytesIO
+from io import StringIO
 from pathlib import Path
 
 import base64
-import json
 import tempfile
 import functools
 import warnings
@@ -12,21 +11,15 @@ import pandas as pd
 import pm4py
 import numpy as np
 
-from pandas.api.types import is_datetime64_any_dtype as is_datetime
 from django.conf import settings
 from django.db.models import Q
-from django.core.exceptions import ObjectDoesNotExist
 from openai import OpenAI
 from tracex.logic.logger import log_tokens_used
-from tracex.logic import function_calls
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
-    output_path,
-    CSV_OUTPUT,
-    CSV_ALL_TRACES,
 )
 
 from extraction.models import Trace
@@ -48,30 +41,14 @@ def deprecated(func):
     return new_func
 
 
-def get_decision(question):
-    """Gets a decision from the user."""
-    decision = input(question).lower()
-    if decision == "y":
-        return True
-    if decision == "n":
-        return False
-    print("Please enter y or n.")
-
-    return get_decision(question)
-
-
 def query_gpt(
     messages,
     max_tokens=MAX_TOKENS,
     temperature=TEMPERATURE_SUMMARIZING,
-    tools=None,
-    tool_choice="none",
     logprobs=False,
     top_logprobs=None,
 ):
     """Sends a request to the OpenAI API and returns the response."""
-
-    tools = function_calls.TOOLS if tools is None else tools
 
     @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
@@ -82,8 +59,6 @@ def query_gpt(
             messages=messages,
             max_tokens=max_tokens,
             temperature=temperature,
-            tools=tools,
-            tool_choice=tool_choice,
             logprobs=logprobs,
             top_logprobs=top_logprobs,
         )
@@ -91,60 +66,36 @@ def query_gpt(
         return _response
 
     response = make_api_call()
-    if tool_choice != "none":
-        api_response = response.choices[0].message.tool_calls[0].function.arguments
-        output = json.loads(api_response)["output"][0]
 
-    elif logprobs:
+    if logprobs:
         top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
         content = response.choices[0].message.content
         return content, top_logprobs
-    else:
-        output = response.choices[0].message.content
+
+    output = response.choices[0].message.content
 
     return output
 
 
-def get_all_xes_output_path(
-    is_test=False,
-    is_extracted=False,
-    xes_name="all_traces",
-    activity_key="event_type",
-):
-    """Create the xes file for all journeys."""
-    if not (is_test or is_extracted):
-        append_csv()
-        all_traces_xes_path = Conversion.create_xes(
-            csv_file=CSV_ALL_TRACES, name=xes_name, key=activity_key
-        )
-    else:
-        all_traces_xes_path = str(output_path / xes_name) + "_" + activity_key + ".xes"
+def get_snippet_bounds(index, length):
+    """Extract bounds for a snippet for a given activity index."""
+    # We want to look at a snippet from the patient journey where we take five sentences into account
+    # starting from the current sentence index -2 and ending at the current index +2
+    half_snippet_size = min(max(2, length // 20), 5)
+    lower_bound = max(0, index - half_snippet_size)
+    upper_bound = min(length, index + half_snippet_size + 1)
 
-    return all_traces_xes_path
+    # Adjust the bounds if they exceed the boundaries of the patient journey
+    if index < half_snippet_size:
+        upper_bound += abs(index - half_snippet_size)
+    if index > length - half_snippet_size:
+        lower_bound -= abs(index - (length - half_snippet_size))
 
-
-def append_csv():
-    """Appends the current trace to the CSV containing all traces."""
-    trace_count = 0
-    with open(CSV_ALL_TRACES, "r") as f:
-        rows = f.readlines()[1:]
-        if len(rows) >= 2:
-            trace_count = max(int(row.split(",")[0]) for row in rows if row)
-    with open(CSV_OUTPUT, "r") as f:
-        previous_content = f.readlines()
-        content = []
-        for row in previous_content:
-            if row != "\n":
-                content.append(row)
-        content = content[1:]
-    with open(CSV_ALL_TRACES, "a") as f:
-        for row in content:
-            row = row.replace(row[0], str(int(row[0]) + trace_count), 1)
-            f.writelines(row)
+    return lower_bound, upper_bound
 
 
 def calculate_linear_probability(logprob):
-    """ "Calculates the linear probability from the log probability of the gpt output."""
+    """Calculates the linear probability from the log probability of the gpt output."""
     linear_prob = np.round(np.exp(logprob), 2)
 
     return linear_prob
@@ -156,120 +107,94 @@ class Conversion:
     @staticmethod
     def prepare_df_for_xes_conversion(df, activity_key):
         """Ensures that all requirements for the xes conversion are met."""
-        df["case_id"] = df["case_id"].astype(str)
-        df["start"] = pd.to_datetime(df["start"])
-        df["end"] = pd.to_datetime(df["end"])
-        df = df.rename(
+        df_renamed = df.rename(
             columns={
                 activity_key: "concept:name",
-                "case_id": "case:concept:name",
-                "start": "start_timestamp",
-                "end": "time:end_timestamp",
-                "duration": "time:duration",
-            }
+            },
+            inplace=False,
         )
+        df_renamed["case:concept:name"] = df["case:concept:name"].astype(str)
 
-        return df
-
-    @staticmethod
-    def create_xes(csv_file, name, key):
-        """Creates a xes with all traces from the regarding csv."""
-        dataframe = pd.read_csv(csv_file, sep=",")
-        dataframe = Conversion.prepare_df_for_xes_conversion(dataframe, key)
-
-        output_name = name + "_" + key + ".xes"
-        pm4py.write_xes(
-            dataframe,
-            (output_path / output_name),
-            case_id_key="case:concept:name",
-            activity_key="concept:name",
-            start_timestamp_key="start_timestamp",
-            timestamp_key="time:timestamp",
-        )
-
-        return str(output_path / output_name)
+        return df_renamed
 
     @staticmethod
-    def create_html_from_xes(df):
-        """Create html table from xes file."""
-        xes_html_buffer = StringIO()
-        pd.DataFrame.to_html(df, buf=xes_html_buffer)
+    def rename_columns(df: pd.DataFrame):
+        """Rename columns in the DataFrame for better readability."""
+        column_mapping = {
+            "case:concept:name": "Case ID",
+            "activity": "Activity",
+            "event_type": "Event Type",
+            "time:timestamp": "Start Timestamp",
+            "time:end_timestamp": "End Timestamp",
+            "time:duration": "Duration",
+            "attribute_location": "Location",
+            "activity_relevance": "Activity Relevance",
+            "timestamp_correctness": "Timestamp Correctness",
+            "correctness_confidence": "Correctness Confidence",
+        }
 
-        return xes_html_buffer
+        existing_columns = {}
+        for old_column, new_column in column_mapping.items():
+            if old_column in df.columns:
+                existing_columns[old_column] = new_column
+        df_renamed = df.rename(columns=existing_columns, inplace=False)
+
+        return df_renamed
 
     @staticmethod
-    def create_dfg_from_df(df):
+    def create_html_table_from_df(df: pd.DataFrame):
+        """Create html table from DataFrame."""
+        df_renamed = Conversion.rename_columns(df)
+
+        if "Start Timestamp" in df_renamed.columns:
+            df_renamed.sort_values(by="Start Timestamp", inplace=True)
+
+        html_buffer = StringIO()
+        df_renamed.to_html(buf=html_buffer, index=False)
+
+        return html_buffer.getvalue()
+
+    @staticmethod
+    def create_dfg_from_df(df, activity_key):
         """Create png image from df."""
-        dfg_img_buffer = BytesIO()
-        output_dfg_file = pm4py.discover_dfg(
-            df, "concept:name", "start_timestamp", "case:concept:name"
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
+        )
+        output_dfg = pm4py.discover_dfg(
+            df_renamed, "concept:name", "time:timestamp", "case:concept:name"
         )
         with tempfile.NamedTemporaryFile(delete=False, suffix=".png") as temp_file:
-            temp_file_path = temp_file.name
             pm4py.save_vis_dfg(
-                output_dfg_file[0],
-                output_dfg_file[1],
-                output_dfg_file[2],
-                temp_file_path,
+                output_dfg[0],
+                output_dfg[1],
+                output_dfg[2],
+                temp_file.name,
                 rankdir="TB",
             )
-        with open(temp_file_path, "rb") as temp_file:
-            dfg_img_buffer.write(temp_file.read())
-        os.remove(temp_file_path)
-        dfg_img_base64 = base64.b64encode(dfg_img_buffer.getvalue()).decode("utf-8")
+            temp_file.seek(0)
+            image_data = temp_file.read()
 
-        return dfg_img_base64
+        return base64.b64encode(image_data).decode("utf-8")
 
     @staticmethod
-    def align_df_datatypes(source_df, target_df):
-        """Aligns the datatypes of two dataframes."""
-        for column in source_df.columns:
-            if column in target_df.columns and not is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].astype(target_df[column].dtype)
-            elif is_datetime(source_df[column].dtype):
-                source_df[column] = source_df[column].dt.tz_localize(tz=None)
-
-        return source_df
-
-    @staticmethod
-    def dataframe_to_xes(df, name):
-        """Conversion from dataframe to xes file."""
-
-        # Convert 'start' and 'end' columns to datetime
-        df["start_timestamp"] = pd.to_datetime(df["start_timestamp"])
-        df["time:end_timestamp"] = pd.to_datetime(df["time:end_timestamp"])
-
-        # Renaming columns to for Disco
-        df.rename(
-            columns={
-                "start_timestamp": "time:timestamp",  # Disco takes time:timestamp as timestamp key
-                "event_type": "concept:name",  # We want Disco to take event types as activities
+    def dataframe_to_xes(df, name, activity_key):
+        """Conversion from dataframe to xes file, stored temporarily on disk."""
+        df_renamed = Conversion.prepare_df_for_xes_conversion(
+            df, activity_key=activity_key
+        )
+        df_renamed.sort_values(by="time:timestamp", inplace=True)
+        temp_dir = tempfile.mkdtemp()
+        file_path = os.path.join(temp_dir, f"{name}.xes")
+        pm4py.objects.log.exporter.xes.exporter.apply(
+            df_renamed,
+            file_path,
+            parameters={
+                "case_id_key": "case:concept:name",
+                "timestamp_key": "time:timestamp",
             },
-            inplace=True,
         )
 
-        # Sorting Dataframe for start timestamp
-        df = df.sort_values(["time:timestamp", "time:end_timestamp"])
-
-        # Converting DataFrame to XES
-        parameters = {
-            pm4py.objects.conversion.log.converter.Variants.TO_EVENT_LOG.value.Parameters.CASE_ID_KEY:
-                'case:concept:name'
-        }
-        event_log = pm4py.objects.conversion.log.converter.apply(
-            df, parameters=parameters
-        )
-
-        xes_file = output_path / name
-        pm4py.write_xes(
-            event_log,
-            xes_file,
-            activity_key="activity",
-            case_id_key="case:concept:name",
-            timestamp_key="time:timestamp",
-        )
-
-        return xes_file
+        return file_path
 
 
 class DataFrameUtilities:
@@ -281,33 +206,58 @@ class DataFrameUtilities:
         traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
 
         if not traces.exists():
-            raise ObjectDoesNotExist("No traces match the provided query.")
+            return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
 
         for trace in traces:
             events = trace.events.all()
             for event in events:
-                event_data.append(
-                    {
-                        "case_id": trace.id,
-                        "activity": event.activity,
-                        "event_type": event.event_type,
-                        "start": event.start,
-                        "end": event.end,
-                        "duration": event.duration,
-                        "attribute_location": event.location,
-                    }
-                )
+                event_dict = {
+                    "case:concept:name": trace.id,
+                    "activity": event.activity,
+                    "event_type": event.event_type,
+                    "time:timestamp": event.start,
+                    "time:end_timestamp": event.end,
+                    "time:duration": event.duration,
+                    "attribute_location": event.location,
+                }
+
+                if hasattr(event, "metrics"):
+                    metric = event.metrics
+                    event_dict.update(
+                        {
+                            "activity_relevance": metric.activity_relevance,
+                            "timestamp_correctness": metric.timestamp_correctness,
+                            "correctness_confidence": metric.correctness_confidence,
+                        }
+                    )
+                else:
+                    event_dict.update(
+                        {
+                            "activity_relevance": None,
+                            "timestamp_correctness": None,
+                            "correctness_confidence": None,
+                        }
+                    )
+
+                event_data.append(event_dict)
+
         events_df = pd.DataFrame(event_data)
 
-        return events_df.sort_values(by="start", inplace=False)
+        if not events_df.empty:
+            events_df = events_df.sort_values(by="time:timestamp", inplace=False)
+
+        return events_df
 
     @staticmethod
     def filter_dataframe(df, filter_dict):
-        """Filter a dataframe."""
+        """Filter a dataframe using a dictionary with column names."""
         filter_conditions = [
-            df[column].isin(values) for column, values in filter_dict.items()
+            df[column].isin(values)
+            if column in df.columns
+            else pd.Series(True, index=df.index)
+            for column, values in filter_dict.items()
         ]
         combined_condition = pd.Series(True, index=df.index)
 
@@ -315,3 +265,22 @@ class DataFrameUtilities:
             combined_condition &= condition
 
         return df[combined_condition]
+
+    @staticmethod
+    def set_default_timestamps(df):
+        """Set default timestamps for the trace if the time_extraction module didn't run."""
+        df["time:timestamp"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0001",
+            axis=1,
+        )
+        df["time:timestamp"] = pd.to_datetime(
+            df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:end_timestamp"] = df.apply(
+            lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0002",
+            axis=1,
+        )
+        df["time:end_timestamp"] = pd.to_datetime(
+            df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
+        )
+        df["time:duration"] = "00:01:00"

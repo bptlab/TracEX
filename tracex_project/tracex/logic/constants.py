@@ -19,8 +19,17 @@ MODEL = "gpt-3.5-turbo"
 MAX_TOKENS = 1100
 TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
-CSV_OUTPUT = settings.BASE_DIR / "extraction/content/outputs/single_trace.csv"
-CSV_ALL_TRACES = settings.BASE_DIR / "extraction/content/outputs/all_traces.csv"
+MODULES_REQUIRED = [
+    ("activity_labeling", "Activity Labeler"),
+]
+MODULES_OPTIONAL = [
+    ("preprocessing", "Preprocessor"),
+    ("cohort_tagging", "Cohort Tagger"),
+    ("time_extraction", "Time Extractor"),
+    ("event_type_classification", "Event Type Classifier"),
+    ("location_extraction", "Location Extractor"),
+    ("metrics_analyzer", "Metrics Analyzer"),
+]
 EVENT_TYPES = [
     ("Symptom Onset", "Symptom Onset"),
     ("Symptom Offset", "Symptom Offset"),
@@ -32,10 +41,17 @@ EVENT_TYPES = [
     ("Medication", "Medication"),
     ("Lifestyle Change", "Lifestyle Change"),
     ("Feelings", "Feelings"),
+    ("N/A", "N/A"),
 ]
 LOCATIONS = [
     ("Home", "Home"),
     ("Hospital", "Hospital"),
     ("Doctors", "Doctors"),
+    ("N/A", "N/A"),
+]
+ACTIVITY_KEYS = [
+    ("event_type", "Event Type"),
+    ("activity", "Activity Label"),
+    ("attribute_location", "Location"),
 ]
 THRESHOLD_FOR_MATCH = 0.5

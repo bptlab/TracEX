@@ -1,13 +1,13 @@
 """This file contains the views for the patient journey generator app."""
+import traceback
+
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
-from patient_journey_generator.forms import GenerationOverviewForm
+
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from tracex.logic import constants
-from .generator import generate_patient_journey
-
-
-IS_TEST = False  # Controls the presentation mode of the pipeline, set to False if you want to run the pipeline
+from patient_journey_generator.forms import GenerationOverviewForm
+from patient_journey_generator.generator import generate_patient_journey
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -42,21 +42,21 @@ class JourneyGenerationView(generic.RedirectView):
     def get(self, request, *args, **kwargs):
         """Generate a patient journey and save it in the cache."""
         orchestrator = Orchestrator()
-        if IS_TEST:
-            with open(
-                str(constants.input_path / "journey_synth_covid_1.txt"), "r"
-            ) as file:
-                journey = file.read()
-            configuration = ExtractionConfiguration(patient_journey=journey)
-            orchestrator.set_configuration(configuration)
-            self.request.session["generated_journey"] = journey
-        else:
-            # This automatically updates the configuration with the generated patient journey
+
+        # This automatically updates the configuration with the generated patient journey
+        try:
             configuration = ExtractionConfiguration(
                 patient_journey=generate_patient_journey()
             )
-            orchestrator.set_configuration(configuration)
-            request.session[
-                "generated_journey"
-            ] = orchestrator.get_configuration().patient_journey
+        except Exception:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
+
+        orchestrator.set_configuration(configuration)
+        request.session[
+            "generated_journey"
+        ] = orchestrator.get_configuration().patient_journey
+
         return super().get(request, *args, **kwargs)

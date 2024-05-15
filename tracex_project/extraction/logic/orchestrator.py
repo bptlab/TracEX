@@ -4,18 +4,17 @@ from typing import Optional, List, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 
-from tracex.logic import utils
-
-from extraction.models import Trace, PatientJourney, Event, Cohort
 from extraction.logic.modules import (
     Preprocessor,
     CohortTagger,
     ActivityLabeler,
     TimeExtractor,
-    LocationExtractor,
     EventTypeClassifier,
+    LocationExtractor,
     MetricsAnalyzer,
 )
+from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
+from tracex.logic.utils import DataFrameUtilities
 
 
 @dataclass
@@ -26,19 +25,26 @@ class ExtractionConfiguration:
     patient journey is, on which the pipeline is executed.
     """
 
-    patient_journey: Optional[str] = None
-    event_types: Optional[List[str]] = None
-    locations: Optional[List[str]] = None
-    modules = {
-        "preprocessing": Preprocessor,
-        "activity_labeling": ActivityLabeler,
-        "cohort_tagging": CohortTagger,
-        "event_type_classification": EventTypeClassifier,
-        "time_extraction": TimeExtractor,
-        "location_extraction": LocationExtractor,
-        "metrics_analyzer": MetricsAnalyzer,
-    }
-    activity_key: Optional[str] = "event_type"
+    def __init__(
+        self,
+        patient_journey: Optional[str] = None,
+        event_types: Optional[List[str]] = None,
+        locations: Optional[List[str]] = None,
+        activity_key: Optional[str] = "event_type",
+    ):
+        self.patient_journey = patient_journey
+        self.event_types = event_types
+        self.locations = locations
+        self.activity_key = activity_key
+        self.modules = {
+            "preprocessing": Preprocessor,
+            "cohort_tagging": CohortTagger,
+            "activity_labeling": ActivityLabeler,
+            "time_extraction": TimeExtractor,
+            "event_type_classification": EventTypeClassifier,
+            "location_extraction": LocationExtractor,
+            "metrics_analyzer": MetricsAnalyzer,
+        }
 
     def update(self, **kwargs):
         """Update the configuration with a dictionary."""
@@ -65,6 +71,7 @@ class Orchestrator:
         if configuration is not None:
             self.configuration = configuration
         self.data = None
+        self.cohort = None
         self.db_objects_id: Dict[str, int] = {}
 
     @classmethod
@@ -93,6 +100,14 @@ class Orchestrator:
         """Return the data for the orchestrator instance."""
         return self.data
 
+    def set_cohort(self, cohort):
+        """Set the cohort for the orchestrator instance."""
+        self.cohort = cohort
+
+    def get_cohort(self):
+        """Return the cohort for the orchestrator instance."""
+        return self.cohort
+
     def set_db_objects_id(self, object_name: str, object_id: int):
         """Set the database id objects for the orchestrator instance."""
         self.db_objects_id[object_name] = object_id
@@ -101,18 +116,24 @@ class Orchestrator:
         """Return the database id objects for the orchestrator instance."""
         return self.db_objects_id[object_name]
 
+    def update_modules(self, modules_list):
+        """Update the modules of the orchestrator instance."""
+        modules_dictionary = self.get_configuration().modules
+        updated_modules = {
+            key: modules_dictionary[key]
+            for key in modules_dictionary
+            if key in modules_list
+        }
+        self.get_configuration().update(modules=updated_modules)
+
     def initialize_modules(self):
         """Bring the modules into the right order and initialize them."""
         # Make changes here, if selection and reordering of modules should be more sophisticated
         # (i.e. depending on config given by user)
-        modules = [
-            self.get_configuration().modules["activity_labeling"](),
-            self.get_configuration().modules["time_extraction"](),
-            self.get_configuration().modules["event_type_classification"](),
-            self.get_configuration().modules["location_extraction"](),
-            # This module should be activated only if the user wants to analyze the metrics
-            # self.get_configuration().modules["metrics_analyzer"](),
-        ]
+        modules = {
+            key: self.get_configuration().modules[key]()
+            for key in self.get_configuration().modules
+        }
         print("Initialization of modules successful.")
         return modules
 
@@ -122,26 +143,36 @@ class Orchestrator:
         current_step = 0
 
         patient_journey_sentences = self.get_configuration().patient_journey.split(". ")
-        if "preprocessing" in self.get_configuration().modules:
-            preprocessor = self.get_configuration().modules.get("preprocessing")()
+        if "preprocessing" in modules:
             self.update_progress(view, current_step, "Preprocessing")
-            patient_journey_sentences = preprocessor.execute(
+            patient_journey_sentences = modules["preprocessing"].execute(
                 patient_journey=self.get_configuration().patient_journey
             )
+            current_step += 1
         patient_journey = ". ".join(patient_journey_sentences)
 
-        self.update_progress(view, current_step, "Cohort Tagger")
-        self.db_objects_id["cohort"] = (
-            self.get_configuration()
-            .modules["cohort_tagging"]()
-            .execute_and_save(self.get_data(), patient_journey_sentences)
-        )
-        current_step += 1
-        for module in modules:
+        if "cohort_tagging" in modules:
+            self.update_progress(view, current_step, "Cohort Tagger")
+            self.set_cohort(
+                modules["cohort_tagging"].execute_and_save(
+                    self.get_data(),
+                    patient_journey=patient_journey,
+                    patient_journey_sentences=patient_journey_sentences,
+                )
+            )
+            current_step += 1
+
+        for module_name in [
+            name for name in modules if name not in ("cohort_tagging", "preprocessing")
+        ]:
+            module = modules[module_name]
             self.update_progress(view, current_step, module.name)
             self.set_data(
                 module.execute(
-                    self.get_data(), patient_journey, patient_journey_sentences
+                    self.get_data(),
+                    patient_journey=patient_journey,
+                    patient_journey_sentences=patient_journey_sentences,
+                    cohort=self.get_cohort(),
                 )
             )
             current_step += 1
@@ -152,35 +183,72 @@ class Orchestrator:
             except ObjectDoesNotExist:
                 latest_id = 0
             del self.get_data()["sentence_id"]
-            self.get_data().insert(0, "case_id", latest_id + 1)
-            self.get_data().to_csv(utils.CSV_OUTPUT, index=False, header=True)
+            self.get_data().insert(0, "case:concept:name", latest_id + 1)
+            self.set_default_values()
 
     def save_results_to_db(self):
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(
-            pk=self.db_objects_id["patient_journey"]
+            pk=self.get_db_objects_id("patient_journey")
         )
         trace: Trace = Trace.manager.create(patient_journey=patient_journey)
-        events: List[Event] = Event.manager.bulk_create(
-            [
-                Event(
-                    trace=trace,
-                    activity=row["activity"],
-                    event_type=row["event_type"],
-                    start=row["start"],
-                    end=row["end"],
-                    duration=parse_duration(row["duration"]),
-                    location=row["attribute_location"],
-                )
-                for _, row in self.get_data().iterrows()
-            ]
-        )
+        events_with_metric_list = []
+        metric_list = []
+        for _, row in self.get_data().iterrows():
+            event = Event(
+                trace=trace,
+                activity=row["activity"],
+                event_type=row["event_type"],
+                start=row["time:timestamp"],
+                end=row["time:end_timestamp"],
+                duration=parse_duration(row["time:duration"]),
+                location=row["attribute_location"],
+            )
+            metric = Metric(
+                activity_relevance=row["activity_relevance"],
+                timestamp_correctness=row["timestamp_correctness"],
+                correctness_confidence=row["correctness_confidence"],
+            )
+            event.metric = metric
+            events_with_metric_list.append(event)
+            metric_list.append(metric)
+
+        events: List[Event] = Event.manager.bulk_create(events_with_metric_list)
+        for event, metric in zip(events, metric_list):
+            metric.event = event
+        Metric.manager.bulk_create(metric_list)
         trace.events.set(events)
-        if self.db_objects_id["cohort"] and self.db_objects_id["cohort"] != 0:
-            trace.cohort = Cohort.manager.get(pk=self.db_objects_id["cohort"])
+
+        Cohort.manager.create(trace=trace, **self.get_cohort())
+
         trace.save()
         patient_journey.trace.add(trace)
         patient_journey.save()
+
+    def set_default_values(self):
+        """Set default values if a specific module was deselected."""
+        config_modules = self.get_configuration().modules
+        data = self.get_data()
+
+        if "time_extraction" not in config_modules:
+            DataFrameUtilities.set_default_timestamps(data)
+        if "event_type_classification" not in config_modules:
+            data["event_type"] = "N/A"
+        if "location_extraction" not in config_modules:
+            data["attribute_location"] = "N/A"
+        if "metrics_analyzer" not in config_modules:
+            data["activity_relevance"] = None
+            data["timestamp_correctness"] = None
+            data["correctness_confidence"] = None
+        if "cohort_tagging" not in config_modules:
+            cohort_default_values = {
+                "age": None,
+                "gender": None,
+                "origin": None,
+                "condition": None,
+                "preexisting_condition": None,
+            }
+            self.set_cohort(cohort_default_values)
 
     def update_progress(self, view, current_step, module_name):
         """Update the progress of the extraction."""

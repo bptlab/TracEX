@@ -19,34 +19,34 @@ class PatientJourney(models.Model):
         return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
 
 
-class Cohort(models.Model):
-    """Model for the Cohort of a patient journey."""
-
-    age = models.IntegerField(null=True)
-    gender = models.CharField(max_length=25, null=True)
-    origin = models.CharField(max_length=50, null=True)
-    condition = models.CharField(max_length=50, null=True)
-    preexisting_condition = models.CharField(max_length=100, null=True)
-    manager = models.Manager()
-
-    def __str__(self):
-        return f"Cohort of {self.trace.__str__()} (id: {self.id})"  # pylint: disable=no-member
-
-
 class Trace(models.Model):
     """Model for a single trace, belonging to a patient journey."""
 
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
     )
-    cohort = models.ForeignKey(
-        Cohort, on_delete=models.CASCADE, related_name="trace", null=True, blank=True
-    )
     last_modified = models.DateTimeField(auto_now=True)
     manager = models.Manager()
 
     def __str__(self):
         return f"Trace of {self.patient_journey.name} (id: {self.id})"  # pylint: disable=no-member
+
+
+class Cohort(models.Model):
+    """Model for the Cohort of a patient journey."""
+
+    trace = models.OneToOneField(
+        Trace, on_delete=models.CASCADE, related_name="cohort", null=True
+    )
+    age = models.IntegerField(null=True, blank=True)
+    gender = models.CharField(max_length=25, null=True, blank=True)
+    origin = models.CharField(max_length=50, null=True, blank=True)
+    condition = models.CharField(max_length=50, null=True, blank=True)
+    preexisting_condition = models.CharField(max_length=100, null=True, blank=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Cohort of {self.trace.__str__().split('(')[0]} (id: {self.id})"  # pylint: disable=no-member
 
 
 class Event(models.Model):
@@ -69,5 +69,30 @@ class Event(models.Model):
 class Prompt(models.Model):
     """Model for the prompt to be used in the GPT query."""
 
-    name = models.CharField(max_length=100)
-    text = models.TextField()
+    DEFAULT_NAME = ""
+    DEFAULT_CATEGORY = "zero-shot"
+
+    name = models.CharField(max_length=100, default=DEFAULT_NAME)
+    category = models.CharField(max_length=100, default=DEFAULT_CATEGORY)
+    text = models.JSONField()
+
+    def __str__(self):
+        return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
+
+
+class Metric(models.Model):
+    """Model for metrics which are being tracked by the metrics analyzer"""
+
+    event = models.OneToOneField(
+        Event, on_delete=models.CASCADE, related_name="metrics"
+    )
+    activity_relevance = models.CharField(max_length=25, null=True)
+    timestamp_correctness = models.BooleanField(null=True)
+    correctness_confidence = models.DecimalField(
+        max_digits=3, decimal_places=2, null=True
+    )
+    last_modified = models.DateTimeField(auto_now=True)
+    manager = models.Manager()
+
+    def __str__(self):
+        return f"Metric of {self.event.__str__().split('(')[0]} (id: {self.id})"  # pylint: disable=no-member
