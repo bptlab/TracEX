@@ -143,6 +143,14 @@ h2 {
     width: 50%;
 }
 
+.key_icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    width: 3%;
+    height: auto;
+}
 
 /* EXTRACTION */
 
