@@ -1,7 +1,5 @@
 """This file contains the views for the landing page of the tracex app."""
 import os
-from django.http import HttpRequest
-from django.http.response import HttpResponse as HttpResponse
 from django.views.generic import TemplateView, RedirectView
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
