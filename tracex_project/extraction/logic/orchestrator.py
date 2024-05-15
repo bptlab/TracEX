@@ -226,19 +226,21 @@ class Orchestrator:
         patient_journey.save()
 
     def set_default_values(self):
-        """Set default if a specific module was deselected"""
+        """Set default values if a specific module was deselected."""
+        config_modules = self.get_configuration().modules
+        data = self.get_data()
 
-        if "time_extraction" not in self.get_configuration().modules:
-            DataFrameUtilities.set_default_timestamps(self.get_data())
-        if "event_type_classification" not in self.get_configuration().modules:
-            self.get_data()["event_type"] = "N/A"
-        if "location_extraction" not in self.get_configuration().modules:
-            self.get_data()["attribute_location"] = "N/A"
-        if "metrics_analyzer" not in self.get_configuration().modules:
-            self.get_data()["activity_relevance"] = None
-            self.get_data()["timestamp_correctness"] = None
-            self.get_data()["correctness_confidence"] = None
-        if "cohort_tagging" not in self.get_configuration().modules:
+        if "time_extraction" not in config_modules:
+            DataFrameUtilities.set_default_timestamps(data)
+        if "event_type_classification" not in config_modules:
+            data["event_type"] = "N/A"
+        if "location_extraction" not in config_modules:
+            data["attribute_location"] = "N/A"
+        if "metrics_analyzer" not in config_modules:
+            data["activity_relevance"] = None
+            data["timestamp_correctness"] = None
+            data["correctness_confidence"] = None
+        if "cohort_tagging" not in config_modules:
             cohort_default_values = {
                 "age": None,
                 "gender": None,

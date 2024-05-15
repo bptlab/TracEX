@@ -25,7 +25,7 @@ class ActivityLabeler(Module):
         _input=None,
         patient_journey=None,
         patient_journey_sentences=None,
-        cohort=None,
+        cohort=None
     ):
         """
         Extracts the activity labels from the patient journey with the following steps:
