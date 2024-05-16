@@ -9,6 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="{% static '/db_results/js/filter_toggle.js' %}" defer></script>
+    <script src="{% static '/db_results/js/pop_up_xes.js' %}" defer></script>
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <style>
         h1 {
@@ -137,6 +138,22 @@
 
     <input type="submit" value="Refresh Filter" class="button">
 </form>
+<br>
+
+<!-- Trigger/Open The Modal (XES Download) -->
+    <button id="downloadBtn" class="button">Download XES File</button>
+    <div id="downloadModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <p>Please select the type(s) of XES file to download:</p>
+            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="checkbox" id="event_log" name="trace_type[]" value="event_log" class="trace-checkbox">
+                <label for="event_log">Event Log XES</label><br><br>
+                <input type="submit" value="Confirm Download" class="button">
+            </form>
+        </div>
+    </div>
 
 <a href="{% url 'db_results_overview' %}">
         <button class="menu_button">Return to Database Results Overview</button>

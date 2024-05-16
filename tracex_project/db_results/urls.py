@@ -4,6 +4,7 @@ from . import views
 
 
 urlpatterns = [
+    path("db_results/download-xes/", views.DownloadXesView.as_view(), name="download_xes"),
     path(
         "db_results/",
         views.DbResultsOverviewView.as_view(),
