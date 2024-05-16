@@ -6,12 +6,13 @@ import base64
 import tempfile
 import functools
 import warnings
-import pandas as pd
-import pm4py
-import numpy as np
 
 from io import StringIO
 from pathlib import Path
+
+import pandas as pd
+import pm4py
+import numpy as np
 import requests
 
 from django.conf import settings
