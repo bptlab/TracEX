@@ -1,5 +1,8 @@
 """Module providing various utility functions for the project."""
 import os
+import requests
+import json
+
 import base64
 import tempfile
 import functools
@@ -7,8 +10,6 @@ import warnings
 import pandas as pd
 import pm4py
 import numpy as np
-import requests
-import json
 
 from io import StringIO
 from pathlib import Path
