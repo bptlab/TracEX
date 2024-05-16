@@ -1,8 +1,5 @@
 """Module providing various utility functions for the project."""
 import os
-from io import StringIO
-from pathlib import Path
-
 import base64
 import tempfile
 import functools
@@ -10,16 +7,27 @@ import warnings
 import pandas as pd
 import pm4py
 import numpy as np
+import requests
+import json
+
+from io import StringIO
+from pathlib import Path
 
 from django.conf import settings
 from django.db.models import Q
 from openai import OpenAI
+
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
+)
+from tracex.logic.constants import (
+    SNOMED_CT_API_URL,
+    SNOMED_CT_PARAMS,
+    SNOMED_CT_HEADERS,
 )
 
 from extraction.models import Trace
@@ -99,6 +107,19 @@ def calculate_linear_probability(logprob):
     linear_prob = np.round(np.exp(logprob), 2)
 
     return linear_prob
+
+
+def get_snomed_ct_info(term):
+    """Get the first matched name and code of a SNOMED CT term."""
+    SNOMED_CT_PARAMS["term"] = "covid"
+    response = requests.get(
+        SNOMED_CT_API_URL, params=SNOMED_CT_PARAMS, headers=SNOMED_CT_HEADERS
+    )
+    data = json.loads(response.text)
+    term = data["items"][0]["term"]
+    code = data["items"][0]["concept"]["conceptId"]
+
+    return term, code
 
 
 class Conversion:

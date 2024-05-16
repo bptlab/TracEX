@@ -55,3 +55,16 @@ ACTIVITY_KEYS = [
     ("attribute_location", "Location"),
 ]
 THRESHOLD_FOR_MATCH = 0.5
+SNOMED_CT_API_URL = (
+    "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"
+)
+SNOMED_CT_PARAMS = params = {
+    "limit": 50,
+    "conceptActive": "true",
+    "lang": "english",
+    "skipTo": 0,
+    "returnLimit": 100,
+}
+SNOMED_CT_HEADERS = {
+    "User-Agent": "browser",
+}
