@@ -117,8 +117,13 @@ def get_snomed_ct_info(term):
         SNOMED_CT_API_URL, params=SNOMED_CT_PARAMS, headers=SNOMED_CT_HEADERS
     )
     data = json.loads(response.text)
-    term = data["items"][0]["term"]
-    code = data["items"][0]["concept"]["conceptId"]
+
+    term = None
+    code = None
+
+    if data["items"]:
+        term = data["items"][0]["term"]
+        code = data["items"][0]["concept"]["conceptId"]
 
     return term, code
 

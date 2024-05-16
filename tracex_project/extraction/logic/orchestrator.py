@@ -246,7 +246,9 @@ class Orchestrator:
                 "gender": None,
                 "origin": None,
                 "condition": None,
+                "condition_snomed_code": None,
                 "preexisting_condition": None,
+                "preexisting_condition_snomed_code": None,
             }
             self.set_cohort(cohort_default_values)
 
