@@ -1,6 +1,5 @@
 """Module providing various utility functions for the project."""
 import os
-import requests
 import json
 
 import base64
@@ -13,6 +12,7 @@ import numpy as np
 
 from io import StringIO
 from pathlib import Path
+import requests
 
 from django.conf import settings
 from django.db.models import Q
