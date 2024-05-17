@@ -237,7 +237,10 @@ class EvaluationView(FormView):
         )
 
         cohorts_df = pd.DataFrame(cohorts_data)
-        cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
+
+        if not cohorts_df.empty:
+            cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
+
         filter_dict = {
             "event_type": configuration.get("event_types"),
             "attribute_location": configuration.get("locations"),
