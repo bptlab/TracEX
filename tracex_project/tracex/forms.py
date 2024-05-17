@@ -89,9 +89,6 @@ class BaseEventForm(forms.Form):
                 f"{choice_1} and {choice_2} depend on each other. Please select both or none.",
                 code="dependant_fields",
             )
-"""Implementation of forms"""
-from django import forms
-
 
 class ApiKeyForm(forms.Form):
     """A form for inputting the OpenAI API key."""

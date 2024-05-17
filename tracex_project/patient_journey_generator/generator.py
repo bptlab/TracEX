@@ -4,6 +4,7 @@ import random
 
 from extraction.models import Prompt
 from tracex.logic import utils as u
+from tracex.logic import constants as c
 
 
 def generate_patient_journey():
