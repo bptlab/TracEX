@@ -25,8 +25,6 @@ from tracex.logic.constants import (
     TEMPERATURE_SUMMARIZING,
     MODEL,
     oaik,
-)
-from tracex.logic.constants import (
     SNOMED_CT_API_URL,
     SNOMED_CT_PARAMS,
     SNOMED_CT_HEADERS,
