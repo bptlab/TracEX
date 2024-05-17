@@ -285,7 +285,8 @@ class SaveSuccessView(generic.TemplateView):
 
 
 class DownloadXesResultView(DownloadXesView):
-
+    """Download one or more XES files based on the types specified in POST request in the result view,
+    bundled into a ZIP file if multiple."""
     @staticmethod
     def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
