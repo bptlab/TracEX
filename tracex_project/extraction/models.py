@@ -23,7 +23,7 @@ class Cohort(models.Model):
     """Model for the Cohort of a patient journey."""
 
     age = models.IntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=25, null=True, blank=True)
+    sex = models.CharField(max_length=25, null=True, blank=True)
     origin = models.CharField(max_length=50, null=True, blank=True)
     condition = models.CharField(max_length=50, null=True, blank=True)
     preexisting_condition = models.CharField(max_length=100, null=True, blank=True)

@@ -230,9 +230,13 @@ class EvaluationView(FormView):
         cohorts = Cohort.manager.filter(trace__in=traces)
         cohorts_data = list(
             cohorts.values(
-                "trace", "age", "gender", "origin", "condition", "preexisting_condition"
+                "trace", "age", "sex", "origin", "condition", "preexisting_condition"
             )
         )
+
+        # cast age to string for a uniform display
+        for cohort in cohorts_data:
+            cohort["age"] = str(cohort["age"]) if cohort["age"] is not None else None
 
         cohorts_df = pd.DataFrame(cohorts_data)
         filter_dict = {
@@ -243,6 +247,16 @@ class EvaluationView(FormView):
             event_log_df = u.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
+
+            # Drop unwanted columns
+            event_log_df = event_log_df.drop(
+                columns=[
+                    "activity_relevance",
+                    "timestamp_correctness",
+                    "correctness_confidence",
+                ]
+            )
+
             context.update(
                 {
                     "all_dfg_img": u.Conversion.create_dfg_from_df(
@@ -295,7 +309,7 @@ class EvaluationView(FormView):
         self.request.session["filter_settings"] = form.cleaned_data
 
         query_dict = {
-            "gender": form.cleaned_data["gender"],
+            "sex": form.cleaned_data["sex"],
             "condition": form.cleaned_data["condition"],
             "preexisting_condition": form.cleaned_data["preexisting_condition"],
             "min_age": form.cleaned_data["min_age"],

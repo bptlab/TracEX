@@ -45,7 +45,7 @@
 </div>
 
 <!-- Display DFG image -->
-<div class="dfg-container" style="display: flex; justify-content: center">
+<div class="dfg-container" style="display: flex; justify-content: center; margin-top: 1em">
     {% if all_dfg_img %}
         <div>
             <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
@@ -85,12 +85,22 @@
     <p style="text-align:center;"><b>Filter based on Cohort</b></p>
     <div class="form-row">
         <div class="form-column">
-            {{ form.gender.label }} <br>
-            <input type="checkbox" id="toggleGender" />
-            <label for="toggleGender"><i>Select/Deselect All</i></label>
-            {{ form.gender }}
-            {{ form.gender.errors }}
+            {{ form.sex.label }} <br>
+            <input type="checkbox" id="togglesex" />
+            <label for="togglesex"><i>Select/Deselect All</i></label>
+            {{ form.sex }}
+            {{ form.sex.errors }}
         </div>
+        <div class="form-column">
+            {{ form.origin.label_tag }} <br>
+            <input type="checkbox" id="toggleAll" />
+            <label for="toggleAll"><i>Select/Deselect All</i></label>
+            {{ form.origin }}
+            {{ form.origin.errors }}
+        </div>
+    </div>
+
+    <div class="form-row">
         <div class="form-column">
             {{ form.condition.label_tag }} <br>
             <input type="checkbox" id="toggleCondition" />
@@ -106,6 +116,7 @@
             {{ form.preexisting_condition.errors }}
         </div>
     </div>
+
 
     <!-- Range slider for age -->
     <div class="form-row">
@@ -127,16 +138,6 @@
         <div class="form-column">
             {{ form.none_age }} {{ form.none_age.label_tag }}
             {{ form.none_age.errors }}
-        </div>
-    </div>
-
-    <div class="form-row">
-        <div class="form-column">
-            {{ form.origin.label_tag }} <br>
-            <input type="checkbox" id="toggleAll" />
-            <label for="toggleAll"><i>Select/Deselect All</i></label>
-            {{ form.origin }}
-            {{ form.origin.errors }}
         </div>
     </div>
 

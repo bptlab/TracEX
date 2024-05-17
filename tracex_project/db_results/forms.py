@@ -47,8 +47,8 @@ class EvaluationForm(BaseEventForm):
         required=False,
         widget=forms.CheckboxInput(),
     )
-    gender = forms.MultipleChoiceField(
-        label="Gender:",
+    sex = forms.MultipleChoiceField(
+        label="Sex:",
         choices=[],
         widget=forms.CheckboxSelectMultiple(),
         required=False,
@@ -86,7 +86,7 @@ class EvaluationForm(BaseEventForm):
             "preexisting_condition"
         )
         self.fields["origin"].choices = self.get_choices("origin")
-        self.fields["gender"].choices = self.get_choices("gender")
+        self.fields["sex"].choices = self.get_choices("sex")
 
     @staticmethod
     def get_choices(category):
@@ -100,6 +100,5 @@ class EvaluationForm(BaseEventForm):
             )
             for choice in choices
         ]
-
-        # sort by name, but put None values at the beginning
-        return sorted(choices, key=lambda x: (x[0] == none_info_text, x))
+        # sort by name, but put None values at the end
+        return sorted(choices, key=lambda x: (x[0] == "None", x[1]))

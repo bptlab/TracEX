@@ -43,8 +43,8 @@ $(document).ready(function () {
             checkbox.checked = this.checked;
         });
     });
-    document.getElementById('toggleGender').addEventListener('change', function () {
-        const checkboxes = document.querySelectorAll('input[name="gender"]');
+    document.getElementById('togglesex').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="sex"]');
         checkboxes.forEach(checkbox => checkbox.checked = this.checked);
     });
 

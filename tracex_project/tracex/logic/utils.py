@@ -136,7 +136,7 @@ class Conversion:
             "correctness_confidence": "Correctness Confidence",
             # rename trace columns
             "age": "Age",
-            "gender": "Gender",
+            "sex": "Sex",
             "origin": "Origin",
             "condition": "Condition",
             "preexisting_condition": "Preexisting Condition",

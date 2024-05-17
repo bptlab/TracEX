@@ -459,15 +459,6 @@ div.form-errors li {
     width: 100%;
 }
 
-.origin-checkbox {
-    column-count: 3;
-
-}
-
-.origin-checkbox .label {
-    font-weight: bold;
-}
-
 .noUi-connect {
     background: #0075ff;
 }
