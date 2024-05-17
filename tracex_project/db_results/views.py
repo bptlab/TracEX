@@ -234,11 +234,8 @@ class EvaluationView(FormView):
             )
         )
 
-        # cast age to string for a uniform display
-        for cohort in cohorts_data:
-            cohort["age"] = str(cohort["age"]) if cohort["age"] is not None else None
-
         cohorts_df = pd.DataFrame(cohorts_data)
+        cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
         filter_dict = {
             "event_type": configuration.get("event_types"),
             "attribute_location": configuration.get("locations"),
@@ -278,15 +275,9 @@ class EvaluationView(FormView):
     @staticmethod
     def create_query(query_dict):
         """Create a query object based on the given dictionary."""
-        query = (
-            Q(
-                cohort__age__gte=query_dict.get("min_age"),
-                cohort__age__lte=query_dict.get("max_age"),
-            )
-            if query_dict.get("min_age")
-            and query_dict.get("max_age")
-            and not query_dict.get("none_age")
-            else Q()
+        query = Q(
+            cohort__age__gte=query_dict.get("min_age"),
+            cohort__age__lte=query_dict.get("max_age"),
         )
         if query_dict.get("none_age"):
             query |= Q(cohort__age__isnull=True)

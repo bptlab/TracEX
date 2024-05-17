@@ -77,6 +77,8 @@ class EvaluationForm(BaseEventForm):
         config = kwargs.get("initial", None)
         super().__init__(*args, **kwargs)
 
+        self.label_suffix = ""
+
         if config:
             self.fields["min_age"].initial = config.get("min_age")
             self.fields["max_age"].initial = config.get("max_age")
