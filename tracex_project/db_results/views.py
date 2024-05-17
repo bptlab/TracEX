@@ -114,7 +114,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def color_relevance(row):
-        """Color the a row based on the activity relevance."""
+        """Color the row based on the activity relevance."""
         activity_relevance = row["Activity Relevance"]
         if activity_relevance == "Moderate Relevance":
             return ["background-color: orange"] * len(row)
