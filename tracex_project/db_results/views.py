@@ -214,8 +214,8 @@ class EvaluationView(FormView):
         context = super().get_context_data(**kwargs)
 
         self.initiate_evaluation_configuration()
-        config = self.request.session.get("filter_settings")
-        activity_key = config.get("activity_key")
+        configuration = self.request.session.get("filter_settings")
+        activity_key = configuration.get("activity_key")
 
         # Query the database to get all traces
         query_dict = self.request.session.get("query_dict")
@@ -236,8 +236,8 @@ class EvaluationView(FormView):
 
         cohorts_df = pd.DataFrame(cohorts_data)
         filter_dict = {
-            "event_type": config.get("event_types"),
-            "attribute_location": config.get("locations"),
+            "event_type": configuration.get("event_types"),
+            "attribute_location": configuration.get("locations"),
         }
         if not event_log_df.empty:
             event_log_df = u.DataFrameUtilities.filter_dataframe(
@@ -255,7 +255,7 @@ class EvaluationView(FormView):
                 }
             )
 
-        context.update({"form": EvaluationForm(initial=config)})
+        context.update({"form": EvaluationForm(initial=configuration)})
 
         self.request.session["event_log"] = event_log_df.to_json()
 
@@ -310,15 +310,15 @@ class EvaluationView(FormView):
     def initiate_evaluation_configuration(self):
         """Initialize form with default values if no filter settings are present."""
 
-        config = self.request.session.get("filter_settings")
-        if config is None:
-            config = {
+        configuration = self.request.session.get("filter_settings")
+        if configuration is None:
+            configuration = {
                 "event_types": [event_type[0] for event_type in EVENT_TYPES],
                 "locations": [location[0] for location in LOCATIONS],
                 "activity_key": ACTIVITY_KEYS[0][0],
             }
 
-        self.request.session["filter_settings"] = config
+        self.request.session["filter_settings"] = configuration
 
 
 class DownloadXesEvaluationView(DownloadXesView):
@@ -328,8 +328,8 @@ class DownloadXesEvaluationView(DownloadXesView):
     @staticmethod
     def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
-        config = request.session.get("filter_settings")
-        activity_key = config.get("activity_key")
+        configuration = request.session.get("filter_settings")
+        activity_key = configuration.get("activity_key")
 
         if trace_type == "event_log":
             # Process event log data into XES format

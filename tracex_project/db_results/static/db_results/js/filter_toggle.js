@@ -37,15 +37,24 @@ $(document).ready(function () {
         maxAgeField.value = Math.round(values[1]);
     });
 
-    // document.getElementById('toggleButton').addEventListener('click', function() {
-    //     const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
-    //     const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-    //     checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
-    // });
     document.getElementById('toggleAll').addEventListener('change', function() {
         const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
         checkboxes.forEach(checkbox => {
             checkbox.checked = this.checked;
         });
+    });
+    document.getElementById('toggleGender').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="gender"]');
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    });
+
+    document.getElementById('toggleCondition').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="condition"]');
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
+    });
+
+    document.getElementById('togglePreexistingCondition').addEventListener('change', function () {
+        const checkboxes = document.querySelectorAll('input[name="preexisting_condition"]');
+        checkboxes.forEach(checkbox => checkbox.checked = this.checked);
     });
 });

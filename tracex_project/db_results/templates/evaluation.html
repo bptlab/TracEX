@@ -11,31 +11,9 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="{% static '/db_results/js/filter_toggle.js' %}" defer></script>
     <script src="{% static '/tracex/js/pop_up_xes.js' %}" defer></script>
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <style>
-        h1 {
-            text-align: center;
-        }
-
-        .dfg-container {
-            display: flex;
-            justify-content: center;
-        }
-    </style>
 </head>
 <body class="main_body">
-<h1>Evaluation View</h1>
-
-<!-- Display DFG image -->
-<div class="dfg-container">
-    {% if all_dfg_img %}
-        <div>
-            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
-        </div>
-    {% else %}
-        <p style="margin-top: 2em; margin-bottom: 2em">No database entries match your selected filters.</p>
-    {% endif %}
-</div>
+<h1 style="text-align: center">Evaluation View</h1>
 
 <!-- Display complete event log -->
 <div>
@@ -64,6 +42,17 @@
             <p style="text-align: center">No database entries match your selected filters.</p>
         {% endif %}
     </div>
+</div>
+
+<!-- Display DFG image -->
+<div class="dfg-container" style="display: flex; justify-content: center">
+    {% if all_dfg_img %}
+        <div>
+            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+        </div>
+    {% else %}
+        <p style="margin-top: 2em; margin-bottom: 2em">No database entries match your selected filters.</p>
+    {% endif %}
 </div>
 
 <!-- Form for filters -->
@@ -96,13 +85,25 @@
     <p style="text-align:center;"><b>Filter based on Cohort</b></p>
     <div class="form-row">
         <div class="form-column">
-            {{ form.gender.label }} {{ form.gender }} {{ form.gender.errors }}
+            {{ form.gender.label }} <br>
+            <input type="checkbox" id="toggleGender" />
+            <label for="toggleGender"><i>Select/Deselect All</i></label>
+            {{ form.gender }}
+            {{ form.gender.errors }}
         </div>
         <div class="form-column">
-            {{ form.condition.label }} {{ form.condition }} {{ form.condition.errors }}
+            {{ form.condition.label_tag }} <br>
+            <input type="checkbox" id="toggleCondition" />
+            <label for="toggleCondition"><i>Select/Deselect All</i></label>
+            {{ form.condition }}
+            {{ form.condition.errors }}
         </div>
         <div class="form-column">
-            {{ form.preexisting_condition.label }} {{ form.preexisting_condition }} {{ form.preexisting_condition.errors }}
+            {{ form.preexisting_condition.label_tag }} <br>
+            <input type="checkbox" id="togglePreexistingCondition" />
+            <label for="togglePreexistingCondition"><i>Select/Deselect All</i></label>
+            {{ form.preexisting_condition }}
+            {{ form.preexisting_condition.errors }}
         </div>
     </div>
 
@@ -128,18 +129,13 @@
             {{ form.none_age.errors }}
         </div>
     </div>
-{#    <button type="button" id="toggleButton">Select/Deselect All</button>#}
-{#    <div class="form-row">#}
-{#        <div class="form-column">#}
-{#            {{ form.origin.label_tag }} {{ form.origin }}#}
-{#            {{ form.origin.errors }}#}
-{#        </div>#}
-{#    </div>#}
-    <input type="checkbox" id="toggleAll" />
-    <label for="toggleAll">Select/Deselect All</label>
+
     <div class="form-row">
         <div class="form-column">
-            {{ form.origin.label_tag }} {{ form.origin }}
+            {{ form.origin.label_tag }} <br>
+            <input type="checkbox" id="toggleAll" />
+            <label for="toggleAll"><i>Select/Deselect All</i></label>
+            {{ form.origin }}
             {{ form.origin.errors }}
         </div>
     </div>
