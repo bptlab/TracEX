@@ -203,16 +203,14 @@ class DataFrameUtilities:
     @staticmethod
     def get_events_df(query: Q = None):
         """Get all events from the database, or filter them by a query and return them as a dataframe."""
-        traces = Trace.manager.all() if query is None else Trace.manager.filter(query)
-
+        traces = Trace.manager.filter(query) if query else Trace.manager.all()
         if not traces.exists():
             return pd.DataFrame()  # Return an empty dataframe if no traces are found
 
         event_data = []
 
         for trace in traces:
-            events = trace.events.all()
-            for event in events:
+            for event in trace.events.all():
                 event_dict = {
                     "case:concept:name": trace.id,
                     "activity": event.activity,
@@ -221,25 +219,10 @@ class DataFrameUtilities:
                     "time:end_timestamp": event.end,
                     "time:duration": event.duration,
                     "attribute_location": event.location,
+                    "activity_relevance": event.metrics.activity_relevance,
+                    "timestamp_correctness": event.metrics.timestamp_correctness,
+                    "correctness_confidence": event.metrics.correctness_confidence,
                 }
-
-                if hasattr(event, "metrics"):
-                    metric = event.metrics
-                    event_dict.update(
-                        {
-                            "activity_relevance": metric.activity_relevance,
-                            "timestamp_correctness": metric.timestamp_correctness,
-                            "correctness_confidence": metric.correctness_confidence,
-                        }
-                    )
-                else:
-                    event_dict.update(
-                        {
-                            "activity_relevance": None,
-                            "timestamp_correctness": None,
-                            "correctness_confidence": None,
-                        }
-                    )
 
                 event_data.append(event_dict)
 

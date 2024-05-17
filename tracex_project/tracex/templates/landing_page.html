@@ -16,28 +16,28 @@
     <div class="landing_page_container">
         <img src="{% static '/tracex/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="landing_page_logo">
         <div class="landing_page_menu">
-            <div class="item patient_journey_generator">
-                <a href="{% url 'journey_generator_overview' %}">
-                <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-                <span class="item_text">Patient Journey Generator</span>
+            <div class="item patient_journey_generator item-container">
+                <a href="{% url 'journey_generator_overview' %}" class="item-link">
+                    <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
+                    <span class="item_text">Patient Journey Generator</span>
                 </a>
             </div>
-            <div class="item extraction">
-                <a href="{% url 'choose_input_method' %}">
+            <div class="item extraction item-container">
+                <a href="{% url 'choose_input_method' %}" class="item-link">
                 <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
                 <span class="item_text">Extraction Pipeline</span>
                 </a>
             </div>
-            <div class="item db_results">
-                <a href="{% url 'db_results_overview' %}">
+            <div class="item db_results item-container">
+                <a href="{% url 'db_results_overview' %}" class="item-link">
                 <img src="{% static '/tracex/img/database_results_logo.png' %}" alt="Datbase Results Logo" class="database_results_logo">
                 <span class="item_text">Database Results</span>
                 </a>
             </div>
-            <div class="item testing_environment">
-                <a href="{% url 'testing_environment' %}">
-                    <img src="{% static '/tracex/img/test_environment_logo.png' %}" alt="Test Environment Logo" class="test_environment_logo">
-                    <span class="item_text">Trace Testing Environment</span>
+            <div class="item testing_environment item-container">
+                <a href="{% url 'testing_environment' %}" class="item-link">
+                <img src="{% static '/tracex/img/test_environment_logo.png' %}" alt="Test Environment Logo" class="test_environment_logo">
+                <span class="item_text">Trace Testing Environment</span>
                 </a>
             </div>
         </div>
