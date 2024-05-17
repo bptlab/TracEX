@@ -342,5 +342,3 @@ class DownloadXesEvaluationView(DownloadXesView):
             return event_log_xes
 
         return None
-
-
