@@ -18,7 +18,6 @@ class PatientJourney(models.Model):
     def __str__(self):
         return f"{self.name} (id: {self.id})"  # pylint: disable=no-member
 
-
 class Trace(models.Model):
     """Model for a single trace, belonging to a patient journey."""
 
@@ -39,7 +38,7 @@ class Cohort(models.Model):
         Trace, on_delete=models.CASCADE, related_name="cohort", null=True
     )
     age = models.IntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=25, null=True, blank=True)
+    sex = models.CharField(max_length=25, null=True, blank=True)
     origin = models.CharField(max_length=50, null=True, blank=True)
     condition = models.CharField(max_length=50, null=True, blank=True)
     preexisting_condition = models.CharField(max_length=100, null=True, blank=True)
