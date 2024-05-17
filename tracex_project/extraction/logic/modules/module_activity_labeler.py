@@ -71,6 +71,7 @@ class ActivityLabeler(Module):
         """
         column_name = "activity"
         messages = Prompt.objects.get(name="TEXT_TO_ACTIVITY_MESSAGES").text
+
         if condition is not None:
             messages.append(
                 {

@@ -4,7 +4,7 @@
 .main_body {
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
-    width: 80%;
+    width: 60%;
     margin-top: 0%;
     margin-left: auto;
     margin-right: auto;
@@ -159,6 +159,14 @@ h2 {
     width: 50%;
 }
 
+.key_icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    width: 3%;
+    height: auto;
+}
 
 /* EXTRACTION */
 
@@ -266,9 +274,10 @@ text-align: center;
 }
 
 .landing_page_logo {
-    max-width: 95%;
+    max-width: 65%;
     height: auto;
     object-fit: contain;
+    padding: 1%;
 }
 
 
@@ -278,6 +287,13 @@ text-align: center;
 
 .extraction_logo {
     width: 350px;
+}
+
+.error_logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
 }
 
 .test_environment_logo {
@@ -317,29 +333,29 @@ text-align: center;
 }
 
 /* The Modal (background) */
+/* Base styles for the modal */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1050; /* Sit on top, higher than modal-backdrop */
     left: 0;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
 }
 
-/* Modal Content */
+/* Styles for the modal content */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */
+    width: 30%; /* Adjusts based on screen size */
 }
 
-/* The Close Button */
+/* Styles for the close button */
 .close {
     color: #aaa;
     float: right;
@@ -392,4 +408,57 @@ div.form-errors ul {
 div.form-errors li {
     color: #DB3A34;
     font-weight: bold;
+}
+
+.error_traceback {
+    font-weight: bold;
+    color: #333;
+}
+
+.error_textarea {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+ }
+
+.item-container {
+    display: flex;
+}
+
+.item-link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* z-index for backdrop */
+.modal-backdrop {
+    z-index: 1040; /* Lower than modal to stay behind */
+}
+
+/* Default modal width and adjustments for different screen sizes */
+#apiKeyModal .modal-dialog {
+    max-width: 90%; /* Default for smaller screens */
+}
+
+/* Adjustments for medium devices (tablets) */
+@media (min-width: 768px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 70%; /* Smaller percentage for medium screens */
+    }
+}
+
+/* Adjustments for large devices (desktops) */
+@media (min-width: 992px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 50%; /* Even smaller for large screens */
+    }
 }

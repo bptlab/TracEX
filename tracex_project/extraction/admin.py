@@ -9,7 +9,6 @@ class CohortInline(admin.StackedInline):
     model = Cohort
     extra = 0
     can_delete = False
-    readonly_fields = ("age", "gender", "origin", "condition", "preexisting_condition")
 
 
 class TraceInline(admin.TabularInline):

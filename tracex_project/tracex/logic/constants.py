@@ -1,17 +1,6 @@
 """Module providing constants for the project."""
 import os
-from pathlib import Path
-from django.conf import settings
 
-output_path = settings.BASE_DIR / Path(
-    "extraction/content/outputs/"
-)  # Path to the outputs-folder
-input_path = settings.BASE_DIR / Path(
-    "extraction/content/inputs/"
-)  # Path to the inputs-folder
-comparison_path = settings.BASE_DIR / Path(
-    "extraction/content/comparison/"
-)  # Path to the comparisons-folder
 oaik = os.environ.get(
     "OPENAI_API_KEY"
 )  # Get the OpenAI API key from the environment variables

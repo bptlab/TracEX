@@ -28,7 +28,7 @@ class CohortTagger(Module):
         super().execute_and_save(
             df,
             patient_journey=patient_journey,
-            patient_journey_sentences=patient_journey_sentences,
+            patient_journey_sentences=patient_journey_sentences
         )
 
         cohort_tags = self.__extract_cohort_tags(patient_journey)
@@ -58,7 +58,7 @@ class CohortTagger(Module):
         }
 
         # If all values are "N/A", return None to indicate no valid cohort data
-        if not any(value != "NA" for value in cohort_dict.values()):
+        if not any(value != "N/A" for value in cohort_dict.values()):
             return None
 
         return cohort_dict
