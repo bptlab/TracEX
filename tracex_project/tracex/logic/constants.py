@@ -48,11 +48,11 @@ SNOMED_CT_API_URL = (
     "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"
 )
 SNOMED_CT_PARAMS = params = {
-    "limit": 50,
+    "limit": 1,
     "conceptActive": "true",
     "lang": "english",
     "skipTo": 0,
-    "returnLimit": 100,
+    "returnLimit": 1,
 }
 SNOMED_CT_HEADERS = {
     "User-Agent": "browser",
