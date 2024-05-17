@@ -105,10 +105,24 @@ class TimeExtractor(Module):
 
         df["time:timestamp"] = pd.to_datetime(
             df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        ).ffill()
+        )
         df["time:end_timestamp"] = pd.to_datetime(
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        ).ffill()
+        )
+
+        if df["time:timestamp"].isna().all():
+            df["time:timestamp"] = df["time:timestamp"].fillna(
+                pd.Timestamp("2020-01-01 00:00")
+            )
+
+        if df["time:end_timestamp"].isna().all():
+            df["time:end_timestamp"] = df["time:end_timestamp"].fillna(
+                pd.Timestamp("2020-01-01 00:00")
+            )
+
+        df["time:timestamp"] = df["time:timestamp"].ffill().bfill()
+        df["time:end_timestamp"] = df["time:end_timestamp"].ffill().bfill()
+
         df = df.apply(fix_end_dates, axis=1)
 
         return df

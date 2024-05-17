@@ -140,7 +140,7 @@ class Orchestrator:
     def run(self, view=None):
         """Run the modules."""
         modules = self.initialize_modules()
-        current_step = 0
+        current_step = 1
 
         patient_journey_sentences = self.get_configuration().patient_journey.split(". ")
         if "preprocessing" in modules:
@@ -256,7 +256,7 @@ class Orchestrator:
         """Update the progress of the extraction."""
         if view is not None:
             percentage = round(
-                (current_step / len(self.get_configuration().modules)) * 100
+                (current_step / (len(self.get_configuration().modules) + 1)) * 100
             )
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
