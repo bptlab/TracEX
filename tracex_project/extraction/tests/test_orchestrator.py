@@ -20,14 +20,14 @@ class OrchestratorTests(TestCase):
 
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
-    def setUp(self):
+    def setUp(self):  # pylint: disable=invalid-name
         """Set up method that gets called everytime before tests are executed."""
         self.factory = RequestFactory()
         self.orchestrator = Orchestrator()
 
         self.orchestrator.get_configuration = lambda: MockConfiguration()  # pylint: disable=unnecessary-lambda
 
-    def tearDown(self):
+    def tearDown(self):  # pylint: disable=invalid-name
         """Tear down method that gets called after every test is executed."""
         Orchestrator.reset_instance()
 
