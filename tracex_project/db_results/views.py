@@ -1,16 +1,17 @@
 """This file contains the views for the database result app."""
 import pandas as pd
+import plotly.graph_objects as go
+
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from django.db.models import Q
 
-import plotly.graph_objects as go
 from plotly.offline import plot
-
-from db_results.forms import PatientJourneySelectForm, EvaluationForm
-from extraction.models import Trace, PatientJourney, Cohort
 from tracex.logic import utils as u
 from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
+from tracex.views import DownloadXesView
+from db_results.forms import PatientJourneySelectForm, EvaluationForm
+from extraction.models import Trace, PatientJourney, Cohort
 
 
 class DbResultsOverviewView(TemplateView):
@@ -211,7 +212,9 @@ class EvaluationView(FormView):
     def get_context_data(self, **kwargs):
         """Prepare the data for the evaluation page."""
         context = super().get_context_data(**kwargs)
-        config = self.initiate_evaluation_configuration()
+
+        self.initiate_evaluation_configuration()
+        config = self.request.session.get("filter_settings")
         activity_key = config.get("activity_key")
 
         # Query the database to get all traces
@@ -254,6 +257,8 @@ class EvaluationView(FormView):
             )
 
         context.update({"form": EvaluationForm(initial=config)})
+
+        self.request.session["event_log"] = event_log_df.to_json()
 
         return context
 
@@ -314,4 +319,29 @@ class EvaluationView(FormView):
                 "activity_key": ACTIVITY_KEYS[0][0],
             }
 
-        return config
+        self.request.session["filter_settings"] = config
+
+
+class DownloadXesEvaluationView(DownloadXesView):
+    """Download one or more XES files based on the types specified in POST request,
+    bundled into a ZIP file if multiple."""
+
+    @staticmethod
+    def process_trace_type(request, trace_type):
+        """Process and provide the XES files to be downloaded based on the trace type."""
+        config = request.session.get("filter_settings")
+        activity_key = config.get("activity_key")
+
+        if trace_type == "event_log":
+            # Process event log data into XES format
+            df = pd.read_json(request.session.get("event_log"))
+
+            if df.empty:
+                return None
+
+            event_log_xes = u.Conversion.dataframe_to_xes(
+                df, name="event_log", activity_key=activity_key
+            )
+            return event_log_xes
+
+        return None

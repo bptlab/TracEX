@@ -6,7 +6,7 @@
     <title>Result</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <script src="{% static '/extraction/js/pop_up_xes.js' %}" defer></script>
+    <script src="{% static '/tracex/js/pop_up_xes.js' %}" defer></script>
 </head>
 <body class="main_body">
     <h1>Success! The TracEX pipeline produced the following results:</h1>
@@ -123,7 +123,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>Please select the type(s) of XES file to download:</p>
-            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+            <form id="downloadForm" action="{% url 'download_xes_result' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="checkbox" id="trace" name="trace_type[]" value="trace" class="trace-checkbox">
                 <label for="trace">Trace XES</label><br>

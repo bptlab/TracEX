@@ -4,7 +4,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("download-xes/", views.DownloadXesView.as_view(), name="download_xes"),
+    path("extraction/download-xes/", views.DownloadXesResultView.as_view(), name="download_xes_result"),
     path(
         "extraction/",
         views.JourneyInputSelectView.as_view(),
