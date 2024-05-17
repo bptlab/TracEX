@@ -227,7 +227,6 @@ class EvaluationView(FormView):
             event_log_df = u.DataFrameUtilities.get_events_df()
             traces = Trace.manager.all()
 
-        # TODO: Adjust this so that it also considers activity based filters
         cohorts = Cohort.manager.filter(trace__in=traces)
         cohorts_data = list(
             cohorts.values(
