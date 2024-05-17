@@ -113,7 +113,7 @@ def calculate_linear_probability(logprob):
 
 def get_snomed_ct_info(term):
     """Get the first matched name and code of a SNOMED CT term."""
-    SNOMED_CT_PARAMS["term"] = "covid"
+    SNOMED_CT_PARAMS["term"] = term
     response = requests.get(
         SNOMED_CT_API_URL, params=SNOMED_CT_PARAMS, headers=SNOMED_CT_HEADERS
     )
