@@ -8,11 +8,10 @@ import os
 import pandas as pd
 
 from django.urls import reverse_lazy
-from django.views import generic, View
-from django.http import JsonResponse, HttpResponse, FileResponse
+from django.views import generic
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from tracex.logic import utils
 from extraction.forms import (
     JourneyUploadForm,
     ResultForm,
@@ -22,8 +21,7 @@ from extraction.forms import (
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import PatientJourney
 from tracex.views import DownloadXesView
-
-os.environ["PATH"] += os.pathsep + "C:/Program Files/Graphviz/bin/"
+from tracex.logic import utils
 
 
 class JourneyInputSelectView(generic.TemplateView):
@@ -310,4 +308,3 @@ class DownloadXesResultView(DownloadXesView):
         # Return None if the trace type is unrecognized
 
         return None
-

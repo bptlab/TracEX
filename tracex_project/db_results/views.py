@@ -1,5 +1,4 @@
 """This file contains the views for the database result app."""
-
 import pandas as pd
 import plotly.graph_objects as go
 
