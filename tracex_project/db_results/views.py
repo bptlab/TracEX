@@ -1,23 +1,18 @@
 """This file contains the views for the database result app."""
-import os
-import zipfile
-from tempfile import NamedTemporaryFile
 
 import pandas as pd
 import plotly.graph_objects as go
-from db_results.forms import PatientJourneySelectForm, EvaluationForm
+
 from django.db.models import Q
-from django.http import HttpResponse, FileResponse
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import FormView, TemplateView
-from extraction.models import Trace, PatientJourney, Cohort
+
 from plotly.offline import plot
 from tracex.logic import utils as u
 from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
 from tracex.views import DownloadXesView
-
-
+from db_results.forms import PatientJourneySelectForm, EvaluationForm
+from extraction.models import Trace, PatientJourney, Cohort
 class DbResultsOverviewView(TemplateView):
     """View for the database results overview."""
 
