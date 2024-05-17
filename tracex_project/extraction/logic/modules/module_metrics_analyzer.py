@@ -25,18 +25,22 @@ class MetricsAnalyzer(Module):
         )
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute(
+        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
+    ):
         """Executing the measurement of metrics. The metrics output will be written on disk as a csv file.
         The dataframe without the metrics is returned for visualization."""
         super().execute(
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
+            cohort=cohort,
         )
 
+        condition = cohort["condition"] if cohort is not None else None
         metrics_df = df.copy()
         metrics_df["activity_relevance"] = metrics_df["activity"].apply(
-            self.__rate_activity_relevance
+            lambda activity: self.__rate_activity_relevance(activity, condition)
         )
         metrics_df[
             ["timestamp_correctness", "correctness_confidence"]
@@ -52,7 +56,7 @@ class MetricsAnalyzer(Module):
         return metrics_df
 
     @staticmethod
-    def __rate_activity_relevance(activity):
+    def __rate_activity_relevance(activity, condition):
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -61,7 +65,17 @@ class MetricsAnalyzer(Module):
         }
 
         messages = Prompt.objects.get(name="METRIC_ACTIVITY_MESSAGES").text
-        messages.append({"role": "user", "content": activity})
+        if condition is not None:
+            messages.append(
+                {
+                    "role": "user",
+                    "content": activity
+                    + "\n\nRate the activity relevance in the context of the course of disease: "
+                    + condition,
+                }
+            )
+        else:
+            messages.append({"role": "user", "content": activity})
 
         response = u.query_gpt(messages)
         category = "No Relevance"  # By default, an activity is not relevant.

@@ -229,7 +229,7 @@ class DataFrameUtilities:
         events_df = pd.DataFrame(event_data)
 
         if not events_df.empty:
-            events_df.sort_values(by="time:timestamp", inplace=True)
+            events_df = events_df.sort_values(by="time:timestamp", inplace=False)
 
         return events_df
 

@@ -3,10 +3,16 @@
 <head>
     <title>TracEX</title>
     {% load static %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+    <script src="{% static '/tracex/js/forms_open_ai_key.js' %}"></script>
 </head>
-
 <body class="landing_page_body">
+    <a href="{% url 'reset_api_key' %}">
+        <img src="{% static '/tracex/img/key.png' %}" class="key_icon">
+    </a>
     <div class="landing_page_container">
         <img src="{% static '/tracex/img/TraceEx_v2.svg' %}" alt="TracEX Logo" class="landing_page_logo">
         <div class="landing_page_menu">
@@ -34,8 +40,33 @@
                 <span class="item_text">Trace Testing Environment</span>
                 </a>
             </div>
-
         </div>
     </div>
+   {% if prompt_for_key %}
+<div class="modal fade" id="apiKeyModal" tabindex="-1" role="dialog" aria-labelledby="apiKeyModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="apiKeyModalLabel">API Key Needed</h5>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="api_key">Enter your OpenAI API Key</label>
+                        <input type="text" class="form-control" id="api_key" name="api_key" placeholder="API Key" required>
+                        <div class="invalid-feedback">
+                            Please provide an API Key.
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-secondary">Save API Key</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 </body>
 </html>
