@@ -143,26 +143,32 @@ class TraceTestingResultView(TemplateView):
         ground_truth_df = dfu.get_events_df(query_first_trace)
 
         comparison_result_dict = self.request.session.get("comparison_result")
-        mapping_data_to_ground_truth = comparison_result_dict.get(
-            "mapping_data_to_ground_truth"
+        matching_percent_pipeline_to_ground_truth = comparison_result_dict.get(
+            "matching_percent_pipeline_to_ground_truth"
         )
-        mapping_ground_truth_to_data = comparison_result_dict.get(
-            "mapping_ground_truth_to_data"
+        mapping_pipeline_to_ground_truth = comparison_result_dict.get(
+            "mapping_pipeline_to_ground_truth"
+        )
+        matching_percent_ground_truth_to_pipeline = comparison_result_dict.get(
+            "matching_percent_ground_truth_to_pipeline"
+        )
+        mapping_ground_truth_to_pipeline = comparison_result_dict.get(
+            "mapping_ground_truth_to_pipeline"
         )
 
-        data_to_ground_truth_list = self.create_mapping_list(
-            mapping_data_to_ground_truth, pipeline_df, ground_truth_df
+        pipeline_to_ground_truth_list = self.create_mapping_list(
+            mapping_pipeline_to_ground_truth, pipeline_df, ground_truth_df
         )
-        ground_truth_to_data_list = self.create_mapping_list(
-            mapping_ground_truth_to_data, ground_truth_df, pipeline_df
+        ground_truth_to_pipeline_list = self.create_mapping_list(
+            mapping_ground_truth_to_pipeline, ground_truth_df, pipeline_df
         )
 
-        data_to_ground_truth_df = pd.DataFrame(
-            data_to_ground_truth_list,
+        pipeline_to_ground_truth_df = pd.DataFrame(
+            pipeline_to_ground_truth_list,
             columns=["Pipeline Activity", "Ground Truth Activity"],
         )
-        ground_truth_to_data_df = pd.DataFrame(
-            ground_truth_to_data_list,
+        ground_truth_to_pipeline_df = pd.DataFrame(
+            ground_truth_to_pipeline_list,
             columns=["Ground Truth Activity", "Pipeline Activity"],
         )
 
@@ -187,10 +193,12 @@ class TraceTestingResultView(TemplateView):
                 "ground_truth_output": Conversion.create_html_table_from_df(
                     ground_truth_df
                 ),
-                "mapping_data_to_ground_truth": data_to_ground_truth_df.to_html(
+                "matching_percent_pipeline_to_ground_truth": matching_percent_pipeline_to_ground_truth,
+                "mapping_pipeline_to_ground_truth": pipeline_to_ground_truth_df.to_html(
                     index=False
                 ),
-                "mapping_ground_truth_to_data": ground_truth_to_data_df.to_html(
+                "matching_percent_ground_truth_to_pipeline": matching_percent_ground_truth_to_pipeline,
+                "mapping_ground_truth_to_pipeline": ground_truth_to_pipeline_df.to_html(
                     index=False
                 ),
                 "missing_activities": missing_activities_df.to_html(

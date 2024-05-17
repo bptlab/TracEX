@@ -21,10 +21,8 @@ class PatientJourneySelectForm(forms.Form):
 
     def get_patient_journey_choices(self):
         """Retrieves the available patient journey choices with existing metrics from the database."""
-        patient_journeys = PatientJourney.manager.exclude(
-            trace__events__metrics__activity_relevance__isnull=True,
-            trace__events__metrics__timestamp_correctness__isnull=True,
-            trace__events__metrics__correctness_confidence__isnull=True,
+        patient_journeys = PatientJourney.manager.filter(
+            trace__events__metrics__isnull=False
         ).distinct()
         choices = [(pj.name, pj.name) for pj in patient_journeys]
 

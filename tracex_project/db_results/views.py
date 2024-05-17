@@ -47,7 +47,9 @@ class MetricsDashboardView(TemplateView):
         query_last_trace = Q(
             id=Trace.manager.filter(
                 patient_journey__name=patient_journey_name,
-                events__metrics__isnull=False,
+                events__metrics__activity_relevance__isnull=False,
+                events__metrics__timestamp_correctness__isnull=False,
+                events__metrics__correctness_confidence__isnull=False,
             )
             .latest("last_modified")
             .id
