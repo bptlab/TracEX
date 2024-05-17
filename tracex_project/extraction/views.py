@@ -4,7 +4,6 @@ import traceback
 
 # pylint: disable=unused-argument, unused-variable
 
-import os
 import pandas as pd
 
 from django.urls import reverse_lazy

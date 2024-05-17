@@ -1,12 +1,11 @@
 """This file contains the views for the landing page of the tracex app."""
-from django.views.generic import TemplateView
 import zipfile
 import os
 from tempfile import NamedTemporaryFile
-import pandas as pd
 
 from django.views import View
 from django.http import HttpResponse, FileResponse
+from django.views.generic import TemplateView
 
 
 class TracexLandingPage(TemplateView):
@@ -26,7 +25,7 @@ class DownloadXesView(View):
     """Download one or more XES files based on the types specified in POST request,
     bundled into a ZIP file if multiple."""
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *_args, **_kwargs):
         """Processes a POST request to download specified trace types as XES files.
         Validates trace types and prepares the appropriate file response."""
         trace_types = self.get_trace_types(request)

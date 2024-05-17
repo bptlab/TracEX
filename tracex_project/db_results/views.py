@@ -12,6 +12,8 @@ from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
 from tracex.views import DownloadXesView
 from db_results.forms import PatientJourneySelectForm, EvaluationForm
 from extraction.models import Trace, PatientJourney, Cohort
+
+
 class DbResultsOverviewView(TemplateView):
     """View for the database results overview."""
 
@@ -334,7 +336,8 @@ class DownloadXesEvaluationView(DownloadXesView):
             # Process event log data into XES format
             df = pd.read_json(request.session.get("event_log"))
 
-            if df.empty: return None
+            if df.empty:
+                return None
 
             event_log_xes = u.Conversion.dataframe_to_xes(
                 df, name="event_log", activity_key=activity_key
