@@ -119,7 +119,9 @@ class Conversion:
 
     @staticmethod
     def rename_columns(df: pd.DataFrame):
-        """Rename columns in the DataFrame for better readability."""
+        """Renames columns in a DataFrame to enhance readability on a webpage. This function adjusts the column
+        headers of a DataFrame based on a predefined mapping that aligns with user-friendly names suitable for
+        display purposes."""
         column_mapping = {
             # rename event columns
             "case:concept:name": "Case ID",

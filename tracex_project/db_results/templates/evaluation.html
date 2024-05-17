@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluation View</title>
     <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="{% static '/db_results/js/filter_toggle.js' %}" defer></script>
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
     <style>
         h1 {
             text-align: center;
@@ -68,7 +68,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
 
-    <p style="text-align:center;"><b>Filter based on Activities</b></p>
+    <p style="text-align:center;"><b>Filter based on Events</b></p>
     <div class="form-row">
         <div class="form-column">
             {{ form.event_types.label_tag }} {{ form.event_types }}
@@ -89,6 +89,7 @@
         </style>
 
     </div>
+    <hr class="solid">
 
     <p style="text-align:center;"><b>Filter based on Cohort</b></p>
     <div class="form-row">
@@ -107,7 +108,7 @@
     <div class="form-row">
         <div class="form-column">
             <label for="age-slider">Age Range</label>
-            <div id="age-slider"></div>
+            <div id="age-slider" style="margin-top: 6px"></div>
         </div>
     </div>
 
@@ -125,7 +126,15 @@
             {{ form.none_age.errors }}
         </div>
     </div>
-    <button type="button" id="toggleButton">Select/Deselect All</button>
+{#    <button type="button" id="toggleButton">Select/Deselect All</button>#}
+{#    <div class="form-row">#}
+{#        <div class="form-column">#}
+{#            {{ form.origin.label_tag }} {{ form.origin }}#}
+{#            {{ form.origin.errors }}#}
+{#        </div>#}
+{#    </div>#}
+    <input type="checkbox" id="toggleAll" />
+    <label for="toggleAll">Select/Deselect All</label>
     <div class="form-row">
         <div class="form-column">
             {{ form.origin.label_tag }} {{ form.origin }}

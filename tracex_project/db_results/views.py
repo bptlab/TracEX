@@ -224,6 +224,7 @@ class EvaluationView(FormView):
             event_log_df = u.DataFrameUtilities.get_events_df()
             traces = Trace.manager.all()
 
+        # TODO: Adjust this so that it also considers activity based filters
         cohorts = Cohort.manager.filter(trace__in=traces)
         cohorts_data = list(
             cohorts.values(
@@ -232,7 +233,6 @@ class EvaluationView(FormView):
         )
 
         cohorts_df = pd.DataFrame(cohorts_data)
-        print(cohorts_df)
         filter_dict = {
             "event_type": config.get("event_types"),
             "attribute_location": config.get("locations"),

@@ -37,9 +37,15 @@ $(document).ready(function () {
         maxAgeField.value = Math.round(values[1]);
     });
 
-    document.getElementById('toggleButton').addEventListener('click', function() {
+    // document.getElementById('toggleButton').addEventListener('click', function() {
+    //     const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
+    //     const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+    //     checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
+    // });
+    document.getElementById('toggleAll').addEventListener('change', function() {
         const checkboxes = document.querySelectorAll('.origin-checkbox input[type="checkbox"]');
-        const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-        checkboxes.forEach(checkbox => checkbox.checked = !allChecked);
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
     });
 });
