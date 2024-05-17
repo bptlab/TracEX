@@ -41,9 +41,19 @@ class MetricsDashboardView(TemplateView):
     template_name = "metrics_dashboard.html"
 
     def get_context_data(self, **kwargs):
-        """Add relevant metrics to the context."""
+        """Add relevant metrics to the context by fetching data and constructing visualizations."""
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session["patient_journey_name"]
+        trace_df = self.get_latest_trace_df(patient_journey_name)
+
+        self.update_context_with_counts(context, trace_df, patient_journey_name)
+        self.update_context_with_charts(context, trace_df)
+        self.update_context_with_data_tables(context, trace_df)
+
+        return context
+
+    def get_latest_trace_df(self, patient_journey_name):
+        """Fetch the DataFrame for the latest trace based on the patient journey name."""
         query_last_trace = Q(
             id=Trace.manager.filter(
                 patient_journey__name=patient_journey_name,
@@ -54,76 +64,53 @@ class MetricsDashboardView(TemplateView):
             .latest("last_modified")
             .id
         )
-        trace_df = u.DataFrameUtilities.get_events_df(query_last_trace)
+        return u.DataFrameUtilities.get_events_df(query_last_trace)
 
+    def update_context_with_counts(self, context, trace_df, patient_journey_name):
+        """Update context with various count statistics."""
+        context.update({
+            "patient_journey_name": patient_journey_name,
+            "total_patient_journeys": PatientJourney.manager.count(),
+            "total_traces": Trace.manager.count(),
+            "total_activities": trace_df.shape[0],
+            "traces_count": Trace.manager.filter(patient_journey__name=patient_journey_name).count()
+        })
+
+    def update_context_with_charts(self, context, trace_df):
+        """Create and update context with chart visualizations."""
         relevance_counts = trace_df["activity_relevance"].value_counts()
         timestamp_correctness_counts = trace_df["timestamp_correctness"].value_counts()
-        average_timestamp_correctness = round(
-            trace_df["correctness_confidence"].mean(), 2
-        )
 
-        activity_relevance_pie_chart = self.create_pie_chart(relevance_counts)
-        timestamp_correctness_pie_chart = self.create_pie_chart(
-            timestamp_correctness_counts
-        )
-        activity_relevance_bar_chart = self.create_bar_chart(
-            relevance_counts, "Activity Relevance", "Count"
-        )
-        timestamp_correctness_bar_chart = self.create_bar_chart(
-            timestamp_correctness_counts, "Timestamp Correctness", "Count"
-        )
+        context.update({
+            "activity_relevance_pie_chart": self.create_pie_chart(relevance_counts),
+            "timestamp_correctness_pie_chart": self.create_pie_chart(timestamp_correctness_counts),
+            "activity_relevance_bar_chart": self.create_bar_chart(relevance_counts, "Activity Relevance", "Count"),
+            "timestamp_correctness_bar_chart": self.create_bar_chart(timestamp_correctness_counts,
+                                                                     "Timestamp Correctness", "Count"),
+            "most_frequent_category": relevance_counts.index[0],
+            "most_frequent_category_count": relevance_counts.values[0],
+            "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[0],
+            "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[0],
+            "average_timestamp_correctness": round(trace_df["correctness_confidence"].mean(), 2)
+        })
 
-        relevance_df = trace_df[["activity", "activity_relevance"]]
-        relevance_df = u.Conversion.rename_columns(relevance_df)
-        relevance_df_styled = (
-            relevance_df.style.set_table_attributes('class="dataframe"')
-            .apply(self.color_relevance, axis=1)
-            .hide()
-        )
-        timestamp_df = trace_df[
-            [
-                "activity",
-                "time:timestamp",
-                "time:end_timestamp",
-                "timestamp_correctness",
-                "correctness_confidence",
-            ]
-        ]
-        timestamp_df = u.Conversion.rename_columns(timestamp_df)
-        timestamp_df = (
-            timestamp_df.style.set_table_attributes('class="dataframe"')
-            .apply(self.color_timestamp_correctness, axis=1)
-            .hide()
-        )
+    def update_context_with_data_tables(self, context, trace_df):
+        """Format and add data tables to context."""
+        relevance_df = self.format_styled_df(trace_df[["activity", "activity_relevance"]], self.color_relevance)
+        timestamp_df = self.format_styled_df(trace_df[
+                                                 ["activity", "time:timestamp", "time:end_timestamp",
+                                                  "timestamp_correctness", "correctness_confidence"]
+                                             ], self.color_timestamp_correctness)
 
-        context.update(
-            {
-                "patient_journey_name": patient_journey_name,
-                "total_patient_journeys": PatientJourney.manager.count(),
-                "total_traces": Trace.manager.count(),
-                "total_activities": trace_df.shape[0],
-                "traces_count": Trace.manager.filter(
-                    patient_journey__name=patient_journey_name
-                ).count(),
-                "most_frequent_category": relevance_counts.index[0],
-                "most_frequent_category_count": relevance_counts.values[0],
-                "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[
-                    0
-                ],
-                "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[
-                    0
-                ],
-                "average_timestamp_correctness": average_timestamp_correctness,
-                "relevance_df": relevance_df_styled.to_html(),
-                "timestamp_df": timestamp_df.to_html(),
-                "activity_relevance_pie_chart": activity_relevance_pie_chart,
-                "timestamp_correctness_pie_chart": timestamp_correctness_pie_chart,
-                "activity_relevance_bar_chart": activity_relevance_bar_chart,
-                "timestamp_correctness_bar_chart": timestamp_correctness_bar_chart,
-            }
-        )
+        context.update({
+            "relevance_df": relevance_df.to_html(),
+            "timestamp_df": timestamp_df.to_html()
+        })
 
-        return context
+    def format_styled_df(self, df, style_function):
+        """Apply styling function to DataFrame and return the styled DataFrame."""
+        df = u.Conversion.rename_columns(df)
+        return df.style.set_table_attributes('class="dataframe"').apply(style_function, axis=1).hide()
 
     @staticmethod
     def color_relevance(row):
@@ -152,9 +139,9 @@ class MetricsDashboardView(TemplateView):
             styles = ["background-color: tan"] * len(row)
 
         if (
-            low_confidence_threshold
-            <= correctness_confidence
-            <= high_confidence_threshold
+                low_confidence_threshold
+                <= correctness_confidence
+                <= high_confidence_threshold
         ):
             styles[confidence_index] = "background-color: orange"
         elif correctness_confidence < low_confidence_threshold:
