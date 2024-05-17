@@ -1,4 +1,4 @@
-"""Test cases for the extraction app."""
+"""Test cases for the modules in the extraction app."""
 from django.test import TestCase
 import pandas as pd
 
