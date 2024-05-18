@@ -230,6 +230,11 @@ class EvaluationView(FormView):
             traces = Trace.manager.all()
 
         cohorts = Cohort.manager.filter(trace__in=traces)
+        print(
+            cohorts.values(
+                "trace", "age", "sex", "origin", "condition", "preexisting_condition"
+            )
+        )
         cohorts_data = list(
             cohorts.values(
                 "trace", "age", "sex", "origin", "condition", "preexisting_condition"
