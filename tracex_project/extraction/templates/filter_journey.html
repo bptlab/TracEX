@@ -40,7 +40,12 @@
                                                                 value="activity_labeling" disabled=""
                                                                 id="id_modules_required_0" checked="">
                         Activity Labeler</label>
-
+                </div>
+                <div>
+                    <label for="id_modules_required_1"><input type="checkbox" name="modules_required"
+                                                                value="cohort_tagging" disabled=""
+                                                                id="id_modules_required_1" checked="">
+                        Cohort Tagger</label>
                 </div>
             </div>
 
@@ -64,20 +69,7 @@
                 <label></label>
                 <div class="tooltip">
                     <label for="id_modules_optional_1"><input type="checkbox" name="modules_optional"
-                                                                value="cohort_tagging" id="id_modules_optional_1"
-                                                                checked="">
-                        Cohort Tagger</label>
-                    <span class="tooltiptext">The Cohort Tagger extracts the disease the patient journey is
-                        about alongside useful case attributes for further filter options. If it is not run,
-                        no case attributes will be extracted.</span>
-                </div>
-            </div>
-
-            <div class="tooltip-container">
-                <label></label>
-                <div class="tooltip">
-                    <label for="id_modules_optional_2"><input type="checkbox" name="modules_optional"
-                                                                value="time_extraction" id="id_modules_optional_2"
+                                                                value="time_extraction" id="id_modules_optional_1"
                                                                 checked="">
                         Time Extractor</label>
                     <span class="tooltiptext">The Time Extractor finds Timestamps for the extracted activities.
@@ -88,9 +80,9 @@
             <div class="tooltip-container">
                 <label></label>
                 <div class="tooltip">
-                    <label for="id_modules_optional_3"><input type="checkbox" name="modules_optional"
+                    <label for="id_modules_optional_2"><input type="checkbox" name="modules_optional"
                                                                 value="event_type_classification"
-                                                                id="id_modules_optional_3" checked="">
+                                                                id="id_modules_optional_2" checked="">
                         Event Type Classifier</label>
                     <span class="tooltiptext">The Event Type Classifier categorizes the extracted activities
                         into the given event types. If it's not run, every event type will be 'N/A'</span>
@@ -100,9 +92,9 @@
             <div class="tooltip-container">
                 <label></label>
                 <div class="tooltip">
-                    <label for="id_modules_optional_4"><input type="checkbox" name="modules_optional"
+                    <label for="id_modules_optional_3"><input type="checkbox" name="modules_optional"
                                                                 value="location_extraction"
-                                                                id="id_modules_optional_4"
+                                                                id="id_modules_optional_3"
                                                                 checked="">
                         Location Extractor</label>
                     <span class="tooltiptext">The Location Extractor finds the related location to the
@@ -113,9 +105,9 @@
             <div class="tooltip-container">
                 <label></label>
                 <div class="tooltip">
-                    <label for="id_modules_optional_5"><input type="checkbox" name="modules_optional"
+                    <label for="id_modules_optional_4"><input type="checkbox" name="modules_optional"
                                                                 value="metrics_analyzer"
-                                                                id="id_modules_optional_5"
+                                                                id="id_modules_optional_4"
                                                                 checked="">
                         Metrics Analyzer</label>
                     <span class="tooltiptext">The Metrics Analyzer evaluates the results of the pipeline.
@@ -326,12 +318,17 @@
     <div class="spinner-container" id="loading-container">
         <span id="loading-spinner" class="loader not_visible"></span>
     </div>
-    <div id="progress_box" class="not_visible">
+    <div id="progress_box">
         <div class="progress-container">
             <!-- Progress bar and message will be added here -->
         </div>
     </div>
-    <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button">
+    <input type="submit" value="Execute Extraction Pipeline" id="progress_button" class="button" onclick="disableButton()">
+    <script>
+        function disableButton() {
+            document.getElementById("progress_button").classList.add("processing");
+        }
+    </script>
 </form>
 
 <a href="{{ request.META.HTTP_REFERER }}">

@@ -52,8 +52,6 @@ class ExtractionConfiguration:
         for key, value in kwargs.items():
             if key in valid_keys:
                 setattr(self, key, value)
-            else:
-                print(f"Ignoring unknown key: {key}")
 
 
 class Orchestrator:
@@ -134,7 +132,6 @@ class Orchestrator:
             key: self.get_configuration().modules[key]()
             for key in self.get_configuration().modules
         }
-        print("Initialization of modules successful.")
         return modules
 
     def run(self, view=None):
@@ -243,7 +240,7 @@ class Orchestrator:
         if "cohort_tagging" not in config_modules:
             cohort_default_values = {
                 "age": None,
-                "gender": None,
+                "sex": None,
                 "origin": None,
                 "condition": None,
                 "preexisting_condition": None,

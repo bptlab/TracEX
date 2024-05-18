@@ -28,7 +28,7 @@ class CohortTagger(Module):
         super().execute_and_save(
             df,
             patient_journey=patient_journey,
-            patient_journey_sentences=patient_journey_sentences
+            patient_journey_sentences=patient_journey_sentences,
         )
 
         cohort_tags = self.__extract_cohort_tags(patient_journey)
@@ -38,7 +38,7 @@ class CohortTagger(Module):
 
     @staticmethod
     def __extract_cohort_tags(patient_journey):
-        """Extracts information about condition, gender, age, origin and preexisting condition."""
+        """Extracts information about condition, sex, age, origin and preexisting condition."""
         cohort_data = {}
         for message_list in Prompt.objects.get(name="COHORT_TAG_MESSAGES").text:
             messages = message_list[1:]

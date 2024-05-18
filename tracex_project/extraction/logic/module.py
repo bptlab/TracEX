@@ -36,7 +36,6 @@ class Module(ABC):
         Every module receives the patient journey as parameter which is set to the instance variable of each module.
         This method should always return a dataframe, so other modules can use the result.
         """
-        print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
         self.cohort = cohort
@@ -51,7 +50,6 @@ class Module(ABC):
         Every module receives the patient journey as parameter which is set to the instance variable of each module.
         This method should always save the result to the database, and return the id.
         """
-        print(f"Starting Module {self.name}.")
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
 

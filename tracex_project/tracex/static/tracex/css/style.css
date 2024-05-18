@@ -521,3 +521,9 @@ div.form-errors li {
 .filter-selection-field .label {
     font-weight: bold;
 }
+
+.processing {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}
