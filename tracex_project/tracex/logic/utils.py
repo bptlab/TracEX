@@ -224,10 +224,10 @@ class DataFrameUtilities:
                 event_dict = {
                     "case:concept:name": trace.id,
                     "activity": event.activity,
-                    "event_type": event.event_type,
                     "time:timestamp": event.start,
                     "time:end_timestamp": event.end,
                     "time:duration": event.duration,
+                    "event_type": event.event_type,
                     "attribute_location": event.location,
                     "activity_relevance": event.metrics.activity_relevance,
                     "timestamp_correctness": event.metrics.timestamp_correctness,
@@ -277,3 +277,15 @@ class DataFrameUtilities:
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
         )
         df["time:duration"] = "00:01:00"
+
+    @staticmethod
+    def delete_metrics_columns(df):
+        """Delete metrics columns from the dataframe."""
+        df.drop(
+            columns=[
+                "activity_relevance",
+                "timestamp_correctness",
+                "correctness_confidence",
+            ],
+            inplace=True,
+        )

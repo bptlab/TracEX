@@ -179,9 +179,9 @@ class Orchestrator:
                 latest_id = Trace.manager.latest("last_modified").id
             except ObjectDoesNotExist:
                 latest_id = 0
-            del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
             self.set_default_values()
+            del self.get_data()["sentence_id"]
 
     def save_results_to_db(self):
         """Save the trace to the database."""

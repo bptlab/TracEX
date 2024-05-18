@@ -212,7 +212,7 @@ class ResultView(generic.FormView):
                     activity_key=activity_key,
                 ),
                 "event_log_table": utils.Conversion.create_html_table_from_df(
-                    event_log
+                    df=event_log
                 ),
             }
         )
@@ -229,6 +229,7 @@ class ResultView(generic.FormView):
         trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             trace_df, filter_dict
         )
+        utils.DataFrameUtilities.delete_metrics_columns(trace_df_filtered)
 
         return trace_df_filtered
 
@@ -245,6 +246,8 @@ class ResultView(generic.FormView):
             event_log_df = utils.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
+            utils.DataFrameUtilities.delete_metrics_columns(event_log_df)
+
         elif not trace.empty:
             event_log_df = trace
 
@@ -284,6 +287,7 @@ class SaveSuccessView(generic.TemplateView):
 class DownloadXesResultView(DownloadXesView):
     """Download one or more XES files based on the types specified in POST request in the result view,
     bundled into a ZIP file if multiple."""
+
     @staticmethod
     def process_trace_type(request, trace_type):
         """Process and provide the XES files to be downloaded based on the trace type."""
