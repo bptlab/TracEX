@@ -25,7 +25,7 @@ class EventTypeClassifier(Module):
     def execute(
         self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
     ):
-        """Classifies the event types for the corresponding activity labels from a patient journey."""
+        """Classifies corresponding event types for all activity labels in a dataframe."""
         super().execute(
             df,
             patient_journey=patient_journey,

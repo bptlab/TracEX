@@ -14,7 +14,7 @@ from extraction.logic.modules import (
     MetricsAnalyzer,
 )
 from extraction.models import Trace, PatientJourney, Event, Cohort, Metric
-from tracex.logic.utils import DataFrameUtilities
+from tracex.logic.utils import DataFrameUtilities, Conversion
 
 
 @dataclass
@@ -139,14 +139,14 @@ class Orchestrator:
         modules = self.initialize_modules()
         current_step = 1
 
-        patient_journey_sentences = self.get_configuration().patient_journey.split(". ")
+        patient_journey = self.get_configuration().patient_journey
         if "preprocessing" in modules:
             self.update_progress(view, current_step, "Preprocessing")
-            patient_journey_sentences = modules["preprocessing"].execute(
+            patient_journey = modules["preprocessing"].execute(
                 patient_journey=self.get_configuration().patient_journey
             )
             current_step += 1
-        patient_journey = ". ".join(patient_journey_sentences)
+        patient_journey_sentences = Conversion.text_to_sentence_list(patient_journey)
 
         if "cohort_tagging" in modules:
             self.update_progress(view, current_step, "Cohort Tagger")

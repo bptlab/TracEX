@@ -24,7 +24,8 @@ class TimeExtractor(Module):
     def execute(
         self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
     ):
-        """This function extracts the time information from the patient journey."""
+        """This function extracts the time information from the patient journey.
+        For each activity label, the start date, end date and duration are extracted."""
         super().execute(
             df,
             patient_journey=patient_journey,

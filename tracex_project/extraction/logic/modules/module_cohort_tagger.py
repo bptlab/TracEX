@@ -10,7 +10,8 @@ from tracex.logic import utils as u
 
 class CohortTagger(Module):
     """
-    This is the module that extracts the cohort tags from the patient journey.
+    This is the module that extracts the cohort information from the patient journey.
+    The cohort tags are condition, age, biological sex, origin and preexisting condition.
     """
 
     def __init__(self):
@@ -23,7 +24,7 @@ class CohortTagger(Module):
         self, df, patient_journey=None, patient_journey_sentences=None
     ):
         """
-        Extracts the cohort from the patient journey and saves the result in the database.
+        Extracts the cohort information from the patient journey and saves the result in the database.
         """
         super().execute_and_save(
             df,

@@ -28,8 +28,8 @@ class MetricsAnalyzer(Module):
     def execute(
         self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
     ):
-        """Executing the measurement of metrics. The metrics output will be written on disk as a csv file.
-        The dataframe without the metrics is returned for visualization."""
+        """Measures the output of the pipeline based on specified metrics.
+        These metrics are 'activity relevance' and 'timestamp correctness'."""
         super().execute(
             df,
             patient_journey=patient_journey,

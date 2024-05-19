@@ -23,7 +23,7 @@ class LocationExtractor(Module):
     def execute(
         self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
     ):
-        """Extracts the location information for each activity."""
+        """Extracts the location information for each activity in a dataframe."""
         super().execute(
             df,
             patient_journey=patient_journey,

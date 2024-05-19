@@ -11,7 +11,7 @@ from tracex.logic import utils as u
 
 class ActivityLabeler(Module):
     """
-    This is the module that extracts the activity labels from the patient journey.
+    This is the module that starts the pipeline with structuring the patient journey in activities.
     """
 
     def __init__(self):
@@ -25,7 +25,7 @@ class ActivityLabeler(Module):
         _input=None,
         patient_journey=None,
         patient_journey_sentences=None,
-        cohort=None
+        cohort=None,
     ):
         """
         Extracts the activity labels from the patient journey with the following steps:

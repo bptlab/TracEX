@@ -2,6 +2,7 @@
 import os
 from io import StringIO
 from pathlib import Path
+import regex as re
 
 import base64
 import tempfile
@@ -206,6 +207,16 @@ class Conversion:
 
         return file_path
 
+    @staticmethod
+    def text_to_sentence_list(text):
+        text = text.replace("\n", " ")
+        # This regex looks for periods, question marks, or exclamation marks, possibly followed by more of the same, followed by a space or end of string.
+        pattern = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)(?=\s|$)")
+        sentences = pattern.split(text)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+
+        return sentences
+
 
 class DataFrameUtilities:
     """Class for all kinds of operations that performs on Dataframes"""
@@ -281,11 +292,10 @@ class DataFrameUtilities:
     @staticmethod
     def delete_metrics_columns(df):
         """Delete metrics columns from the dataframe."""
-        df.drop(
+        df = df.drop(
             columns=[
                 "activity_relevance",
                 "timestamp_correctness",
                 "correctness_confidence",
             ],
-            inplace=True,
         )
