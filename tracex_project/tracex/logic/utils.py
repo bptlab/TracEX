@@ -2,12 +2,12 @@
 import os
 from io import StringIO
 from pathlib import Path
-import regex as re
-
 import base64
 import tempfile
 import functools
 import warnings
+
+import regex as re
 import pandas as pd
 import pm4py
 import numpy as np
@@ -209,8 +209,10 @@ class Conversion:
 
     @staticmethod
     def text_to_sentence_list(text):
+        """Converts a text into a list of its sentences."""
         text = text.replace("\n", " ")
-        # This regex looks for periods, question marks, or exclamation marks, possibly followed by more of the same, followed by a space or end of string.
+        # This regex looks for periods, question marks, or exclamation marks,
+        # possibly followed by more of the same, followed by a space or end of string.
         pattern = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)(?=\s|$)")
         sentences = pattern.split(text)
         sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
