@@ -1,7 +1,6 @@
 """Test cases for the views of the extraction app."""
 import json
 
-from django import forms
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase, Client, RequestFactory
 from django.urls import reverse, resolve
