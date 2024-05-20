@@ -3,6 +3,14 @@ from django.contrib import admin
 from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort, Metric
 
 
+class CohortInline(admin.StackedInline):
+    """Inline for the Cohort model, used to display the related Cohort object in the Trace admin page."""
+
+    model = Cohort
+    extra = 0
+    can_delete = False
+
+
 class TraceInline(admin.TabularInline):
     """Inline for the Trace model, used to display the related Trace objects in the PatientJourney admin page."""
 
@@ -45,7 +53,7 @@ class PatientJourneyAdmin(admin.ModelAdmin):
 class TraceAdmin(admin.ModelAdmin):
     """Admin page for the Trace model."""
 
-    inlines = [EventInline]
+    inlines = [CohortInline, EventInline]
 
 
 @admin.register(Event)

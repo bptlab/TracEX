@@ -21,12 +21,15 @@ class TimeExtractor(Module):
         self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-    def execute(self, df, patient_journey=None, patient_journey_sentences=None):
+    def execute(
+        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
+    ):
         """This function extracts the time information from the patient journey."""
         super().execute(
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
+            cohort=cohort,
         )
 
         df["time:timestamp"] = df.apply(self.__extract_start_date, axis=1)
@@ -102,10 +105,24 @@ class TimeExtractor(Module):
 
         df["time:timestamp"] = pd.to_datetime(
             df["time:timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        ).ffill()
+        )
         df["time:end_timestamp"] = pd.to_datetime(
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
-        ).ffill()
+        )
+
+        if df["time:timestamp"].isna().all():
+            df["time:timestamp"] = df["time:timestamp"].fillna(
+                pd.Timestamp("2020-01-01 00:00")
+            )
+
+        if df["time:end_timestamp"].isna().all():
+            df["time:end_timestamp"] = df["time:end_timestamp"].fillna(
+                pd.Timestamp("2020-01-01 00:00")
+            )
+
+        df["time:timestamp"] = df["time:timestamp"].ffill().bfill()
+        df["time:end_timestamp"] = df["time:end_timestamp"].ffill().bfill()
+
         df = df.apply(fix_end_dates, axis=1)
 
         return df

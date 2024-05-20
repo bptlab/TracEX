@@ -1,11 +1,10 @@
 """The patient journey generator creates a synthetic patient journey with the help of the GPT engine."""
 from datetime import datetime, timedelta
-import os
 import random
 
 from extraction.models import Prompt
-from tracex.logic import constants as c
 from tracex.logic import utils as u
+from tracex.logic import constants as c
 
 
 def generate_patient_journey():
@@ -16,34 +15,15 @@ def generate_patient_journey():
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
-    i = 0
-    proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-    output_path = c.input_path / proposed_filename
-    while os.path.isfile(output_path):
-        i += 1
-        proposed_filename = "journey_synth_covid_" + str(i) + ".txt"
-        output_path = c.input_path / proposed_filename
-    with open(output_path, "w") as f:
-        f.write(patient_journey)
-    print(
-        'Generation in progress: [▬▬▬▬▬▬▬▬▬▬] 100%, done! Patient journey "'
-        + proposed_filename
-        + '" generated.'
-    )
     return patient_journey
 
 
 def create_patient_journey_context():
     """Creation of a patient journey."""
-    print("Generation in progress: [----------] 0%", end="\r")
     sex = "male" if random.randrange(2) == 0 else "female"
-    print("Generation in progress: [▬---------] 10%", end="\r")
     country = get_country()
-    print("Generation in progress: [▬▬--------] 20%", end="\r")
     date = get_date()
-    print("Generation in progress: [▬▬▬-------] 30%", end="\r")
     life_circumstances = get_life_circumstances(sex)
-    print("Generation in progress: [▬▬▬▬▬-----] 50%", end="\r")
     patient_journey_context = (
         f"Imagine being a {sex} person from {country}, that was infected with Covid19."
         f" You had first symptoms on {date}. {life_circumstances}"
@@ -53,62 +33,8 @@ def create_patient_journey_context():
 
 def get_country():
     """Randomizing country."""
-    european_countries = [
-        "Albania",
-        "Andorra",
-        "Armenia",
-        "Austria",
-        "Azerbaijan",
-        "Belarus",
-        "Belgium",
-        "Bosnia and Herzegovina",
-        "Bulgaria",
-        "Croatia",
-        "Cyprus",
-        "Czechia",
-        "Denmark",
-        "Estonia",
-        "Faroe Islands",
-        "Finland",
-        "France",
-        "Georgia",
-        "Germany",
-        "Greece",
-        "Hungary",
-        "Iceland",
-        "Ireland",
-        "Italy",
-        "Kazakhstan",
-        "Kosovo",
-        "Latvia",
-        "Liechtenstein",
-        "Lithuania",
-        "Luxembourg",
-        "Malta",
-        "Moldova",
-        "Monaco",
-        "Montenegro",
-        "Netherlands",
-        "North Macedonia",
-        "Norway",
-        "Poland",
-        "Portugal",
-        "Romania",
-        "Russia",
-        "San Marino",
-        "Serbia",
-        "Slovakia",
-        "Slovenia",
-        "Spain",
-        "Sweden",
-        "Switzerland",
-        "Turkey",
-        "Ukraine",
-        "United Kingdom (UK)",
-        "Vatican City (Holy See)",
-    ]
 
-    return random.choice(european_countries)
+    return random.choice(c.EUROPEAN_COUNTRIES)
 
 
 def get_date(start="01/01/2020", end="01/09/2023"):

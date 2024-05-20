@@ -1,17 +1,6 @@
 """Module providing constants for the project."""
 import os
-from pathlib import Path
-from django.conf import settings
 
-output_path = settings.BASE_DIR / Path(
-    "extraction/content/outputs/"
-)  # Path to the outputs-folder
-input_path = settings.BASE_DIR / Path(
-    "extraction/content/inputs/"
-)  # Path to the inputs-folder
-comparison_path = settings.BASE_DIR / Path(
-    "extraction/content/comparison/"
-)  # Path to the comparisons-folder
 oaik = os.environ.get(
     "OPENAI_API_KEY"
 )  # Get the OpenAI API key from the environment variables
@@ -55,3 +44,58 @@ ACTIVITY_KEYS = [
     ("attribute_location", "Location"),
 ]
 THRESHOLD_FOR_MATCH = 0.5
+
+EUROPEAN_COUNTRIES = [
+    "Albania",
+    "Andorra",
+    "Armenia",
+    "Austria",
+    "Azerbaijan",
+    "Belarus",
+    "Belgium",
+    "Bosnia and Herzegovina",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czechia",
+    "Denmark",
+    "Estonia",
+    "Faroe Islands",
+    "Finland",
+    "France",
+    "Georgia",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Iceland",
+    "Ireland",
+    "Italy",
+    "Kazakhstan",
+    "Kosovo",
+    "Latvia",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Moldova",
+    "Monaco",
+    "Montenegro",
+    "Netherlands",
+    "North Macedonia",
+    "Norway",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "Russia",
+    "San Marino",
+    "Serbia",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Sweden",
+    "Switzerland",
+    "Turkey",
+    "Ukraine",
+    "United Kingdom (UK)",
+    "Vatican City (Holy See)",
+]
