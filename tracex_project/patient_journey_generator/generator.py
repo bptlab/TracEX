@@ -9,9 +9,6 @@ from tracex.logic import constants as c
 
 def generate_patient_journey():
     """Creates a new patient journey with the help of the GPT engine."""
-    print(
-        "Please wait while the system is generating a patient journey. This may take a few moments."
-    )
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
