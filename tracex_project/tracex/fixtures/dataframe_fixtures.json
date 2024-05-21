@@ -128,11 +128,68 @@
     }
 },
 {
+    "model": "extraction.trace",
+    "pk": 6,
+    "fields": {
+        "patient_journey": 98,
+        "last_modified": "2024-04-05T13:22:12.197"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 7,
+    "fields": {
+        "patient_journey": 99,
+        "last_modified": "2024-04-05T14:11:38.748"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 8,
+    "fields": {
+        "patient_journey": 100,
+        "last_modified": "2024-04-05T14:19:44.225"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 33,
+    "fields": {
+        "patient_journey": 114,
+        "last_modified": "2024-04-16T13:11:24.692"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 34,
+    "fields": {
+        "patient_journey": 115,
+        "last_modified": "2024-04-25T13:43:20.276"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 35,
+    "fields": {
+        "patient_journey": 116,
+        "last_modified": "2024-04-25T13:46:36.629"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 36,
+    "fields": {
+        "patient_journey": 118,
+        "last_modified": "2024-04-25T13:54:01.875"
+    }
+},
+{
     "model": "extraction.cohort",
     "pk": 38,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": null,
+        "sex": null,
         "origin": null,
         "condition": "Concussion",
         "preexisting_condition": null
@@ -142,8 +199,9 @@
     "model": "extraction.cohort",
     "pk": 39,
     "fields": {
+        "trace": null,
         "age": 27,
-        "gender": "male",
+        "sex": null,
         "origin": null,
         "condition": "Anxiety",
         "preexisting_condition": "Anxiety"
@@ -153,8 +211,9 @@
     "model": "extraction.cohort",
     "pk": 40,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": null,
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -164,8 +223,9 @@
     "model": "extraction.cohort",
     "pk": 41,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": "male",
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -175,8 +235,9 @@
     "model": "extraction.cohort",
     "pk": 42,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": "male",
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -186,8 +247,9 @@
     "model": "extraction.cohort",
     "pk": 43,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": "female",
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -197,8 +259,9 @@
     "model": "extraction.cohort",
     "pk": 44,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": "male",
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -208,8 +271,9 @@
     "model": "extraction.cohort",
     "pk": 45,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": "male",
+        "sex": null,
         "origin": null,
         "condition": "Covid-19",
         "preexisting_condition": null
@@ -219,74 +283,12 @@
     "model": "extraction.cohort",
     "pk": 46,
     "fields": {
+        "trace": null,
         "age": null,
-        "gender": null,
+        "sex": null,
         "origin": null,
         "condition": "I appreciate your understanding. If you have any further details or specific dates related to the Covid-19 diagnosis, please provide them so we can accurately determine the illness.",
         "preexisting_condition": null
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 6,
-    "fields": {
-        "patient_journey": 98,
-        "cohort": null,
-        "last_modified": "2024-04-05T13:22:12.197"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 7,
-    "fields": {
-        "patient_journey": 99,
-        "cohort": null,
-        "last_modified": "2024-04-05T14:11:38.748"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 8,
-    "fields": {
-        "patient_journey": 100,
-        "cohort": null,
-        "last_modified": "2024-04-05T14:19:44.225"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 33,
-    "fields": {
-        "patient_journey": 114,
-        "cohort": null,
-        "last_modified": "2024-04-16T13:11:24.692"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 34,
-    "fields": {
-        "patient_journey": 115,
-        "cohort": null,
-        "last_modified": "2024-04-25T13:43:20.276"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 35,
-    "fields": {
-        "patient_journey": 116,
-        "cohort": null,
-        "last_modified": "2024-04-25T13:46:36.629"
-    }
-},
-{
-    "model": "extraction.trace",
-    "pk": 36,
-    "fields": {
-        "patient_journey": 118,
-        "cohort": null,
-        "last_modified": "2024-04-25T13:54:01.875"
     }
 },
 {
@@ -2164,10 +2166,10 @@
                 }
             ],
             [
-                "gender",
+                "sex",
                 {
                     "role": "system",
-                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the gender of the author. If the gender isn't clear, you should take the context into             account. Only if the context doesn't help, you should return 'N/A'."
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the sex of the author. If the sex isn't clear, you should take the context into             account. Only if the context doesn't help, you should return 'N/A'."
                 },
                 {
                     "role": "user",
@@ -2214,7 +2216,7 @@
                 "age",
                 {
                     "role": "system",
-                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the age of the author. If the gender isn't clear, you should take the context into             account. Young means 25, middle aged 50 and old 75. Only if the context doesn't help, you should             return 'N/A'."
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the age of the author. If the sex isn't clear, you should take the context into             account. Young means 25, middle aged 50 and old 75. Only if the context doesn't help, you should             return 'N/A'."
                 },
                 {
                     "role": "user",
@@ -2938,6 +2940,600 @@
         "timestamp_correctness": true,
         "correctness_confidence": "0.97",
         "last_modified": "2024-04-25T13:54:01.869"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 75,
+    "fields": {
+        "event": 175,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:18:59.940"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 76,
+    "fields": {
+        "event": 176,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:34.892"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 77,
+    "fields": {
+        "event": 177,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:45.732"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 78,
+    "fields": {
+        "event": 178,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:53.952"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 79,
+    "fields": {
+        "event": 179,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:03.339"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 80,
+    "fields": {
+        "event": 180,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:24.660"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 81,
+    "fields": {
+        "event": 181,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:34.232"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 82,
+    "fields": {
+        "event": 182,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:41.546"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 83,
+    "fields": {
+        "event": 183,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:48.133"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 84,
+    "fields": {
+        "event": 184,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:54.712"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 85,
+    "fields": {
+        "event": 185,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:02.596"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 86,
+    "fields": {
+        "event": 186,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:10.550"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 87,
+    "fields": {
+        "event": 187,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:18.297"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 88,
+    "fields": {
+        "event": 188,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:15.031"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 89,
+    "fields": {
+        "event": 189,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:19.924"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 90,
+    "fields": {
+        "event": 190,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:30.676"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 91,
+    "fields": {
+        "event": 191,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:39.831"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 92,
+    "fields": {
+        "event": 192,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:51.281"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 93,
+    "fields": {
+        "event": 193,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:04.694"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 94,
+    "fields": {
+        "event": 194,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:14.196"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 95,
+    "fields": {
+        "event": 195,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:21.310"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 96,
+    "fields": {
+        "event": 196,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:28.465"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 97,
+    "fields": {
+        "event": 197,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:37.692"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 98,
+    "fields": {
+        "event": 198,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:47.789"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 99,
+    "fields": {
+        "event": 199,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:56.157"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 100,
+    "fields": {
+        "event": 200,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:05.528"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 101,
+    "fields": {
+        "event": 201,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:14.094"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 102,
+    "fields": {
+        "event": 202,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:23.377"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 103,
+    "fields": {
+        "event": 203,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:30.738"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 104,
+    "fields": {
+        "event": 204,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:43.382"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 105,
+    "fields": {
+        "event": 205,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:03.164"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 106,
+    "fields": {
+        "event": 206,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:13.567"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 107,
+    "fields": {
+        "event": 207,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:23.211"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 108,
+    "fields": {
+        "event": 208,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:29.763"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 109,
+    "fields": {
+        "event": 209,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:38.621"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 110,
+    "fields": {
+        "event": 210,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:45.744"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 111,
+    "fields": {
+        "event": 211,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:55.219"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 112,
+    "fields": {
+        "event": 212,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:04.606"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 113,
+    "fields": {
+        "event": 213,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:44.474"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 114,
+    "fields": {
+        "event": 214,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:51.506"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 115,
+    "fields": {
+        "event": 215,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:58.361"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 116,
+    "fields": {
+        "event": 216,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:16.551"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 117,
+    "fields": {
+        "event": 217,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:22.754"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 118,
+    "fields": {
+        "event": 218,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:31.086"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 119,
+    "fields": {
+        "event": 704,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:40.120"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 120,
+    "fields": {
+        "event": 705,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:50.433"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 121,
+    "fields": {
+        "event": 706,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:59.563"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 122,
+    "fields": {
+        "event": 707,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:28:15.697"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 123,
+    "fields": {
+        "event": 708,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:00.786"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 124,
+    "fields": {
+        "event": 709,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:10.127"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 125,
+    "fields": {
+        "event": 710,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:18.267"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 126,
+    "fields": {
+        "event": 711,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:30.601"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 127,
+    "fields": {
+        "event": 712,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:45.238"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 128,
+    "fields": {
+        "event": 713,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:53.790"
     }
 }
 ]

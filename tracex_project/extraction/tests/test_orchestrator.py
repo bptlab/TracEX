@@ -162,7 +162,7 @@ class OrchestratorTests(TestCase):
 
         self.orchestrator.update_progress(view, current_step, module_name)
 
-        self.assertEqual(request.session["progress"], 40)  # 2/5 = 0.4 * 100 = 40
+        self.assertEqual(request.session["progress"], 33)
         self.assertEqual(request.session["status"], module_name)
 
     def test_update_progress_without_view(self):
