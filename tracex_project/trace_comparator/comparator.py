@@ -1,5 +1,8 @@
 """The trace comparator compares the pipeline output against a ground truth and vice versa."""
 import time
+from typing import List, Tuple, Dict, Any
+
+import pandas as pd
 from pathlib import Path
 from django.conf import settings
 
@@ -9,33 +12,33 @@ from tracex.logic import utils as u, constants as c
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-def compare_traces(view, pipeline_df, ground_truth_df):
+def compare_traces(view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame):
     """Executes the trace comparison."""
-    pipeline_activities = pipeline_df["activity"]
-    ground_truth_activities = ground_truth_df["activity"]
+    pipeline_activities: pd.Series = pipeline_df["activity"]
+    ground_truth_activities: pd.Series = ground_truth_df["activity"]
 
     (
         mapping_pipeline_to_ground_truth,
         mapping_ground_truth_to_pipeline,
     ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
-    missing_activities = find_unmapped_activities(
+    missing_activities: List[str] = find_unmapped_activities(
         ground_truth_activities, mapping_ground_truth_to_pipeline
     )
-    unexpected_activities = find_unmapped_activities(
+    unexpected_activities: List[str] = find_unmapped_activities(
         pipeline_activities, mapping_pipeline_to_ground_truth
     )
-    wrong_orders = find_wrong_orders(
+    wrong_orders: List[Tuple[str, str]] = find_wrong_orders(
         pipeline_activities, mapping_ground_truth_to_pipeline
     )
 
-    matching_percent_pipeline_to_ground_truth = find_matching_percentage(
+    matching_percent_pipeline_to_ground_truth: int = find_matching_percentage(
         pipeline_activities, mapping_pipeline_to_ground_truth
     )
-    matching_percent_ground_truth_to_pipeline = find_matching_percentage(
+    matching_percent_ground_truth_to_pipeline: int = find_matching_percentage(
         ground_truth_activities, mapping_ground_truth_to_pipeline
     )
 
-    results_dict = {
+    results: Dict[str, Any] = {
         "mapping_pipeline_to_ground_truth": mapping_pipeline_to_ground_truth,
         "mapping_ground_truth_to_pipeline": mapping_ground_truth_to_pipeline,
         "missing_activities": missing_activities,
@@ -45,19 +48,21 @@ def compare_traces(view, pipeline_df, ground_truth_df):
         "matching_percent_ground_truth_to_pipeline": matching_percent_ground_truth_to_pipeline,
     }
 
-    return results_dict
+    return results
 
 
-def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
-    """Find the activity mapping between two dataframes"""
-    total_steps = len(pipeline_activities) + len(ground_truth_activities)
-    half_progress = len(pipeline_activities)
+def find_activity_mapping(
+    view, pipeline_activities: pd.Series, ground_truth_activities: pd.Series
+):
+    """Create a mapping of activities from the pipeline to the ground truth and vice versa."""
+    total_steps: int = len(pipeline_activities) + len(ground_truth_activities)
+    half_progress: int = len(pipeline_activities)
 
     mapping_pipeline_to_ground_truth = compare_activities(
         view,
         0,
         total_steps,
-        "Mapping Pipeline Activites to Ground Truth Activites",
+        "Mapping pipeline activities to ground truth activities",
         pipeline_activities,
         ground_truth_activities,
     )
@@ -65,7 +70,7 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
         view,
         half_progress,
         total_steps,
-        "Mapping Ground Truth Activites to Pipeline Activites",
+        "Mapping ground truth activities to pipeline activities",
         ground_truth_activities,
         pipeline_activities,
     )
@@ -82,19 +87,19 @@ def find_activity_mapping(view, pipeline_activities, ground_truth_activities):
 
 def compare_activities(
     view,
-    current_step,
-    total_steps,
-    status,
-    input_activities,
-    comparison_basis_activities,
-):
-    """Compare input activities with comparison basis activities."""
-    mapping_input_to_comparison = []
+    current_step: int,
+    total_steps: int,
+    status: str,
+    input_activities: pd.Series,
+    ground_truth_activities: pd.Series,
+) -> List[Tuple[int, float]]:
+    """Compare input activities with ground truth activities."""
+    mapping_input_to_comparison: List[Tuple[int, float]] = []
     for index, activity in enumerate(input_activities):
         update_progress(view, current_step, total_steps, status)
         find_activity(
             activity,
-            comparison_basis_activities,
+            ground_truth_activities,
             index,
             mapping_input_to_comparison,
         )
@@ -105,12 +110,21 @@ def compare_activities(
 
 
 def find_activity(
-    activity, comparison_basis_activities, index, mapping_input_to_comparison
-):
-    """Compares a target activity against potential matches to identify the best match based on similarity."""
-    lower, upper = u.get_snippet_bounds(index, len(comparison_basis_activities))
-    possible_matches = []
-    for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
+    activity,
+    ground_truth_activities: pd.Series,
+    activity_index: int,
+    mapping_input_to_comparison: List[Tuple[int, float]],
+) -> None:
+    """Compares an activity against potential matches to identify the best match based on
+    similarity.
+
+    An activity from the newly made extraction is compared against each activity from the ground truth that within a
+    certain range. For instance, an activity with index 5 ist compared to activities 3-7 from the ground truth. Both
+    activities are sent to the GPT model to determine if they are semantically similar.
+    """
+    lower, upper = u.get_snippet_bounds(activity_index, len(ground_truth_activities))
+    possible_matches: List[Tuple[int, float]] = []
+    for count, second_activity in enumerate(ground_truth_activities[lower:upper]):
         messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
         messages.append(
             {
@@ -118,34 +132,45 @@ def find_activity(
                 "content": f"First: {activity}\nSecond: {second_activity}",
             }
         )
-        response, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=1)
-        linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
+        response, top_logprobs = u.query_gpt(messages, logprobs=True, top_logprobs=1)
+        linear_prop = u.calculate_linear_probability(top_logprobs[0].logprob)
         if "True" in response:
             possible_matches.append((lower + count, linear_prop))
-    if possible_matches:
-        best_match = max(possible_matches, key=lambda x: x[1])
-        if best_match[1] > c.THRESHOLD_FOR_MATCH:
-            mapping_input_to_comparison.append(best_match)
-            return
-    mapping_input_to_comparison.append((-1, 0))
+
+    mapping_input_to_comparison.append(
+        max(
+            (
+                (index, prob)
+                for index, prob in possible_matches
+                if prob > c.THRESHOLD_FOR_MATCH
+            ),
+            default=(-1, 0),
+        )
+    )
 
 
-def postprocess_mappings(mapping_data_to_groundtruth, mapping_groundtruth_to_data):
+def postprocess_mappings(
+    mapping_data_to_ground_truth: list, mapping_ground_truth_to_data: list
+) -> Tuple[list, list]:
     """Postprocess the mappings between data and ground truth."""
-    mapping_data_to_groundtruth = fill_mapping(
-        mapping_data_to_groundtruth, mapping_groundtruth_to_data
+    mapping_data_to_ground_truth = fill_mapping(
+        mapping_data_to_ground_truth, mapping_ground_truth_to_data
     )
-    mapping_groundtruth_to_data = fill_mapping(
-        mapping_groundtruth_to_data, mapping_data_to_groundtruth
+    mapping_ground_truth_to_data = fill_mapping(
+        mapping_ground_truth_to_data, mapping_data_to_ground_truth
     )
-    mapping_data_to_groundtruth = remove_probabilities(mapping_data_to_groundtruth)
-    mapping_groundtruth_to_data = remove_probabilities(mapping_groundtruth_to_data)
+    mapping_data_to_ground_truth = remove_probabilities(mapping_data_to_ground_truth)
+    mapping_ground_truth_to_data = remove_probabilities(mapping_ground_truth_to_data)
 
-    return mapping_data_to_groundtruth, mapping_groundtruth_to_data
+    return mapping_data_to_ground_truth, mapping_ground_truth_to_data
 
 
-def fill_mapping(mapping_back_to_forth, mapping_forth_to_back):
-    """Fill the missing mappings using the reverse mapping."""
+def fill_mapping(mapping_back_to_forth: list, mapping_forth_to_back: list) -> list:
+    """Fill the missing mappings using the reverse mapping.
+
+    Fills up missing mappings using the reverse mapping and updates existing mappings, if ones with higher
+    probabilities are found. If an activity has no mapping on either side, it is left as is.
+    """
     for index_forth, activity_index_forth in enumerate(mapping_back_to_forth):
         if activity_index_forth[0] == -1:
             possible_matches = []
@@ -159,42 +184,51 @@ def fill_mapping(mapping_back_to_forth, mapping_forth_to_back):
     return mapping_back_to_forth
 
 
-def remove_probabilities(mapping):
+def remove_probabilities(mapping: List[Tuple[int, float]]) -> List[int]:
     """Remove the probabilities from the mapping."""
     new_mapping = [elem[0] for elem in mapping]
 
     return new_mapping
 
 
-def find_matching_percentage(input_activities, mapping_input_to_comparison):
+def find_matching_percentage(
+    input_activities: pd.Series, mapping_input_to_comparison: list
+) -> int:
     """Calculate the percentage of matching activities."""
-    total_matching_activities = len(
-        [elem for elem in mapping_input_to_comparison if elem != -1]
+    total_matching_activities: int = sum(
+        1 for elem in mapping_input_to_comparison if elem != -1
     )
-    matching_percentage = round(
+    matching_percentage: int = round(
         total_matching_activities / input_activities.shape[0] * 100
     )
 
     return matching_percentage
 
 
-def find_unmapped_activities(activities, mapping):
-    """Find the activities that are not mapped."""
+def find_unmapped_activities(activities: pd.Series, mapping: list) -> List[str]:
+    """Find the activities that are not mapped, indicated by mapping index -1."""
     return [
         activities[index]
-        for index, match_index in enumerate(mapping)
-        if match_index == -1
+        for index, mapping_index in enumerate(mapping)
+        if mapping_index == -1
     ]
 
 
-def find_wrong_orders(df_activities, mapping_groundtruth_to_data):
-    """Find the activities that are in the wrong order."""
-    wrong_orders_indices = []
-    wrong_orders_activities = []
-    for index, first_activity_index in enumerate(mapping_groundtruth_to_data):
+def find_wrong_orders(
+    df_activities: pd.Series, mapping_ground_truth_to_data: List[int]
+) -> List[Tuple[str, str]]:
+    """Find the activities that are in the wrong order.
+
+    For every activity in the provided dataframe, the function checks if the mapped activity in the ground truth has a
+    smaller index, indicating the activity should have been found earlier. All activities and their mapped counterparts
+    from the ground truth are saved in a list and returned.
+    """
+    wrong_orders_indices: List[Tuple[int, int]] = []
+    wrong_orders_activities: List[Tuple[str, str]] = []
+    for index, first_activity_index in enumerate(mapping_ground_truth_to_data):
         if first_activity_index == -1:
             continue
-        for second_activity_index in mapping_groundtruth_to_data[index:]:
+        for second_activity_index in mapping_ground_truth_to_data[index:]:
             if second_activity_index == -1:
                 continue
             if first_activity_index > second_activity_index:
@@ -216,8 +250,8 @@ def find_wrong_orders(df_activities, mapping_groundtruth_to_data):
     return wrong_orders_activities
 
 
-def update_progress(view, current_step, total_steps, status):
-    """Update the progress of the extraction."""
+def update_progress(view, current_step: int, total_steps: int, status: str) -> None:
+    """Update the progress of the extraction, by updating the session variables."""
     if view is not None:
         percentage = round((current_step / total_steps) * 100)
         view.request.session["progress"] = percentage
