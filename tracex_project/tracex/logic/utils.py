@@ -133,7 +133,7 @@ class Conversion:
     """
 
     @staticmethod
-    def prepare_df_for_xes_conversion(df: pd.DataFrame, activity_key):
+    def prepare_df_for_xes_conversion(df: pd.DataFrame, activity_key) -> pd.DataFrame:
         """
         Renames the column that is defined as the activity key to "concept:name".
 
@@ -158,7 +158,7 @@ class Conversion:
         return df_renamed
 
     @staticmethod
-    def rename_columns(df: pd.DataFrame):
+    def rename_columns(df: pd.DataFrame) -> pd.DataFrame:
         """Renames columns in a DataFrame to make them more descriptive when displayed on a webpage."""
         column_mapping = {
             # rename event columns
