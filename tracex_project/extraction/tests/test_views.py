@@ -118,7 +118,13 @@ class JourneyUploadViewTests(TestCase):
         response = self.client.post(self.url, data=form_data)
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'form', 'file', 'This field is required.')
+        self.assertFormError(
+            response=response,
+            form='form',
+            field='file',
+            errors='This field is required.',
+            msg_prefix='Invalid form submission'
+        )
 
 
 class JourneySelectViewTests(TestCase):
@@ -174,7 +180,13 @@ class JourneySelectViewTests(TestCase):
         response = self.client.post(self.url, data=form_data)
 
         self.assertEqual(response.status_code, 200)
-        self.assertFormError(response, 'form', 'selected_patient_journey', 'This field is required.')
+        self.assertFormError(
+            response=response,
+            form='form',
+            field='selected_patient_journey',
+            errors='This field is required.',
+            msg_prefix='Invalid form submission'
+        )
 
 
 class JourneyDetailViewTests(TestCase):
