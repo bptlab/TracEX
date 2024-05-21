@@ -118,10 +118,9 @@ def find_activity(
                 "content": f"First: {activity}\nSecond: {second_activity}",
             }
         )
-        response, top_logprops = u.query_gpt(messages, logprobs=True, top_logprobs=1)
-        linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
+        response, linear_probability = u.query_gpt(messages, return_linear_probability=True, top_logprobs=1)
         if "True" in response:
-            possible_matches.append((lower + count, linear_prop))
+            possible_matches.append((lower + count, linear_probability))
     if possible_matches:
         best_match = max(possible_matches, key=lambda x: x[1])
         if best_match[1] > c.THRESHOLD_FOR_MATCH:

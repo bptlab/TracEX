@@ -1,12 +1,20 @@
-"""Module providing various utility functions for the project."""
+"""
+Provide various utility functions for the project.
+
+Functions:
+query_gpt -- Send a request to the OPENAI API and return the response.
+get_snippet_bounds -- Extract bounds for a snippet for a given activity index.
+
+Classes:
+Conversion -- Class for all kinds of conversions.
+DataFrameUtilities -- Class for all kinds of operations that perform on DataFrames.
+"""
 import os
 from io import StringIO
 from pathlib import Path
 
 import base64
 import tempfile
-import functools
-import warnings
 import pandas as pd
 import pm4py
 import numpy as np
@@ -19,47 +27,51 @@ from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
-    oaik,
+    OAIK,
 )
 
 from extraction.models import Trace
-
-
-def deprecated(func):
-    """This is a decorator which can be used to mark functions as deprecated.
-    It will result in a warning being emitted when the function is used."""
-
-    @functools.wraps(func)
-    def new_func(*args, **kwargs):
-        warnings.warn(
-            f"Call to deprecated function {func.__name__}.",
-            category=DeprecationWarning,
-            stacklevel=2,
-        )
-        return func(*args, **kwargs)
-
-    return new_func
 
 
 def query_gpt(
     messages,
     max_tokens=MAX_TOKENS,
     temperature=TEMPERATURE_SUMMARIZING,
-    logprobs=False,
+    return_linear_probability=False,
     top_logprobs=None,
 ):
-    """Sends a request to the OpenAI API and returns the response."""
+    """
+    Make a request to the OPENAI API.
+
+    Makes a request to the OPENAI API with a custom interface to the chat completion endpoint.
+
+    Positional Arguments:
+    messages -- List of messages to send to the GPT engine. Messages must bein the following format:
+                [{"role": "system", "content": "text"}, {"role": "user", "content": "text"}]
+                For more information see https://platform.openai.com/docs/api-reference/chat.
+
+    Keyword Arguments:
+    max_tokens -- Maximum number of tokens allowed for a single OPENAI API request. Default is specified as a constant.
+    temperature -- Temperature parameter for the OPENAI API requests. Default is specified as a constant.
+    return_linear_probability -- Boolean flag to return linear probabilities. Default is False.
+    top_logprobs -- An integer between 0 and 5 specifying the number of most likely tokens
+                    to return at each token position, each with an associated log probability.
+                     return_linear_probability must be set to true if this parameter is used.
+
+    Returns the chat completions response from the OPENAI API. Additionally, if return_linear_probability is True,
+    returns the linear probability of the output.
+    """
 
     @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
         """Queries the GPT engine."""
-        client = OpenAI(api_key=oaik)
+        client = OpenAI(api_key=OAIK)
         _response = client.chat.completions.create(
             model=MODEL,
             messages=messages,
             max_tokens=max_tokens,
             temperature=temperature,
-            logprobs=logprobs,
+            logprobs=return_linear_probability,
             top_logprobs=top_logprobs,
         )
 
@@ -67,10 +79,15 @@ def query_gpt(
 
     response = make_api_call()
 
-    if logprobs:
+    if return_linear_probability:
         top_logprobs = response.choices[0].logprobs.content[0].top_logprobs
         content = response.choices[0].message.content
-        return content, top_logprobs
+
+        # Calculate the linear probability from the logarithmic probability
+        # Equation: linear_probability = exp(logarithmic_probability) with 2 decimal places
+        linear_probability = np.round(np.exp(top_logprobs[0].logprob), 2)
+
+        return content, linear_probability
 
     output = response.choices[0].message.content
 
@@ -78,14 +95,23 @@ def query_gpt(
 
 
 def get_snippet_bounds(index, length):
-    """Extract bounds for a snippet for a given activity index."""
-    # We want to look at a snippet from the patient journey where we take five sentences into account
-    # starting from the current sentence index -2 and ending at the current index +2
+    """
+    Calculate bounds for a sliding window to better extract time information.
+
+    The sliding window ranges from the current index -2 to the current index +2. Additional logic is to ensure that
+    bounds do not exceed the boundaries of the list.
+
+    Positional Arguments:
+    index -- Index of the activity in a list of sentences.
+    length -- Length of the list of sentences.
+
+    Returns the lower and upper bounds for the snippet.
+    """
     half_snippet_size = min(max(2, length // 20), 5)
     lower_bound = max(0, index - half_snippet_size)
     upper_bound = min(length, index + half_snippet_size + 1)
 
-    # Adjust the bounds if they exceed the boundaries of the patient journey
+    # Adjust the bounds if they exceed the boundaries of the list.
     if index < half_snippet_size:
         upper_bound += abs(index - half_snippet_size)
     if index > length - half_snippet_size:
@@ -94,19 +120,33 @@ def get_snippet_bounds(index, length):
     return lower_bound, upper_bound
 
 
-def calculate_linear_probability(logprob):
-    """Calculates the linear probability from the log probability of the gpt output."""
-    linear_prob = np.round(np.exp(logprob), 2)
-
-    return linear_prob
-
-
 class Conversion:
-    """Class for all kinds of conversions"""
+    """
+    Groups all functions related to conversions of DataFrames.
+
+    Public Methods:
+    prepare_df_for_xes_conversion -- Ensures that all requirements for the XES conversion are met.
+    rename_columns -- Renames columns in a DataFrame to make them more descriptive when displayed on a webpage.
+    create_html_table_from_df -- Create HTML table from DataFrame.
+    create_dfg_from_df -- Create directly-follows-graph as a PNG image from a dataframe.
+    dataframe_to_xes -- Converts a dataframe to a XES file.
+    """
 
     @staticmethod
-    def prepare_df_for_xes_conversion(df, activity_key):
-        """Ensures that all requirements for the xes conversion are met."""
+    def prepare_df_for_xes_conversion(df: pd.DataFrame, activity_key):
+        """
+        Renames the column that is defined as the activity key to "concept:name".
+
+        This convention is required by the PM4PY library for the conversion of a DataFrame to a XES file. The column
+        "case:concept:name" is converted to a string to ensure that the XES file is correctly generated.
+
+        Positional Arguments:
+        df -- Dataframe that is prepared for the XES conversion.
+        activity_key -- Column that is defined as the activity key.
+                        The activity key specifies the class that groups events in the directly-follows-graph.
+
+        Returns the DataFrame with the renamed columns.
+        """
         df_renamed = df.rename(
             columns={
                 activity_key: "concept:name",
@@ -119,9 +159,7 @@ class Conversion:
 
     @staticmethod
     def rename_columns(df: pd.DataFrame):
-        """Renames columns in a DataFrame to enhance readability on a webpage. This function adjusts the column
-        headers of a DataFrame based on a predefined mapping that aligns with user-friendly names suitable for
-        display purposes."""
+        """Renames columns in a DataFrame to make them more descriptive when displayed on a webpage."""
         column_mapping = {
             # rename event columns
             "case:concept:name": "Case ID",
@@ -153,7 +191,7 @@ class Conversion:
 
     @staticmethod
     def create_html_table_from_df(df: pd.DataFrame):
-        """Create html table from DataFrame."""
+        """Create HTML table from DataFrame."""
         df_renamed = Conversion.rename_columns(df)
 
         if "Start Timestamp" in df_renamed.columns:
@@ -165,8 +203,17 @@ class Conversion:
         return html_buffer.getvalue()
 
     @staticmethod
-    def create_dfg_from_df(df, activity_key):
-        """Create png image from df."""
+    def create_dfg_from_df(df: pd.DataFrame, activity_key):
+        """
+        Create directly-follows-graph as a PNG image from a dataframe.
+
+        Positional Arguments:
+        df -- Dataframe that is used to create the directly-follows-graph.
+        activity_key -- Column that is defined as the activity key.
+                        The activity key specifies the class that groups events in the directly-follows-graph.
+
+        Returns the directly-follows-graph as a PNG image in base64 encoding.
+        """
         df_renamed = Conversion.prepare_df_for_xes_conversion(
             df, activity_key=activity_key
         )
@@ -187,8 +234,17 @@ class Conversion:
         return base64.b64encode(image_data).decode("utf-8")
 
     @staticmethod
-    def dataframe_to_xes(df, name, activity_key):
-        """Conversion from dataframe to xes file, stored temporarily on disk."""
+    def dataframe_to_xes(df: pd.DataFrame, name, activity_key):
+        """Converts a dataframe to a XES file.
+
+        Positional Arguments:
+        df -- Dataframe that is converted to a XES file.
+        name -- Name of the XES file.
+        activity_key -- Column that is defined as the activity key.
+                        The activity key specifies the class that groups events in the directly-follows-graph.
+
+        Returns the path to the XES file.
+        """
         df_renamed = Conversion.prepare_df_for_xes_conversion(
             df, activity_key=activity_key
         )
@@ -208,11 +264,25 @@ class Conversion:
 
 
 class DataFrameUtilities:
-    """Class for all kinds of operations that performs on Dataframes"""
+    """
+    Groups all functions related to DataFrame operations.
+
+    Public Methods:
+    get_events_df -- Query events from the database.
+    filter_dataframe -- Filter a DataFrame using a dictionary with column names.
+    set_default_timestamps -- Set default timestamps for the trace if the time_extraction module didn't run.
+    """
 
     @staticmethod
-    def get_events_df(query: Q = None):
-        """Get all events from the database, or filter them by a query and return them as a dataframe."""
+    def get_events_df(query: Q = None) -> pd.DataFrame:
+        """
+        Query events from the database.
+
+        Keyword Arguments:
+        query -- Query to filter the events. Default is None. This will return all events in the database.
+
+        Returns a DataFrame with the queried events.
+        """
         traces = Trace.manager.filter(query) if query else Trace.manager.all()
         if not traces.exists():
             return pd.DataFrame()  # Return an empty dataframe if no traces are found
@@ -244,8 +314,20 @@ class DataFrameUtilities:
         return events_df
 
     @staticmethod
-    def filter_dataframe(df, filter_dict):
-        """Filter a dataframe using a dictionary with column names."""
+    def filter_dataframe(df: pd.DataFrame, filter_dict: dict) -> pd.DataFrame:
+        """
+        Filter a DataFrame using a dictionary with column names.
+
+        The filter_dict contains the column names as keys and the values to filter for as values. If a key in the
+        filter_dict does not match a column in the DataFrame, there will be no filtering for this key.
+
+        Positional Arguments:
+        df -- DataFrame that is filtered.
+        filter_dict -- Dictionary with column names and values to filter for.
+
+        Returns a DataFrame where columns that are specified in the filter_dict only contain
+        the values specified in the filter_dict. Columns not specified in the filter_dict are unchanged.
+        """
         filter_conditions = [
             df[column].isin(values)
             if column in df.columns
@@ -260,7 +342,7 @@ class DataFrameUtilities:
         return df[combined_condition]
 
     @staticmethod
-    def set_default_timestamps(df):
+    def set_default_timestamps(df: pd.DataFrame) -> pd.DataFrame:
         """Set default timestamps for the trace if the time_extraction module didn't run."""
         df["time:timestamp"] = df.apply(
             lambda row: f"2020{str(row.name // 28 + 1).zfill(2)}{str(row.name % 28 + 1).zfill(2)}T0001",
