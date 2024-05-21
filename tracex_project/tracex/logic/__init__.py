@@ -1,5 +1,5 @@
 """
-Contain additional logic for the tracex app.
+Provide additional logic for the tracex app.
 
 This logic is additional to the django functionality and is reused in other parts of the project.
 It does not export any modules or sub-packages.
