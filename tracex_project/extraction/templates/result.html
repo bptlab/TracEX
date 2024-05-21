@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/new_styles.css' %}">
     <script src="{% static '/tracex/js/pop_up_xes.js' %}" defer></script>
 </head>
 <body class="main_body">
@@ -28,7 +28,7 @@
     </script>
 
     {% if trace_table %}
-        <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
+        <button id="toggleButton1" class="function_button">Show/Hide extracted Event Log from Journey</button>
         <div id="contentWrapper1" style="display: none;">
             <p><b>This is the event log extracted from the journey above.</b></p>
             <div id="xesContent1" class="xes_container">{{ trace_table|safe }}</div>
@@ -40,7 +40,7 @@
     <p></p>
 
     {% if event_log_table %}
-        <button id="toggleButton2">Show/Hide enriched Event Log</button>
+        <button id="toggleButton2" class="function_button">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
             <p><b>This is the event log enriched by the extracted trace.</b></p>
             <div id="xesContent2" class="xes_container">{{ event_log_table|safe }}</div>
@@ -113,12 +113,12 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <input type="submit" value="Refresh Filter" class="button">
+        <input type="submit" value="Refresh Filter" class="function_button">
     </form>
     <br>
 
     <!-- Trigger/Open The Modal (XES Download) -->
-    <button id="downloadBtn" class="button">Download XES File</button>
+    <button id="downloadBtn" class="function_button">Download XES File</button>
     <div id="downloadModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
