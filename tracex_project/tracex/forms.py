@@ -1,4 +1,4 @@
-"""Implementation of forms for the tracex app."""
+"""Implement forms for the tracex app."""
 from django import forms
 
 from tracex.logic.constants import (
@@ -11,7 +11,16 @@ from tracex.logic.constants import (
 
 
 class BaseEventForm(forms.Form):
-    """Base form for event extraction forms."""
+    """
+    Form to select common filters in project.
+
+    Form Fields:
+    modules_required -- Required modules for the trace extraction. Default defined in constants.
+    modules_optional -- Optional modules for the trace extraction. Default defined in constants.
+    event_types -- Event types for the trace extraction. Default defined in constants.
+    locations -- Locations for the trace extraction. Default defined in constants.
+    activity_key -- Activity key for the output dataframe and direct-follows-graph. Default defined in constants.
+    """
 
     modules_required = forms.MultipleChoiceField(
         label="Required modules",
@@ -56,7 +65,7 @@ class BaseEventForm(forms.Form):
     )
 
     def clean(self):
-        """Validate form data."""
+        """Validate the form by checking that at least one event type or location is selected."""
         cleaned_data = super().clean()
         event_types = cleaned_data.get("event_types")
         locations = cleaned_data.get("locations")
@@ -69,7 +78,7 @@ class BaseEventForm(forms.Form):
         return cleaned_data
 
     def clean_event_types(self):
-        """Validate event types."""
+        """Validate event types by checking dependent choices."""
         event_types = self.cleaned_data["event_types"]
         dependent_choices = [
             ("Symptom Onset", "Symptom Offset"),
@@ -81,7 +90,7 @@ class BaseEventForm(forms.Form):
         return event_types
 
     def validate_dependant_choices(self, field, choice_1, choice_2):
-        """Validate two choices in a form field are either both selected or none of them."""
+        """Validate that two choices in a form field are either both selected or none of them."""
         choices = self.cleaned_data.get(field)
 
         if choices is not None and ((choice_1 in choices) ^ (choice_2 in choices)):
@@ -90,8 +99,9 @@ class BaseEventForm(forms.Form):
                 code="dependant_fields",
             )
 
+
 class ApiKeyForm(forms.Form):
-    """A form for inputting the OpenAI API key."""
+    """Form to enter the OpenAI API Key."""
     api_key = forms.CharField(
         label='Enter your OpenAI API Key',
         max_length=100,
