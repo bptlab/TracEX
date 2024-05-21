@@ -53,7 +53,7 @@ def compare_traces(view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFram
 
 def find_activity_mapping(
     view, pipeline_activities: pd.Series, ground_truth_activities: pd.Series
-):
+) -> Tuple[List[int], List[int]]:
     """Create a mapping of activities from the pipeline to the ground truth and vice versa."""
     total_steps: int = len(pipeline_activities) + len(ground_truth_activities)
     half_progress: int = len(pipeline_activities)
@@ -151,7 +151,7 @@ def find_activity(
 
 def postprocess_mappings(
     mapping_data_to_ground_truth: list, mapping_ground_truth_to_data: list
-) -> Tuple[list, list]:
+) -> Tuple[List[int], List[int]]:
     """Postprocess the mappings between data and ground truth."""
     mapping_data_to_ground_truth = fill_mapping(
         mapping_data_to_ground_truth, mapping_ground_truth_to_data
