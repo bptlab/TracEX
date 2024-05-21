@@ -6,8 +6,8 @@ query_gpt -- Send a request to the OPENAI API and return the response.
 get_snippet_bounds -- Extract bounds for a snippet for a given activity index.
 
 Classes:
-Conversion -- Class for all kinds of conversions.
-DataFrameUtilities -- Class for all kinds of operations that perform on DataFrames.
+Conversion -- Groups all functions related to conversions of DataFrames.
+DataFrameUtilities -- Groups all functions related to DataFrame operations.
 """
 import os
 from io import StringIO
