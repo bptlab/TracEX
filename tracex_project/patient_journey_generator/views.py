@@ -24,14 +24,14 @@ class JourneyGeneratorOverviewView(generic.CreateView):
     success_url = reverse_lazy("journey_filter")
 
     def get_context_data(self, **kwargs):
-        """Add the patient journey to the context."""
+        """Add the patient journey to the context to pass to the HTML file."""
         context = super().get_context_data(**kwargs)
         context["generated_journey"] = self.request.session.get("generated_journey")
 
         return context
 
     def form_valid(self, form):
-        """Creates an empty patient journey instance and save the ID in the orchestrator."""
+        """Create an empty patient journey instance and save the ID in the orchestrator."""
         response = super().form_valid(form)
         orchestrator = Orchestrator.get_instance()
         form.instance.patient_journey = orchestrator.get_configuration().patient_journey
@@ -51,7 +51,7 @@ class JourneyGenerationView(generic.RedirectView):
         Handle GET requests by generating a patient journey and updating the orchestrator's configuration.
 
         The empty patient journey instance from the orchestrator's configuration is modified to contain the generated
-        patient journey text. The generated patient journey is also saved in the session for the next view.
+        patient journey text. The generated patient journey is also saved in the session to pass to the HTML file.
         """
         orchestrator = Orchestrator()
 

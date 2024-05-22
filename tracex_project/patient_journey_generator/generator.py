@@ -3,7 +3,7 @@ Provides functionality to generate a synthetic patient journey by using the Open
 
 Functions:
 generate_patient_journey -- Generates a synthetic patient journey.
-create_patient_journey_context -- Creates a context for the patient journey.
+create_patient_journey_context -- Creates a context for the synthetic patient journey.
 get_country -- Randomizes a european country.
 get_date -- Randomizes a start date for the synthetic patient journey.
 get_life_circumstances -- Generates life circumstances for the synthetic patient journey.

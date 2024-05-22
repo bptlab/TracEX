@@ -8,7 +8,7 @@ However, due to the patient journey being synthetic, it does not accurately refl
 Modules:
 apps -- App configuration for the patient journey generator app.
 forms -- Implementation of forms for the patient journey generator app.
-generator -- Implementation of the patient journey generator.
+generator -- Provides functionality to generate a patient journey.
 urls -- URL configuration for the patient journey generator app.
 views -- Implementation of views for the patient journey generator app.
 """

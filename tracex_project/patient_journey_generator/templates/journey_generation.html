@@ -1,4 +1,14 @@
-<!--HTML File for the JourneyGenerationView-->
+<!--
+HTML File for the JourneyGenerationView
+
+Displays the content of the generated patient journey and provides a text input field.
+The user can enter a name for the generated patient journey and submit the form. This will send a POST request to the JourneyGenerationView, which will save the generated patient journey with the entered name in the database.
+Redirects to the JourneyFilterView after submitting the form.
+
+The page also contains two buttons:
+- Generate New Patient Journey: Redirects to the journey generation page. Sends a GET request to the JourneyGenerationView, which will generate a new patient journey.
+- Return to TracEX menu: Redirects to the landing page.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <title>Generation</title>
@@ -44,7 +54,7 @@
     </a>
 
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </div>
 </body>

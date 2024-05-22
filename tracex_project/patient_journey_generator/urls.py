@@ -1,4 +1,4 @@
-"""tracex URL Configuration for tracex app"""
+"""tracex_project URL Configuration for tracex app"""
 from django.urls import path
 from patient_journey_generator import views
 
