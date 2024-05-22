@@ -120,7 +120,7 @@ class JourneyFilterView(generic.FormView):
             form.cleaned_data["modules_required"]
             + form.cleaned_data["modules_optional"]
         )
-        orchestrator.update_modules(modules_list)
+        orchestrator.reduce_modules_to(modules_list)
         try:
             orchestrator.run(view=self)
         except Exception as e:  # pylint: disable=broad-except
@@ -229,7 +229,9 @@ class ResultView(generic.FormView):
         trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             trace_df, filter_dict
         )
-        utils.DataFrameUtilities.delete_metrics_columns(trace_df_filtered)
+        trace_df_filtered = utils.DataFrameUtilities.delete_metrics_columns(
+            trace_df_filtered
+        )
 
         return trace_df_filtered
 
@@ -246,7 +248,7 @@ class ResultView(generic.FormView):
             event_log_df = utils.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
-            utils.DataFrameUtilities.delete_metrics_columns(event_log_df)
+            event_log_df = utils.DataFrameUtilities.delete_metrics_columns(event_log_df)
 
         elif not trace.empty:
             event_log_df = trace

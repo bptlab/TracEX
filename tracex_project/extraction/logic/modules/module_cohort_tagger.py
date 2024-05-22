@@ -1,6 +1,8 @@
 """This is the module that cohort tags from the patient journey."""
 from pathlib import Path
+from typing import Dict, List, Optional
 from django.conf import settings
+import pandas as pd
 
 from extraction.models import Prompt
 from extraction.logic.module import Module
@@ -21,24 +23,25 @@ class CohortTagger(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute_and_save(
-        self, df, patient_journey=None, patient_journey_sentences=None
-    ):
-        """
-        Extracts the cohort information from the patient journey and saves the result in the database.
-        """
+        self,
+        df=None,
+        patient_journey: str = None,
+        patient_journey_sentences: List[str] = None,
+    ) -> Optional[Dict[str, str]]:
+        """Extracts the cohort information from the patient journey and saves the result in the database."""
         super().execute_and_save(
             df,
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
         )
 
-        cohort_tags = self.__extract_cohort_tags(patient_journey)
-        cohort_dict = self.__prepare_cohort_dict(cohort_tags)
+        cohort_dict = self.__extract_cohort_tags(patient_journey)
+        cohort_dict = self.__remove_placeholder(cohort_dict)
 
         return cohort_dict
 
     @staticmethod
-    def __extract_cohort_tags(patient_journey):
+    def __extract_cohort_tags(patient_journey) -> Dict[str, str]:
         """Extracts information about condition, sex, age, origin and preexisting condition."""
         cohort_data = {}
         for message_list in Prompt.objects.get(name="COHORT_TAG_MESSAGES").text:
@@ -52,7 +55,7 @@ class CohortTagger(Module):
         return cohort_data
 
     @staticmethod
-    def __prepare_cohort_dict(cohort_data):
+    def __remove_placeholder(cohort_data) -> Optional[Dict[str, str]]:
         """Prepares the cohort tags dictionary for saving into database."""
         cohort_dict = {
             key: value for key, value in cohort_data.items() if value != "N/A"

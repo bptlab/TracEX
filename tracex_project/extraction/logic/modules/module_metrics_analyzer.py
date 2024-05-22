@@ -26,7 +26,11 @@ class MetricsAnalyzer(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
-        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
+        self,
+        df: pd.DataFrame,
+        patient_journey=None,
+        patient_journey_sentences=None,
+        cohort=None,
     ):
         """Measures the output of the pipeline based on specified metrics.
         These metrics are 'activity relevance' and 'timestamp correctness'."""

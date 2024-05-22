@@ -292,7 +292,7 @@ class DataFrameUtilities:
         df["time:duration"] = "00:01:00"
 
     @staticmethod
-    def delete_metrics_columns(df):
+    def delete_metrics_columns(df: pd.DataFrame):
         """Delete metrics columns from the dataframe."""
         df = df.drop(
             columns=[
@@ -301,3 +301,4 @@ class DataFrameUtilities:
                 "correctness_confidence",
             ],
         )
+        return df

@@ -1,5 +1,6 @@
 """Module providing the abstract base class for all modules."""
 from abc import ABC
+from typing import Dict, List, Optional
 
 import pandas as pd
 
@@ -27,14 +28,17 @@ class Module(ABC):
         self,
         _input,
         *,
-        patient_journey=None,
-        patient_journey_sentences=None,
-        cohort=None,
+        patient_journey: Optional[str] = None,
+        patient_journey_sentences: Optional[List[str]] = None,
+        cohort: Optional[Dict[str, str]] = None,
     ) -> pd.DataFrame:
         """
         Executes the logic of the module. Override this to define your own module.
-        Every module receives the patient journey as parameter which is set to the instance variable of each module.
-        This method should always return a dataframe, so other modules can use the result.
+
+        Keyword arguments:
+        _input -- Any additional input to the module
+        patient_journey -- The patient journey as text
+        patient_journey_sentences -- The same patient journey as a list of sentences
         """
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
@@ -43,12 +47,18 @@ class Module(ABC):
         return pd.DataFrame()
 
     def execute_and_save(
-        self, _input, *, patient_journey=None, patient_journey_sentences=None
+        self,
+        _input,
+        *,
+        patient_journey: Optional[str] = None,
+        patient_journey_sentences: Optional[list[str]] = None,
     ) -> int:
         """
         Executes the logic of the module and saves the result to the database. Override this to define your own module.
-        Every module receives the patient journey as parameter which is set to the instance variable of each module.
-        This method should always save the result to the database, and return the id.
+
+        Keyword arguments:
+        patient_journey -- The patient journey as text
+        patient_journey_sentences -- The same patient journey as a list of sentences
         """
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences

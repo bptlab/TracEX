@@ -1,5 +1,6 @@
 """This is the module that extracts the activity labels from the patient journey."""
 from pathlib import Path
+from typing import List, Optional
 import pandas as pd
 from django.conf import settings
 
@@ -23,8 +24,8 @@ class ActivityLabeler(Module):
     def execute(
         self,
         _input=None,
-        patient_journey=None,
-        patient_journey_sentences=None,
+        patient_journey: str = None,
+        patient_journey_sentences: List[str] = None,
         cohort=None,
     ):
         """
@@ -39,9 +40,9 @@ class ActivityLabeler(Module):
             cohort=cohort,
         )
 
-        condition = cohort["condition"] if cohort is not None else None
+        condition = getattr(cohort, "condition", None)
 
-        patient_journey_numbered = self.__number_patient_journey_sentences(
+        patient_journey_numbered: str = self.__number_patient_journey_sentences(
             patient_journey_sentences
         )
         activity_labels = self.__extract_activities(patient_journey_numbered, condition)
@@ -49,9 +50,9 @@ class ActivityLabeler(Module):
         return activity_labels
 
     @staticmethod
-    def __number_patient_journey_sentences(patient_journey_sentences):
+    def __number_patient_journey_sentences(patient_journey_sentences: List[str]) -> str:
         """
-        Number the patient journey sentences in the format:
+        Number the patient journey sentences as one String in the format:
             1: ...
             2: ...
         And so on.
@@ -64,7 +65,7 @@ class ActivityLabeler(Module):
         return patient_journey_numbered
 
     @staticmethod
-    def __extract_activities(patient_journey_numbered, condition):
+    def __extract_activities(patient_journey_numbered: str, condition: Optional[str]):
         """
         Converts a patient journey, where every sentence is numbered, to a DataFrame with the activity labels by
         extracting the activity labels from the patient journey.
@@ -72,18 +73,10 @@ class ActivityLabeler(Module):
         column_name = "activity"
         messages = Prompt.objects.get(name="TEXT_TO_ACTIVITY_MESSAGES").text
 
+        user_message = patient_journey_numbered
         if condition is not None:
-            messages.append(
-                {
-                    "role": "user",
-                    "content": patient_journey_numbered
-                    + "\n\nConsider all important points regarding the course of the disease of "
-                    + condition,
-                }
-            )
-        else:
-            messages.append({"role": "user", "content": patient_journey_numbered})
-        messages.append({"role": "user", "content": patient_journey_numbered})
+            user_message += f"\n\nConsider all important points regarding the course of the disease of {condition}"
+        messages.append({"role": "user", "content": user_message})
         activity_labels = u.query_gpt(messages).split("\n")
         df = pd.DataFrame(activity_labels, columns=[column_name])
         df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)

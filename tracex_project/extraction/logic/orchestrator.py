@@ -1,8 +1,15 @@
-"""Module providing the orchestrator and corresponding configuration, that manages the modules."""
+"""
+Module providing the orchestrator and corresponding configuration, that manages the modules.
+
+Classes:
+ExtractionConfiguration -- Dataclass for the configuration of the orchestrator.
+Orchestrator -- Singleton class for managing the modules.
+"""
 from dataclasses import dataclass
-from typing import Optional, List, Dict
+from typing import Any, List, Optional, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
+import pandas as pd
 
 from extraction.logic.modules import (
     Preprocessor,
@@ -23,6 +30,9 @@ class ExtractionConfiguration:
     Dataclass for the configuration of the orchestrator. This specifies all modules that can be executed, what event
     types are used to classify the activity labels, what locations are used to classify the activity labels and what the
     patient journey is, on which the pipeline is executed.
+
+    Public Methods:
+    update -- Update the configuration with a dictionary mapping its attributes to new values.
     """
 
     def __init__(
@@ -46,7 +56,7 @@ class ExtractionConfiguration:
             "metrics_analyzer": MetricsAnalyzer,
         }
 
-    def update(self, **kwargs):
+    def update(self, **kwargs) -> None:
         """Update the configuration with a dictionary."""
         valid_keys = set(vars(self).keys())
         for key, value in kwargs.items():
@@ -55,7 +65,27 @@ class ExtractionConfiguration:
 
 
 class Orchestrator:
-    """Singleton class for managing the modules."""
+    """
+    Singleton class for managing the modules.
+
+    Public Methods:
+    get_instance -- Return the singleton instance of the orchestrator.
+    reset_instance -- Reset the singleton instance of the orchestrator.
+    set_configuration -- Set the configuration for the orchestrator instance.
+    get_configuration -- Return the configuration for the orchestrator instance.
+    set_data -- Set the data for the orchestrator instance.
+    get_data -- Return the data for the orchestrator instance.
+    set_cohort -- Set the cohort for the orchestrator instance.
+    get_cohort -- Return the cohort for the orchestrator instance.
+    set_db_objects_id -- Set the database id objects for the orchestrator instance.
+    get_db_objects_id -- Return the database id objects for the orchestrator instance.
+    reduce_modules -- Update the modules of the orchestrator instance.
+    initialize_modules -- Bring the modules into the right order and initialize them.
+    run -- Run the modules and set default values for modules not executed.
+    save_results_to_db -- Save the trace to the database.
+    set_default_values -- Set default values if a specific module was deselected.
+    update_progress -- Update the progress of the extraction.
+    """
 
     _instance = None
 
@@ -65,7 +95,7 @@ class Orchestrator:
 
         return cls._instance
 
-    def __init__(self, configuration=None):
+    def __init__(self, configuration: Optional[ExtractionConfiguration] = None):
         if configuration is not None:
             self.configuration = configuration
         self.data = None
@@ -90,7 +120,7 @@ class Orchestrator:
         """Return the configuration for the orchestrator instance."""
         return self.configuration
 
-    def set_data(self, data):
+    def set_data(self, data: pd.DataFrame):
         """Set the data for the orchestrator instance."""
         self.data = data
 
@@ -110,17 +140,15 @@ class Orchestrator:
         """Set the database id objects for the orchestrator instance."""
         self.db_objects_id[object_name] = object_id
 
-    def get_db_objects_id(self, object_name):
+    def get_db_objects_id(self, object_name: str):
         """Return the database id objects for the orchestrator instance."""
         return self.db_objects_id[object_name]
 
-    def update_modules(self, modules_list):
-        """Update the modules of the orchestrator instance."""
-        modules_dictionary = self.get_configuration().modules
-        updated_modules = {
-            key: modules_dictionary[key]
-            for key in modules_dictionary
-            if key in modules_list
+    def reduce_modules_to(self, modules: List):
+        """Reduce the modules of the orchestrator instance to the modules in the keyword argument."""
+        old_modules: Dict[str, Any] = self.get_configuration().modules
+        updated_modules: Dict[str, Any] = {
+            key: old_modules[key] for key in old_modules if key in modules
         }
         self.get_configuration().update(modules=updated_modules)
 
@@ -135,35 +163,36 @@ class Orchestrator:
         return modules
 
     def run(self, view=None):
-        """Run the modules."""
+        """Run the modules and set default values for modules not executed."""
         modules = self.initialize_modules()
-        current_step = 1
+        execution_step: int = 1
 
         patient_journey = self.get_configuration().patient_journey
         if "preprocessing" in modules:
-            self.update_progress(view, current_step, "Preprocessing")
+            self.update_progress(view, execution_step, "Preprocessing")
             patient_journey = modules["preprocessing"].execute(
                 patient_journey=self.get_configuration().patient_journey
             )
-            current_step += 1
-        patient_journey_sentences = Conversion.text_to_sentence_list(patient_journey)
+            execution_step += 1
+        patient_journey_sentences: List[str] = Conversion.text_to_sentence_list(
+            patient_journey
+        )
 
-        if "cohort_tagging" in modules:
-            self.update_progress(view, current_step, "Cohort Tagger")
-            self.set_cohort(
-                modules["cohort_tagging"].execute_and_save(
-                    self.get_data(),
-                    patient_journey=patient_journey,
-                    patient_journey_sentences=patient_journey_sentences,
-                )
+        self.update_progress(view, execution_step, "Cohort Tagger")
+        self.set_cohort(
+            modules["cohort_tagging"].execute_and_save(
+                self.get_data(),
+                patient_journey=patient_journey,
+                patient_journey_sentences=patient_journey_sentences,
             )
-            current_step += 1
+        )
+        execution_step += 1
 
-        for module_name in [
-            name for name in modules if name not in ("cohort_tagging", "preprocessing")
+        for remaining_module_key in [
+            key for key in modules if key not in ("cohort_tagging", "preprocessing")
         ]:
-            module = modules[module_name]
-            self.update_progress(view, current_step, module.name)
+            module = modules[remaining_module_key]
+            self.update_progress(view, execution_step, module.name)
             self.set_data(
                 module.execute(
                     self.get_data(),
@@ -172,16 +201,16 @@ class Orchestrator:
                     cohort=self.get_cohort(),
                 )
             )
-            current_step += 1
+            execution_step += 1
 
         if self.get_data() is not None:
             try:
                 latest_id = Trace.manager.latest("last_modified").id
             except ObjectDoesNotExist:
                 latest_id = 0
+            del self.get_data()["sentence_id"]
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
             self.set_default_values()
-            del self.get_data()["sentence_id"]
 
     def save_results_to_db(self):
         """Save the trace to the database."""
@@ -210,7 +239,7 @@ class Orchestrator:
             events_with_metric_list.append(event)
             metric_list.append(metric)
 
-        events: List[Event] = Event.manager.bulk_create(events_with_metric_list)
+        events: list[Event] = Event.manager.bulk_create(events_with_metric_list)
         for event, metric in zip(events, metric_list):
             metric.event = event
         Metric.manager.bulk_create(metric_list)
@@ -223,7 +252,7 @@ class Orchestrator:
         patient_journey.save()
 
     def set_default_values(self):
-        """Set default values if a specific module was deselected."""
+        """Set default values for all modules not executed."""
         config_modules = self.get_configuration().modules
         data = self.get_data()
 
@@ -237,21 +266,12 @@ class Orchestrator:
             data["activity_relevance"] = None
             data["timestamp_correctness"] = None
             data["correctness_confidence"] = None
-        if "cohort_tagging" not in config_modules:
-            cohort_default_values = {
-                "age": None,
-                "sex": None,
-                "origin": None,
-                "condition": None,
-                "preexisting_condition": None,
-            }
-            self.set_cohort(cohort_default_values)
 
-    def update_progress(self, view, current_step, module_name):
+    def update_progress(self, view, execution_step: int, module_name: str) -> None:
         """Update the progress of the extraction."""
         if view is not None:
             percentage = round(
-                (current_step / (len(self.get_configuration().modules) + 1)) * 100
+                (execution_step / (len(self.get_configuration().modules) + 1)) * 100
             )
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
