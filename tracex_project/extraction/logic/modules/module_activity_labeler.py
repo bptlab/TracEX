@@ -76,8 +76,8 @@ class ActivityLabeler(Module):
             messages.append(
                 {
                     "role": "user",
-                    "content": f"Focus on those events that are related to the course of the disease of {condition}.\n"
-                    f"{patient_journey_numbered}",
+                    "content": f"Focus on those events that are related to the course of the disease of {condition}."
+                    f"\n\n{patient_journey_numbered}",
                 }
             )
         else:
