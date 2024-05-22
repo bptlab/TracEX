@@ -4,10 +4,23 @@ from extraction.models import PatientJourney
 
 
 class GenerationOverviewForm(forms.ModelForm):
-    """Form for viewing generated patient journey."""
+    """
+    Form for generating a patient journey.
+
+    By submitting this form, a patient journey is generated and saved in the orchestrator's configuration.
+    """
 
     class Meta:
-        """Metaclass for GenerationForm, provides additional parameters for the form."""
+        """
+        Metaclass that provides additional information.
+
+        Attributes:
+        model -- The model to use for the form.
+        fields -- The fields to include in the form.
+        help_texts -- The help texts for the fields.
+        widgets -- The widgets for the fields.
+            "name" - A text input field to name the patient journey. Required, to save the patient journey in the databse.
+        """
 
         model = PatientJourney
         fields = ["name"]

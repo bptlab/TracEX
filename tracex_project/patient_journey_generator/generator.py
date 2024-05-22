@@ -1,4 +1,13 @@
-"""The patient journey generator creates a synthetic patient journey with the help of the GPT engine."""
+"""
+Provides functionality to generate a synthetic patient journey by using the OpenAI API.
+
+Functions:
+generate_patient_journey -- Generates a synthetic patient journey.
+create_patient_journey_context -- Creates a context for the patient journey.
+get_country -- Randomizes a european country.
+get_date -- Randomizes a start date for the synthetic patient journey.
+get_life_circumstances -- Generates life circumstances for the synthetic patient journey.
+"""
 from datetime import datetime, timedelta
 import random
 
@@ -8,15 +17,20 @@ from tracex.logic import constants as c
 
 
 def generate_patient_journey():
-    """Creates a new patient journey with the help of the GPT engine."""
+    """Generate a synthetic patient journey."""
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
+
     return patient_journey
 
 
 def create_patient_journey_context():
-    """Creation of a patient journey."""
+    """
+    Create a context for the patient journey.
+
+    The context includes a random sex, country, date and life circumstances.
+    """
     sex = "male" if random.randrange(2) == 0 else "female"
     country = get_country()
     date = get_date()
@@ -29,13 +43,13 @@ def create_patient_journey_context():
 
 
 def get_country():
-    """Randomizing country."""
+    """Randomize a european country."""
 
     return random.choice(c.EUROPEAN_COUNTRIES)
 
 
 def get_date(start="01/01/2020", end="01/09/2023"):
-    """Randomizing date."""
+    """ Get a random date between a start and end date."""
     start = datetime.strptime(start, "%d/%m/%Y")
     end = datetime.strptime(end, "%d/%m/%Y")
     delta = end - start
@@ -47,7 +61,7 @@ def get_date(start="01/01/2020", end="01/09/2023"):
 
 
 def get_life_circumstances(sex):
-    """Randomizing life circumstances."""
+    """Generate life circumstances by using the OpenAI API."""
     message = [
         {
             "role": "user",

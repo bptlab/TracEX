@@ -23,7 +23,7 @@ class TracexLandingPage(TemplateView):
     template_name = "landing_page.html"
 
     def get(self, _request, *_args, **kwargs):
-        """Handles GET requests by initializing a form for API key entry and adding it to the context."""
+        """Handle GET requests by initializing a form for API key entry and adding it to the context."""
         form = ApiKeyForm()
         context = self.get_context_data(**kwargs)
         context['form'] = form

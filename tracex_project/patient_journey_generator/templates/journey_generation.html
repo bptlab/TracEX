@@ -1,9 +1,51 @@
+<!--HTML File for the JourneyGenerationView-->
 <!DOCTYPE html>
-<html lang="EN">
+<html lang="en">
+<title>Generation</title>
 <head>
-    <title>TracEX</title>
     {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/new_styles.css' %}">
+    <script src="{% static '/patient_journey_generator/js/loading-spinner.js' %}" defer></script>
 </head>
 
+<body class="main_body">
+    <div class="selection_container">
+    <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo not_visible">
+    <h2>Generated Journey</h2>
+    <p>{{ generated_journey }}</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="patient_journey_generator_form">
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.journey.label_tag }} {{ form.journey }}
+                    {{ form.journey.errors }}
+                    <p>{{ form.journey.help_text }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.name.label_tag }} {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+            </div>
+        </div>
+        <div class="spinner-container" id="loading-container">
+            <span id="loading-spinner" class="loader not_visible"></span>
+        </div>
+        <input type="submit" value="Select Generated Patient Journey" class="menu_button">
+    </form>
+
+    <a href="{% url 'journey_generation' %}">
+        <button id="generate_button" class="function_button">Generate New Patient Journey</button>
+    </a>
+
+    <a href="{% url 'landing_page' %}">
+        <button class="menu_button">Return to TracEX menu</button>
+    </a>
+</div>
+</body>
 </html>
