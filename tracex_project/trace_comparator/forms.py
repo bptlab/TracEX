@@ -1,4 +1,6 @@
 """Implementation of forms for the trace comparator app."""
+from typing import List, Tuple
+
 from django import forms
 from extraction.models import PatientJourney
 
@@ -16,7 +18,7 @@ class PatientJourneySelectForm(forms.Form):
         ].choices = self.get_patient_journey_choices()
 
     @staticmethod
-    def get_patient_journey_choices():
+    def get_patient_journey_choices() -> List[Tuple[str, str]]:
         """Retrieves the available patient journey choices from the database. Available choices are those with a
         saved ground truth."""
         patient_journeys = PatientJourney.manager.filter(

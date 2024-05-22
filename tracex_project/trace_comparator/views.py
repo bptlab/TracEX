@@ -50,8 +50,7 @@ class TraceTestingOverviewView(FormView):
     success_url = reverse_lazy("journey_filter")
 
     def form_valid(self, form):
-        """Pass selected journey to orchestrator and update session state to reflect, that the comparison has
-        started."""
+        """Pass selected journey to orchestrator and update session to reflect, that the comparison has started."""
         selected_journey: str = form.cleaned_data["selected_patient_journey"]
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
         configuration = ExtractionConfiguration(
@@ -144,7 +143,7 @@ class TraceTestingResultView(TemplateView, TraceComparisonMixin):
     def create_mapping_list(
         mapping: List[int], source_df: pd.DataFrame, target_df: pd.DataFrame
     ) -> List[List[str]]:
-        """Create a list of mappings between two dataframes."""
+        """Create a list of mappings between activities of two dataframes."""
         mapping_list = [
             [source_df["activity"][index], target_df["activity"][value]]
             for index, value in enumerate(mapping)

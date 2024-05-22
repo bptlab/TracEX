@@ -1,6 +1,6 @@
 """The trace comparator compares the pipeline output against a ground truth and vice versa."""
 import time
-from typing import List, Tuple, Dict, Any
+from typing import List, Tuple
 
 import pandas as pd
 from pathlib import Path
@@ -38,7 +38,7 @@ def compare_traces(view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFram
         ground_truth_activities, mapping_ground_truth_to_pipeline
     )
 
-    results: Dict[str, Any] = {
+    results: dict = {
         "mapping_pipeline_to_ground_truth": mapping_pipeline_to_ground_truth,
         "mapping_ground_truth_to_pipeline": mapping_ground_truth_to_pipeline,
         "missing_activities": missing_activities,
@@ -150,7 +150,7 @@ def find_activity(
 
 
 def postprocess_mappings(
-    mapping_data_to_ground_truth: list, mapping_ground_truth_to_data: list
+    mapping_data_to_ground_truth: List, mapping_ground_truth_to_data: List
 ) -> Tuple[List[int], List[int]]:
     """Postprocess the mappings between data and ground truth."""
     mapping_data_to_ground_truth = fill_mapping(
@@ -165,7 +165,7 @@ def postprocess_mappings(
     return mapping_data_to_ground_truth, mapping_ground_truth_to_data
 
 
-def fill_mapping(mapping_back_to_forth: list, mapping_forth_to_back: list) -> list:
+def fill_mapping(mapping_back_to_forth: List, mapping_forth_to_back: List) -> List:
     """Fill the missing mappings using the reverse mapping.
 
     Fills up missing mappings using the reverse mapping and updates existing mappings, if ones with higher
