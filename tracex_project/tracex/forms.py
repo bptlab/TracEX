@@ -61,14 +61,23 @@ class BaseEventForm(forms.Form):
         required=True,
         initial=ACTIVITY_KEYS[0][
             0
-        ],  # initialize the activity_key with event_type as key
+        ],
     )
 
     def clean(self):
-        """Validate the form by checking that at least one event type or location is selected."""
+        """
+        Validate the form by checking that at least one event type or location is selected.
+
+        Raises:
+            forms.ValidationError: If no event type or location is selected.
+
+        Returns:
+            dict: The cleaned data if the validation passes.
+        """
         cleaned_data = super().clean()
-        event_types = cleaned_data.get("event_types")
-        locations = cleaned_data.get("locations")
+        event_types = cleaned_data.get("event_types", [])
+        locations = cleaned_data.get("locations", [])
+
         if not event_types and not locations:
             raise forms.ValidationError(
                 "Please select at least one event type or one location.",
@@ -78,22 +87,43 @@ class BaseEventForm(forms.Form):
         return cleaned_data
 
     def clean_event_types(self):
-        """Validate event types by checking dependent choices."""
+        """
+        Validate event types by checking dependent choices.
+
+        This method ensures that if one event type from a dependent group is selected,
+        the other event type from the same group is also selected.
+
+        Returns:
+            list: The cleaned list of event types.
+
+        Raises:
+            ValidationError: If a dependent choice is missing.
+        """
         event_types = self.cleaned_data["event_types"]
         dependent_choices = [
             ("Symptom Onset", "Symptom Offset"),
             ("Hospital Admission", "Hospital Discharge"),
         ]
-        for group in dependent_choices:
-            self.validate_dependant_choices("event_types", group[0], group[1])
+
+        for choice_1, choice_2 in dependent_choices:
+            self.validate_dependent_choices("event_types", choice_1, choice_2)
 
         return event_types
 
-    def validate_dependant_choices(self, field, choice_1, choice_2):
-        """Validate that two choices in a form field are either both selected or none of them."""
-        choices = self.cleaned_data.get(field)
+    def validate_dependent_choices(self, field, choice_1, choice_2):
+        """Validate that two choices in a form field are either both selected or none of them.
 
-        if choices is not None and ((choice_1 in choices) ^ (choice_2 in choices)):
+        Args:
+            field (str): The name of the field to validate.
+            choice_1 (str): The first choice in the dependent pair.
+            choice_2 (str): The second choice in the dependent pair.
+
+        Raises:
+            ValidationError: If one choice is selected while the other is not.
+            """
+        choices = self.cleaned_data.get(field, [])
+
+        if (choice_1 in choices) ^ (choice_2 in choices):
             raise forms.ValidationError(
                 f"{choice_1} and {choice_2} depend on each other. Please select both or none.",
                 code="dependant_fields",
@@ -105,7 +135,11 @@ class ApiKeyForm(forms.Form):
     api_key = forms.CharField(
         label='Enter your OpenAI API Key',
         max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'API Key'})
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'API Key'}),
+        error_messages={
+            'required': 'API Key cannot be empty.',
+            'max_length': 'API Key cannot be longer than 100 characters.'
+        }
     )
 
     def clean_api_key(self):
