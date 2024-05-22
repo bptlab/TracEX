@@ -2,7 +2,6 @@
 from pathlib import Path
 from typing import Dict, List, Optional
 from django.conf import settings
-import pandas as pd
 
 from extraction.models import Prompt
 from extraction.logic.module import Module
