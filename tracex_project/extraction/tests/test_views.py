@@ -328,6 +328,9 @@ class JourneyFilterViewTests(TestCase):
 
 class ResultViewTests(TestCase):
     """Test cases for the ResultView."""
+
+    fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
+
     def setUp(self):  # pylint: disable=invalid-name
         """Set up method that gets called everytime before tests are executed."""
         self.client = Client()
