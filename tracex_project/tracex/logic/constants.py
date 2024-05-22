@@ -2,11 +2,11 @@
 Provide constants for the project.
 
 Constant Numbers:
-MAX_TOKENS -- Maximum number of tokens allowed for a single OPENAI API request.
-MODEL -- Model to use for the OPENAI API requests.
+MAX_TOKENS -- Maximum number of tokens allowed for a single OpenAI API request.
+MODEL -- Model to use for the OpenAI API requests.
 OAIK -- OpenAI API Key retrieved from the environment variables.
-TEMPERATURE_SUMMARIZING -- Temperature parameter for the OPENAI API requests for summarization tasks.
-TEMPERATURE_CREATION -- Temperature parameter for the OPENAI API requests for creation tasks.
+TEMPERATURE_SUMMARIZING -- Temperature parameter for the OpenAI API requests for summarization tasks.
+TEMPERATURE_CREATION -- Temperature parameter for the OpenAI API requests for creation tasks.
 THRESHOLD_FOR_MATCH -- Threshold for the similarity score to consider a match. Similarity score range from 0 to 1.
 
 Constant Lists:

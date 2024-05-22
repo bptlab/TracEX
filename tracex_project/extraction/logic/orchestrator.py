@@ -231,7 +231,7 @@ class Orchestrator:
         data = self.get_data()
 
         if "time_extraction" not in config_modules:
-            DataFrameUtilities.set_default_timestamps(data)
+            data = DataFrameUtilities.set_default_timestamps(data)
         if "event_type_classification" not in config_modules:
             data["event_type"] = "N/A"
         if "location_extraction" not in config_modules:
