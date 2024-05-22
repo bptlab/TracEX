@@ -19,9 +19,8 @@ class GenerationOverviewForm(forms.ModelForm):
         fields -- The fields to include in the form.
         help_texts -- The help texts for the fields.
         widgets -- The widgets for the fields.
-            "name" - A text input field to name the patient journey. Required, to save the patient journey in the databse.
+        - "name" - A text input field to name the patient journey. Required, to save patient journey in the database.
         """
-
         model = PatientJourney
         fields = ["name"]
         help_texts = {
