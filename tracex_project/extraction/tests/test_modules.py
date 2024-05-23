@@ -16,7 +16,7 @@ class ActivityLabelerTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method always is a dataframe and if column name is as expected."""
+        """Test if the return value of the execute method is a DataFrame and if the column name is as expected."""
         test_data = ["I fell ill yesterday.", "I went to the doctor today."]
         activity_labeler = ActivityLabeler()
         result = activity_labeler.execute(patient_journey_sentences=test_data)
@@ -32,7 +32,7 @@ class TimeExtractorTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column names are as expected."""
+        """Test if the return value of the execute method is a DataFrame and if the column names are as expected."""
         data = {"activity": ["fell ill"], "sentence_id": ["1"]}
         patient_journey = ["I fell ill on June 5 and recovered on June 7."]
         input_dataframe = pd.DataFrame(data)
@@ -47,7 +47,7 @@ class TimeExtractorTests(TestCase):
         self.assertIn("time:duration", result.columns)
 
     def test_return_value_is_datetime(self):
-        """Tests if returned dataframe columns are of type datetime."""
+        """Test if the returned DataFrame columns are of type datetime."""
         data = {"activity": ["fell ill"], "sentence_id": ["1"]}
         patient_journey = ["I fell ill on June 5 and recovered on June 7."]
         input_dataframe = pd.DataFrame(data)
@@ -60,7 +60,7 @@ class TimeExtractorTests(TestCase):
         self.assertTrue((result["time:end_timestamp"].apply(lambda x: isinstance(x, pd.Timestamp))).all())
 
     def test_processing_downwards(self):
-        """Tests if the post-processing function is correctly applied to the dataframe downwards."""
+        """Test if the post-processing function is correctly applied to the DataFrame downwards."""
         data = {"activity": ["fell ill", "had fever"], "sentence_id": ["1", "2"]}
         patient_journey = ["I fell ill on June 5 and recovered on June 7. After that I had fever."]
         input_dataframe = pd.DataFrame(data)
@@ -73,7 +73,7 @@ class TimeExtractorTests(TestCase):
         self.assertTrue((result["time:end_timestamp"].apply(lambda x: isinstance(x, pd.Timestamp))).all())
 
     def test_post_processing_upwards(self):
-        """Tests if the post-processing function is correctly applied to the dataframe upwards."""
+        """Test if the post-processing function is correctly applied to the DataFrame upwards."""
         data = {"activity": ["had fever", "fell ill",], "sentence_id": ["1", "2"]}
         patient_journey = ["I had fever. After that I fell ill on June 5 and recovered on June 7."]
         input_dataframe = pd.DataFrame(data)
@@ -92,7 +92,7 @@ class EventTypeClassifierTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        """Test if the return value of the execute method is a DataFrame and if the column name is as expected."""
         test_data = {
             "activity": "fell ill",
             "time:timestamp": "20220601T0000",
@@ -113,7 +113,7 @@ class LocationExtractorTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        """Test if the return value of the execute method is a DataFrame and if the column name is as expected."""
         test_data = {
             "activity": "fell ill",
             "time:timestamp": "20220601T0000",
