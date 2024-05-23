@@ -2,9 +2,10 @@
 from django.urls import path
 from . import views
 
-
 urlpatterns = [
-    path("db_results/download-xes/", views.DownloadXesEvaluationView.as_view(), name="download_xes_evaluation"),
+    path("db_results/download-xes/",
+         views.DownloadXesEvaluationView.as_view(),
+         name="download_xes_evaluation"),
     path(
         "db_results/",
         views.DbResultsOverviewView.as_view(),
