@@ -32,14 +32,14 @@ class OrchestratorTests(TestCase):
         Orchestrator.reset_instance()
 
     def test_single_instance_creation(self):
-        """Tests if two initialized orchestrators are the same instance."""
+        """Test if two initialized orchestrators are the same instance."""
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
 
         self.assertIs(orchestrator1, orchestrator2)
 
     def test_consistent_object_state(self):
-        """Tests if the state of the orchestrator instance is the same for two instances."""
+        """Test if the state of the orchestrator instance is the same for two instances."""
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
         orchestrator1.data = "test_data"
@@ -47,7 +47,7 @@ class OrchestratorTests(TestCase):
         self.assertEqual(orchestrator1.data, orchestrator2.data)
 
     def test_get_instance_method(self):
-        """Tests if the get_instance method returns the same instance and if a new instance is the same instance."""
+        """Test if the get_instance method returns the same instance and if a new instance is the same instance."""
         Orchestrator()
         orchestrator1 = Orchestrator.get_instance()
         orchestrator2 = Orchestrator.get_instance()
@@ -57,7 +57,7 @@ class OrchestratorTests(TestCase):
         self.assertIs(orchestrator1, orchestrator3)
 
     def test_reset_instance(self):
-        """Tests if reset_instance resets the instance for all objects."""
+        """Test if reset_instance resets the instance for all objects."""
         orchestrator1 = Orchestrator()
         Orchestrator.reset_instance()
         orchestrator2 = Orchestrator()
@@ -65,29 +65,29 @@ class OrchestratorTests(TestCase):
         self.assertIsNot(orchestrator1, orchestrator2)
 
     def test_set_configuration(self):
-        """Tests if the set_configuration method correctly updates the Orchestrators instance's configuration."""
-        config = ExtractionConfiguration()
-        orchestrator = Orchestrator(config)
-        new_config = ExtractionConfiguration()
-        orchestrator.set_configuration(new_config)
+        """Test if the set_configuration method correctly updates the Orchestrators instance's configuration."""
+        configuration = ExtractionConfiguration()
+        orchestrator = Orchestrator(configuration)
+        new_configuration = ExtractionConfiguration()
+        orchestrator.set_configuration(new_configuration)
 
-        self.assertIs(orchestrator.configuration, new_config)
+        self.assertIs(orchestrator.configuration, new_configuration)
 
     def test_singleton_with_configuration(self):
-        """Tests that the Orchestrator's configuration remains unchanged with subsequent instantiations."""
+        """Test that the Orchestrator's configuration remains unchanged with subsequent instantiations."""
         Orchestrator.reset_instance()
-        config1 = ExtractionConfiguration()
-        orchestrator1 = Orchestrator(config1)
-        config2 = ExtractionConfiguration()
-        orchestrator2 = Orchestrator(config2)
+        configuration_1 = ExtractionConfiguration()
+        orchestrator1 = Orchestrator(configuration_1)
+        configuration_2 = ExtractionConfiguration()
+        orchestrator2 = Orchestrator(configuration_2)
 
         self.assertIs(orchestrator1.configuration, orchestrator2.configuration)
 
     def test_initialize_modules(self):
-        """Tests if initialize_modules correctly initializes a module."""
+        """Test if initialize_modules correctly initializes a module."""
         Orchestrator.reset_instance()
-        config = ExtractionConfiguration()
-        orchestrator = Orchestrator(configuration=config)
+        configuration = ExtractionConfiguration()
+        orchestrator = Orchestrator(configuration=configuration)
         orchestrator.configuration.update(
             modules={
                 "activity_labeling": ActivityLabeler,
@@ -99,20 +99,20 @@ class OrchestratorTests(TestCase):
         self.assertEqual(modules['activity_labeling'].name, "Activity Labeler")
 
     def test_run(self):
-        """Tests if the run method correctly return a dataframe. Execution of ActivityLabeler and Preprocessor is
+        """Test if the run method correctly returns a dataframe. Execution of ActivityLabeler and Preprocessor is
         necessary since the run method makes assumptions on how the patient journey looks like."""
         Orchestrator.reset_instance()
-        config = ExtractionConfiguration(
-            patient_journey="This is a test patient journey. This is some description about how I fell and and "
+        configuration = ExtractionConfiguration(
+            patient_journey="This is a test patient journey. This is some description about how I fell ill and "
                             "recovered in the end.",
         )
-        config.update(
+        configuration.update(
             modules={
                 "preprocessing": Preprocessor,
                 "activity_labeling": ActivityLabeler,
             }
         )
-        orchestrator = Orchestrator(configuration=config)
+        orchestrator = Orchestrator(configuration=configuration)
         orchestrator.run()
 
         self.assertIsNot(orchestrator.get_data(), None)
@@ -145,16 +145,16 @@ class OrchestratorTests(TestCase):
             self.orchestrator.get_db_objects_id(object_name)
 
     def test_update_progress_with_view(self):
-        """Tests if the progress of the views are updated correctly."""
+        """Test if the progress of the views are updated correctly."""
         request = self.factory.get("/extraction/filter")
-        middleware = SessionMiddleware(lambda req: req)
+        middleware = SessionMiddleware(lambda _request: _request)
         middleware.process_request(request)
         request.session.save()
 
         class MockView:
             """Mock View class for testing purposes."""
-            def __init__(self, request):
-                self.request = request
+            def __init__(self, _request):
+                self.request = _request
 
         view = MockView(request)
         current_step = 2
@@ -166,7 +166,7 @@ class OrchestratorTests(TestCase):
         self.assertEqual(request.session["status"], module_name)
 
     def test_update_progress_without_view(self):
-        """Tests if the progress of the views are updated correctly."""
+        """Test if the progress of the views are updated correctly."""
         current_step = 2
         module_name = "Activity Labeler"
 

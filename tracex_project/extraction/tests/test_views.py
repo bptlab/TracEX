@@ -32,7 +32,7 @@ class JourneyInputSelectViewTests(TestCase):
         self.url = reverse('choose_input_method')
 
     def test_view_get_request(self):
-        """Tests that the view URL exists and is accessible by passing a GET request."""
+        """Test that the view URL exists and is accessible by passing a GET request."""
         response = self.client.get(self.url)
         resolver = resolve(self.url)
 
@@ -41,15 +41,16 @@ class JourneyInputSelectViewTests(TestCase):
 
     def test_view_post_request(self):
         """
-        Test that a POST request to the view returns a method not allowed error since the JourneyInputSelectView
-        is a simple TemplateView that does not handle POST request.
+        Test that a POST request to the view returns a method not allowed error.
+
+        The JourneyInputSelectView is a simple TemplateView that does not handle POST request.
         """
         response = self.client.post(self.url)
 
         self.assertEqual(response.status_code, 405)
 
     def test_view_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'choose_input_method.html')
@@ -65,12 +66,12 @@ class JourneyUploadViewTests(TestCase):
     """Test cases for the JourneyUploadView."""
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up method that gets called everytime before tests are executed."""
+        """Set up test client and URL."""
         self.client = Client()
         self.url = reverse('journey_upload')
 
     def test_view_get_request(self):
-        """Tests that the view URL exists and is accessible by passing a GET request."""
+        """Test that the view URL exists and is accessible by passing a GET request."""
         response = self.client.get(self.url)
         resolver = resolve(self.url)
 
@@ -78,13 +79,13 @@ class JourneyUploadViewTests(TestCase):
         self.assertEqual(resolver.func.view_class, JourneyUploadView)
 
     def test_view_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'upload_journey.html')
 
     def test_view_uses_correct_form(self):
-        """Tests that the view uses the correct form."""
+        """Test that the view uses the correct form."""
         response = self.client.get(self.url)
 
         self.assertIsInstance(response.context['form'], JourneyUploadForm)
@@ -113,7 +114,7 @@ class JourneyUploadViewTests(TestCase):
         self.assertRedirects(response, reverse('journey_details', kwargs={'pk': mock_journey.id}))
 
     def test_view_post_invalid_form(self):
-        """Tests that posting an invalid form (without a file) returns the same page with a form error."""
+        """Test that posting an invalid form (without a file) returns the same page with a form error."""
         form_data = {}
         response = self.client.post(self.url, data=form_data)
 
@@ -131,7 +132,7 @@ class JourneySelectViewTests(TestCase):
     """Test cases for the JourneySelectView."""
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up method that gets called everytime before tests are executed."""
+        """Set up test client and URL."""
         self.client = Client()
         self.url = reverse('journey_select')
 
@@ -144,13 +145,13 @@ class JourneySelectViewTests(TestCase):
         self.assertEqual(resolver.func.view_class, JourneySelectView)
 
     def test_view_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'select_journey.html')
 
     def test_view_uses_correct_form(self):
-        """Tests that the view uses the correct form."""
+        """Test that the view uses the correct form."""
         response = self.client.get(self.url)
 
         self.assertIsInstance(response.context['form'], JourneySelectForm)
@@ -175,7 +176,7 @@ class JourneySelectViewTests(TestCase):
         self.assertRedirects(response, reverse('journey_details', kwargs={'pk': mock_journey.id}))
 
     def test_view_post_invalid_form(self):
-        """Tests that posting an invalid form (without selecting a file) returns the same page with a form error."""
+        """Test that posting an invalid form (without selecting a file) returns the same page with a form error."""
         form_data = {}
         response = self.client.post(self.url, data=form_data)
 
@@ -193,14 +194,14 @@ class JourneyDetailViewTests(TestCase):
     """Test cases for the JourneyDetailView."""
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up method that gets called everytime before tests are executed."""
+        """Set up test client, a mock patient journey and the URL."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(name='Test Journey',
                                                           patient_journey='This is a test patient journey.')
         self.url = reverse('journey_details', kwargs={'pk': self.mock_journey.pk})
 
     def test_view_get_request(self):
-        """Tests that the view URL exists and is accessible by passing a GET request."""
+        """Test that the view URL exists and is accessible by passing a GET request."""
         response = self.client.get(self.url)
         resolver = resolve(self.url)
 
@@ -208,7 +209,7 @@ class JourneyDetailViewTests(TestCase):
         self.assertEqual(resolver.func.view_class, JourneyDetailView)
 
     def test_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'journey_details.html')
@@ -228,7 +229,7 @@ class JourneyDetailViewTests(TestCase):
         self.assertEqual(response.status_code, 404)
 
     def test_post_method_redirect(self):
-        """Test that a POST request to the view redirects to the same page."""
+        """Test that a POST request to the view redirects to the JourneyFilterView."""
         # Perform a GET request to set up session data
         response = self.client.get(self.url)
 
@@ -247,13 +248,8 @@ class JourneyFilterViewTests(TestCase):
 
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
-    @staticmethod
-    def dummy_get_response():
-        """This is a dummy function to satisfy the get_response parameter of the SessionMiddleware."""
-        return None
-
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up method that gets called everytime before tests are executed."""
+        """Set up test client, a mock patient journey, the URL and a factory that sends requests to the view."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(name='Test Journey',
                                                           patient_journey='This is a test patient journey.')
@@ -261,7 +257,7 @@ class JourneyFilterViewTests(TestCase):
         self.factory = RequestFactory()
 
     def test_view_get_request(self):
-        """Tests that the view URL exists and is accessible by passing a GET request."""
+        """Test that the view URL exists and is accessible by passing a GET request."""
         response = self.client.get(self.url)
         resolver = resolve(self.url)
 
@@ -269,13 +265,13 @@ class JourneyFilterViewTests(TestCase):
         self.assertEqual(resolver.func.view_class, JourneyFilterView)
 
     def test_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'filter_journey.html')
 
     def test_view_uses_correct_form(self):
-        """Tests that the view uses the correct form."""
+        """Test that the view uses the correct form."""
         response = self.client.get(self.url)
 
         self.assertIsInstance(response.context['form'], FilterForm)
@@ -314,6 +310,7 @@ class JourneyFilterViewTests(TestCase):
     def test_get_ajax(self):
         """
         Test the `get` method when an AJAX request is made.
+
         Ensure that the correct JSON response is returned with the progress and status information.
         """
         request = self.factory.get(self.url, HTTP_X_REQUESTED_WITH='XMLHttpRequest')
@@ -332,7 +329,7 @@ class ResultViewTests(TestCase):
     fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up method that gets called everytime before tests are executed."""
+        """Set up test client, a mock patient journey, session data and the URL."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(name='Test Journey',
                                                           patient_journey='This is a test patient journey.')
@@ -342,7 +339,7 @@ class ResultViewTests(TestCase):
         self.url = reverse('result')
 
     def test_view_get_request(self):
-        """Tests that the view URL exists and is accessible by passing a GET request."""
+        """Test that the view URL exists and is accessible by passing a GET request."""
         response = self.client.get(self.url)
         resolver = resolve(self.url)
 
@@ -350,19 +347,19 @@ class ResultViewTests(TestCase):
         self.assertEqual(resolver.func.view_class, ResultView)
 
     def test_uses_correct_template(self):
-        """Tests that the view uses the correct template."""
+        """Test that the view uses the correct template."""
         response = self.client.get(self.url)
 
         self.assertTemplateUsed(response, 'result.html')
 
     def test_uses_correct_form(self):
-        """Tests that the view uses the correct form."""
+        """Test that the view uses the correct form."""
         response = self.client.get(self.url)
 
         self.assertIsInstance(response.context['form'], ResultForm)
 
     def test_get_form_kwargs(self):
-        """Tests that correct form kwargs are passed to the form."""
+        """Test that correct form kwargs are passed to the form."""
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
@@ -373,7 +370,7 @@ class ResultViewTests(TestCase):
         self.assertEqual((form.initial['selected_modules']), self.session['selected_modules'])
 
     def test_get_context_data(self):
-        """Tests that the view fetches the correct context data."""
+        """Test that the view fetches the correct context data."""
         response = self.client.get(self.url)
 
         self.assertEqual(response.status_code, 200)
