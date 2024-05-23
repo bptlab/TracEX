@@ -57,24 +57,25 @@ class MetricsDashboardView(TemplateView):
         """
 
         context = super().get_context_data(**kwargs)
-        patient_journey_name = self.request.session["patient_journey_name"]
-        trace_df = self.get_latest_trace_df(patient_journey_name)
+        trace_df = self.get_latest_trace_df()
 
-        self.update_context_with_counts(context, trace_df, patient_journey_name)
+        self.update_context_with_counts(context, trace_df)
         self.update_context_with_charts(context, trace_df)
         self.update_context_with_data_tables(context, trace_df)
 
         return context
 
-    def get_latest_trace_df(self, patient_journey_name):
+    def get_latest_trace_df(self):
         """
-        Fetch the DataFrame for the latest trace of a specific patient journey.
+        Fetch the DataFrame for the latest trace of a specific patient journey stored in the session.
 
-        This method constructs a query to fetch the ID of the latest trace entry related to a given
+        This method constructs a query to fetch the ID of the latest trace entry related to a
         patient journey. It considers only those entries where activity relevance, timestamp correctness,
         and correctness confidence metrics are not null. It then retrieves the DataFrame for these
         events.
         """
+        patient_journey_name = self.request.session["patient_journey_name"]
+
         query_last_trace = Q(
             id=Trace.manager.filter(
                 patient_journey__name=patient_journey_name,
@@ -87,8 +88,10 @@ class MetricsDashboardView(TemplateView):
         )
         return u.DataFrameUtilities.get_events_df(query_last_trace)
 
-    def update_context_with_counts(self, context, trace_df, patient_journey_name):
+    def update_context_with_counts(self, context, trace_df):
         """Update the given context dictionary with count statistics related to patient journeys and traces."""
+        patient_journey_name = self.request.session["patient_journey_name"]
+
         context.update({
             "patient_journey_name": patient_journey_name,
             "total_patient_journeys": PatientJourney.manager.count(),
