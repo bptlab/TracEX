@@ -28,7 +28,7 @@ class MetricsOverviewView(FormView):
     success_url = reverse_lazy("metrics_dashboard")
 
     def form_valid(self, form):
-        """Save selected journey in session."""
+        """Process a valid form, save the selected journey in the session, and continue with form handling."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         self.request.session["patient_journey_name"] = selected_journey
 
@@ -41,7 +41,14 @@ class MetricsDashboardView(TemplateView):
     template_name = "metrics_dashboard.html"
 
     def get_context_data(self, **kwargs):
-        """Add relevant metrics to the context by fetching data and constructing visualizations."""
+        """
+        Extend the existing context with additional metrics relevant to the patient journey.
+
+        This method retrieves the patient journey name from the session, fetches the corresponding
+        data frame, and updates the context object with various metrics and visualizations such as
+        counts, charts, and data tables related to the patient journey.
+        """
+
         context = super().get_context_data(**kwargs)
         patient_journey_name = self.request.session["patient_journey_name"]
         trace_df = self.get_latest_trace_df(patient_journey_name)
@@ -53,7 +60,14 @@ class MetricsDashboardView(TemplateView):
         return context
 
     def get_latest_trace_df(self, patient_journey_name):
-        """Fetch the DataFrame for the latest trace based on the patient journey name."""
+        """
+        Fetch the DataFrame for the latest trace of a specific patient journey.
+
+        This method constructs a query to fetch the ID of the latest trace entry related to a given
+        patient journey. It considers only those entries where activity relevance, timestamp correctness,
+        and correctness confidence metrics are not null. It then retrieves the DataFrame for these
+        events.
+        """
         query_last_trace = Q(
             id=Trace.manager.filter(
                 patient_journey__name=patient_journey_name,
@@ -67,7 +81,7 @@ class MetricsDashboardView(TemplateView):
         return u.DataFrameUtilities.get_events_df(query_last_trace)
 
     def update_context_with_counts(self, context, trace_df, patient_journey_name):
-        """Update context with various count statistics."""
+        """Update the given context dictionary with count statistics related to patient journeys and traces."""
         context.update({
             "patient_journey_name": patient_journey_name,
             "total_patient_journeys": PatientJourney.manager.count(),
@@ -77,7 +91,7 @@ class MetricsDashboardView(TemplateView):
         })
 
     def update_context_with_charts(self, context, trace_df):
-        """Create and update context with chart visualizations."""
+        """Update the context dictionary with chart visualizations."""
         relevance_counts = trace_df["activity_relevance"].value_counts()
         timestamp_correctness_counts = trace_df["timestamp_correctness"].value_counts()
 
@@ -95,7 +109,7 @@ class MetricsDashboardView(TemplateView):
         })
 
     def update_context_with_data_tables(self, context, trace_df):
-        """Format and add data tables to context, directly applying styling to DataFrames."""
+        """Format trace data into styled HTML tables and add them to the context."""
 
         # Apply renaming, styling, and convert to HTML, then update the context
         relevance_columns = ["activity", "activity_relevance"]
@@ -119,7 +133,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def color_relevance(row):
-        """Color the row based on the activity relevance."""
+        """Apply background color styling to a DataFrame row based on the activity relevance."""
         activity_relevance = row["Activity Relevance"]
         if activity_relevance == "Moderate Relevance":
             return ["background-color: orange"] * len(row)
@@ -131,7 +145,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def color_timestamp_correctness(row):
-        """Color a specific cell based on the timestamp correctness confidence."""
+        """Apply background color styling to cells in a DataFrame row based on timestamp correctness and confidence."""
         correctness_confidence = row["Correctness Confidence"]
         confidence_index = row.index.get_loc("Correctness Confidence")
         timestamp_correctness = row["Timestamp Correctness"]
@@ -156,7 +170,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def create_pie_chart(data):
-        """Create a pie chart from the data."""
+        """Create a pie chart from the provided data using Plotly."""
         return plot(
             go.Figure(
                 data=[go.Pie(labels=data.index, values=data.values)],
@@ -173,7 +187,7 @@ class MetricsDashboardView(TemplateView):
 
     @staticmethod
     def create_bar_chart(data, x_title, y_title):
-        """Create a bar chart from the data."""
+        """Create a bar chart from the provided data using Plotly."""
         return plot(
             go.Figure(
                 data=[go.Bar(x=data.index, y=data.values)],
@@ -197,103 +211,102 @@ class MetricsDashboardView(TemplateView):
 
 
 class EvaluationView(FormView):
-    """View for displaying all extracted traces and DFG image with filter selection."""
+    """
+    View for displaying all extracted traces and DFG images with filter selection options.
+    """
 
     form_class = EvaluationForm
     template_name = "evaluation.html"
     success_url = reverse_lazy("evaluation")
 
     def get_context_data(self, **kwargs):
-        """Prepare the data for the evaluation page."""
-        context = super().get_context_data(**kwargs)
+        """
+        Prepare and enrich the context data for rendering the evaluation page.
 
+        This method initializes the filter settings, retrieves trace and event log data based on the session's
+        current configuration, and processes this data to update the context with visualizations and HTML tables
+        necessary for user interaction.
+        """
+        context = super().get_context_data(**kwargs)
         self.initiate_evaluation_configuration()
         configuration = self.request.session.get("filter_settings")
-        activity_key = configuration.get("activity_key")
 
-        # Query the database to get all traces
+        traces, event_log_df = self.get_traces_and_events()
+        cohorts_df = self.get_cohorts_data(traces)
+
+        if not event_log_df.empty:
+            event_log_df = self.filter_and_cleanup_event_log(event_log_df, configuration)
+            context.update(self.prepare_dfg_and_tables(event_log_df, cohorts_df, configuration))
+
+        context.update({"form": EvaluationForm(initial=configuration)})
+        self.request.session["event_log"] = event_log_df.to_json()
+        return context
+
+    def get_traces_and_events(self):
+        """
+        Fetch trace data and corresponding event logs based on the current session configuration.
+
+        Retrieves traces and associated event data using either a specific query from session data or all available
+        data if no specific query is defined.
+
+        Returns:
+            tuple: A pair containing a QuerySet of traces and a DataFrame of event logs.
+        """
         query_dict = self.request.session.get("query_dict")
-        if query_dict is not None:
+        if query_dict:
             query = self.create_query(query_dict)
             event_log_df = u.DataFrameUtilities.get_events_df(query)
             traces = Trace.manager.filter(query)
         else:
             event_log_df = u.DataFrameUtilities.get_events_df()
             traces = Trace.manager.all()
+        return traces, event_log_df
 
+    def get_cohorts_data(self, traces):
+        """Extract and format cohort data from given traces for further processing and visualization."""
         cohorts = Cohort.manager.filter(trace__in=traces)
-        cohorts_data = list(
-            cohorts.values(
-                "trace", "age", "sex", "origin", "condition", "preexisting_condition"
-            )
-        )
-
+        cohorts_data = list(cohorts.values("trace", "age", "sex", "origin", "condition", "preexisting_condition"))
         cohorts_df = pd.DataFrame(cohorts_data)
-
         if not cohorts_df.empty:
             cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
+        return cohorts_df
 
+    def filter_and_cleanup_event_log(self, event_log_df, configuration):
+        """Apply user-defined filters to the event log data and clean up unnecessary columns."""
         filter_dict = {
             "event_type": configuration.get("event_types"),
             "attribute_location": configuration.get("locations"),
         }
-        if not event_log_df.empty:
-            event_log_df = u.DataFrameUtilities.filter_dataframe(
-                event_log_df, filter_dict
-            )
+        event_log_df = u.DataFrameUtilities.filter_dataframe(event_log_df, filter_dict)
+        event_log_df = event_log_df.drop(
+            columns=["activity_relevance", "timestamp_correctness", "correctness_confidence"])
+        return event_log_df
 
-            # Drop unwanted columns
-            event_log_df = event_log_df.drop(
-                columns=[
-                    "activity_relevance",
-                    "timestamp_correctness",
-                    "correctness_confidence",
-                ]
-            )
-
-            context.update(
-                {
-                    "all_dfg_img": u.Conversion.create_dfg_from_df(
-                        event_log_df, activity_key
-                    ),
-                    "event_log_table": u.Conversion.create_html_table_from_df(
-                        event_log_df
-                    ),
-                    "cohorts_table": u.Conversion.create_html_table_from_df(cohorts_df),
-                }
-            )
-
-        context.update({"form": EvaluationForm(initial=configuration)})
-
-        self.request.session["event_log"] = event_log_df.to_json()
-
-        return context
+    def prepare_dfg_and_tables(self, event_log_df, cohorts_df, configuration):
+        """Generate visualizations and HTML tables for the provided event log and cohort data."""
+        activity_key = configuration.get("activity_key")
+        return {
+            "all_dfg_img": u.Conversion.create_dfg_from_df(event_log_df, activity_key),
+            "event_log_table": u.Conversion.create_html_table_from_df(event_log_df),
+            "cohorts_table": u.Conversion.create_html_table_from_df(cohorts_df),
+        }
 
     @staticmethod
     def create_query(query_dict):
-        """Create a query object based on the given dictionary."""
+        """Construct a database query from a dictionary of filter criteria."""
         query = Q(
             cohort__age__gte=query_dict.get("min_age"),
             cohort__age__lte=query_dict.get("max_age"),
         )
         if query_dict.get("none_age"):
             query |= Q(cohort__age__isnull=True)
-        # Extend query for items of type list
         for key, value in query_dict.items():
             if isinstance(value, list) and len(value) > 0:
-                # include entries where the respective attribute is missing
-                if "None" in value:
-                    query &= Q(**{f"cohort__{key}__isnull": True}) | Q(
-                        **{f"cohort__{key}__in": value}
-                    )
-                else:
-                    query &= Q(**{f"cohort__{key}__in": value})
-
+                query &= Q(**{f"cohort__{key}__in": value}) | Q(**{f"cohort__{key}__isnull": True})
         return query
 
     def form_valid(self, form):
-        """Save the filter settings in the cache and apply them to the dataframe."""
-
+        """Handle the submission of a valid form, updating session data with the provided filter settings."""
         self.request.session["filter_settings"] = form.cleaned_data
 
         query_dict = {
@@ -310,17 +323,19 @@ class EvaluationView(FormView):
         return super().form_valid(form)
 
     def initiate_evaluation_configuration(self):
-        """Initialize form with default values if no filter settings are present."""
+        """
+        Initialize or update session data with default filter settings if none are currently set.
 
-        configuration = self.request.session.get("filter_settings")
-        if configuration is None:
-            configuration = {
+        This method sets default filter options for event types, locations, and activity keys if they are not already
+        specified in the session.
+        """
+        if "filter_settings" not in self.request.session:
+            defaults = {
                 "event_types": [event_type[0] for event_type in EVENT_TYPES],
                 "locations": [location[0] for location in LOCATIONS],
                 "activity_key": ACTIVITY_KEYS[0][0],
             }
-
-        self.request.session["filter_settings"] = configuration
+            self.request.session["filter_settings"] = defaults
 
 
 class DownloadXesEvaluationView(DownloadXesView):
@@ -334,7 +349,6 @@ class DownloadXesEvaluationView(DownloadXesView):
         activity_key = configuration.get("activity_key")
 
         if trace_type == "event_log":
-            # Process event log data into XES format
             df = pd.read_json(request.session.get("event_log"))
 
             if df.empty:
