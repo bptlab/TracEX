@@ -25,9 +25,9 @@ class TracexLandingPage(TemplateView):
 
     template_name = "landing_page.html"
 
-    def get(self, _request, *args, **kwargs):
+    def get(self, _request, *_args, **_kwargs):
         """Handle GET requests by initializing a form for API key entry and adding it to the context."""
-        context = self.get_context_data(**kwargs)
+        context = self.get_context_data(**_kwargs)
         context['form'] = ApiKeyForm()
 
         return self.render_to_response(context)
@@ -40,11 +40,11 @@ class TracexLandingPage(TemplateView):
             os.environ['OPENAI_API_KEY'] = api_key
 
             return redirect('landing_page')
-        else:
-            context = self.get_context_data()
-            context['form'] = form
 
-            return render(request, self.template_name, context)
+        context = self.get_context_data()
+        context['form'] = form
+
+        return render(request, self.template_name, context)
 
     def get_context_data(self, **kwargs):
         """Return context data and adds a flag indicating whether an API key is set."""
@@ -77,7 +77,7 @@ class ResetApiKey(RedirectView):
 class DownloadXesView(View):
     """View for the downloading of XES file(s)."""
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request, *_args, **_kwargs):
         """
         Process a POST request to download specified trace types as XES files.
 
