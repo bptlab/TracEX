@@ -238,17 +238,17 @@ class EvaluationView(FormView):
         necessary for user interaction.
         """
         context = super().get_context_data(**kwargs)
-        self.initiate_evaluation_configuration()
-        configuration = self.request.session.get("filter_settings")
+        self.initialize_filter_settings()
+        filter_settings = self.request.session.get("filter_settings")
 
         traces, event_log_df = self.get_traces_and_events()
         cohorts_df = self.get_cohorts_data(traces)
 
         if not event_log_df.empty:
-            event_log_df = self.filter_and_cleanup_event_log(event_log_df, configuration)
-            context.update(self.prepare_dfg_and_tables(event_log_df, cohorts_df, configuration))
+            event_log_df = self.filter_and_cleanup_event_log(event_log_df, filter_settings)
+            context.update(self.prepare_dfg_and_tables(event_log_df, cohorts_df, filter_settings))
 
-        context.update({"form": EvaluationForm(initial=configuration)})
+        context.update({"form": EvaluationForm(initial=filter_settings)})
         self.request.session["event_log"] = event_log_df.to_json()
         return context
 
@@ -332,13 +332,8 @@ class EvaluationView(FormView):
 
         return super().form_valid(form)
 
-    def initiate_evaluation_configuration(self):
-        """
-        Initialize or update session data with default filter settings if none are currently set.
-
-        This method sets default filter options for event types, locations, and activity keys if they are not already
-        specified in the session.
-        """
+    def initialize_filter_settings(self):
+        """Initialize default filter settings in the session if they are not already set."""
         if "filter_settings" not in self.request.session:
             defaults = {
                 "event_types": [event_type[0] for event_type in EVENT_TYPES],
