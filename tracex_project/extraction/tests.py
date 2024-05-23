@@ -12,12 +12,12 @@ from extraction.logic.modules import (
 
 
 class OrchestratorTests(TestCase):
-    """Test cases for the Orchestrator class utilizing the ExtractionConfiguration."""
+    """Test cases for the singleton behavior of the Orchestrator class utilizing the ExtractionConfiguration."""
 
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_single_instance_creation(self):
-        """Tests if two initialized orchestrators are the same instance."""
+        """Tests if two initialized Orchestrators are the same instance."""
         Orchestrator.reset_instance()
         orchestrator1 = Orchestrator()
         orchestrator2 = Orchestrator()
@@ -95,7 +95,7 @@ class ActivityLabelerTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method always is a dataframe and if column name is as expected."""
+        """Tests if the return value of the execute method is a dataframe and if the column name is as expected."""
         test_data = ["I fell ill yesterday.", "I went to the doctor today."]
         activity_labeler = ActivityLabeler()
         result = activity_labeler.execute(patient_journey_sentences=test_data)
@@ -111,7 +111,7 @@ class TimeExtractorTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column names are as expected."""
+        """Tests if the return value of the execute method is a dataframe and if the column names are as expected."""
         data = {"activity": ["fell ill"], "sentence_id": ["1"]}
         patient_journey = ["I fell ill on June 5 and recovered on June 7."]
         input_dataframe = pd.DataFrame(data)
@@ -132,7 +132,7 @@ class EventTypeClassifierTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        """Tests if the return value of the execute method is a dataframe and if the column name is as expected."""
         test_data = {
             "activity": "fell ill",
             "time:timestamp": "20220601T0000",
@@ -153,7 +153,7 @@ class LocationExtractorTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def test_execute_return_value(self):
-        """Tests if the return value of the execute method is always a dataframe and if column name is as expected."""
+        """Tests if the return value of the execute method is a dataframe and if the column name is as expected."""
         test_data = {
             "activity": "fell ill",
             "time:timestamp": "20220601T0000",
