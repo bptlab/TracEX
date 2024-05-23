@@ -339,8 +339,7 @@ class EvaluationView(FormView):
 
 
 class DownloadXesEvaluationView(DownloadXesView):
-    """Download one or more XES files based on the types specified in POST request,
-    bundled into a ZIP file if multiple."""
+    """View to download evaluation data in XES format based on the event log stored in the session."""
 
     @staticmethod
     def process_trace_type(request, trace_type):
