@@ -10,7 +10,18 @@ class JourneyUploadForm(forms.ModelForm):
     """Form for uploading your own patient journey."""
 
     class Meta:
-        """Metaclass for JourneyForm, provides additional parameters for the form."""
+        """
+        Configuration class for the JourneyUploadForm.
+
+        This class specifies that the form is associated with the PatientJourney model and that it has a field for the
+        'name' attribute of the PatientJourney model. It also sets the help text and widget for the 'name' field.
+
+        Attributes:
+            model: The model that this form is associated with.
+            fields: The fields that this form includes.
+            help_texts: Help texts for the form fields.
+            widgets: Widgets to use for the form fields.
+        """
 
         model = PatientJourney
         fields = ["name"]
@@ -33,7 +44,7 @@ class JourneyUploadForm(forms.ModelForm):
 
 
 class JourneySelectForm(forms.Form):
-    """Form for selecting ground truth patient journey."""
+    """Django form for selecting a patient journey from available choices in the database."""
 
     selected_patient_journey = forms.ChoiceField(
         choices=[],
@@ -41,7 +52,7 @@ class JourneySelectForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-        """Initializes the PatientJourneySelectForm."""
+        """Initializes the form and sets the choices for the 'selected_patient_journey' field."""
         super().__init__(*args, **kwargs)
         self.fields[
             "selected_patient_journey"
@@ -49,18 +60,21 @@ class JourneySelectForm(forms.Form):
 
     @staticmethod
     def get_patient_journey_choices():
-        """Retrieves the available patient journey choices from the database."""
+        """Returns a list of tuples containing the names of all patient journeys from the database."""
         patient_journeys = PatientJourney.manager.all()
-        choices = [(pj.name, pj.name) for pj in patient_journeys]
+        choices = [
+            (patient_journey.name, patient_journey.name)
+            for patient_journey in patient_journeys
+        ]
 
         return choices
 
 
 class FilterForm(BaseEventForm):
-    """Form for selecting filter for extraction result"""
+    """Django form for selecting and validating extraction result filters."""
 
     def clean(self):
-        """Validate form data."""
+        """Validates the form data and checks module compatibility with the chosen activity key."""
         cleaned_data = super().clean()
         modules = cleaned_data.get("modules_optional") + cleaned_data.get(
             "modules_required"
@@ -83,13 +97,13 @@ class FilterForm(BaseEventForm):
                 f"For the chosen activity key the module {error_module} has to run.\
                 Select this module or change the activity key.",
             )
-        self.__validate_modules_optional(modules)
+        self.__validate_metrics_analyzer_dependency(modules)
 
         return cleaned_data
 
     @staticmethod
-    def __validate_modules_optional(modules):
-        """Validate optional modules"""
+    def __validate_metrics_analyzer_dependency(modules):
+        """Checks if 'metrics_analyzer' is selected without 'time_extraction' and raises a validation error if so."""
         if "metrics_analyzer" in modules and "time_extraction" not in modules:
             raise forms.ValidationError(
                 "Metrics Analyzer depends on Time Extractor. Please select both or deselect Metrics Analyzer.",
@@ -98,9 +112,10 @@ class FilterForm(BaseEventForm):
 
 
 class ResultForm(BaseEventForm):
-    """Form for displaying results of event extraction."""
+    """Django form for initializing and displaying extraction results."""
 
     def __init__(self, *args, **kwargs):
+        """Initializes the form with event types, locations, and selected modules, and disables module selection."""
         super().__init__(*args, **kwargs)
         initial = kwargs.pop("initial", None)
 
