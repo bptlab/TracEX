@@ -24,7 +24,7 @@ function setTileColor(tile, color) {
 function updateAvgTimeCorrTileColor(ratio, tile) {
   if (ratio >= GREEN_THRESHOLD) {
     setTileColor(tile, COLORS.GREEN);
-  } else if (ratio >= ORANGE_THRESHOLD) {A
+  } else if (ratio >= ORANGE_THRESHOLD) {
     setTileColor(tile, COLORS.ORANGE);
   } else {
     setTileColor(tile, COLORS.RED);
