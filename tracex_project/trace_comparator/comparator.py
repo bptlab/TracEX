@@ -103,7 +103,7 @@ def compare_activities(
             index,
             mapping_input_to_comparison,
         )
-        time.sleep(2)
+        time.sleep(2)  # this prevents the token limit per minute from being exceeded
         current_step += 1
 
     return mapping_input_to_comparison
