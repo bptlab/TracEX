@@ -19,6 +19,13 @@ class DbResultsOverviewView(TemplateView):
 
     template_name = "db_results_overview.html"
 
+    def get_context_data(self, **kwargs):
+        """Retrieve and return the base context data for the view, flushing the session data."""
+        context = super().get_context_data(**kwargs)
+        self.request.session.flush()
+
+        return context
+
 
 class MetricsOverviewView(FormView):
     """View for selecting a patient journey for showing metrics."""
