@@ -246,7 +246,7 @@ class EvaluationView(FormView):
 
         if not event_log_df.empty:
             event_log_df = self.filter_and_cleanup_event_log(event_log_df, filter_settings)
-            context.update(self.prepare_dfg_and_tables(event_log_df, cohorts_df, filter_settings))
+            context.update(self.generate_dfg_and_tables(event_log_df, cohorts_df, filter_settings))
 
         context.update({"form": EvaluationForm(initial=filter_settings)})
         self.request.session["event_log"] = event_log_df.to_json()
@@ -281,20 +281,20 @@ class EvaluationView(FormView):
             cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
         return cohorts_df
 
-    def filter_and_cleanup_event_log(self, event_log_df, configuration):
+    def filter_and_cleanup_event_log(self, event_log_df, filter_settings):
         """Apply user-defined filters to the event log data and clean up unnecessary columns."""
         filter_dict = {
-            "event_type": configuration.get("event_types"),
-            "attribute_location": configuration.get("locations"),
+            "event_type": filter_settings.get("event_types"),
+            "attribute_location": filter_settings.get("locations"),
         }
         event_log_df = u.DataFrameUtilities.filter_dataframe(event_log_df, filter_dict)
         event_log_df = event_log_df.drop(
             columns=["activity_relevance", "timestamp_correctness", "correctness_confidence"])
         return event_log_df
 
-    def prepare_dfg_and_tables(self, event_log_df, cohorts_df, configuration):
+    def generate_dfg_and_tables(self, event_log_df, cohorts_df, filter_settings):
         """Generate visualizations and HTML tables for the provided event log and cohort data."""
-        activity_key = configuration.get("activity_key")
+        activity_key = filter_settings.get("activity_key")
         return {
             "all_dfg_img": u.Conversion.create_dfg_from_df(event_log_df, activity_key),
             "event_log_table": u.Conversion.create_html_table_from_df(event_log_df),
