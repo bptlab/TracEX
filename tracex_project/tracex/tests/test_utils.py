@@ -11,7 +11,7 @@ class ConversionTests(TestCase):
     """Test cases for the conversion class inside the utils module."""
 
     def test_prepare_df_for_xes_conversion(self):
-        """Tests if the dataframe contains the correct column name for xes conversion"""
+        """Test if the DataFrame contains the correct column name for XES conversion"""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -28,7 +28,7 @@ class ConversionTests(TestCase):
         self.assertIsInstance(df_renamed["time:timestamp"][0], str)
 
     def test_rename_columns(self):
-        """Tests if the columns are correctly renamed before displaying them."""
+        """Test if the columns are correctly renamed before displaying them."""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -53,7 +53,7 @@ class ConversionTests(TestCase):
         self.assertIn("Location", df_renamed.columns)
 
     def test_create_html_table_from_df(self):
-        """Tests if the html table is correctly created from the dataframe."""
+        """Test if the HTML table is correctly created from the DataFrame."""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -65,7 +65,7 @@ class ConversionTests(TestCase):
         self.assertIn("<table", html_table)
 
     def test_create_dfg_from_df(self):
-        """Tests if the dfg image is correctly created from the dataframe."""
+        """Test if the directly-follows-graph image is correctly created from the DataFrame."""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -81,7 +81,7 @@ class ConversionTests(TestCase):
         self.assertIsNot(None, dfg_img)
 
     def test_dataframe_to_xes(self):
-        """Tests if the dataframe is converted to xes under the right filepath."""
+        """Test if the DataFrame is converted to XES under the right filepath."""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -99,7 +99,7 @@ class ConversionTests(TestCase):
 
 
 class DataframeUtilitiesTests(TestCase):
-    """Test cases for the dataframe utilities inside the utils module."""
+    """Test cases for the DataFrame utilities inside the utils module."""
 
     fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
 
@@ -116,7 +116,7 @@ class DataframeUtilitiesTests(TestCase):
         self.assertIn("attribute_location", events_df.columns)
 
     def test_get_events_df_with_query(self):
-        """Test if get_events_df returns queried events in a dataframe correctly."""
+        """Test if get_events_df returns queried events in a DataFrame correctly."""
         query_last_trace = Q(
             id=Trace.manager.filter().latest("last_modified").id
         )
@@ -131,7 +131,7 @@ class DataframeUtilitiesTests(TestCase):
         self.assertIn("attribute_location", events_df.columns)
 
     def test_filter_dataframe(self):
-        """Tests if the dataframe is correctly filtered."""
+        """Test if the DataFrame is correctly filtered."""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
@@ -148,7 +148,7 @@ class DataframeUtilitiesTests(TestCase):
         self.assertNotIn("Doctor Visit", filtered_df["event_type"].values)
 
     def test_set_default_timestamps(self):
-        """Tests if default timestamps are set correctly"""
+        """Test if default timestamps are set correctly"""
         data = {
             "case:concept:name": [1, 1],
             "activity": ["fell ill", "went to the doctor"],
