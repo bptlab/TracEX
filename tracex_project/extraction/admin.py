@@ -4,7 +4,18 @@ from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort, Metr
 
 
 class CohortInline(admin.StackedInline):
-    """Inline for the Cohort model, used to display the related Cohort object in the Trace admin page."""
+    """
+    Django admin interface for the Cohort model.
+
+    This inline admin interface is used to manage Cohort instances directly from the Trace admin page.
+    No extra blank forms are displayed for adding new Cohort instances, and deletion of Cohort instances
+    from the Trace admin page is not allowed.
+
+    Attributes:
+        model: Specifies the model that this inline admin interface is for.
+        extra: Defines how many extra blank forms are displayed on the admin page when a new Trace is created.
+        can_delete: Determines whether the deletion of instances of the model is allowed from the admin interface.
+    """
 
     model = Cohort
     extra = 0
@@ -12,14 +23,34 @@ class CohortInline(admin.StackedInline):
 
 
 class TraceInline(admin.TabularInline):
-    """Inline for the Trace model, used to display the related Trace objects in the PatientJourney admin page."""
+    """
+    Django admin interface for the Trace model.
+
+    This inline admin interface is used to manage Trace instances directly from the PatientJourney admin page.
+    No extra blank forms are displayed for adding new Trace instances.
+
+    Attributes:
+        model: Specifies the model that this inline admin interface is for.
+        extra: Defines how many extra blank forms are displayed on the admin page when a new PatientJourney is created.
+    """
 
     model = Trace
     extra = 0  # Controls the number of empty forms displayed for adding related objects
 
 
 class EventInline(admin.TabularInline):
-    """Inline for the Event model, used to display the related Event objects in the Trace admin page."""
+    """
+    Django admin interface for the Event model.
+
+    This inline admin interface is used to manage Event instances directly from the Trace admin page.
+    No extra blank forms are displayed for adding new Event instances. Certain fields related to metrics
+    are read-only.
+
+    Attributes:
+        model: Specifies the model that this inline admin interface is for.
+        extra: Defines how many extra blank forms are displayed on the admin page when a new Trace is created.
+        readonly_fields: Specifies which fields on the admin interface are read-only.
+    """
 
     model = Event
     extra = 0
@@ -44,21 +75,21 @@ class EventInline(admin.TabularInline):
 
 @admin.register(PatientJourney)
 class PatientJourneyAdmin(admin.ModelAdmin):
-    """Admin page for the PatientJourney model."""
+    """Django admin interface for managing PatientJourney instances and related Trace instances."""
 
     inlines = [TraceInline]
 
 
 @admin.register(Trace)
 class TraceAdmin(admin.ModelAdmin):
-    """Admin page for the Trace model."""
+    """Django admin interface for managing Trace instances and related Cohort and Event instances."""
 
     inlines = [CohortInline, EventInline]
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
-    """Admin page for the Event model."""
+    """Django admin interface for managing Event instances."""
 
 
 admin.site.register(Metric)
