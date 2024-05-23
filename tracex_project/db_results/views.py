@@ -95,22 +95,27 @@ class MetricsDashboardView(TemplateView):
         })
 
     def update_context_with_data_tables(self, context, trace_df):
-        """Format and add data tables to context."""
-        relevance_df = self.format_styled_df(trace_df[["activity", "activity_relevance"]], self.color_relevance)
-        timestamp_df = self.format_styled_df(trace_df[
-                                                 ["activity", "time:timestamp", "time:end_timestamp",
-                                                  "timestamp_correctness", "correctness_confidence"]
-                                             ], self.color_timestamp_correctness)
+        """Format and add data tables to context, directly applying styling to DataFrames."""
+
+        # Apply renaming, styling, and convert to HTML, then update the context
+        relevance_columns = ["activity", "activity_relevance"]
+        timestamp_columns = ["activity", "time:timestamp", "time:end_timestamp", "timestamp_correctness",
+                             "correctness_confidence"]
+
+        relevance_df = trace_df[relevance_columns]
+        relevance_df = u.Conversion.rename_columns(relevance_df)
+        relevance_styled = relevance_df.style.set_table_attributes('class="dataframe"').apply(self.color_relevance,
+                                                                                              axis=1).hide().to_html()
+
+        timestamp_df = trace_df[timestamp_columns]
+        timestamp_df = u.Conversion.rename_columns(timestamp_df)
+        timestamp_styled = timestamp_df.style.set_table_attributes('class="dataframe"').apply(
+            self.color_timestamp_correctness, axis=1).hide().to_html()
 
         context.update({
-            "relevance_df": relevance_df.to_html(),
-            "timestamp_df": timestamp_df.to_html()
+            "relevance_df": relevance_styled,
+            "timestamp_df": timestamp_styled
         })
-
-    def format_styled_df(self, df, style_function):
-        """Apply styling function to DataFrame and return the styled DataFrame."""
-        df = u.Conversion.rename_columns(df)
-        return df.style.set_table_attributes('class="dataframe"').apply(style_function, axis=1).hide()
 
     @staticmethod
     def color_relevance(row):
