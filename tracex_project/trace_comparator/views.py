@@ -19,6 +19,8 @@ from tracex.logic.utils import DataFrameUtilities, Conversion
 
 
 class TraceComparisonMixin(View):
+    """Mixin providing functionality that is used in multiple views in the trace comparator app."""
+
     @staticmethod
     def get_first_and_last_trace(
         patient_journey_name: str,

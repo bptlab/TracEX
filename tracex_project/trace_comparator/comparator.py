@@ -1,10 +1,9 @@
 """The trace comparator compares the pipeline output against a ground truth and vice versa."""
 import time
 from typing import List, Tuple
-
-import pandas as pd
 from pathlib import Path
 from django.conf import settings
+import pandas as pd
 
 from extraction.models import Prompt
 from tracex.logic.logger import log_execution_time
