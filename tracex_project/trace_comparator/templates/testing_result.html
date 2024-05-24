@@ -49,13 +49,15 @@
         </div>
     </div>
 </div>
-<button id="togglePipelineTable" class="menu_button">Show/Hide Extracted Trace from the Pipeline</button>
+<button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
 <div id="contentPipeline" style="display: none;">
+    <br>
     <div>{{ pipeline_output|safe }}</div>
 </div>
 
-<button id="toggleGroundTruthTable" class="menu_button">Show/Hide Ground Truth Trace</button>
+<button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
 <div id="contentGroundTruth" style="display: none;">
+    <br>
     <div>{{ ground_truth_output|safe }}</div>
 </div>
 
@@ -63,7 +65,7 @@
     <button class="menu_button">Return to Trace Testing Environment</button>
 </a>
 <a href="{% url 'landing_page' %}">
-    <button class="menu_button">Return to TracEX menu</button>
+    <button class="menu_button">Return to TracEX Menu</button>
 </a>
 </body>
 </html>
