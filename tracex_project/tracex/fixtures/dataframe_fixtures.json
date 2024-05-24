@@ -1,0 +1,3539 @@
+[
+{
+    "model": "extraction.patientjourney",
+    "pk": 98,
+    "fields": {
+        "name": "journey_comparison_1",
+        "patient_journey": "I started experiencing symptoms of Covid-19 on July 15, 2021. As a 51-year-old teacher from Germany, I knew the importance of taking immediate action. I isolated myself at home and informed my family about the situation. Despite the financial difficulties we were facing, my main concern was the health and safety of my loved ones.\r\n\r\nIn the next few days, my symptoms worsened, and I decided to consult a doctor. I reached out to my family physician, who advised me to get tested for Covid-19. I made an appointment at a local testing center and underwent the necessary tests. The results confirmed my infection, and the doctor recommended home quarantine and symptomatic treatment.\r\n\r\nDuring my isolation period, I focused on resting and following the doctor's advice. My loving wife took care of me and ensured that I had everything I needed. My children, understanding the seriousness of the situation, helped around the house and supported me emotionally.\r\n\r\nAs the weeks went by, I slowly recovered from the infection, thanks to the care and support of my family. I returned to work as a teacher, taking necessary precautions to protect both myself and my students.\r\n\r\nIn the following months, the Covid-19 situation began to improve, and vaccination campaigns were initiated. I made the decision to get vaccinated to further protect myself and those around me. I consulted with my doctor about the vaccine and its benefits for me as an individual. After careful consideration, I received my first dose of the vaccine in the month of September 2021.\r\n\r\nFollowing the initial dose, I experienced mild side effects such as fatigue and soreness at the injection site. However, I remained optimistic and continued with my daily life while adhering to the safety guidelines.\r\n\r\nIn the weeks that followed, I received my second dose of the vaccine, completing the vaccination process. I felt a sense of relief and hope for the future, knowing that I had taken the necessary steps to protect myself and contribute to the collective effort of ending the pandemic.\r\n\r\nThroughout this whole journey, I am grateful for the love and support I received from my family and the guidance of the healthcare professionals. Their care and expertise played a significant role in my recovery and ability to resume my work as a teacher."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 99,
+    "fields": {
+        "name": "journey_comparison_2",
+        "patient_journey": "I started experiencing symptoms of Covid-19 on June 15, 2021. As a doctor, I immediately recognized the signs and knew I needed to take action. I self-isolated in a separate room of my house to protect my family and prevent any potential spread of the virus. The next day, I contacted my primary care physician and informed them about my symptoms.\r\n\r\nOver the course of the next few days, my symptoms progressed, and I started experiencing high fever, cough, and fatigue. I diligently followed the guidelines provided by healthcare authorities, taking over-the-counter medication to manage my symptoms and staying hydrated. I continued to stay isolated at home, avoiding close contact with others.\r\n\r\nConcerned about the severity of my symptoms, I reached out to a colleague who specialized in infectious diseases for a telemedicine consultation. They provided valuable advice on managing my symptoms and recommended regularly monitoring my oxygen levels using a pulse oximeter.\r\n\r\nAs the week progressed, my symptoms gradually improved. However, I remained cautious and continued to self-isolate to ensure the virus had fully run its course. After two weeks of isolation, I finally started feeling better and was able to resume my normal activities.\r\n\r\nIn terms of vaccination, after recovering from Covid-19, I decided to get vaccinated to provide additional protection against future infections. I received the first dose of the vaccine a few months later in September 2021, following the recommended schedule. I experienced mild side effects, including soreness at the injection site and fatigue, but they subsided within a few days.\r\n\r\nI received the second dose of the vaccine in October 2021, completing the vaccination process. I followed up with my primary care physician to ensure I had developed a strong immune response to the virus. They reassured me that the vaccine would significantly reduce the likelihood of reinfection and the severity of any future infections.\r\n\r\nOverall, my experience with Covid-19 highlighted the importance of following public health guidelines, seeking medical advice, and taking necessary precautions to protect both myself and my loved ones."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 100,
+    "fields": {
+        "name": "journey_comparison_3",
+        "patient_journey": "As a 35-year-old doctor constantly on the go, juggling between patients and hospital rounds, I found myself infected with Covid-19 on August 15, 2022. It started with mild symptoms like fatigue and a slight cough, but quickly progressed to include body aches and a high fever. Concerned about the potential impact on my patients, I immediately isolated myself at home.\r\n\r\nOver the next few days, my symptoms worsened, and I experienced difficulty breathing. Knowing the seriousness of the situation, I reached out to a fellow doctor for a virtual consultation. They advised me to monitor my oxygen levels regularly and prescribed medications to alleviate my symptoms. With their guidance, I managed to stabilize my condition and avoid hospitalization.\r\n\r\nAs the days passed, I realized the toll the virus was taking on my body. My energy levels were depleted, making it challenging for me to carry out my daily duties. Thankfully, my colleagues stepped in and offered to cover my hospital rounds, allowing me time to rest and recover.\r\n\r\nIn the following weeks, I focused on self-care, ensuring I followed a healthy diet, stayed hydrated, and got enough rest. I also relied on virtual support groups to connect with others who had experienced Covid-19, providing a sense of camaraderie during these difficult times.\r\n\r\nWith the recovery and discovery of vaccines, I made the decision to get vaccinated as soon as it became available to me. I received both doses of the vaccine within the recommended timeframe, which provided me with a sense of relief and protection against future infections.\r\n\r\nThroughout this entire experience, I couldn't help but reflect on my single status. Being isolated during my illness made me long for companionship even more. As I approached my late thirties, I wondered if I would ever find love amidst my hectic schedule. However, I remained hopeful and determined to prioritize my health and well-being while keeping an open heart to whatever the future might hold.\r\n\r\nIn summary, my Covid-19 infection led me to take immediate action by isolating myself and seeking medical advice. I relied on virtual consultations, support groups, and the support of my colleagues to navigate through the challenging period of illness. Eventually, I seized the opportunity to get vaccinated, completing the recommended doses. The experience reinforced the importance of self-care and strengthened my resolve to find love despite the demands of my career."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 114,
+    "fields": {
+        "name": "journey_comparison_4",
+        "patient_journey": "I had my first interaction with covid in early 2021. It all started with everyone getting back to school after the long break over the summer of 2020.\r\n\r\nBecause we were wearing masks all the time the immune system was really down. Idk how to say it, but every little cold hit harder than before.\r\n\r\nAnd that's why I didn't think much about it when I started coughing.\r\n\r\nBut then it progressed to also fever but i never had typical problems like shortness of breath or all in all really heavy symptoms.\r\n\r\nI still went to school though as I had to prepare for my graduation, so I didn't test myself so i dont really know, if i really had it back then.\r\n\r\nHowever in the last weeks we had to test us every second day of school and some day in April i had a positiv test, so I had to go in quarantine and to get a negative pcr test like one week later at the local doctors'.\r\n\r\nIn this time I had no symptoms at all lol. I guess it was like october in 2021 when I finally got the first dose of vaccine against covid.\r\n\r\nThe second was six or seven weeks later and someday in the first half of 22 i got the third round. I never understood antivaccers, but thats not my beer anyway...\r\n\r\nI'm just happy that me and all people around me hadn't hard times with corona."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 115,
+    "fields": {
+        "name": "patient_journey_1",
+        "patient_journey": "On 21/02/2021, I first experienced symptoms of Covid-19, including fever and fatigue. Over the next few days, my symptoms worsened, and I decided to consult my family doctor. On 24/02/2021, I visited the doctor's office, where I was diagnosed with Covid-19. The doctor advised me to self-isolate at home and prescribed medication to manage my symptoms.\n\nIn the following days, my condition deteriorated, and on 27/02/2021, I was admitted to the hospital due to severe respiratory distress. I stayed in the hospital for a week, receiving oxygen therapy and close monitoring from medical staff. Fortunately, my condition improved, and I was discharged on 06/03/2021.\n\nAfter recovering from Covid-19, I decided to get vaccinated to protect myself and my loved ones. In the weeks following my recovery, I received two doses of the Covid-19 vaccine as recommended by healthcare professionals. The vaccination process was smooth, and I experienced minimal side effects.\n\nThroughout my journey with Covid-19, I learned the importance of early detection, medical intervention, and vaccination in combating the virus. Despite the challenges and uncertainties, I found strength in my family, work, and the support of healthcare providers. My experience with Covid-19 has reinforced my commitment to health and safety in both my personal and professional life as an architect."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 116,
+    "fields": {
+        "name": "patient_journey_2",
+        "patient_journey": "I started experiencing symptoms of Covid-19 on April 17, 2020. As a busy lawyer, managing my demanding cases and family responsibilities became challenging. The first few days were tough, juggling work and caring for my two children while feeling unwell. I tried to rest as much as possible but found it hard to balance everything.\n\nIn the following days, my symptoms persisted, and I decided to consult with a doctor. I visited a local clinic for a check-up and was advised to isolate at home and monitor my symptoms closely. The doctor prescribed medications to help alleviate some of the discomfort I was experiencing.\n\nOver the next week, my condition worsened, and I was admitted to the hospital for further treatment. The hospital stay was a challenging time, but I received excellent care from the medical staff. After a few days of intensive treatment, I started to show signs of improvement.\n\nFollowing my recovery, I prioritized getting vaccinated against Covid-19. I received the vaccine as soon as it was available in Iceland and followed up for the second dose according to the recommended schedule. Vaccination brought me a sense of relief and added protection for myself and my family.\n\nThroughout this journey, I learned the importance of prioritizing health and taking necessary precautions to prevent the spread of the virus. The experience was a reminder of the fragility of our health and the importance of cherishing moments with loved ones."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 117,
+    "fields": {
+        "name": "journey_rw_2",
+        "patient_journey": "\n\n28FTM, 5'6\", 210 lbs., causasian. I do not smoke, I don't drink, I don't do drugs, there's no chance of pregnancy or STDs.\n\nFor about 7-8 months I've been suffering from accumulating symptoms and I've been seeing the doctor since February.\n\nSymptoms started with mild dizziness, which steadily increased. Eventually, near the end of February, the doctor diagnosed me with a double ear infection and started antibiotics and steroids.\n\nThese did not work.\n\nIn total I took four rounds of steroids, five antibiotics.\n\nIn April an ENT said I didn't have an ear infection.\n\nAt the point, in addition to the dizziness, I was having frequent headaches and occasional chest pains.\n\nI was referred on April 9 to a cardiologist and a neurologist, and scheduled appointments for May 2 and June 3 respectively (they didn't have anything earlier).\n\nAs of today, April 28, I have headaches and dizziness every day, occasional chest pains, difficulty breathing for minimal exertion, occasionally stabbing pains in my arms and legs. Three days ago I went to the hospital because I was having stomach pains so bad I couldn't sit or stand without hurting.\n\nThey did bloodwork, urinalysis, and CTs of my head and stomach. Seeing nothing, they sent me home.\n\nAll of the symptoms persist.\n\nLast night, I woke up in the middle of the night in excruciating pain. It felt like someone had inserted a hot coal into my back, nestled against my spine, on the right-hand side. I had to sit up for a few minutes, and eventually the pain dulled to a steady, aching throb, and I laid back down and despite the discomfort eventually fell asleep.\n\nToday, there was a dull ache in my back on the right side from shoulder to hip.\n\nNow, around 8pm, my right ankle out of no where started hurting. It's a burning, throbbing sensation that persists even now by 9:13 pm. It feels like I sprained my ankle, but I can't imagine how. When the pain started, I was sitting, and I've felt so awful that I haven't exactly been doing anything strenuous today.\n\nI didn't run, I didn't fall, I didn't jump or step off of anything high, nothing to explain ankle pain. But it's throbbing and hurts to touch (when I touch it I get a sharp pain).\n\nAll of these symptoms have been accumulating since October/November, and we still don't seem any closer to a diagnosis or understanding why.\n\nI assume it's all connected, it seems a bit far-fetched that it wouldn't be. And the ankle being on the right side along with the other pain seems significant.\n\nDoes anyone have any idea of what I should ask my doctor to look for? I'm desperate here. I'm missing work, school, suffering daily. And not knowing why is so frustrating. Disheartening. I'm losing steam.\n"
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 118,
+    "fields": {
+        "name": "patient_journey_3",
+        "patient_journey": "On March 12, 2020, I first noticed symptoms of Covid-19, feeling fatigued and having a persistent cough. Over the next few days, my symptoms worsened, and I developed a fever and difficulty breathing. Concerned about the severity of my condition, I decided to consult a doctor \"in the next days\". The doctor diagnosed me with Covid-19 and advised me to self-isolate at home. \n\nAs the week progressed, my symptoms became more intense, and I experienced chest pain and shortness of breath. On the advice of the doctor, I went to the hospital \"the week after that\" for further evaluation. Due to the severity of my symptoms, I had to stay in the hospital for a few days for observation and treatment.\n\nAfter being discharged from the hospital, I continued my recovery at home, focusing on rest, hydration, and taking prescribed medications. I also made lifestyle changes by incorporating more nutritious foods and engaging in light exercises to strengthen my immune system.\n\nSeveral months later, as the Covid-19 vaccine became available, I made the decision to get vaccinated. I received the vaccine twice, following the recommended schedule, to ensure maximum protection against future infections.\n\nOverall, my experience with Covid-19 was challenging but taught me the importance of prioritizing health and well-being during uncertain times."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 119,
+    "fields": {
+        "name": "patient_journey_4",
+        "patient_journey": "On August 24th, 2023, I started experiencing the first symptoms of Covid-19. As a software engineer balancing work and family life, I immediately took precautions and isolated myself at home. Over the next few days, the symptoms progressed, and I consulted with my primary care physician via telemedicine to discuss my condition. The doctor advised me to monitor my symptoms closely and prescribed medications to alleviate fever and cough.\n\nIn the following week, as my symptoms worsened, I visited my local hospital for a thorough evaluation. The doctors conducted tests and confirmed that I was indeed infected with Covid-19. I was admitted for treatment and spent a few days in the hospital under observation. The medical team provided supportive care and monitored my oxygen levels regularly.\n\nAfter being discharged, I continued to recuperate at home and followed the prescribed treatment plan diligently. I gradually started feeling better, but the recovery process was slow. I focused on rest, hydration, and maintaining a healthy diet to aid my body in fighting off the virus.\n\nAs the weeks went by, I recovered from the infection but remained cautious about the ongoing pandemic. I decided to get vaccinated to protect myself and my loved ones from future infections. I received the Covid-19 vaccine and made sure to complete the recommended doses to ensure maximum immunity.\n\nThroughout this challenging time, the support of my family and the guidance of healthcare professionals were crucial in my recovery journey. I learned the importance of prioritizing health and well-being while managing my career and family responsibilities effectively. Covid-19 was a wake-up call that highlighted the significance of preventive measures and maintaining a balanced lifestyle."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 120,
+    "fields": {
+        "name": "journey_rw_5",
+        "patient_journey": "Hello 20y old Male here never had any health issues, I've been prescribed Doxycycline for 3 months to treat acne, I took it for like a month and a half but and the end I was taking 2 pills per day so 100mg twice a day because I thought that would make my acne clear out faster ...\r\n\r\nNow I stopped taking it for 7 days because im pretty sure Doxycycline made me sick.\r\n\r\nThe First 2 days after stopping it I had constipation stomach bloating lightheaded dizzy weak arm numbness loss of appetite shortness of breath, excessive sweating..\r\n\r\nThe 3rd day was the worst heart palpitations shortness of breath I couldn't feel my hands anymore (+hands tingling) dizzy lightheaded I had to go to the hospital they did all kind of test they said I was perfectly healthy no heart issues or anything probably a panic attack (never had one)\r\n\r\nBut Im pretty sure 99% precent all of this symptoms are due to Doxycycline.\r\n\r\nDay 7 today Im feeling a little bit better all my previous symptoms are still here but much less severe.\r\n\r\nCould any of this be caused by Doxycycline side effects"
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 121,
+    "fields": {
+        "name": "journey_rw_6",
+        "patient_journey": "Today is 29.04.2024. 3 months ago i took Prednisone for 2 weeks for hearing loss. During that time i gained like 10 kg because i had insane food cravings and... well because it's prednisone. 3 months have passed and i haven't lost a single kilo. I'm basically overweight right now according to my BMI. I'm feeling depressed and very unhappy with myself and the way I look. Will this additional weight eventually go away on its own or do I need to do something extra to lose it?"
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 122,
+    "fields": {
+        "name": "journey_rw_7",
+        "patient_journey": "I'm 17M, 6'2, ~200lbs\r\n\r\nNo alcohol, no drugs, no medication - nothing\r\n\r\nToday is 29.04.2024. I've been feeling nauseous for almost 2 weeks and it's without end. I have no appetite for any food and have barely been eating at all. No vomiting but that may be because I'm severely emetophobic, but I have been having diahorrea. I also have RCPD. I constantly have stomach discomfort and nausea from the moment I wake up until I go to sleep and I can't even function properly because it makes me so uncomfortable.\r\n\r\nI've had this before but it usually only lasts a day or two, never this long or debilitating.\r\n\r\nI've been eating and sleeping kinda shitty recently which could be the cause, however i'm worried it may be some sort of intestinal problem or something..."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 123,
+    "fields": {
+        "name": "journey_rw_8",
+        "patient_journey": "I (24F) was hospitalized on April 9th with severe abdominal pain and low fever, no other symptoms. Found out it was a liver adenoma. So far there’s been no explanation whatsoever about why I have a fever. It’s not covid, not the flu, and blood cultures in the ER all came back negative. I got IV antibiotics just in case. About the tumor: it’s 7cm and I was told to avoid anything with estrogen and they want to re-scan in 6 months with a different contrast fluid to see how much it goes down, etc. No biopsy though, which worries me. I was on the combination birth control pill for 5 years.\r\n\r\nI was told that it’s definitely an adenoma because a bleed is what caused my severe pain earlier this month and they could see that it bled on my MRI. I do have a family history of thyroid issues and read that some chronic conditions can cause a low grade fever, and, of course the only other option Google presented was cancer (i.e. hepatic carcinoma) Is it worth getting my thyroid rechecked now? Last year I had hypERthyroid symptoms like weight issues, but a few months ago my TSH went in the opposite direction and was out of normal range and my GP wanted to monitor every few months. I’ve also been tired as hell but attributed that to the tumor. But I thought hypothyroid made people colder? I’ve literally had a fever since my ER admission but was told it is no big deal unless it’s 100.5+ and it has never exceeded 100°, but has not gone away at all. Am I just supposed to have a fever until my next scan????"
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 124,
+    "fields": {
+        "name": "journey_rw_9",
+        "patient_journey": "Today is 29.04.2024. So I’m gonna try and not ramble too much but life has been HELL for a year now. Last April I suddenly started feeling weird, a weird feeling in my head and extreme brain fog. I started to have a panic attack. I calmed down, went to sleep. Woke up next morning and my face felt weird. Like a sunbelt sensation at times and a numbing feeling at other times. My head pounded when I was laying down. I felt weird for a week and was chalking it up to some weird anxiety or long COVID thing until I felt a bump on my head. Then I had remembered hitting my head at work the night before I started feeling weird. When I hit it, it phased me a little but I easily shook it off and kept working. Felt fine. So I forgot about it. Went to the ER over a week into it to have a CT scan and it was clean. Said I most likely had a concussion. Okay. I admittedly did things like drink alachol and exercise during the first week so I expected a slower recovery than a normal concussion. Well when I hit past the month mark of having these symptoms, I started feeling really hopeless. Had dp/dr I believe and suddenly couldn’t sleep. Like at all. After 3 days of not sleep finally went into a clinic and they put me on amitriptyline which actually helped me sleep thankfully. For a time things started to potentially look like I could be on track to returning to normal. Some symptoms were gone, the extreme pain when laying down, the brain fog, light sensitivity. While some persisted, dry eyes, facial pressure, headaches and migraines. I went to an eye doctor because my eyes were so dry and bloodshot, but they didn’t seemed concerned with anything. Started gabapentin for the weird pressure in my head and face in case it was something nerve related. Seemed to ease it and I seemed to finally start feeling normal. Lasted a whole week or so until one night my vision felt really off. I looked around my room and it was as if everything was covered in a slight static. Did a lot of research and Visual Snow Syndrome seemed to be the case as my eyes had just checked out fine. This really depressed me as it’s a rare syndrome with no reliable treatments or cure. For a few months I was obsessed into researching this and for potential treatments. It was vicious cycle. Then I just somewhat accepted it. But I still haven’t returned to a normal life. I got off the gabapentin because I was concerned it caused the Visual snow (as it started shortly after starting it) and was probably blindfully hopeful that it would make it go away if I got off of it. Now I deal with constant migraines, burning skin sensations on my face, dry eyes, dry nostrils, dry mouth, facial pressure, chronic fatigue. The visual snow really sucks, but at the end of the day it’s all these damn physical symptoms that is keeping me bed ridden. My head hurts all the time, no energy…. I’m aware of what post concussion syndrome is. But it’s been a damn year. If that’s what I have, like I’m over it. Migraines are connected to visual snow syndrome and post concussion syndrome but what the hell is this dry nostril, dull sense of smell, facial pressure, all these other symptoms? It’s too many damn symptoms. I am an individual with no health isurance so all I was able to do was go to a free clinic, they helped me with the previous meds, but as soon as I’ve brought up all these symptoms and visual snow, all they will spout is mental health this and that. Yeah my mental health is trash, but it’s because my vision is screwed up, my head hurts every damn day, and just don’t feel like a normal person anymore. I’m tired.\r\n\r\nI’ve also looked into potential mercury poisoning. Long story short, I ate more than the weekly ecommended tuna for a 5-6 month period from June 2021 to December 2021 while on a low calorie diet. Never showed any symptoms of Mercury poisoning after that or the entire year of 2022. But it does cause a lot of neurological issues and altered senses (visual snow, lack of smell) but shit I don’t know where to begin with this one. The potential exposure was years ago at this point. I’ve read about hair tests and such but a lot of this and heavy metal treatments sound like a scam. I’m afraid to even go down this route. and what are the odds mercury holds off symptoms til right after I hit my head? I feel like it’s mostly anxiety this keeps this in the back of my mind but it’s potentially something.\r\n\r\nDysautonomia?\r\n\r\nI just don’t know where to begin with this crap. Any insight or possible solutions would be appreciated."
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 125,
+    "fields": {
+        "name": "journey_rw_10",
+        "patient_journey": "Today is 29.04.2024. It's been nearly 7 months since I started to take medicine for anxiety. In beginning of first two months I wasn't feeling much difference. But after 3 months I was feeling more positive and I lost some of my fears (like dark ,ghost , sleeping alone ) and l got a good mood( before I used to have very sad mood sometimes ) . But after that I don't feel much difference . I have very low self-esteem. And I don't know does it related to anxiety. And I don't know what to say to my doctor. Because I am confused even I have anxiety. When should I stop this medicines ?\r\n\r\nAge -27 Weight -67 kg Male Medicines taking - amisulpride 50, lorazepam 1mg and desvenlafaxine 50"
+    }
+},
+{
+    "model": "extraction.patientjourney",
+    "pk": 134,
+    "fields": {
+        "name": "Test",
+        "patient_journey": "I am very sick. I need help. I have Covid-19. I am in the hospital. I am in the ICU. I am on a ventilator. Please send help quickly."
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 6,
+    "fields": {
+        "patient_journey": 98,
+        "last_modified": "2024-04-05T13:22:12.197"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 7,
+    "fields": {
+        "patient_journey": 99,
+        "last_modified": "2024-04-05T14:11:38.748"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 8,
+    "fields": {
+        "patient_journey": 100,
+        "last_modified": "2024-04-05T14:19:44.225"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 33,
+    "fields": {
+        "patient_journey": 114,
+        "last_modified": "2024-04-16T13:11:24.692"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 34,
+    "fields": {
+        "patient_journey": 115,
+        "last_modified": "2024-04-25T13:43:20.276"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 35,
+    "fields": {
+        "patient_journey": 116,
+        "last_modified": "2024-04-25T13:46:36.629"
+    }
+},
+{
+    "model": "extraction.trace",
+    "pk": 36,
+    "fields": {
+        "patient_journey": 118,
+        "last_modified": "2024-04-25T13:54:01.875"
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 38,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Concussion",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 39,
+    "fields": {
+        "trace": null,
+        "age": 27,
+        "sex": null,
+        "origin": null,
+        "condition": "Anxiety",
+        "preexisting_condition": "Anxiety"
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 40,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 41,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 42,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 43,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 44,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 45,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "Covid-19",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.cohort",
+    "pk": 46,
+    "fields": {
+        "trace": null,
+        "age": null,
+        "sex": null,
+        "origin": null,
+        "condition": "I appreciate your understanding. If you have any further details or specific dates related to the Covid-19 diagnosis, please provide them so we can accurately determine the illness.",
+        "preexisting_condition": null
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 175,
+    "fields": {
+        "trace": 6,
+        "activity": "experiencing first covid 19 symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2021-07-15T00:00:00",
+        "end": "2021-07-17T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.198"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 176,
+    "fields": {
+        "trace": 6,
+        "activity": "isolating myself",
+        "event_type": "Lifestyle Change",
+        "start": "2021-07-15T00:00:00",
+        "end": "2021-08-02T00:00:00",
+        "duration": "21 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.198"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 177,
+    "fields": {
+        "trace": 6,
+        "activity": "informing family",
+        "event_type": "Lifestyle Change",
+        "start": "2021-07-15T00:00:00",
+        "end": "2021-07-15T00:00:00",
+        "duration": "01:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.198"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 178,
+    "fields": {
+        "trace": 6,
+        "activity": "putting loved ones over financial worries",
+        "event_type": "Feelings",
+        "start": "2021-07-15T00:00:00",
+        "end": "2021-07-15T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.198"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 179,
+    "fields": {
+        "trace": 6,
+        "activity": "experiencing worse symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2021-07-17T00:00:00",
+        "end": "2021-07-25T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.198"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 180,
+    "fields": {
+        "trace": 6,
+        "activity": "consulting family physician",
+        "event_type": "Doctor Visit",
+        "start": "2021-07-17T00:00:00",
+        "end": "2021-07-17T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 181,
+    "fields": {
+        "trace": 6,
+        "activity": "getting tested for covid 19 in local testing center",
+        "event_type": "Diagnosis",
+        "start": "2021-07-18T00:00:00",
+        "end": "2021-07-18T00:00:00",
+        "duration": "02:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 182,
+    "fields": {
+        "trace": 6,
+        "activity": "testing positive for covid 19",
+        "event_type": "Diagnosis",
+        "start": "2021-07-18T00:00:00",
+        "end": "2021-07-18T00:00:00",
+        "duration": "00:15:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 183,
+    "fields": {
+        "trace": 6,
+        "activity": "focusing on resting while isolated",
+        "event_type": "Treatment",
+        "start": "2021-07-17T00:00:00",
+        "end": "2021-08-02T00:00:00",
+        "duration": "14 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 184,
+    "fields": {
+        "trace": 6,
+        "activity": "receiving emotional support from family",
+        "event_type": "Feelings",
+        "start": "2021-07-15T00:00:00",
+        "end": "2021-08-02T00:00:00",
+        "duration": "21 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 185,
+    "fields": {
+        "trace": 6,
+        "activity": "experiencing slow recovery",
+        "event_type": "Symptom Offset",
+        "start": "2021-07-25T00:00:00",
+        "end": "2021-08-02T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.199"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 186,
+    "fields": {
+        "trace": 6,
+        "activity": "returning to work with precautions",
+        "event_type": "Lifestyle Change",
+        "start": "2021-08-02T00:00:00",
+        "end": "2021-08-02T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 187,
+    "fields": {
+        "trace": 6,
+        "activity": "getting vaccinated after consultation with doctor",
+        "event_type": "Treatment",
+        "start": "2021-09-01T00:00:00",
+        "end": "2021-09-01T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 188,
+    "fields": {
+        "trace": 6,
+        "activity": "experiencing mild side effects from vaccine",
+        "event_type": "Feelings",
+        "start": "2021-09-01T00:00:00",
+        "end": "2021-09-03T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 189,
+    "fields": {
+        "trace": 6,
+        "activity": "remainding optimistic and adhering to safety guidelines",
+        "event_type": "Feelings",
+        "start": "2021-09-01T00:00:00",
+        "end": "2021-09-03T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 190,
+    "fields": {
+        "trace": 6,
+        "activity": "getting the second vaccination",
+        "event_type": "Treatment",
+        "start": "2021-09-19T00:00:00",
+        "end": "2021-09-19T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 191,
+    "fields": {
+        "trace": 6,
+        "activity": "feeling a sense of relief",
+        "event_type": "Feelings",
+        "start": "2021-09-19T00:00:00",
+        "end": "2021-09-19T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.200"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 192,
+    "fields": {
+        "trace": 6,
+        "activity": "feeling thankful for healthcare personal",
+        "event_type": "Feelings",
+        "start": "2021-09-19T00:00:00",
+        "end": "2021-09-19T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T13:22:12.201"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 193,
+    "fields": {
+        "trace": 7,
+        "activity": "experiencing first covid 19 symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2021-06-15T00:00:00",
+        "end": "2021-06-15T00:00:00",
+        "duration": "12:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.749"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 194,
+    "fields": {
+        "trace": 7,
+        "activity": "self-isolating to protect family",
+        "event_type": "Lifestyle Change",
+        "start": "2021-06-15T00:00:00",
+        "end": "2021-06-29T00:00:00",
+        "duration": "14 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.749"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 195,
+    "fields": {
+        "trace": 7,
+        "activity": "experiencing progressing symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2021-06-15T00:00:00",
+        "end": "2021-06-18T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.749"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 196,
+    "fields": {
+        "trace": 7,
+        "activity": "following guidelines from healthcare authorities",
+        "event_type": "Treatment",
+        "start": "2021-06-15T00:00:00",
+        "end": "2021-06-29T00:00:00",
+        "duration": "14 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.749"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 197,
+    "fields": {
+        "trace": 7,
+        "activity": "taking over-the-counter medication",
+        "event_type": "Medication",
+        "start": "2021-06-15T00:00:00",
+        "end": "2021-06-18T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.749"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 198,
+    "fields": {
+        "trace": 7,
+        "activity": "taking telemedicine consultation",
+        "event_type": "Doctor Visit",
+        "start": "2021-06-18T00:00:00",
+        "end": "2021-06-18T00:00:00",
+        "duration": "00:30:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.750"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 199,
+    "fields": {
+        "trace": 7,
+        "activity": "experiencing improving symptoms",
+        "event_type": "Symptom Offset",
+        "start": "2021-06-23T00:00:00",
+        "end": "2021-06-25T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.750"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 200,
+    "fields": {
+        "trace": 7,
+        "activity": "leaving self-isolation and returning to normal activities",
+        "event_type": "Lifestyle Change",
+        "start": "2021-06-29T00:00:00",
+        "end": "2021-06-29T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.750"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 201,
+    "fields": {
+        "trace": 7,
+        "activity": "getting first dose of vaccine",
+        "event_type": "Treatment",
+        "start": "2021-09-01T00:00:00",
+        "end": "2021-09-01T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T14:11:38.750"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 202,
+    "fields": {
+        "trace": 7,
+        "activity": "experiencing mild side effects",
+        "event_type": "Feelings",
+        "start": "2021-09-01T00:00:00",
+        "end": "2021-09-04T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:11:38.750"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 203,
+    "fields": {
+        "trace": 7,
+        "activity": "getting second dose of vaccine",
+        "event_type": "Treatment",
+        "start": "2021-10-01T00:00:00",
+        "end": "2021-10-01T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T14:11:38.751"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 204,
+    "fields": {
+        "trace": 7,
+        "activity": "getting reassured about effect of vaccine",
+        "event_type": "Doctor Visit",
+        "start": "2021-10-02T00:00:00",
+        "end": "2021-10-02T00:00:00",
+        "duration": "00:30:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T14:11:38.751"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 205,
+    "fields": {
+        "trace": 8,
+        "activity": "experiencing first covid 19 symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2022-08-15T00:00:00",
+        "end": "2022-08-15T00:00:00",
+        "duration": "12:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.226"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 206,
+    "fields": {
+        "trace": 8,
+        "activity": "self-isolating to protect patients",
+        "event_type": "Lifestyle Change",
+        "start": "2022-08-15T00:00:00",
+        "end": "2022-08-29T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.226"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 207,
+    "fields": {
+        "trace": 8,
+        "activity": "experiencing worse symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2022-08-15T00:00:00",
+        "end": "2022-08-18T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.226"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 208,
+    "fields": {
+        "trace": 8,
+        "activity": "consulting doctor virtually",
+        "event_type": "Doctor Visit",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-08-18T00:00:00",
+        "duration": "00:30:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.226"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 209,
+    "fields": {
+        "trace": 8,
+        "activity": "monitoring oxygen levels",
+        "event_type": "Treatment",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-08-29T00:00:00",
+        "duration": "11 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.226"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 210,
+    "fields": {
+        "trace": 8,
+        "activity": "taking prescribed medication",
+        "event_type": "Medication",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-08-29T00:00:00",
+        "duration": "11 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.227"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 211,
+    "fields": {
+        "trace": 8,
+        "activity": "stabelizing condition",
+        "event_type": "Symptom Offset",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-08-19T00:00:00",
+        "duration": "1 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.227"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 212,
+    "fields": {
+        "trace": 8,
+        "activity": "having difficulties carrying out daily duties",
+        "event_type": "Feelings",
+        "start": "2022-08-20T00:00:00",
+        "end": "2022-08-23T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.227"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 213,
+    "fields": {
+        "trace": 8,
+        "activity": "focusing on self-care",
+        "event_type": "Lifestyle Change",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-09-18T00:00:00",
+        "duration": "28 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.227"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 214,
+    "fields": {
+        "trace": 8,
+        "activity": "relying on virtual support groups for camaraderie",
+        "event_type": "Feelings",
+        "start": "2022-08-18T00:00:00",
+        "end": "2022-08-29T00:00:00",
+        "duration": "11 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.227"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 215,
+    "fields": {
+        "trace": 8,
+        "activity": "getting the first dose of vaccination",
+        "event_type": "Treatment",
+        "start": "2022-09-16T00:00:00",
+        "end": "2022-09-16T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T14:19:44.228"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 216,
+    "fields": {
+        "trace": 8,
+        "activity": "getting the second dose of vaccination",
+        "event_type": "Treatment",
+        "start": "2022-10-04T00:00:00",
+        "end": "2022-10-04T00:00:00",
+        "duration": "01:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-05T14:19:44.228"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 217,
+    "fields": {
+        "trace": 8,
+        "activity": "feeling reliefed and protected",
+        "event_type": "Feelings",
+        "start": "2022-10-04T00:00:00",
+        "end": "2022-10-04T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.228"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 218,
+    "fields": {
+        "trace": 8,
+        "activity": "prioritizing companionship over work",
+        "event_type": "Lifestyle Change",
+        "start": "2022-10-04T00:00:00",
+        "end": "2022-10-04T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-05T14:19:44.228"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 704,
+    "fields": {
+        "trace": 33,
+        "activity": "deterioration of the immune system due to masks",
+        "event_type": "Symptom Onset",
+        "start": "2020-07-01T00:00:00",
+        "end": "2021-01-01T00:00:00",
+        "duration": "180 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.693"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 705,
+    "fields": {
+        "trace": 33,
+        "activity": "starting to cough",
+        "event_type": "Symptom Onset",
+        "start": "2021-01-01T00:00:00",
+        "end": "2021-01-03T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.694"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 706,
+    "fields": {
+        "trace": 33,
+        "activity": "getting a fever on top",
+        "event_type": "Symptom Onset",
+        "start": "2021-01-03T00:00:00",
+        "end": "2021-01-05T00:00:00",
+        "duration": "2 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.694"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 707,
+    "fields": {
+        "trace": 33,
+        "activity": "refusing to test",
+        "event_type": "Lifestyle Change",
+        "start": "2021-01-01T00:00:00",
+        "end": "2021-01-05T00:00:00",
+        "duration": "4 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.694"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 708,
+    "fields": {
+        "trace": 33,
+        "activity": "testing positive for covid19",
+        "event_type": "Diagnosis",
+        "start": "2021-04-15T00:00:00",
+        "end": "2021-04-15T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.695"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 709,
+    "fields": {
+        "trace": 33,
+        "activity": "quarantining myself",
+        "event_type": "Treatment",
+        "start": "2021-04-15T00:00:00",
+        "end": "2021-04-22T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.695"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 710,
+    "fields": {
+        "trace": 33,
+        "activity": "testing negative for covid19",
+        "event_type": "Diagnosis",
+        "start": "2021-04-22T00:00:00",
+        "end": "2021-04-22T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-16T13:11:24.695"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 711,
+    "fields": {
+        "trace": 33,
+        "activity": "getting first dose of vaccine",
+        "event_type": "Treatment",
+        "start": "2021-10-01T00:00:00",
+        "end": "2021-10-01T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-16T13:11:24.695"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 712,
+    "fields": {
+        "trace": 33,
+        "activity": "getting second dose of vaccine",
+        "event_type": "Treatment",
+        "start": "2021-11-14T00:00:00",
+        "end": "2021-11-14T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-16T13:11:24.696"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 713,
+    "fields": {
+        "trace": 33,
+        "activity": "getting third dose of vaccine",
+        "event_type": "Treatment",
+        "start": "2022-03-01T00:00:00",
+        "end": "2022-03-01T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-16T13:11:24.696"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 714,
+    "fields": {
+        "trace": 34,
+        "activity": "starting to experience symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2021-02-21T00:00:00",
+        "end": "2021-02-24T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:43:20.251"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 715,
+    "fields": {
+        "trace": 34,
+        "activity": "worsening symptoms, consulting family doctor",
+        "event_type": "Doctor Visit",
+        "start": "2021-02-21T00:00:00",
+        "end": "2021-02-24T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 716,
+    "fields": {
+        "trace": 34,
+        "activity": "visiting doctor's, diagnosed with Covid-19",
+        "event_type": "Diagnosis",
+        "start": "2021-02-24T00:00:00",
+        "end": "2021-02-27T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 717,
+    "fields": {
+        "trace": 34,
+        "activity": "advised to self-isolate, prescribed medication",
+        "event_type": "Treatment",
+        "start": "2021-02-24T00:00:00",
+        "end": "2021-02-24T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 718,
+    "fields": {
+        "trace": 34,
+        "activity": "getting admitted to hospital due to respiratory distress",
+        "event_type": "Hospital Admission",
+        "start": "2021-02-27T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 719,
+    "fields": {
+        "trace": 34,
+        "activity": "hospital stay with oxygen therapy",
+        "event_type": "Hospital Admission",
+        "start": "2021-02-27T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 720,
+    "fields": {
+        "trace": 34,
+        "activity": "discharged from hospital",
+        "event_type": "Hospital Discharge",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-13T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 721,
+    "fields": {
+        "trace": 34,
+        "activity": "getting vaccinated post-recovery",
+        "event_type": "Treatment",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 722,
+    "fields": {
+        "trace": 34,
+        "activity": "receiving two doses of Covid-19 vaccine",
+        "event_type": "Treatment",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.252"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 723,
+    "fields": {
+        "trace": 34,
+        "activity": "smooth vaccination process, minimal side effects",
+        "event_type": "Feelings",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.253"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 724,
+    "fields": {
+        "trace": 34,
+        "activity": "importance of early detection, medical intervention, vaccination",
+        "event_type": "Lifestyle Change",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:43:20.253"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 725,
+    "fields": {
+        "trace": 34,
+        "activity": "finding strength in family, work, healthcare support",
+        "event_type": "Feelings",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:43:20.253"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 726,
+    "fields": {
+        "trace": 34,
+        "activity": "reinforced commitment to health and safety",
+        "event_type": "Lifestyle Change",
+        "start": "2021-03-06T00:00:00",
+        "end": "2021-03-06T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:43:20.253"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 727,
+    "fields": {
+        "trace": 35,
+        "activity": "starting to experience symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2020-04-17T00:00:00",
+        "end": "2020-04-20T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 728,
+    "fields": {
+        "trace": 35,
+        "activity": "managing work and family",
+        "event_type": "Lifestyle Change",
+        "start": "2020-04-17T00:00:00",
+        "end": "2020-04-20T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 729,
+    "fields": {
+        "trace": 35,
+        "activity": "struggling with work and illness",
+        "event_type": "Feelings",
+        "start": "2020-04-17T00:00:00",
+        "end": "2020-04-24T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 730,
+    "fields": {
+        "trace": 35,
+        "activity": "resting but finding it challenging",
+        "event_type": "Feelings",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 731,
+    "fields": {
+        "trace": 35,
+        "activity": "consulting with a doctor",
+        "event_type": "Doctor Visit",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-04-24T00:00:00",
+        "duration": "00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 732,
+    "fields": {
+        "trace": 35,
+        "activity": "visiting a local clinic",
+        "event_type": "Doctors Visit",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 733,
+    "fields": {
+        "trace": 35,
+        "activity": "receiving medications for symptoms",
+        "event_type": "Treatment",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 734,
+    "fields": {
+        "trace": 35,
+        "activity": "condition worsening and hospitalization",
+        "event_type": "Hospital Admission",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 735,
+    "fields": {
+        "trace": 35,
+        "activity": "receiving care during hospital stay",
+        "event_type": "Hospital Admission",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 736,
+    "fields": {
+        "trace": 35,
+        "activity": "showing signs of improvement",
+        "event_type": "Symptom Offset",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 737,
+    "fields": {
+        "trace": 35,
+        "activity": "getting vaccinated against Covid-19",
+        "event_type": "Treatment",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 738,
+    "fields": {
+        "trace": 35,
+        "activity": "receiving first vaccine dose",
+        "event_type": "Treatment",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.613"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 739,
+    "fields": {
+        "trace": 35,
+        "activity": "feeling relief after vaccination",
+        "event_type": "Feelings",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.614"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 740,
+    "fields": {
+        "trace": 35,
+        "activity": "learning about health priorities",
+        "event_type": "Lifestyle Change",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:46:36.614"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 741,
+    "fields": {
+        "trace": 35,
+        "activity": "realizing the importance of health",
+        "event_type": "Lifestyle Change",
+        "start": "2020-04-24T00:00:00",
+        "end": "2020-05-01T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:46:36.614"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 742,
+    "fields": {
+        "trace": 36,
+        "activity": "starting to experience symptoms",
+        "event_type": "Symptom Onset",
+        "start": "2020-03-12T00:00:00",
+        "end": "2020-03-12T00:00:00",
+        "duration": "00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 743,
+    "fields": {
+        "trace": 36,
+        "activity": "worsening symptoms with fever and breathing difficulty",
+        "event_type": "Symptom Onset",
+        "start": "2020-03-12T00:00:00",
+        "end": "2020-03-16T00:00:00",
+        "duration": "4 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 744,
+    "fields": {
+        "trace": 36,
+        "activity": "consulting doctor for diagnosis",
+        "event_type": "Doctor Visit",
+        "start": "2020-03-15T00:00:00",
+        "end": "2020-03-18T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 745,
+    "fields": {
+        "trace": 36,
+        "activity": "diagnosis of Covid-19 and self-isolation",
+        "event_type": "Diagnosis",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-26T00:00:00",
+        "duration": "7 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 746,
+    "fields": {
+        "trace": 36,
+        "activity": "symptoms intensifying with chest pain and breathlessness",
+        "event_type": "Symptom Onset",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 747,
+    "fields": {
+        "trace": 36,
+        "activity": "hospital visit for evaluation",
+        "event_type": "Hospital Admission",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 748,
+    "fields": {
+        "trace": 36,
+        "activity": "hospital stay for observation and treatment",
+        "event_type": "Hospital Admission",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Hospital",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 749,
+    "fields": {
+        "trace": 36,
+        "activity": "recovery at home with rest and medication",
+        "event_type": "Lifestyle Change",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 750,
+    "fields": {
+        "trace": 36,
+        "activity": "lifestyle changes for immune system",
+        "event_type": "Lifestyle Change",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 751,
+    "fields": {
+        "trace": 36,
+        "activity": "getting vaccinated for Covid-19",
+        "event_type": "Treatment",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 752,
+    "fields": {
+        "trace": 36,
+        "activity": "receiving two doses of vaccine",
+        "event_type": "Treatment",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Doctors",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.event",
+    "pk": 753,
+    "fields": {
+        "trace": 36,
+        "activity": "learning importance of health during Covid-19",
+        "event_type": "Lifestyle Change",
+        "start": "2020-03-19T00:00:00",
+        "end": "2020-03-22T00:00:00",
+        "duration": "3 00:00:00",
+        "location": "Home",
+        "last_modified": "2024-04-25T13:54:01.864"
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 1,
+    "fields": {
+        "name": "TEXT_TO_ACTIVITY_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text understanding and summarization. Your Job is to take a given text about an illness and convert it into bullet points regarding all important points about the course of the disease. Do not include time dates and use a miximum of 6 words per bullet point. Include the number of the sentence in the text from which you take the bullet point. The related numbers are in front of the sentences. Only include ONE sentence number per bullet point!"
+            },
+            {
+                "role": "user",
+                "content": "1: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever.\n2: Four days later I went to the doctor and got tested positive for Covid19.\n3: Then I got hospitalized for two weeks."
+            },
+            {
+                "role": "assistant",
+                "content": "starting to experience symptoms #1\nvisiting doctor's #2\ntesting positive for Covid19 #2\ngetting admissioned to hospital #3\ngetting discharged from hospital #3"
+            },
+            {
+                "role": "user",
+                "content": "8: Concerned about my condition, I contacted my primary care physician via phone.\n9: He advised me to monitor my symptoms and stay at home unless they became severe."
+            },
+            {
+                "role": "assistant",
+                "content": "contacting primary care physician #8\nmonitoring symptoms at home #9"
+            },
+            {
+                "role": "user",
+                "content": "5: First symptoms on 01/04/2020"
+            },
+            {
+                "role": "assistant",
+                "content": "starting to experience symptoms #5"
+            },
+            {
+                "role": "user",
+                "content": "1: On July 15, 2022, I started experiencing the first symptoms of Covid-19 for five days.\n2: Initially, I had a mild cough and fatigue."
+            },
+            {
+                "role": "assistant",
+                "content": "starting to experience symptoms #1\nending to experience symptoms #1"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 2,
+    "fields": {
+        "name": "START_DATE_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text understanding and your job is to take a given text and a given activity label and to extract a start date to this activity label. Only output the extracted start date! Rely also on the context."
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: experiencing mild symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "20200401T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19"
+            },
+            {
+                "role": "assistant",
+                "content": "20200405T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: getting infected again"
+            },
+            {
+                "role": "assistant",
+                "content": "20200601T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: having back pain"
+            },
+            {
+                "role": "assistant",
+                "content": "N/A"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "20210701T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: experiencing side effects of vaccination"
+            },
+            {
+                "role": "assistant",
+                "content": "20211104T0000"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 3,
+    "fields": {
+        "name": "END_DATE_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text understanding and your job is to take a given text, a given activity label and a given timestamp for the beginning of this activity and to then extract an end date to this activity label. Only output the extracted start date! Rely also on the context. Use averages if necessary. If there is no information about the end date at all, please state the start date also as the end date."
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: experiencing mild symptoms\nStart Date: 20200401T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20200405T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: testing positive for Covid19\nStart Date: 20200405T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20200405T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: getting infected again\nStart Date: 20200601T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20200615T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: On April 1, 2020, I started experiencing mild symptoms such as a persistent cough, fatigue, and a low-grade fever. Four days later I went to the doctor and got tested positive for Covid19. In June I got infected again. After that I had a back pain.\nActivity Label: having back pain\nStart Date: N/A"
+            },
+            {
+                "role": "assistant",
+                "content": "N/A"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: experiencing side effects of \nStart Date: 20211104T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20211106T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: Four days after the first april 2020 I went to the doctor and got tested positive for Covid19. I was then hospitalized for two weeks.\nActivity Label: getting hospitalized\nStart Date: 20200405T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20200419T0000"
+            },
+            {
+                "role": "user",
+                "content": "Text: In the next time I made sure to improve my mental well being.\nActivity Label: improving mental well being\nStart Date: 20210610T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "20210710T0000"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 4,
+    "fields": {
+        "name": "EVENT_TYPE_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text categorization and your job is to take a given activity label and to classify it into one of the following event types: 'Symptom Onset', 'Symptom Offset', 'Diagnosis', 'Doctor Visit', 'Treatment', 'Hospital Admission', 'Hospital Discharge', 'Medication', 'Lifestyle Change' and 'Feelings'. Please consider the capitalization."
+            },
+            {
+                "role": "user",
+                "content": "visiting doctor's"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors Visit"
+            },
+            {
+                "role": "user",
+                "content": "testing positive for Covid19"
+            },
+            {
+                "role": "assistant",
+                "content": "Diagnosis"
+            },
+            {
+                "role": "user",
+                "content": "getting hospitalized"
+            },
+            {
+                "role": "assistant",
+                "content": "Hospital Admission"
+            },
+            {
+                "role": "user",
+                "content": "isolating at home"
+            },
+            {
+                "role": "assistant",
+                "content": "Lifestyle Change"
+            },
+            {
+                "role": "user",
+                "content": "prescribed medication for discomfort"
+            },
+            {
+                "role": "assistant",
+                "content": "Medication"
+            },
+            {
+                "role": "user",
+                "content": "seeking consultation with specialist"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors Visit"
+            },
+            {
+                "role": "user",
+                "content": "receiving vaccines to protect against Covid19"
+            },
+            {
+                "role": "assistant",
+                "content": "Treatment"
+            },
+            {
+                "role": "user",
+                "content": "feeling a sense of relief"
+            },
+            {
+                "role": "assistant",
+                "content": "Feeling"
+            },
+            {
+                "role": "user",
+                "content": "starting to experience symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "Symptom Onset"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 5,
+    "fields": {
+        "name": "LOCATION_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text categorization and your job is to take a given activity label and categorize it into: 'Home', 'Hospital' or 'Doctors'. Use the context to categorize."
+            },
+            {
+                "role": "user",
+                "content": "visiting doctor's"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors"
+            },
+            {
+                "role": "user",
+                "content": "consulting doctor over phone"
+            },
+            {
+                "role": "assistant",
+                "content": "Home"
+            },
+            {
+                "role": "user",
+                "content": "testing positive for Covid19"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors"
+            },
+            {
+                "role": "user",
+                "content": "getting hospitalized"
+            },
+            {
+                "role": "assistant",
+                "content": "Hospital"
+            },
+            {
+                "role": "user",
+                "content": "isolating at home"
+            },
+            {
+                "role": "assistant",
+                "content": "Home"
+            },
+            {
+                "role": "user",
+                "content": "prescribed medication for discomfort"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors"
+            },
+            {
+                "role": "user",
+                "content": "receiving special care with a ventilator"
+            },
+            {
+                "role": "assistant",
+                "content": "Hospital"
+            },
+            {
+                "role": "user",
+                "content": "receiving vaccines to protect against Covid19"
+            },
+            {
+                "role": "assistant",
+                "content": "Doctors"
+            },
+            {
+                "role": "user",
+                "content": "feeling a sense of relief"
+            },
+            {
+                "role": "assistant",
+                "content": "Home"
+            },
+            {
+                "role": "user",
+                "content": "starting to experience symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "Home"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 6,
+    "fields": {
+        "name": "METRIC_ACTIVITY_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text categorization and your job is to take a given bulletpoint and to categorize it into 'No Relevance', 'Low Relevance', 'Moderate Relevance' or 'High Relevance'. It is really important, that that relevance category is correct. Category definition: No Relevance: Events or actions that are not connected to the progression or impact of the disease of the patient in any way. Low Relevance: Events or actions that have limited potential to affect the progression of the disease of the patient and hold minimal significance in its course. Moderate Relevance: Events or actions that possess some potential to influence the disease's progression of the patient but may not be critical to its outcome. High Relevance: Events or actions that hold substantial potential to impact the disease's course of the patient and are crucial in understanding its trajectory."
+            },
+            {
+                "role": "user",
+                "content": "receiving support from my children"
+            },
+            {
+                "role": "assistant",
+                "content": "Low Relevance"
+            },
+            {
+                "role": "user",
+                "content": "taking medicine"
+            },
+            {
+                "role": "assistant",
+                "content": "High Relevance"
+            },
+            {
+                "role": "user",
+                "content": "eating chips"
+            },
+            {
+                "role": "assistant",
+                "content": "No Relevance"
+            },
+            {
+                "role": "user",
+                "content": "starting to experience symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "High Relevance"
+            },
+            {
+                "role": "user",
+                "content": "feeling side effects from vaccination"
+            },
+            {
+                "role": "assistant",
+                "content": "Moderate Relevance"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 7,
+    "fields": {
+        "name": "METRIC_TIMESTAMP_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text understanding and your job is to take a given text and to check if a given start date and end date of a given bulletpoint are correct. Correct is a start and end date in the format YYYYMMDDTHHMM if the date is appearing in the patient journey related to bulletpoint. If the start date and end date appearing in the context of the bulletpoint, you should output True. If there is another start or end date in the patient journey, the given timestamps are wrong and you should output False. If the start or end date is not appearing in the patient journey, it could be that the timestamp is estimated. In this case check if the estimation is reasonable and output True if it is and False if it is not."
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210721T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "True"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: 20210724T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "True"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms\nStart Date: 07/21/2021\nEnd Date: 20210721T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "False"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: starting to experience symptoms\nStart Date: 20210721T0000\nEnd Date: N/A"
+            },
+            {
+                "role": "assistant",
+                "content": "False"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211104T0000\nEnd Date: 20211107T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "True"
+            },
+            {
+                "role": "user",
+                "content": "Text: I started experiencing flu-like symptoms in July 21. I then got tested positive for Covid19. In October I got infected again. Then on the 4th of November I got my first dosage of the vaccine. I had heavy side effects.\nActivity Label: experiencing heavy side effects of vaccination\nStart Date: 20211201T0000\nEnd Date: 20211204T0000"
+            },
+            {
+                "role": "assistant",
+                "content": "False"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 8,
+    "fields": {
+        "name": "COMPARE_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": " You are an expert in text understanding and your job is to understand the semantical meaning of bulletpoints and compare the semantic to each other. So you take two bulletpoints and check if they are semantically similar. You should return True if you think they are similar and False if you don't."
+            },
+            {
+                "role": "user",
+                "content": "First: receiving support from my children\nSecond: taking medicine"
+            },
+            {
+                "role": "assistant",
+                "content": "False"
+            },
+            {
+                "role": "user",
+                "content": "First: visiting doctor's\nSecond: going to the doctor"
+            },
+            {
+                "role": "assistant",
+                "content": "True"
+            },
+            {
+                "role": "user",
+                "content": "First: experiencing covid 19 symptoms\nSecond: first symptoms of covid 19"
+            },
+            {
+                "role": "assistant",
+                "content": "True"
+            },
+            {
+                "role": "user",
+                "content": "First: experiencing first covid 19 symptoms\nSecond: experiencing worse symptoms"
+            },
+            {
+                "role": "assistant",
+                "content": "False"
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 9,
+    "fields": {
+        "name": "COHORT_TAG_MESSAGES",
+        "category": "few-shot",
+        "text": [
+            [
+                "condition",
+                {
+                    "role": "system",
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the illness it is about."
+                },
+                {
+                    "role": "user",
+                    "content": "In July I got infected with Covid-19 which resulted in similar symptoms like a heavy flu."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Covid-19"
+                },
+                {
+                    "role": "user",
+                    "content": "I had a heavy flu in July."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Flu"
+                },
+                {
+                    "role": "user",
+                    "content": "Last year I was feeling really well, when all of a sudden I had severe breathtaking problems             and high fever. I thought it was a flu, but it turned out to be Covid-19."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Covid-19"
+                }
+            ],
+            [
+                "sex",
+                {
+                    "role": "system",
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the sex of the author. If the sex isn't clear, you should take the context into             account. Only if the context doesn't help, you should return 'N/A'."
+                },
+                {
+                    "role": "user",
+                    "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got             Covid-19 last year I was really worried about my job and my girlfriend."
+                },
+                {
+                    "role": "assistant",
+                    "content": "male"
+                },
+                {
+                    "role": "user",
+                    "content": "I am a nurse living in Berlin with my boyfriend. When I got Covid-19 last year I was really             worried about my job and my boyfriend."
+                },
+                {
+                    "role": "assistant",
+                    "content": "female"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't             even that hard but it stressed me out, that I wasn't allowed to go to my job!"
+                },
+                {
+                    "role": "assistant",
+                    "content": "N/A"
+                },
+                {
+                    "role": "user",
+                    "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got             Covid-19 that struck me as a mother of two really heavily."
+                },
+                {
+                    "role": "assistant",
+                    "content": "female"
+                },
+                {
+                    "role": "user",
+                    "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me.             As a divorced father I only see my boy once every month and now I couldn't even do that."
+                },
+                {
+                    "role": "assistant",
+                    "content": "male"
+                }
+            ],
+            [
+                "age",
+                {
+                    "role": "system",
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the age of the author. If the sex isn't clear, you should take the context into             account. Young means 25, middle aged 50 and old 75. Only if the context doesn't help, you should             return 'N/A'."
+                },
+                {
+                    "role": "user",
+                    "content": "I am a 22 year old software engineer living in California with my girlfriend. When I got             Covid-19 last year I was really worried about my job and my girlfriend."
+                },
+                {
+                    "role": "assistant",
+                    "content": "22"
+                },
+                {
+                    "role": "user",
+                    "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me.             Luckily as a young person I recovered quickly."
+                },
+                {
+                    "role": "assistant",
+                    "content": "25"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't             even that hard but it stressed me out, that I wasn't allowed to go to my job!"
+                },
+                {
+                    "role": "assistant",
+                    "content": "N/A"
+                },
+                {
+                    "role": "user",
+                    "content": "I am an old man, so Covid-19 wasn't all easy on me."
+                },
+                {
+                    "role": "assistant",
+                    "content": "75"
+                }
+            ],
+            [
+                "origin",
+                {
+                    "role": "system",
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness                   and to extract the origin country of the author. If the origin isn't clear, you should take the                   context into account. Only if the context doesn't help, you should return 'N/A'."
+                },
+                {
+                    "role": "user",
+                    "content": "I am a 25 year old software engineer living in California with my girlfriend. When I got             Covid-19 last year I was really worried about my job and my girlfriend."
+                },
+                {
+                    "role": "assistant",
+                    "content": "United States of America"
+                },
+                {
+                    "role": "user",
+                    "content": "I am a nurse living in Berlin. When I got Covid-19 I had to stay home what really hit me.             Luckily as a young person I recovered quickly."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Germany"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't             even that hard but it stressed me out, that I wasn't allowed to go to my job!"
+                },
+                {
+                    "role": "assistant",
+                    "content": "N/A"
+                }
+            ],
+            [
+                "preexisting_condition",
+                {
+                    "role": "system",
+                    "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract previous diseases of the author. These diseases have to be EXPLICITLY MENTIONED.                     And they have to have occured BEFORE the illness the text is about!"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year, which was hard since I since ever had to fight Asthma."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Asthma"
+                },
+                {
+                    "role": "user",
+                    "content": "I infected me with Covid-19 right after I recovered from a heavy cold."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Cold"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year and I was really worried about my job. The diesease itself wasn't             even that hard but it stressed me out, that I wasn't allowed to go to my job!"
+                },
+                {
+                    "role": "assistant",
+                    "content": "N/A"
+                },
+                {
+                    "role": "user",
+                    "content": "I got Covid-19 last year after I already got it right at the start in 2020."
+                },
+                {
+                    "role": "assistant",
+                    "content": "Covid-19"
+                }
+            ]
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 10,
+    "fields": {
+        "name": "PREPROCESSING_SPELLCHECK",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis with a focus on spelling accuracy.             Your task is to identify any spelling errors in the provided text and correct them.             Ensure the corrected text is accurate and readable.             Please make sure to give out the full text without shorten it."
+            },
+            {
+                "role": "user",
+                "content": "I remeber the day I first learnt about the importnce of spellchek.             It was an eye-opener for me."
+            },
+            {
+                "role": "assistant",
+                "content": "I remember the day I first learned about the importance of spellcheck.             It was an eye-opener for me."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 11,
+    "fields": {
+        "name": "PREPROCESSING_PUNCTUATION",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis with a focus on grammatical accuracy,             specifically punctuation and comma usage.             Your task is to identify any punctuation or comma errors in the provided text and correct them.             Ensure the corrected text is accurate, readable, and follows standard punctuation rules.             Please make sure to give out the full text without shortening it."
+            },
+            {
+                "role": "user",
+                "content": "Despite the rainy weather many people attended the outdoor concert,             which, was surprising. The band played hit after hit, and the crowd's enthusiasm,             was infectious even the most reserved attendees found themselves dancing."
+            },
+            {
+                "role": "assistant",
+                "content": "Despite the rainy weather, many people attended the outdoor concert,             which was surprising. The band played hit after hit, and the crowd's enthusiasm was infectious;            even the most reserved attendees found themselves dancing."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 12,
+    "fields": {
+        "name": "PREPROCESSING_IDENTIFY_TIMESTAMPS",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis.             Your task is to identify and extract any timestamps (specific dates, months, years, recognized holidays,             timeframes like '12 weeks later', or periods between specific dates) mentioned in the context of an             individual experiencing symptoms or being diagnosed with an illness. Highlight these timestamps within             the text by surrounding them with $$$ symbols. Ensure the full text is presented without any omissions,             and only the timestamps are highlighted in this manner."
+            },
+            {
+                "role": "user",
+                "content": "I started feeling unwell around the middle of March 2021.             The symptoms were quite severe by the 20th of March, which is when I decided to get tested.             The test results came back positive for Covid-19 on March 22nd, 2021."
+            },
+            {
+                "role": "assistant",
+                "content": "I started feeling unwell around the middle of $$$March 2021$$$.             The symptoms were quite severe by the $$$20th of March$$$, which is when I decided to get tested.             The test results came back positive for Covid-19 on $$$March 22nd, 2021$$$."
+            },
+            {
+                "role": "user",
+                "content": "I started feeling unusually fatigued right before Thanksgiving 2020.             The fatigue worsened over the holiday, and by the following Monday, I had developed a fever.             I was tested for Covid-19 two days later and received a positive result on November 30th, 2020."
+            },
+            {
+                "role": "assistant",
+                "content": "I started feeling unusually fatigued right before $$$Thanksgiving 2020$$$.             The fatigue worsened over the holiday, and by the following Monday, I had developed a fever.             I was tested for Covid-19 $$$two days later$$$ and received a positive result on             $$$November 30th, 2020$$$."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 13,
+    "fields": {
+        "name": "PREPROCESSING_TRANSFORM_TIMESTAMPS",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis and date formatting.             Your task is to identify any timestamps related to when an individual experienced symptoms             or was diagnosed with an illness.             Convert and present these timestamps in the specific format of YYYY/MM/DD.             All relevant time specifications are already highlighted with $$$ $$$.             To guarantee the completeness of the date you must make assumptions about the year, month and day             based on the context. If the time specification is a duration, based on context,             you must make assumptions about the start date of the duration.             If there is no information about the year, month or day,             you are allowed to assume the current year, month or day.             Ensure the full text is presented without any omissions,             and try to transform every timestamps as concrete as possible.             Please make sure to give out the full text without shortening it."
+            },
+            {
+                "role": "user",
+                "content": "I noticed the first symptoms shortly after my birthday in $$$April$$$,             and exactly $$$12 weeks later$$$, my condition had deteriorated significantly.             I was officially diagnosed with Lyme disease on $$$August 7th$$$. In $$$early 2025$$$,             it will be gone!"
+            },
+            {
+                "role": "assistant",
+                "content": "I noticed the first symptoms shortly after my birthday on 2024/04/01,             and exactly 12 weeks later, on 2024/06/24, my condition had deteriorated significantly.             I was officially diagnosed with Lyme disease on 2024/08/07. It will be gone on 2025/01/01!"
+            },
+            {
+                "role": "user",
+                "content": "During the period between $$$the 01.02 and the 03.02$$$, I felt unusually tired,             but I thought it was just stress. However, after attending a large event $$$two weeks later$$$,             I developed a fever and was tested positive for the flu."
+            },
+            {
+                "role": "assistant",
+                "content": "During the period between 2024/02/01 and 2024/02/03, I felt unusually tired,             but I thought it was just stress. However, after attending a large event two weeks later, on 2024/02/17,             I developed a fever and was tested positive for the flu."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 14,
+    "fields": {
+        "name": "PREPROCESSING_TIME_CALCULATION",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis and date calculations.             Your task is to identify timestamps related to health events or diagnoses and             convert these into concrete dates in the format of YYYY/MM/DD.             For relative timestamps (like 'a few weeks after' or 'months before'),             calculate the exact dates based on provided or assumed known dates.             Ensure the text is complete without omission, with all relevant timestamps             accurately transformed to the specified format.             Please make sure to give out the full text without shortening it."
+            },
+            {
+                "role": "user",
+                "content": "After experiencing severe headaches starting in mid-$$$March 2022$$$,             I went to see a neurologist.             The MRI scan scheduled $$$three weeks later$$$ confirmed that I had a benign brain tumor.             Post-surgery, I began my recovery phase, which lasted until $$$four months later$$$.             During a follow-up visit $$$two months after my recovery$$$,             my doctor confirmed that my condition had improved significantly."
+            },
+            {
+                "role": "assistant",
+                "content": "After experiencing severe headaches starting on 2022/03/15,             I went to see a neurologist. The MRI scan scheduled on 2022/04/05 confirmed that I had a benign brain tumor.            Post-surgery, I began my recovery phase, which lasted until 2022/08/05.             During a follow-up visit on 2022/10/05,             my doctor confirmed that my condition had improved significantly."
+            },
+            {
+                "role": "user",
+                "content": "Early July 2020, I started experiencing severe coughing and a high fever.             It turned out I had contracted Covid-19. And in $$$early August$$$ I had lost my sense of taste."
+            },
+            {
+                "role": "assistant",
+                "content": "On the 2020/06/01, I started experiencing severe coughing and a high fever.             It turned out I had contracted Covid-19. And on 2020/08/01 I had lost my sense of taste."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 15,
+    "fields": {
+        "name": "PREPROCESSING_TIME_INTERPRETATION",
+        "category": "few-shot",
+        "text": [
+            {
+                "role": "system",
+                "content": "You are an expert in text analysis with a specialization in date formatting             and interpretation. Your task is to transform general time references related to health events             or any other context into specific dates in the format of YYYY/MM/DD. Specifically,             convert 'early [month]' to the 1st of the month, 'mid [month]' to the 15th of the month,             and 'end of [month]' to the last day of the month (use 30 for April, June, September,             and November; 31 for January, March, May, July, August, October, and December;             and 28 or 29 for February, depending on leap years).             If the year is not mentioned, assume the current year.             Provide the full text without omission, ensuring all general time references are accurately             transformed into the specified format.             Example transformations: 'early January 2020' becomes 2020/01/01,             'mid January 2020' becomes 2020/01/15, and 'end of January 2020' becomes 2020/01/31."
+            },
+            {
+                "role": "user",
+                "content": "In early January, I noticed a persistent cough. By mid January, the cough had worsened,             leading me to seek medical advice. A specialist finally saw me at the end of January,             diagnosing me with a chronic condition."
+            },
+            {
+                "role": "assistant",
+                "content": "In 2020/01/01, I noticed a persistent cough. By 2020/01/15, the cough had worsened,             leading me to seek medical advice. A specialist finally saw me at 2020/01/31,             diagnosing me with a chronic condition."
+            },
+            {
+                "role": "user",
+                "content": "In the middle of 2023 I got a stroke. By the end of the year I had recovered. But in early 2024             I had a relapse."
+            },
+            {
+                "role": "assistant",
+                "content": "On 2023/06/01, I got a stroke. By 2023/12/01, I had recovered,             On 2024/01/01, I had a relapse."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.prompt",
+    "pk": 16,
+    "fields": {
+        "name": "CREATE_PATIENT_JOURNEY",
+        "category": "zero-shot",
+        "text": [
+            {
+                "role": "user",
+                "content": "Please outline the course of your Covid-19 infection, what you did (and when you did that) because of it and which doctors you may consulted. Please give some information about the time, in a few cases directly as a date and in the other as something in the lines of 'in the next days', 'the week after that' or similar. Give your outline as a continuous text. Also include if you later went for getting a vaccine and if so, how often. You don't have to include deals about who you are. Please include 100 to 400 words, but not more than 400."
+            }
+        ]
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 1,
+    "fields": {
+        "event": 714,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 2,
+    "fields": {
+        "event": 715,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 3,
+    "fields": {
+        "event": 716,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 4,
+    "fields": {
+        "event": 717,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 5,
+    "fields": {
+        "event": 718,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 6,
+    "fields": {
+        "event": 719,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 7,
+    "fields": {
+        "event": 720,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 8,
+    "fields": {
+        "event": 721,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 9,
+    "fields": {
+        "event": 722,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.90",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 10,
+    "fields": {
+        "event": 723,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 11,
+    "fields": {
+        "event": 724,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.98",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 12,
+    "fields": {
+        "event": 725,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.98",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 13,
+    "fields": {
+        "event": 726,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:43:20.261"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 14,
+    "fields": {
+        "event": 727,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.76",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 15,
+    "fields": {
+        "event": 728,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": false,
+        "correctness_confidence": "0.80",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 16,
+    "fields": {
+        "event": 729,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.98",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 17,
+    "fields": {
+        "event": 730,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.78",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 18,
+    "fields": {
+        "event": 731,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 19,
+    "fields": {
+        "event": 732,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.98",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 20,
+    "fields": {
+        "event": 733,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 21,
+    "fields": {
+        "event": 734,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:46:36.619"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 22,
+    "fields": {
+        "event": 735,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 23,
+    "fields": {
+        "event": 736,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.97",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 24,
+    "fields": {
+        "event": 737,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.86",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 25,
+    "fields": {
+        "event": 738,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.89",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 26,
+    "fields": {
+        "event": 739,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.86",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 27,
+    "fields": {
+        "event": 740,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.90",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 28,
+    "fields": {
+        "event": 741,
+        "activity_relevance": "Low Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.80",
+        "last_modified": "2024-04-25T13:46:36.620"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 29,
+    "fields": {
+        "event": 742,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.95",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 30,
+    "fields": {
+        "event": 743,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.94",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 31,
+    "fields": {
+        "event": 744,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.53",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 32,
+    "fields": {
+        "event": 745,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.98",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 33,
+    "fields": {
+        "event": 746,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.97",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 34,
+    "fields": {
+        "event": 747,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.99",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 35,
+    "fields": {
+        "event": 748,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 36,
+    "fields": {
+        "event": 749,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.83",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 37,
+    "fields": {
+        "event": 750,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.68",
+        "last_modified": "2024-04-25T13:54:01.868"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 38,
+    "fields": {
+        "event": 751,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.83",
+        "last_modified": "2024-04-25T13:54:01.869"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 39,
+    "fields": {
+        "event": 752,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": false,
+        "correctness_confidence": "0.62",
+        "last_modified": "2024-04-25T13:54:01.869"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 40,
+    "fields": {
+        "event": 753,
+        "activity_relevance": "Moderate Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "0.97",
+        "last_modified": "2024-04-25T13:54:01.869"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 75,
+    "fields": {
+        "event": 175,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:18:59.940"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 76,
+    "fields": {
+        "event": 176,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:34.892"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 77,
+    "fields": {
+        "event": 177,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:45.732"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 78,
+    "fields": {
+        "event": 178,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:19:53.952"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 79,
+    "fields": {
+        "event": 179,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:03.339"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 80,
+    "fields": {
+        "event": 180,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:24.660"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 81,
+    "fields": {
+        "event": 181,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:34.232"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 82,
+    "fields": {
+        "event": 182,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:41.546"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 83,
+    "fields": {
+        "event": 183,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:48.133"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 84,
+    "fields": {
+        "event": 184,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:20:54.712"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 85,
+    "fields": {
+        "event": 185,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:02.596"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 86,
+    "fields": {
+        "event": 186,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:10.550"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 87,
+    "fields": {
+        "event": 187,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:21:18.297"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 88,
+    "fields": {
+        "event": 188,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:15.031"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 89,
+    "fields": {
+        "event": 189,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:19.924"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 90,
+    "fields": {
+        "event": 190,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:30.676"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 91,
+    "fields": {
+        "event": 191,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:39.831"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 92,
+    "fields": {
+        "event": 192,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:22:51.281"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 93,
+    "fields": {
+        "event": 193,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:04.694"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 94,
+    "fields": {
+        "event": 194,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:14.196"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 95,
+    "fields": {
+        "event": 195,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:21.310"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 96,
+    "fields": {
+        "event": 196,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:28.465"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 97,
+    "fields": {
+        "event": 197,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:37.692"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 98,
+    "fields": {
+        "event": 198,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:47.789"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 99,
+    "fields": {
+        "event": 199,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:23:56.157"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 100,
+    "fields": {
+        "event": 200,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:05.528"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 101,
+    "fields": {
+        "event": 201,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:14.094"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 102,
+    "fields": {
+        "event": 202,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:23.377"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 103,
+    "fields": {
+        "event": 203,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:30.738"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 104,
+    "fields": {
+        "event": 204,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:24:43.382"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 105,
+    "fields": {
+        "event": 205,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:03.164"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 106,
+    "fields": {
+        "event": 206,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:13.567"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 107,
+    "fields": {
+        "event": 207,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:23.211"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 108,
+    "fields": {
+        "event": 208,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:29.763"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 109,
+    "fields": {
+        "event": 209,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:38.621"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 110,
+    "fields": {
+        "event": 210,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:45.744"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 111,
+    "fields": {
+        "event": 211,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:25:55.219"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 112,
+    "fields": {
+        "event": 212,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:04.606"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 113,
+    "fields": {
+        "event": 213,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:44.474"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 114,
+    "fields": {
+        "event": 214,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:51.506"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 115,
+    "fields": {
+        "event": 215,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:26:58.361"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 116,
+    "fields": {
+        "event": 216,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:16.551"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 117,
+    "fields": {
+        "event": 217,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:22.754"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 118,
+    "fields": {
+        "event": 218,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:31.086"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 119,
+    "fields": {
+        "event": 704,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:40.120"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 120,
+    "fields": {
+        "event": 705,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:50.433"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 121,
+    "fields": {
+        "event": 706,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:27:59.563"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 122,
+    "fields": {
+        "event": 707,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:28:15.697"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 123,
+    "fields": {
+        "event": 708,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:00.786"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 124,
+    "fields": {
+        "event": 709,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:10.127"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 125,
+    "fields": {
+        "event": 710,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:18.267"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 126,
+    "fields": {
+        "event": 711,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:30.601"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 127,
+    "fields": {
+        "event": 712,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:45.238"
+    }
+},
+{
+    "model": "extraction.metric",
+    "pk": 128,
+    "fields": {
+        "event": 713,
+        "activity_relevance": "High Relevance",
+        "timestamp_correctness": true,
+        "correctness_confidence": "1.00",
+        "last_modified": "2024-05-13T10:29:53.790"
+    }
+}
+]
