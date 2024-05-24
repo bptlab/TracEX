@@ -27,7 +27,7 @@ class LocationExtractor(Module):
         patient_journey=None,
         patient_journey_sentences=None,
         cohort=None,
-    ):
+    ) -> pd.DataFrame:
         """Extracts the location information for each activity in a dataframe."""
         super().execute(
             df,

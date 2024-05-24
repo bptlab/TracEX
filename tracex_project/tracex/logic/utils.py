@@ -208,7 +208,7 @@ class Conversion:
         return file_path
 
     @staticmethod
-    def text_to_sentence_list(text):
+    def text_to_sentence_list(text: str) -> List[str]:
         """Converts a text into a list of its sentences."""
         text = text.replace("\n", " ")
         # This regex looks for periods, question marks, or exclamation marks,
@@ -292,7 +292,7 @@ class DataFrameUtilities:
         df["time:duration"] = "00:01:00"
 
     @staticmethod
-    def delete_metrics_columns(df: pd.DataFrame):
+    def delete_metrics_columns(df: pd.DataFrame) -> pd.DataFrame:
         """Delete metrics columns from the dataframe."""
         df = df.drop(
             columns=[

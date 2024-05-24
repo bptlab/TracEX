@@ -29,7 +29,7 @@ class EventTypeClassifier(Module):
         patient_journey=None,
         patient_journey_sentences=None,
         cohort=None,
-    ):
+    ) -> pd.DataFrame:
         """Classifies corresponding event types for all activity labels in a dataframe."""
         super().execute(
             df,

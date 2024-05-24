@@ -27,7 +27,7 @@ class ActivityLabeler(Module):
         patient_journey: str = None,
         patient_journey_sentences: List[str] = None,
         cohort=None,
-    ):
+    ) -> pd.DataFrame:
         """
         Extracts the activity labels from the patient journey with the following steps:
         1. Number the patient journey sentences to enable selecting a specific range of sentences.
@@ -45,7 +45,7 @@ class ActivityLabeler(Module):
         patient_journey_numbered: str = self.__number_patient_journey_sentences(
             patient_journey_sentences
         )
-        activity_labels = self.__extract_activities(patient_journey_numbered, condition)
+        activity_labels: pd.DataFrame = self.__extract_activities(patient_journey_numbered, condition)
 
         return activity_labels
 
@@ -65,7 +65,7 @@ class ActivityLabeler(Module):
         return patient_journey_numbered
 
     @staticmethod
-    def __extract_activities(patient_journey_numbered: str, condition: Optional[str]):
+    def __extract_activities(patient_journey_numbered: str, condition: Optional[str]) -> pd.DataFrame:
         """
         Converts a patient journey, where every sentence is numbered, to a DataFrame with the activity labels by
         extracting the activity labels from the patient journey.

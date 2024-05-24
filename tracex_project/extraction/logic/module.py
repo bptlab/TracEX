@@ -36,9 +36,9 @@ class Module(ABC):
         Executes the logic of the module. Override this to define your own module.
 
         Keyword arguments:
-        _input -- Any additional input to the module
-        patient_journey -- The patient journey as text
-        patient_journey_sentences -- The same patient journey as a list of sentences
+        _input -- Any additional input to the module.
+        patient_journey -- The patient journey as text.
+        patient_journey_sentences -- The same patient journey as a list of sentences.
         """
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences
@@ -57,8 +57,8 @@ class Module(ABC):
         Executes the logic of the module and saves the result to the database. Override this to define your own module.
 
         Keyword arguments:
-        patient_journey -- The patient journey as text
-        patient_journey_sentences -- The same patient journey as a list of sentences
+        patient_journey -- The patient journey as text.
+        patient_journey_sentences -- The same patient journey as a list of sentences.
         """
         self.patient_journey = patient_journey
         self.patient_journey_sentences = patient_journey_sentences

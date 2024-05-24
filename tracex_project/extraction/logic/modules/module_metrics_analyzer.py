@@ -31,7 +31,7 @@ class MetricsAnalyzer(Module):
         patient_journey=None,
         patient_journey_sentences=None,
         cohort=None,
-    ):
+    ) -> pd.DataFrame:
         """Measures the output of the pipeline based on specified metrics.
         These metrics are 'activity relevance' and 'timestamp correctness'."""
         super().execute(
