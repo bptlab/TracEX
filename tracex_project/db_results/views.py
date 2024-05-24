@@ -115,7 +115,7 @@ class MetricsDashboardView(TemplateView):
             "most_frequent_category": relevance_counts.index[0],
             "most_frequent_category_count": relevance_counts.values[0],
             "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[0],
-            "most_frequent_timestamp_correctness_count": trace_df["timestamp_correctness"].sum(),
+            "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[0],
             "average_timestamp_correctness": round(trace_df["correctness_confidence"].mean(), 2)
         })
 
