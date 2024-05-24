@@ -32,9 +32,9 @@ class JourneyGeneratorOverviewView(generic.CreateView):
 
     def form_valid(self, form):
         """Create an empty patient journey instance and save the ID in the orchestrator."""
-        response = super().form_valid(form)
         orchestrator = Orchestrator.get_instance()
         form.instance.patient_journey = orchestrator.get_configuration().patient_journey
+        response = super().form_valid(form)
         orchestrator.set_db_objects_id("patient_journey", self.object.id)
 
         return response
@@ -44,8 +44,6 @@ class JourneyGenerationView(generic.RedirectView):
     """View to inspect the generated patient journey."""
 
     url = reverse_lazy("journey_generator_overview")
-    template_name = "journey_generation.html"
-    success_url = reverse_lazy("journey_filter")
 
     def get(self, request, *args, **kwargs):
         """
@@ -57,8 +55,7 @@ class JourneyGenerationView(generic.RedirectView):
         orchestrator = Orchestrator()
 
         try:
-            generated_patient_journey = generate_patient_journey()
-            configuration = ExtractionConfiguration(patient_journey=generated_patient_journey)
+            configuration = ExtractionConfiguration(patient_journey=generate_patient_journey())
         except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()

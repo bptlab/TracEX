@@ -49,6 +49,7 @@ class TracexLandingPage(TemplateView):
     def get_context_data(self, **kwargs):
         """Return context data and adds a flag indicating whether an API key is set."""
         context = super().get_context_data(**kwargs)
+        self.request.session.flush()
         api_key = os.getenv('OPENAI_API_KEY')
         context['prompt_for_key'] = not bool(api_key)
 
