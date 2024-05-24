@@ -222,7 +222,7 @@ class MetricsDashboardView(TemplateView):
 
 
 class EvaluationView(FormView):
-    """View for displaying all extracted traces and DFG images with filter selection options."""
+    """View for displaying all extracted traces and their corresponding DFG image with filter selection options."""
 
     form_class = EvaluationForm
     template_name = "evaluation.html"
