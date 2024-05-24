@@ -1,9 +1,10 @@
 """Implementation of forms for the database result app."""
+from typing import List, Tuple, Any
+
 from django import forms
 from django.utils.safestring import mark_safe
-
-from extraction.models import PatientJourney
 from extraction.models import Cohort
+from extraction.models import PatientJourney
 from tracex.forms import BaseEventForm
 
 
@@ -19,7 +20,7 @@ class PatientJourneySelectForm(forms.Form):
             "selected_patient_journey"
         ].choices = self.get_patient_journey_choices()
 
-    def get_patient_journey_choices(self):
+    def get_patient_journey_choices(self) -> List[Tuple[str, str]]:
         """Retrieves the available patient journey choices with existing metrics from the database."""
         patient_journeys = PatientJourney.manager.filter(
             trace__events__metrics__isnull=False
@@ -89,7 +90,7 @@ class EvaluationForm(BaseEventForm):
         self.fields["sex"].choices = self.get_choices("sex")
 
     @staticmethod
-    def get_choices(category):
+    def get_choices(category: str) -> List[Tuple[Any, Any]]:
         """Get all choices available in the database for a given category."""
         choices = Cohort.manager.values_list(category, flat=True).distinct()
         none_info_text = mark_safe("<i>Include elements with None values</i>")

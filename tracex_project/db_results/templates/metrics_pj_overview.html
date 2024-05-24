@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>Metrics Overview</title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    </head>
+<html lang="en">
+<head>
+    <title>Metrics Overview</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+</head>
 <body class="main_body">
-    <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Metrics Dashboard" class="metrics_dashboard_logo">
-    <h2>Welcome to the Metrics Dashboard</h2>
-    <p>The Metrics Dashboard is a comprehensive visual interface that displays key metrics tracked by the metrics analyzer module  during the extraction of a trace.</p>
-    <p>Please select one patient journey for that you want to see the dashboard.</p>
+<img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Metrics Dashboard" class="metrics_dashboard_logo">
+<h2>Welcome to the Metrics Dashboard</h2>
+<p>The Metrics Dashboard is a comprehensive visual interface that displays key metrics tracked by the metrics analyzer
+    module during the extraction of a trace.</p>
+<p>Please select one patient journey for that you want to see the dashboard.</p>
 
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="menu_button">Select this Patient Journey</button>
-    </form>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="menu_button">Select this Patient Journey</button>
+</form>
 
-    <a href="{% url 'db_results_overview' %}">
-        <button class="menu_button">Return to Database Results Overview</button>
-    </a>
+<a href="{% url 'db_results_overview' %}">
+    <button class="menu_button">Return to Database Results Overview</button>
+</a>
 
-    <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
-    </a>
+<a href="{% url 'landing_page' %}">
+    <button class="menu_button">Return to TracEX menu</button>
+</a>
 </body>
 </html>
