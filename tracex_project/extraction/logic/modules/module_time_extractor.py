@@ -100,20 +100,20 @@ class TimeExtractor(Module):
     def __post_processing(df: pd.DataFrame) -> pd.DataFrame:
         """Fill missing values for dates with default values."""
 
-        def convert_to_datetime(df: pd.DataFrame, column: pd.Series):
+        def convert_to_datetime(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
             df[column] = pd.to_datetime(
                 df[column], format="%Y%m%dT%H%M", errors="coerce"
             )
 
             return df
 
-        def set_default_date_if_na(df: pd.DataFrame, column: pd.Series):
+        def set_default_date_if_na(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
             if df[column].isna().all():
                 df[column] = df[column].fillna(pd.Timestamp("2020-01-01 00:00"))
 
             return df
 
-        def fill_missing_values(df: pd.DataFrame, column: pd.Series):
+        def fill_missing_values(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
             df[column] = df[column].ffill().bfill()
 
             return df

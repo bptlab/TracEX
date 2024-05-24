@@ -120,7 +120,7 @@ class Orchestrator:
         """Return the configuration for the orchestrator instance."""
         return self.configuration
 
-    def set_data(self, data: pd.DataFrame):
+    def set_data(self, data: pd.DataFrame) -> None:
         """Set the data for the orchestrator instance."""
         self.data = data
 
