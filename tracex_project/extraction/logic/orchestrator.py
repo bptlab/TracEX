@@ -243,7 +243,7 @@ class Orchestrator:
         if "cohort_tagging" not in config_modules:
             cohort_default_values = {
                 "age": None,
-                "gender": None,
+                "sex": None,
                 "origin": None,
                 "condition": None,
                 "preexisting_condition": None,
