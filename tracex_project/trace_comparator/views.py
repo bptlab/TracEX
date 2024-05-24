@@ -84,7 +84,9 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
             .id
         )
         pipeline_df: pd.DataFrame = DataFrameUtilities.get_events_df(query_last_trace)
-
+        pipeline_df: pd.DataFrame = DataFrameUtilities.delete_metrics_columns(
+            pipeline_df
+        )
         context.update(
             {
                 "patient_journey_name": patient_journey_name,
@@ -213,7 +215,7 @@ class TraceTestingResultView(TemplateView, TraceComparisonMixin):
             ).patient_journey,
             "pipeline_output": Conversion.create_html_table_from_df(pipeline_df),
             "ground_truth_output": Conversion.create_html_table_from_df(
-                ground_truth_df
+                DataFrameUtilities.delete_metrics_columns(ground_truth_df)
             ),
             "matching_percent_pipeline_to_ground_truth": comparison_result_dict.get(
                 "matching_percent_pipeline_to_ground_truth"

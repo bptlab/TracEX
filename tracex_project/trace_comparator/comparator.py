@@ -12,7 +12,13 @@ from tracex.logic import utils as u, constants as c
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
 def compare_traces(view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame):
-    """Executes the trace comparison."""
+    """Executes the trace comparison.
+
+    Compare the piepline output to the ground truth and determine all matching activities.Classify every activity
+    from the pipeline output that has no match as 'missing' and every activity from the ground truth that
+    has no match as 'unexpected'. Finally, determine activities from the pipeline that are correctly
+    matched but in the wrong order.
+    """
     pipeline_activities: pd.Series = pipeline_df["activity"]
     ground_truth_activities: pd.Series = ground_truth_df["activity"]
 
