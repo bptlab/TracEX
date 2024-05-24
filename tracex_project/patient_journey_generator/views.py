@@ -17,7 +17,12 @@ from patient_journey_generator.generator import generate_patient_journey
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
-    """View for the landing page of the patient journey generator."""
+    """
+    View for the landing page of the patient journey generator.
+
+    If a generated patient journey exists in the session, this view displays a form to name the patient journey
+    and save it in the database.
+    """
 
     form_class = GenerationOverviewForm
     template_name = "journey_generator_overview.html"
@@ -41,7 +46,13 @@ class JourneyGeneratorOverviewView(generic.CreateView):
 
 
 class JourneyGenerationView(generic.RedirectView):
-    """View to inspect the generated patient journey."""
+    """
+    View to inspect the generated patient journey.
+
+    By passing a GET request to the view, a patient journey is generated and saved in the orchestrator's configuration.
+    Since the JourneyGenerationView is a RedirectView, the user is redirected back to the JourneyGeneratorOverviewView.
+    Therefore, this view does not render a template.
+    """
 
     url = reverse_lazy("journey_generator_overview")
 
@@ -50,7 +61,9 @@ class JourneyGenerationView(generic.RedirectView):
         Handle GET requests by generating a patient journey and updating the orchestrator's configuration.
 
         The empty patient journey instance from the orchestrator's configuration is modified to contain the generated
-        patient journey text. The generated patient journey is also saved in the session to pass to the HTML file.
+        patient journey text. The generated patient journey is also saved in the session to pass to the HTML file
+        of the JourneyGenerationOverviewView.
+
         """
         orchestrator = Orchestrator()
 
