@@ -1,5 +1,6 @@
 """Implementation of forms for the extraction app."""
 from django import forms
+from typing import List, Tuple
 
 from extraction.models import PatientJourney
 from tracex.forms import BaseEventForm
@@ -59,7 +60,7 @@ class JourneySelectForm(forms.Form):
         ].choices = self.get_patient_journey_choices()
 
     @staticmethod
-    def get_patient_journey_choices():
+    def get_patient_journey_choices() -> List[Tuple[str, str]]:
         """Returns a list of tuples containing the names of all patient journeys from the database."""
         patient_journeys = PatientJourney.manager.all()
         choices = [

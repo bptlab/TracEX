@@ -8,6 +8,7 @@ import traceback
 # pylint: disable=unused-argument, unused-variable
 
 import pandas as pd
+from typing import Dict, List
 
 from django.urls import reverse_lazy
 from django.views import generic
@@ -273,7 +274,7 @@ class ResultView(generic.FormView):
         return context
 
     @staticmethod
-    def build_trace_df(filter_dict):
+    def build_trace_df(filter_dict: Dict[str, List[str]]) -> pd.DataFrame:
         """Build the trace dataframe based on the filter settings."""
         trace_df = Orchestrator.get_instance().get_data()
         trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
@@ -286,7 +287,9 @@ class ResultView(generic.FormView):
         return trace_df_filtered
 
     @staticmethod
-    def build_event_log_df(filter_dict, trace):
+    def build_event_log_df(
+        filter_dict: Dict[str, List[str]], trace: pd.DataFrame
+    ) -> pd.DataFrame:
         """Build the event log dataframe based on the filter settings."""
         event_log_df = utils.DataFrameUtilities.get_events_df()
 

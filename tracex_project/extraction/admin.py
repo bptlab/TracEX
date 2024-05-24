@@ -1,5 +1,6 @@
 """Admin file for extraction app."""
 from django.contrib import admin
+from typing import Union
 from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort, Metric
 
 
@@ -60,15 +61,18 @@ class EventInline(admin.TabularInline):
         "metrics_correctness_confidence",
     )
 
-    def metrics_activity_relevance(self, obj):
+    @staticmethod
+    def metrics_activity_relevance(obj: Event) -> Union[str, int]:
         """Returns the activity relevance metric for the event."""
         return obj.metrics.activity_relevance if hasattr(obj, "metrics") else "-"
 
-    def metrics_timestamp_correctness(self, obj):
+    @staticmethod
+    def metrics_timestamp_correctness(obj: Event) -> Union[str, int]:
         """Returns the timestamp correctness metric for the event."""
         return obj.metrics.timestamp_correctness if hasattr(obj, "metrics") else "-"
 
-    def metrics_correctness_confidence(self, obj):
+    @staticmethod
+    def metrics_correctness_confidence(obj: Event) -> Union[str, int]:
         """Returns the correctness confidence metric for the event."""
         return obj.metrics.correctness_confidence if hasattr(obj, "metrics") else "-"
 
