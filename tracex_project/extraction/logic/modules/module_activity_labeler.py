@@ -73,7 +73,7 @@ class ActivityLabeler(Module):
         column_name = "activity"
         messages = Prompt.objects.get(name="TEXT_TO_ACTIVITY_MESSAGES").text
 
-        user_message = patient_journey_numbered
+        user_message: List[str] = patient_journey_numbered
         if condition is not None:
             user_message = f"Focus on those events that are related to the course of the disease of {condition}.\n\n\
             {user_message}"

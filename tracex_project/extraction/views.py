@@ -237,7 +237,7 @@ class ResultView(generic.FormView):
 
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        activity_key = orchestrator.get_configuration().activity_key
+        activity_key: str = orchestrator.get_configuration().activity_key
         filter_dict = {
             "event_type": orchestrator.get_configuration().event_types,
             "attribute_location": orchestrator.get_configuration().locations,
@@ -276,7 +276,7 @@ class ResultView(generic.FormView):
     @staticmethod
     def build_trace_df(filter_dict: Dict[str, List[str]]) -> pd.DataFrame:
         """Build the trace dataframe based on the filter settings."""
-        trace_df = Orchestrator.get_instance().get_data()
+        trace_df: pd.DataFrame = Orchestrator.get_instance().get_data()
         trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             trace_df, filter_dict
         )

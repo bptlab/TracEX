@@ -118,7 +118,7 @@ class TimeExtractor(Module):
 
             return df
 
-        def fix_end_dates(row):
+        def fix_end_dates(row: pd.Series) -> pd.Series:
             if (
                 row["time:end_timestamp"] is pd.NaT
                 and row["time:timestamp"] is not pd.NaT

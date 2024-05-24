@@ -239,7 +239,7 @@ class Orchestrator:
             events_with_metric_list.append(event)
             metric_list.append(metric)
 
-        events: list[Event] = Event.manager.bulk_create(events_with_metric_list)
+        events: List[Event] = Event.manager.bulk_create(events_with_metric_list)
         for event, metric in zip(events, metric_list):
             metric.event = event
         Metric.manager.bulk_create(metric_list)
