@@ -1,5 +1,5 @@
 """This file contains the views for the database result app."""
-from typing import Tuple, List, Dict
+from typing import Tuple, List, Dict, Any
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -305,17 +305,32 @@ class EvaluationView(FormView):
         }
 
     @staticmethod
-    def create_query(query_dict: Dict[str, any]) -> Q:
-        """Construct a database query from a dictionary of filter criteria."""
+    def create_query(query_dict: Dict[str, Any]) -> Q:
+        """
+        Construct a Django Q object for complex database queries based on specified criteria.
+
+        This method builds a Q object dynamically with filters derived from `query_dict`. It supports
+        filtering based on age range and can handle list-based inclusion filters for any given cohort
+        attribute. The method also supports a special 'none_age' filter to include entries with a null
+        age if specified.
+        """
         query = Q(
             cohort__age__gte=query_dict.get("min_age"),
             cohort__age__lte=query_dict.get("max_age"),
         )
         if query_dict.get("none_age"):
             query |= Q(cohort__age__isnull=True)
+        # Extend query for items of type list
         for key, value in query_dict.items():
             if isinstance(value, list) and len(value) > 0:
-                query &= Q(**{f"cohort__{key}__in": value}) | Q(**{f"cohort__{key}__isnull": True})
+                # include entries where the respective attribute is missing
+                if "None" in value:
+                    query &= Q(**{f"cohort__{key}__isnull": True}) | Q(
+                        **{f"cohort__{key}__in": value}
+                    )
+                else:
+                    query &= Q(**{f"cohort__{key}__in": value})
+
         return query
 
     def form_valid(self, form):
