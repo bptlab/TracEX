@@ -1,5 +1,6 @@
 """tracex URL Configuration for database result app"""
 from django.urls import path
+
 from . import views
 
 urlpatterns = [
