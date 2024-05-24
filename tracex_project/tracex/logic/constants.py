@@ -10,10 +10,10 @@ TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
 MODULES_REQUIRED = [
     ("activity_labeling", "Activity Labeler"),
+    ("cohort_tagging", "Cohort Tagger"),
 ]
 MODULES_OPTIONAL = [
     ("preprocessing", "Preprocessor"),
-    ("cohort_tagging", "Cohort Tagger"),
     ("time_extraction", "Time Extractor"),
     ("event_type_classification", "Event Type Classifier"),
     ("location_extraction", "Location Extractor"),

@@ -22,7 +22,7 @@ class Preprocessor(Module):
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
         self, _input=None, patient_journey=None, patient_journey_sentences=None
-    ):
+    ) -> str:
         """Preprocesses the patient input for better data quality."""
         super().execute(
             _input,
@@ -54,12 +54,10 @@ class Preprocessor(Module):
             preprocessed_text, "TIME_PROPAGATE"
         )
 
-        patient_journey_sentences = self.__make_sentences(preprocessed_text)
-
-        return patient_journey_sentences
+        return preprocessed_text
 
     @staticmethod
-    def __apply_preprocessing_step(text, prompt_name):
+    def __apply_preprocessing_step(text: str, prompt_name: str) -> str:
         """Applies a preprocessing step based on the step name."""
         messages = Prompt.objects.get(name=f"PREPROCESSING_{prompt_name}").text
         new_user_message = {"role": "user", "content": text}
@@ -67,11 +65,3 @@ class Preprocessor(Module):
         preprocessed_text = u.query_gpt(messages)
 
         return preprocessed_text
-
-    @staticmethod
-    def __make_sentences(text):
-        """Splits the input into a list of its sentences."""
-        text = text.replace("\n", " ")
-        text = text.split(". ")
-
-        return text
