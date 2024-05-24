@@ -140,11 +140,11 @@ class Orchestrator:
         """Set the database id objects for the orchestrator instance."""
         self.db_objects_id[object_name] = object_id
 
-    def get_db_objects_id(self, object_name: str):
+    def get_db_objects_id(self, object_name: str) -> int:
         """Return the database id objects for the orchestrator instance."""
         return self.db_objects_id[object_name]
 
-    def reduce_modules_to(self, modules: List):
+    def reduce_modules_to(self, modules: List) -> ExtractionConfiguration:
         """Reduce the modules of the orchestrator instance to the modules in the keyword argument."""
         old_modules: Dict[str, Any] = self.get_configuration().modules
         updated_modules: Dict[str, Any] = {
@@ -212,7 +212,7 @@ class Orchestrator:
             self.get_data().insert(0, "case:concept:name", latest_id + 1)
             self.set_default_values()
 
-    def save_results_to_db(self):
+    def save_results_to_db(self) -> None:
         """Save the trace to the database."""
         patient_journey: PatientJourney = PatientJourney.manager.get(
             pk=self.get_db_objects_id("patient_journey")
@@ -251,7 +251,7 @@ class Orchestrator:
         patient_journey.trace.add(trace)
         patient_journey.save()
 
-    def set_default_values(self):
+    def set_default_values(self) -> None:
         """Set default values for all modules not executed."""
         config_modules = self.get_configuration().modules
         data = self.get_data()

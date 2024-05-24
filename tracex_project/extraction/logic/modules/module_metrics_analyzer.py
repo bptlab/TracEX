@@ -61,7 +61,7 @@ class MetricsAnalyzer(Module):
         return metrics_df
 
     @staticmethod
-    def __rate_activity_relevance(activity, condition) -> str:
+    def __rate_activity_relevance(activity: str, condition: str | None) -> str:
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -91,7 +91,9 @@ class MetricsAnalyzer(Module):
 
         return category
 
-    def __rate_timestamps_correctness(self, activity, start, end) -> Tuple[str, float]:
+    def __rate_timestamps_correctness(
+        self, activity: str, start, end
+    ) -> Tuple[str, float]:
         messages = Prompt.objects.get(name="METRIC_TIMESTAMP_MESSAGES").text
         messages.append(
             {
