@@ -318,8 +318,17 @@ form #id_name {
     display: block;
 }
 
-.landing_page_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo, .extraction_logo, .patient_journey_generator_logo {
+.landing_page_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo, .extraction_logo {
     width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.patient_journey_generator_logo {
+    width: 200px;
     height: auto;
     display: block;
     margin: 0 auto;
