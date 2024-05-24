@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from tracex.forms import ApiKeyForm
 
+
 class TracexLandingPage(TemplateView):
     """View for the landing page of the tracex app."""
     template_name = "landing_page.html"
@@ -43,6 +44,7 @@ class TracexLandingPage(TemplateView):
         context['prompt_for_key'] = not bool(api_key)
 
         return context
+
 
 class ResetApiKey(RedirectView):
     """View for the resetting the API key."""

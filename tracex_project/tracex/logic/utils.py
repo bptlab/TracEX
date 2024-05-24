@@ -2,11 +2,13 @@
 import os
 from io import StringIO
 from pathlib import Path
-
 import base64
 import tempfile
 import functools
+from typing import List
 import warnings
+
+import regex as re
 import pandas as pd
 import pm4py
 import numpy as np
@@ -206,6 +208,18 @@ class Conversion:
 
         return file_path
 
+    @staticmethod
+    def text_to_sentence_list(text: str) -> List[str]:
+        """Converts a text into a list of its sentences."""
+        text = text.replace("\n", " ")
+        # This regex looks for periods, question marks, or exclamation marks,
+        # possibly followed by more of the same, followed by a space or end of string.
+        pattern = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)(?=\s|$)")
+        sentences = pattern.split(text)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+
+        return sentences
+
 
 class DataFrameUtilities:
     """Class for all kinds of operations that performs on Dataframes"""
@@ -224,10 +238,10 @@ class DataFrameUtilities:
                 event_dict = {
                     "case:concept:name": trace.id,
                     "activity": event.activity,
-                    "event_type": event.event_type,
                     "time:timestamp": event.start,
                     "time:end_timestamp": event.end,
                     "time:duration": event.duration,
+                    "event_type": event.event_type,
                     "attribute_location": event.location,
                     "activity_relevance": event.metrics.activity_relevance,
                     "timestamp_correctness": event.metrics.timestamp_correctness,
@@ -277,3 +291,15 @@ class DataFrameUtilities:
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
         )
         df["time:duration"] = "00:01:00"
+
+    @staticmethod
+    def delete_metrics_columns(df: pd.DataFrame) -> pd.DataFrame:
+        """Delete metrics columns from the dataframe."""
+        df = df.drop(
+            columns=[
+                "activity_relevance",
+                "timestamp_correctness",
+                "correctness_confidence",
+            ],
+        )
+        return df

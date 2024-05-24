@@ -37,8 +37,6 @@
         <p>Something went wrong during the event log generation: No buffer content available.</p>
     {% endif %}
 
-    <p></p>
-
     {% if event_log_table %}
         <button id="toggleButton2">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
@@ -115,9 +113,7 @@
         {% endif %}
         <input type="submit" value="Refresh Filter" class="button">
     </form>
-    <br>
 
-    <!-- Trigger/Open The Modal (XES Download) -->
     <button id="downloadBtn" class="button">Download XES File</button>
     <div id="downloadModal" class="modal">
         <div class="modal-content">
@@ -141,5 +137,6 @@
     </a>
     <a href="{% url "landing_page" %}">
         <button class="menu_button">Return to TracEX Menu</button>
+    </a>
 </body>
 </html>
