@@ -5,6 +5,7 @@ from pathlib import Path
 import base64
 import tempfile
 import functools
+from typing import List
 import warnings
 
 import regex as re
