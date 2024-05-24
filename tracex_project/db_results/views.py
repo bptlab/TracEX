@@ -1,14 +1,17 @@
 """This file contains the views for the database result app."""
+import pandas as pd
+import plotly.graph_objects as go
+
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from django.db.models import Q
 
-import plotly.graph_objects as go
 from plotly.offline import plot
-
-from db_results.forms import PatientJourneySelectForm
-from extraction.models import Trace, PatientJourney
 from tracex.logic import utils as u
+from tracex.logic.constants import ACTIVITY_KEYS, EVENT_TYPES, LOCATIONS
+from tracex.views import DownloadXesView
+from db_results.forms import PatientJourneySelectForm, EvaluationForm
+from extraction.models import Trace, PatientJourney, Cohort
 
 
 class DbResultsOverviewView(TemplateView):
@@ -199,3 +202,152 @@ class MetricsDashboardView(TemplateView):
                 "showTips": False,
             },
         )
+
+
+class EvaluationView(FormView):
+    """View for displaying all extracted traces and DFG image with filter selection."""
+
+    form_class = EvaluationForm
+    template_name = "evaluation.html"
+    success_url = reverse_lazy("evaluation")
+
+    def get_context_data(self, **kwargs):
+        """Prepare the data for the evaluation page."""
+        context = super().get_context_data(**kwargs)
+
+        self.initiate_evaluation_configuration()
+        configuration = self.request.session.get("filter_settings")
+        activity_key = configuration.get("activity_key")
+
+        # Query the database to get all traces
+        query_dict = self.request.session.get("query_dict")
+        if query_dict is not None:
+            query = self.create_query(query_dict)
+            event_log_df = u.DataFrameUtilities.get_events_df(query)
+            traces = Trace.manager.filter(query)
+        else:
+            event_log_df = u.DataFrameUtilities.get_events_df()
+            traces = Trace.manager.all()
+
+        cohorts = Cohort.manager.filter(trace__in=traces)
+        cohorts_data = list(
+            cohorts.values(
+                "trace", "age", "sex", "origin", "condition", "preexisting_condition"
+            )
+        )
+
+        cohorts_df = pd.DataFrame(cohorts_data)
+        cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
+        filter_dict = {
+            "event_type": configuration.get("event_types"),
+            "attribute_location": configuration.get("locations"),
+        }
+        if not event_log_df.empty:
+            event_log_df = u.DataFrameUtilities.filter_dataframe(
+                event_log_df, filter_dict
+            )
+
+            # Drop unwanted columns
+            event_log_df = event_log_df.drop(
+                columns=[
+                    "activity_relevance",
+                    "timestamp_correctness",
+                    "correctness_confidence",
+                ]
+            )
+
+            context.update(
+                {
+                    "all_dfg_img": u.Conversion.create_dfg_from_df(
+                        event_log_df, activity_key
+                    ),
+                    "event_log_table": u.Conversion.create_html_table_from_df(
+                        event_log_df
+                    ),
+                    "cohorts_table": u.Conversion.create_html_table_from_df(cohorts_df),
+                }
+            )
+
+        context.update({"form": EvaluationForm(initial=configuration)})
+
+        self.request.session["event_log"] = event_log_df.to_json()
+
+        return context
+
+    @staticmethod
+    def create_query(query_dict):
+        """Create a query object based on the given dictionary."""
+        query = Q(
+            cohort__age__gte=query_dict.get("min_age"),
+            cohort__age__lte=query_dict.get("max_age"),
+        )
+        if query_dict.get("none_age"):
+            query |= Q(cohort__age__isnull=True)
+        # Extend query for items of type list
+        for key, value in query_dict.items():
+            if isinstance(value, list) and len(value) > 0:
+                # include entries where the respective attribute is missing
+                if "None" in value:
+                    query &= Q(**{f"cohort__{key}__isnull": True}) | Q(
+                        **{f"cohort__{key}__in": value}
+                    )
+                else:
+                    query &= Q(**{f"cohort__{key}__in": value})
+
+        return query
+
+    def form_valid(self, form):
+        """Save the filter settings in the cache and apply them to the dataframe."""
+
+        self.request.session["filter_settings"] = form.cleaned_data
+
+        query_dict = {
+            "sex": form.cleaned_data["sex"],
+            "condition": form.cleaned_data["condition"],
+            "preexisting_condition": form.cleaned_data["preexisting_condition"],
+            "min_age": form.cleaned_data["min_age"],
+            "max_age": form.cleaned_data["max_age"],
+            "none_age": form.cleaned_data["none_age"],
+            "origin": form.cleaned_data["origin"],
+        }
+        self.request.session["query_dict"] = query_dict
+
+        return super().form_valid(form)
+
+    def initiate_evaluation_configuration(self):
+        """Initialize form with default values if no filter settings are present."""
+
+        configuration = self.request.session.get("filter_settings")
+        if configuration is None:
+            configuration = {
+                "event_types": [event_type[0] for event_type in EVENT_TYPES],
+                "locations": [location[0] for location in LOCATIONS],
+                "activity_key": ACTIVITY_KEYS[0][0],
+            }
+
+        self.request.session["filter_settings"] = configuration
+
+
+class DownloadXesEvaluationView(DownloadXesView):
+    """Download one or more XES files based on the types specified in POST request,
+    bundled into a ZIP file if multiple."""
+
+    @staticmethod
+    def process_trace_type(request, trace_type):
+        """Process and provide the XES files to be downloaded based on the trace type."""
+        configuration = request.session.get("filter_settings")
+        activity_key = configuration.get("activity_key")
+
+        if trace_type == "event_log":
+            # Process event log data into XES format
+            df = pd.read_json(request.session.get("event_log"))
+
+            if df.empty:
+                return None
+
+            event_log_xes = u.Conversion.dataframe_to_xes(
+                df, name="event_log", activity_key=activity_key
+            )
+            return event_log_xes
+
+        return None

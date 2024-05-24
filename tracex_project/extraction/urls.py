@@ -4,13 +4,15 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("download-xes/", views.DownloadXesView.as_view(), name="download_xes"),
+    path("extraction/download-xes/", views.DownloadXesResultView.as_view(), name="download_xes_result"),
     path(
         "extraction/",
         views.JourneyInputSelectView.as_view(),
         name="choose_input_method",
     ),
-    path("extraction/upload/", views.JourneyUploadView.as_view(), name="journey_upload"),
+    path(
+        "extraction/upload/", views.JourneyUploadView.as_view(), name="journey_upload"
+    ),
     path(
         "extraction/select/", views.JourneySelectView.as_view(), name="journey_select"
     ),

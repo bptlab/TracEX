@@ -119,8 +119,11 @@ class Conversion:
 
     @staticmethod
     def rename_columns(df: pd.DataFrame):
-        """Rename columns in the DataFrame for better readability."""
+        """Renames columns in a DataFrame to enhance readability on a webpage. This function adjusts the column
+        headers of a DataFrame based on a predefined mapping that aligns with user-friendly names suitable for
+        display purposes."""
         column_mapping = {
+            # rename event columns
             "case:concept:name": "Case ID",
             "activity": "Activity",
             "event_type": "Event Type",
@@ -131,6 +134,13 @@ class Conversion:
             "activity_relevance": "Activity Relevance",
             "timestamp_correctness": "Timestamp Correctness",
             "correctness_confidence": "Correctness Confidence",
+            # rename trace columns
+            "age": "Age",
+            "sex": "Sex",
+            "origin": "Origin",
+            "condition": "Condition",
+            "preexisting_condition": "Preexisting Condition",
+            "trace": "Case ID",
         }
 
         existing_columns = {}
