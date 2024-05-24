@@ -58,11 +58,15 @@ class JourneyGenerationView(generic.RedirectView):
         try:
             generated_patient_journey = generate_patient_journey()
             configuration = ExtractionConfiguration(patient_journey=generated_patient_journey)
-        except Exception:  # pylint: disable=broad-except
+        except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()
 
-            return render(self.request, "error_page.html", {"error_traceback": traceback.format_exc()})
+            return render(
+                self.request,
+                "error_page.html",
+                {"error_type": type(e).__name__, "error_traceback": traceback.format_exc()}
+            )
 
         orchestrator.set_configuration(configuration)
         request.session["generated_journey"] = orchestrator.get_configuration().patient_journey
