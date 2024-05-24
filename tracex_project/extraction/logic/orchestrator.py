@@ -128,7 +128,7 @@ class Orchestrator:
         """Return the data for the orchestrator instance."""
         return self.data
 
-    def set_cohort(self, cohort):
+    def set_cohort(self, cohort: Dict[str, str] | None):
         """Set the cohort for the orchestrator instance."""
         self.cohort = cohort
 
