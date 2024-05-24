@@ -6,7 +6,6 @@ import plotly.graph_objects as go
 from db_results.forms import PatientJourneySelectForm, EvaluationForm
 from django.db.models import Q
 from django.db.models.query import QuerySet
-from django.http import HttpRequest
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
 from extraction.models import Trace, PatientJourney, Cohort
@@ -274,7 +273,8 @@ class EvaluationView(FormView):
             traces = Trace.manager.all()
         return traces, event_log_df
 
-    def get_cohorts_data(self, traces: QuerySet) -> pd.DataFrame:
+    @staticmethod
+    def get_cohorts_data(traces: QuerySet) -> pd.DataFrame:
         """Extract and format cohort data from given traces for further processing and visualization."""
         cohorts = Cohort.manager.filter(trace__in=traces)
         cohorts_data = list(cohorts.values("trace", "age", "sex", "origin", "condition", "preexisting_condition"))
@@ -283,7 +283,8 @@ class EvaluationView(FormView):
             cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
         return cohorts_df
 
-    def filter_and_cleanup_event_log(self, event_log_df: pd.DataFrame, filter_settings: dict) -> pd.DataFrame:
+    @staticmethod
+    def filter_and_cleanup_event_log(event_log_df: pd.DataFrame, filter_settings: dict) -> pd.DataFrame:
         """Apply user-defined filters to the event log data and clean up unnecessary columns."""
         filter_dict = {
             "event_type": filter_settings.get("event_types"),
@@ -294,7 +295,8 @@ class EvaluationView(FormView):
             columns=["activity_relevance", "timestamp_correctness", "correctness_confidence"])
         return event_log_df
 
-    def generate_dfg_and_tables(self, event_log_df: pd.DataFrame, cohorts_df: pd.DataFrame,
+    @staticmethod
+    def generate_dfg_and_tables(event_log_df: pd.DataFrame, cohorts_df: pd.DataFrame,
                                 filter_settings: dict) -> dict:
         """Generate visualizations and HTML tables for the provided event log and cohort data."""
         activity_key = filter_settings.get("activity_key")
@@ -350,7 +352,7 @@ class DownloadXesEvaluationView(DownloadXesView):
     """View to download evaluation data in XES format based on the event log stored in the session."""
 
     @staticmethod
-    def process_trace_type(request: HttpRequest, trace_type: str):
+    def process_trace_type(request, trace_type: str):
         """Process and provide the XES files to be downloaded based on the trace type."""
         configuration = request.session.get("filter_settings")
         activity_key = configuration.get("activity_key")
