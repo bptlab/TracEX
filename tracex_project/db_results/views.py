@@ -1,5 +1,5 @@
 """This file contains the views for the database result app."""
-from typing import Tuple, List
+from typing import Tuple, List, Dict
 
 import pandas as pd
 import plotly.graph_objects as go
@@ -305,7 +305,7 @@ class EvaluationView(FormView):
         }
 
     @staticmethod
-    def create_query(query_dict):
+    def create_query(query_dict: Dict[str, any]) -> Q:
         """Construct a database query from a dictionary of filter criteria."""
         query = Q(
             cohort__age__gte=query_dict.get("min_age"),
