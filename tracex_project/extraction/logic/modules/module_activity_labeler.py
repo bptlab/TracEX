@@ -25,7 +25,7 @@ class ActivityLabeler(Module):
         _input=None,
         patient_journey=None,
         patient_journey_sentences=None,
-        cohort=None
+        cohort=None,
     ):
         """
         Extracts the activity labels from the patient journey with the following steps:
@@ -76,14 +76,12 @@ class ActivityLabeler(Module):
             messages.append(
                 {
                     "role": "user",
-                    "content": patient_journey_numbered
-                    + "\n\nConsider all important points regarding the course of the disease of "
-                    + condition,
+                    "content": f"Focus on those events that are related to the course of the disease of {condition}."
+                    f"\n\n{patient_journey_numbered}",
                 }
             )
         else:
             messages.append({"role": "user", "content": patient_journey_numbered})
-        messages.append({"role": "user", "content": patient_journey_numbered})
         activity_labels = u.query_gpt(messages).split("\n")
         df = pd.DataFrame(activity_labels, columns=[column_name])
         df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)
