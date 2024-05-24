@@ -41,7 +41,7 @@ class LocationExtractor(Module):
         return df
 
     @staticmethod
-    def __classify_location(activity_label):
+    def __classify_location(activity_label: str) -> str:
         """Classify the location for a given activity."""
         messages = Prompt.objects.get(name="LOCATION_MESSAGES").text
         messages.append({"role": "user", "content": activity_label})

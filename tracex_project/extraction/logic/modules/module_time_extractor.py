@@ -45,7 +45,7 @@ class TimeExtractor(Module):
 
         return df
 
-    def __extract_start_date(self, row):
+    def __extract_start_date(self, row: pd.Series) -> str:
         """Extract the start date for a given activity."""
         lower, upper = u.get_snippet_bounds(
             index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences)
@@ -65,7 +65,7 @@ class TimeExtractor(Module):
 
         return start
 
-    def __extract_end_date(self, row):
+    def __extract_end_date(self, row: pd.Series) -> str:
         """Extract the end date for a given activity."""
         lower, upper = u.get_snippet_bounds(
             index=(int(row["sentence_id"])), length=len(self.patient_journey_sentences)
@@ -88,7 +88,7 @@ class TimeExtractor(Module):
         return end
 
     @staticmethod
-    def __calculate_duration(row):
+    def __calculate_duration(row: pd.Series) -> str:
         """Calculate the duration of an activity."""
         duration = row["time:end_timestamp"] - row["time:timestamp"]
         hours, remainder = divmod(duration.total_seconds(), 3600)
@@ -97,7 +97,7 @@ class TimeExtractor(Module):
         return f"{int(hours):02d}:{int(minutes):02d}:{int(seconds):02d}"
 
     @staticmethod
-    def __post_processing(df):
+    def __post_processing(df: pd.DataFrame) -> pd.DataFrame:
         """Fill missing values for dates with default values."""
 
         def convert_to_datetime(df, column):

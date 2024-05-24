@@ -1,5 +1,6 @@
 """This module measures the outpupt of the pipeline based on specified metrics."""
 from pathlib import Path
+from typing import Tuple
 import pandas as pd
 from django.conf import settings
 
@@ -60,7 +61,7 @@ class MetricsAnalyzer(Module):
         return metrics_df
 
     @staticmethod
-    def __rate_activity_relevance(activity, condition):
+    def __rate_activity_relevance(activity, condition) -> str:
         category_mapping = {
             "No Relevance": 0,
             "Low Relevance": 1,
@@ -90,7 +91,7 @@ class MetricsAnalyzer(Module):
 
         return category
 
-    def __rate_timestamps_correctness(self, activity, start, end):
+    def __rate_timestamps_correctness(self, activity, start, end) -> Tuple[str, float]:
         messages = Prompt.objects.get(name="METRIC_TIMESTAMP_MESSAGES").text
         messages.append(
             {
