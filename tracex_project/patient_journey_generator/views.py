@@ -45,6 +45,7 @@ class JourneyGenerationView(generic.RedirectView):
 
     url = reverse_lazy("journey_generator_overview")
     template_name = "journey_generation.html"
+    success_url = reverse_lazy("journey_filter")
 
     def get(self, request, *args, **kwargs):
         """

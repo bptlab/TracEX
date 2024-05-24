@@ -28,7 +28,7 @@
     </script>
 
     {% if trace_table %}
-        <button id="toggleButton1" class="function_button">Show/Hide extracted Event Log from Journey</button>
+        <button id="toggleButton1" class="menu_button">Show/Hide extracted Event Log from Journey</button>
         <div id="contentWrapper1" style="display: none;">
             <p><b>This is the event log extracted from the journey above.</b></p>
             <div id="xesContent1" class="xes_container">{{ trace_table|safe }}</div>
@@ -40,7 +40,7 @@
     <p></p>
 
     {% if event_log_table %}
-        <button id="toggleButton2" class="function_button">Show/Hide enriched Event Log</button>
+        <button id="toggleButton2" class="menu_button">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
             <p><b>This is the event log enriched by the extracted trace.</b></p>
             <div id="xesContent2" class="xes_container">{{ event_log_table|safe }}</div>
