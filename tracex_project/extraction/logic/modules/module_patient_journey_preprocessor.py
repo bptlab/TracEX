@@ -29,69 +29,37 @@ class Preprocessor(Module):
             patient_journey=patient_journey,
             patient_journey_sentences=patient_journey_sentences,
         )
-        preprocessed_text = self.__spellcheck(patient_journey)
-        preprocessed_text = self.__punctuationcheck(preprocessed_text)
-        preprocessed_text = self.__identify_timestamps(preprocessed_text)
-        preprocessed_text = self.__transform_timestamps(preprocessed_text)
-        preprocessed_text = self.__interpret_timestamps(preprocessed_text)
-        preprocessed_text = self.__calculate_timestamps(preprocessed_text)
+        preprocessed_text = self.__apply_preprocessing_step(
+            patient_journey, "SPELLCHECK"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "PUNCTUATION"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_IDENTIFICATION"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_HOLIDAYS"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_GENERAL"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_IDENTIFICATION"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_RELATIVE"
+        )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_PROPAGATE"
+        )
 
         return preprocessed_text
 
     @staticmethod
-    def __spellcheck(text):
-        """Checks and corrects spelling and grammar in the input."""
-        messages = Prompt.objects.get(name="PREPROCESSING_SPELLCHECK").text
-        new_user_message = {"role": "user", "content": text}
-        messages.append(new_user_message)
-        preprocessed_text = u.query_gpt(messages)
-
-        return preprocessed_text
-
-    @staticmethod
-    def __punctuationcheck(text):
-        """Checks and corrects punctuations and commas in the input."""
-        messages = Prompt.objects.get(name="PREPROCESSING_PUNCTUATION").text
-        new_user_message = {"role": "user", "content": text}
-        messages.append(new_user_message)
-        preprocessed_text = u.query_gpt(messages)
-
-        return preprocessed_text
-
-    @staticmethod
-    def __identify_timestamps(text):
-        """Identifies and formats time specifications in the input."""
-        messages = Prompt.objects.get(name="PREPROCESSING_IDENTIFY_TIMESTAMPS").text
-        new_user_message = {"role": "user", "content": text}
-        messages.append(new_user_message)
-        preprocessed_text = u.query_gpt(messages)
-
-        return preprocessed_text
-
-    @staticmethod
-    def __transform_timestamps(text):
-        """Adds a timeline to the input for better understanding of events."""
-        messages = Prompt.objects.get(name="PREPROCESSING_TRANSFORM_TIMESTAMPS").text
-        new_user_message = {"role": "user", "content": text}
-        messages.append(new_user_message)
-        preprocessed_text = u.query_gpt(messages)
-
-        return preprocessed_text
-
-    @staticmethod
-    def __calculate_timestamps(text):
-        """Calculate a Timestamp to the input for better understanding of events."""
-        messages = Prompt.objects.get(name="PREPROCESSING_TIME_CALCULATION").text
-        new_user_message = {"role": "user", "content": text}
-        messages.append(new_user_message)
-        preprocessed_text = u.query_gpt(messages)
-
-        return preprocessed_text
-
-    @staticmethod
-    def __interpret_timestamps(text):
-        """Interpret a Timestamp to the input for better understanding of events."""
-        messages = Prompt.objects.get(name="PREPROCESSING_TIME_INTERPRETATION").text
+    def __apply_preprocessing_step(text, prompt_name):
+        """Applies a preprocessing step based on the step name."""
+        messages = Prompt.objects.get(name=f"PREPROCESSING_{prompt_name}").text
         new_user_message = {"role": "user", "content": text}
         messages.append(new_user_message)
         preprocessed_text = u.query_gpt(messages)

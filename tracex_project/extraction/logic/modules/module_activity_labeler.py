@@ -75,7 +75,7 @@ class ActivityLabeler(Module):
 
         user_message = patient_journey_numbered
         if condition is not None:
-            user_message += f"\n\nConsider all important points regarding the course of the disease of {condition}"
+            user_message = f"Focus on those events that are related to the course of the disease of {condition}.\n\n{user_message}"
         messages.append({"role": "user", "content": user_message})
         activity_labels = u.query_gpt(messages).split("\n")
         df = pd.DataFrame(activity_labels, columns=[column_name])
