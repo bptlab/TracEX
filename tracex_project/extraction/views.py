@@ -4,11 +4,11 @@ Some unused imports and variables have to be made because of architectural requi
 """
 
 import traceback
+from typing import Dict, List
 
 # pylint: disable=unused-argument, unused-variable
 
 import pandas as pd
-from typing import Dict, List
 
 from django.urls import reverse_lazy
 from django.views import generic

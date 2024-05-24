@@ -1,6 +1,8 @@
 """Admin file for extraction app."""
-from django.contrib import admin
 from typing import Union
+
+from django.contrib import admin
+
 from extraction.models import Event, PatientJourney, Prompt, Trace, Cohort, Metric
 
 

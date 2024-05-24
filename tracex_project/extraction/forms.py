@@ -1,6 +1,7 @@
 """Implementation of forms for the extraction app."""
-from django import forms
 from typing import List, Tuple
+
+from django import forms
 
 from extraction.models import PatientJourney
 from tracex.forms import BaseEventForm
