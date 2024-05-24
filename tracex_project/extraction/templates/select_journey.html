@@ -15,14 +15,14 @@
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit" class="menu_button">Next</button>
+        <button type="submit" class="function_button">Select this Patient Journey</button>
     </form>
 
     <a href="{% url "choose_input_method" %}">
-        <button class="menu_button">Return to input method selection</button>
+        <button class="menu_button">Return to Input Method Selection</button>
     </a>
     <a href="{% url "landing_page" %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </body>
 </html>
