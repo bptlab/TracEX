@@ -33,9 +33,8 @@ class OrchestratorTests(TestCase):
         self.factory = RequestFactory()
         self.orchestrator = Orchestrator()
 
-        self.orchestrator.get_configuration = (
-            lambda: MockConfiguration()
-        )  # pylint: disable=unnecessary-lambda
+        # pylint: disable=unnecessary-lambda
+        self.orchestrator.get_configuration = lambda: MockConfiguration()
 
     def tearDown(self):  # pylint: disable=invalid-name
         """Tear down method that gets called after every test is executed."""
