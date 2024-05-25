@@ -92,7 +92,7 @@ class MetricsAnalyzer(Module):
         return category
 
     def __rate_timestamps_correctness(
-        self, activity: str, start: pd.DateTime, end: pd.DateTime
+        self, activity: str, start, end
     ) -> Tuple[str, float]:
         messages = Prompt.objects.get(name="METRIC_TIMESTAMP_MESSAGES").text
         messages.append(
