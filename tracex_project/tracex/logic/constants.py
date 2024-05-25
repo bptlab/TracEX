@@ -110,7 +110,6 @@ LOCATIONS: Final = [
 ]
 MODULES_OPTIONAL: Final = [
     ("preprocessing", "Preprocessor"),
-    ("cohort_tagging", "Cohort Tagger"),
     ("time_extraction", "Time Extractor"),
     ("event_type_classification", "Event Type Classifier"),
     ("location_extraction", "Location Extractor"),
@@ -118,4 +117,5 @@ MODULES_OPTIONAL: Final = [
 ]
 MODULES_REQUIRED: Final = [
     ("activity_labeling", "Activity Labeler"),
+    ("cohort_tagging", "Cohort Tagger")
 ]

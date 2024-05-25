@@ -1,10 +1,10 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evaluation View</title>
+    {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
@@ -86,14 +86,14 @@
     <div class="form-row">
         <div class="form-column">
             {{ form.sex.label }} <br>
-            <input type="checkbox" id="togglesex" />
+            <input type="checkbox" id="togglesex"/>
             <label for="togglesex"><i>Select/Deselect All</i></label>
             {{ form.sex }}
             {{ form.sex.errors }}
         </div>
         <div class="form-column">
             {{ form.origin.label_tag }} <br>
-            <input type="checkbox" id="toggleAll" />
+            <input type="checkbox" id="toggleAll"/>
             <label for="toggleAll"><i>Select/Deselect All</i></label>
             {{ form.origin }}
             {{ form.origin.errors }}
@@ -103,14 +103,14 @@
     <div class="form-row">
         <div class="form-column">
             {{ form.condition.label_tag }} <br>
-            <input type="checkbox" id="toggleCondition" />
+            <input type="checkbox" id="toggleCondition"/>
             <label for="toggleCondition"><i>Select/Deselect All</i></label>
             {{ form.condition }}
             {{ form.condition.errors }}
         </div>
         <div class="form-column">
             {{ form.preexisting_condition.label_tag }} <br>
-            <input type="checkbox" id="togglePreexistingCondition" />
+            <input type="checkbox" id="togglePreexistingCondition"/>
             <label for="togglePreexistingCondition"><i>Select/Deselect All</i></label>
             {{ form.preexisting_condition }}
             {{ form.preexisting_condition.errors }}
@@ -147,22 +147,23 @@
 </form>
 
 <!-- Trigger/Open The Modal (XES Download) -->
-    <button id="downloadBtn" class="function_button">Download XES File</button>
-    <div id="downloadModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <p>Please select the type(s) of XES file to download:</p>
-            <form id="downloadForm" action="{% url 'download_xes_evaluation' %}" method="post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <input type="checkbox" id="event_log" name="trace_type[]" value="event_log" class="trace-checkbox">
-                <label for="event_log">Event Log XES</label><br><br>
-                <input type="submit" value="Confirm Download" class="button">
-            </form>
-        </div>
+<button id="downloadBtn" class="function_button">Download XES File</button>
+<div id="downloadModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Please select the type(s) of XES file to download:</p>
+        <form id="downloadForm" action="{% url 'download_xes_evaluation' %}" method="post"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="checkbox" id="event_log" name="trace_type[]" value="event_log" class="trace-checkbox">
+            <label for="event_log">Event Log XES</label><br><br>
+            <input type="submit" value="Confirm Download" class="button">
+        </form>
     </div>
+</div>
 
 <a href="{% url 'db_results_overview' %}">
-        <button class="menu_button">Return to Database Results Overview</button>
+    <button class="menu_button">Return to Database Results Overview</button>
 </a>
 
 <a href="{% url 'landing_page' %}">

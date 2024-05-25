@@ -11,11 +11,11 @@ DataFrameUtilities -- Groups all functions related to DataFrame operations.
 """
 import os
 from pathlib import Path
-
 import base64
 import tempfile
 from typing import Dict, List, Optional
 
+import regex as re
 import pandas as pd
 import pm4py
 import numpy as np
@@ -255,6 +255,18 @@ class Conversion:
 
         return file_path
 
+    @staticmethod
+    def text_to_sentence_list(text: str) -> List[str]:
+        """Converts a text into a list of its sentences."""
+        text = text.replace("\n", " ")
+        # This regex looks for periods, question marks, or exclamation marks,
+        # possibly followed by more of the same, followed by a space or end of string.
+        pattern = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)(?=\s|$)")
+        sentences = pattern.split(text)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+
+        return sentences
+
 
 class DataFrameUtilities:
     """
@@ -279,6 +291,7 @@ class DataFrameUtilities:
         traces = Trace.manager.filter(query) if query else Trace.manager.all()
 
         if not traces.exists():
+
             return pd.DataFrame()
 
         event_data = [
@@ -353,4 +366,16 @@ class DataFrameUtilities:
 
         df["time:duration"] = "00:01:00"
 
+        return df
+
+    @staticmethod
+    def delete_metrics_columns(df: pd.DataFrame) -> pd.DataFrame:
+        """Delete metrics columns from the dataframe."""
+        df = df.drop(
+            columns=[
+                "activity_relevance",
+                "timestamp_correctness",
+                "correctness_confidence",
+            ],
+        )
         return df

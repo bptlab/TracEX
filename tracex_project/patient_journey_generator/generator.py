@@ -49,7 +49,7 @@ def get_country():
 
 
 def get_date(start="01/01/2020", end="01/09/2023"):
-    """ Get a random date between a start and end date."""
+    """Get a random date between a start and end date."""
     start = datetime.strptime(start, "%d/%m/%Y")
     end = datetime.strptime(end, "%d/%m/%Y")
     delta = end - start

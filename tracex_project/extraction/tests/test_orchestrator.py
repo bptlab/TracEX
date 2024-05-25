@@ -7,12 +7,20 @@ from extraction.logic.orchestrator import ExtractionConfiguration, Orchestrator
 from extraction.logic.modules import (
     Preprocessor,
     ActivityLabeler,
+    CohortTagger,
 )
 
 
 class MockConfiguration:
     """Mock configuration class for testing purposes."""
-    modules = ["Preprocessor", "Cohort Tagger", "ActivityLabeler", "TimeExtractor", "EventTypeClassifier"]
+
+    modules = [
+        "Preprocessor",
+        "Cohort Tagger",
+        "ActivityLabeler",
+        "TimeExtractor",
+        "EventTypeClassifier",
+    ]
 
 
 class OrchestratorTests(TestCase):
@@ -25,7 +33,8 @@ class OrchestratorTests(TestCase):
         self.factory = RequestFactory()
         self.orchestrator = Orchestrator()
 
-        self.orchestrator.get_configuration = lambda: MockConfiguration()  # pylint: disable=unnecessary-lambda
+        # pylint: disable=unnecessary-lambda
+        self.orchestrator.get_configuration = lambda: MockConfiguration()
 
     def tearDown(self):  # pylint: disable=invalid-name
         """Tear down method that gets called after every test is executed."""
@@ -95,21 +104,23 @@ class OrchestratorTests(TestCase):
         )
         modules = orchestrator.initialize_modules()
 
-        self.assertIsInstance(modules['activity_labeling'], ActivityLabeler)
-        self.assertEqual(modules['activity_labeling'].name, "Activity Labeler")
+        self.assertIsInstance(modules["activity_labeling"], ActivityLabeler)
+        self.assertEqual(modules["activity_labeling"].name, "Activity Labeler")
 
     def test_run(self):
-        """Test if the run method correctly returns a dataframe. Execution of ActivityLabeler and Preprocessor is
-        necessary since the run method makes assumptions on how the patient journey looks like."""
+        """Test if the run method correctly returns a dataframe. Execution of ActivityLabeler, CohortTagger and
+        Preprocessor is necessary since the run method makes assumptions on how the patient journey looks like.
+        """
         Orchestrator.reset_instance()
         configuration = ExtractionConfiguration(
             patient_journey="This is a test patient journey. This is some description about how I fell ill and "
-                            "recovered in the end.",
+            "recovered in the end.",
         )
         configuration.update(
             modules={
                 "preprocessing": Preprocessor,
                 "activity_labeling": ActivityLabeler,
+                "cohort_tagging": CohortTagger,
             }
         )
         orchestrator = Orchestrator(configuration=configuration)
@@ -153,6 +164,7 @@ class OrchestratorTests(TestCase):
 
         class MockView:
             """Mock View class for testing purposes."""
+
             def __init__(self, _request):
                 self.request = _request
 
