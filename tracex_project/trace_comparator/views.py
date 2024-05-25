@@ -84,14 +84,14 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
             .id
         )
         pipeline_df: pd.DataFrame = DataFrameUtilities.get_events_df(query_last_trace)
-        pipeline_df: pd.DataFrame = DataFrameUtilities.delete_metrics_columns(
-            pipeline_df
-        )
+
         context.update(
             {
                 "patient_journey_name": patient_journey_name,
                 "patient_journey": patient_journey,
-                "pipeline_output": Conversion.create_html_table_from_df(pipeline_df),
+                "pipeline_output": Conversion.create_html_table_from_df(
+                    DataFrameUtilities.delete_metrics_columns(pipeline_df)
+                ),
             }
         )
 
@@ -213,7 +213,9 @@ class TraceTestingResultView(TemplateView, TraceComparisonMixin):
             "patient_journey": PatientJourney.manager.get(
                 name=patient_journey_name
             ).patient_journey,
-            "pipeline_output": Conversion.create_html_table_from_df(pipeline_df),
+            "pipeline_output": Conversion.create_html_table_from_df(
+                DataFrameUtilities.delete_metrics_columns(pipeline_df)
+            ),
             "ground_truth_output": Conversion.create_html_table_from_df(
                 DataFrameUtilities.delete_metrics_columns(ground_truth_df)
             ),

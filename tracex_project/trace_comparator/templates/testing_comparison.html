@@ -13,7 +13,7 @@
     <div class="container">
         <h1>Extraction Result</h1>
 
-        <h2>Patient Journey: {{ patient_journey_name }}</h2>
+        <h3>Patient Journey: {{ patient_journey_name }}</h3>
         <p>{{ patient_journey }}</p>
         <p><b>This is the event log extracted from the journey above</b></p>
         <div id="xesContent" class="xes_container">
@@ -35,6 +35,11 @@
             {% csrf_token %}
             <button type="submit" class="menu_button" id="progress_button">Start Comparing Against Ground Truth</button>
         </form>
+        <script>
+            function disableButton() {
+                document.getElementById("progress_button").classList.add("processing");
+            }
+        </script>
 
         <a href="{% url 'testing_environment' %}">
             <button class="menu_button">Return to Trace Testing Environment</button>

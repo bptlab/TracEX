@@ -7,7 +7,9 @@
     <script src="{% static '/trace_comparator/js/dashboard.js' %}" defer></script>
 </head>
 <body class="main_body">
-    <h2>Trace Comparison Results ({{patient_journey_name}})</h2>
+    <h1>Trace Comparison Results</h1>
+
+    <h2>Patient Journey: {{ patient_journey_name }}</h2>
     <div class="dashboard">
         <div class="row">
             <div class="metric-tile">

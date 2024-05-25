@@ -11,7 +11,9 @@ from tracex.logic import utils as u, constants as c
 
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
-def compare_traces(view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame):
+def compare_traces(
+    view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame
+) -> dict:
     """Executes the trace comparison.
 
     Compare the piepline output to the ground truth and determine all matching activities.Classify every activity
@@ -96,7 +98,7 @@ def compare_activities(
     total_steps: int,
     status: str,
     input_activities: pd.Series,
-    ground_truth_activities: pd.Series,
+    comparison_basis_activities: pd.Series,
 ) -> List[Tuple[int, float]]:
     """Compare input activities with ground truth activities."""
     mapping_input_to_comparison: List[Tuple[int, float]] = []
@@ -104,7 +106,7 @@ def compare_activities(
         update_progress(view, current_step, total_steps, status)
         find_activity(
             activity,
-            ground_truth_activities,
+            comparison_basis_activities,
             index,
             mapping_input_to_comparison,
         )
@@ -116,7 +118,7 @@ def compare_activities(
 
 def find_activity(
     activity,
-    ground_truth_activities: pd.Series,
+    comparison_basis_activities: pd.Series,
     activity_index: int,
     mapping_input_to_comparison: List[Tuple[int, float]],
 ) -> None:
@@ -127,9 +129,11 @@ def find_activity(
     certain range. For instance, an activity with index 5 ist compared to activities 3-7 from the ground truth. Both
     activities are sent to the GPT model to determine if they are semantically similar.
     """
-    lower, upper = u.get_snippet_bounds(activity_index, len(ground_truth_activities))
+    lower, upper = u.get_snippet_bounds(
+        activity_index, len(comparison_basis_activities)
+    )
     possible_matches: List[Tuple[int, float]] = []
-    for count, second_activity in enumerate(ground_truth_activities[lower:upper]):
+    for count, second_activity in enumerate(comparison_basis_activities[lower:upper]):
         messages = Prompt.objects.get(name="COMPARE_MESSAGES").text
         messages.append(
             {
@@ -149,6 +153,7 @@ def find_activity(
                 for index, prob in possible_matches
                 if prob > c.THRESHOLD_FOR_MATCH
             ),
+            key=lambda x: x[1],
             default=(-1, 0),
         )
     )
@@ -171,10 +176,8 @@ def postprocess_mappings(
 
 
 def fill_mapping(mapping_back_to_forth: List, mapping_forth_to_back: List) -> List:
-    """Fill the missing mappings using the reverse mapping.
-
-    Fills up missing mappings using the reverse mapping and updates existing mappings, if ones with higher
-    probabilities are found. If an activity has no mapping on either side, it is left as is.
+    """Fill up missing mappings using the reverse mapping and updates existing mappings, if ones with higher
+    probabilities are found. If an activity has no mapping on either side, leave it as is.
     """
     for index_forth, activity_index_forth in enumerate(mapping_back_to_forth):
         if activity_index_forth[0] == -1:
