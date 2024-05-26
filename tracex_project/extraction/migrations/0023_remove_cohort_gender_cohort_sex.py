@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('extraction', '0022_remove_cohort_gender_add_snomed_trace_cohort'),
+        ('extraction', '0022_add_snomed_trace_cohort'),
     ]
 
     operations = [
