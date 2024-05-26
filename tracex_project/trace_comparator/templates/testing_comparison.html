@@ -4,7 +4,7 @@
     <title>Extraction Result</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/progress-bar.css' %}">
     <script src="{% static '/tracex/js/progress-bar.js' %}" defer></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -33,7 +33,7 @@
 
         <form method="post" >
             {% csrf_token %}
-            <button type="submit" class="menu_button" id="progress_button">Start Comparing Against Ground Truth</button>
+            <button type="submit" class="function_button" id="progress_button" onclick="disableButton()">Start Comparing Against Ground Truth</button>
         </form>
         <script>
             function disableButton() {
@@ -46,7 +46,7 @@
         </a>
 
         <a href="{% url 'landing_page' %}">
-            <button class="menu_button">Return to TracEX menu</button>
+            <button class="menu_button">Return to TracEX Menu</button>
         </a>
     </div>
 </body>

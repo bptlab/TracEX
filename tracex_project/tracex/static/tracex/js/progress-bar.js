@@ -1,3 +1,4 @@
+/* JS File to display a progress bar. */
 const execute_button = document.getElementById('progress_button');
 const progress_box = document.getElementById('progress_box');
 const loader = document.getElementById('loading-spinner');

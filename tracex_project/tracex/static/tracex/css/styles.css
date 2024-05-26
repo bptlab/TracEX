@@ -1,22 +1,57 @@
-/* GENERAL */
-
+/* GENERAL STYLING */
 .main_body {
     background-color: white;
     font-family: 'Gill Sans', sans-serif;
     width: 60%;
-    margin-top: 0%;
+    margin-top: 0;
     margin-left: auto;
     margin-right: auto;
 }
 
-button, input[type="submit"].button {
-    width: 100%; /* Full width of the container */
-    padding: 10px; /* Add padding for better appearance */
+.menu_button, input[type="submit"].button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-family: 'Gill Sans', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.menu_button, input[type="submit"].button {
-    margin-top: 15px;
+.menu_button:hover, input[type="submit"].button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
 }
+
+.function_button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(0, 123, 255, 0.7);
+    border: 1px solid rgba(0, 92, 191, 0.7);
+    border-radius: 5px;
+    color: white; /* White text color */
+    font-family: 'Gill Sans', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.function_button:hover {
+    background-color: rgba(0, 86, 179, 0.8);
+    transform: scale(1.05);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button-container a {
+    flex: 1;
+}
+
 
 .item {
     height: 300px;
@@ -29,16 +64,18 @@ button, input[type="submit"].button {
 
 .h1 {
     margin-bottom: 20px;
+    text-align: center;
 }
 
-p {
+p, h2 {
     text-align: left;
 }
 
-h2 {
-    text-align: left;
+.not_visible {
+    display: none;
 }
 
+/* FORM STYLING */
 .form {
     margin-bottom: -10px;
 }
@@ -62,16 +99,6 @@ form #id_name {
     width: 15em;
 }
 
-.not_visible {
-    display: none;
-}
-
-.table-container {
-    max-height: 500px;
-    overflow-y: auto;
-    width: 100%;
-}
-
 .patient_journey_generator_form .form-row {
     display: flex;
     justify-content: center;
@@ -90,6 +117,11 @@ form #id_name {
 }
 
 /* TABLE STYLING */
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
 
 .dataframe {
     width: 100%;
@@ -100,17 +132,14 @@ form #id_name {
 .dataframe th, .dataframe td {
     padding: 8px;
     text-align: center;
+    border: 1px solid rgba(54, 54, 54, 0.509);
 }
 
 .dataframe thead {
     background-color: #c2c0c0;
 }
 
-.dataframe tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-
-.dataframe tbody tr:nth-child(odd) {
+.dataframe tbody tr:nth-child(even), .dataframe tbody tr:nth-child(odd) {
     background-color: #f9f9f9;
 }
 
@@ -118,12 +147,7 @@ form #id_name {
     background-color: #f1f1f1c3;
 }
 
-.dataframe th, .dataframe td {
-    border: 1px solid rgba(54, 54, 54, 0.509);
-}
-
-/* LANDING PAGE */
-
+/* LANDING PAGE STYLING */
 .landing_page_menu {
     display: flex;
     flex-direction: row;
@@ -188,6 +212,15 @@ form #id_name {
     width: 50%;
 }
 
+.landing_page_container .item_link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
 .key_icon {
     position: absolute;
     top: 10px;
@@ -197,7 +230,11 @@ form #id_name {
     height: auto;
 }
 
-/* EXTRACTION */
+/* DFG STYLING */
+.dfg-container {
+    display: flex;
+    justify-content: space-between;
+}
 
 .dfg-container img {
     width: 100%;
@@ -205,39 +242,7 @@ form #id_name {
     height: auto;
 }
 
-
-.dfg-container {
-    display: flex;
-    justify-content: space-between;
-}
-
-/* DATABASE RESULTS */
-
-.button-container {
-    display: flex;
-    gap: 10px;
-}
-
-.button-container a {
-    flex: 1;
-}
-
-.menu_button {
-    width: 100%;
-}
-
-h1 {
-    text-align: center;
-}
-
-.dfg-container {
-    display: flex;
-    justify-content: center;
-}
-
-
-/* DASHBOARD */
-
+/* METRICS DASHBOARD STYLING */
 .dashboard {
     display: flex;
     flex-direction: column;
@@ -303,28 +308,29 @@ h1 {
     text-align: center;
 }
 
-/* LOGOS */
-
+/* LOGO STYLING */
 .img {
     max-width: 100%;
     margin-bottom: 20px;
     display: block;
 }
 
-.landing_page_logo {
-    max-width: 65%;
+.landing_page_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo, .extraction_logo {
+    width: 300px;
     height: auto;
-    object-fit: contain;
-    padding: 1%;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
-
 
 .patient_journey_generator_logo {
-    width: 280px;
-}
-
-.extraction_logo {
-    width: 350px;
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
 .error_logo {
@@ -334,24 +340,10 @@ h1 {
     margin: 0 auto;
 }
 
-.test_environment_logo {
-    width: 300px;
-}
-
-.metrics_dashboard_logo {
-    width: 320px;
-}
-
-.database_results_logo {
-    width: 250px;
-}
-
-.patient_journey_generator_logo, .extraction_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo {
-    height: auto;
-    display: block;
-    margin: 0 auto;
-    margin-top: 5%;
-    margin-bottom: 5%;
+.landing_page_logo {
+    max-width: 65%;
+    object-fit: contain;
+    padding: 1%;
 }
 
 /* PAGE TRANSITIONS */
@@ -370,8 +362,7 @@ h1 {
     }
 }
 
-/* The Modal (background) */
-/* Base styles for the modal */
+/* MODAL STYLING */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -384,16 +375,19 @@ h1 {
     background-color: rgba(0,0,0,0.4); /* Black with opacity */
 }
 
-/* Styles for the modal content */
 .modal-content {
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Adjusts based on screen size */
+    width: 50%; /* Adjusts based on screen size */
 }
 
-/* Styles for the close button */
+.modal-header .modal-title {
+    text-align: center;
+    width: 100%;
+}
+
 .close {
     color: #aaa;
     float: right;
@@ -424,7 +418,6 @@ h1 {
     text-align: center;
     border-radius: 6px;
     padding: 12px 12px;
-
     position: absolute;
     z-index: 1;
     top: 180%;
@@ -436,6 +429,7 @@ h1 {
     visibility: visible;
 }
 
+/* FORM ERRORS */
 div.form-errors ul {
     list-style-type: none; /* Ensures no bullet points and overrides other styles */
     margin: 0;
@@ -462,45 +456,35 @@ div.form-errors li {
     border-radius: 4px;
     padding: 10px;
     box-sizing: border-box;
- }
+}
 
 .item-container {
     display: flex;
 }
 
-.item-link {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-}
-
-/* z-index for backdrop */
+/* MODAL BACKDROP */
 .modal-backdrop {
     z-index: 1040; /* Lower than modal to stay behind */
 }
 
-/* Default modal width and adjustments for different screen sizes */
+/* API KEY MODAL WIDTH ADJUSTMENTS */
 #apiKeyModal .modal-dialog {
     max-width: 90%; /* Default for smaller screens */
 }
 
-/* Adjustments for medium devices (tablets) */
 @media (min-width: 768px) {
     #apiKeyModal .modal-dialog {
         max-width: 70%; /* Smaller percentage for medium screens */
     }
 }
 
-/* Adjustments for large devices (desktops) */
 @media (min-width: 992px) {
     #apiKeyModal .modal-dialog {
         max-width: 50%; /* Even smaller for large screens */
     }
 }
 
+/* SLIDER STYLING */
 .noUi-target {
     width: 100%;
 }
@@ -509,6 +493,7 @@ div.form-errors li {
     background: #0075ff;
 }
 
+/* SCROLLABLE TABLE */
 .scrollable-table {
     width: 120%;
     max-height: 500px;
@@ -518,6 +503,7 @@ div.form-errors li {
     transform: translateX(-50%);
 }
 
+/* FILTER SELECTION FIELD */
 .filter-selection-field .label {
     font-weight: bold;
 }

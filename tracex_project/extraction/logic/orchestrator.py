@@ -162,7 +162,7 @@ class Orchestrator:
         }
         return modules
 
-    def run(self, view=None) -> pd.DataFrame:
+    def run(self, view=None) -> None:
         """Run the modules and set default values for modules not executed."""
         modules = self.initialize_modules()
         execution_step: int = 1
@@ -257,7 +257,7 @@ class Orchestrator:
         data = self.get_data()
 
         if "time_extraction" not in config_modules:
-            DataFrameUtilities.set_default_timestamps(data)
+            data = DataFrameUtilities.set_default_timestamps(data)
         if "event_type_classification" not in config_modules:
             data["event_type"] = "N/A"
         if "location_extraction" not in config_modules:

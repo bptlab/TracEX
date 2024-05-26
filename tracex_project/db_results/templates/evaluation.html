@@ -6,7 +6,7 @@
     <title>Evaluation View</title>
     {% load static %}
     <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="{% static '/db_results/js/filter_toggle.js' %}" defer></script>
@@ -17,7 +17,7 @@
 
 <!-- Display complete event log -->
 <div>
-    <button id="toggleButton1">Show/Hide Event Log with applied filters</button>
+    <button id="toggleButton1" class="function_button">Show/Hide Event Log with applied filters</button>
     <div id="contentWrapper1" style="display: none;">
         {% if event_log_table %}
             <p></p>
@@ -31,7 +31,7 @@
 </div>
 
 <div>
-    <button id="toggleButton2" style="margin-top: 1em">Show/Hide Cohorts belonging to remaining entries</button>
+    <button id="toggleButton2" class="function_button" style="margin-top: 1em">Show/Hide Cohorts belonging to remaining entries</button>
     <div id="contentWrapper2" style="display: none;">
         {% if cohorts_table %}
             <p></p>
@@ -143,12 +143,11 @@
 
     {{ form.errors }}
 
-    <input type="submit" value="Refresh Filter" class="button">
+    <input type="submit" value="Refresh Filter" class="function_button">
 </form>
-<br>
 
 <!-- Trigger/Open The Modal (XES Download) -->
-<button id="downloadBtn" class="button">Download XES File</button>
+<button id="downloadBtn" class="function_button">Download XES File</button>
 <div id="downloadModal" class="modal">
     <div class="modal-content">
         <span class="close">&times;</span>

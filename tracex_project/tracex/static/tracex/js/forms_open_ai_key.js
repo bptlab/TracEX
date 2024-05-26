@@ -1,3 +1,4 @@
+/* JS File to display a form to enter then OpenAI API key. */
 (function () {
     'use strict';
     window.addEventListener('load', function () {

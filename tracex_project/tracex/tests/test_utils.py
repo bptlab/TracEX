@@ -104,7 +104,7 @@ class DataframeUtilitiesTests(TestCase):
     fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
 
     def test_get_events_df(self):
-        """Tests if get_events_df returns all events in a dataframe correctly."""
+        """Test if get_events_df returns all events in a dataframe correctly."""
         events_df = DataFrameUtilities.get_events_df()
 
         self.assertIsInstance(events_df, pd.DataFrame)

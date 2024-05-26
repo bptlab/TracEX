@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Choose Input Method</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
 </head>
 <body class="main_body">
     <header>
@@ -16,19 +16,19 @@
         <section class="form-row">
             <div class="form-column">
                 <a href='{% url "journey_upload" %}'>
-                    <button class="menu_button">Upload a patient journey</button>
+                    <button class="menu_button">Upload a Patient Journey</button>
                 </a>
             </div>
             <div class="form-column">
                 <a href='{% url "journey_select" %}'>
-                    <button class="menu_button">Select a patient journey</button>
+                    <button class="menu_button">Select a Patient Journey</button>
                 </a>
             </div>
         </section>
     </main>
     <footer>
         <a href="{% url 'landing_page' %}">
-            <button class="menu_button">Return to TracEX menu</button>
+            <button class="menu_button">Return to TracEX Menu</button>
         </a>
     </footer>
 </body>

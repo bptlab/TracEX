@@ -3,7 +3,7 @@
 <head>
     <title>Metrics Overview</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
 </head>
 <body class="main_body">
 <img src="{% static '/tracex/img/result_dashboard_logo.png' %}" alt="Metrics Dashboard" class="metrics_dashboard_logo">
@@ -15,7 +15,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="menu_button">Select this Patient Journey</button>
+    <button type="submit" class="function_button">Select this Patient Journey</button>
 </form>
 
 <a href="{% url 'db_results_overview' %}">
@@ -23,7 +23,7 @@
 </a>
 
 <a href="{% url 'landing_page' %}">
-    <button class="menu_button">Return to TracEX menu</button>
+    <button class="menu_button">Return to TracEX Menu</button>
 </a>
 </body>
 </html>
