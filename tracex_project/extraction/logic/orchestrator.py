@@ -266,17 +266,6 @@ class Orchestrator:
             data["activity_relevance"] = None
             data["timestamp_correctness"] = None
             data["correctness_confidence"] = None
-        if "cohort_tagging" not in config_modules:
-            cohort_default_values = {
-                "age": None,
-                "gender": None,
-                "origin": None,
-                "condition": None,
-                "condition_snomed_code": None,
-                "preexisting_condition": None,
-                "preexisting_condition_snomed_code": None,
-            }
-            self.set_cohort(cohort_default_values)
 
     def update_progress(self, view, execution_step: int, module_name: str) -> None:
         """Update the progress of the extraction."""

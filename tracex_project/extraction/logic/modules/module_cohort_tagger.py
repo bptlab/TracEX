@@ -68,7 +68,7 @@ class CohortTagger(Module):
         return cohort_dict
 
     @staticmethod
-    def normalize_coniditons_snomed(cohort_dict):
+    def normalize_coniditons_snomed(cohort_dict) -> Optional[Dict[str, str]]:
         """Normalizes conditions to a SNOMED code."""
         condition = cohort_dict.get("condition")
         preexisting_condition = cohort_dict.get("preexisting_condition")
