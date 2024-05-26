@@ -33,7 +33,7 @@
 
         <form method="post" >
             {% csrf_token %}
-            <button type="submit" class="function_button" id="progress_button">Start Comparing Against Ground Truth</button>
+            <button type="submit" class="function_button" id="progress_button" onclick="disableButton()">Start Comparing Against Ground Truth</button>
         </form>
         <script>
             function disableButton() {

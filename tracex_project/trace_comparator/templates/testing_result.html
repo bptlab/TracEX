@@ -9,7 +9,7 @@
 <body class="main_body">
     <h1>Trace Comparison Results</h1>
 
-    <h2>Patient Journey: {{ patient_journey_name }}</h2>
+    <h3>Patient Journey: {{ patient_journey_name }}</h3>
     <div class="dashboard">
         <div class="row">
             <div class="metric-tile">
@@ -53,11 +53,13 @@
     </div>
     <button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
     <div id="contentPipeline" style="display: none;">
+        <br>
         <div>{{ pipeline_output|safe }}</div>
     </div>
 
     <button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
     <div id="contentGroundTruth" style="display: none;">
+        <br>
         <div>{{ ground_truth_output|safe }}</div>
     </div>
 

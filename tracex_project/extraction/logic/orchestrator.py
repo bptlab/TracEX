@@ -162,7 +162,7 @@ class Orchestrator:
         }
         return modules
 
-    def run(self, view=None):
+    def run(self, view=None) -> None:
         """Run the modules and set default values for modules not executed."""
         modules = self.initialize_modules()
         execution_step: int = 1
