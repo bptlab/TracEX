@@ -139,9 +139,9 @@ class DownloadXesView(View):
                     file_name = os.path.basename(file_path)
                     zipf.write(file_path, arcname=file_name)
 
+            temp_zip.close()
+
             response = FileResponse(open(temp_zip.name, "rb"), as_attachment=True)
             response["Content-Disposition"] = 'attachment; filename="downloaded_files.zip"'
-
-        os.remove(temp_zip.name)
 
         return response
