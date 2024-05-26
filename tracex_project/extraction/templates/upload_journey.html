@@ -2,7 +2,7 @@
 <head>
     <title>Upload Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
 </head>
 
 
@@ -29,10 +29,10 @@
             </div>
         </div>
 
-        <input type="submit" value="Next" class="button">
+        <input type="submit" class="function_button" value="Upload this Patient Journey">
     </form>
     <a href="{% url "choose_input_method" %}">
-        <button class="menu_button">Return to input method selection</button>
+        <button class="menu_button">Return to Input Method Selection</button>
     </a>
     <a href="{% url "landing_page" %}">
         <button class="menu_button">Return to TracEX menu</button>

@@ -105,9 +105,8 @@ class MetricsAnalyzer(Module):
             }
         )
 
-        timestamp_correctness, top_logprops = u.query_gpt(
-            messages, logprobs=True, top_logprobs=1
+        timestamp_correctness, linear_probability = u.query_gpt(
+            messages, return_linear_probability=True, top_logprobs=1
         )
-        linear_prop = u.calculate_linear_probability(top_logprops[0].logprob)
 
-        return timestamp_correctness, linear_prop
+        return timestamp_correctness, linear_probability

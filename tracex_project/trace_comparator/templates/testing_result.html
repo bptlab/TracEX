@@ -3,13 +3,13 @@
 <head>
     <title>Trace Comparison Result</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <script src="{% static '/trace_comparator/js/dashboard.js' %}" defer></script>
 </head>
 <body class="main_body">
     <h1>Trace Comparison Results</h1>
 
-    <h2>Patient Journey: {{ patient_journey_name }}</h2>
+    <h3>Patient Journey: {{ patient_journey_name }}</h3>
     <div class="dashboard">
         <div class="row">
             <div class="metric-tile">
@@ -40,7 +40,7 @@
                 <div class="number-metric">{{ number_of_unexpected_activities }}</div>
                 <div class="metric-content">{{ unexpected_activities|safe }}</div>
                 <span class="info-icon">&#9432;</span>
-                <div class="info-text">This metric shows the extraction pipeline activites could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+                <div class="info-text">This metric shows the extraction pipeline activities could not mapped on ground truth activities and therefore occurs unexpectedly</div>
             </div>
             <div class="metric-tile">
                 <h3>Number of <br> Wrong Orders</h3>
@@ -51,13 +51,15 @@
             </div>
         </div>
     </div>
-    <button id="togglePipelineTable" class="menu_button">Show/Hide Extracted Trace from the Pipeline</button>
+    <button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
     <div id="contentPipeline" style="display: none;">
+        <br>
         <div>{{ pipeline_output|safe }}</div>
     </div>
 
-    <button id="toggleGroundTruthTable" class="menu_button">Show/Hide Ground Truth Trace</button>
+    <button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
     <div id="contentGroundTruth" style="display: none;">
+        <br>
         <div>{{ ground_truth_output|safe }}</div>
     </div>
 
@@ -65,7 +67,7 @@
         <button class="menu_button">Return to Trace Testing Environment</button>
     </a>
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </body>
 </html>

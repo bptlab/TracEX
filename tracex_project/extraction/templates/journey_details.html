@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Select Journey</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
 </head>
 
 <body class="main_body">
@@ -14,13 +14,13 @@
 
     <form method="post" action="{% url 'journey_details' pk=patient_journey.pk %}">
         {% csrf_token %}
-        <input type="submit" value="Next" class="button">
+        <input type="submit" class="function_button" value="Confirm Selection">
     </form>
     <a href="{% url "journey_select" %}">
         <button class="menu_button">Previous</button>
     </a>
     <a href="{% url "landing_page" %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </body>
 </html>

@@ -1,9 +1,16 @@
+<!--
+HTML File for the Error Page.
+
+The error page gets rendered when an error occurs during the execution of the pipeline. It displays the error type and the error traceback.
+
+The page also contains a button that redirects to the landing page.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Error</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
 </head>
 <body class="main_body">
     <img src="{% static '/tracex/img/error.png' %}" alt="Error" class="error_logo">
@@ -14,7 +21,7 @@
             <textarea class="error_textarea" readonly>{{ error_traceback }}</textarea>
         </div>
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </body>
 </html>
