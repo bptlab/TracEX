@@ -4,13 +4,11 @@ import random
 
 from extraction.models import Prompt
 from tracex.logic import utils as u
+from tracex.logic import constants as c
 
 
 def generate_patient_journey():
     """Creates a new patient journey with the help of the GPT engine."""
-    print(
-        "Please wait while the system is generating a patient journey. This may take a few moments."
-    )
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
@@ -32,62 +30,8 @@ def create_patient_journey_context():
 
 def get_country():
     """Randomizing country."""
-    european_countries = [
-        "Albania",
-        "Andorra",
-        "Armenia",
-        "Austria",
-        "Azerbaijan",
-        "Belarus",
-        "Belgium",
-        "Bosnia and Herzegovina",
-        "Bulgaria",
-        "Croatia",
-        "Cyprus",
-        "Czechia",
-        "Denmark",
-        "Estonia",
-        "Faroe Islands",
-        "Finland",
-        "France",
-        "Georgia",
-        "Germany",
-        "Greece",
-        "Hungary",
-        "Iceland",
-        "Ireland",
-        "Italy",
-        "Kazakhstan",
-        "Kosovo",
-        "Latvia",
-        "Liechtenstein",
-        "Lithuania",
-        "Luxembourg",
-        "Malta",
-        "Moldova",
-        "Monaco",
-        "Montenegro",
-        "Netherlands",
-        "North Macedonia",
-        "Norway",
-        "Poland",
-        "Portugal",
-        "Romania",
-        "Russia",
-        "San Marino",
-        "Serbia",
-        "Slovakia",
-        "Slovenia",
-        "Spain",
-        "Sweden",
-        "Switzerland",
-        "Turkey",
-        "Ukraine",
-        "United Kingdom (UK)",
-        "Vatican City (Holy See)",
-    ]
 
-    return random.choice(european_countries)
+    return random.choice(c.EUROPEAN_COUNTRIES)
 
 
 def get_date(start="01/01/2020", end="01/09/2023"):

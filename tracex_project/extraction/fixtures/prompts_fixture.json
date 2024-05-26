@@ -558,7 +558,7 @@
           }
         ],
         [
-          "gender",
+          "sex",
           {
             "role": "system",
             "content": "You are an expert in text understanding and your job is to take a given text about an illness             and to extract the gender of the author. If the gender isn't clear, you should take the context into             account. Only if the context doesn't help, you should return 'N/A'."

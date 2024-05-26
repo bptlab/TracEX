@@ -1,6 +1,7 @@
 """This module that extracts the location information for each activity."""
 from pathlib import Path
 from django.conf import settings
+import pandas as pd
 
 from extraction.logic.module import Module
 from extraction.models import Prompt
@@ -21,9 +22,13 @@ class LocationExtractor(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
-        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
-    ):
-        """Extracts the location information for each activity."""
+        self,
+        df: pd.DataFrame,
+        patient_journey=None,
+        patient_journey_sentences=None,
+        cohort=None,
+    ) -> pd.DataFrame:
+        """Extracts the location information for each activity in a dataframe."""
         super().execute(
             df,
             patient_journey=patient_journey,
@@ -31,13 +36,12 @@ class LocationExtractor(Module):
             cohort=cohort,
         )
 
-        column_name = "attribute_location"
-        df[column_name] = df["activity"].apply(self.__classify_location)
+        df["attribute_location"] = df["activity"].apply(self.__classify_location)
 
         return df
 
     @staticmethod
-    def __classify_location(activity_label):
+    def __classify_location(activity_label: str) -> str:
         """Classify the location for a given activity."""
         messages = Prompt.objects.get(name="LOCATION_MESSAGES").text
         messages.append({"role": "user", "content": activity_label})

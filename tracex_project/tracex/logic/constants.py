@@ -10,10 +10,10 @@ TEMPERATURE_SUMMARIZING = 0
 TEMPERATURE_CREATION = 1
 MODULES_REQUIRED = [
     ("activity_labeling", "Activity Labeler"),
+    ("cohort_tagging", "Cohort Tagger"),
 ]
 MODULES_OPTIONAL = [
     ("preprocessing", "Preprocessor"),
-    ("cohort_tagging", "Cohort Tagger"),
     ("time_extraction", "Time Extractor"),
     ("event_type_classification", "Event Type Classifier"),
     ("location_extraction", "Location Extractor"),
@@ -44,6 +44,61 @@ ACTIVITY_KEYS = [
     ("attribute_location", "Location"),
 ]
 THRESHOLD_FOR_MATCH = 0.5
+
+EUROPEAN_COUNTRIES = [
+    "Albania",
+    "Andorra",
+    "Armenia",
+    "Austria",
+    "Azerbaijan",
+    "Belarus",
+    "Belgium",
+    "Bosnia and Herzegovina",
+    "Bulgaria",
+    "Croatia",
+    "Cyprus",
+    "Czechia",
+    "Denmark",
+    "Estonia",
+    "Faroe Islands",
+    "Finland",
+    "France",
+    "Georgia",
+    "Germany",
+    "Greece",
+    "Hungary",
+    "Iceland",
+    "Ireland",
+    "Italy",
+    "Kazakhstan",
+    "Kosovo",
+    "Latvia",
+    "Liechtenstein",
+    "Lithuania",
+    "Luxembourg",
+    "Malta",
+    "Moldova",
+    "Monaco",
+    "Montenegro",
+    "Netherlands",
+    "North Macedonia",
+    "Norway",
+    "Poland",
+    "Portugal",
+    "Romania",
+    "Russia",
+    "San Marino",
+    "Serbia",
+    "Slovakia",
+    "Slovenia",
+    "Spain",
+    "Sweden",
+    "Switzerland",
+    "Turkey",
+    "Ukraine",
+    "United Kingdom (UK)",
+    "Vatican City (Holy See)",
+]
 SNOMED_CT_API_URL = (
     "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"
 )

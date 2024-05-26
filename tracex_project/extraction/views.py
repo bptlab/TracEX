@@ -1,18 +1,20 @@
-"""This file contains the views for the extraction app.
-Some unused imports and variables have to be made because of architectural requirement."""
+"""
+This file contains the views for the extraction app.
+Some unused imports and variables have to be made because of architectural requirement.
+"""
+
 import traceback
+from typing import Dict, List
+
 # pylint: disable=unused-argument, unused-variable
-import zipfile
-import os
-from tempfile import NamedTemporaryFile
+
 import pandas as pd
 
 from django.urls import reverse_lazy
-from django.views import generic, View
-from django.http import JsonResponse, HttpResponse, FileResponse
+from django.views import generic
+from django.http import JsonResponse
 from django.shortcuts import redirect, render
 
-from tracex.logic import utils
 from extraction.forms import (
     JourneyUploadForm,
     ResultForm,
@@ -21,22 +23,24 @@ from extraction.forms import (
 )
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from extraction.models import PatientJourney
+from tracex.views import DownloadXesView
+from tracex.logic import utils
 
 
 class JourneyInputSelectView(generic.TemplateView):
-    """View for choosing if you want to upload a patient journey or select from the database."""
+    """A Django view that renders a template for the user to choose the patient journey input method."""
 
     template_name = "choose_input_method.html"
 
 
 class JourneyUploadView(generic.CreateView):
-    """View for uploading a patient journey."""
+    """A Django view that handles the uploading of a patient journey."""
 
     form_class = JourneyUploadForm
     template_name = "upload_journey.html"
 
     def form_valid(self, form):
-        """Save the uploaded journey in the cache."""
+        """Overrides the form_valid method to save the uploaded journey in the cache."""
         uploaded_file = self.request.FILES.get("file")
         content = uploaded_file.read().decode("utf-8")
         form.instance.patient_journey = content
@@ -45,13 +49,13 @@ class JourneyUploadView(generic.CreateView):
         return response
 
     def get_success_url(self):
-        """Return the success URL."""
+        """Overrides the get_success_url method to provide the URL to redirect to after a successful file upload."""
 
         return reverse_lazy("journey_details", kwargs={"pk": self.object.id})
 
 
 class JourneySelectView(generic.FormView):
-    """View for selecting a patient journey from the database."""
+    """A Django view that handles the selection of a patient journey from the database."""
 
     model = PatientJourney
     form_class = JourneySelectForm
@@ -59,7 +63,7 @@ class JourneySelectView(generic.FormView):
     success_url = reverse_lazy("journey_details")
 
     def form_valid(self, form):
-        """Pass selected journey to orchestrator."""
+        """Overrides the form_valid method to redirect to the journey details view after a valid form submission."""
         selected_journey = form.cleaned_data["selected_patient_journey"]
         patient_journey_entry = PatientJourney.manager.get(name=selected_journey)
 
@@ -67,13 +71,13 @@ class JourneySelectView(generic.FormView):
 
 
 class JourneyDetailView(generic.DetailView):
-    """View for displaying the details of a patient journey."""
+    """A Django view that displays the details of a selected patient journey."""
 
     model = PatientJourney
     template_name = "journey_details.html"
 
     def get_context_data(self, **kwargs):
-        """Add patient journey to context."""
+        """Overrides the get_context_data method to add the patient journey to the context data."""
         context = super().get_context_data(**kwargs)
         patient_journey = self.get_object()
         context["patient_journey"] = patient_journey
@@ -82,7 +86,7 @@ class JourneyDetailView(generic.DetailView):
         return context
 
     def post(self, request, *args, **kwargs):
-        """Redirect to the FilterView afterward."""
+        """Overrides the post method to redirect to the filter view after a POST request."""
         patient_journey_id = self.request.session.get("patient_journey_id")
         patient_journey = PatientJourney.manager.get(pk=patient_journey_id)
         configuration = ExtractionConfiguration(
@@ -95,21 +99,38 @@ class JourneyDetailView(generic.DetailView):
 
 
 class JourneyFilterView(generic.FormView):
-    """View for selecting extraction results filter"""
+    """A Django view that handles the selection of extraction results filter."""
 
     form_class = FilterForm
     template_name = "filter_journey.html"
     success_url = reverse_lazy("result")
 
     def get_context_data(self, **kwargs):
-        """Add session variable to context."""
+        """Overrides the get_context_data method to add the 'is_comparing' session variable to the context data."""
         context = super().get_context_data(**kwargs)
         context["is_comparing"] = self.request.session.get("is_comparing")
 
         return context
 
     def form_valid(self, form):
-        """Run extraction pipeline and save the filter settings in the Orchestrator's configuration."""
+        """
+        Run the extraction pipeline and save the filter settings in the Orchestrator's configuration.
+
+        This method is called when the form is valid. It updates the Orchestrator's configuration
+        with the form data, reduces the modules to the selected ones, and runs the extraction pipeline.
+        If an exception occurs during the pipeline execution, it resets the Orchestrator instance,
+        flushes the session, and renders an error page. If the pipeline runs successfully, it saves
+        the session and selected modules. If the session indicates a comparison is being made, it
+        saves the results to the database and redirects to the comparison page. Otherwise, it calls
+        the parent class's form_valid method.
+
+        Args:
+            form (Form): The form instance that has just been validated.
+
+        Returns:
+            HttpResponse: The HTTP response to send back to the client.
+        """
+
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
@@ -120,7 +141,7 @@ class JourneyFilterView(generic.FormView):
             form.cleaned_data["modules_required"]
             + form.cleaned_data["modules_optional"]
         )
-        orchestrator.update_modules(modules_list)
+        orchestrator.reduce_modules_to(modules_list)
         try:
             orchestrator.run(view=self)
         except Exception as e:  # pylint: disable=broad-except
@@ -130,7 +151,7 @@ class JourneyFilterView(generic.FormView):
             return render(
                 self.request,
                 "error_page.html",
-                {"type": type(e).__name__, "error_traceback": traceback.format_exc()}
+                {"type": type(e).__name__, "error_traceback": traceback.format_exc()},
             )
 
         self.request.session.save()
@@ -146,7 +167,22 @@ class JourneyFilterView(generic.FormView):
         return super().form_valid(form)
 
     def get(self, request, *args, **kwargs):
-        """Return a JSON response with the current progress of the pipeline."""
+        """
+        Handle GET requests to the view.
+
+        If the request is an AJAX request, it returns a JSON response with the current progress
+        and status of the extraction pipeline. If it's not an AJAX request, it resets the progress
+        and status in the session and calls the parent class's get method.
+
+        Args:
+            request (HttpRequest): The request instance.
+            *args: Variable length argument list.
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            HttpResponse: The HTTP response to send back to the client.
+        """
+
         is_ajax = request.headers.get("X-Requested-With") == "XMLHttpRequest"
         if is_ajax:
             progress_information = {
@@ -170,7 +206,7 @@ class ResultView(generic.FormView):
     success_url = reverse_lazy("result")
 
     def get_form_kwargs(self):
-        """Add the context to the form."""
+        """Return the keyword arguments to instantiate the form."""
         kwargs = super().get_form_kwargs()
         orchestrator = Orchestrator.get_instance()
         kwargs["initial"] = {
@@ -183,10 +219,25 @@ class ResultView(generic.FormView):
         return kwargs
 
     def get_context_data(self, **kwargs):
-        """Prepare the data for the result page."""
+        """
+        Prepare the data for the result page.
+
+        This method overrides the get_context_data method from the parent class. It retrieves the
+        current instance of the Orchestrator and its configuration, builds the trace and event log
+        dataframes based on the filter settings, and validates the form. It then updates the context
+        with the form, journey, direct follow graph (dfg) images, and tables. Finally, it saves the
+        trace and event log dataframes to the session and returns the context.
+
+        Args:
+            **kwargs: Arbitrary keyword arguments.
+
+        Returns:
+            dict: The context data for the result page.
+        """
+
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        activity_key = orchestrator.get_configuration().activity_key
+        activity_key: str = orchestrator.get_configuration().activity_key
         filter_dict = {
             "event_type": orchestrator.get_configuration().event_types,
             "attribute_location": orchestrator.get_configuration().locations,
@@ -212,7 +263,7 @@ class ResultView(generic.FormView):
                     activity_key=activity_key,
                 ),
                 "event_log_table": utils.Conversion.create_html_table_from_df(
-                    event_log
+                    df=event_log
                 ),
             }
         )
@@ -223,17 +274,22 @@ class ResultView(generic.FormView):
         return context
 
     @staticmethod
-    def build_trace_df(filter_dict):
-        """Build the trace df based on the filter settings."""
-        trace_df = Orchestrator.get_instance().get_data()
+    def build_trace_df(filter_dict: Dict[str, List[str]]) -> pd.DataFrame:
+        """Build the trace dataframe based on the filter settings."""
+        trace_df: pd.DataFrame = Orchestrator.get_instance().get_data()
         trace_df_filtered = utils.DataFrameUtilities.filter_dataframe(
             trace_df, filter_dict
+        )
+        trace_df_filtered = utils.DataFrameUtilities.delete_metrics_columns(
+            trace_df_filtered
         )
 
         return trace_df_filtered
 
     @staticmethod
-    def build_event_log_df(filter_dict, trace):
+    def build_event_log_df(
+        filter_dict: Dict[str, List[str]], trace: pd.DataFrame
+    ) -> pd.DataFrame:
         """Build the event log dataframe based on the filter settings."""
         event_log_df = utils.DataFrameUtilities.get_events_df()
 
@@ -245,13 +301,15 @@ class ResultView(generic.FormView):
             event_log_df = utils.DataFrameUtilities.filter_dataframe(
                 event_log_df, filter_dict
             )
+            event_log_df = utils.DataFrameUtilities.delete_metrics_columns(event_log_df)
+
         elif not trace.empty:
             event_log_df = trace
 
         return event_log_df
 
     def form_valid(self, form):
-        """Save the filter settings in the cache."""
+        """Update the Orchestrator's configuration with the filter settings from the form."""
         orchestrator = Orchestrator.get_instance()
         orchestrator.get_configuration().update(
             event_types=form.cleaned_data["event_types"],
@@ -268,12 +326,12 @@ class ResultView(generic.FormView):
 
 
 class SaveSuccessView(generic.TemplateView):
-    """View for displaying the save success page."""
+    """A Django view that displays a success message after saving the extraction results."""
 
     template_name = "save_success.html"
 
     def get_context_data(self, **kwargs):
-        """Prepare the data for the save success page."""
+        """Prepare and return the context data for the save success page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
         orchestrator.save_results_to_db()
@@ -281,43 +339,11 @@ class SaveSuccessView(generic.TemplateView):
         return context
 
 
-class DownloadXesView(View):
-    """Download one or more XES files based on the types specified in POST request,
-    bundled into a ZIP file if multiple."""
-
-    def post(self, request, *args, **kwargs):
-        """Processes a POST request to download specified trace types as XES files.
-        Validates trace types and prepares the appropriate file response."""
-        trace_types = self.get_trace_types(request)
-        if not trace_types:
-            return HttpResponse("No file type specified.", status=400)
-
-        files_to_download = self.collect_files(request, trace_types)
-        if (
-            files_to_download is None
-        ):  # Check for None explicitly to handle error scenario
-            return HttpResponse("One or more files could not be found.", status=404)
-
-        return self.prepare_response(files_to_download)
-
-    @staticmethod
-    def get_trace_types(request):
-        """Retrieves a list of trace types from the POST data."""
-
-        return request.POST.getlist("trace_type[]")
-
-    def collect_files(self, request, trace_types):
-        """Collects file for the specified trace types to download, checking for their existence."""
-        files_to_download = []
-        for trace_type in trace_types:
-            file_path = self.process_trace_type(request, trace_type)
-            if file_path:
-                if os.path.exists(file_path):
-                    files_to_download.append(file_path)
-                else:
-                    return None  # Return None if any file path is invalid
-
-        return files_to_download
+class DownloadXesResultView(DownloadXesView):
+    """
+    Download one or more XES files based on the types specified in POST request in the result view,
+    bundled into a ZIP file if multiple files are selected.
+    """
 
     @staticmethod
     def process_trace_type(request, trace_type):
@@ -342,41 +368,3 @@ class DownloadXesView(View):
         # Return None if the trace type is unrecognized
 
         return None
-
-    def prepare_response(self, files_to_download):
-        """Prepares the appropriate response based on the number of files to be downloaded."""
-        if len(files_to_download) == 1:
-            return self.single_file_response(files_to_download[0])
-
-        return self.zip_files_response(files_to_download)
-
-    # pylint: disable=consider-using-with
-    @staticmethod
-    def single_file_response(file_path):
-        """Prepares a file if there is only a single XES file."""
-        file = open(file_path, "rb")
-        response = FileResponse(file, as_attachment=True)
-        response[
-            "Content-Disposition"
-        ] = f'attachment; filename="{os.path.basename(file_path)}"'
-
-        return response
-
-    @staticmethod
-    def zip_files_response(files_to_download):
-        """Prepares a zip file if there are multiple XES files using a temporary file."""
-        temp_zip = NamedTemporaryFile(mode="w+b", suffix=".zip", delete=False)
-        zipf = zipfile.ZipFile(temp_zip, "w", zipfile.ZIP_DEFLATED)
-        for file_path in files_to_download:
-            zipf.write(file_path, arcname=os.path.basename(file_path))
-        zipf.close()
-        temp_zip_path = temp_zip.name
-        temp_zip.close()
-
-        file = open(temp_zip_path, "rb")
-        response = FileResponse(file, as_attachment=True)
-        response[
-            "Content-Disposition"
-        ] = 'attachment; filename="downloaded_xes_files.zip"'
-
-        return response

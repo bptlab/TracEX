@@ -4,27 +4,32 @@
     <meta charset="UTF-8">
     <title>Choose Input Method</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'tracex/css/style.css' %}">
 </head>
-
 <body class="main_body">
-    <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
-    <h2>Choose Input Method</h2>
-    <p>You can either upload a patient journey or select an existing patient journey from the database.</p>
-    <div class="form-row">
-        <div class="form-column">
-            <a href='{% url "journey_upload" %}'>
-                <button class="menu_button">Upload a patient journey</button>
-            </a>
-        </div>
-        <div class="form-column">
-            <a href='{% url "journey_select" %}'>
-                <button class="menu_button">Select a patient journey</button>
-            </a>
-        </div>
-    </div>
-    <a href="{% url "landing_page" %}">
-        <button class="menu_button">Return to TracEX menu</button>
-    </a>
+    <header>
+        <img src="{% static 'tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
+        <h2>Choose Input Method</h2>
+    </header>
+    <main>
+        <p>You can either upload a patient journey or select an existing patient journey from the database.</p>
+        <section class="form-row">
+            <div class="form-column">
+                <a href='{% url "journey_upload" %}'>
+                    <button class="menu_button">Upload a patient journey</button>
+                </a>
+            </div>
+            <div class="form-column">
+                <a href='{% url "journey_select" %}'>
+                    <button class="menu_button">Select a patient journey</button>
+                </a>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <a href="{% url 'landing_page' %}">
+            <button class="menu_button">Return to TracEX menu</button>
+        </a>
+    </footer>
 </body>
 </html>

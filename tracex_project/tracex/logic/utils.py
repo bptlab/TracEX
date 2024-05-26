@@ -1,15 +1,15 @@
 """Module providing various utility functions for the project."""
 import os
 import json
-
+from io import StringIO
+from pathlib import Path
 import base64
 import tempfile
 import functools
+from typing import List
 import warnings
 
-from io import StringIO
-from pathlib import Path
-
+import regex as re
 import pandas as pd
 import pm4py
 import numpy as np
@@ -145,8 +145,11 @@ class Conversion:
 
     @staticmethod
     def rename_columns(df: pd.DataFrame):
-        """Rename columns in the DataFrame for better readability."""
+        """Renames columns in a DataFrame to enhance readability on a webpage. This function adjusts the column
+        headers of a DataFrame based on a predefined mapping that aligns with user-friendly names suitable for
+        display purposes."""
         column_mapping = {
+            # rename event columns
             "case:concept:name": "Case ID",
             "activity": "Activity",
             "event_type": "Event Type",
@@ -157,6 +160,13 @@ class Conversion:
             "activity_relevance": "Activity Relevance",
             "timestamp_correctness": "Timestamp Correctness",
             "correctness_confidence": "Correctness Confidence",
+            # rename trace columns
+            "age": "Age",
+            "sex": "Sex",
+            "origin": "Origin",
+            "condition": "Condition",
+            "preexisting_condition": "Preexisting Condition",
+            "trace": "Case ID",
         }
 
         existing_columns = {}
@@ -222,6 +232,18 @@ class Conversion:
 
         return file_path
 
+    @staticmethod
+    def text_to_sentence_list(text: str) -> List[str]:
+        """Converts a text into a list of its sentences."""
+        text = text.replace("\n", " ")
+        # This regex looks for periods, question marks, or exclamation marks,
+        # possibly followed by more of the same, followed by a space or end of string.
+        pattern = re.compile(r"(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|!)(?=\s|$)")
+        sentences = pattern.split(text)
+        sentences = [sentence.strip() for sentence in sentences if sentence.strip()]
+
+        return sentences
+
 
 class DataFrameUtilities:
     """Class for all kinds of operations that performs on Dataframes"""
@@ -240,10 +262,10 @@ class DataFrameUtilities:
                 event_dict = {
                     "case:concept:name": trace.id,
                     "activity": event.activity,
-                    "event_type": event.event_type,
                     "time:timestamp": event.start,
                     "time:end_timestamp": event.end,
                     "time:duration": event.duration,
+                    "event_type": event.event_type,
                     "attribute_location": event.location,
                     "activity_relevance": event.metrics.activity_relevance,
                     "timestamp_correctness": event.metrics.timestamp_correctness,
@@ -293,3 +315,15 @@ class DataFrameUtilities:
             df["time:end_timestamp"], format="%Y%m%dT%H%M", errors="coerce"
         )
         df["time:duration"] = "00:01:00"
+
+    @staticmethod
+    def delete_metrics_columns(df: pd.DataFrame) -> pd.DataFrame:
+        """Delete metrics columns from the dataframe."""
+        df = df.drop(
+            columns=[
+                "activity_relevance",
+                "timestamp_correctness",
+                "correctness_confidence",
+            ],
+        )
+        return df

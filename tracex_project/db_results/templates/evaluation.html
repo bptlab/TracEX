@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluation View</title>
+    {% load static %}
+    <link href="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@14.6.3/distribute/nouislider.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static '/db_results/js/filter_toggle.js' %}" defer></script>
+    <script src="{% static '/tracex/js/pop_up_xes.js' %}" defer></script>
+</head>
+<body class="main_body">
+<h1 style="text-align: center">Evaluation View</h1>
+
+<!-- Display complete event log -->
+<div>
+    <button id="toggleButton1">Show/Hide Event Log with applied filters</button>
+    <div id="contentWrapper1" style="display: none;">
+        {% if event_log_table %}
+            <p></p>
+            <div class="scrollable-table">
+                <div id="xesContent1" class="xes_container">{{ event_log_table|safe }}</div>
+            </div>
+        {% else %}
+            <p style="text-align: center">No database entries match your selected filters.</p>
+        {% endif %}
+    </div>
+</div>
+
+<div>
+    <button id="toggleButton2" style="margin-top: 1em">Show/Hide Cohorts belonging to remaining entries</button>
+    <div id="contentWrapper2" style="display: none;">
+        {% if cohorts_table %}
+            <p></p>
+            <div class="scrollable-table">
+                <div id="cohortTable" class="xes_container">{{ cohorts_table|safe }}</div>
+            </div>
+        {% else %}
+            <p style="text-align: center">No database entries match your selected filters.</p>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Display DFG image -->
+<div class="dfg-container" style="display: flex; justify-content: center; margin-top: 1em">
+    {% if all_dfg_img %}
+        <div>
+            <img src="data:image/png;base64,{{ all_dfg_img }}" alt="DFG Visualization">
+        </div>
+    {% else %}
+        <p style="margin-top: 2em; margin-bottom: 2em">No database entries match your selected filters.</p>
+    {% endif %}
+</div>
+
+<!-- Form for filters -->
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <p style="text-align:center;"><b>Filter based on Events</b></p>
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.event_types.label_tag }} {{ form.event_types }}
+            {{ form.event_types.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.locations.label_tag }} {{ form.locations }}
+            {{ form.locations.errors }}
+        </div>
+        <div class="form-column activity-key-column">
+            {{ form.activity_key.label_tag }} {{ form.activity_key }}
+            {{ form.activity_key.errors }}
+        </div>
+        <style>
+            .activity-key-column label, .activity-key-column select {
+                display: block;
+            }
+        </style>
+
+    </div>
+    <hr class="solid">
+
+    <p style="text-align:center;"><b>Filter based on Cohort</b></p>
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.sex.label }} <br>
+            <input type="checkbox" id="togglesex"/>
+            <label for="togglesex"><i>Select/Deselect All</i></label>
+            {{ form.sex }}
+            {{ form.sex.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.origin.label_tag }} <br>
+            <input type="checkbox" id="toggleAll"/>
+            <label for="toggleAll"><i>Select/Deselect All</i></label>
+            {{ form.origin }}
+            {{ form.origin.errors }}
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.condition.label_tag }} <br>
+            <input type="checkbox" id="toggleCondition"/>
+            <label for="toggleCondition"><i>Select/Deselect All</i></label>
+            {{ form.condition }}
+            {{ form.condition.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.preexisting_condition.label_tag }} <br>
+            <input type="checkbox" id="togglePreexistingCondition"/>
+            <label for="togglePreexistingCondition"><i>Select/Deselect All</i></label>
+            {{ form.preexisting_condition }}
+            {{ form.preexisting_condition.errors }}
+        </div>
+    </div>
+
+
+    <!-- Range slider for age -->
+    <div class="form-row">
+        <div class="form-column">
+            <label for="age-slider">Age Range</label>
+            <div id="age-slider" style="margin-top: 6px"></div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-column">
+            {{ form.min_age.label_tag }} {{ form.min_age }}
+            {{ form.min_age.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.max_age.label_tag }} {{ form.max_age }}
+            {{ form.max_age.errors }}
+        </div>
+        <div class="form-column">
+            {{ form.none_age }} {{ form.none_age.label_tag }}
+            {{ form.none_age.errors }}
+        </div>
+    </div>
+
+    {{ form.errors }}
+
+    <input type="submit" value="Refresh Filter" class="button">
+</form>
+<br>
+
+<!-- Trigger/Open The Modal (XES Download) -->
+<button id="downloadBtn" class="button">Download XES File</button>
+<div id="downloadModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Please select the type(s) of XES file to download:</p>
+        <form id="downloadForm" action="{% url 'download_xes_evaluation' %}" method="post"
+              enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="checkbox" id="event_log" name="trace_type[]" value="event_log" class="trace-checkbox">
+            <label for="event_log">Event Log XES</label><br><br>
+            <input type="submit" value="Confirm Download" class="button">
+        </form>
+    </div>
+</div>
+
+<a href="{% url 'db_results_overview' %}">
+    <button class="menu_button">Return to Database Results Overview</button>
+</a>
+
+<a href="{% url 'landing_page' %}">
+    <button class="menu_button">Return to TracEX Menu</button>
+</a>
+</body>
+</html>
