@@ -1,9 +1,9 @@
 """
-Provide class-based views for the patient journey generator app.
+Provide class-based views for the Patient Journey generator app.
 
 Views:
-JourneyGeneratorOverviewView -- View for the landing page of the patient journey generator.
-JourneyGenerationView -- View to inspect the generated patient journey.
+JourneyGeneratorOverviewView -- View for the landing page of the Patient Journey generator.
+JourneyGenerationView -- View to inspect the generated Patient Journey.
 """
 import traceback
 
@@ -18,9 +18,9 @@ from patient_journey_generator.generator import generate_patient_journey
 
 class JourneyGeneratorOverviewView(generic.CreateView):
     """
-    View for the landing page of the patient journey generator.
+    View for the landing page of the Patient Journey generator.
 
-    If a generated patient journey exists in the session, this view displays a form to name the patient journey
+    If a generated Patient Journey exists in the session, this view displays a form to name the Patient Journey
     and save it in the database.
     """
 
@@ -29,14 +29,14 @@ class JourneyGeneratorOverviewView(generic.CreateView):
     success_url = reverse_lazy("journey_filter")
 
     def get_context_data(self, **kwargs):
-        """Add the patient journey to the context to pass to the HTML file."""
+        """Add the Patient Journey to the context to pass to the HTML file."""
         context = super().get_context_data(**kwargs)
         context["generated_journey"] = self.request.session.get("generated_journey")
 
         return context
 
     def form_valid(self, form):
-        """Create an empty patient journey instance and save the ID in the orchestrator."""
+        """Create an empty Patient Journey instance and save the ID in the orchestrator."""
         orchestrator = Orchestrator.get_instance()
         form.instance.patient_journey = orchestrator.get_configuration().patient_journey
         response = super().form_valid(form)
@@ -47,9 +47,9 @@ class JourneyGeneratorOverviewView(generic.CreateView):
 
 class JourneyGenerationView(generic.RedirectView):
     """
-    View to inspect the generated patient journey.
+    View to inspect the generated Patient Journey.
 
-    By passing a GET request to the view, a patient journey is generated and saved in the orchestrator's configuration.
+    By passing a GET request to the view, a Patient Journey is generated and saved in the orchestrator's configuration.
     Since the JourneyGenerationView is a RedirectView, the user is redirected back to the JourneyGeneratorOverviewView.
     Therefore, this view does not render a template.
     """
@@ -58,17 +58,19 @@ class JourneyGenerationView(generic.RedirectView):
 
     def get(self, request, *args, **kwargs):
         """
-        Handle GET requests by generating a patient journey and updating the orchestrator's configuration.
+        Handle GET requests by generating a Patient Journey and updating the orchestrator's configuration.
 
-        The empty patient journey instance from the orchestrator's configuration is modified to contain the generated
-        patient journey text. The generated patient journey is also saved in the session to pass to the HTML file
+        The empty Patient Journey instance from the orchestrator's configuration is modified to contain the generated
+        Patient Journey text. The generated Patient Journey is also saved in the session to pass to the HTML file
         of the JourneyGenerationOverviewView.
 
         """
         orchestrator = Orchestrator()
 
         try:
-            configuration = ExtractionConfiguration(patient_journey=generate_patient_journey())
+            configuration = ExtractionConfiguration(
+                patient_journey=generate_patient_journey()
+            )
         except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()
@@ -76,10 +78,15 @@ class JourneyGenerationView(generic.RedirectView):
             return render(
                 self.request,
                 "error_page.html",
-                {"error_type": type(e).__name__, "error_traceback": traceback.format_exc()}
+                {
+                    "error_type": type(e).__name__,
+                    "error_traceback": traceback.format_exc(),
+                },
             )
 
         orchestrator.set_configuration(configuration)
-        request.session["generated_journey"] = orchestrator.get_configuration().patient_journey
+        request.session[
+            "generated_journey"
+        ] = orchestrator.get_configuration().patient_journey
 
         return super().get(request, *args, **kwargs)

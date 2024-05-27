@@ -1,12 +1,12 @@
 """
-Provides functionality to generate a synthetic patient journey by using the OpenAI API.
+Provides functionality to generate a synthetic Patient Journey by using the OpenAI API.
 
 Functions:
-generate_patient_journey -- Generates a synthetic patient journey.
-create_patient_journey_context -- Creates a context for the synthetic patient journey.
+generate_patient_journey -- Generates a synthetic Patient Journey.
+create_patient_journey_context -- Creates a context for the synthetic Patient Journey.
 get_country -- Randomizes a european country.
-get_date -- Randomizes a start date for the synthetic patient journey.
-get_life_circumstances -- Generates life circumstances for the synthetic patient journey.
+get_date -- Randomizes a start date for the synthetic Patient Journey.
+get_life_circumstances -- Generates life circumstances for the synthetic Patient Journey.
 """
 from datetime import datetime, timedelta
 import random
@@ -17,7 +17,7 @@ from tracex.logic import constants as c
 
 
 def generate_patient_journey():
-    """Generate a synthetic patient journey."""
+    """Generate a synthetic Patient Journey."""
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
     messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
     patient_journey = u.query_gpt(messages=messages, temperature=1)
@@ -27,7 +27,7 @@ def generate_patient_journey():
 
 def create_patient_journey_context():
     """
-    Create a context for the patient journey.
+    Create a context for the Patient Journey.
 
     The context includes a random sex, country, date and life circumstances.
     """

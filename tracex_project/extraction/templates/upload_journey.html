@@ -9,7 +9,7 @@
 <body class="main_body">
     <img src="{% static '/tracex/img/extraction_logo.png' %}" alt="Extraction Logo" class="extraction_logo">
     <h2>Upload Patient Journey</h2>
-    <p>Please select the patient journey you want to upload below.</p>
+    <p>Please select the Patient Journey you want to upload below.</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
@@ -35,6 +35,6 @@
         <button class="menu_button">Return to Input Method Selection</button>
     </a>
     <a href="{% url "landing_page" %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </body>

@@ -1,4 +1,4 @@
-"""This module extracts the time information from the patient journey."""
+"""This module extracts the time information from the Patient Journey."""
 from pathlib import Path
 from typing import List
 from django.conf import settings
@@ -12,14 +12,14 @@ from tracex.logic import utils as u
 
 class TimeExtractor(Module):
     """
-    This is the module that extracts the time information from the patient journey. This includes start dates,
+    This is the module that extracts the time information from the Patient Journey. This includes start dates,
     end dates and durations.
     """
 
     def __init__(self):
         super().__init__()
         self.name = "Time Extractor"
-        self.description = "Extracts the timestamps for the corresponding activity labels from a patient journey."
+        self.description = "Extracts the timestamps for the corresponding activity labels from a Patient Journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
@@ -29,7 +29,7 @@ class TimeExtractor(Module):
         patient_journey_sentences: List[str] = None,
         cohort=None,
     ) -> pd.DataFrame:
-        """This function extracts the time information from the patient journey.
+        """This function extracts the time information from the Patient Journey.
         For each activity label, the start date, end date and duration are extracted."""
         super().execute(
             df,
@@ -100,23 +100,23 @@ class TimeExtractor(Module):
     def __post_processing(df: pd.DataFrame) -> pd.DataFrame:
         """Fill missing values for dates with default values."""
 
-        def convert_to_datetime(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
-            df[column] = pd.to_datetime(
-                df[column], format="%Y%m%dT%H%M", errors="coerce"
+        def convert_to_datetime(_df: pd.DataFrame, column: str) -> pd.DataFrame:
+            _df[column] = pd.to_datetime(
+                _df[column], format="%Y%m%dT%H%M", errors="coerce"
             )
 
-            return df
+            return _df
 
-        def set_default_date_if_na(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
-            if df[column].isna().all():
-                df[column] = df[column].fillna(pd.Timestamp("2020-01-01 00:00"))
+        def set_default_date_if_na(_df: pd.DataFrame, column: str) -> pd.DataFrame:
+            if _df[column].isna().all():
+                _df[column] = _df[column].fillna(pd.Timestamp("2020-01-01 00:00"))
 
-            return df
+            return _df
 
-        def fill_missing_values(df: pd.DataFrame, column: pd.Series) -> pd.DataFrame:
-            df[column] = df[column].ffill().bfill()
+        def fill_missing_values(_df: pd.DataFrame, column: str) -> pd.DataFrame:
+            _df[column] = _df[column].ffill().bfill()
 
-            return df
+            return _df
 
         def fix_end_dates(row: pd.Series) -> pd.Series:
             if (

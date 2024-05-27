@@ -25,6 +25,7 @@ from typing import Final
 MAX_TOKENS: Final = 1100
 MODEL: Final = "gpt-3.5-turbo"
 OAIK: Final = os.environ.get("OPENAI_API_KEY")
+DJANGO_SECRET_KEY: Final = os.environ.get("DJANGO_SECRET_KEY")
 TEMPERATURE_SUMMARIZING: Final = 0
 TEMPERATURE_CREATION: Final = 1
 THRESHOLD_FOR_MATCH: Final = 0.5
@@ -117,7 +118,7 @@ MODULES_OPTIONAL: Final = [
 ]
 MODULES_REQUIRED: Final = [
     ("activity_labeling", "Activity Labeler"),
-    ("cohort_tagging", "Cohort Tagger")
+    ("cohort_tagging", "Cohort Tagger"),
 ]
 SNOMED_CT_API_URL = (
     "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"

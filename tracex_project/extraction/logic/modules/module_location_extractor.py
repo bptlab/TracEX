@@ -11,14 +11,14 @@ from tracex.logic import utils as u
 
 class LocationExtractor(Module):
     """
-    This is the module that extracts the location information from the patient journey to each activity.
+    This is the module that extracts the location information from the Patient Journey to each activity.
     This means all activities are classified to the given locations "Home", "Hospital", "Doctors".
     """
 
     def __init__(self):
         super().__init__()
         self.name = "Location Extractor"
-        self.description = "Extracts the locations for the corresponding activity labels from a patient journey."
+        self.description = "Extracts the locations for the corresponding activity labels from a Patient Journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(

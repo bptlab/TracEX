@@ -1,4 +1,4 @@
-"""App configuration for patient journey generator app."""
+"""App configuration for Patient Journey generator app."""
 from django.apps import AppConfig
 
 

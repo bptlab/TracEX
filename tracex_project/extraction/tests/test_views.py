@@ -101,7 +101,7 @@ class JourneyUploadViewTests(TestCase):
         Test that posting a valid form with a file upload successfully creates
         a new model instance with the uploaded content and redirects to the correct success URL.
         """
-        file_content = "This is a test patient journey."
+        file_content = "This is a test Patient Journey."
         uploaded_file = SimpleUploadedFile("test.txt", file_content.encode("utf-8"))
         form_data = {"name": "Test Journey", "file": uploaded_file}
 
@@ -168,10 +168,10 @@ class JourneySelectViewTests(TestCase):
 
     def test_view_post_valid_form(self):
         """
-        Test that posting a valid form by selecting an existing patient journey redirects to the correct success URL.
+        Test that posting a valid form by selecting an existing Patient Journey redirects to the correct success URL.
         """
         mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         form_data = {"selected_patient_journey": mock_journey.name}
         response = self.client.post(self.url, data=form_data, format="multipart")
@@ -203,10 +203,10 @@ class JourneyDetailViewTests(TestCase):
     """Test cases for the JourneyDetailView."""
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey and the URL."""
+        """Set up test client, a mock Patient Journey and the URL."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         self.url = reverse("journey_details", kwargs={"pk": self.mock_journey.pk})
 
@@ -235,7 +235,7 @@ class JourneyDetailViewTests(TestCase):
         )
 
     def test_view_without_patient_journey(self):
-        """Test that requesting a patient journey that does not exist returns a 404 error."""
+        """Test that requesting a Patient Journey that does not exist returns a 404 error."""
         response = self.client.get(reverse("journey_details", kwargs={"pk": 999}))
 
         self.assertEqual(response.status_code, 404)
@@ -263,10 +263,10 @@ class JourneyFilterViewTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey, the URL and a factory that sends requests to the view."""
+        """Set up test client, a mock Patient Journey, the URL and a factory that sends requests to the view."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         self.url = reverse("journey_filter")
         self.factory = RequestFactory()
@@ -346,10 +346,10 @@ class ResultViewTests(TestCase):
     fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey, session data and the URL."""
+        """Set up test client, a mock Patient Journey, session data and the URL."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         self.session = self.client.session
         self.session["selected_modules"] = ["activity_labeling", "cohort_tagging"]

@@ -9,7 +9,7 @@ from tracex.logic.constants import MODULES_OPTIONAL
 
 
 class JourneyUploadForm(forms.ModelForm):
-    """Form for uploading your own patient journey."""
+    """Form for uploading your own Patient Journey."""
 
     class Meta:
         """
@@ -32,13 +32,13 @@ class JourneyUploadForm(forms.ModelForm):
         }
         widgets = {
             "name": forms.TextInput(
-                attrs={"placeholder": "Name for your patient journey"}
+                attrs={"placeholder": "Name for your Patient Journey"}
             ),
         }
 
     ALLOWED_FILE_TYPES = ["txt"]
     file = forms.FileField(
-        label="Upload your patient journey",
+        label="Upload your Patient Journey",
         help_text=f"Please upload a file of type {ALLOWED_FILE_TYPES}.",
         required=True,
     )
@@ -46,10 +46,11 @@ class JourneyUploadForm(forms.ModelForm):
 
 
 class JourneySelectForm(forms.Form):
-    """Django form for selecting a patient journey from available choices in the database."""
+    """Django form for selecting a Patient Journey from available choices in the database."""
 
     selected_patient_journey = forms.ChoiceField(
         choices=[],
+        label="Selected Patient Journey:",
         widget=forms.Select(attrs={"id": "patient-journey-select"}),
     )
 
@@ -62,7 +63,7 @@ class JourneySelectForm(forms.Form):
 
     @staticmethod
     def get_patient_journey_choices() -> List[Tuple[str, str]]:
-        """Returns a list of tuples containing the names of all patient journeys from the database."""
+        """Returns a list of tuples containing the names of all Patient Journeys from the database."""
         patient_journeys = PatientJourney.manager.all()
         choices = [
             (patient_journey.name, patient_journey.name)

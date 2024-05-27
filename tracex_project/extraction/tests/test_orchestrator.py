@@ -109,11 +109,11 @@ class OrchestratorTests(TestCase):
 
     def test_run(self):
         """Test if the run method correctly returns a dataframe. Execution of ActivityLabeler, CohortTagger and
-        Preprocessor is necessary since the run method makes assumptions on how the patient journey looks like.
+        Preprocessor is necessary since the run method makes assumptions on how the Patient Journey looks like.
         """
         Orchestrator.reset_instance()
         configuration = ExtractionConfiguration(
-            patient_journey="This is a test patient journey. This is some description about how I fell ill and "
+            patient_journey="This is a test Patient Journey. This is some description about how I fell ill and "
             "recovered in the end.",
         )
         configuration.update(
