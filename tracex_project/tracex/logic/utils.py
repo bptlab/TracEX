@@ -10,6 +10,7 @@ Conversion -- Groups all functions related to conversions of DataFrames.
 DataFrameUtilities -- Groups all functions related to DataFrame operations.
 """
 import os
+import json
 from pathlib import Path
 import base64
 import tempfile
@@ -19,16 +20,21 @@ import regex as re
 import pandas as pd
 import pm4py
 import numpy as np
+import requests
 
 from django.conf import settings
 from django.db.models import Q
 from openai import OpenAI
+
 from tracex.logic.logger import log_tokens_used
 from tracex.logic.constants import (
     MAX_TOKENS,
     TEMPERATURE_SUMMARIZING,
     MODEL,
     OAIK,
+    SNOMED_CT_API_URL,
+    SNOMED_CT_PARAMS,
+    SNOMED_CT_HEADERS,
 )
 
 from extraction.models import Trace
@@ -120,6 +126,22 @@ def get_snippet_bounds(index: int, length: int) -> tuple[int, int]:
 
     return lower_bound, upper_bound
 
+def get_snomed_ct_info(term):
+    """Get the first matched name and code of a SNOMED CT term."""
+    SNOMED_CT_PARAMS["term"] = term
+    response = requests.get(
+        SNOMED_CT_API_URL, params=SNOMED_CT_PARAMS, headers=SNOMED_CT_HEADERS
+    )
+    data = json.loads(response.text)
+
+    term = None
+    code = None
+
+    if data.get("items"):
+        term = data["items"][0]["term"]
+        code = data["items"][0]["concept"]["conceptId"]
+
+    return term, code
 
 class Conversion:
     """

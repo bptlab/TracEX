@@ -119,3 +119,16 @@ MODULES_REQUIRED: Final = [
     ("activity_labeling", "Activity Labeler"),
     ("cohort_tagging", "Cohort Tagger")
 ]
+SNOMED_CT_API_URL = (
+    "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"
+)
+SNOMED_CT_PARAMS = params = {
+    "limit": 1,
+    "conceptActive": "true",
+    "lang": "english",
+    "skipTo": 0,
+    "returnLimit": 1,
+}
+SNOMED_CT_HEADERS = {
+    "User-Agent": "browser",
+}

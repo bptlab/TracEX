@@ -42,7 +42,9 @@ class Cohort(models.Model):
     sex = models.CharField(max_length=25, null=True, blank=True)
     origin = models.CharField(max_length=50, null=True, blank=True)
     condition = models.CharField(max_length=50, null=True, blank=True)
+    condition_snomed_code = models.IntegerField(null=True, blank=True)
     preexisting_condition = models.CharField(max_length=100, null=True, blank=True)
+    preexisting_condition_snomed_code = models.IntegerField(null=True, blank=True)
     manager = models.Manager()
 
     def __str__(self):
