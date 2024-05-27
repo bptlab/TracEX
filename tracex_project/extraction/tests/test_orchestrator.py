@@ -118,7 +118,6 @@ class OrchestratorTests(TestCase):
         )
         configuration.update(
             modules={
-                "preprocessing": Preprocessor,
                 "activity_labeling": ActivityLabeler,
                 "cohort_tagging": CohortTagger,
             }

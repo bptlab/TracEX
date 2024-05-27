@@ -46,7 +46,7 @@ class ActivityLabeler(Module):
             patient_journey_sentences
         )
         activity_labels: pd.DataFrame = self.__extract_activities(
-            patient_journey_numbered, condition
+            patient_journey_numbered, condition, len(patient_journey_sentences)
         )
 
         return activity_labels
@@ -68,7 +68,7 @@ class ActivityLabeler(Module):
 
     @staticmethod
     def __extract_activities(
-        patient_journey_numbered: str, condition: Optional[str]
+        patient_journey_numbered: str, condition: Optional[str], number_of_senteces: int
     ) -> pd.DataFrame:
         """
         Converts a Patient Journey, where every sentence is numbered, to a DataFrame with the activity labels by
@@ -84,6 +84,12 @@ class ActivityLabeler(Module):
         messages.append({"role": "user", "content": user_message})
         activity_labels = u.query_gpt(messages).split("\n")
         df = pd.DataFrame(activity_labels, columns=[column_name])
-        df[["activity", "sentence_id"]] = df["activity"].str.split(" #", expand=True)
+        try:
+            df[["activity", "sentence_id"]] = df["activity"].str.split(
+                " #", expand=True
+            )
+        except ValueError:
+            scaling_factor = df.shape[0] / (number_of_senteces - 1)
+            df["sentence_id"] = df.reset_index().index * scaling_factor
 
         return df
