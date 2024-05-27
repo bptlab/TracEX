@@ -9,7 +9,6 @@ from extraction.forms import (
     JourneyUploadForm,
     JourneySelectForm,
     FilterForm,
-    ResultForm,
 )
 from extraction.models import (
     PatientJourney,
@@ -20,7 +19,6 @@ from extraction.views import (
     JourneySelectView,
     JourneyDetailView,
     JourneyFilterView,
-    ResultView,
 )
 
 

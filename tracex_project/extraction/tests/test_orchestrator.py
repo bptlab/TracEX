@@ -5,7 +5,6 @@ from django.test import TestCase, RequestFactory
 
 from extraction.logic.orchestrator import ExtractionConfiguration, Orchestrator
 from extraction.logic.modules import (
-    Preprocessor,
     ActivityLabeler,
     CohortTagger,
 )
