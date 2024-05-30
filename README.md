@@ -23,7 +23,7 @@ To run TracEX successfully, it is essential to obtain an OpenAI API key with ade
 The easiest way to run a local instance of TracEX is using the provided Docker images.
 
 1. **Install Docker**: Ensure that you have Docker installed on your system. If you haven't installed it yet, please follow the official Docker installation guide for your operating system: Docker Installation.
-1. **Download the Latest Docker Image**: Download the latest TracEX Docker image from the provided link: [docker image](...).
+1. **Download the Latest Docker Image**: Download the latest TracEX Docker image from the provided link: [docker image](...)
 1. **Load the Docker Image**: Open a terminal or command prompt and navigate to the directory where you downloaded the Docker image file. Run the following command to load the image: `sudo docker load -i tracex.tar`\
 Note: Depending on your system configuration, you may need to run this command with sudo privileges.
 1. **Run the Docker Container**: After the image is successfully loaded, run the following command to start the TracEX container: `sudo docker run -p 8000:8000 tracex`\
