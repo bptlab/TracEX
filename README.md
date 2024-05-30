@@ -39,10 +39,10 @@ This command will start the container and map port 8000 from the container to po
 ### Installation
 - navigate to the root directory of TracEX in your terminal
 - run `install-dependencies-unix.sh` or `install-dependencies-windows.ps1`, based on your operating system _(Using e.g. Terminal)_
-- run `python tracex/manage.py migrate` to update the database and apply all changes stored in the `migrations` folder
+- run `python tracex_project/manage.py migrate` to update the database and apply all changes stored in the `migrations` folder
 
 ### Execution
-- Run `python tracex/manage.py runserver` in the root directory of TracEX _(Using e.g. Terminal)_
+- Run `python tracex_project/manage.py runserver` in the root directory of TracEX _(Using e.g. Terminal)_
 
 ### Pre-Commit
 
