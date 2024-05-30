@@ -36,8 +36,6 @@ The easiest way to run a local instance of Ark is using the provided Docker imag
 - run `python tracex/manage.py migrate` to update the database and apply all changes stored in the `migrations` folder
 
 ### Execution
-
-**Web-App:**
 - Run `python tracex/manage.py runserver` in the root directory of TracEX _(Using e.g. Terminal)_
 
 ### Pre-Commit
