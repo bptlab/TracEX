@@ -17,7 +17,7 @@ This project was initiated and completed as part of the team's bachelor's degree
 - **Intuitive UI**: User-friendly interface for you to interact with the tool and visualize results.
 
 ## Requirements
-To use TracEX, you need to have an **OpenAI API key**.
+To run TracEX successfully, it is essential to obtain an OpenAI API key with adequate credits. TracEX integrates the OpenAI API to leverage Large Language Models (LLMs) for extracting relevant information from unstructured text. Without a valid API key and sufficient balance, the extraction process cannot be performed.
 
 ## Installation using Docker
 The easiest way to run a local instance of TracEX is using the provided Docker images.
