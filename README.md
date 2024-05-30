@@ -7,7 +7,7 @@
 
 TracEX aims to extract event logs from unstructured text, specifically written patient experiences known as patient journeys. By leveraging Large Language Models (LLMs), TracEX can automatically identify and extract relevant events, activities, timestamps and further information from natural langauge text. This enables healthcare professionals and researchers to gain valuable insights into patient experiences, treatment pathways, and potential areas for improvement in healthcare delivery.
 
-This project was initiated and completed as part of the team's bachelor's degree under the supervision of the Business Process Technology chair at the Hasso Plattner Institute. The project was conducted in cooperation with [mamahealth](https://www.mamahealth.io/).
+This project was initiated and completed as part of the team's bachelor's degree under the supervision of the Business Process Technology chair at the Hasso Plattner Institute. The project was conducted in cooperation with [mamahealth](https://www.mamahealth.com/).
 
 ## Key Features
 - **Extraction Pipeline**: A robust pipeline to clean, process, and extract data from natural language text.
