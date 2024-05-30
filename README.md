@@ -16,8 +16,11 @@ This project was initiated and completed as part of the team's bachelor's degree
 - **Metrics and Evaluation Tool**: Evaluates the accuracy and effectiveness of the extraction process and allows for analysis of exctraction results.
 - **Intuitive UI**: User-friendly interface for you to interact with the tool and visualize results.
 
+## Requirements
+To use TracEX, you need to have an **OpenAI API key**.
+
 ## Installation using Docker
-The easiest way to run a local instance of Ark is using the provided Docker images.
+The easiest way to run a local instance of TracEX is using the provided Docker images.
 
 1. **Install Docker**: Ensure that you have Docker installed on your system. If you haven't installed it yet, please follow the official Docker installation guide for your operating system: Docker Installation.
 1. **Download the Latest Docker Image**: Download the latest TracEX Docker image from the provided link: [docker image](...).
@@ -25,7 +28,7 @@ The easiest way to run a local instance of Ark is using the provided Docker imag
 Note: Depending on your system configuration, you may need to run this command with sudo privileges.
 1. **Run the Docker Container**: After the image is successfully loaded, run the following command to start the TracEX container: `sudo docker run -p 8000:8000 tracex`\
 This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use sudo depending on your system setup.
-1. **Access TracEX**: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can start extracting patient journeys.
+1. **Access TracEX**: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI Key and start extracting event logs.
 
 ## Local Setup for Development
 
