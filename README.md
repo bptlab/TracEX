@@ -19,10 +19,13 @@ This project was initiated and completed as part of the team's bachelor's degree
 ## Installation using Docker
 The easiest way to run a local instance of Ark is using the provided Docker images.
 
-1. Make sure you have Docker installed and running. 
-1. Download the latest [docker image](...).
-1. In your console, navigate to the directory of the downloaded file and run `sudo docker run -p 8000:8000`. 
-1. Navigate to http://localhost:8000/ to access the TracEX and to start extracting patient journeys!
+1. **Install Docker**: Ensure that you have Docker installed on your system. If you haven't installed it yet, please follow the official Docker installation guide for your operating system: Docker Installation.
+1. **Download the Latest Docker Image**: Download the latest TracEX Docker image from the provided link: [docker image](...).
+1. **Load the Docker Image**: Open a terminal or command prompt and navigate to the directory where you downloaded the Docker image file. Run the following command to load the image: `sudo docker load -i tracex.tar`
+Note: Depending on your system configuration, you may need to run this command with sudo privileges.
+1. **Run the Docker Container**: After the image is successfully loaded, run the following command to start the TracEX container: `sudo docker run -p 8000:8000`
+This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use sudo depending on your system setup.
+1. **Access TracEX**: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can start extracting patient journeys.
 
 ## Local Setup for Development
 
