@@ -19,13 +19,10 @@ This project was initiated and completed as part of the team's bachelor's degree
 ## Installation using Docker
 The easiest way to run a local instance of Ark is using the provided Docker images.
 
-1. Make sure you have Docker installed and running.
+1. Make sure you have Docker installed and running. 
 1. Download the latest [docker image](...).
-1. In your console, navigate to the directory of the downloaded file and run `docker-compose up`. You can add a `-d` to run Ark in the background.
-1. [Install](https://github.com/bptlab/ark_automate_local#setup) and run the local client.
-1. Navigate to http://localhost:3000/ to access the front-end and to start modeling RPA bots!
-1. Do you already know our [tutorial](https://github.com/bptlab/ark_automate/wiki/tutorial)? It will guide you through the creation of your first RPA bot using Ark Automate!
-
+1. In your console, navigate to the directory of the downloaded file and run `sudo docker run -p 8000:8000`. 
+1. Navigate to http://localhost:8000/ to access the TracEX and to start extracting patient journeys!
 
 ## Local Setup for Development
 
@@ -64,5 +61,5 @@ At the same time our commitment to open source means that we are enabling -in fa
 ## Project documentation
 
 In the project wiki, you can find detailed documentation that covers various aspects of TracEX.
-In the [architecture](https://github.com/bptlab/TracEX/wiki/Architecture) section, we provide an overview of the system's design and components. The [repository structure] (https://github.com/bptlab/TracEX/wiki/Repository-Structure) is also outlined, making it easier for you to navigate and understand the organization of our codebase.
-Most importantly, we have dedicated a significant portion of the wiki to explaining our [pipeline frameworks] (https://github.com/bptlab/TracEX/wiki/Pipelines), which are the core of TracEX. These frameworks are responsible for processing and transforming the unstructured patient journey data into structured event logs.
+In the [architecture](https://github.com/bptlab/TracEX/wiki/Architecture) section, we provide an overview of the system's design and components. The [repository structure](https://github.com/bptlab/TracEX/wiki/Repository-Structure) is also outlined, making it easier for you to navigate and understand the organization of our codebase.
+Most importantly, we have dedicated a significant portion of the wiki to explaining our [pipeline frameworks](https://github.com/bptlab/TracEX/wiki/Pipelines), which are the core of TracEX. These frameworks are responsible for processing and transforming the unstructured patient journey data into structured event logs.
