@@ -1,6 +1,7 @@
 """This module classifies the event types of the activities."""
 from pathlib import Path
 from django.conf import settings
+import pandas as pd
 
 from extraction.logic.module import Module
 from extraction.models import Prompt
@@ -23,9 +24,13 @@ class EventTypeClassifier(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
-        self, df, patient_journey=None, patient_journey_sentences=None, cohort=None
-    ):
-        """Classifies the event types for the corresponding activity labels from a patient journey."""
+        self,
+        df: pd.DataFrame,
+        patient_journey=None,
+        patient_journey_sentences=None,
+        cohort=None,
+    ) -> pd.DataFrame:
+        """Classifies corresponding event types for all activity labels in a dataframe."""
         super().execute(
             df,
             patient_journey=patient_journey,
@@ -33,8 +38,7 @@ class EventTypeClassifier(Module):
             cohort=cohort,
         )
 
-        column_name = "event_type"
-        df[column_name] = df["activity"].apply(self.__classify_event_type)
+        df["event_type"] = df["activity"].apply(self.__classify_event_type)
 
         return df
 

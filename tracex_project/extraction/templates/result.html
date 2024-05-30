@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Result</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
-    <script src="{% static '/extraction/js/pop_up_xes.js' %}" defer></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
+    <script src="{% static '/tracex/js/pop_up_xes.js' %}" defer></script>
 </head>
 <body class="main_body">
     <h1>Success! The TracEX pipeline produced the following results:</h1>
@@ -28,7 +28,7 @@
     </script>
 
     {% if trace_table %}
-        <button id="toggleButton1">Show/Hide extracted Event Log from Journey</button>
+        <button id="toggleButton1" class="function_button">Show/Hide extracted Trace from Journey</button>
         <div id="contentWrapper1" style="display: none;">
             <p><b>This is the event log extracted from the journey above.</b></p>
             <div id="xesContent1" class="xes_container">{{ trace_table|safe }}</div>
@@ -37,10 +37,8 @@
         <p>Something went wrong during the event log generation: No buffer content available.</p>
     {% endif %}
 
-    <p></p>
-
     {% if event_log_table %}
-        <button id="toggleButton2">Show/Hide enriched Event Log</button>
+        <button id="toggleButton2" class="function_button">Show/Hide enriched Event Log</button>
         <div id="contentWrapper2" style="display: none;">
             <p><b>This is the event log enriched by the extracted trace.</b></p>
             <div id="xesContent2" class="xes_container">{{ event_log_table|safe }}</div>
@@ -113,17 +111,16 @@
                 {% endfor %}
             </div>
         {% endif %}
-        <input type="submit" value="Refresh Filter" class="button">
+        <input type="submit" value="Refresh Filter" class="function_button">
     </form>
-    <br>
 
     <!-- Trigger/Open The Modal (XES Download) -->
-    <button id="downloadBtn" class="button">Download XES File</button>
+    <button id="downloadBtn" class="function_button">Download XES File</button>
     <div id="downloadModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
             <p>Please select the type(s) of XES file to download:</p>
-            <form id="downloadForm" action="{% url 'download_xes' %}" method="post" enctype="multipart/form-data">
+            <form id="downloadForm" action="{% url 'download_xes_result' %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <input type="checkbox" id="trace" name="trace_type[]" value="trace" class="trace-checkbox">
                 <label for="trace">Trace XES</label><br>
@@ -134,12 +131,13 @@
         </div>
     </div>
     <a href="{% url "save_success" %}">
-        <button class="menu_button">Save results to the database</button>
+        <button class="function_button">Save Results to the Database</button>
     </a>
     <a href="{% url "choose_input_method" %}">
-        <button class="menu_button">Return to input selection</button>
+        <button class="menu_button">Return to Input Selection</button>
     </a>
     <a href="{% url "landing_page" %}">
         <button class="menu_button">Return to TracEX Menu</button>
+    </a>
 </body>
 </html>

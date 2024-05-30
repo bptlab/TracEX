@@ -1,4 +1,4 @@
-"""This module contains the models for the extraction app."""
+"""This module contains the models for the tracex database."""
 from django.db import models
 
 from tracex.logic.constants import EVENT_TYPES, LOCATIONS
@@ -20,7 +20,7 @@ class PatientJourney(models.Model):
 
 
 class Trace(models.Model):
-    """Model for a single trace, belonging to a patient journey."""
+    """Model for the trace of a patient journey."""
 
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
@@ -33,16 +33,18 @@ class Trace(models.Model):
 
 
 class Cohort(models.Model):
-    """Model for the Cohort of a patient journey."""
+    """Model for the cohort of a patient journey."""
 
     trace = models.OneToOneField(
         Trace, on_delete=models.CASCADE, related_name="cohort", null=True
     )
     age = models.IntegerField(null=True, blank=True)
-    gender = models.CharField(max_length=25, null=True, blank=True)
+    sex = models.CharField(max_length=25, null=True, blank=True)
     origin = models.CharField(max_length=50, null=True, blank=True)
     condition = models.CharField(max_length=50, null=True, blank=True)
+    condition_snomed_code = models.IntegerField(null=True, blank=True)
     preexisting_condition = models.CharField(max_length=100, null=True, blank=True)
+    preexisting_condition_snomed_code = models.IntegerField(null=True, blank=True)
     manager = models.Manager()
 
     def __str__(self):
@@ -50,7 +52,7 @@ class Cohort(models.Model):
 
 
 class Event(models.Model):
-    """Model for a single event, only relevant in context with other events belonging to the same trace."""
+    """Django model representing a single event in a trace."""
 
     trace = models.ForeignKey(Trace, on_delete=models.CASCADE, related_name="events")
     activity = models.TextField()
@@ -67,7 +69,7 @@ class Event(models.Model):
 
 
 class Prompt(models.Model):
-    """Model for the prompt to be used in the GPT query."""
+    """Django model representing a prompt for a GPT query."""
 
     DEFAULT_NAME = ""
     DEFAULT_CATEGORY = "zero-shot"
@@ -81,7 +83,7 @@ class Prompt(models.Model):
 
 
 class Metric(models.Model):
-    """Model for metrics which are being tracked by the metrics analyzer"""
+    """Django model representing metrics tracked by the metrics analyzer."""
 
     event = models.OneToOneField(
         Event, on_delete=models.CASCADE, related_name="metrics"

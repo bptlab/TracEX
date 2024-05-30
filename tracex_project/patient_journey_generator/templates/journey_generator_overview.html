@@ -1,17 +1,28 @@
+<!--
+HTML File for the JourneyGenerationOverviewView
+
+Displays an explanation how the generation of a patient journey works. If a patient journey has been generated, the generated journey is displayed.
+The user can select the generated journey by providing a name for the journey and clicking the "Select Generated Patient Journey" button.
+The form is submitted as a POST request to the JourneyGenerationOverviewView, which will save the generated journey with the provided name.
+
+Also provides two buttons:
+- Generate New Patient Journey: Redirects to the journey generation page. Sends a GET request to the JourneyGenerationView, which will generate a new patient journey.
+- Return to TracEX menu: Redirects to the landing page.
+-->
 <!DOCTYPE html>
 <html lang="en">
 <title>Generation</title>
 <head>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/loading-spinner.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <script src="{% static '/patient_journey_generator/js/loading-spinner.js' %}" defer></script>
 </head>
 
 <body class="main_body">
     <div class="selection_container">
     {% if generated_journey %}
-    <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo not_visible">
+    <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
     <h2>Generated Journey</h2>
     <p>{{ generated_journey }}</p>
 
@@ -36,24 +47,24 @@
         <div class="spinner-container" id="loading-container">
             <span id="loading-spinner" class="loader not_visible"></span>
         </div>
-        <input type="submit" value="Select Generated Patient Journey" class="button">
+        <input type="submit" class="function_button" value="Select Generated Patient Journey" >
     </form>
     {% else %}
 
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-    <h2>Welcome to the Patient Journey Generator of TracEX</h1>
-    <p>Our innovative tool enables you to simulate a synthetic COVID-specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
+    <h1>Welcome to the Patient Journey Generator of TracEX</h1>
+    <p>Our innovative tool enables you to simulate a synthetic COVID-19 specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
     <div class="spinner-container" id="loading-container">
         <span id="loading-spinner" class="loader not_visible"></span>
     </div>
     {% endif %}
 
     <a href="{% url 'journey_generation' %}">
-        <button id="generate_button" class="menu_button">Generate New Patient Journey</button>
+        <button id="generate_button" class="function_button">Generate New Patient Journey</button>
     </a>
 
     <a href="{% url 'landing_page' %}">
-        <button class="menu_button">Return to TracEX menu</button>
+        <button class="menu_button">Return to TracEX Menu</button>
     </a>
 </div>
 </body>

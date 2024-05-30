@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Metrics Dashboard</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/tracex/css/styles.css' %}">
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="{% static '/db_results/js/metrics-dashboard.js' %}" defer></script>
 </head>
@@ -40,7 +40,9 @@
             <div class="metric-count" id="most_frequent_category">{{ most_frequent_category }} </div>
             <div class="number-metric-small">{{ most_frequent_category_count }} / {{ total_activities }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric shows the most frequent relevance category assigned to the extracted activities. Based on the most frequent relevance category the colour of the metric tile changes.</div>
+            <div class="info-text">This metric shows the most frequent relevance category assigned to the extracted
+                activities. Based on the most frequent relevance category the colour of the metric tile changes.
+            </div>
         </div>
     </div>
     <div class="row">
@@ -48,32 +50,41 @@
             <h3>Activity Relevance Pie Chart</h3>
             <div class="chart-content">{{ activity_relevance_pie_chart|safe }}</div>
             <span class="info-icon ">&#9432;</span>
-            <div class="info-text">The pie chart visualizes the distribution of relevance categories for the extracted activities.</div>
+            <div class="info-text">The pie chart visualizes the distribution of relevance categories for the extracted
+                activities.
+            </div>
         </div>
         <div class="metric-tile">
             <h3>Activity Relevance Bar Chart</h3>
             <div class="chart-content">{{ activity_relevance_bar_chart|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">The bar chart displays the count of extracted activities in each relevance category.</div>
+            <div class="info-text">The bar chart displays the count of extracted activities in each relevance
+                category.
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="table-container"> {{ relevance_df|safe}}</div>
+        <div class="table-container"> {{ relevance_df|safe }}</div>
     </div>
     <h2>Timestamp Correctness</h2>
     <div class="row">
         <div class="metric-tile">
             <h3>Most Frequent Timestamp Correctness</h3>
-            <div class="number-metric">{{ most_frequent_timestamp_correctness_count }}</div>
-            <div class="metric-content" id="most_frequent_timestamp_correctness">{{ most_frequent_timestamp_correctness }} </div>
+            <div class="metric-count"
+                 id="most_frequent_timestamp_correctness">{{ most_frequent_timestamp_correctness }} </div>
+            <div class="number-metric-small">{{ most_frequent_timestamp_correctness_count }} / {{ total_activities }} </div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric indicates the most common timestamp correctness value for the extracted activities.</div>
+            <div class="info-text">This metric indicates the most common timestamp correctness value for the extracted
+                activities.
+            </div>
         </div>
         <div class="metric-tile">
             <h3>Average Confidence of Timestamp Correctness </h3>
             <div class="number-metric" id="avgTimeStampCorr">{{ average_timestamp_correctness }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">This metric represents the average confidence score assigned by the language model when evaluating the correctness of timestamps in the extracted activities.</div>
+            <div class="info-text">This metric represents the average confidence score assigned by the language model
+                when evaluating the correctness of timestamps in the extracted activities.
+            </div>
         </div>
     </div>
     <div class="row">
@@ -81,25 +92,32 @@
             <h3>Timestamp Correctnes Pie Chart</h3>
             <div class="chart-content">{{ timestamp_correctness_pie_chart|safe }}</div>
             <span class="info-icon ">&#9432;</span>
-            <div class="info-text">The pie chart shows the proportion of extracted activities with correct and incorrect timestamps.</div>
+            <div class="info-text">The pie chart shows the proportion of extracted activities with correct and incorrect
+                timestamps.
+            </div>
         </div>
         <div class="metric-tile">
             <h3>Timestamp Correctnes Bar Chart</h3>
             <div class="chart-content">{{ timestamp_correctness_bar_chart|safe }}</div>
             <span class="info-icon">&#9432;</span>
-            <div class="info-text">The bar chart presents the count of extracted activities with correct and incorrect timestamps.</div>
+            <div class="info-text">The bar chart presents the count of extracted activities with correct and incorrect
+                timestamps.
+            </div>
         </div>
     </div>
     <div class="row">
-        <div class="table-container"> {{ timestamp_df|safe}}</div>
+        <div class="table-container"> {{ timestamp_df|safe }}</div>
     </div>
 </div>
 
 <a href="{% url 'metrics_overview' %}">
     <button class="menu_button">Return to Patient Journey Selection</button>
 </a>
+<a href="{% url 'db_results_overview' %}">
+    <button class="menu_button">Return to Database Results Overview</button>
+</a>
 <a href="{% url 'landing_page' %}">
-    <button class="menu_button">Return to TracEX menu</button>
+    <button class="menu_button">Return to TracEX Menu</button>
 </a>
 </body>
 </html>
