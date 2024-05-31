@@ -63,7 +63,7 @@ def get_date(start="01/01/2020", end="01/09/2023"):
 def get_life_circumstances(sex):
     """Generate life circumstances by using the OpenAI API."""
     messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY_LIFE_CIRCUMSTANCES").text
-    messages = messages.replace("<SEX>", sex)
+    messages[0]["content"] = messages[0]["content"].replace("<SEX>", sex)
     life_circumstances = u.query_gpt(messages=messages, max_tokens=100, temperature=1)
 
     return life_circumstances
