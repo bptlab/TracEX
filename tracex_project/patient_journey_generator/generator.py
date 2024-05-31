@@ -62,17 +62,8 @@ def get_date(start="01/01/2020", end="01/09/2023"):
 
 def get_life_circumstances(sex):
     """Generate life circumstances by using the OpenAI API."""
-    message = [
-        {
-            "role": "user",
-            "content": f"Please give me a short description of the life circumstances of an imaginary {sex} "
-            + "person in form of continuous text."
-            + """Please give me a short description of the life circumstances of an imaginary person in form
-                of continuous text. Write the text from a second-person perspective. Something like "You are a
-                51-year-old Teacher" and so forth. Include the age, the job and the family status. Please do not
-                include more than 50 words.""",
-        }
-    ]
-    life_circumstances = u.query_gpt(messages=message, max_tokens=100, temperature=1)
+    messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY_LIFE_CIRCUMSTANCES").text
+    messages[0]["content"] = messages[0]["content"].replace("<SEX>", sex)
+    life_circumstances = u.query_gpt(messages=messages, max_tokens=100, temperature=1)
 
     return life_circumstances
