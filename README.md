@@ -18,7 +18,7 @@ This project was initiated and completed as part of the team's bachelor's degree
 - **Intuitive UI**: User-friendly interface for you to interact with the tool and visualize results.
 
 ## Requirements
-To run TracEX successfully, it is essential to obtain an OpenAI API GPT 3.5 key with adequate credits. TracEX integrates the OpenAI API to leverage Large Language Models (LLMs) for extracting relevant information from unstructured text. Without a valid API key and sufficient balance, the extraction process cannot be performed. The current prices for API can be looked up at [OpenAI Pricing](https://openai.com/api/pricing/).
+To run TracEX successfully, it is essential to obtain an OpenAI API GPT 3.5 Turbo key with adequate credits. TracEX integrates the OpenAI API to leverage Large Language Models (LLMs) for extracting relevant information from unstructured text. Without a valid API key and sufficient balance, the extraction process cannot be performed. The current prices for API can be looked up at [OpenAI Pricing](https://openai.com/api/pricing/).
 
 ## Installation using Docker
 **Option 1: Using a Pre-built Docker Image** \
@@ -30,7 +30,7 @@ The easiest way to run a local instance of TracEX is using the provided Docker i
 Note: Depending on your system configuration, you may need to run this command with `sudo` privileges.
 1. Run the Docker Container: After the image is successfully loaded, run the following command to start the TracEX container: `docker run -p 8000:8000 tracex`\
 This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use `sudo` depending on your system setup.
-1. Access TracEX: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI Key and start extracting event logs.
+1. Access TracEX: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI API Key and start extracting event logs.
 
 **Option 2: Building the Docker Image from Source** \
 Alternatively, you can build the Docker image from the TracEX source code.
@@ -41,7 +41,7 @@ Alternatively, you can build the Docker image from the TracEX source code.
 Note: Depending on your system configuration, you may need to run this command with `sudo` privileges.
 1. Run the Docker Container: After the image is successfully built, run the following command to start the TracEX container: `docker run -p 8000:8000 tracex`\
 This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use `sudo` depending on your system setup.
-1. Access TracEX: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI Key and start extracting event logs.
+1. Access TracEX: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI API Key and start extracting event logs.
 
 ## Local Setup for Development
 
@@ -53,6 +53,7 @@ This command will start the container and map port 8000 from the container to po
 - navigate to the root directory of TracEX in your terminal
 - run `install-dependencies-unix.sh` or `install-dependencies-windows.ps1`, based on your operating system _(Using e.g. Terminal)_
 - run `python tracex_project/manage.py migrate` to update the database and apply all changes stored in the `migrations/` folder
+- export OpenAI API key as environment variable: `export OPENAI_API_KEY=<API-KEY>`
 
 ### Execution
 - Run `python tracex_project/manage.py runserver` in the root directory of TracEX _(Using e.g. Terminal)_
