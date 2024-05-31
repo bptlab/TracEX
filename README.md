@@ -25,7 +25,7 @@ To run TracEX successfully, it is essential to obtain an OpenAI API GPT 3.5 Turb
 The easiest way to run a local instance of TracEX is using the provided Docker image.
 
 1. Install Docker: Ensure that you have Docker installed on your system. If you haven't installed it yet, please follow the official Docker installation guide for your operating system.
-1. Download the Latest Docker Image: Download the latest TracEX Docker image from the provided link: docker image
+1. Download the Latest Docker Image: Download the latest TracEX Docker image from the provided link: [docker image](https://github.com/bptlab/TracEX/releases/tag/release)
 1. Load the Docker Image: Open a terminal or command prompt and navigate to the directory where you downloaded the Docker image file. Run the following command to load the image: `docker load -i tracex.tar`\
 Note: Depending on your system configuration, you may need to run this command with `sudo` privileges.
 1. Run the Docker Container: After the image is successfully loaded, run the following command to start the TracEX container: `docker run -p 8000:8000 tracex`\
