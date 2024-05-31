@@ -6,9 +6,11 @@ from extraction.models import PatientJourney
 
 
 class PatientJourneySelectForm(forms.Form):
-    """Form for selecting a patient journey to use in the trace testing environment."""
+    """Form for selecting a Patient Journey to use in the trace testing environment."""
 
-    selected_patient_journey = forms.ChoiceField(choices=[])
+    selected_patient_journey = forms.ChoiceField(
+        choices=[], label="Selected Patient Journey:"
+    )
 
     def __init__(self, *args, **kwargs):
         """Initializes the PatientJourneySelectForm with available choices."""
@@ -19,7 +21,7 @@ class PatientJourneySelectForm(forms.Form):
 
     @staticmethod
     def get_patient_journey_choices() -> List[Tuple[str, str]]:
-        """Retrieves the available patient journey choices from the database. Available choices are those with a
+        """Retrieves the available Patient Journey choices from the database. Available choices are those with a
         saved ground truth."""
         patient_journeys = PatientJourney.manager.filter(
             name__contains="journey_comparison_"

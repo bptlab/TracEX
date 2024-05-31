@@ -3,7 +3,7 @@
 
 ## Key Points
 
-This bachelorproject focuses on event log extraction from patient journeys using large-language models.
+This bachelorproject focuses on event log extraction from Patient Journeys using large-language models.
 
 Our project partner is mamahealth. More information about them can be found here: [mamahealth](https://www.mamahealth.io/)
 

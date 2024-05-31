@@ -5,11 +5,11 @@ from tracex.logic.constants import EVENT_TYPES, LOCATIONS
 
 
 class PatientJourney(models.Model):
-    """Model for the patient journey input."""
+    """Model for the Patient Journey input."""
 
     name = models.CharField(
         max_length=100,
-        help_text="The name represents a unique title describing the content of the patient journey.",
+        help_text="The name represents a unique title describing the content of the Patient Journey.",
         unique=True,
     )
     patient_journey = models.TextField()
@@ -20,7 +20,7 @@ class PatientJourney(models.Model):
 
 
 class Trace(models.Model):
-    """Model for the trace of a patient journey."""
+    """Model for the trace of a Patient Journey."""
 
     patient_journey = models.ForeignKey(
         PatientJourney, on_delete=models.CASCADE, related_name="trace"
@@ -33,7 +33,7 @@ class Trace(models.Model):
 
 
 class Cohort(models.Model):
-    """Model for the cohort of a patient journey."""
+    """Model for the cohort of a Patient Journey."""
 
     trace = models.OneToOneField(
         Trace, on_delete=models.CASCADE, related_name="cohort", null=True
