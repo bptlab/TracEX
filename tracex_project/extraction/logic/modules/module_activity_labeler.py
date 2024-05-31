@@ -90,6 +90,6 @@ class ActivityLabeler(Module):
             )
         except ValueError:
             scaling_factor = df.shape[0] / (number_of_senteces - 1)
-            df["sentence_id"] = df.reset_index().index * scaling_factor
+            df["sentence_id"] = int(df.reset_index().index * scaling_factor)
 
         return df
