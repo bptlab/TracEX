@@ -70,7 +70,9 @@ class ActivityLabeler(Module):
 
     @staticmethod
     def __extract_activities(
-        patient_journey_numbered: str, condition: Optional[str], number_of_senteces: int
+        patient_journey_numbered: str,
+        condition: Optional[str],
+        number_of_sentences: int,
     ) -> pd.DataFrame:
         """
         Converts a Patient Journey, where every sentence is numbered, to a DataFrame with the activity labels by
@@ -91,7 +93,7 @@ class ActivityLabeler(Module):
                 " #", expand=True
             )
         except ValueError:
-            scaling_factor = df.shape[0] / (number_of_senteces - 1)
+            scaling_factor = df.shape[0] / (number_of_sentences - 1)
             df["sentence_id"] = int(df.reset_index().index * scaling_factor)
 
         return df
