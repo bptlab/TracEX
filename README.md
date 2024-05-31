@@ -36,10 +36,10 @@ Alternatively, you can build the Docker image from the TracEX source code.
 
 1. Clone the TracEX Repository: Open a terminal or command prompt and navigate to the directory where you want to clone the TracEX repository. Run the following command to clone the repository: git clone https://github.com/bptlab/TracEX
 1. Navigate to the TracEX Directory: Change your current directory to the cloned TracEX repository: `cd TracEX`
-1. Build the Docker Image: Run the following command to build the TracEX Docker image: `docker build .`\
+1. Build the Docker Image: Run the following command to build the TracEX Docker image: `docker build -t tracex .`\
 Note: Depending on your system configuration, you may need to run this command with sudo privileges.
-1. Run the Docker Container: After the image is successfully built, run the following command to start the TracEX container: `docker run -p 8000:8000 <image-id>`\
-Replace <image-id> with the ID of the Docker image that was just built. This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use sudo depending on your system setup.
+1. Run the Docker Container: After the image is successfully built, run the following command to start the TracEX container: `docker run -p 8000:8000 tracex`\
+This command will start the container and map port 8000 from the container to port 8000 on your local machine. Again, you may need to use sudo depending on your system setup.
 1. Access TracEX: Open a web browser and navigate to http://localhost:8000/. This will bring you to the TracEX application, where you can enter your OpenAI Key and start extracting event logs.
 
 ## Local Setup for Development
