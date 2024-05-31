@@ -18,7 +18,7 @@ This project was initiated and completed as part of the team's bachelor's degree
 - **Intuitive UI**: User-friendly interface for you to interact with the tool and visualize results.
 
 ## Requirements
-To run TracEX successfully, it is essential to obtain an OpenAI API GPT 3.5 Turbo key with adequate credits. TracEX integrates the OpenAI API to leverage Large Language Models (LLMs) for extracting relevant information from unstructured text. Without a valid API key and sufficient balance, the extraction process cannot be performed. The current prices for API can be looked up at [OpenAI Pricing](https://openai.com/api/pricing/).
+To run TracEX successfully, it is essential to obtain an OpenAI API key with adequate credits. TracEX integrates the OpenAI API to leverage Large Language Models (LLMs) for extracting relevant information from unstructured text. Without a valid API key and sufficient balance, the extraction process cannot be performed. The current prices for API can be looked up at [OpenAI Pricing](https://openai.com/api/pricing/).
 
 ## Installation using Docker
 **Option 1: Using a Pre-built Docker Image** \
@@ -52,6 +52,7 @@ This command will start the container and map port 8000 from the container to po
 ### Installation
 - navigate to the root directory of TracEX in your terminal
 - run `install-dependencies-unix.sh` or `install-dependencies-windows.ps1`, based on your operating system _(Using e.g. Terminal)_
+- If you are using macOS, please use [homebrew](https://brew.sh/) or any other package manager to install the listed dependencies manually
 - run `python tracex_project/manage.py migrate` to update the database and apply all changes stored in the `migrations/` folder
 - export OpenAI API key as environment variable: `export OPENAI_API_KEY=<API-KEY>`
 
