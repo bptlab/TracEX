@@ -46,7 +46,9 @@ class ActivityLabeler(Module):
             patient_journey_sentences
         )
         activity_labels: pd.DataFrame = self.__extract_activities(
-            patient_journey_numbered, condition, len(patient_journey_sentences)
+            patient_journey_numbered=patient_journey_numbered,
+            condition=condition,
+            number_of_sentences=len(patient_journey_sentences),
         )
 
         return activity_labels
