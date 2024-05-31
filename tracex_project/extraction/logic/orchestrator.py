@@ -29,7 +29,7 @@ class ExtractionConfiguration:
     """
     Dataclass for the configuration of the orchestrator. This specifies all modules that can be executed, what event
     types are used to classify the activity labels, what locations are used to classify the activity labels and what the
-    patient journey is, on which the pipeline is executed.
+    Patient Journey is, on which the pipeline is executed.
 
     Public Methods:
     update -- Update the configuration with a dictionary mapping its attributes to new values.

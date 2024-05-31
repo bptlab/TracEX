@@ -9,7 +9,6 @@ from extraction.forms import (
     JourneyUploadForm,
     JourneySelectForm,
     FilterForm,
-    ResultForm,
 )
 from extraction.models import (
     PatientJourney,
@@ -20,7 +19,6 @@ from extraction.views import (
     JourneySelectView,
     JourneyDetailView,
     JourneyFilterView,
-    ResultView,
 )
 
 
@@ -101,7 +99,7 @@ class JourneyUploadViewTests(TestCase):
         Test that posting a valid form with a file upload successfully creates
         a new model instance with the uploaded content and redirects to the correct success URL.
         """
-        file_content = "This is a test patient journey."
+        file_content = "This is a test Patient Journey."
         uploaded_file = SimpleUploadedFile("test.txt", file_content.encode("utf-8"))
         form_data = {"name": "Test Journey", "file": uploaded_file}
 
@@ -168,10 +166,10 @@ class JourneySelectViewTests(TestCase):
 
     def test_view_post_valid_form(self):
         """
-        Test that posting a valid form by selecting an existing patient journey redirects to the correct success URL.
+        Test that posting a valid form by selecting an existing Patient Journey redirects to the correct success URL.
         """
         mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         form_data = {"selected_patient_journey": mock_journey.name}
         response = self.client.post(self.url, data=form_data, format="multipart")
@@ -203,10 +201,10 @@ class JourneyDetailViewTests(TestCase):
     """Test cases for the JourneyDetailView."""
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey and the URL."""
+        """Set up test client, a mock Patient Journey and the URL."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         self.url = reverse("journey_details", kwargs={"pk": self.mock_journey.pk})
 
@@ -235,7 +233,7 @@ class JourneyDetailViewTests(TestCase):
         )
 
     def test_view_without_patient_journey(self):
-        """Test that requesting a patient journey that does not exist returns a 404 error."""
+        """Test that requesting a Patient Journey that does not exist returns a 404 error."""
         response = self.client.get(reverse("journey_details", kwargs={"pk": 999}))
 
         self.assertEqual(response.status_code, 404)
@@ -263,10 +261,10 @@ class JourneyFilterViewTests(TestCase):
     fixtures = ["tracex_project/extraction/fixtures/prompts_fixture.json"]
 
     def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey, the URL and a factory that sends requests to the view."""
+        """Set up test client, a mock Patient Journey, the URL and a factory that sends requests to the view."""
         self.client = Client()
         self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
+            name="Test Journey", patient_journey="This is a test Patient Journey."
         )
         self.url = reverse("journey_filter")
         self.factory = RequestFactory()
@@ -301,27 +299,6 @@ class JourneyFilterViewTests(TestCase):
 
         self.assertIn("is_comparing", context)
 
-    # Non-deterministic test since orchestrator is executed
-    def test_form_valid(self):
-        """Test that a valid form submission redirects to the correct URL."""
-        form_data = {
-            "modules_required": ["activity_labeling"],
-            "modules_optional": ["preprocessing", "event_type_classification"],
-            "event_types": ["Symptom Onset", "Symptom Offset"],
-            "locations": ["Home", "Hospital", "Doctors", "N/A"],
-            "activity_key": "event_type",
-        }
-        # Set up session data
-        session = self.client.session
-        session["is_comparing"] = False
-        session.save()
-
-        # Submit the form using the test client
-        response = self.client.post(self.url, data=form_data)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertRedirects(response, reverse("result"))
-
     def test_get_ajax(self):
         """
         Test the `get` method when an AJAX request is made.
@@ -338,70 +315,3 @@ class JourneyFilterViewTests(TestCase):
         self.assertEqual(
             json.loads(response.content), {"progress": 50, "status": "running"}
         )
-
-
-class ResultViewTests(TestCase):
-    """Test cases for the ResultView."""
-
-    fixtures = ["tracex_project/tracex/fixtures/dataframe_fixtures.json"]
-
-    def setUp(self):  # pylint: disable=invalid-name
-        """Set up test client, a mock patient journey, session data and the URL."""
-        self.client = Client()
-        self.mock_journey = PatientJourney.manager.create(
-            name="Test Journey", patient_journey="This is a test patient journey."
-        )
-        self.session = self.client.session
-        self.session["selected_modules"] = ["activity_labeling", "cohort_tagging"]
-        self.session.save()
-        self.url = reverse("result")
-
-    def test_view_get_request(self):
-        """Test that the view URL exists and is accessible by passing a GET request."""
-        response = self.client.get(self.url)
-        resolver = resolve(self.url)
-
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(resolver.func.view_class, ResultView)
-
-    def test_uses_correct_template(self):
-        """Test that the view uses the correct template."""
-        response = self.client.get(self.url)
-
-        self.assertTemplateUsed(response, "result.html")
-
-    def test_uses_correct_form(self):
-        """Test that the view uses the correct form."""
-        response = self.client.get(self.url)
-
-        self.assertIsInstance(response.context["form"], ResultForm)
-
-    def test_get_form_kwargs(self):
-        """Test that correct form kwargs are passed to the form."""
-        response = self.client.get(self.url)
-
-        self.assertEqual(response.status_code, 200)
-
-        form = response.context["form"]
-
-        self.assertIsInstance(form, ResultForm)
-        self.assertEqual(
-            (form.initial["selected_modules"]), self.session["selected_modules"]
-        )
-
-    def test_get_context_data(self):
-        """Test that the view fetches the correct context data."""
-        response = self.client.get(self.url)
-
-        self.assertEqual(response.status_code, 200)
-
-        context = response.context
-
-        self.assertIn("form", context)
-        self.assertIsInstance(context["form"], ResultForm)
-        self.assertIn("journey", context)
-        self.assertEqual(context["journey"], self.mock_journey.patient_journey)
-        self.assertIn("dfg_img", context)
-        self.assertIn("trace_table", context)
-        self.assertIn("all_dfg_img", context)
-        self.assertIn("event_log_table", context)

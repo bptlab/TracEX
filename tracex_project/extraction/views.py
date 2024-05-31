@@ -28,13 +28,13 @@ from tracex.logic import utils
 
 
 class JourneyInputSelectView(generic.TemplateView):
-    """A Django view that renders a template for the user to choose the patient journey input method."""
+    """A Django view that renders a template for the user to choose the Patient Journey input method."""
 
     template_name = "choose_input_method.html"
 
 
 class JourneyUploadView(generic.CreateView):
-    """A Django view that handles the uploading of a patient journey."""
+    """A Django view that handles the uploading of a Patient Journey."""
 
     form_class = JourneyUploadForm
     template_name = "upload_journey.html"
@@ -55,7 +55,7 @@ class JourneyUploadView(generic.CreateView):
 
 
 class JourneySelectView(generic.FormView):
-    """A Django view that handles the selection of a patient journey from the database."""
+    """A Django view that handles the selection of a Patient Journey from the database."""
 
     model = PatientJourney
     form_class = JourneySelectForm
@@ -71,13 +71,13 @@ class JourneySelectView(generic.FormView):
 
 
 class JourneyDetailView(generic.DetailView):
-    """A Django view that displays the details of a selected patient journey."""
+    """A Django view that displays the details of a selected Patient Journey."""
 
     model = PatientJourney
     template_name = "journey_details.html"
 
     def get_context_data(self, **kwargs):
-        """Overrides the get_context_data method to add the patient journey to the context data."""
+        """Overrides the get_context_data method to add the Patient Journey to the context data."""
         context = super().get_context_data(**kwargs)
         patient_journey = self.get_object()
         context["patient_journey"] = patient_journey

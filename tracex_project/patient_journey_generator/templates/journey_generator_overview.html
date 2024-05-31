@@ -1,12 +1,12 @@
 <!--
 HTML File for the JourneyGenerationOverviewView
 
-Displays an explanation how the generation of a patient journey works. If a patient journey has been generated, the generated journey is displayed.
+Displays an explanation how the generation of a Patient Journey works. If a Patient Journey has been generated, the generated journey is displayed.
 The user can select the generated journey by providing a name for the journey and clicking the "Select Generated Patient Journey" button.
 The form is submitted as a POST request to the JourneyGenerationOverviewView, which will save the generated journey with the provided name.
 
 Also provides two buttons:
-- Generate New Patient Journey: Redirects to the journey generation page. Sends a GET request to the JourneyGenerationView, which will generate a new patient journey.
+- Generate New Patient Journey: Redirects to the journey generation page. Sends a GET request to the JourneyGenerationView, which will generate a new Patient Journey.
 - Return to TracEX menu: Redirects to the landing page.
 -->
 <!DOCTYPE html>
@@ -23,7 +23,7 @@ Also provides two buttons:
     <div class="selection_container">
     {% if generated_journey %}
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-    <h2>Generated Journey</h2>
+    <h2>Generated Patient Journey</h2>
     <p>{{ generated_journey }}</p>
 
     <form method="post" enctype="multipart/form-data">
@@ -47,7 +47,7 @@ Also provides two buttons:
         <div class="spinner-container" id="loading-container">
             <span id="loading-spinner" class="loader not_visible"></span>
         </div>
-        <input type="submit" class="function_button" value="Select Generated Patient Journey" >
+        <input type="submit" class="function_button" value="Select generated Patient Journey" >
     </form>
     {% else %}
 
@@ -60,7 +60,7 @@ Also provides two buttons:
     {% endif %}
 
     <a href="{% url 'journey_generation' %}">
-        <button id="generate_button" class="function_button">Generate New Patient Journey</button>
+        <button id="generate_button" class="function_button">Generate new Patient Journey</button>
     </a>
 
     <a href="{% url 'landing_page' %}">

@@ -25,7 +25,7 @@ class TraceComparisonMixin(View):
     def get_first_and_last_trace(
         patient_journey_name: str,
     ) -> Tuple[pd.DataFrame, pd.DataFrame]:
-        """Get the first and last trace of a patient journey from the database."""
+        """Get the first and last trace of a Patient Journey from the database."""
         query_last_trace = Q(
             id=Trace.manager.filter(patient_journey__name=patient_journey_name)
             .latest("last_modified")
@@ -45,7 +45,7 @@ class TraceComparisonMixin(View):
 
 
 class TraceTestingOverviewView(FormView):
-    """View for selecting a patient journey to use in the Trace Testing Environment."""
+    """View for selecting a Patient Journey to use in the Trace Testing Environment."""
 
     form_class = PatientJourneySelectForm
     template_name = "testing_overview.html"
@@ -72,7 +72,7 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
     template_name = "testing_comparison.html"
 
     def get_context_data(self, **kwargs):
-        """Prepare the latest trace of the selected patient journey that is available in the database for display."""
+        """Prepare the latest trace of the selected Patient Journey that is available in the database for display."""
         context = super().get_context_data(**kwargs)
         patient_journey_name: str = self.request.session.get("patient_journey_name")
         patient_journey: str = PatientJourney.manager.get(
@@ -114,7 +114,7 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
         return super().get(request, *args, **kwargs)
 
     def post(self, request):
-        """Compare the newest trace of a patient journey against the ground truth and update session with results."""
+        """Compare the newest trace of a Patient Journey against the ground truth and update session with results."""
         patient_journey_name: str = self.request.session.get("patient_journey_name")
         ground_truth_df, pipeline_df = self.get_first_and_last_trace(
             patient_journey_name

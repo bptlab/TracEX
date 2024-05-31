@@ -29,7 +29,7 @@ class DbResultsOverviewView(TemplateView):
 
 
 class MetricsOverviewView(FormView):
-    """View for selecting a patient journey for showing metrics."""
+    """View for selecting a Patient Journey for showing metrics."""
 
     form_class = PatientJourneySelectForm
     template_name = "metrics_pj_overview.html"
@@ -50,11 +50,11 @@ class MetricsDashboardView(TemplateView):
 
     def get_context_data(self, **kwargs):
         """
-        Extend the existing context with additional metrics relevant to the patient journey.
+        Extend the existing context with additional metrics relevant to the Patient Journey.
 
-        This method retrieves the patient journey name from the session, fetches the corresponding
+        This method retrieves the Patient Journey name from the session, fetches the corresponding
         data frame, and updates the context object with various metrics and visualizations such as
-        counts, charts, and data tables related to the patient journey.
+        counts, charts, and data tables related to the Patient Journey.
         """
 
         context = super().get_context_data(**kwargs)
@@ -68,10 +68,10 @@ class MetricsDashboardView(TemplateView):
 
     def get_latest_trace_df(self) -> pd.DataFrame:
         """
-        Fetch the DataFrame for the latest trace of a specific patient journey stored in the session.
+        Fetch the DataFrame for the latest trace of a specific Patient Journey stored in the session.
 
         This method constructs a query to fetch the ID of the latest trace entry related to a
-        patient journey. It considers only those entries where activity relevance, timestamp correctness,
+        Patient Journey. It considers only those entries where activity relevance, timestamp correctness,
         and correctness confidence metrics are not null. It then retrieves the DataFrame for these
         events.
         """
@@ -90,57 +90,86 @@ class MetricsDashboardView(TemplateView):
         return u.DataFrameUtilities.get_events_df(query_last_trace)
 
     def update_context_with_counts(self, context, trace_df: pd.DataFrame):
-        """Update the given context dictionary with count statistics related to patient journeys and traces."""
+        """Update the given context dictionary with count statistics related to Patient Journeys and traces."""
         patient_journey_name = self.request.session["patient_journey_name"]
 
-        context.update({
-            "patient_journey_name": patient_journey_name,
-            "total_patient_journeys": PatientJourney.manager.count(),
-            "total_traces": Trace.manager.count(),
-            "total_activities": trace_df.shape[0],
-            "traces_count": Trace.manager.filter(patient_journey__name=patient_journey_name).count()
-        })
+        context.update(
+            {
+                "patient_journey_name": patient_journey_name,
+                "total_patient_journeys": PatientJourney.manager.count(),
+                "total_traces": Trace.manager.count(),
+                "total_activities": trace_df.shape[0],
+                "traces_count": Trace.manager.filter(
+                    patient_journey__name=patient_journey_name
+                ).count(),
+            }
+        )
 
     def update_context_with_charts(self, context, trace_df: pd.DataFrame):
         """Update the context dictionary with chart visualizations."""
         relevance_counts = trace_df["activity_relevance"].value_counts()
         timestamp_correctness_counts = trace_df["timestamp_correctness"].value_counts()
 
-        context.update({
-            "activity_relevance_pie_chart": self.create_pie_chart(relevance_counts),
-            "timestamp_correctness_pie_chart": self.create_pie_chart(timestamp_correctness_counts),
-            "activity_relevance_bar_chart": self.create_bar_chart(relevance_counts, "Activity Relevance", "Count"),
-            "timestamp_correctness_bar_chart": self.create_bar_chart(timestamp_correctness_counts,
-                                                                     "Timestamp Correctness", "Count"),
-            "most_frequent_category": relevance_counts.index[0],
-            "most_frequent_category_count": relevance_counts.values[0],
-            "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[0],
-            "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[0],
-            "average_timestamp_correctness": round(trace_df["correctness_confidence"].mean(), 2)
-        })
+        context.update(
+            {
+                "activity_relevance_pie_chart": self.create_pie_chart(relevance_counts),
+                "timestamp_correctness_pie_chart": self.create_pie_chart(
+                    timestamp_correctness_counts
+                ),
+                "activity_relevance_bar_chart": self.create_bar_chart(
+                    relevance_counts, "Activity Relevance", "Count"
+                ),
+                "timestamp_correctness_bar_chart": self.create_bar_chart(
+                    timestamp_correctness_counts, "Timestamp Correctness", "Count"
+                ),
+                "most_frequent_category": relevance_counts.index[0],
+                "most_frequent_category_count": relevance_counts.values[0],
+                "most_frequent_timestamp_correctness": timestamp_correctness_counts.index[
+                    0
+                ],
+                "most_frequent_timestamp_correctness_count": timestamp_correctness_counts.values[
+                    0
+                ],
+                "average_timestamp_correctness": round(
+                    trace_df["correctness_confidence"].mean(), 2
+                ),
+            }
+        )
 
     def update_context_with_data_tables(self, context, trace_df: pd.DataFrame):
         """Format trace data into styled HTML tables and add them to the context."""
 
         # Apply renaming, styling, and convert to HTML, then update the context
         relevance_columns = ["activity", "activity_relevance"]
-        timestamp_columns = ["activity", "time:timestamp", "time:end_timestamp", "timestamp_correctness",
-                             "correctness_confidence"]
+        timestamp_columns = [
+            "activity",
+            "time:timestamp",
+            "time:end_timestamp",
+            "timestamp_correctness",
+            "correctness_confidence",
+        ]
 
         relevance_df = trace_df[relevance_columns]
         relevance_df = u.Conversion.rename_columns(relevance_df)
-        relevance_styled = relevance_df.style.set_table_attributes('class="dataframe"').apply(self.color_relevance,
-                                                                                              axis=1).hide().to_html()
+        relevance_styled = (
+            relevance_df.style.set_table_attributes('class="dataframe"')
+            .apply(self.color_relevance, axis=1)
+            .hide()
+            .to_html()
+        )
 
         timestamp_df = trace_df[timestamp_columns]
         timestamp_df = u.Conversion.rename_columns(timestamp_df)
-        timestamp_styled = timestamp_df.style.set_table_attributes('class="dataframe"').apply(
-            self.color_timestamp_correctness, axis=1).hide().to_html()
+        timestamp_styled = (
+            timestamp_df.style.set_table_attributes('class="dataframe"')
+            .apply(self.color_timestamp_correctness, axis=1)
+            .hide()
+            .to_html()
+        )
 
-        context.update({
-            "relevance_df": relevance_styled,
-            "timestamp_df": timestamp_styled
-        })
+        context.update(
+            {"relevance_df": relevance_styled, "timestamp_df": timestamp_styled}
+        )
 
     @staticmethod
     def color_relevance(row: pd.Series) -> List[str]:
@@ -169,9 +198,9 @@ class MetricsDashboardView(TemplateView):
             styles = ["background-color: tan"] * len(row)
 
         if (
-                low_confidence_threshold
-                <= correctness_confidence
-                <= high_confidence_threshold
+            low_confidence_threshold
+            <= correctness_confidence
+            <= high_confidence_threshold
         ):
             styles[confidence_index] = "background-color: orange"
         elif correctness_confidence < low_confidence_threshold:
@@ -244,8 +273,12 @@ class EvaluationView(FormView):
         cohorts_df = self.get_cohorts_data(traces)
 
         if not event_log_df.empty:
-            event_log_df = self.filter_and_cleanup_event_log(event_log_df, filter_settings)
-            context.update(self.generate_dfg_and_tables(event_log_df, cohorts_df, filter_settings))
+            event_log_df = self.filter_and_cleanup_event_log(
+                event_log_df, filter_settings
+            )
+            context.update(
+                self.generate_dfg_and_tables(event_log_df, cohorts_df, filter_settings)
+            )
 
         context.update({"form": EvaluationForm(initial=filter_settings)})
         self.request.session["event_log"] = event_log_df.to_json()
@@ -275,14 +308,20 @@ class EvaluationView(FormView):
     def get_cohorts_data(traces: QuerySet) -> pd.DataFrame:
         """Extract and format cohort data from given traces for further processing and visualization."""
         cohorts = Cohort.manager.filter(trace__in=traces)
-        cohorts_data = list(cohorts.values("trace", "age", "sex", "origin", "condition", "preexisting_condition"))
+        cohorts_data = list(
+            cohorts.values(
+                "trace", "age", "sex", "origin", "condition", "preexisting_condition"
+            )
+        )
         cohorts_df = pd.DataFrame(cohorts_data)
         if not cohorts_df.empty:
             cohorts_df["age"] = cohorts_df["age"].astype(pd.Int64Dtype())
         return cohorts_df
 
     @staticmethod
-    def filter_and_cleanup_event_log(event_log_df: pd.DataFrame, filter_settings: dict) -> pd.DataFrame:
+    def filter_and_cleanup_event_log(
+        event_log_df: pd.DataFrame, filter_settings: dict
+    ) -> pd.DataFrame:
         """Apply user-defined filters to the event log data and clean up unnecessary columns."""
         filter_dict = {
             "event_type": filter_settings.get("event_types"),
@@ -290,12 +329,18 @@ class EvaluationView(FormView):
         }
         event_log_df = u.DataFrameUtilities.filter_dataframe(event_log_df, filter_dict)
         event_log_df = event_log_df.drop(
-            columns=["activity_relevance", "timestamp_correctness", "correctness_confidence"])
+            columns=[
+                "activity_relevance",
+                "timestamp_correctness",
+                "correctness_confidence",
+            ]
+        )
         return event_log_df
 
     @staticmethod
-    def generate_dfg_and_tables(event_log_df: pd.DataFrame, cohorts_df: pd.DataFrame,
-                                filter_settings: dict) -> dict:
+    def generate_dfg_and_tables(
+        event_log_df: pd.DataFrame, cohorts_df: pd.DataFrame, filter_settings: dict
+    ) -> dict:
         """Generate visualizations and HTML tables for the provided event log and cohort data."""
         activity_key = filter_settings.get("activity_key")
         return {

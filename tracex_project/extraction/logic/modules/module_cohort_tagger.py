@@ -1,4 +1,4 @@
-"""This is the module that cohort tags from the patient journey."""
+"""This is the module that cohort tags from the Patient Journey."""
 from pathlib import Path
 from typing import Dict, List, Optional
 from django.conf import settings
@@ -11,14 +11,14 @@ from tracex.logic import utils as u
 
 class CohortTagger(Module):
     """
-    This is the module that extracts the cohort information from the patient journey.
+    This is the module that extracts the cohort information from the Patient Journey.
     The cohort tags are condition, age, biological sex, origin and preexisting condition.
     """
 
     def __init__(self):
         super().__init__()
         self.name = "Cohort Tagger"
-        self.description = "Extracts the cohort tags from a patient journey."
+        self.description = "Extracts the cohort tags from a Patient Journey."
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute_and_save(
@@ -27,7 +27,7 @@ class CohortTagger(Module):
         patient_journey: str = None,
         patient_journey_sentences: List[str] = None,
     ) -> Optional[Dict[str, str]]:
-        """Extracts the cohort information from the patient journey and saves the result in the database."""
+        """Extracts the cohort information from the Patient Journey and saves the result in the database."""
         super().execute_and_save(
             df,
             patient_journey=patient_journey,

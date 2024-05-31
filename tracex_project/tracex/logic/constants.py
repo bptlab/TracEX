@@ -117,7 +117,7 @@ MODULES_OPTIONAL: Final = [
 ]
 MODULES_REQUIRED: Final = [
     ("activity_labeling", "Activity Labeler"),
-    ("cohort_tagging", "Cohort Tagger")
+    ("cohort_tagging", "Cohort Tagger"),
 ]
 SNOMED_CT_API_URL = (
     "https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/descriptions"

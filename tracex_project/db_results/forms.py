@@ -9,9 +9,11 @@ from tracex.forms import BaseEventForm
 
 
 class PatientJourneySelectForm(forms.Form):
-    """Form for selecting a patient journey."""
+    """Form for selecting a Patient Journey."""
 
-    selected_patient_journey = forms.ChoiceField(choices=[])
+    selected_patient_journey = forms.ChoiceField(
+        choices=[], label="Selected Patient Journey:"
+    )
 
     def __init__(self, *args, **kwargs):
         """Initializes the PatientJourneySelectForm."""
@@ -20,10 +22,14 @@ class PatientJourneySelectForm(forms.Form):
             "selected_patient_journey"
         ].choices = self.get_patient_journey_choices()
 
-    def get_patient_journey_choices(self) -> List[Tuple[str, str]]:
-        """Retrieves the available patient journey choices with existing metrics from the database."""
-        patient_journeys = PatientJourney.manager.filter(
-            trace__events__metrics__isnull=False
+    @staticmethod
+    def get_patient_journey_choices() -> List[Tuple[str, str]]:
+        """Retrieves the available Patient Journey choices with existing metrics from the database."""
+        patient_journeys: List[PatientJourney] = PatientJourney.manager.filter(
+            trace__events__metrics__isnull=False,
+            trace__events__metrics__activity_relevance__isnull=False,
+            trace__events__metrics__timestamp_correctness__isnull=False,
+            trace__events__metrics__correctness_confidence__isnull=False,
         ).distinct()
         choices = [(pj.name, pj.name) for pj in patient_journeys]
 

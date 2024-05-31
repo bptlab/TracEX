@@ -72,8 +72,8 @@ The main contributors to the project are the six members of the [2023/24 Bachelo
 - [Soeren Schubert](https://github.com/soeren227)
 - [Trung-Kien Vu](https://github.com/tkv29)
 
-These six participants will push the project forward as part of their bachelor's degree until the summer of 2024.  
-At the same time our commitment to open source means that we are enabling -in fact encouraging- all interested parties to contribute and become part of its developer community. 
+These six participants will push the project forward as part of their bachelor's degree until the summer of 2024.
+At the same time our commitment to open source means that we are enabling -in fact encouraging- all interested parties to contribute and become part of its developer community.
 
 ## Project documentation
 
