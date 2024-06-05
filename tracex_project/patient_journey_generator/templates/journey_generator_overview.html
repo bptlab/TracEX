@@ -24,7 +24,7 @@ Also provides two buttons:
     {% if generated_journey %}
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
     <h2>Generated Patient Journey</h2>
-    <p>{{ generated_journey }}</p>
+    <p>{{ generated_journey|safe }}</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}

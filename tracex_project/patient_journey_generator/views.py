@@ -10,10 +10,11 @@ import traceback
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
+from django.utils.safestring import mark_safe
 
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from patient_journey_generator.forms import GenerationOverviewForm
-from patient_journey_generator.generator import generate_patient_journey
+from patient_journey_generator.generator import generate_patient_journey, execute_generate_process_description
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -69,7 +70,7 @@ class JourneyGenerationView(generic.RedirectView):
 
         try:
             configuration = ExtractionConfiguration(
-                patient_journey=generate_patient_journey()
+                patient_journey=execute_generate_process_description()
             )
         except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()

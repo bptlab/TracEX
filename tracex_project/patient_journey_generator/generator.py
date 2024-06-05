@@ -11,7 +11,9 @@ get_life_circumstances -- Generates life circumstances for the synthetic Patient
 from datetime import datetime, timedelta
 import random
 
-from extraction.models import Prompt
+from django.utils.safestring import mark_safe
+
+from extraction.models import Prompt, PatientJourney
 from tracex.logic import utils as u
 from tracex.logic import constants as c
 
@@ -67,3 +69,83 @@ def get_life_circumstances(sex):
     life_circumstances = u.query_gpt(messages=messages, max_tokens=100, temperature=1)
 
     return life_circumstances
+
+
+def generate_process_description():
+    domain = "patient journeys"
+
+    # general
+    # [Symptom Onset, Symptom Offset, Diagnosis, Doctor Visit, Treatment, Hospital Admission, Hospital Discharge, Medication, Lifestyle Change, Feelings]
+    event_types = "Symptom Onset, Symptom Offset, Doctor Visit, Medication"
+    case_notion = "Hospital Stay"
+    time_specifications = "timestamps and durations"
+    writing_style = "not_similar_to_example"
+    example = "I was admitted to the hospital on 01/01/2020. After a week, I was discharged. I was prescribed medication for the next two weeks."
+
+    # domain specific
+    age = 24
+    sex = "female"
+    occupation = "flight attendant"
+    origin = "France"
+    condition = "limp"
+    preexisting_conditions = "none"
+    persona = f"{age}-year-old {sex} {occupation} from {origin}, with the condition {condition} and the preexisting conditions {preexisting_conditions}."
+    # components of the prompt
+    writing_instructions = ("Please create a process description in the form of a written text of your persona. It is "
+                            "important that you write an authentic, continuous text, as if written by the persona "
+                            "themselves.")
+    authenticity_instructions = ("Please try to consider the persona's background and the events that plausibly could "
+                                 "have happened to them when creating the process description and the events that "
+                                 "they talk about.")
+
+    prompt = [
+        {
+            "role": "system",
+            "content": "Imagine being an expert in the field of process mining. Your task is to create a process "
+                       f"description within the domain of {domain}."
+                       f"When creating the process description, only consider the following event types: {event_types}"
+                       f"The case notion is: {case_notion}"
+                       f"Include time specifications for the events as {time_specifications}."
+        },
+        {  # this part is meant to be the domain-specific part of the prompt
+            "role": "user",
+            "content": f"The persona is: {persona}" 
+                       f"{writing_instructions}"
+                       f"{authenticity_instructions}"
+        }
+    ]
+
+    process_description = u.query_gpt(messages=prompt, temperature=1)
+    print("______________________________________________________________________________________________")
+    print(f"Process Description before adaptation:\n{process_description}\n")
+
+    if writing_style == "similar_to_example":
+        adaptation_prompt = [
+            {
+                "role": "system",
+                "content": "You are an expert in writing style adaptation. Your task is to adapt the process "
+                           "description so it resembles the example closely in terms of writing style while still "
+                           "being authentic."
+                           "It is very important that the content, especially personal information, events and temporal"
+                           " specifications, remains the same, and only the style is adapted."
+            },
+            {
+                "role": "user",
+                "content": "Please adapt the process description to be more similar to the example."
+                           f"Example: '{example}'"
+                           f"Process Description: '{process_description}'"
+            }
+        ]
+        process_description = u.query_gpt(messages=adaptation_prompt, temperature=0.1)
+
+        # PatientJourney.manager.create(name="Patient Journey", patient_journey=process_description)
+
+    return process_description
+
+
+def execute_generate_process_description(number_of_instances=10):
+    result = ""
+    for i in range(number_of_instances):
+        process_description = generate_process_description()
+        result += f"<b>Process Description {i+1}:</b><br>{process_description}<br><br>"
+    return mark_safe(result)
