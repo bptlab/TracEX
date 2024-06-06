@@ -132,3 +132,5 @@ SNOMED_CT_PARAMS = params = {
 SNOMED_CT_HEADERS = {
     "User-Agent": "browser",
 }
+
+TEST_MODE = True

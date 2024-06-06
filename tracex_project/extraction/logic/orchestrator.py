@@ -10,6 +10,7 @@ from typing import Any, List, Optional, Dict
 from django.utils.dateparse import parse_duration
 from django.core.exceptions import ObjectDoesNotExist
 import pandas as pd
+import time
 
 from extraction.logic.modules import (
     Preprocessor,
@@ -276,3 +277,13 @@ class Orchestrator:
             view.request.session["progress"] = percentage
             view.request.session["status"] = module_name
             view.request.session.save()
+
+    def simulate_extraction(self, view):
+        """Simulate the progress of the extraction process."""
+        for current_step, current_module in enumerate(
+            self.configuration.modules, start=1
+        ):
+            self.update_progress(
+                view, current_step, self.configuration.modules[current_module]().name
+            )
+            time.sleep(1)

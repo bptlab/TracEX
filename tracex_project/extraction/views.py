@@ -9,7 +9,8 @@ from typing import Dict, List
 # pylint: disable=unused-argument, unused-variable
 
 import pandas as pd
-
+from tracex.logic.constants import TEST_MODE
+from django.db.models import Q
 from django.urls import reverse_lazy
 from django.views import generic
 from django.http import JsonResponse
@@ -22,7 +23,7 @@ from extraction.forms import (
     JourneySelectForm,
 )
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from extraction.models import PatientJourney
+from extraction.models import PatientJourney, Trace
 from tracex.views import DownloadXesView
 from tracex.logic import utils
 
@@ -143,7 +144,10 @@ class JourneyFilterView(generic.FormView):
         )
         orchestrator.reduce_modules_to(modules_list)
         try:
-            orchestrator.run(view=self)
+            if TEST_MODE:
+                orchestrator.simulate_extraction(view=self)
+            else:
+                orchestrator.run(view=self)
         except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()
@@ -243,7 +247,17 @@ class ResultView(generic.FormView):
             "attribute_location": orchestrator.get_configuration().locations,
         }
 
-        trace = self.build_trace_df(filter_dict)
+        if TEST_MODE:
+            patient_journey_name = "Synthetic journey 1"
+            query_last_trace = Q(
+                id=Trace.manager.filter(patient_journey__name=patient_journey_name)
+                .latest("last_modified")
+                .id
+            )
+            trace = utils.DataFrameUtilities.get_events_df(query_last_trace)
+            print(trace)
+        else:
+            trace = self.build_trace_df(filter_dict)
         event_log = self.build_event_log_df(filter_dict, trace)
 
         form = self.get_form()
@@ -334,7 +348,8 @@ class SaveSuccessView(generic.TemplateView):
         """Prepare and return the context data for the save success page."""
         context = super().get_context_data(**kwargs)
         orchestrator = Orchestrator.get_instance()
-        orchestrator.save_results_to_db()
+        if not TEST_MODE:
+            orchestrator.save_results_to_db()
 
         return context
 
