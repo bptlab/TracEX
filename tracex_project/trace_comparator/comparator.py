@@ -21,29 +21,99 @@ def compare_traces(
     has no match as 'unexpected'. Finally, determine activities from the pipeline that are correctly
     matched but in the wrong order.
     """
-    pipeline_activities: pd.Series = pipeline_df["activity"]
-    ground_truth_activities: pd.Series = ground_truth_df["activity"]
+    if c.TEST_MODE:
+        simulate_progress(view)
 
-    (
-        mapping_pipeline_to_ground_truth,
-        mapping_ground_truth_to_pipeline,
-    ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
-    missing_activities: List[str] = find_unmapped_activities(
-        ground_truth_activities, mapping_ground_truth_to_pipeline
-    )
-    unexpected_activities: List[str] = find_unmapped_activities(
-        pipeline_activities, mapping_pipeline_to_ground_truth
-    )
-    wrong_orders: List[Tuple[str, str]] = find_wrong_orders(
-        pipeline_activities, mapping_ground_truth_to_pipeline
-    )
+        mapping_pipeline_to_ground_truth = [
+            0,
+            -1,
+            -1,
+            5,
+            4,
+            5,
+            7,
+            -1,
+            8,
+            7,
+            -1,
+            -1,
+            -1,
+            -1,
+            15,
+            15,
+        ]
+        mapping_ground_truth_to_pipeline = [
+            0,
+            -1,
+            -1,
+            5,
+            4,
+            3,
+            5,
+            6,
+            8,
+            8,
+            -1,
+            -1,
+            14,
+            14,
+            -1,
+            14,
+            14,
+        ]
+        missing_activities = [
+            "isolating myself",
+            "informing family",
+            "experiencing slow recovery",
+            "returning to work with precautions",
+            "remainding optimistic and adhering to safety guidelines",
+        ]
+        unexpected_activities = [
+            "taking immediate action",
+            "isolating and informing family",
+            "receiving doctor's recommendations for treatment",
+            "receiving support from children",
+            "slowly recovering from infection",
+            "returning to work with precautions",
+            "improvement in Covid-19 situation",
+            "receiving first dose of vaccine",
+        ]
+        wrong_orders = [
+            ("getting tested for Covid-19", "worsening symptoms and consulting doctor"),
+            ("getting tested for Covid-19", "facing financial difficulties"),
+            (
+                "worsening symptoms and consulting doctor",
+                "facing financial difficulties",
+            ),
+        ]
+        matching_percent_ground_truth_to_pipeline = 62
+        matching_percent_pipeline_to_ground_truth = 72
 
-    matching_percent_pipeline_to_ground_truth: int = find_matching_percentage(
-        pipeline_activities, mapping_pipeline_to_ground_truth
-    )
-    matching_percent_ground_truth_to_pipeline: int = find_matching_percentage(
-        ground_truth_activities, mapping_ground_truth_to_pipeline
-    )
+    
+    else:
+        pipeline_activities: pd.Series = pipeline_df["activity"]
+        ground_truth_activities: pd.Series = ground_truth_df["activity"]
+
+        (
+            mapping_pipeline_to_ground_truth,
+            mapping_ground_truth_to_pipeline,
+        ) = find_activity_mapping(view, pipeline_activities, ground_truth_activities)
+        missing_activities: List[str] = find_unmapped_activities(
+            ground_truth_activities, mapping_ground_truth_to_pipeline
+        )
+        unexpected_activities: List[str] = find_unmapped_activities(
+            pipeline_activities, mapping_pipeline_to_ground_truth
+        )
+        wrong_orders: List[Tuple[str, str]] = find_wrong_orders(
+            pipeline_activities, mapping_ground_truth_to_pipeline
+        )
+
+        matching_percent_pipeline_to_ground_truth: int = find_matching_percentage(
+            pipeline_activities, mapping_pipeline_to_ground_truth
+        )
+        matching_percent_ground_truth_to_pipeline: int = find_matching_percentage(
+            ground_truth_activities, mapping_ground_truth_to_pipeline
+        )
 
     results: dict = {
         "mapping_pipeline_to_ground_truth": mapping_pipeline_to_ground_truth,
@@ -57,6 +127,21 @@ def compare_traces(
 
     return results
 
+def simulate_progress(view):
+        count = 0
+        while count <= 50:
+            count += 5
+            time.sleep(1)
+            update_progress(
+                view, count, 100, "Mapping Pipeline Activites to Ground Truth Activites"
+            )
+
+        while count <= 100:
+            count += 5
+            time.sleep(1)
+            update_progress(
+                view, count, 100, "Mapping Ground Truth Activites to Pipeline Activites"
+            )
 
 def find_activity_mapping(
     view, pipeline_activities: pd.Series, ground_truth_activities: pd.Series

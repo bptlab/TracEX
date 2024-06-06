@@ -164,7 +164,8 @@ class JourneyFilterView(generic.FormView):
         self.request.session["selected_modules"] = selected_modules
 
         if self.request.session.get("is_comparing") is True:
-            orchestrator.save_results_to_db()
+            if not TEST_MODE:
+                orchestrator.save_results_to_db()
 
             return redirect(reverse_lazy("testing_comparison"))
 

@@ -16,7 +16,7 @@ from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
 from trace_comparator.comparator import compare_traces
 from trace_comparator.forms import PatientJourneySelectForm
 from tracex.logic.utils import DataFrameUtilities, Conversion
-
+from tracex.logic.constants import TEST_MODE
 
 class TraceComparisonMixin(View):
     """Mixin providing functionality that is used in multiple views in the trace comparator app."""
@@ -74,7 +74,10 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
     def get_context_data(self, **kwargs):
         """Prepare the latest trace of the selected Patient Journey that is available in the database for display."""
         context = super().get_context_data(**kwargs)
-        patient_journey_name: str = self.request.session.get("patient_journey_name")
+        if TEST_MODE:
+            patient_journey_name = "journey_comparison_1"
+        else:
+            patient_journey_name: str = self.request.session.get("patient_journey_name")
         patient_journey: str = PatientJourney.manager.get(
             name=patient_journey_name
         ).patient_journey
@@ -115,10 +118,15 @@ class TraceTestingComparisonView(TemplateView, TraceComparisonMixin):
 
     def post(self, request):
         """Compare the newest trace of a Patient Journey against the ground truth and update session with results."""
-        patient_journey_name: str = self.request.session.get("patient_journey_name")
-        ground_truth_df, pipeline_df = self.get_first_and_last_trace(
-            patient_journey_name
-        )
+        if not TEST_MODE:
+            patient_journey_name: str = self.request.session.get("patient_journey_name")
+            ground_truth_df, pipeline_df = self.get_first_and_last_trace(
+                patient_journey_name
+            )
+        
+        else:
+            pipeline_df = []
+            ground_truth_df = []
 
         try:
             comparison_result_dict: dict = compare_traces(
