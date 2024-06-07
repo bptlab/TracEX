@@ -8,14 +8,19 @@ get_country -- Randomizes a european country.
 get_date -- Randomizes a start date for the synthetic Patient Journey.
 get_life_circumstances -- Generates life circumstances for the synthetic Patient Journey.
 """
+import copy
 from datetime import datetime, timedelta
 import random
+import time
+import os
 
 from django.utils.safestring import mark_safe
 
 from extraction.models import Prompt, PatientJourney
 from tracex.logic import utils as u
 from tracex.logic import constants as c
+from patient_journey_generator.process_description_configs import PATIENT_JOURNEY_CONFIG, ORDER_CONFIG, \
+    PATIENT_JOURNEY_CONFIG_MC
 
 
 def generate_patient_journey():
@@ -71,52 +76,54 @@ def get_life_circumstances(sex):
     return life_circumstances
 
 
-def generate_process_description():
-    domain = "patient journeys"
+# [Symptom Onset, Symptom Offset, Diagnosis, Doctor Visit, Treatment, Hospital Admission, Hospital Discharge, Medication, Lifestyle Change, Feelings]
+def generate_process_description(degree_of_variety="low"):
+    # Load configuration
+    config = PATIENT_JOURNEY_CONFIG_MC
+    # config = ORDER_CONFIG
 
-    # general
-    # [Symptom Onset, Symptom Offset, Diagnosis, Doctor Visit, Treatment, Hospital Admission, Hospital Discharge, Medication, Lifestyle Change, Feelings]
-    event_types = "Symptom Onset, Symptom Offset, Doctor Visit, Medication"
-    case_notion = "Hospital Stay"
-    time_specifications = "timestamps and durations"
-    writing_style = "not_similar_to_example"
-    example = "I was admitted to the hospital on 01/01/2020. After a week, I was discharged. I was prescribed medication for the next two weeks."
+    instance_config = get_instance_config(config, degree_of_variety)
 
-    # domain specific
-    age = 24
-    sex = "female"
-    occupation = "flight attendant"
-    origin = "France"
-    condition = "limp"
-    preexisting_conditions = "none"
-    persona = f"{age}-year-old {sex} {occupation} from {origin}, with the condition {condition} and the preexisting conditions {preexisting_conditions}."
-    # components of the prompt
-    writing_instructions = ("Please create a process description in the form of a written text of your persona. It is "
-                            "important that you write an authentic, continuous text, as if written by the persona "
-                            "themselves.")
-    authenticity_instructions = ("Please try to consider the persona's background and the events that plausibly could "
-                                 "have happened to them when creating the process description and the events that "
-                                 "they talk about.")
+    # general parameters
+    domain = instance_config["domain"]
+    case = instance_config["case"]
+    case_notion = instance_config["case_notion"]
+    event_types = instance_config["event_types"]
 
-    prompt = [
+    # case attributes
+    case_attributes_dict = instance_config["case_attributes_dict"]
+    case_attributes = ', '.join(f"{key}: {value}" for key, value in case_attributes_dict.items())
+
+    # process description attributes
+    time_specifications = instance_config["time_specifications"]
+    writing_style = instance_config["writing_style"]
+    example = instance_config["example"]
+
+    perspective_instructions = instance_config["perspective_instructions"]
+    writing_instructions = instance_config["writing_instructions"]
+    authenticity_instructions = instance_config["authenticity_instructions"]
+
+    generation_prompt = [
         {
             "role": "system",
             "content": "Imagine being an expert in the field of process mining. Your task is to create a process "
                        f"description within the domain of {domain}."
+                       f"The case and therefore the object of the process description is: {case}."
+                       f"The case notion and therefore the scope of the process description is: {case_notion}."
+                       f"The attributes that characterize the case are: {case_attributes}."
                        f"When creating the process description, only consider the following event types: {event_types}"
-                       f"The case notion is: {case_notion}"
                        f"Include time specifications for the events as {time_specifications}."
         },
         {  # this part is meant to be the domain-specific part of the prompt
             "role": "user",
-            "content": f"The persona is: {persona}" 
+            "content": f"{perspective_instructions}"
                        f"{writing_instructions}"
                        f"{authenticity_instructions}"
         }
     ]
 
-    process_description = u.query_gpt(messages=prompt, temperature=1)
-    print("______________________________________________________________________________________________")
+    generation_prompt_temperature = instance_config["generation_prompt_temperature"]
+    process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature)
     print(f"Process Description before adaptation:\n{process_description}\n")
 
     if writing_style == "similar_to_example":
@@ -124,10 +131,10 @@ def generate_process_description():
             {
                 "role": "system",
                 "content": "You are an expert in writing style adaptation. Your task is to adapt the process "
-                           "description so it resembles the example closely in terms of writing style while still "
-                           "being authentic."
-                           "It is very important that the content, especially personal information, events and temporal"
-                           " specifications, remains the same, and only the style is adapted."
+                           "description so it resembles the example closely in terms of writing style and everything "
+                           "this entails while still being authentic."
+                           f"It is very important that the content, especially case attributes ({case_attributes}), "
+                           "events and temporal specifications, remain the same, and only the writing style is adapted."
             },
             {
                 "role": "user",
@@ -136,16 +143,80 @@ def generate_process_description():
                            f"Process Description: '{process_description}'"
             }
         ]
-        process_description = u.query_gpt(messages=adaptation_prompt, temperature=0.1)
+        adaptation_prompt_temperature = instance_config["adaptation_prompt_temperature"]
+        process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature)
 
-        # PatientJourney.manager.create(name="Patient Journey", patient_journey=process_description)
+    process_description += f"<br><u>Config:</u><br>Degree of Variety: {degree_of_variety}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>time_specifications: {time_specifications}<br>writing_style: {writing_style}<br>"
+
+    # PatientJourney.manager.create(name="Patient Journey", patient_journey=process_description)
 
     return process_description
 
 
-def execute_generate_process_description(number_of_instances=10):
+def execute_generate_process_description(number_of_instances=4, degree_of_variety="medium"):
     result = ""
     for i in range(number_of_instances):
-        process_description = generate_process_description()
-        result += f"<b>Process Description {i+1}:</b><br>{process_description}<br><br>"
+        process_description = generate_process_description(degree_of_variety)
+        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><br>"
     return mark_safe(result)
+
+
+def get_instance_config(config, degree_of_variety):
+    instance_config = copy.deepcopy(config)
+
+    # low degree of variety
+    if degree_of_variety == "low":
+        for key, value in instance_config.items():
+            if key == "event_types":
+                if isinstance(value, list):
+                    instance_config[key] = ', '.join(value)
+            elif key == "case_attributes_dict":
+                for attribute, values in value.items():
+                    if isinstance(values, list):
+                        instance_config[key][attribute] = values[0]
+            elif isinstance(value, list):
+                instance_config[key] = value[0]
+
+        instance_config["writing_style"] = "free"
+        instance_config["generation_prompt_temperature"] = 0.1
+        instance_config["adaptation_prompt_temperature"] = 0.1
+
+    # medium degree of variety
+    elif degree_of_variety == "medium":
+        for key, value in instance_config.items():
+            if key == "event_types":
+                if isinstance(value, list):
+                    num_event_types = random.randint(3, len(value))  # Randomly select the number of event types
+                    selected_event_types = random.sample(value, num_event_types)  # Randomly select the event types
+                    instance_config[key] = ', '.join(selected_event_types)
+            elif key == "case_attributes_dict":
+                for attribute, values in value.items():
+                    if isinstance(values, list):
+                        instance_config[key][attribute] = random.choice(values)
+            elif isinstance(value, list):
+                instance_config[key] = value[0]
+
+        instance_config["writing_style"] = "free"
+        instance_config["generation_prompt_temperature"] = 0.6
+        instance_config["adaptation_prompt_temperature"] = 0.6
+
+    # high degree of variety
+    elif degree_of_variety == "high":
+        for key, value in instance_config.items():
+            if key == "event_types":
+                if isinstance(value, list):
+                    num_event_types = random.randint(3, len(value))  # Randomly select the number of event types
+                    selected_event_types = random.sample(value, num_event_types)  # Randomly select the event types
+                    instance_config[key] = ', '.join(selected_event_types)
+            elif key == "case_attributes_dict":
+                for attribute, values in value.items():
+                    if isinstance(values, list):
+                        instance_config[key][attribute] = random.choice(values)
+            elif isinstance(value, list):
+                instance_config[key] = random.choice(value)
+
+        instance_config["writing_style"] = "similar_to_example"
+        instance_config["generation_prompt_temperature"] = 1
+        instance_config["adaptation_prompt_temperature"] = 1
+
+    return instance_config

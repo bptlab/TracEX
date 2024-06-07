@@ -48,6 +48,7 @@ def query_gpt(
         top_logprobs=None,
         model=MODEL,
         api_key=OAIK,
+        presence_penalty=0,
 ):
     """
     Make a request to the OpenAI API.
@@ -83,6 +84,7 @@ def query_gpt(
             temperature=temperature,
             logprobs=return_linear_probability,
             top_logprobs=top_logprobs,
+            presence_penalty=presence_penalty,
         )
 
         return _response
