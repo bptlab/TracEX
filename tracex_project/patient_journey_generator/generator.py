@@ -77,7 +77,7 @@ def get_life_circumstances(sex):
 
 
 # [Symptom Onset, Symptom Offset, Diagnosis, Doctor Visit, Treatment, Hospital Admission, Hospital Discharge, Medication, Lifestyle Change, Feelings]
-def generate_process_description(degree_of_variety="low"):
+def generate_process_description(degree_of_variety="low", save_to_db=False, iteration=0):
     # Load configuration
     config = PATIENT_JOURNEY_CONFIG_MC
     # config = ORDER_CONFIG
@@ -107,11 +107,11 @@ def generate_process_description(degree_of_variety="low"):
         {
             "role": "system",
             "content": "Imagine being an expert in the field of process mining. Your task is to create a process "
-                       f"description within the domain of {domain}."
-                       f"The case and therefore the object of the process description is: {case}."
-                       f"The case notion and therefore the scope of the process description is: {case_notion}."
-                       f"The attributes that characterize the case are: {case_attributes}."
-                       f"When creating the process description, only consider the following event types: {event_types}"
+                       f"description within the domain of {domain}.\n"
+                       f"The case and therefore the object of the process description is: {case}.\n"
+                       f"The case notion and therefore the scope of the process description is: {case_notion}.\n"
+                       f"The attributes that characterize the case are: {case_attributes}.\n"
+                       f"When creating the process description, only consider the following event types: {event_types}\n"
                        f"Include time specifications for the events as {time_specifications}."
         },
         {  # this part is meant to be the domain-specific part of the prompt
@@ -123,7 +123,7 @@ def generate_process_description(degree_of_variety="low"):
     ]
 
     generation_prompt_temperature = instance_config["generation_prompt_temperature"]
-    process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature)
+    process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature, model="gpt-3.5-turbo")
     print(f"Process Description before adaptation:\n{process_description}\n")
 
     if writing_style == "similar_to_example":
@@ -144,19 +144,22 @@ def generate_process_description(degree_of_variety="low"):
             }
         ]
         adaptation_prompt_temperature = instance_config["adaptation_prompt_temperature"]
-        process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature)
+        process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature, model="gpt-3.5-turbo")
+
+    if save_to_db:
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        patient_journey_name = f"{timestamp}_{case}_{degree_of_variety}_{writing_style}_{iteration}"
+        PatientJourney.manager.create(name=patient_journey_name, patient_journey=process_description)
 
     process_description += f"<br><u>Config:</u><br>Degree of Variety: {degree_of_variety}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>time_specifications: {time_specifications}<br>writing_style: {writing_style}<br>"
-
-    # PatientJourney.manager.create(name="Patient Journey", patient_journey=process_description)
 
     return process_description
 
 
-def execute_generate_process_description(number_of_instances=4, degree_of_variety="medium"):
+def execute_generate_process_description(number_of_instances=10, degree_of_variety="high", save_to_db=True):
     result = ""
     for i in range(number_of_instances):
-        process_description = generate_process_description(degree_of_variety)
+        process_description = generate_process_description(degree_of_variety, save_to_db, iteration=i + 1)
         result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><br>"
     return mark_safe(result)
 
