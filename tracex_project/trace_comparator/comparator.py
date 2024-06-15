@@ -24,70 +24,13 @@ def compare_traces(
     if c.TEST_MODE:
         simulate_progress(view)
 
-        mapping_pipeline_to_ground_truth = [
-            0,
-            -1,
-            -1,
-            5,
-            4,
-            5,
-            7,
-            -1,
-            8,
-            7,
-            -1,
-            -1,
-            -1,
-            -1,
-            15,
-            15,
-        ]
-        mapping_ground_truth_to_pipeline = [
-            0,
-            -1,
-            -1,
-            5,
-            4,
-            3,
-            5,
-            6,
-            8,
-            8,
-            -1,
-            -1,
-            14,
-            14,
-            -1,
-            14,
-            14,
-        ]
-        missing_activities = [
-            "isolating myself",
-            "informing family",
-            "experiencing slow recovery",
-            "returning to work with precautions",
-            "remainding optimistic and adhering to safety guidelines",
-        ]
-        unexpected_activities = [
-            "taking immediate action",
-            "isolating and informing family",
-            "receiving doctor's recommendations for treatment",
-            "receiving support from children",
-            "slowly recovering from infection",
-            "returning to work with precautions",
-            "improvement in Covid-19 situation",
-            "receiving first dose of vaccine",
-        ]
-        wrong_orders = [
-            ("getting tested for Covid-19", "worsening symptoms and consulting doctor"),
-            ("getting tested for Covid-19", "facing financial difficulties"),
-            (
-                "worsening symptoms and consulting doctor",
-                "facing financial difficulties",
-            ),
-        ]
-        matching_percent_ground_truth_to_pipeline = 62
-        matching_percent_pipeline_to_ground_truth = 72
+        mapping_pipeline_to_ground_truth = [0, -1, -1, 2, 5, 4, 4, -1, -1, -1, 12, 13, 12, 15]
+        mapping_ground_truth_to_pipeline = [0, 4, 3, 5, 5, 4, -1, -1, -1, -1, -1, 13, 10, 11, -1, 13, 12, -1]
+        missing_activities = ['getting tested for covid 19 in local testing center', 'testing positive for covid 19', 'focusing on resting while isolated', 'receiving emotional support from family', 'experiencing slow recovery', 'remainding optimistic and adhering to safety guidelines', 'feeling thankful for healthcare personal']
+        unexpected_activities = ['consulting doctor', 'getting tested for Covid-19', 'recovering with family support', 'returning to work with precautions', 'decision to get vaccinated']
+        wrong_orders = [('advised home quarantine and treatment', 'receiving positive test results'), ('receiving care from family', 'advised home quarantine and treatment'), ('feeling relief and hope post-vaccination', 'receiving first dose of vaccine'), ('feeling relief and hope post-vaccination', 'experiencing mild side effects'), ('feeling relief and hope post-vaccination', 'receiving second dose of vaccine')]
+        matching_percent_ground_truth_to_pipeline = 64
+        matching_percent_pipeline_to_ground_truth = 61
 
     
     else:
@@ -125,7 +68,9 @@ def compare_traces(
         "matching_percent_ground_truth_to_pipeline": matching_percent_ground_truth_to_pipeline,
     }
 
+    print(results)
     return results
+
 
 def simulate_progress(view):
         count = 0
