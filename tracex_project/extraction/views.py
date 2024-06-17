@@ -249,14 +249,23 @@ class ResultView(generic.FormView):
         }
 
         if TEST_MODE:
-            patient_journey_name = "Synthetic journey 1"
+            patient_journey_name = "patient journey 1"
             query_last_trace = Q(
                 id=Trace.manager.filter(patient_journey__name=patient_journey_name)
                 .latest("last_modified")
                 .id
             )
             trace = utils.DataFrameUtilities.get_events_df(query_last_trace)
-            print(trace)
+            print(trace.columns)
+            trace.drop(
+                columns=[
+                    "activity_relevance",
+                    "timestamp_correctness",
+                    "correctness_confidence",
+                ],
+                axis=1,
+                inplace=True,
+            )
         else:
             trace = self.build_trace_df(filter_dict)
         event_log = self.build_event_log_df(filter_dict, trace)

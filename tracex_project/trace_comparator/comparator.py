@@ -12,7 +12,7 @@ from tracex.logic import utils as u, constants as c
 
 @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
 def compare_traces(
-        view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame
+    view, pipeline_df: pd.DataFrame, ground_truth_df: pd.DataFrame
 ) -> dict:
     """Executes the trace comparison.
 
@@ -25,12 +25,45 @@ def compare_traces(
         simulate_progress(view)
 
         mapping_pipeline_to_ground_truth = [0, -1, -1, 1, 12, 13, 16]
-        mapping_ground_truth_to_pipeline = [0, 3, -1, -1, -1, -1, -1, -1, 3, 3, -1, -1, 4, 5, -1, 6, 6, -1]
-        missing_activities = ['informing family', 'putting loved ones over financial worries', 'experiencing worse symptoms', 'consulting family physician', 'getting tested for covid 19 in local testing center', 'testing positive for covid 19', 'experiencing slow recovery', 'returning to work with precautions', 'remainding optimistic and adhering to safety guidelines', 'feeling thankful for healthcare personal']
-        unexpected_activities = ['consulting doctor for worsening symptoms', 'getting tested for Covid-19']
+        mapping_ground_truth_to_pipeline = [
+            0,
+            3,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            3,
+            3,
+            -1,
+            -1,
+            4,
+            5,
+            -1,
+            6,
+            6,
+            -1,
+        ]
+        missing_activities = [
+            "informing family",
+            "putting loved ones over financial worries",
+            "experiencing worse symptoms",
+            "consulting family physician",
+            "getting tested for covid 19 in local testing center",
+            "testing positive for covid 19",
+            "experiencing slow recovery",
+            "returning to work with precautions",
+            "remainding optimistic and adhering to safety guidelines",
+            "feeling thankful for healthcare personal",
+        ]
+        unexpected_activities = [
+            "consulting doctor for worsening symptoms",
+            "getting tested for Covid-19",
+        ]
         wrong_orders = []
-        matching_percent_ground_truth_to_pipeline = 71
-        matching_percent_pipeline_to_ground_truth = 44
+        matching_percent_ground_truth_to_pipeline = 44
+        matching_percent_pipeline_to_ground_truth = 71
 
     else:
         pipeline_activities: pd.Series = pipeline_df["activity"]
@@ -89,7 +122,7 @@ def simulate_progress(view):
 
 
 def find_activity_mapping(
-        view, pipeline_activities: pd.Series, ground_truth_activities: pd.Series
+    view, pipeline_activities: pd.Series, ground_truth_activities: pd.Series
 ) -> Tuple[List[int], List[int]]:
     """Create a mapping of activities from the pipeline to the ground truth and vice versa."""
     total_steps: int = len(pipeline_activities) + len(ground_truth_activities)
@@ -123,12 +156,12 @@ def find_activity_mapping(
 
 
 def compare_activities(
-        view,
-        current_step: int,
-        total_steps: int,
-        status: str,
-        input_activities: pd.Series,
-        comparison_basis_activities: pd.Series,
+    view,
+    current_step: int,
+    total_steps: int,
+    status: str,
+    input_activities: pd.Series,
+    comparison_basis_activities: pd.Series,
 ) -> List[Tuple[int, float]]:
     """Compare input activities with ground truth activities."""
     mapping_input_to_comparison: List[Tuple[int, float]] = []
@@ -147,10 +180,10 @@ def compare_activities(
 
 
 def find_activity(
-        activity,
-        comparison_basis_activities: pd.Series,
-        activity_index: int,
-        mapping_input_to_comparison: List[Tuple[int, float]],
+    activity,
+    comparison_basis_activities: pd.Series,
+    activity_index: int,
+    mapping_input_to_comparison: List[Tuple[int, float]],
 ) -> None:
     """Compares an activity against potential matches to identify the best match based on
     similarity.
@@ -171,7 +204,9 @@ def find_activity(
                 "content": f"First: {activity}\nSecond: {second_activity}",
             }
         )
-        response, linear_probability = u.query_gpt(messages, return_linear_probability=True, top_logprobs=1)
+        response, linear_probability = u.query_gpt(
+            messages, return_linear_probability=True, top_logprobs=1
+        )
         if "True" in response:
             possible_matches.append((lower + count, linear_probability))
 
@@ -189,7 +224,7 @@ def find_activity(
 
 
 def postprocess_mappings(
-        mapping_data_to_ground_truth: List, mapping_ground_truth_to_data: List
+    mapping_data_to_ground_truth: List, mapping_ground_truth_to_data: List
 ) -> Tuple[List[int], List[int]]:
     """Postprocess the mappings between data and ground truth."""
     mapping_data_to_ground_truth = fill_mapping(
@@ -229,7 +264,7 @@ def remove_probabilities(mapping: List[Tuple[int, float]]) -> List[int]:
 
 
 def find_matching_percentage(
-        input_activities: pd.Series, mapping_input_to_comparison: list
+    input_activities: pd.Series, mapping_input_to_comparison: list
 ) -> int:
     """Calculate the percentage of matching activities."""
     total_matching_activities: int = sum(
@@ -252,7 +287,7 @@ def find_unmapped_activities(activities: pd.Series, mapping: list) -> List[str]:
 
 
 def find_wrong_orders(
-        df_activities: pd.Series, mapping_ground_truth_to_data: List[int]
+    df_activities: pd.Series, mapping_ground_truth_to_data: List[int]
 ) -> List[Tuple[str, str]]:
     """Find the activities that are in the wrong order.
 
@@ -270,8 +305,8 @@ def find_wrong_orders(
                 continue
             if first_activity_index > second_activity_index:
                 if not any(
-                        pair == (first_activity_index, second_activity_index)
-                        for pair in wrong_orders_indices
+                    pair == (first_activity_index, second_activity_index)
+                    for pair in wrong_orders_indices
                 ):
                     wrong_orders_indices.append(
                         (first_activity_index, second_activity_index)
