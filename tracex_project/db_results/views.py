@@ -3,6 +3,7 @@ from typing import Tuple, List, Dict, Any
 
 import pandas as pd
 import plotly.graph_objects as go
+import pm4py
 from db_results.forms import PatientJourneySelectForm, EvaluationForm
 from django.db.models import Q
 from django.db.models.query import QuerySet
@@ -279,9 +280,14 @@ class EvaluationView(FormView):
             context.update(
                 self.generate_dfg_and_tables(event_log_df, cohorts_df, filter_settings)
             )
+            # event_log_df = u.Conversion.prepare_df_for_xes_conversion(event_log_df, activity_key="event_type")
+            # pm4py.write_xes(event_log_df, "event_log.xes", case_id_key="case:concept:name")
 
         context.update({"form": EvaluationForm(initial=filter_settings)})
         self.request.session["event_log"] = event_log_df.to_json()
+
+
+
         return context
 
     def get_traces_and_events(self) -> Tuple[QuerySet, pd.DataFrame]:

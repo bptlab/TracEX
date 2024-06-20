@@ -17,6 +17,8 @@ from patient_journey_generator.forms import GenerationOverviewForm
 from patient_journey_generator.generator import generate_patient_journey, execute_generate_process_description
 
 
+
+
 class JourneyGeneratorOverviewView(generic.CreateView):
     """
     View for the landing page of the Patient Journey generator.
@@ -72,6 +74,7 @@ class JourneyGenerationView(generic.RedirectView):
             configuration = ExtractionConfiguration(
                 patient_journey=execute_generate_process_description()
             )
+
         except Exception as e:  # pylint: disable=broad-except
             orchestrator.reset_instance()
             self.request.session.flush()
