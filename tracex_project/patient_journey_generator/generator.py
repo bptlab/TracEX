@@ -155,7 +155,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, it
     return process_description
 
 
-def execute_generate_process_description(number_of_instances=10, degree_of_variation="medium", save_to_db=True):
+def execute_generate_process_description(number_of_instances=2, degree_of_variation="medium", save_to_db=True):
     result = ""
     for i in range(number_of_instances):
         process_description = generate_process_description(degree_of_variation, save_to_db, iteration=i + 1)

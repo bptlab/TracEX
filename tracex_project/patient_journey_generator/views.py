@@ -44,6 +44,8 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         form.instance.patient_journey = orchestrator.get_configuration().patient_journey
         response = super().form_valid(form)
         orchestrator.set_db_objects_id("patient_journey", self.object.id)
+        degree_of_variation = form.cleaned_data['degree_of_variation']
+        print(degree_of_variation)
 
         return response
 

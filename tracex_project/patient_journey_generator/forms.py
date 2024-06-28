@@ -10,6 +10,14 @@ class GenerationOverviewForm(forms.ModelForm):
     By submitting this form, a Patient Journey is generated and saved in the orchestrator's configuration.
     """
 
+    DEGREE_OF_VARIATION_CHOICES = [
+        ('low', 'low'),
+        ('medium', 'medium'),
+        ('high', 'high'),
+    ]
+
+    degree_of_variation = forms.ChoiceField(choices=DEGREE_OF_VARIATION_CHOICES)
+
     class Meta:
         """
         Metaclass that provides additional information.
@@ -23,7 +31,7 @@ class GenerationOverviewForm(forms.ModelForm):
         """
 
         model = PatientJourney
-        fields = ["name"]
+        fields = ["name", "degree_of_variation"]
         help_texts = {
             "name": PatientJourney.name.field.help_text,
         }

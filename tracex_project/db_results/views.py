@@ -281,7 +281,7 @@ class EvaluationView(FormView):
                 self.generate_dfg_and_tables(event_log_df, cohorts_df, filter_settings)
             )
             # event_log_df = u.Conversion.prepare_df_for_xes_conversion(event_log_df, activity_key="event_type")
-            # pm4py.write_xes(event_log_df, "event_log.xes", case_id_key="case:concept:name")
+            # pm4py.write_xes(event_log_df, "ordered_event_log_high.xes", case_id_key="case:concept:name")
 
         context.update({"form": EvaluationForm(initial=filter_settings)})
         self.request.session["event_log"] = event_log_df.to_json()
