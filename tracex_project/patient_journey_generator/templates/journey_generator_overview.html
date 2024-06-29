@@ -35,8 +35,6 @@ Also provides two buttons:
                     {{ form.journey.label_tag }} {{ form.journey }}
                     {{ form.journey.errors }}
                     <p>{{ form.journey.help_text }}</p>
-                    {{ form.degree_of_variation.label_tag }} {{ form.degree_of_variation }}
-                    {{ form.degree_of_variation.errors }}
                 </div>
             </div>
             <div class="form-row">
@@ -49,7 +47,7 @@ Also provides two buttons:
         <div class="spinner-container" id="loading-container">
             <span id="loading-spinner" class="loader not_visible"></span>
         </div>
-        <input type="submit" class="function_button" value="Select generated Patient Journey" >
+        <input type="submit" class="function_button" value="Select generated Patient Journey OLD" >
     </form>
     {% else %}
 
@@ -61,8 +59,13 @@ Also provides two buttons:
     </div>
     {% endif %}
 
+    <form method="get" action="{% url 'journey_generation' %}">
+        {{ form.as_p }}
+        <input type="submit" value="Generate new Patient Journey">
+    </form>
+
     <a href="{% url 'journey_generation' %}">
-        <button id="generate_button" class="function_button">Generate new Patient Journey</button>
+        <button id="generate_button" class="function_button">Generate new Patient Journey OLD</button>
     </a>
 
     <a href="{% url 'landing_page' %}">

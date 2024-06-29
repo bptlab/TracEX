@@ -13,10 +13,8 @@ from django.views import generic
 from django.utils.safestring import mark_safe
 
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from patient_journey_generator.forms import GenerationOverviewForm
+from patient_journey_generator.forms import GenerationOverviewForm, GenerateProcessDescriptionForm
 from patient_journey_generator.generator import generate_patient_journey, execute_generate_process_description
-
-
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -35,6 +33,7 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         """Add the Patient Journey to the context to pass to the HTML file."""
         context = super().get_context_data(**kwargs)
         context["generated_journey"] = self.request.session.get("generated_journey")
+        context["form"] = GenerateProcessDescriptionForm()
 
         return context
 
@@ -44,8 +43,6 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         form.instance.patient_journey = orchestrator.get_configuration().patient_journey
         response = super().form_valid(form)
         orchestrator.set_db_objects_id("patient_journey", self.object.id)
-        degree_of_variation = form.cleaned_data['degree_of_variation']
-        print(degree_of_variation)
 
         return response
 
@@ -72,9 +69,19 @@ class JourneyGenerationView(generic.RedirectView):
         """
         orchestrator = Orchestrator()
 
+        form = GenerateProcessDescriptionForm(request.GET)
+        if form.is_valid():
+            number_of_instances = form.cleaned_data['number_of_instances']
+            degree_of_variation = form.cleaned_data['degree_of_variation']
+            save_to_db = form.cleaned_data['save_to_db']
+
         try:
             configuration = ExtractionConfiguration(
-                patient_journey=execute_generate_process_description()
+                patient_journey=execute_generate_process_description(
+                    degree_of_variation=degree_of_variation,
+                    number_of_instances=number_of_instances,
+                    save_to_db=save_to_db
+                )
             )
 
         except Exception as e:  # pylint: disable=broad-except
