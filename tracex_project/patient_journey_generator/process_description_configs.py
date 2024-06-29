@@ -106,9 +106,6 @@ PATIENT_JOURNEY_CONFIG_EVAL = {
         "It is hard to concentrate for long periods. However, it is also way too soon"
         "to understand how long my COVID-19 damage will last."
     ],
-    "perspective_instructions_old": "Write the process description from the perspective of the Patient and consider their case attributes.",
-    "writing_instructions_old": "Create a process description in the form of a written text of your case. It is important that you write an authentic, continuous text, as if written by the Patient themselves.",
-    "authenticity_instructions_old": "Please try to consider the Patient's background and the events that plausibly could have happened to them when creating the process description and the events that they experienced.",
     "perspective_instructions": "Describe the process from the patient's perspective, incorporating their case attributes and personal experiences.",
     "writing_instructions": "Write a continuous, authentic narrative as if you were the patient, detailing events in chronological order.",
     "authenticity_instructions": "Ensure the description reflects the patient's background and experiences, portraying events with empathy and accuracy.",

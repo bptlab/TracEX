@@ -11,8 +11,8 @@ get_life_circumstances -- Generates life circumstances for the synthetic Patient
 import copy
 from datetime import datetime, timedelta
 import random
-import time
 import os
+import json
 
 from django.utils.safestring import mark_safe
 
@@ -76,10 +76,9 @@ def get_life_circumstances(sex):
     return life_circumstances
 
 
-def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0):
+def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0, config=None):
     # Load configuration
-    config = PATIENT_JOURNEY_CONFIG_EVAL
-    # config = ORDER_CONFIG
+    config = config
 
     instance_config = get_instance_config(config, degree_of_variation)
 
@@ -123,7 +122,6 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
 
     generation_prompt_temperature = instance_config["generation_prompt_temperature"]
     process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature, model="gpt-3.5-turbo")
-    print(f"Process Description before adaptation:\n{process_description}\n")
 
     if writing_style == "similar_to_example":
         adaptation_prompt = [
@@ -150,7 +148,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
     if save_to_db:
         PatientJourney.manager.create(name=patient_journey_name, patient_journey=process_description)
     if save_as_txt:
-        directory = "generated_process_descriptions"
+        directory = "patient_journey_generator/generated_process_descriptions"
         if not os.path.exists(directory):
             os.makedirs(directory)
         with open(f"{directory}/{patient_journey_name}.txt", "w") as file:
@@ -162,11 +160,12 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
 
 
 def execute_generate_process_description(number_of_instances=1, degree_of_variation="low", save_to_db=False, save_as_txt=False):
+    with open('patient_journey_generator/process_description_configurations/patient_journey_configuration.json', 'r') as f:
+        config = json.load(f)
     result = ""
     for i in range(number_of_instances):
-        process_description = generate_process_description(degree_of_variation, save_to_db, save_as_txt, iteration=i + 1)
-        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br>"
-        result += "<hr><br>"
+        process_description = generate_process_description(degree_of_variation, save_to_db, save_as_txt, iteration=i + 1, config=config)
+        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><hr><br>"
     return mark_safe(result)
 
 
