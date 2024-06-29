@@ -41,6 +41,7 @@ class GenerateProcessDescriptionForm(forms.Form):
         ('high', 'High'),
     ]
 
-    number_of_instances = forms.IntegerField(min_value=1, initial=1)
-    degree_of_variation = forms.ChoiceField(choices=DEGREE_OF_VARIATION_CHOICES)
-    save_to_db = forms.BooleanField(required=False)
+    number_of_instances = forms.IntegerField(min_value=1, initial=1, label="Number of Instances")
+    degree_of_variation = forms.ChoiceField(choices=DEGREE_OF_VARIATION_CHOICES, label="Degree of Variation")
+    save_to_db = forms.BooleanField(required=False, label="Save to Database")
+    save_as_txt = forms.BooleanField(required=False, label="Save as Text File")

@@ -76,7 +76,7 @@ def get_life_circumstances(sex):
     return life_circumstances
 
 
-def generate_process_description(degree_of_variation="low", save_to_db=False, iteration=0):
+def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0):
     # Load configuration
     config = PATIENT_JOURNEY_CONFIG_EVAL
     # config = ORDER_CONFIG
@@ -145,21 +145,28 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, it
         adaptation_prompt_temperature = instance_config["adaptation_prompt_temperature"]
         process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature, model="gpt-3.5-turbo")
 
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    patient_journey_name = f"{timestamp}_{case}_{degree_of_variation}_{writing_style}_{iteration}"
     if save_to_db:
-        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        patient_journey_name = f"{timestamp}_{case}_{degree_of_variation}_{writing_style}_{iteration}"
         PatientJourney.manager.create(name=patient_journey_name, patient_journey=process_description)
+    if save_as_txt:
+        directory = "generated_process_descriptions"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        with open(f"{directory}/{patient_journey_name}.txt", "w") as file:
+            file.write(process_description)
 
-    process_description += f"<br><u>Config:</u><br>Degree of Variation: {degree_of_variation}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>time_specifications: {time_specifications}<br>writing_style: {writing_style}<br>"
+    process_description += f"<br><br><u>Config:</u><br>Degree of Variation: {degree_of_variation}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>time_specifications: {time_specifications}<br>writing_style: {writing_style}<br>"
 
     return process_description
 
 
-def execute_generate_process_description(number_of_instances=2, degree_of_variation="medium", save_to_db=True):
+def execute_generate_process_description(number_of_instances=1, degree_of_variation="low", save_to_db=False, save_as_txt=False):
     result = ""
     for i in range(number_of_instances):
-        process_description = generate_process_description(degree_of_variation, save_to_db, iteration=i + 1)
-        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><br>"
+        process_description = generate_process_description(degree_of_variation, save_to_db, save_as_txt, iteration=i + 1)
+        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br>"
+        result += "<hr><br>"
     return mark_safe(result)
 
 

@@ -74,13 +74,15 @@ class JourneyGenerationView(generic.RedirectView):
             number_of_instances = form.cleaned_data['number_of_instances']
             degree_of_variation = form.cleaned_data['degree_of_variation']
             save_to_db = form.cleaned_data['save_to_db']
+            save_as_txt = form.cleaned_data['save_as_txt']
 
         try:
             configuration = ExtractionConfiguration(
                 patient_journey=execute_generate_process_description(
                     degree_of_variation=degree_of_variation,
                     number_of_instances=number_of_instances,
-                    save_to_db=save_to_db
+                    save_to_db=save_to_db,
+                    save_as_txt=save_as_txt
                 )
             )
 
