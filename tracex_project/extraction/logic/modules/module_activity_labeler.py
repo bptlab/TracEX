@@ -22,11 +22,11 @@ class ActivityLabeler(Module):
 
     @log_execution_time(Path(settings.BASE_DIR / "tracex/logs/execution_time.log"))
     def execute(
-        self,
-        _input=None,
-        patient_journey: str = None,
-        patient_journey_sentences: List[str] = None,
-        cohort=None,
+            self,
+            _input=None,
+            patient_journey: str = None,
+            patient_journey_sentences: List[str] = None,
+            cohort=None,
     ) -> pd.DataFrame:
         """
         Extracts the activity labels from the Patient Journey with the following steps:

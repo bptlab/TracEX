@@ -32,28 +32,26 @@ class Preprocessor(Module):
         preprocessed_text = self.__apply_preprocessing_step(
             patient_journey, "SPELLCHECK"
         )
-        preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "PUNCTUATION"
-        )
-        preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "TIME_IDENTIFICATION"
-        )
-        preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "TIME_HOLIDAYS"
-        )
-        preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "TIME_GENERAL"
-        )
+        print(preprocessed_text)
+        print("TIME_IDENTIFICATION")
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "TIME_IDENTIFICATION"
         )
+        print(preprocessed_text)
+        print("TIME_Trans")
         preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "TIME_RELATIVE"
+            preprocessed_text, "TRANS"
         )
+        print(preprocessed_text)
+        print("TIME_Interp")
+        #preprocessed_text = self.__apply_preprocessing_step(
+        #    preprocessed_text, "Interp"
+        #)
+        print(preprocessed_text)
+        print("TIME_CALC")
         preprocessed_text = self.__apply_preprocessing_step(
-            preprocessed_text, "TIME_PROPAGATE"
+            preprocessed_text, "CALC"
         )
-
         return preprocessed_text
 
     @staticmethod
