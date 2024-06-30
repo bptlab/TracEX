@@ -1,0 +1,19 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,22,experiencing Covid-19 symptoms on 2021/06/15,Symptom Onset,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.91
+9,22,continuing self-isolation,Lifestyle Change,2021-06-15,2020-04-19,-422 days,Home,Moderate Relevance,False,0.93
+7,22,monitoring oxygen levels with pulse oximeter,Treatment,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.80
+6,22,receiving advice on symptom management,Treatment,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,False,0.54
+5,22,reaching out to infectious disease specialist,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.82
+8,22,symptoms gradually improving,Symptom Offset,2021-06-15,2021-06-24,9 days,Home,Moderate Relevance,True,0.92
+3,22,"progressing symptoms: high fever, cough, fatigue",Symptom Onset,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.92
+2,22,contacting primary care physician,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.84
+1,22,self-isolating at home,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.97
+4,22,following healthcare guidelines,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.97
+11,22,getting vaccinated after Covid-19 recovery,Treatment,2021-09-01,2021-09-15,14 days,Doctors,Moderate Relevance,True,0.95
+12,22,receiving first vaccine dose on 2021/09,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,True,0.90
+13,22,experiencing mild side effects,Feelings,2021-09-01,2021-09-03,2 days,Home,Low Relevance,True,0.77
+10,22,resuming normal activities after two weeks,Symptom Offset,2021-09-14,2021-09-28,14 days,Home,Low Relevance,True,0.89
+16,22,receiving reassurance on vaccine effectiveness,Feelings,2021-10-01,2021-10-01,0 days,Doctors,Low Relevance,False,0.61
+14,22,receiving second vaccine dose on 2021/10,Treatment,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,True,0.88
+15,22,following up with primary care physician,Doctor Visit,2021-10-01,2021-10-01,0 days,Doctors,High Relevance,False,0.65
+17,22,highlighting importance of public health guidelines,Feelings,2021-10-01,2021-10-01,0 days,Home,High Relevance,False,0.70

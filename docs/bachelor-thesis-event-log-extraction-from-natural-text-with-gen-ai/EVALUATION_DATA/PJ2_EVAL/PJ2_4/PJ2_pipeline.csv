@@ -1,0 +1,18 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,21,experiencing Covid-19 symptoms on 2021/06/15,Symptom Onset,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.91
+9,21,resuming normal activities after recovery,Symptom Offset,2021-06-15,2021-09-24,101 days,Home,Low Relevance,False,0.83
+7,21,symptoms gradually improving over the week,Symptom Offset,2021-06-15,2021-06-24,9 days,Home,Moderate Relevance,True,0.95
+6,21,receiving advice on symptom management and oxygen monitoring,Treatment,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.65
+5,21,reaching out to infectious disease specialist for telemedicine consultation,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.88
+8,21,continuing self-isolation for two weeks,Lifestyle Change,2021-06-15,2020-04-19,-422 days,Home,Moderate Relevance,False,0.89
+3,21,"progressing symptoms with high fever, cough, fatigue",Symptom Onset,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.96
+2,21,contacting primary care physician about symptoms,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.84
+1,21,self-isolating at home,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.96
+4,21,following healthcare guidelines for symptom management,Treatment,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.98
+10,21,getting vaccinated after recovering from Covid-19,Treatment,2021-09-01,2021-09-15,14 days,Doctors,Moderate Relevance,True,0.96
+11,21,receiving first dose of vaccine on 2021/09,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,True,0.88
+12,21,experiencing mild side effects after vaccination,Symptom Onset,2021-09-01,2021-10-01,30 days,Home,Low Relevance,False,0.63
+15,21,receiving reassurance on vaccine effectiveness,Feelings,2021-10-01,2021-10-31,30 days,Doctors,Low Relevance,True,0.69
+13,21,receiving second dose of vaccine on 2021/10,Treatment,2021-10-01,2021-10-31,30 days,Doctors,Moderate Relevance,True,0.83
+14,21,following up with primary care physician for immune response check,Doctor Visit,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,False,0.56
+16,21,highlighting importance of public health guidelines and precautions,Feelings,2021-10-01,2021-10-31,30 days,Home,High Relevance,True,0.73

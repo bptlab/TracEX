@@ -1,0 +1,20 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,15,starting to experience symptoms,Symptom Onset,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.99
+11,15,resuming normal activities after recovery,Symptom Offset,2021-06-15,2021-09-15,92 days,Home,Low Relevance,True,0.52
+10,15,continuing to self-isolate,Lifestyle Change,2021-06-15,2020-04-19,-422 days,Home,Moderate Relevance,False,0.85
+8,15,monitoring oxygen levels with pulse oximeter,Treatment,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.91
+7,15,receiving advice on symptom management,Treatment,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.87
+6,15,reaching out for telemedicine consultation,Doctor Visit,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.89
+9,15,gradual improvement of symptoms,Symptom Offset,2021-06-15,2021-06-24,9 days,Home,High Relevance,True,0.95
+4,15,experiencing progression of symptoms,Symptom Onset,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.99
+3,15,contacting primary care physician,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.95
+2,15,self-isolating at home,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.96
+1,15,recognizing symptoms and taking action,Symptom Onset,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.99
+5,15,following healthcare guidelines,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.98
+12,15,deciding to get vaccinated after recovery,Lifestyle Change,2021-09-01,2021-09-15,14 days,Doctors,Low Relevance,True,0.96
+13,15,receiving first dose of vaccine,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,True,0.91
+14,15,experiencing mild side effects,Symptom Onset,2021-09-01,2021-09-03,2 days,Home,Low Relevance,True,1.00
+17,15,receiving reassurance about vaccine effectiveness,Feelings,2021-10-01,2021-10-01,0 days,Doctors,Low Relevance,True,0.98
+15,15,receiving second dose of vaccine,Treatment,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,True,0.93
+16,15,following up with primary care physician,Doctor Visit,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,True,0.75
+18,15,highlighting importance of public health guidelines,Lifestyle Change,2021-10-01,2021-10-01,0 days,Home,High Relevance,True,0.92

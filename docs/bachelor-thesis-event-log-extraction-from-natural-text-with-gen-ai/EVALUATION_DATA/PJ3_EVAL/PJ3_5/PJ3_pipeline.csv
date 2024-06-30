@@ -1,0 +1,20 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,28,"experiencing mild symptoms: fatigue, slight cough",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.96
+16,28,remaining hopeful for love in future,Feelings,2022-08-15,2022-08-20,5 days,Home,No Relevance,True,0.92
+15,28,longing for companionship amidst illness,Feelings,2022-08-15,2022-08-20,5 days,Home,Low Relevance,True,0.87
+14,28,reflecting on single status during isolation,Feelings,2022-08-15,2022-08-20,5 days,Home,Low Relevance,True,0.90
+13,28,receiving both doses of vaccine,Treatment,2022-08-15,2022-08-20,5 days,Doctors,High Relevance,False,0.59
+12,28,deciding to get vaccinated,Treatment,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.90
+11,28,joining virtual support groups for connection,Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.93
+10,28,"focusing on self-care: healthy diet, hydration, rest",Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.95
+17,28,prioritizing health and well-being,Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.98
+9,28,colleagues covering hospital rounds for rest,Hospital Discharge,2022-08-15,2022-08-20,5 days,Hospital,Low Relevance,True,0.89
+7,28,stabilizing condition and avoiding hospitalization,Treatment,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.98
+6,28,prescribed medications to alleviate symptoms,Medication,2022-08-15,2022-08-20,5 days,Doctors,High Relevance,True,0.92
+5,28,monitoring oxygen levels regularly,Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.94
+4,28,seeking virtual consultation with fellow doctor,Doctor Visit,2022-08-15,2022-08-20,5 days,Doctors,Moderate Relevance,True,0.99
+3,28,experiencing difficulty breathing,Symptom Onset,2022-08-15,2022-08-20,5 days,Hospital,High Relevance,True,0.95
+2,28,isolating at home immediately,Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.99
+1,28,"progressing to include body aches, high fever",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.94
+8,28,depleted energy levels affecting daily duties,Symptom Onset,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.86
+18,28,reinforcing importance of self-care,Lifestyle Change,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.98

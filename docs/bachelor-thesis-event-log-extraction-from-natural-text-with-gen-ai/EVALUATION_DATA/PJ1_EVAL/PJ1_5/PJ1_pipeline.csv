@@ -1,0 +1,19 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,14,starting to experience symptoms,Symptom Onset,2021-07-15,2021-07-18,3 days,Home,High Relevance,True,0.72
+1,14,isolating at home,Lifestyle Change,2021-07-15,2021-07-20,5 days,Home,Moderate Relevance,True,0.99
+2,14,informing family about situation,Feelings,2021-07-15,2021-07-19,4 days,Home,Low Relevance,False,0.75
+3,14,consulting doctor due to worsening symptoms,Doctor Visit,2021-07-15,2021-07-19,4 days,Doctors,High Relevance,False,0.93
+11,14,returning to work with precautions,Lifestyle Change,2021-07-20,2021-07-20,0 days,Home,Low Relevance,True,0.80
+10,14,recovering slowly with family support,Feelings,2021-07-20,2021-07-20,0 days,Home,Low Relevance,True,0.99
+9,14,receiving support from children,Feelings,2021-07-20,2021-07-20,0 days,Home,Low Relevance,True,0.79
+8,14,receiving care from wife,This activity does not fit into any of the predefined categories.,2021-07-20,2021-07-20,0 days,Home,Low Relevance,True,0.89
+6,14,receiving advice for home quarantine,Lifestyle Change,2021-07-20,2021-07-20,0 days,Home,High Relevance,True,0.99
+5,14,receiving positive test results,Diagnosis,2021-07-20,2021-07-20,0 days,Doctors,High Relevance,True,0.99
+4,14,getting tested for Covid-19,Diagnosis,2021-07-20,2021-07-20,0 days,Doctors,Moderate Relevance,True,1.00
+7,14,resting and following doctor's advice,Lifestyle Change,2021-07-20,2021-07-30,10 days,Home,High Relevance,True,0.89
+12,14,getting vaccinated for Covid-19,Treatment,2021-09-01,2021-09-22,21 days,Doctors,High Relevance,True,1.00
+13,14,consulting doctor about vaccine benefits,Doctor Visit,2021-09-01,2021-09-02,1 days,Doctors,High Relevance,True,0.80
+14,14,receiving first dose of vaccine,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,False,0.67
+15,14,experiencing mild side effects post-vaccination,Symptom Onset,2021-09-01,2021-09-02,1 days,Doctors,Low Relevance,True,0.92
+16,14,receiving second dose of vaccine,Treatment,2021-09-22,2021-10-06,14 days,Doctors,High Relevance,False,0.70
+17,14,feeling relief and hope post-vaccination,Feelings,2021-09-22,2021-10-06,14 days,Home,Low Relevance,True,0.78

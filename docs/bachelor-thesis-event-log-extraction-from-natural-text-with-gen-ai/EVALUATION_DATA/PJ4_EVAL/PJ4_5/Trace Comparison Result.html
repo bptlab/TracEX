@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://127.0.0.1:8000/testing_environment/result/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trace Comparison Result</title>
+    
+    <link rel="stylesheet" type="text/css" href="./Trace Comparison Result_files/styles.css">
+    <script src="./Trace Comparison Result_files/dashboard.js.Download" defer=""></script>
+</head>
+<body class="main_body">
+    <h1>Trace Comparison Results</h1>
+
+    <h3>Patient Journey: journey_comparison_4</h3>
+    <div class="dashboard">
+        <div class="row">
+            <div class="metric-tile">
+                <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
+                <div class="metric-count">100%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Pipeline Activity</th>
+      <th>Ground Truth Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>experiencing cough and fever</td>
+      <td>starting to cough</td>
+    </tr>
+    <tr>
+      <td>testing positive for Covid-19</td>
+      <td>testing positive for covid19</td>
+    </tr>
+    <tr>
+      <td>quarantining and getting negative PCR test</td>
+      <td>testing negative for covid19</td>
+    </tr>
+    <tr>
+      <td>receiving first dose of vaccine</td>
+      <td>getting first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>receiving second dose of vaccine</td>
+      <td>getting second dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>receiving third dose of vaccine</td>
+      <td>getting third dose of vaccine</td>
+    </tr>
+  </tbody>
+</table> </div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            </div>
+            <div class="metric-tile">
+                <h3>Mapping: Ground Truth Activities to <br> Pipeline Activities</h3>
+                <div class="metric-count">60%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Ground Truth Activity</th>
+      <th>Pipeline Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>starting to cough</td>
+      <td>experiencing cough and fever</td>
+    </tr>
+    <tr>
+      <td>testing positive for covid19</td>
+      <td>testing positive for Covid-19</td>
+    </tr>
+    <tr>
+      <td>testing negative for covid19</td>
+      <td>quarantining and getting negative PCR test</td>
+    </tr>
+    <tr>
+      <td>getting first dose of vaccine</td>
+      <td>receiving first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>getting second dose of vaccine</td>
+      <td>receiving second dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>getting third dose of vaccine</td>
+      <td>receiving third dose of vaccine</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the ground truth and the corresponding activities of the extraction pipeline. Each activity in the ground truth is being compared with a range of extraction pipeline activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the extraction pipeline and matches the activities based on semantic similarities.</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="metric-tile" style="background-color: orange;">
+                <h3>Number of <br> Missing Activities</h3>
+                <div class="number-metric">4</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>deterioration of the immune system due to masks</td>
+    </tr>
+    <tr>
+      <td>getting a fever on top</td>
+    </tr>
+    <tr>
+      <td>refusing to test</td>
+    </tr>
+    <tr>
+      <td>quarantining myself</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon ">ⓘ</span>
+                <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+            </div>
+            <div class="metric-tile" style="background-color: green;">
+                <h3>Number of <br> Unexpected Activities</h3>
+                <div class="number-metric">0</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows the extraction pipeline activities could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+            </div>
+            <div class="metric-tile" style="background-color: green;">
+                <h3>Number of <br> Wrong Orders</h3>
+                <div class="number-metric">0</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Expected Preceding Activity</th>
+      <th>Actual Preceding Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows extraction pipeline activities which occur in the wrong order based on the ground truth. The "Expected Preceding Activity" should come before "Actual Preceding Activity"</div>
+            </div>
+        </div>
+    </div>
+    <button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
+    <div id="contentPipeline" style="display: block;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>34</td>
+      <td>experiencing cough and fever</td>
+      <td>Symptom Onset</td>
+      <td>2021-10-01</td>
+      <td>2021-04-16</td>
+      <td>-168 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>testing positive for Covid-19</td>
+      <td>Diagnosis</td>
+      <td>2021-10-01</td>
+      <td>2021-04-15</td>
+      <td>-169 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>quarantining and getting negative PCR test</td>
+      <td>Symptom Offset</td>
+      <td>2021-10-01</td>
+      <td>2021-04-21</td>
+      <td>-163 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>receiving first dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-10-01</td>
+      <td>2021-10-08</td>
+      <td>7 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>receiving second dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-12-16</td>
+      <td>2022-01-28</td>
+      <td>43 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>34</td>
+      <td>receiving third dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-12-16</td>
+      <td>2022-03-01</td>
+      <td>75 days</td>
+      <td>Doctors</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
+    <div id="contentGroundTruth" style="display: block;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>4</td>
+      <td>deterioration of the immune system due to masks</td>
+      <td>Symptom Onset</td>
+      <td>2020-07-01</td>
+      <td>2021-01-01</td>
+      <td>180 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>starting to cough</td>
+      <td>Symptom Onset</td>
+      <td>2021-01-01</td>
+      <td>2021-01-03</td>
+      <td>2 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>refusing to test</td>
+      <td>Lifestyle Change</td>
+      <td>2021-01-01</td>
+      <td>2021-01-05</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>getting a fever on top</td>
+      <td>Symptom Onset</td>
+      <td>2021-01-03</td>
+      <td>2021-01-05</td>
+      <td>2 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>testing positive for covid19</td>
+      <td>Diagnosis</td>
+      <td>2021-04-15</td>
+      <td>2021-04-15</td>
+      <td>0 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>quarantining myself</td>
+      <td>Treatment</td>
+      <td>2021-04-15</td>
+      <td>2021-04-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>testing negative for covid19</td>
+      <td>Diagnosis</td>
+      <td>2021-04-22</td>
+      <td>2021-04-22</td>
+      <td>0 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>getting first dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-10-01</td>
+      <td>2021-10-01</td>
+      <td>0 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>getting second dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-11-14</td>
+      <td>2021-11-14</td>
+      <td>0 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>getting third dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2022-03-01</td>
+      <td>2022-03-01</td>
+      <td>0 days</td>
+      <td>Doctors</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <a href="http://127.0.0.1:8000/testing_environment/">
+        <button class="menu_button">Return to Trace Testing Environment</button>
+    </a>
+    <a href="http://127.0.0.1:8000/">
+        <button class="menu_button">Return to TracEX Menu</button>
+    </a>
+
+
+<iframe id="llhmiuQ5" frameborder="0" src="./Trace Comparison Result_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body></html>

@@ -1,0 +1,17 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,12,starting to experience symptoms,Symptom Onset,2021-07-15,2021-07-18,3 days,Home,High Relevance,True,0.98
+1,12,isolating at home,Lifestyle Change,2021-07-15,2021-07-20,5 days,Home,Moderate Relevance,True,0.97
+2,12,consulting doctor for worsening symptoms,Doctor Visit,2021-07-15,2021-07-20,5 days,Doctors,High Relevance,True,0.90
+3,12,getting tested for Covid-19,Diagnosis,2021-07-15,2021-07-20,5 days,Doctors,Moderate Relevance,True,0.87
+4,12,receiving positive test results,Diagnosis,2021-07-15,2021-07-20,5 days,Doctors,High Relevance,True,0.86
+5,12,advised home quarantine and treatment,Treatment,2021-07-15,2021-07-20,5 days,Home,High Relevance,True,0.92
+6,12,receiving care from wife,Doctor Visit,2021-07-15,2021-07-20,5 days,Home,Low Relevance,True,0.65
+7,12,receiving support from children,Feelings,2021-07-15,2021-07-20,5 days,Home,Low Relevance,False,0.57
+8,12,recovering with family support,Feelings,2021-07-15,2021-07-20,5 days,Home,Low Relevance,True,0.94
+9,12,returning to work with precautions,Lifestyle Change,2021-07-15,2021-07-20,5 days,Home,Low Relevance,False,0.58
+10,12,getting vaccinated for Covid-19,Treatment,2021-09-01,2021-09-22,21 days,Doctors,High Relevance,True,0.83
+11,12,consulting doctor about vaccine benefits,Doctor Visit,2021-09-01,2021-09-02,1 days,Doctors,High Relevance,True,0.94
+12,12,receiving first dose of vaccine,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,True,0.86
+13,12,experiencing mild side effects post-vaccination,Symptom Onset,2021-09-01,2021-09-15,14 days,Doctors,Low Relevance,True,0.94
+14,12,receiving second dose of vaccine,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,True,0.83
+15,12,feeling relief and hope post-vaccination,Feelings,2021-09-01,2021-09-15,14 days,Home,Low Relevance,True,0.89

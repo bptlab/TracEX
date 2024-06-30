@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://127.0.0.1:8000/testing_environment/result/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trace Comparison Result</title>
+    
+    <link rel="stylesheet" type="text/css" href="./Trace Comparison Result_files/styles.css">
+    <script src="./Trace Comparison Result_files/dashboard.js.Download" defer=""></script>
+</head>
+<body class="main_body">
+    <h1>Trace Comparison Results</h1>
+
+    <h3>Patient Journey: journey_comparison_2</h3>
+    <div class="dashboard">
+        <div class="row">
+            <div class="metric-tile">
+                <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
+                <div class="metric-count">63%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Pipeline Activity</th>
+      <th>Ground Truth Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>starting to experience symptoms</td>
+      <td>experiencing first covid 19 symptoms</td>
+    </tr>
+    <tr>
+      <td>self-isolating at home</td>
+      <td>following guidelines from healthcare authorities</td>
+    </tr>
+    <tr>
+      <td>experiencing progression of symptoms</td>
+      <td>following guidelines from healthcare authorities</td>
+    </tr>
+    <tr>
+      <td>following healthcare guidelines</td>
+      <td>taking telemedicine consultation</td>
+    </tr>
+    <tr>
+      <td>reaching out for telemedicine consultation</td>
+      <td>experiencing improving symptoms</td>
+    </tr>
+    <tr>
+      <td>receiving advice on symptom management</td>
+      <td>experiencing improving symptoms</td>
+    </tr>
+    <tr>
+      <td>continuing to self-isolate</td>
+      <td>getting first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>deciding to get vaccinated after recovery</td>
+      <td>getting first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>receiving first dose of vaccine</td>
+      <td>getting first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>experiencing mild side effects</td>
+      <td>experiencing mild side effects</td>
+    </tr>
+    <tr>
+      <td>receiving second dose of vaccine</td>
+      <td>getting reassured about effect of vaccine</td>
+    </tr>
+    <tr>
+      <td>following up with primary care physician</td>
+      <td>getting second dose of vaccine</td>
+    </tr>
+  </tbody>
+</table> </div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            </div>
+            <div class="metric-tile">
+                <h3>Mapping: Ground Truth Activities to <br> Pipeline Activities</h3>
+                <div class="metric-count">92%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Ground Truth Activity</th>
+      <th>Pipeline Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>experiencing first covid 19 symptoms</td>
+      <td>starting to experience symptoms</td>
+    </tr>
+    <tr>
+      <td>self-isolating to protect family</td>
+      <td>self-isolating at home</td>
+    </tr>
+    <tr>
+      <td>experiencing progressing symptoms</td>
+      <td>starting to experience symptoms</td>
+    </tr>
+    <tr>
+      <td>following guidelines from healthcare authorities</td>
+      <td>self-isolating at home</td>
+    </tr>
+    <tr>
+      <td>taking over-the-counter medication</td>
+      <td>experiencing progression of symptoms</td>
+    </tr>
+    <tr>
+      <td>taking telemedicine consultation</td>
+      <td>following healthcare guidelines</td>
+    </tr>
+    <tr>
+      <td>experiencing improving symptoms</td>
+      <td>reaching out for telemedicine consultation</td>
+    </tr>
+    <tr>
+      <td>getting first dose of vaccine</td>
+      <td>receiving first dose of vaccine</td>
+    </tr>
+    <tr>
+      <td>experiencing mild side effects</td>
+      <td>experiencing mild side effects</td>
+    </tr>
+    <tr>
+      <td>getting second dose of vaccine</td>
+      <td>following up with primary care physician</td>
+    </tr>
+    <tr>
+      <td>getting reassured about effect of vaccine</td>
+      <td>receiving second dose of vaccine</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the ground truth and the corresponding activities of the extraction pipeline. Each activity in the ground truth is being compared with a range of extraction pipeline activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the extraction pipeline and matches the activities based on semantic similarities.</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="metric-tile" style="background-color: green;">
+                <h3>Number of <br> Missing Activities</h3>
+                <div class="number-metric">1</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>leaving self-isolation and returning to normal activities</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon ">ⓘ</span>
+                <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+            </div>
+            <div class="metric-tile" style="background-color: red;">
+                <h3>Number of <br> Unexpected Activities</h3>
+                <div class="number-metric">7</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>recognizing symptoms and taking action</td>
+    </tr>
+    <tr>
+      <td>contacting primary care physician</td>
+    </tr>
+    <tr>
+      <td>monitoring oxygen levels with pulse oximeter</td>
+    </tr>
+    <tr>
+      <td>gradual improvement of symptoms</td>
+    </tr>
+    <tr>
+      <td>resuming normal activities after recovery</td>
+    </tr>
+    <tr>
+      <td>receiving reassurance about vaccine effectiveness</td>
+    </tr>
+    <tr>
+      <td>highlighting importance of public health guidelines</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows the extraction pipeline activities could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+            </div>
+            <div class="metric-tile" style="background-color: green;">
+                <h3>Number of <br> Wrong Orders</h3>
+                <div class="number-metric">2</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Expected Preceding Activity</th>
+      <th>Actual Preceding Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>self-isolating at home</td>
+      <td>starting to experience symptoms</td>
+    </tr>
+    <tr>
+      <td>following up with primary care physician</td>
+      <td>receiving second dose of vaccine</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows extraction pipeline activities which occur in the wrong order based on the ground truth. The "Expected Preceding Activity" should come before "Actual Preceding Activity"</div>
+            </div>
+        </div>
+    </div>
+    <button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
+    <div id="contentPipeline" style="display: none;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>15</td>
+      <td>starting to experience symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>following healthcare guidelines</td>
+      <td>Lifestyle Change</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>recognizing symptoms and taking action</td>
+      <td>Symptom Onset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>contacting primary care physician</td>
+      <td>Doctor Visit</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>experiencing progression of symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>gradual improvement of symptoms</td>
+      <td>Symptom Offset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-24</td>
+      <td>9 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>self-isolating at home</td>
+      <td>Lifestyle Change</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>receiving advice on symptom management</td>
+      <td>Treatment</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>monitoring oxygen levels with pulse oximeter</td>
+      <td>Treatment</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>continuing to self-isolate</td>
+      <td>Lifestyle Change</td>
+      <td>2021-06-15</td>
+      <td>2020-04-19</td>
+      <td>-422 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>resuming normal activities after recovery</td>
+      <td>Symptom Offset</td>
+      <td>2021-06-15</td>
+      <td>2021-09-15</td>
+      <td>92 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>reaching out for telemedicine consultation</td>
+      <td>Doctor Visit</td>
+      <td>2021-06-15</td>
+      <td>2021-06-19</td>
+      <td>4 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>deciding to get vaccinated after recovery</td>
+      <td>Lifestyle Change</td>
+      <td>2021-09-01</td>
+      <td>2021-09-15</td>
+      <td>14 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>receiving first dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-09-01</td>
+      <td>2021-09-15</td>
+      <td>14 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>experiencing mild side effects</td>
+      <td>Symptom Onset</td>
+      <td>2021-09-01</td>
+      <td>2021-09-03</td>
+      <td>2 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>following up with primary care physician</td>
+      <td>Doctor Visit</td>
+      <td>2021-10-01</td>
+      <td>2021-10-15</td>
+      <td>14 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>receiving reassurance about vaccine effectiveness</td>
+      <td>Feelings</td>
+      <td>2021-10-01</td>
+      <td>2021-10-01</td>
+      <td>0 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>receiving second dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-10-01</td>
+      <td>2021-10-15</td>
+      <td>14 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>15</td>
+      <td>highlighting importance of public health guidelines</td>
+      <td>Lifestyle Change</td>
+      <td>2021-10-01</td>
+      <td>2021-10-01</td>
+      <td>0 days</td>
+      <td>Home</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
+    <div id="contentGroundTruth" style="display: none;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>2</td>
+      <td>experiencing first covid 19 symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-15</td>
+      <td>0 days 12:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>self-isolating to protect family</td>
+      <td>Lifestyle Change</td>
+      <td>2021-06-15</td>
+      <td>2021-06-29</td>
+      <td>14 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>experiencing progressing symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2021-06-15</td>
+      <td>2021-06-18</td>
+      <td>3 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>following guidelines from healthcare authorities</td>
+      <td>Treatment</td>
+      <td>2021-06-15</td>
+      <td>2021-06-29</td>
+      <td>14 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>taking over-the-counter medication</td>
+      <td>Medication</td>
+      <td>2021-06-15</td>
+      <td>2021-06-18</td>
+      <td>3 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>taking telemedicine consultation</td>
+      <td>Doctor Visit</td>
+      <td>2021-06-18</td>
+      <td>2021-06-18</td>
+      <td>0 days 00:30:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>experiencing improving symptoms</td>
+      <td>Symptom Offset</td>
+      <td>2021-06-23</td>
+      <td>2021-06-25</td>
+      <td>2 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>leaving self-isolation and returning to normal activities</td>
+      <td>Lifestyle Change</td>
+      <td>2021-06-29</td>
+      <td>2021-06-29</td>
+      <td>0 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>getting first dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-09-01</td>
+      <td>2021-09-01</td>
+      <td>0 days 01:00:00</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>experiencing mild side effects</td>
+      <td>Feelings</td>
+      <td>2021-09-01</td>
+      <td>2021-09-04</td>
+      <td>3 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>getting second dose of vaccine</td>
+      <td>Treatment</td>
+      <td>2021-10-01</td>
+      <td>2021-10-01</td>
+      <td>0 days 01:00:00</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>getting reassured about effect of vaccine</td>
+      <td>Doctor Visit</td>
+      <td>2021-10-02</td>
+      <td>2021-10-02</td>
+      <td>0 days 00:30:00</td>
+      <td>Doctors</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <a href="http://127.0.0.1:8000/testing_environment/">
+        <button class="menu_button">Return to Trace Testing Environment</button>
+    </a>
+    <a href="http://127.0.0.1:8000/">
+        <button class="menu_button">Return to TracEX Menu</button>
+    </a>
+
+
+<iframe id="gmuoI3Qu" frameborder="0" src="./Trace Comparison Result_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body></html>

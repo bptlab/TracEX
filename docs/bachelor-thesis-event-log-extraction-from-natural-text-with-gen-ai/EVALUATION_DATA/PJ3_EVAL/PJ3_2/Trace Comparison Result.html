@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)http://127.0.0.1:8000/testing_environment/result/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Trace Comparison Result</title>
+    
+    <link rel="stylesheet" type="text/css" href="./Trace Comparison Result_files/styles.css">
+    <script src="./Trace Comparison Result_files/dashboard.js.Download" defer=""></script>
+</head>
+<body class="main_body">
+    <h1>Trace Comparison Results</h1>
+
+    <h3>Patient Journey: journey_comparison_3</h3>
+    <div class="dashboard">
+        <div class="row">
+            <div class="metric-tile">
+                <h3>Mapping: Pipeline Activities to <br> Ground Truth Activities</h3>
+                <div class="metric-count">53%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Pipeline Activity</th>
+      <th>Ground Truth Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>experiencing mild symptoms: fatigue, slight cough</td>
+      <td>monitoring oxygen levels</td>
+    </tr>
+    <tr>
+      <td>progressing to body aches, high fever</td>
+      <td>consulting doctor virtually</td>
+    </tr>
+    <tr>
+      <td>isolating at home</td>
+      <td>self-isolating to protect patients</td>
+    </tr>
+    <tr>
+      <td>symptoms worsening, difficulty breathing</td>
+      <td>monitoring oxygen levels</td>
+    </tr>
+    <tr>
+      <td>monitoring oxygen levels, taking prescribed medications</td>
+      <td>having difficulties carrying out daily duties</td>
+    </tr>
+    <tr>
+      <td>depleted energy levels, challenging daily duties</td>
+      <td>focusing on self-care</td>
+    </tr>
+    <tr>
+      <td>colleagues covering hospital rounds</td>
+      <td>getting the first dose of vaccination</td>
+    </tr>
+    <tr>
+      <td>focusing on self-care: healthy diet, hydration, rest</td>
+      <td>having difficulties carrying out daily duties</td>
+    </tr>
+    <tr>
+      <td>joining virtual support groups for connection</td>
+      <td>relying on virtual support groups for camaraderie</td>
+    </tr>
+    <tr>
+      <td>getting vaccinated: two doses received</td>
+      <td>feeling reliefed and protected</td>
+    </tr>
+  </tbody>
+</table> </div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the extraction pipeline and the corresponding ground truth activities. Each activity in the pipeline is being compared with a range of ground truth activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the ground truth and matches the activities based on semantic similarities.</div>
+            </div>
+            <div class="metric-tile">
+                <h3>Mapping: Ground Truth Activities to <br> Pipeline Activities</h3>
+                <div class="metric-count">71%</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Ground Truth Activity</th>
+      <th>Pipeline Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>experiencing first covid 19 symptoms</td>
+      <td>isolating at home</td>
+    </tr>
+    <tr>
+      <td>self-isolating to protect patients</td>
+      <td>isolating at home</td>
+    </tr>
+    <tr>
+      <td>experiencing worse symptoms</td>
+      <td>isolating at home</td>
+    </tr>
+    <tr>
+      <td>consulting doctor virtually</td>
+      <td>isolating at home</td>
+    </tr>
+    <tr>
+      <td>monitoring oxygen levels</td>
+      <td>isolating at home</td>
+    </tr>
+    <tr>
+      <td>having difficulties carrying out daily duties</td>
+      <td>focusing on self-care: healthy diet, hydration, rest</td>
+    </tr>
+    <tr>
+      <td>focusing on self-care</td>
+      <td>depleted energy levels, challenging daily duties</td>
+    </tr>
+    <tr>
+      <td>relying on virtual support groups for camaraderie</td>
+      <td>joining virtual support groups for connection</td>
+    </tr>
+    <tr>
+      <td>getting the first dose of vaccination</td>
+      <td>colleagues covering hospital rounds</td>
+    </tr>
+    <tr>
+      <td>feeling reliefed and protected</td>
+      <td>getting vaccinated: two doses received</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">The table presents a comparison between the activities of the ground truth and the corresponding activities of the extraction pipeline. Each activity in the ground truth is being compared with a range of extraction pipeline activities based on their respective positions. The comparison considers the current activity's index and includes the two preceding and two succeeding activities from the extraction pipeline and matches the activities based on semantic similarities.</div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="metric-tile" style="background-color: orange;">
+                <h3>Number of <br> Missing Activities</h3>
+                <div class="number-metric">4</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>taking prescribed medication</td>
+    </tr>
+    <tr>
+      <td>stabelizing condition</td>
+    </tr>
+    <tr>
+      <td>getting the second dose of vaccination</td>
+    </tr>
+    <tr>
+      <td>prioritizing companionship over work</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon ">ⓘ</span>
+                <div class="info-text">This metric shows the missing ground truth activities which did not have a match with a extraction pipeline activities.</div>
+            </div>
+            <div class="metric-tile" style="background-color: red;">
+                <h3>Number of <br> Unexpected Activities</h3>
+                <div class="number-metric">9</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <tbody>
+    <tr>
+      <td>seeking virtual consultation with fellow doctor</td>
+    </tr>
+    <tr>
+      <td>stabilizing condition, avoiding hospitalization</td>
+    </tr>
+    <tr>
+      <td>reflecting on single status during isolation</td>
+    </tr>
+    <tr>
+      <td>longing for companionship, pondering love life</td>
+    </tr>
+    <tr>
+      <td>remaining hopeful and prioritizing health</td>
+    </tr>
+    <tr>
+      <td>taking immediate action: isolating, seeking advice</td>
+    </tr>
+    <tr>
+      <td>relying on virtual consultations, support groups, colleagues</td>
+    </tr>
+    <tr>
+      <td>seizing opportunity to get vaccinated</td>
+    </tr>
+    <tr>
+      <td>reinforcing importance of self-care</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows the extraction pipeline activities could not mapped on ground truth activities and therefore occurs unexpectedly</div>
+            </div>
+            <div class="metric-tile" style="background-color: green;">
+                <h3>Number of <br> Wrong Orders</h3>
+                <div class="number-metric">3</div>
+                <div class="metric-content"><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Expected Preceding Activity</th>
+      <th>Actual Preceding Activity</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>focusing on self-care: healthy diet, hydration, rest</td>
+      <td>depleted energy levels, challenging daily duties</td>
+    </tr>
+    <tr>
+      <td>focusing on self-care: healthy diet, hydration, rest</td>
+      <td>colleagues covering hospital rounds</td>
+    </tr>
+    <tr>
+      <td>joining virtual support groups for connection</td>
+      <td>colleagues covering hospital rounds</td>
+    </tr>
+  </tbody>
+</table></div>
+                <span class="info-icon">ⓘ</span>
+                <div class="info-text">This metric shows extraction pipeline activities which occur in the wrong order based on the ground truth. The "Expected Preceding Activity" should come before "Actual Preceding Activity"</div>
+            </div>
+        </div>
+    </div>
+    <button id="togglePipelineTable" class="function_button">Show/Hide Extracted Trace from the Pipeline</button>
+    <div id="contentPipeline" style="display: none;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>25</td>
+      <td>experiencing mild symptoms: fatigue, slight cough</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-20</td>
+      <td>5 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>progressing to body aches, high fever</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-20</td>
+      <td>5 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>isolating at home</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>symptoms worsening, difficulty breathing</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Hospital</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>seeking virtual consultation with fellow doctor</td>
+      <td>Doctor Visit</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>monitoring oxygen levels, taking prescribed medications</td>
+      <td>Treatment</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>stabilizing condition, avoiding hospitalization</td>
+      <td>Symptom Offset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>depleted energy levels, challenging daily duties</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>colleagues covering hospital rounds</td>
+      <td>Hospital Discharge</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Hospital</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>focusing on self-care: healthy diet, hydration, rest</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>joining virtual support groups for connection</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>getting vaccinated: two doses received</td>
+      <td>Treatment</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>reflecting on single status during isolation</td>
+      <td>Feelings</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>longing for companionship, pondering love life</td>
+      <td>Feelings</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>remaining hopeful and prioritizing health</td>
+      <td>Feelings</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>taking immediate action: isolating, seeking advice</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>relying on virtual consultations, support groups, colleagues</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>seizing opportunity to get vaccinated</td>
+      <td>Treatment</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>25</td>
+      <td>reinforcing importance of self-care</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-22</td>
+      <td>7 days</td>
+      <td>Home</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <button id="toggleGroundTruthTable" class="function_button">Show/Hide Ground Truth Trace</button>
+    <div id="contentGroundTruth" style="display: none;">
+        <br>
+        <div><table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th>Case ID</th>
+      <th>Activity</th>
+      <th>Event Type</th>
+      <th>Start Timestamp</th>
+      <th>End Timestamp</th>
+      <th>Duration</th>
+      <th>Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>3</td>
+      <td>experiencing first covid 19 symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-15</td>
+      <td>0 days 12:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>self-isolating to protect patients</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-15</td>
+      <td>2022-08-29</td>
+      <td>0 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>experiencing worse symptoms</td>
+      <td>Symptom Onset</td>
+      <td>2022-08-15</td>
+      <td>2022-08-18</td>
+      <td>3 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>consulting doctor virtually</td>
+      <td>Doctor Visit</td>
+      <td>2022-08-18</td>
+      <td>2022-08-18</td>
+      <td>0 days 00:30:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>monitoring oxygen levels</td>
+      <td>Treatment</td>
+      <td>2022-08-18</td>
+      <td>2022-08-29</td>
+      <td>11 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>taking prescribed medication</td>
+      <td>Medication</td>
+      <td>2022-08-18</td>
+      <td>2022-08-29</td>
+      <td>11 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>stabelizing condition</td>
+      <td>Symptom Offset</td>
+      <td>2022-08-18</td>
+      <td>2022-08-19</td>
+      <td>1 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>focusing on self-care</td>
+      <td>Lifestyle Change</td>
+      <td>2022-08-18</td>
+      <td>2022-09-18</td>
+      <td>28 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>relying on virtual support groups for camaraderie</td>
+      <td>Feelings</td>
+      <td>2022-08-18</td>
+      <td>2022-08-29</td>
+      <td>11 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>having difficulties carrying out daily duties</td>
+      <td>Feelings</td>
+      <td>2022-08-20</td>
+      <td>2022-08-23</td>
+      <td>3 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>getting the first dose of vaccination</td>
+      <td>Treatment</td>
+      <td>2022-09-16</td>
+      <td>2022-09-16</td>
+      <td>0 days 01:00:00</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>getting the second dose of vaccination</td>
+      <td>Treatment</td>
+      <td>2022-10-04</td>
+      <td>2022-10-04</td>
+      <td>0 days 01:00:00</td>
+      <td>Doctors</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>feeling reliefed and protected</td>
+      <td>Feelings</td>
+      <td>2022-10-04</td>
+      <td>2022-10-04</td>
+      <td>0 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>prioritizing companionship over work</td>
+      <td>Lifestyle Change</td>
+      <td>2022-10-04</td>
+      <td>2022-10-04</td>
+      <td>0 days 00:00:00</td>
+      <td>Home</td>
+    </tr>
+  </tbody>
+</table></div>
+    </div>
+
+    <a href="http://127.0.0.1:8000/testing_environment/">
+        <button class="menu_button">Return to Trace Testing Environment</button>
+    </a>
+    <a href="http://127.0.0.1:8000/">
+        <button class="menu_button">Return to TracEX Menu</button>
+    </a>
+
+
+<iframe id="hXZxHmCa" frameborder="0" src="./Trace Comparison Result_files/translateSandbox.html" style="width: 0px; height: 0px; display: none;"></iframe></body></html>

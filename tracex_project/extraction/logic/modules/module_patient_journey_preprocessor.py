@@ -32,23 +32,15 @@ class Preprocessor(Module):
         preprocessed_text = self.__apply_preprocessing_step(
             patient_journey, "SPELLCHECK"
         )
-        print(preprocessed_text)
-        print("TIME_IDENTIFICATION")
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "TIME_IDENTIFICATION"
         )
-        print(preprocessed_text)
-        print("TIME_Trans")
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "TRANS"
         )
-        print(preprocessed_text)
-        print("TIME_Interp")
-        #preprocessed_text = self.__apply_preprocessing_step(
-        #    preprocessed_text, "Interp"
-        #)
-        print(preprocessed_text)
-        print("TIME_CALC")
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "Interp"
+        )
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "CALC"
         )

@@ -1,0 +1,17 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,37,working in Malaria/Dengue endemic areas,Lifestyle Change,2021-05-15,2021-05-31,16 days,Doctors,Low Relevance,True,0.76
+1,37,taking extra precautions to avoid infections,Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Moderate Relevance,True,0.76
+2,37,becoming primary caregiver during lockdown,Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Moderate Relevance,True,0.79
+3,37,working late to finish research activities,This activity does not fall into any of the predefined categories.,2021-05-15,2021-05-31,16 days,Home,Low Relevance,True,0.76
+4,37,"juggling work, home, and homeschooling",Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Low Relevance,True,0.78
+5,37,starting to feel weak and breathless,Symptom Onset,2021-05-15,2021-05-25,10 days,Hospital,High Relevance,True,0.94
+6,37,attributing symptoms to sleep deprivation,Diagnosis,2021-05-15,2021-05-25,10 days,Home,Low Relevance,True,0.69
+7,37,diagnosed with COVID-19,Diagnosis,2021-05-15,2021-05-25,10 days,Doctors,High Relevance,True,0.91
+8,37,experiencing worsening symptoms,Symptom Onset,2021-05-15,2020-06-15,-334 days,Doctors,High Relevance,False,0.99
+9,37,being bedridden for three weeks,Symptom Offset,2021-05-15,2021-06-10,26 days,Home,High Relevance,True,0.94
+10,37,losing appetite completely,Symptom Onset,2021-05-15,2021-06-10,26 days,Home,High Relevance,True,0.86
+11,37,losing sense of taste and smell,Symptom Onset,2021-05-15,2021-06-10,26 days,Home,High Relevance,True,0.85
+12,37,experiencing debilitating fatigue,Symptom Onset,2021-05-15,2021-06-10,26 days,Doctors,High Relevance,True,0.89
+13,37,having lingering symptoms after four months,Symptom Offset,2021-05-15,2021-04-10,-35 days,Doctors,High Relevance,False,0.93
+14,37,experiencing racing heart multiple times daily,Symptom Onset,2021-05-15,2021-04-10,-35 days,Doctors,High Relevance,False,0.95
+15,37,struggling with concentration,Symptom Onset,2021-05-15,2021-09-10,118 days,Home,Moderate Relevance,True,0.50

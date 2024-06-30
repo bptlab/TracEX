@@ -1,0 +1,3 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,33,following safety measures,Lifestyle Change,2020-01-01,2020-01-01,0 days,Home,Moderate Relevance,False,0.59
+1,33,getting vaccinated to protect oneself and others,Treatment,2020-01-01,2020-01-01,0 days,Doctors,High Relevance,False,0.51

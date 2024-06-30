@@ -1,0 +1,17 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,18,starting to experience symptoms of Covid-19,Symptom Onset,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.99
+1,18,self-isolating at home,Lifestyle Change,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.95
+2,18,contacting primary care physician about symptoms,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.91
+3,18,"experiencing high fever, cough, and fatigue",Symptom Onset,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.96
+4,18,following healthcare guidelines for symptom management,Treatment,2021-06-15,2021-06-19,4 days,Home,High Relevance,True,0.98
+5,18,reaching out to colleague for telemedicine consultation,Doctor Visit,2021-06-15,2021-06-19,4 days,Doctors,Moderate Relevance,True,0.84
+6,18,receiving advice on symptom management and monitoring oxygen levels,Treatment,2021-06-15,2021-06-19,4 days,Doctors,High Relevance,True,0.78
+7,18,symptoms gradually improving over the week,Symptom Offset,2021-06-15,2021-06-24,9 days,Home,Moderate Relevance,True,0.97
+8,18,continuing to self-isolate for two weeks,Lifestyle Change,2021-06-15,2020-04-19,-422 days,Home,Moderate Relevance,False,0.84
+9,18,resuming normal activities after recovery,Symptom Offset,2021-06-15,2021-09-15,92 days,Home,Low Relevance,True,0.62
+10,18,deciding to get vaccinated after recovering from Covid-19,Lifestyle Change,2021-09-01,2021-09-15,14 days,Doctors,Moderate Relevance,True,0.98
+11,18,receiving first dose of vaccine with mild side effects,Treatment,2021-09-01,2021-09-03,2 days,Doctors,Low Relevance,True,0.99
+12,18,receiving second dose of vaccine to complete vaccination,Treatment,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,True,0.92
+13,18,following up with primary care physician for immune response check,Doctor Visit,2021-10-01,2021-10-15,14 days,Doctors,High Relevance,True,0.89
+14,18,receiving reassurance on vaccine effectiveness,Feelings,2021-10-01,2021-10-01,0 days,Doctors,Moderate Relevance,True,0.97
+15,18,highlighting importance of public health guidelines and precautions,Feelings,2021-10-01,2021-10-01,0 days,Home,High Relevance,True,0.83

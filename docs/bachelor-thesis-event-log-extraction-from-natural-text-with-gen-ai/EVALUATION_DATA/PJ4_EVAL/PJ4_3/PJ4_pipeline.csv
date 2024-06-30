@@ -1,0 +1,7 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,32,experiencing cough and fever,Symptom Onset,2021-10-01,2021-04-16,-168 days,Home,High Relevance,False,0.83
+1,32,testing positive for Covid-19,Diagnosis,2021-10-01,2021-04-16,-168 days,Doctors,High Relevance,False,0.65
+2,32,quarantining and getting negative PCR test,Symptom Offset,2021-10-01,2021-04-16,-168 days,Home,Moderate Relevance,False,0.77
+3,32,receiving first dose of vaccine,Treatment,2021-10-01,2021-10-08,7 days,Doctors,High Relevance,True,0.51
+4,32,receiving second dose of vaccine,Treatment,2021-12-16,2021-12-16,0 days,Doctors,High Relevance,True,0.50
+5,32,receiving third dose of vaccine,Treatment,2021-12-16,2022-03-01,75 days,Doctors,High Relevance,False,0.50

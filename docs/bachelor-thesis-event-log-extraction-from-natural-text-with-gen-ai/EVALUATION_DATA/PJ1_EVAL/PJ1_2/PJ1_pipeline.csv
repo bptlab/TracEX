@@ -1,0 +1,10 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,11,experiencing Covid-19 symptoms on 2021/07/15,Symptom Onset,2021-07-15,2021-07-18,3 days,Home,High Relevance,True,0.97
+1,11,isolating at home and informing family,Lifestyle Change,2021-07-15,2021-07-20,5 days,Home,Moderate Relevance,True,0.88
+2,11,consulting doctor as symptoms worsened,Doctor Visit,2021-07-15,2021-07-20,5 days,Doctors,High Relevance,True,0.82
+3,11,getting tested for Covid-19,Diagnosis,2021-07-15,2021-07-20,5 days,Doctors,Moderate Relevance,True,0.84
+4,11,receiving positive test results,Diagnosis,2021-07-15,2021-07-20,5 days,Doctors,High Relevance,True,0.68
+5,11,advised home quarantine and symptomatic treatment,Treatment,2021-07-15,2021-07-20,5 days,Home,High Relevance,True,0.95
+6,11,receiving first dose of vaccine on 2021/09/01,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,False,0.56
+7,11,experiencing mild side effects after first dose,Feelings,2021-09-01,2021-09-02,1 days,Doctors,Low Relevance,True,0.94
+8,11,receiving second dose of vaccine on 2021/09/22,Treatment,2021-09-22,2021-10-06,14 days,Doctors,High Relevance,True,0.60

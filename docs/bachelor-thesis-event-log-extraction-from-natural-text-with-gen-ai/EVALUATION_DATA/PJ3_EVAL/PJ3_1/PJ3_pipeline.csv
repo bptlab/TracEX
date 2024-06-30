@@ -1,0 +1,18 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,24,"experiencing mild symptoms: fatigue, slight cough",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.96
+14,24,remaining hopeful for love,Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.91
+13,24,longing for companionship,Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.93
+12,24,reflecting on single status,Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.92
+11,24,getting vaccinated: two doses,Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.79
+10,24,joining virtual support groups,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.95
+9,24,"focusing on self-care: healthy diet, hydration, rest",Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.95
+15,24,prioritizing health and well-being,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.99
+8,24,colleagues covering hospital rounds,Hospital Admission,2022-08-15,2022-08-22,7 days,Hospital,Low Relevance,True,0.87
+6,24,"stabilizing condition, avoiding hospitalization",Symptom Offset,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.98
+5,24,"monitoring oxygen levels, prescribed medications",Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.91
+4,24,seeking virtual consultation with fellow doctor,Doctor Visit,2022-08-15,2022-08-22,7 days,Doctors,Moderate Relevance,True,0.99
+3,24,"symptoms worsening, difficulty breathing",Symptom Onset,2022-08-15,2022-08-22,7 days,Hospital,High Relevance,True,0.96
+2,24,isolating at home,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.99
+1,24,"progressing symptoms: body aches, high fever",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.95
+7,24,"depleted energy levels, challenging daily duties",Symptom Onset,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.92
+16,24,reinforcing importance of self-care,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.97

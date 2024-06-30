@@ -1,0 +1,20 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,25,"experiencing mild symptoms: fatigue, slight cough",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,Low Relevance,True,0.96
+16,25,"relying on virtual consultations, support groups, colleagues",Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.98
+15,25,"taking immediate action: isolating, seeking advice",Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.99
+14,25,remaining hopeful and prioritizing health,Feelings,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.98
+13,25,"longing for companionship, pondering love life",Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.96
+12,25,reflecting on single status during isolation,Feelings,2022-08-15,2022-08-22,7 days,Home,Low Relevance,True,0.91
+11,25,getting vaccinated: two doses received,Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.70
+10,25,joining virtual support groups for connection,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Low Relevance,True,0.95
+17,25,seizing opportunity to get vaccinated,Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.95
+9,25,"focusing on self-care: healthy diet, hydration, rest",Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.93
+7,25,"depleted energy levels, challenging daily duties",Symptom Onset,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.92
+6,25,"stabilizing condition, avoiding hospitalization",Symptom Offset,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.98
+5,25,"monitoring oxygen levels, taking prescribed medications",Treatment,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.97
+4,25,seeking virtual consultation with fellow doctor,Doctor Visit,2022-08-15,2022-08-22,7 days,Doctors,Moderate Relevance,True,0.99
+3,25,"symptoms worsening, difficulty breathing",Symptom Onset,2022-08-15,2022-08-22,7 days,Hospital,High Relevance,True,0.96
+2,25,isolating at home,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.99
+1,25,"progressing to body aches, high fever",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.94
+8,25,colleagues covering hospital rounds,Hospital Discharge,2022-08-15,2022-08-22,7 days,Hospital,Low Relevance,True,0.88
+18,25,reinforcing importance of self-care,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.98

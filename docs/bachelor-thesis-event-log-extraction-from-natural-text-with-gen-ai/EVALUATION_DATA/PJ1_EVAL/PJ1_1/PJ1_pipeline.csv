@@ -1,0 +1,16 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,10,starting to experience symptoms,Symptom Onset,2021-07-15,2021-07-18,3 days,Home,High Relevance,True,0.72
+1,10,isolating at home and informing family,Lifestyle Change,2021-07-15,2021-07-19,4 days,Home,Moderate Relevance,True,0.72
+2,10,consulting doctor for worsening symptoms,Doctor Visit,2021-07-15,2021-07-19,4 days,Doctors,High Relevance,False,0.90
+3,10,getting tested for Covid-19,Diagnosis,2021-07-20,2021-07-20,0 days,Doctors,Moderate Relevance,True,1.00
+4,10,receiving positive test results,Diagnosis,2021-07-20,2021-07-20,0 days,Doctors,High Relevance,True,1.00
+5,10,advised home quarantine and treatment,Treatment,2021-07-20,2021-07-30,10 days,Home,High Relevance,True,0.86
+6,10,receiving care from wife and children,Lifestyle Change,2021-07-20,2021-07-20,0 days,Home,Moderate Relevance,True,0.93
+7,10,slowly recovering with family support,Feelings,2021-07-20,2021-07-20,0 days,Home,Moderate Relevance,True,0.99
+8,10,returning to work with precautions,Lifestyle Change,2021-07-20,2021-07-20,0 days,Home,Low Relevance,True,0.63
+9,10,deciding to get vaccinated,Lifestyle Change,2021-09-01,2021-09-22,21 days,Home,High Relevance,True,0.99
+10,10,consulting doctor about vaccine benefits,Doctor Visit,2021-09-01,2021-09-02,1 days,Doctors,High Relevance,True,0.79
+11,10,receiving first dose of vaccine,Treatment,2021-09-01,2021-09-15,14 days,Doctors,High Relevance,False,0.70
+12,10,experiencing mild side effects post-vaccination,Symptom Onset,2021-09-01,2021-09-02,1 days,Doctors,Low Relevance,True,0.90
+13,10,receiving second dose of vaccine,Treatment,2021-09-22,2021-10-06,14 days,Doctors,High Relevance,False,0.76
+14,10,feeling relief and hope post-vaccination,Feelings,2021-09-22,2021-10-06,14 days,Home,Low Relevance,True,0.88

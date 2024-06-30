@@ -1,0 +1,515 @@
+/* GENERAL STYLING */
+.main_body {
+    background-color: white;
+    font-family: 'Gill Sans', sans-serif;
+    width: 60%;
+    margin-top: 0;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.menu_button, input[type="submit"].button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    font-family: 'Gill Sans', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.menu_button:hover, input[type="submit"].button:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+}
+
+.function_button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(0, 123, 255, 0.7);
+    border: 1px solid rgba(0, 92, 191, 0.7);
+    border-radius: 5px;
+    color: white; /* White text color */
+    font-family: 'Gill Sans', sans-serif;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.function_button:hover {
+    background-color: rgba(0, 86, 179, 0.8);
+    transform: scale(1.05);
+}
+
+.button-container {
+    display: flex;
+    gap: 10px;
+}
+
+.button-container a {
+    flex: 1;
+}
+
+
+.item {
+    height: 300px;
+    border: 1px solid #000000;
+    border-radius: 10px;
+    background-color: #ffffff;
+    width: calc(50% - 10px);
+    margin-bottom: 10px;
+}
+
+.h1 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+p, h2 {
+    text-align: left;
+}
+
+.not_visible {
+    display: none;
+}
+
+/* FORM STYLING */
+.form {
+    margin-bottom: -10px;
+}
+
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.form-column {
+    flex: 1;
+    margin-right: 5px;
+}
+
+.form-column:last-child {
+    margin-right: 0;
+}
+
+form #id_name {
+    width: 15em;
+}
+
+.patient_journey_generator_form .form-row {
+    display: flex;
+    justify-content: center;
+}
+
+.patient_journey_generator_form .form-column {
+    text-align: center;
+}
+
+#id_name {
+    width: 15%;
+}
+
+#id_name::placeholder {
+    text-align: center;
+}
+
+/* TABLE STYLING */
+.table-container {
+    max-height: 500px;
+    overflow-y: auto;
+    width: 100%;
+}
+
+.dataframe {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+}
+
+.dataframe th, .dataframe td {
+    padding: 8px;
+    text-align: center;
+    border: 1px solid rgba(54, 54, 54, 0.509);
+}
+
+.dataframe thead {
+    background-color: #c2c0c0;
+}
+
+.dataframe tbody tr:nth-child(even), .dataframe tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.dataframe tbody tr:hover {
+    background-color: #f1f1f1c3;
+}
+
+/* LANDING PAGE STYLING */
+.landing_page_menu {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+}
+
+.landing_page_menu .item img {
+    max-width: 140px;
+    height: auto;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.landing_page_menu .item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.landing_page_menu .item:hover {
+    filter: invert(100%);
+}
+
+.landing_page_menu .item:hover img {
+    transform: scale(1.1);
+}
+
+.landing_page_menu .item:hover .item_text {
+    font-size: 1.2em;
+}
+
+.landing_page_menu .item .item_text {
+    font-family: 'Gill Sans', sans-serif;
+    font-weight: bold;
+    transition: font-size 0.3s ease;
+    display: block;
+}
+
+.landing_page_menu .item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.landing_page_body {
+    background-color: white;
+    font-family: 'Gill Sans', sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.landing_page_container {
+    width: 50%;
+}
+
+.landing_page_container .item_link {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.key_icon {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 9999;
+    width: 3%;
+    height: auto;
+}
+
+/* DFG STYLING */
+.dfg-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.dfg-container img {
+    width: 100%;
+    max-width: none;
+    height: auto;
+}
+
+/* METRICS DASHBOARD STYLING */
+.dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.metric-tile {
+    flex: 1;
+    min-height: 150px;
+    background-color: #f1f1f1;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    outline: 2px solid #ccc;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.metric-tile:not(:last-child) {
+    margin-right: 20px;
+}
+
+.metric-tile .info-icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.metric-tile .info-text {
+    display: none;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    width: 200px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.metric-tile .info-icon:hover + .info-text {
+    display: block;
+}
+
+.metric-content, .number-metric-small {
+    display: inline-block;
+    text-align: center;
+}
+
+.number-metric, .metric-count {
+    font-size: 48px;
+    margin-bottom: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* LOGO STYLING */
+.img {
+    max-width: 100%;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.landing_page_logo, .test_environment_logo, .metrics_dashboard_logo, .database_results_logo, .extraction_logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.patient_journey_generator_logo {
+    width: 200px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.error_logo {
+    width: 300px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.landing_page_logo {
+    max-width: 65%;
+    object-fit: contain;
+    padding: 1%;
+}
+
+/* PAGE TRANSITIONS */
+.landing_page_body, .selection_body, .main_body {
+    animation: transitionIn 1s;
+}
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+    to {
+        opacity: 1;
+        transform: rotateX(0deg);
+    }
+}
+
+/* MODAL STYLING */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1050; /* Sit on top, higher than modal-backdrop */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Adjusts based on screen size */
+}
+
+.modal-header .modal-title {
+    text-align: center;
+    width: 100%;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.tooltip-container {
+    position: relative;
+}
+
+.tooltip {
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 70%;
+    background-color: #222222;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 12px 12px;
+    position: absolute;
+    z-index: 1;
+    top: 180%;
+    left: 0%;
+    transform: translateX(15%);
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/* FORM ERRORS */
+div.form-errors ul {
+    list-style-type: none; /* Ensures no bullet points and overrides other styles */
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+div.form-errors li {
+    color: #DB3A34;
+    font-weight: bold;
+}
+
+.error_traceback {
+    font-weight: bold;
+    color: #333;
+}
+
+.error_textarea {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.item-container {
+    display: flex;
+}
+
+/* MODAL BACKDROP */
+.modal-backdrop {
+    z-index: 1040; /* Lower than modal to stay behind */
+}
+
+/* API KEY MODAL WIDTH ADJUSTMENTS */
+#apiKeyModal .modal-dialog {
+    max-width: 90%; /* Default for smaller screens */
+}
+
+@media (min-width: 768px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 70%; /* Smaller percentage for medium screens */
+    }
+}
+
+@media (min-width: 992px) {
+    #apiKeyModal .modal-dialog {
+        max-width: 50%; /* Even smaller for large screens */
+    }
+}
+
+/* SLIDER STYLING */
+.noUi-target {
+    width: 100%;
+}
+
+.noUi-connect {
+    background: #0075ff;
+}
+
+/* SCROLLABLE TABLE */
+.scrollable-table {
+    width: 100%;
+    max-height: 10000px;
+    overflow-y: visible;
+    position: relative;
+    left: 50%;
+    /* transform: translateX(-50%);*/
+}
+
+/* FILTER SELECTION FIELD */
+.filter-selection-field .label {
+    font-weight: bold;
+}
+
+.processing {
+    cursor: not-allowed;
+    opacity: 0.5;
+    pointer-events: none;
+}

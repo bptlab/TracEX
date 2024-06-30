@@ -1,0 +1,19 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,26,"experiencing mild symptoms: fatigue, slight cough",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,Moderate Relevance,True,0.96
+15,26,remaining hopeful for love in the future,Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.83
+14,26,longing for companionship,Feelings,2022-08-15,2022-08-22,7 days,Home,No Relevance,True,0.90
+13,26,reflecting on single status during isolation,Feelings,2022-08-15,2022-08-22,7 days,Home,Low Relevance,True,0.88
+12,26,receiving both doses of vaccine,Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.68
+11,26,deciding to get vaccinated,Treatment,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.90
+10,26,joining virtual support groups for connection,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.95
+9,26,"focusing on self-care: healthy diet, hydration, rest",Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.95
+8,26,colleagues covering hospital rounds for rest,Hospital Discharge,2022-08-15,2022-08-22,7 days,Doctors,Low Relevance,True,0.91
+7,26,depleted energy levels affecting daily duties,Symptom Onset,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.92
+6,26,stabilizing condition and avoiding hospitalization,Treatment,2022-08-15,2022-08-22,7 days,Home,High Relevance,True,0.98
+5,26,monitoring oxygen levels and taking prescribed medications,Treatment,2022-08-15,2022-08-22,7 days,Doctors,High Relevance,True,0.96
+4,26,seeking virtual consultation with fellow doctor,Doctor Visit,2022-08-15,2022-08-22,7 days,Doctors,Moderate Relevance,True,0.99
+3,26,experiencing difficulty breathing,Symptom Onset,2022-08-15,2022-08-22,7 days,Hospital,High Relevance,True,0.94
+2,26,isolating at home,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.99
+1,26,"progressing to include body aches, high fever",Symptom Onset,2022-08-15,2022-08-20,5 days,Home,High Relevance,True,0.94
+16,26,prioritizing health and well-being,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.99
+17,26,reinforcing importance of self-care,Lifestyle Change,2022-08-15,2022-08-22,7 days,Home,Moderate Relevance,True,0.97

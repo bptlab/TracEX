@@ -1,0 +1,18 @@
+,case:concept:name,activity,event_type,time:timestamp,time:end_timestamp,time:duration,attribute_location,activity_relevance,timestamp_correctness,correctness_confidence
+0,38,working in Malaria/Dengue endemic areas,Lifestyle Change,2021-05-15,2021-05-31,16 days,Doctors,Low Relevance,False,0.79
+7,38,diagnosed with COVID-19,Diagnosis,2021-05-15,2021-05-31,16 days,Doctors,High Relevance,False,0.78
+6,38,attributing symptoms to sleep deprivation,Diagnosis,2021-05-15,2021-05-31,16 days,Home,Low Relevance,False,0.95
+5,38,starting to feel weak and breathing trouble,Symptom Onset,2021-05-15,2021-05-31,16 days,Hospital,High Relevance,False,0.80
+8,38,experiencing worsening symptoms,Symptom Onset,2021-05-15,2020-06-15,-334 days,Doctors,High Relevance,False,0.83
+3,38,working late to finish research activities,This activity does not fall into any of the predefined categories.,2021-05-15,2021-05-31,16 days,Home,Low Relevance,False,0.89
+2,38,becoming primary caregiver during lockdown,Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Moderate Relevance,False,0.89
+1,38,taking extra precautions to avoid infections,Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Moderate Relevance,False,0.87
+4,38,"juggling work, home, and homeschooling",Lifestyle Change,2021-05-15,2021-05-31,16 days,Home,Low Relevance,False,0.90
+15,38,struggling to concentrate for long periods,Symptom Onset,2023-01-15,2023-01-15,0 days,Home,Moderate Relevance,True,0.53
+12,38,experiencing debilitating fatigue,Symptom Onset,2023-01-15,2023-03-15,59 days,Home,High Relevance,False,0.55
+13,38,ongoing symptoms past a certain date,Symptom Offset,2023-01-15,2023-03-15,59 days,Home,Moderate Relevance,True,0.71
+14,38,experiencing racing heart multiple times daily,Symptom Onset,2023-01-15,2023-01-15,0 days,Doctors,High Relevance,True,0.59
+16,38,uncertainty about duration of COVID-19 effects,Feelings,2023-01-15,2023-01-15,0 days,Home,Moderate Relevance,True,0.72
+11,38,losing sense of taste and smell,Symptom Onset,2023-03-15,2023-05-15,61 days,Home,High Relevance,True,0.73
+9,38,being bedridden with various symptoms,Symptom Onset,2023-05-15,2023-05-29,14 days,Hospital,High Relevance,True,0.80
+10,38,losing appetite,Symptom Onset,2023-05-15,2023-05-15,0 days,Home,Low Relevance,True,0.92
