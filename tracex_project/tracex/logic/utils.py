@@ -46,9 +46,6 @@ def query_gpt(
         temperature=TEMPERATURE_SUMMARIZING,
         return_linear_probability=False,
         top_logprobs=None,
-        model=MODEL,
-        api_key=OAIK,
-        presence_penalty=0,
 ):
     """
     Make a request to the OpenAI API.
@@ -76,15 +73,14 @@ def query_gpt(
     @log_tokens_used(Path(settings.BASE_DIR / "tracex/logs/tokens_used.log"))
     def make_api_call():
         """Make API Call to the chat completion endpoint."""
-        client = OpenAI(api_key=api_key)
+        client = OpenAI(api_key=OAIK)
         _response = client.chat.completions.create(
-            model=model,
+            model=MODEL,
             messages=messages,
             max_tokens=max_tokens,
             temperature=temperature,
             logprobs=return_linear_probability,
             top_logprobs=top_logprobs,
-            presence_penalty=presence_penalty,
         )
 
         return _response

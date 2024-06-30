@@ -38,9 +38,9 @@ class Preprocessor(Module):
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "TIME_IDENTIFICATION"
         )
-        # preprocessed_text = self.__apply_preprocessing_step(
-        #     preprocessed_text, "TIME_HOLIDAYS"
-        # )
+        preprocessed_text = self.__apply_preprocessing_step(
+            preprocessed_text, "TIME_HOLIDAYS"
+        )
         preprocessed_text = self.__apply_preprocessing_step(
             preprocessed_text, "TIME_GENERAL"
         )
