@@ -23,51 +23,45 @@ Also provides two buttons:
     <div class="selection_container">
     {% if generated_journey %}
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-    <h2>Generated Process Descriptions</h2>
-    <p>{{ generated_journey|safe }}</p>
+    <h2>Generated Patient Journey</h2>
+    <p>{{ generated_journey }}</p>
 
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
+
+        <div class="patient_journey_generator_form">
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.journey.label_tag }} {{ form.journey }}
+                    {{ form.journey.errors }}
+                    <p>{{ form.journey.help_text }}</p>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-column">
+                    {{ form.name.label_tag }} {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+            </div>
+        </div>
+        <div class="spinner-container" id="loading-container">
+            <span id="loading-spinner" class="loader not_visible"></span>
+        </div>
+        <input type="submit" class="function_button" value="Select generated Patient Journey" >
     </form>
     {% else %}
 
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-    <h1>Welcome to the Process Description Generator of TracEX</h1>
-    <p>This tool enables you to generate multiple instances of process descriptions for the selected configuration.
-        If you do not select a suitable configuration, the default "Patient Journey" configuration will be used.
-        You can select to what degree the instances should differ from each other, how many instances should be created and whether you want to save them to the database or as a text file.
-        <br><br>
-        Please note that our extraction pipeline can currently only handle process descriptions of the type "Patient Journey".
-    </p>
-    <hr class="solid">
-    <p></p>
+    <h1>Welcome to the Patient Journey Generator of TracEX</h1>
+    <p>Our innovative tool enables you to simulate a synthetic COVID-19 specific disease course. Before generating the journey, personal factors such as <span class="highlight">age</span>, <span class="highlight">sex</span>, and <span class="highlight">nationality</span> are randomized, allowing you to explore diverse scenarios and outcomes. Once the journey is generated, refine your analysis by extracting an event log. Customize your experience by applying filters to delve deeper into the simulated patient's progression.</p>
+    <div class="spinner-container" id="loading-container">
+        <span id="loading-spinner" class="loader not_visible"></span>
+    </div>
     {% endif %}
 
-    <form method="post" action="{% url 'journey_generation' %}" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.degree_of_variation.label_tag }} {{ form.degree_of_variation }}
-            </div>
-            <div class="form-column">
-                {{ form.save_to_db.label_tag }} {{ form.save_to_db }}
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-column">
-                {{ form.number_of_instances.label_tag }} {{ form.number_of_instances }}
-            </div>
-            <div class="form-column">
-                {{ form.save_as_txt.label_tag }} {{ form.save_as_txt }}
-            </div>
-        </div>
-        <div>
-            <div class="form-column">
-                {{ form.config.label_tag }} {{ form.config }}
-            </div>
-        </div>
-        <input type="submit" class="function_button" value="Generate new Process Description">
-    </form>
+    <a href="{% url 'journey_generation' %}">
+        <button id="generate_button" class="function_button">Generate new Patient Journey</button>
+    </a>
 
     <a href="{% url 'landing_page' %}">
         <button class="menu_button">Return to TracEX Menu</button>

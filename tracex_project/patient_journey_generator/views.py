@@ -7,13 +7,13 @@ JourneyGenerationView -- View to inspect the generated Patient Journey.
 """
 import traceback
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
 
 from extraction.logic.orchestrator import Orchestrator, ExtractionConfiguration
-from patient_journey_generator.forms import GenerationOverviewForm, GenerateProcessDescriptionForm
-from patient_journey_generator.generator import execute_generate_process_description
+from patient_journey_generator.forms import GenerationOverviewForm
+from patient_journey_generator.generator import generate_patient_journey
 
 
 class JourneyGeneratorOverviewView(generic.CreateView):
@@ -32,7 +32,6 @@ class JourneyGeneratorOverviewView(generic.CreateView):
         """Add the Patient Journey to the context to pass to the HTML file."""
         context = super().get_context_data(**kwargs)
         context["generated_journey"] = self.request.session.get("generated_journey")
-        context["form"] = GenerateProcessDescriptionForm()
 
         return context
 
@@ -57,31 +56,37 @@ class JourneyGenerationView(generic.RedirectView):
 
     url = reverse_lazy("journey_generator_overview")
 
-    def post(self, request, *args, **kwargs):
-        form = GenerateProcessDescriptionForm(request.POST, request.FILES)
-        if form.is_valid():
-            config = form.cleaned_data['config']
-            number_of_instances = form.cleaned_data['number_of_instances']
-            degree_of_variation = form.cleaned_data['degree_of_variation']
-            save_to_db = form.cleaned_data['save_to_db']
-            save_as_txt = form.cleaned_data['save_as_txt']
+    def get(self, request, *args, **kwargs):
+        """
+        Handle GET requests by generating a Patient Journey and updating the orchestrator's configuration.
 
-            try:
-                configuration = ExtractionConfiguration(
-                    patient_journey=execute_generate_process_description(
-                        degree_of_variation=degree_of_variation,
-                        number_of_instances=number_of_instances,
-                        save_to_db=save_to_db,
-                        save_as_txt=save_as_txt,
-                        config=config
-                    )
-                )
-                request.session["generated_journey"] = configuration.patient_journey
-                return redirect('journey_generator_overview')
-            except Exception as e:
-                return render(request, "error_page.html", {
+        The empty Patient Journey instance from the orchestrator's configuration is modified to contain the generated
+        Patient Journey text. The generated Patient Journey is also saved in the session to pass to the HTML file
+        of the JourneyGenerationOverviewView.
+
+        """
+        orchestrator = Orchestrator()
+
+        try:
+            configuration = ExtractionConfiguration(
+                patient_journey=generate_patient_journey()
+            )
+        except Exception as e:  # pylint: disable=broad-except
+            orchestrator.reset_instance()
+            self.request.session.flush()
+
+            return render(
+                self.request,
+                "error_page.html",
+                {
                     "error_type": type(e).__name__,
                     "error_traceback": traceback.format_exc(),
-                })
-        else:
-            return render(request, 'journey_generator_overview.html', {'form': form})
+                },
+            )
+
+        orchestrator.set_configuration(configuration)
+        request.session[
+            "generated_journey"
+        ] = orchestrator.get_configuration().patient_journey
+
+        return super().get(request, *args, **kwargs)
