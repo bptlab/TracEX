@@ -1,0 +1,70 @@
+{
+    "domain": "manufacturing",
+    "case": "Carpenter",
+    "case_notion": "Project Completion",
+    "event_types": [
+        "Design Approval",
+        "Material Procurement",
+        "Construction Start",
+        "Milestone Review",
+        "Adjustments",
+        "Quality Check",
+        "Client Feedback",
+        "Final Touches",
+        "Project Completion",
+        "Delivery"
+    ],
+    "case_attributes_dict": {
+        "age": [20, 25, 30, 35, 40, 45, 50, 55, 60],
+        "sex": ["female", "male"],
+        "origin": [
+            "USA",
+            "Canada",
+            "Mexico",
+            "Brazil",
+            "Argentina",
+            "UK",
+            "France",
+            "Germany",
+            "Italy",
+            "Spain"
+        ],
+        "skill_level": [
+            "beginner",
+            "intermediate",
+            "advanced",
+            "expert"
+        ],
+        "object_type": [
+            "cabinet",
+            "table",
+            "chair",
+            "bookshelf",
+            "wardrobe",
+            "desk",
+            "bed",
+            "bench",
+            "stool",
+            "door"
+        ],
+        "tools_used": [
+            "hand saw",
+            "hammer",
+            "chisel",
+            "screwdriver",
+            "drill",
+            "sander",
+            "planer",
+            "router"
+        ]
+    },
+    "time_specifications": ["timestamps and durations", "timestamps", "durations", "none"],
+    "writing_style": "free",
+    "example": [
+        "The project started with client approval of the design on 03/15/2023. I procured all necessary materials by the end of the week. Construction began promptly, and by the first milestone review on 04/01/2023, the main structure was completed. After some adjustments based on the client’s feedback and a thorough quality check, the final touches were added. The project was completed on 04/25/2023 and delivered to a satisfied client.",
+        "I received the materials on 05/01/2023 and started working on the bespoke cabinet. The client requested a specific design that included intricate carvings. After the initial construction phase, I conducted a detailed quality check and incorporated the client's feedback for some minor adjustments. The final product was completed on 05/20/2023 and was ready for delivery."
+    ],
+    "perspective_instructions": "Describe the carpentry project from the carpenter's perspective, including specific tasks and client interactions.",
+    "writing_instructions": "Write a continuous, authentic narrative as if you were the carpenter, detailing the project stages in chronological order. Ensure the text flows naturally and maintains a consistent voice throughout.",
+    "authenticity_instructions": "Infuse the description with realistic details that align with the carpenter's background and plausible project events. Consider the technical, aesthetic, and functional contexts that shape the work."
+}

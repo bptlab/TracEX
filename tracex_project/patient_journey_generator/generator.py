@@ -41,7 +41,7 @@ def execute_generate_process_description(number_of_instances=1, degree_of_variat
 
 def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0,
                                  config=None):
-    # Load configuration
+    # load configuration
     config = config
     instance_config = get_instance_config(config, degree_of_variation)
 
@@ -83,7 +83,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
                        f"{authenticity_instructions}"
         }
     ]
-
+    # execute generation prompt
     generation_prompt_temperature = instance_config["generation_prompt_temperature"]
     process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature,
                                       model="gpt-3.5-turbo")
@@ -105,6 +105,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
                            f"Process Description: '{process_description}'"
             }
         ]
+        # execute adaptation prompt
         adaptation_prompt_temperature = instance_config["adaptation_prompt_temperature"]
         process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature,
                                           model="gpt-3.5-turbo")
@@ -121,7 +122,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
         with open(f"{directory}/{patient_journey_name}.txt", "w") as file:
             file.write(process_description)
 
-    # add instance configuration to process description
+    # add instance configuration to process description for display
     process_description += f"<br><br><u>Instance Configuration:</u><br>Degree of Variation: {degree_of_variation}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>Time Specifications: {time_specifications}<br>Writing Style: {writing_style}<br>"
 
     return process_description
