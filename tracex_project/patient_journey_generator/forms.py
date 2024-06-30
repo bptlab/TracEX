@@ -41,7 +41,21 @@ class GenerateProcessDescriptionForm(forms.Form):
         ('high', 'High'),
     ]
 
+    config = forms.FileField(
+        label='Configuration File',
+        help_text='Only JSON files are accepted.',
+        required=False,
+        widget=forms.FileInput(attrs={'accept': 'application/json'})
+    )
     number_of_instances = forms.IntegerField(min_value=1, initial=1, label="Number of Instances")
     degree_of_variation = forms.ChoiceField(choices=DEGREE_OF_VARIATION_CHOICES, label="Degree of Variation")
     save_to_db = forms.BooleanField(required=False, label="Save to Database")
     save_as_txt = forms.BooleanField(required=False, label="Save as Text File")
+
+    def clean_config(self):
+        file = self.cleaned_data.get('config', False)
+        if file:
+            if not file.name.endswith('.json'):
+                raise forms.ValidationError('Invalid file type: only JSON files are accepted.')
+        return file
+

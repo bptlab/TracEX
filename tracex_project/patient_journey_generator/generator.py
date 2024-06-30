@@ -9,7 +9,7 @@ get_date -- Randomizes a start date for the synthetic Patient Journey.
 get_life_circumstances -- Generates life circumstances for the synthetic Patient Journey.
 """
 import copy
-from datetime import datetime, timedelta
+from datetime import datetime
 import random
 import os
 import json
@@ -18,68 +18,31 @@ from django.utils.safestring import mark_safe
 
 from extraction.models import Prompt, PatientJourney
 from tracex.logic import utils as u
-from tracex.logic import constants as c
-from patient_journey_generator.process_description_configs import PATIENT_JOURNEY_CONFIG_EVAL, ORDER_CONFIG, \
-    PATIENT_JOURNEY_CONFIG_MC
 
 
-def generate_patient_journey():
-    """Generate a synthetic Patient Journey."""
-    messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY").text
-    messages.insert(0, {"role": "system", "content": create_patient_journey_context()})
-    patient_journey = u.query_gpt(messages=messages, temperature=1)
+def execute_generate_process_description(number_of_instances=1, degree_of_variation="low", save_to_db=False,
+                                         save_as_txt=False, config=None):
+    if config is None:
+        with open('patient_journey_generator/process_description_configurations/patient_journey_configuration.json',
+                  'r') as f:
+            config = json.load(f)
+        print("Using default configuration.")
+    else:
+        config = json.loads(config.read().decode('utf-8'))
+        print("Using custom configuration.")
 
-    return patient_journey
-
-
-def create_patient_journey_context():
-    """
-    Create a context for the Patient Journey.
-
-    The context includes a random sex, country, date and life circumstances.
-    """
-    sex = "male" if random.randrange(2) == 0 else "female"
-    country = get_country()
-    date = get_date()
-    life_circumstances = get_life_circumstances(sex)
-    patient_journey_context = (
-        f"Imagine being a {sex} person from {country}, that was infected with Covid19."
-        f" You had first symptoms on {date}. {life_circumstances}"
-    )
-    return patient_journey_context
+    result = ""
+    for i in range(number_of_instances):
+        process_description = generate_process_description(degree_of_variation, save_to_db, save_as_txt,
+                                                           iteration=i + 1, config=config)
+        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><hr><br>"
+    return mark_safe(result)
 
 
-def get_country():
-    """Randomize a european country."""
-
-    return random.choice(c.EUROPEAN_COUNTRIES)
-
-
-def get_date(start="01/01/2020", end="01/09/2023"):
-    """Get a random date between a start and end date."""
-    start = datetime.strptime(start, "%d/%m/%Y")
-    end = datetime.strptime(end, "%d/%m/%Y")
-    delta = end - start
-    random_days = random.randrange(delta.days)
-    date = start + timedelta(days=random_days)
-    date = date.strftime("%d/%m/%Y")
-
-    return date
-
-
-def get_life_circumstances(sex):
-    """Generate life circumstances by using the OpenAI API."""
-    messages = Prompt.objects.get(name="CREATE_PATIENT_JOURNEY_LIFE_CIRCUMSTANCES").text
-    messages[0]["content"] = messages[0]["content"].replace("<SEX>", sex)
-    life_circumstances = u.query_gpt(messages=messages, max_tokens=100, temperature=1)
-
-    return life_circumstances
-
-
-def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0, config=None):
+def generate_process_description(degree_of_variation="low", save_to_db=False, save_as_txt=False, iteration=0,
+                                 config=None):
     # Load configuration
     config = config
-
     instance_config = get_instance_config(config, degree_of_variation)
 
     # general parameters
@@ -97,6 +60,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
     writing_style = instance_config["writing_style"]
     example = instance_config["example"]
 
+    # instructions
     perspective_instructions = instance_config["perspective_instructions"]
     writing_instructions = instance_config["writing_instructions"]
     authenticity_instructions = instance_config["authenticity_instructions"]
@@ -112,7 +76,7 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
                        f"When creating the process description, only consider the following event types: {event_types}\n"
                        f"Include time specifications for the events as {time_specifications}."
         },
-        {  # this part is meant to be the domain-specific part of the prompt
+        {
             "role": "user",
             "content": f"{perspective_instructions}"
                        f"{writing_instructions}"
@@ -121,7 +85,8 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
     ]
 
     generation_prompt_temperature = instance_config["generation_prompt_temperature"]
-    process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature, model="gpt-3.5-turbo")
+    process_description = u.query_gpt(messages=generation_prompt, temperature=generation_prompt_temperature,
+                                      model="gpt-3.5-turbo")
 
     if writing_style == "similar_to_example":
         adaptation_prompt = [
@@ -141,8 +106,10 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
             }
         ]
         adaptation_prompt_temperature = instance_config["adaptation_prompt_temperature"]
-        process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature, model="gpt-3.5-turbo")
+        process_description = u.query_gpt(messages=adaptation_prompt, temperature=adaptation_prompt_temperature,
+                                          model="gpt-3.5-turbo")
 
+    # save process description
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     patient_journey_name = f"{timestamp}_{case}_{degree_of_variation}_{writing_style}_{iteration}"
     if save_to_db:
@@ -154,19 +121,10 @@ def generate_process_description(degree_of_variation="low", save_to_db=False, sa
         with open(f"{directory}/{patient_journey_name}.txt", "w") as file:
             file.write(process_description)
 
-    process_description += f"<br><br><u>Config:</u><br>Degree of Variation: {degree_of_variation}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>time_specifications: {time_specifications}<br>writing_style: {writing_style}<br>"
+    # add instance configuration to process description
+    process_description += f"<br><br><u>Instance Configuration:</u><br>Degree of Variation: {degree_of_variation}<br>Event Types: {event_types}<br>Case Attributes: {case_attributes}<br>Time Specifications: {time_specifications}<br>Writing Style: {writing_style}<br>"
 
     return process_description
-
-
-def execute_generate_process_description(number_of_instances=1, degree_of_variation="low", save_to_db=False, save_as_txt=False):
-    with open('patient_journey_generator/process_description_configurations/patient_journey_configuration.json', 'r') as f:
-        config = json.load(f)
-    result = ""
-    for i in range(number_of_instances):
-        process_description = generate_process_description(degree_of_variation, save_to_db, save_as_txt, iteration=i + 1, config=config)
-        result += f"<b>Process Description {i + 1}:</b><br>{process_description}<br><hr><br>"
-    return mark_safe(result)
 
 
 def get_instance_config(config, degree_of_variation):
@@ -177,8 +135,9 @@ def get_instance_config(config, degree_of_variation):
         for key, value in instance_config.items():
             if key == "event_types":
                 if isinstance(value, list):
-                    # instance_config[key] = ', '.join(value) # Anpassung für Evaluation
-                    instance_config[key] = "Symptom Onset, Hospital Admission, Hospital Discharge, Symptom Offset"
+                    instance_config[key] = ', '.join(value)
+                    # adjustment for evaluation of process description batch with "low" degree of variation
+                    # instance_config[key] = "Symptom Onset, Hospital Admission, Hospital Discharge, Symptom Offset"
             elif key == "case_attributes_dict":
                 for attribute, values in value.items():
                     if isinstance(values, list):
@@ -195,8 +154,8 @@ def get_instance_config(config, degree_of_variation):
         for key, value in instance_config.items():
             if key == "event_types":
                 if isinstance(value, list):
-                    num_event_types = random.randint(3, len(value))  # Randomly select the number of event types
-                    selected_event_types = random.sample(value, num_event_types)  # Randomly select the event types
+                    num_event_types = random.randint(3, len(value))
+                    selected_event_types = random.sample(value, num_event_types)
                     instance_config[key] = ', '.join(selected_event_types)
             elif key == "case_attributes_dict":
                 for attribute, values in value.items():
@@ -214,8 +173,8 @@ def get_instance_config(config, degree_of_variation):
         for key, value in instance_config.items():
             if key == "event_types":
                 if isinstance(value, list):
-                    num_event_types = random.randint(3, len(value))  # Randomly select the number of event types
-                    selected_event_types = random.sample(value, num_event_types)  # Randomly select the event types
+                    num_event_types = random.randint(3, len(value))
+                    selected_event_types = random.sample(value, num_event_types)
                     instance_config[key] = ', '.join(selected_event_types)
             elif key == "case_attributes_dict":
                 for attribute, values in value.items():

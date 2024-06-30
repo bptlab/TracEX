@@ -23,7 +23,7 @@ Also provides two buttons:
     <div class="selection_container">
     {% if generated_journey %}
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
-    <h2>Generated Patient Journey</h2>
+    <h2>Generated Process Descriptions</h2>
     <p>{{ generated_journey|safe }}</p>
 
     <form method="post" enctype="multipart/form-data">
@@ -33,15 +33,18 @@ Also provides two buttons:
 
     <img src="{% static '/tracex/img/patient_journey_generator_logo.png' %}" alt="Patient Journey Generator Logo" class="patient_journey_generator_logo">
     <h1>Welcome to the Process Description Generator of TracEX</h1>
-    <p>This tool enables you to generate multiple instances of process descriptions for the configuration selected in generator.py.
-        You can select to what degree the instances should differ from each other, how many instances should be created and whether you want to save them to the database or as a text file.<br><br>
-        Please note that our extraction pipeline can currently only handle process descriptions of the type "patient journey".
+    <p>This tool enables you to generate multiple instances of process descriptions for the selected configuration.
+        If you do not select another suitable configuration, the default "Patient Journey" configuration will be used.
+        You can select to what degree the instances should differ from each other, how many instances should be created and whether you want to save them to the database or as a text file.
+        <br><br>
+        Please note that our extraction pipeline can currently only handle process descriptions of the type "Patient Journey".
     </p>
     <hr class="solid">
     <p></p>
     {% endif %}
 
-    <form method="get" action="{% url 'journey_generation' %}">
+    <form method="post" action="{% url 'journey_generation' %}" enctype="multipart/form-data">
+        {% csrf_token %}
         <div class="form-row">
             <div class="form-column">
                 {{ form.degree_of_variation.label_tag }} {{ form.degree_of_variation }}
@@ -58,7 +61,12 @@ Also provides two buttons:
                 {{ form.save_as_txt.label_tag }} {{ form.save_as_txt }}
             </div>
         </div>
-        <input type="submit" class="function_button" value="Generate new Patient Journey">
+        <div>
+            <div class="form-column">
+                {{ form.config.label_tag }} {{ form.config }}
+            </div>
+        </div>
+        <input type="submit" class="function_button" value="Generate new Process Description">
     </form>
 
     <a href="{% url 'landing_page' %}">
