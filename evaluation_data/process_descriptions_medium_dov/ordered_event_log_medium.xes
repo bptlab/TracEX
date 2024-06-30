@@ -1,0 +1,1709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--  XES version 1849.2016 (IEEE 1849-2016)  -->
+<!--  Created by Fluxicon Disco (fluxicon.com/disco)  -->
+<!--  (c) 2024 by Fluxicon BV, Torenallee 20, 5617 BC Eindhoven, The Netherlands  -->
+<log xes.version="1849.2016" xmlns:xes="http://www.xes-standard.org">
+	<extension name="Concept" prefix="concept" uri="http://www.xes-standard.org/concept.xesext"/>
+	<extension name="Lifecycle" prefix="lifecycle" uri="http://www.xes-standard.org/lifecycle.xesext"/>
+	<extension name="Time" prefix="time" uri="http://www.xes-standard.org/time.xesext"/>
+	<extension name="Organizational" prefix="org" uri="http://www.xes-standard.org/org.xesext"/>
+	<global scope="trace">
+		<string key="concept:name" value="name"/>
+		<string key="variant" value="string"/>
+		<int key="variant-index" value="0"/>
+	</global>
+	<global scope="event">
+		<string key="concept:name" value="name"/>
+		<string key="lifecycle:transition" value="transition"/>
+		<string key="org:resource" value="resource"/>
+		<date key="time:timestamp" value="2024-06-30T16:00:24.257+02:00"/>
+		<string key="Activity" value="string"/>
+		<string key="activity" value="string"/>
+		<string key="attribute_location" value="string"/>
+	</global>
+	<classifier name="Activity" keys="Activity"/>
+	<classifier name="Resource" keys="attribute_location"/>
+	<string key="lifecycle:model" value="standard"/>
+	<string key="creator" value="Fluxicon Disco"/>
+	<string key="library" value="Fluxicon Octane"/>
+	<trace>
+		<string key="concept:name" value="28"/>
+		<string key="variant" value="Variant 1"/>
+		<int key="variant-index" value="1"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T01:01:01.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="battling cystic fibrosis for years"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T02:01:01.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="battling cystic fibrosis for years"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T02:02:02.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="feeling heaviness in chest, persistent cough"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T03:02:02.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="feeling heaviness in chest, persistent cough"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T03:03:03.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="managing condition with lifestyle changes, medication"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T04:03:03.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="managing condition with lifestyle changes, medication"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T04:04:04.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking guidance and support from doctors"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T05:04:04.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking guidance and support from doctors"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T05:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="living with chronic illness, managing symptoms"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T06:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="living with chronic illness, managing symptoms"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T06:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="taking medications daily for fragile health"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T07:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="taking medications daily for fragile health"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T07:07:07.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="experiencing relief from symptoms at times"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T08:07:07.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="experiencing relief from symptoms at times"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T08:08:08.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="facing unpredictable nature of cystic fibrosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2020-01-01T09:08:08.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="facing unpredictable nature of cystic fibrosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T09:09:09.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="requiring hospital admissions for intensive care"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T10:09:09.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="requiring hospital admissions for intensive care"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T10:10:10.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling fear and determination while navigating illness"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T11:10:10.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling fear and determination while navigating illness"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T11:11:11.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="receiving support from healthcare team, partner"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2020-01-01T12:11:11.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="receiving support from healthcare team, partner"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T12:12:12.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="holding onto hope for symptom relief"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T13:12:12.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="holding onto hope for symptom relief"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T13:13:13.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="embracing each day with gratitude"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2020-01-01T14:13:13.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="embracing each day with gratitude"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="25"/>
+		<string key="variant" value="Variant 2"/>
+		<int key="variant-index" value="2"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:02:02.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis of Multiple Sclerosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis of Multiple Sclerosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T03:03:03.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="adjusting work for health needs"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T04:03:03.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="adjusting work for health needs"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T05:04:04.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes for condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T06:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="not letting condition define me"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T07:06:06.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="noticing improvements after treatment"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:07:07.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling like regaining control over life"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-02-25T07:07:07.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling like regaining control over life"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-04-25T06:06:06.000+02:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="noticing improvements after treatment"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-05-25T04:04:04.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes for condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-05-25T05:05:05.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="not letting condition define me"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="24"/>
+		<string key="variant" value="Variant 3"/>
+		<int key="variant-index" value="3"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing muscle weakening"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing muscle weakening"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking medical advice"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking medical advice"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving muscular dystrophy diagnosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T04:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving muscular dystrophy diagnosis"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T04:04:04.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="receiving lifestyle recommendations from doctor"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T05:04:04.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="receiving lifestyle recommendations from doctor"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T06:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="embracing lifestyle changes for well-being"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T07:06:06.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="having multiple doctor visits for monitoring"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T07:07:07.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="learning to navigate living with conditions"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:07:07.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="learning to navigate living with conditions"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-02-25T05:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="embracing lifestyle changes for well-being"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-02-25T06:06:06.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="having multiple doctor visits for monitoring"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="29"/>
+		<string key="variant" value="Variant 4"/>
+		<int key="variant-index" value="4"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="reaching out to primary care doctor"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="reaching out to primary care doctor"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="being diagnosed with schizophrenia"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T04:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="being diagnosed with schizophrenia"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-01-25T05:04:04.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T06:05:05.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="undergoing treatments and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T07:06:06.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="experiencing symptom improvement"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T07:07:07.000+01:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:07:07.000+01:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-02-08T06:06:06.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="experiencing symptom improvement"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-02-25T04:04:04.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-02-25T05:05:05.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="undergoing treatments and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="27"/>
+		<string key="variant" value="Variant 5"/>
+		<int key="variant-index" value="5"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="starting to experience symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="diagnosis of worsened COPD"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-01-25T03:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="diagnosis of worsened COPD"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Medication"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T05:04:04.000+01:00"/>
+			<string key="Activity" value="Medication"/>
+			<string key="activity" value="prescribed medication for managing symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T06:05:05.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes to accommodate condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T07:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="using inhaler regularly"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:07:07.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="struggling with anxiety and sadness"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-01-25T08:08:08.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="hospital admissions for intensive treatment"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2022-01-25T09:08:08.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="hospital admissions for intensive treatment"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T09:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="finding strength in small victories"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T10:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="finding strength in small victories"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-02-25T07:07:07.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="struggling with anxiety and sadness"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Medication"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-05-25T04:04:04.000+02:00"/>
+			<string key="Activity" value="Medication"/>
+			<string key="activity" value="prescribed medication for managing symptoms"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-05-25T05:05:05.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes to accommodate condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-05-25T06:06:06.000+02:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="using inhaler regularly"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="30"/>
+		<string key="variant" value="Variant 6"/>
+		<int key="variant-index" value="6"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing new symptom related to muscular dystrophy"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing new symptom related to muscular dystrophy"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T02:02:02.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="receiving diagnosis and adjusting lifestyle"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="receiving diagnosis and adjusting lifestyle"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T04:03:03.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making significant lifestyle changes"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T05:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving tailored treatment plan"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T06:05:05.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="noticing improvements with treatment plan"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-01-25T07:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="experiencing pain reduction and improved mobility"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:07:07.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="reaching symptom offset after dedicated effort"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T08:08:08.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="reflecting on patient journey and lessons learned"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T09:08:08.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="reflecting on patient journey and lessons learned"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T09:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling grateful for support and resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-01-25T10:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling grateful for support and resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-02-25T03:03:03.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making significant lifestyle changes"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-02-25T04:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving tailored treatment plan"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-02-25T05:05:05.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="noticing improvements with treatment plan"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2022-05-25T06:06:06.000+02:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="experiencing pain reduction and improved mobility"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2022-05-25T07:07:07.000+02:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="reaching symptom offset after dedicated effort"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="26"/>
+		<string key="variant" value="Variant 7"/>
+		<int key="variant-index" value="7"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-15T01:01:01.000+02:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing tightness in chest and breathlessness"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-15T02:02:02.000+02:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking immediate medical help"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-15T03:01:01.000+02:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing tightness in chest and breathlessness"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-15T04:02:02.000+02:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking immediate medical help"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2023-05-15T05:03:03.000+02:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="being diagnosed with asthma acting up"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-15T06:04:04.000+02:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital for evaluation"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2023-05-15T07:05:05.000+02:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="undergoing treatment with medication and exercises"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T08:06:06.000+02:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="feeling gradual improvement in condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T08:08:08.000+02:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T09:07:07.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes for better health"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T09:09:09.000+02:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="leaving hospital with renewed sense of purpose"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T10:08:08.000+02:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-15T11:09:09.000+02:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="leaving hospital with renewed sense of purpose"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2023-05-22T04:04:04.000+02:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital for evaluation"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2023-05-29T03:03:03.000+02:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="being diagnosed with asthma acting up"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2023-05-29T05:05:05.000+02:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="undergoing treatment with medication and exercises"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-29T06:06:06.000+02:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="feeling gradual improvement in condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2023-05-29T07:07:07.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="making lifestyle changes for better health"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="31"/>
+		<string key="variant" value="Variant 8"/>
+		<int key="variant-index" value="8"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-01-01T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing sudden onset of troubling symptoms"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-01-01T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing sudden onset of troubling symptoms"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-01T03:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking medical help"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Doctor Visit"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-31T02:02:02.000+01:00"/>
+			<string key="Activity" value="Doctor Visit"/>
+			<string key="activity" value="seeking medical help"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-31T04:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis confirming exacerbation of conditions"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-31T05:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving treatment plan including medication and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-01-31T06:05:05.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="undergoing hospital admission for intensive care"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-01-31T06:06:06.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="reaching symptom offset after long journey"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-01-31T07:06:06.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="reaching symptom offset after long journey"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-02-14T03:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis confirming exacerbation of conditions"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-02-14T04:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving treatment plan including medication and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-02-14T05:05:05.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="undergoing hospital admission for intensive care"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="23"/>
+		<string key="variant" value="Variant 9"/>
+		<int key="variant-index" value="9"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-25T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="onset of muscle weakness and fatigue"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-25T03:02:02.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="initial diagnosis received"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-26T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="onset of muscle weakness and fatigue"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-01-26T02:02:02.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="initial diagnosis received"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T03:03:03.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="doctor&apos;s appointment felt like turning point"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T04:03:03.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="doctor&apos;s appointment felt like turning point"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T05:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="treatment plan included physical therapy and medication"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-01T06:05:05.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="sessions were mix of pain and hope"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T07:06:06.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="calendar filled with appointments and milestones"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T08:07:07.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="moments of vulnerability overshadowed by resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T08:08:08.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="moments of vulnerability overshadowed by resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Medication"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T09:09:09.000+01:00"/>
+			<string key="Activity" value="Medication"/>
+			<string key="activity" value="medications became constant companions"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Medication"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T10:09:09.000+01:00"/>
+			<string key="Activity" value="Medication"/>
+			<string key="activity" value="medications became constant companions"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T10:10:10.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="emotions ebbed and flowed like a river"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T11:10:10.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="emotions ebbed and flowed like a river"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-31T05:05:05.000+02:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="sessions were mix of pain and hope"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-05-01T04:04:04.000+02:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="treatment plan included physical therapy and medication"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-05-01T06:06:06.000+02:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="calendar filled with appointments and milestones"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+	<trace>
+		<string key="concept:name" value="32"/>
+		<string key="variant" value="Variant 10"/>
+		<int key="variant-index" value="10"/>
+		<string key="creator" value="Fluxicon Disco"/>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-01T01:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing sudden chest pain at work"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Onset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-01T02:01:01.000+01:00"/>
+			<string key="Activity" value="Symptom Onset"/>
+			<string key="activity" value="experiencing sudden chest pain at work"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-01T03:02:02.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital for observation"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T03:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis of coronary artery disease"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Diagnosis"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T04:03:03.000+01:00"/>
+			<string key="Activity" value="Diagnosis"/>
+			<string key="activity" value="receiving diagnosis of coronary artery disease"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-01T05:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving treatment plan with medications and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T06:05:05.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="experiencing fear, uncertainty, and vulnerability"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T07:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="taking medication as part of daily routine"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T08:07:07.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="navigating ups and downs of managing condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-01T09:08:08.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="having regular hospital admissions for monitoring"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T10:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="receiving support from husband"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T11:10:10.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="symptoms beginning to fade after a while"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T12:11:11.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="feeling relief as symptoms fade"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T12:12:12.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="learning importance of self-care and resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T13:12:12.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="learning importance of self-care and resilience"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T13:13:13.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling gratitude towards healthcare professionals and loved ones"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T14:13:13.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="feeling gratitude towards healthcare professionals and loved ones"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T14:14:14.000+01:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Discharge"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T15:14:14.000+01:00"/>
+			<string key="Activity" value="Hospital Discharge"/>
+			<string key="activity" value="being discharged from hospital"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="start"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T15:15:15.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="scars serving as a reminder of strength and perseverance"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-01T16:15:15.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="scars serving as a reminder of strength and perseverance"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-02T02:02:02.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="being admitted to hospital for observation"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-05T11:11:11.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="feeling relief as symptoms fade"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-08T09:09:09.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="receiving support from husband"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Doctors"/>
+			<date key="time:timestamp" value="2024-03-15T04:04:04.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="receiving treatment plan with medications and lifestyle changes"/>
+			<string key="attribute_location" value="Doctors"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Symptom Offset"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-15T10:10:10.000+01:00"/>
+			<string key="Activity" value="Symptom Offset"/>
+			<string key="activity" value="symptoms beginning to fade after a while"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Hospital Admission"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Hospital"/>
+			<date key="time:timestamp" value="2024-03-22T08:08:08.000+01:00"/>
+			<string key="Activity" value="Hospital Admission"/>
+			<string key="activity" value="having regular hospital admissions for monitoring"/>
+			<string key="attribute_location" value="Hospital"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Feelings"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-29T05:05:05.000+01:00"/>
+			<string key="Activity" value="Feelings"/>
+			<string key="activity" value="experiencing fear, uncertainty, and vulnerability"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Treatment"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-29T06:06:06.000+01:00"/>
+			<string key="Activity" value="Treatment"/>
+			<string key="activity" value="taking medication as part of daily routine"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+		<event>
+			<string key="concept:name" value="Lifestyle Change"/>
+			<string key="lifecycle:transition" value="complete"/>
+			<string key="org:resource" value="Home"/>
+			<date key="time:timestamp" value="2024-03-29T07:07:07.000+01:00"/>
+			<string key="Activity" value="Lifestyle Change"/>
+			<string key="activity" value="navigating ups and downs of managing condition"/>
+			<string key="attribute_location" value="Home"/>
+		</event>
+	</trace>
+</log>

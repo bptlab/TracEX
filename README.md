@@ -1,10 +1,45 @@
-# TracEX
+# Generating Process Descriptions with Generative AI - TracEX Fork
 
 [![GitHub stars](https://img.shields.io/github/stars/bptlab/TracEX)](https://github.com/bptlab/TracEX)
 [![GitHub open issues](https://img.shields.io/github/issues/bptlab/TracEX)](https://github.com/bptlab/TracEX/issues)
 [![GitHub closed pull requests](https://img.shields.io/github/issues-closed/bptlab/TracEX)](https://github.com/bptlab/TracEX/issues)
 [![GitHub open pull requests](https://img.shields.io/github/issues-pr/bptlab/TracEX)](https://github.com/bptlab/TracEX/issues)
 [![Pylint](https://github.com/bptlab/tracex/actions/workflows/pylint.yml/badge.svg)](https://github.com/bptlab/TracEX/blob/main/.github/workflows/pylint.yml)
+
+This repository is a fork of the original TracEX project and contains the implementation of the bachelor's thesis "Generating Process Descriptions with Generative AI".
+It also contains the evaluation data of the thesis and the "Patient Journey" configuration used to produce the presented results.
+
+## Process Description Generation Tool
+Follow the setup instructions from the original README below to start the TracEX tool.
+Once you are on the landing page you can navigate to the "Process Description Generation" tab.
+Here you can select the process description configuration you want to use, the degree of variation between the instances, and the number of instances you want to generate.
+You can also specify whether you want to save the generated instances to the database, as text files or at all.
+After you have configured the generation process, you can start the generation by clicking the "Generate new Process Description" button.
+The generated instances will then be displayed along with the corresponding instance configuration.
+
+If you want to adjust the generation process, you can find all the relevant code in the "tracex_project/patient_journey_generator" directory.
+Specifically in generator.py.
+There are three main functions responsible for the generation process:
+- **execute_generate_process_description():** This function is called when the user starts the generation process. It reads the user input and calls the other two functions accordingly.
+- **generate_process_description():** This function generates the process descriptions based on the user input.
+- **get_instance_config():** This function determines the instance configuration based on the degree of variation. It implements the configuration matrix of the degree of variation.
+
+## Evaluation Data
+The evaluation data used in the thesis can be found in the "evaluation_data" directory.
+For each batch of generated process descriptions there is a directory (low, medium, high) with the related process descriptions and their event logs.
+All generated journeys, their traces, and event logs are also stored in the database.
+You can access these indirectly through the TracEX tool (Database Results -> Evaluation) or directly over the admin page (http://127.0.0.1:8000/admin/, user: admin, password: admin).
+In the evaluation view, you can filter for low, medium, and high to see the complete event log and DFG for the respective batch.
+
+## Patient Journey Configuration
+The patient journey configuration used in the thesis can be found in "tracex_project/patient_journey_generator/process_description_configurations/patient_journey_configuration.json".
+There in the same directory there is an example configuration file for a different domain and case.
+When creating a new configuration file, make sure to follow the framework of the thesis and the structure of the existing configuration files.
+
+## Disclaimer
+Please note that the TracEX extraction pipeline is currently unable to extract event logs from anything other than patient journeys.
+Also, regarding the rest of the README and wiki, the information about the patient journey generator is outdated and does not apply to the process description generation tool.
+___
 
 TracEX aims to extract event logs from unstructured text, specifically written patient experiences known as patient journeys. By leveraging Large Language Models (LLMs), TracEX can automatically identify and extract relevant events, activities, timestamps and further information from natural langauge text. This enables healthcare professionals and researchers to gain valuable insights into patient experiences, treatment pathways, and potential areas for improvement in healthcare delivery.
 
